@@ -1,8 +1,8 @@
 ********************************************
-WELCOME TO THE ECSE-321 GROUP-13 REPOSITORY!
+# WELCOME TO THE ECSE-321 GROUP-13 REPOSITORY!
 ********************************************
 
-Team Member Names:
+##Team Member Names:
 -------------------------------------------------------------------
 - Amani Jammoul
 - Eloyann Roy-Javanbakht
@@ -11,7 +11,7 @@ Team Member Names:
 - Ramin Akhavan-Sarraf
 - Zoya Malhi
 
-Overview Table:
+##Overview Table:
 --------------------------------------------------------------------------
 | Team Members                | Roles         | Individual Efforts (hrs) |
 | --------------------------- |:-------------:| ------------------------:|
