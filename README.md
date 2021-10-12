@@ -1,7 +1,10 @@
-********************************************
+*****************************************************
 # WELCOME TO THE ECSE-321 GROUP-13 REPOSITORY! :wave:
-********************************************
+*****************************************************
 ## Scope of the Project:
+### The Library System :books:
+
+This project will consist of designing and implementing a website and application for a library which allows for the booking of items and events by its users.   
 
 --------------------------------------------------------------------------
 ## Team Member Names:
