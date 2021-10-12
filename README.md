@@ -9,9 +9,8 @@
 - Mathieu Geoffroy
 - Ramin Akhavan-Sarraf
 - Zoya Malhi
-
-## Overview Table:
 --------------------------------------------------------------------------
+## Overview Table:
 | Team Members                | Roles         | Individual Efforts (hrs) |
 | --------------------------- |:-------------:| ------------------------:|
 | Amani Jammoul               |               |                          |
