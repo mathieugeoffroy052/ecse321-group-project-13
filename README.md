@@ -1,16 +1,18 @@
 ********************************************
-# WELCOME TO THE ECSE-321 GROUP-13 REPOSITORY!
+# WELCOME TO THE ECSE-321 GROUP-13 REPOSITORY! :wave:
 ********************************************
+## Scope of the Project:
 
-## Team Member Names:
-- Amani Jammoul
-- Eloyann Roy-Javanbakht
-- Gabrielle Halpin
-- Mathieu Geoffroy
-- Ramin Akhavan-Sarraf
-- Zoya Malhi
 --------------------------------------------------------------------------
-## Overview Table:
+## Team Member Names:
+- :woman_technologist: Amani Jammoul
+- :woman_technologist: Eloyann Roy-Javanbakht
+- :woman_technologist: Gabrielle Halpin
+- :man_technologist: Mathieu Geoffroy
+- :man_technologist: Ramin Akhavan-Sarraf
+- :woman_technologist: Zoya Malhi
+--------------------------------------------------------------------------
+## Overview Table :chart_with_upwards_trend: : 
 | Team Members                | Roles         | Individual Efforts (hrs) |
 | --------------------------- |:-------------:| ------------------------:|
 | Amani Jammoul               |               |                          |
