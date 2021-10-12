@@ -7,7 +7,7 @@
 This project will consist of designing and implementing a website and application for a library which allows for the booking of items and events by its users.   
 
 --------------------------------------------------------------------------
-## Team Member Names:
+## Team Members:
 - :woman_technologist: Amani Jammoul
 - :woman_technologist: Eloyann Roy-Javanbakht
 - :woman_technologist: Gabrielle Halpin
