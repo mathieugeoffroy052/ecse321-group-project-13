@@ -1,0 +1,3 @@
+task stage () {
+    dependsOn ':LibraryService-Backend:assemble'
+}
