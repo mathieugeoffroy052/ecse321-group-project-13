@@ -23,6 +23,3 @@ test {
 	useJUnitPlatform()
 }
 
-task stage () {
-    dependsOn ':LibrarySystem-Backend:assemble'
-}
