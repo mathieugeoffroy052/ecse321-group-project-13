@@ -1,1 +1,2 @@
 rootProject.name = 'LibraryService-Backend'
+include ':LibrarySystem-Backend'
