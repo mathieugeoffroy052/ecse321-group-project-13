@@ -1,24 +1,30 @@
+package ca.mcgill.ecse321.libraryservice.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.29.1.4607.2d2b84eb8 modeling language!*/
 
-package ca.mcgill.ecse321.libraryservice.model;
+import javax.persistence.*;
 import java.sql.Date;
 
-import javax.persistence.*;
-import java.util.Set;
-
-
 @Entity
+// line 88 "Library.ump"
 public class NewspaperArticle
 {
+
+  //------------------------
+  // STATIC VARIABLES
+  //------------------------
+
+  private static int nextBarCodeNumber = 1;
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //NewspaperArticle Attributes
-  private int barCodeNumber;
   private Date date;
+
+  //Autounique Attributes
+  private int barCodeNumber;
 
   //NewspaperArticle Associations
   private LibrarySystem librarySystem;
@@ -28,10 +34,10 @@ public class NewspaperArticle
   // CONSTRUCTOR
   //------------------------
 
-  public NewspaperArticle(int aBarCodeNumber, Date aDate, LibrarySystem aLibrarySystem, Newspaper aNewspaper)
+  public NewspaperArticle(Date aDate, LibrarySystem aLibrarySystem, Newspaper aNewspaper)
   {
-    barCodeNumber = aBarCodeNumber;
     date = aDate;
+    barCodeNumber = nextBarCodeNumber++;
     boolean didAddLibrarySystem = setLibrarySystem(aLibrarySystem);
     if (!didAddLibrarySystem)
     {
@@ -48,14 +54,6 @@ public class NewspaperArticle
   // INTERFACE
   //------------------------
 
-  public boolean setBarCodeNumber(int aBarCodeNumber)
-  {
-    boolean wasSet = false;
-    barCodeNumber = aBarCodeNumber;
-    wasSet = true;
-    return wasSet;
-  }
-
   public boolean setDate(Date aDate)
   {
     boolean wasSet = false;
@@ -64,15 +62,14 @@ public class NewspaperArticle
     return wasSet;
   }
 
+  public Date getDate()
+  {
+    return date;
+  }
   @Id
   public int getBarCodeNumber()
   {
     return barCodeNumber;
-  }
-
-  public Date getDate()
-  {
-    return date;
   }
   /* Code from template association_GetOne */
   public LibrarySystem getLibrarySystem()
@@ -85,7 +82,7 @@ public class NewspaperArticle
     return newspaper;
   }
   /* Code from template association_SetOneToMany */
-  @ManyToOne(cascade={CascadeType.ALL})
+  @ManyToOne(optional=false)
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {
     boolean wasSet = false;
@@ -105,7 +102,7 @@ public class NewspaperArticle
     return wasSet;
   }
   /* Code from template association_SetOneToMany */
-  @ManyToOne(cascade={CascadeType.ALL})
+  @ManyToOne(optional=false)
   public boolean setNewspaper(Newspaper aNewspaper)
   {
     boolean wasSet = false;

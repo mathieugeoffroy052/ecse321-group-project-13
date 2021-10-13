@@ -1,20 +1,27 @@
+package ca.mcgill.ecse321.libraryservice.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.29.1.4607.2d2b84eb8 modeling language!*/
 
-package ca.mcgill.ecse321.libraryservice.model;
+import javax.persistence.*;
 import java.util.*;
 
-import javax.persistence.*;
-import java.util.Set;
-
-
-// line 92 "../../../../../../Library.ump"
+@Entity
+// line 111 "Library.ump"
 public class Music extends LibraryItem
 {
 
   //------------------------
+  // STATIC VARIABLES
+  //------------------------
+
+  private static int nextMusicID = 1;
+
+  //------------------------
   // MEMBER VARIABLES
   //------------------------
+
+  //Autounique Attributes
+  private int musicID;
 
   //Music Associations
   private List<Person> artist;
@@ -23,9 +30,10 @@ public class Music extends LibraryItem
   // CONSTRUCTOR
   //------------------------
 
-  public Music(int aIsbn, String aName, LibrarySystem aLibrarySystem, Person... allArtist)
+  public Music(String aName, LibrarySystem aLibrarySystem, Person... allArtist)
   {
-    super(aIsbn, aName, aLibrarySystem);
+    super(aName, aLibrarySystem);
+    musicID = nextMusicID++;
     artist = new ArrayList<Person>();
     boolean didAddArtist = setArtist(allArtist);
     if (!didAddArtist)
@@ -37,6 +45,11 @@ public class Music extends LibraryItem
   //------------------------
   // INTERFACE
   //------------------------
+  @Id
+  public int getMusicID()
+  {
+    return musicID;
+  }
   /* Code from template association_GetMany */
   public Person getArtist(int index)
   {
@@ -129,6 +142,7 @@ public class Music extends LibraryItem
     return wasRemoved;
   }
   /* Code from template association_SetMStarToMany */
+  @ManyToMany
   public boolean setArtist(Person... newArtist)
   {
     boolean wasSet = false;
@@ -213,4 +227,10 @@ public class Music extends LibraryItem
     super.delete();
   }
 
+
+  public String toString()
+  {
+    return super.toString() + "["+
+            "musicID" + ":" + getMusicID()+ "]";
+  }
 }

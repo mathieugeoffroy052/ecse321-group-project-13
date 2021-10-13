@@ -1,17 +1,22 @@
+package ca.mcgill.ecse321.libraryservice.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.29.1.4607.2d2b84eb8 modeling language!*/
 
-package ca.mcgill.ecse321.libraryservice.model;
+import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.*;
 
-import javax.persistence.*;
-import java.util.Set;
-
 @Entity
+// line 127 "Library.ump"
 public class TimeSlot
 {
+
+  //------------------------
+  // STATIC VARIABLES
+  //------------------------
+
+  private static int nextTimeSlotID = 1;
 
   //------------------------
   // MEMBER VARIABLES
@@ -22,6 +27,9 @@ public class TimeSlot
   private Time startTime;
   private Date endDate;
   private Time endTime;
+
+  //Autounique Attributes
+  private int timeSlotID;
 
   //TimeSlot Associations
   private LibrarySystem librarySystem;
@@ -38,6 +46,7 @@ public class TimeSlot
     startTime = aStartTime;
     endDate = aEndDate;
     endTime = aEndTime;
+    timeSlotID = nextTimeSlotID++;
     boolean didAddLibrarySystem = setLibrarySystem(aLibrarySystem);
     if (!didAddLibrarySystem)
     {
@@ -106,6 +115,11 @@ public class TimeSlot
   {
     return endTime;
   }
+  @Id
+  public int getTimeSlotID()
+  {
+    return timeSlotID;
+  }
   /* Code from template association_GetOne */
   public LibrarySystem getLibrarySystem()
   {
@@ -147,7 +161,7 @@ public class TimeSlot
     return headLibrarian;
   }
   /* Code from template association_SetOneToMany */
-  @ManyToOne(cascade={CascadeType.ALL})
+  @ManyToOne(optional=false)
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {
     boolean wasSet = false;
@@ -249,7 +263,7 @@ public class TimeSlot
     return wasAdded;
   }
   /* Code from template association_SetOneToMany */
-  @ManyToOne(cascade={CascadeType.ALL})
+  @ManyToOne(optional=false)
   public boolean setHeadLibrarian(HeadLibrarian aHeadLibrarian)
   {
     boolean wasSet = false;
@@ -294,7 +308,8 @@ public class TimeSlot
 
   public String toString()
   {
-    return super.toString() + "["+ "]" + System.getProperties().getProperty("line.separator") +
+    return super.toString() + "["+
+            "timeSlotID" + ":" + getTimeSlotID()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "startDate" + "=" + (getStartDate() != null ? !getStartDate().equals(this)  ? getStartDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "startTime" + "=" + (getStartTime() != null ? !getStartTime().equals(this)  ? getStartTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "endDate" + "=" + (getEndDate() != null ? !getEndDate().equals(this)  ? getEndDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +

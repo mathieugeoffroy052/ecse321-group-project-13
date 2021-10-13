@@ -1,15 +1,19 @@
 package ca.mcgill.ecse321.libraryservice.model;
+/*PLEASE DO NOT EDIT THIS CODE*/
+/*This code was generated using the UMPLE 1.29.1.4607.2d2b84eb8 modeling language!*/
+import javax.persistence.*;
 
-import javax.persistence.Entity;
-import java.util.Set;
-import javax.persistence.OneToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.CascadeType;
-import javax.persistence.Id;
 
 @Entity
+// line 13 "Library.ump"
 public class Address
 {
+
+  //------------------------
+  // STATIC VARIABLES
+  //------------------------
+
+  private static int nextAddressID = 1;
 
   //------------------------
   // MEMBER VARIABLES
@@ -19,6 +23,9 @@ public class Address
   private String address;
   private String city;
   private String country;
+
+  //Autounique Attributes
+  private int addressID;
 
   //Address Associations
   private LibrarySystem librarySystem;
@@ -32,6 +39,7 @@ public class Address
     address = aAddress;
     city = aCity;
     country = aCountry;
+    addressID = nextAddressID++;
     boolean didAddLibrarySystem = setLibrarySystem(aLibrarySystem);
     if (!didAddLibrarySystem)
     {
@@ -67,7 +75,6 @@ public class Address
     return wasSet;
   }
 
-  @Id
   public String getAddress()
   {
     return address;
@@ -82,13 +89,19 @@ public class Address
   {
     return country;
   }
+
+  @Id
+  public int getAddressID()
+  {
+    return addressID;
+  }
   /* Code from template association_GetOne */
   public LibrarySystem getLibrarySystem()
   {
     return librarySystem;
   }
   /* Code from template association_SetOneToMany */
-  @ManyToOne(cascade={CascadeType.ALL})
+  @ManyToOne(optional=false)
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {
     boolean wasSet = false;
@@ -121,10 +134,11 @@ public class Address
 
   public String toString()
   {
-    return super.toString() + "["+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "address" + "=" + (getAddress() != null ? !getAddress().equals(this)  ? getAddress().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "city" + "=" + (getCity() != null ? !getCity().equals(this)  ? getCity().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "country" + "=" + (getCountry() != null ? !getCountry().equals(this)  ? getCountry().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+    return super.toString() + "["+
+            "addressID" + ":" + getAddressID()+ "," +
+            "address" + ":" + getAddress()+ "," +
+            "city" + ":" + getCity()+ "," +
+            "country" + ":" + getCountry()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "librarySystem = "+(getLibrarySystem()!=null?Integer.toHexString(System.identityHashCode(getLibrarySystem())):"null");
   }
 }

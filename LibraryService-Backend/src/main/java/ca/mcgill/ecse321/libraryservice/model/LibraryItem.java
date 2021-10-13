@@ -1,24 +1,30 @@
+package ca.mcgill.ecse321.libraryservice.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.29.1.4607.2d2b84eb8 modeling language!*/
 
-package ca.mcgill.ecse321.libraryservice.model;
+import javax.persistence.*;
 import java.util.*;
 
-import javax.persistence.*;
-import java.util.Set;
-
-
 @Entity
+// line 71 "Library.ump"
 public abstract class LibraryItem
 {
+
+  //------------------------
+  // STATIC VARIABLES
+  //------------------------
+
+  private static int nextIsbn = 1;
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //LibraryItem Attributes
-  private int isbn;
   private String name;
+
+  //Autounique Attributes
+  private int isbn;
 
   //LibraryItem Associations
   private LibrarySystem librarySystem;
@@ -28,10 +34,10 @@ public abstract class LibraryItem
   // CONSTRUCTOR
   //------------------------
 
-  public LibraryItem(int aIsbn, String aName, LibrarySystem aLibrarySystem)
+  public LibraryItem(String aName, LibrarySystem aLibrarySystem)
   {
-    isbn = aIsbn;
     name = aName;
+    isbn = nextIsbn++;
     boolean didAddLibrarySystem = setLibrarySystem(aLibrarySystem);
     if (!didAddLibrarySystem)
     {
@@ -44,14 +50,6 @@ public abstract class LibraryItem
   // INTERFACE
   //------------------------
 
-  public boolean setIsbn(int aIsbn)
-  {
-    boolean wasSet = false;
-    isbn = aIsbn;
-    wasSet = true;
-    return wasSet;
-  }
-
   public boolean setName(String aName)
   {
     boolean wasSet = false;
@@ -60,15 +58,14 @@ public abstract class LibraryItem
     return wasSet;
   }
 
+  public String getName()
+  {
+    return name;
+  }
   @Id
   public int getIsbn()
   {
     return isbn;
-  }
-
-  public String getName()
-  {
-    return name;
   }
   /* Code from template association_GetOne */
   public LibrarySystem getLibrarySystem()
@@ -106,7 +103,7 @@ public abstract class LibraryItem
     return index;
   }
   /* Code from template association_SetOneToMany */
-  @ManyToOne(cascade={CascadeType.ALL})
+  @ManyToOne(optional=false)
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {
     boolean wasSet = false;
@@ -131,9 +128,9 @@ public abstract class LibraryItem
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public BorrowableItem addItem(int aBarCodeNumber, BorrowableItem.ItemState aState)
+  public BorrowableItem addItem(BorrowableItem.ItemState aState)
   {
-    return new BorrowableItem(aBarCodeNumber, aState, this);
+    return new BorrowableItem(aState, this);
   }
 
   public boolean addItem(BorrowableItem aItem)
@@ -217,8 +214,8 @@ public abstract class LibraryItem
   public String toString()
   {
     return super.toString() + "["+
-            "isbn" + ":" + getIsbn()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "name" + "=" + (getName() != null ? !getName().equals(this)  ? getName().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "isbn" + ":" + getIsbn()+ "," +
+            "name" + ":" + getName()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "librarySystem = "+(getLibrarySystem()!=null?Integer.toHexString(System.identityHashCode(getLibrarySystem())):"null");
   }
 }

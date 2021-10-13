@@ -1,16 +1,21 @@
+package ca.mcgill.ecse321.libraryservice.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.29.1.4607.2d2b84eb8 modeling language!*/
 
-package ca.mcgill.ecse321.libraryservice.model;
+import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
 
-import java.util.Set;
-import javax.persistence.*;
-
 @Entity
+// line 147 "Library.ump"
 public class Holiday
 {
+
+  //------------------------
+  // STATIC VARIABLES
+  //------------------------
+
+  private static int nextHolidayID = 1;
 
   //------------------------
   // MEMBER VARIABLES
@@ -20,6 +25,9 @@ public class Holiday
   private Date date;
   private Time startTime;
   private Time endtime;
+
+  //Autounique Attributes
+  private int holidayID;
 
   //Holiday Associations
   private LibrarySystem librarySystem;
@@ -34,6 +42,7 @@ public class Holiday
     date = aDate;
     startTime = aStartTime;
     endtime = aEndtime;
+    holidayID = nextHolidayID++;
     boolean didAddLibrarySystem = setLibrarySystem(aLibrarySystem);
     if (!didAddLibrarySystem)
     {
@@ -74,7 +83,6 @@ public class Holiday
     return wasSet;
   }
 
-  @Id
   public Date getDate()
   {
     return date;
@@ -89,6 +97,12 @@ public class Holiday
   {
     return endtime;
   }
+
+  @Id
+  public int getHolidayID()
+  {
+    return holidayID;
+  }
   /* Code from template association_GetOne */
   public LibrarySystem getLibrarySystem()
   {
@@ -100,7 +114,7 @@ public class Holiday
     return headLibrarian;
   }
   /* Code from template association_SetOneToMany */
-  @ManyToOne(cascade={CascadeType.ALL})
+  @ManyToOne(optional=false)
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {
     boolean wasSet = false;
@@ -120,7 +134,7 @@ public class Holiday
     return wasSet;
   }
   /* Code from template association_SetOneToMany */
-  @ManyToOne(cascade={CascadeType.ALL})
+  @ManyToOne(optional=false)
   public boolean setHeadLibrarian(HeadLibrarian aHeadLibrarian)
   {
     boolean wasSet = false;
@@ -159,7 +173,8 @@ public class Holiday
 
   public String toString()
   {
-    return super.toString() + "["+ "]" + System.getProperties().getProperty("line.separator") +
+    return super.toString() + "["+
+            "holidayID" + ":" + getHolidayID()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "date" + "=" + (getDate() != null ? !getDate().equals(this)  ? getDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "startTime" + "=" + (getStartTime() != null ? !getStartTime().equals(this)  ? getStartTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "endtime" + "=" + (getEndtime() != null ? !getEndtime().equals(this)  ? getEndtime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +

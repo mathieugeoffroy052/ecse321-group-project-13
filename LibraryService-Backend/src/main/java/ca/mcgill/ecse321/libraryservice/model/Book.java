@@ -1,21 +1,26 @@
+package ca.mcgill.ecse321.libraryservice.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.29.1.4607.2d2b84eb8 modeling language!*/
-
-package ca.mcgill.ecse321.libraryservice.model;
+import javax.persistence.*;
 import java.util.*;
 
-import javax.persistence.Entity;
-import java.util.Set;
-import javax.persistence.*;
-
-
 @Entity
+// line 95 "Library.ump"
 public class Book extends LibraryItem
 {
 
   //------------------------
+  // STATIC VARIABLES
+  //------------------------
+
+  private static int nextBookID = 1;
+
+  //------------------------
   // MEMBER VARIABLES
   //------------------------
+
+  //Autounique Attributes
+  private int bookID;
 
   //Book Associations
   private List<Person> author;
@@ -24,9 +29,10 @@ public class Book extends LibraryItem
   // CONSTRUCTOR
   //------------------------
 
-  public Book(int aIsbn, String aName, LibrarySystem aLibrarySystem, Person... allAuthor)
+  public Book(String aName, LibrarySystem aLibrarySystem, Person... allAuthor)
   {
-    super(aIsbn, aName, aLibrarySystem);
+    super(aName, aLibrarySystem);
+    bookID = nextBookID++;
     author = new ArrayList<Person>();
     boolean didAddAuthor = setAuthor(allAuthor);
     if (!didAddAuthor)
@@ -38,6 +44,11 @@ public class Book extends LibraryItem
   //------------------------
   // INTERFACE
   //------------------------
+  @Id
+  public int getBookID()
+  {
+    return bookID;
+  }
   /* Code from template association_GetMany */
   public Person getAuthor(int index)
   {
@@ -130,7 +141,7 @@ public class Book extends LibraryItem
     return wasRemoved;
   }
   /* Code from template association_SetMStarToMany */
-  @ManyToMany(cascade={CascadeType.ALL})
+  @ManyToMany
   public boolean setAuthor(Person... newAuthor)
   {
     boolean wasSet = false;
@@ -215,4 +226,10 @@ public class Book extends LibraryItem
     super.delete();
   }
 
+
+  public String toString()
+  {
+    return super.toString() + "["+
+            "bookID" + ":" + getBookID()+ "]";
+  }
 }

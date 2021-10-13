@@ -1,13 +1,11 @@
+package ca.mcgill.ecse321.libraryservice.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.29.1.4607.2d2b84eb8 modeling language!*/
 
-package ca.mcgill.ecse321.libraryservice.model;
-
-import javax.persistence.Entity;
-import java.util.Set;
 import javax.persistence.*;
 
 @Entity
+// line 59 "Library.ump"
 public class BorrowableItem
 {
 
@@ -18,12 +16,20 @@ public class BorrowableItem
   public enum ItemState { Borrowed, Damaged, Available, Reserved }
 
   //------------------------
+  // STATIC VARIABLES
+  //------------------------
+
+  private static int nextBarCodeNumber = 1;
+
+  //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //BorrowableItem Attributes
-  private int barCodeNumber;
   private ItemState state;
+
+  //Autounique Attributes
+  private int barCodeNumber;
 
   //BorrowableItem Associations
   private LibraryItem itemType;
@@ -34,10 +40,10 @@ public class BorrowableItem
   // CONSTRUCTOR
   //------------------------
 
-  public BorrowableItem(int aBarCodeNumber, ItemState aState, LibraryItem aItemType)
+  public BorrowableItem(ItemState aState, LibraryItem aItemType)
   {
-    barCodeNumber = aBarCodeNumber;
     state = aState;
+    barCodeNumber = nextBarCodeNumber++;
     boolean didAddItemType = setItemType(aItemType);
     if (!didAddItemType)
     {
@@ -49,14 +55,6 @@ public class BorrowableItem
   // INTERFACE
   //------------------------
 
-  public boolean setBarCodeNumber(int aBarCodeNumber)
-  {
-    boolean wasSet = false;
-    barCodeNumber = aBarCodeNumber;
-    wasSet = true;
-    return wasSet;
-  }
-
   public boolean setState(ItemState aState)
   {
     boolean wasSet = false;
@@ -65,15 +63,15 @@ public class BorrowableItem
     return wasSet;
   }
 
+  public ItemState getState()
+  {
+    return state;
+  }
+
   @Id
   public int getBarCodeNumber()
   {
     return barCodeNumber;
-  }
-
-  public ItemState getState()
-  {
-    return state;
   }
   /* Code from template association_GetOne */
   public LibraryItem getItemType()
@@ -103,7 +101,6 @@ public class BorrowableItem
     return has;
   }
   /* Code from template association_SetOneToMany */
-  @ManyToOne(cascade={CascadeType.ALL})
   public boolean setItemType(LibraryItem aItemType)
   {
     boolean wasSet = false;
@@ -123,7 +120,7 @@ public class BorrowableItem
     return wasSet;
   }
   /* Code from template association_SetOptionalOneToMany */
-  @ManyToOne(cascade={CascadeType.ALL})
+  @ManyToOne(optional=false)
   public boolean setBorrower(UserAccount aBorrower)
   {
     boolean wasSet = false;
@@ -141,7 +138,7 @@ public class BorrowableItem
     return wasSet;
   }
   /* Code from template association_SetOptionalOneToMany */
-  @ManyToOne(cascade={CascadeType.ALL})
+  @ManyToOne(optional=false)
   public boolean setReserver(UserAccount aReserver)
   {
     boolean wasSet = false;

@@ -1,25 +1,32 @@
+package ca.mcgill.ecse321.libraryservice.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.29.1.4607.2d2b84eb8 modeling language!*/
 
-package ca.mcgill.ecse321.libraryservice.model;
+import javax.persistence.*;
 import java.util.*;
 
-import javax.persistence.*;
-import java.util.Set;
-
 @Entity
+// line 24 "Library.ump"
 public abstract class UserAccount
 {
+
+  //------------------------
+  // STATIC VARIABLES
+  //------------------------
+
+  private static int nextUserID = 1;
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //UserAccount Attributes
-  private String userID;
   private String firstName;
   private String lastName;
   private boolean onlineAccount;
+
+  //Autounique Attributes
+  private int userID;
 
   //UserAccount Associations
   private LibrarySystem librarySystem;
@@ -31,12 +38,12 @@ public abstract class UserAccount
   // CONSTRUCTOR
   //------------------------
 
-  public UserAccount(String aUserID, String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, Address aAddress)
+  public UserAccount(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, Address aAddress)
   {
-    userID = aUserID;
     firstName = aFirstName;
     lastName = aLastName;
     onlineAccount = aOnlineAccount;
+    userID = nextUserID++;
     boolean didAddLibrarySystem = setLibrarySystem(aLibrarySystem);
     if (!didAddLibrarySystem)
     {
@@ -53,14 +60,6 @@ public abstract class UserAccount
   //------------------------
   // INTERFACE
   //------------------------
-
-  public boolean setUserID(String aUserID)
-  {
-    boolean wasSet = false;
-    userID = aUserID;
-    wasSet = true;
-    return wasSet;
-  }
 
   public boolean setFirstName(String aFirstName)
   {
@@ -86,12 +85,6 @@ public abstract class UserAccount
     return wasSet;
   }
 
-  @Id
-  public String getUserID()
-  {
-    return userID;
-  }
-
   public String getFirstName()
   {
     return firstName;
@@ -105,6 +98,11 @@ public abstract class UserAccount
   public boolean getOnlineAccount()
   {
     return onlineAccount;
+  }
+  @Id
+  public int getUserID()
+  {
+    return userID;
   }
   /* Code from template association_GetOne */
   public LibrarySystem getLibrarySystem()
@@ -177,7 +175,7 @@ public abstract class UserAccount
     return index;
   }
   /* Code from template association_SetOneToMany */
-  @ManyToOne(cascade={CascadeType.ALL})
+  @ManyToOne(optional=false)
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {
     boolean wasSet = false;
@@ -197,7 +195,7 @@ public abstract class UserAccount
     return wasSet;
   }
   /* Code from template association_SetUnidirectionalOne */
-  @ManyToOne(cascade={CascadeType.ALL})
+  @ManyToOne(optional=false)
   public boolean setAddress(Address aNewAddress)
   {
     boolean wasSet = false;
@@ -374,10 +372,10 @@ public abstract class UserAccount
   public String toString()
   {
     return super.toString() + "["+
+            "userID" + ":" + getUserID()+ "," +
+            "firstName" + ":" + getFirstName()+ "," +
+            "lastName" + ":" + getLastName()+ "," +
             "onlineAccount" + ":" + getOnlineAccount()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "userID" + "=" + (getUserID() != null ? !getUserID().equals(this)  ? getUserID().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "firstName" + "=" + (getFirstName() != null ? !getFirstName().equals(this)  ? getFirstName().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "lastName" + "=" + (getLastName() != null ? !getLastName().equals(this)  ? getLastName().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "librarySystem = "+(getLibrarySystem()!=null?Integer.toHexString(System.identityHashCode(getLibrarySystem())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "address = "+(getAddress()!=null?Integer.toHexString(System.identityHashCode(getAddress())):"null");
   }

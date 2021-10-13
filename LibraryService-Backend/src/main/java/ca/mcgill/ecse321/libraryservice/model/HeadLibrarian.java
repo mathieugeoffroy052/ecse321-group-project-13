@@ -1,15 +1,14 @@
+package ca.mcgill.ecse321.libraryservice.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.29.1.4607.2d2b84eb8 modeling language!*/
 
-package ca.mcgill.ecse321.libraryservice.model;
+import javax.persistence.*;
 import java.util.*;
 import java.sql.Date;
 import java.sql.Time;
 
-import java.util.Set;
-import javax.persistence.*;
-
 @Entity
+// line 50 "Library.ump"
 public class HeadLibrarian extends Librarian
 {
 
@@ -26,9 +25,9 @@ public class HeadLibrarian extends Librarian
   // CONSTRUCTOR
   //------------------------
 
-  public HeadLibrarian(String aUserID, String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, Address aAddress)
+  public HeadLibrarian(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, Address aAddress)
   {
-    super(aUserID, aFirstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress);
+    super(aFirstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress);
     workshift = new ArrayList<TimeSlot>();
     openingHour = new ArrayList<OpeningHour>();
     holidays = new ArrayList<Holiday>();

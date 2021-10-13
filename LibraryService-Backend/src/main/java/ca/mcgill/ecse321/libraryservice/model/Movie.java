@@ -1,19 +1,27 @@
+package ca.mcgill.ecse321.libraryservice.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.29.1.4607.2d2b84eb8 modeling language!*/
 
-package ca.mcgill.ecse321.libraryservice.model;
+import javax.persistence.*;
 import java.util.*;
 
-import java.util.Set;
-import javax.persistence.*;
-
 @Entity
+// line 103 "Library.ump"
 public class Movie extends LibraryItem
 {
 
   //------------------------
+  // STATIC VARIABLES
+  //------------------------
+
+  private static int nextMovieID = 1;
+
+  //------------------------
   // MEMBER VARIABLES
   //------------------------
+
+  //Autounique Attributes
+  private int movieID;
 
   //Movie Associations
   private List<Person> director;
@@ -22,9 +30,10 @@ public class Movie extends LibraryItem
   // CONSTRUCTOR
   //------------------------
 
-  public Movie(int aIsbn, String aName, LibrarySystem aLibrarySystem, Person... allDirector)
+  public Movie(String aName, LibrarySystem aLibrarySystem, Person... allDirector)
   {
-    super(aIsbn, aName, aLibrarySystem);
+    super(aName, aLibrarySystem);
+    movieID = nextMovieID++;
     director = new ArrayList<Person>();
     boolean didAddDirector = setDirector(allDirector);
     if (!didAddDirector)
@@ -36,8 +45,12 @@ public class Movie extends LibraryItem
   //------------------------
   // INTERFACE
   //------------------------
+  @Id
+  public int getMovieID()
+  {
+    return movieID;
+  }
   /* Code from template association_GetMany */
-
   public Person getDirector(int index)
   {
     Person aDirector = director.get(index);
@@ -129,6 +142,7 @@ public class Movie extends LibraryItem
     return wasRemoved;
   }
   /* Code from template association_SetMStarToMany */
+  @ManyToMany
   public boolean setDirector(Person... newDirector)
   {
     boolean wasSet = false;
@@ -213,4 +227,10 @@ public class Movie extends LibraryItem
     super.delete();
   }
 
+
+  public String toString()
+  {
+    return super.toString() + "["+
+            "movieID" + ":" + getMovieID()+ "]";
+  }
 }

@@ -1,16 +1,21 @@
+package ca.mcgill.ecse321.libraryservice.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.29.1.4607.2d2b84eb8 modeling language!*/
 
-package ca.mcgill.ecse321.libraryservice.model;
+import javax.persistence.*;
 import java.util.*;
 import java.sql.Date;
 
-import javax.persistence.*;
-import java.util.Set;
-
 @Entity
+// line 80 "Library.ump"
 public class Newspaper
 {
+
+  //------------------------
+  // STATIC VARIABLES
+  //------------------------
+
+  private static int nextPaperID = 1;
 
   //------------------------
   // MEMBER VARIABLES
@@ -18,6 +23,9 @@ public class Newspaper
 
   //Newspaper Attributes
   private String name;
+
+  //Autounique Attributes
+  private int paperID;
 
   //Newspaper Associations
   private List<NewspaperArticle> articles;
@@ -30,6 +38,7 @@ public class Newspaper
   public Newspaper(String aName, LibrarySystem aLibrarySystem)
   {
     name = aName;
+    paperID = nextPaperID++;
     articles = new ArrayList<NewspaperArticle>();
     boolean didAddLibrarySystem = setLibrarySystem(aLibrarySystem);
     if (!didAddLibrarySystem)
@@ -50,10 +59,14 @@ public class Newspaper
     return wasSet;
   }
 
-  @Id
   public String getName()
   {
     return name;
+  }
+  @Id
+  public int getPaperID()
+  {
+    return paperID;
   }
   /* Code from template association_GetMany */
   public NewspaperArticle getArticle(int index)
@@ -96,9 +109,9 @@ public class Newspaper
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public NewspaperArticle addArticle(int aBarCodeNumber, Date aDate, LibrarySystem aLibrarySystem)
+  public NewspaperArticle addArticle(Date aDate, LibrarySystem aLibrarySystem)
   {
-    return new NewspaperArticle(aBarCodeNumber, aDate, aLibrarySystem, this);
+    return new NewspaperArticle(aDate, aLibrarySystem, this);
   }
 
   public boolean addArticle(NewspaperArticle aArticle)
@@ -163,7 +176,7 @@ public class Newspaper
     return wasAdded;
   }
   /* Code from template association_SetOneToMany */
-  @ManyToOne(cascade={CascadeType.ALL})
+  @ManyToOne(optional=false)
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {
     boolean wasSet = false;
@@ -201,8 +214,9 @@ public class Newspaper
 
   public String toString()
   {
-    return super.toString() + "["+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "name" + "=" + (getName() != null ? !getName().equals(this)  ? getName().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+    return super.toString() + "["+
+            "paperID" + ":" + getPaperID()+ "," +
+            "name" + ":" + getName()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "librarySystem = "+(getLibrarySystem()!=null?Integer.toHexString(System.identityHashCode(getLibrarySystem())):"null");
   }
 }

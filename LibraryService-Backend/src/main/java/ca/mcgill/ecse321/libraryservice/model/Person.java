@@ -1,24 +1,31 @@
+package ca.mcgill.ecse321.libraryservice.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.29.1.4607.2d2b84eb8 modeling language!*/
 
-package ca.mcgill.ecse321.libraryservice.model;
+import javax.persistence.*;
 import java.util.*;
 
-import javax.persistence.*;
-import java.util.Set;
-
 @Entity
+// line 119 "Library.ump"
 public class Person
 {
+
+  //------------------------
+  // STATIC VARIABLES
+  //------------------------
+
+  private static int nextAuthorID = 1;
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //Person Attributes
-  private String authorID;
   private String firstName;
   private String lastName;
+
+  //Autounique Attributes
+  private int authorID;
 
   //Person Associations
   private LibrarySystem librarySystem;
@@ -30,11 +37,11 @@ public class Person
   // CONSTRUCTOR
   //------------------------
 
-  public Person(String aAuthorID, String aFirstName, String aLastName, LibrarySystem aLibrarySystem)
+  public Person(String aFirstName, String aLastName, LibrarySystem aLibrarySystem)
   {
-    authorID = aAuthorID;
     firstName = aFirstName;
     lastName = aLastName;
+    authorID = nextAuthorID++;
     boolean didAddLibrarySystem = setLibrarySystem(aLibrarySystem);
     if (!didAddLibrarySystem)
     {
@@ -48,14 +55,6 @@ public class Person
   //------------------------
   // INTERFACE
   //------------------------
-
-  public boolean setAuthorID(String aAuthorID)
-  {
-    boolean wasSet = false;
-    authorID = aAuthorID;
-    wasSet = true;
-    return wasSet;
-  }
 
   public boolean setFirstName(String aFirstName)
   {
@@ -73,12 +72,6 @@ public class Person
     return wasSet;
   }
 
-  @Id
-  public String getAuthorID()
-  {
-    return authorID;
-  }
-
   public String getFirstName()
   {
     return firstName;
@@ -87,6 +80,11 @@ public class Person
   public String getLastName()
   {
     return lastName;
+  }
+  @Id
+  public int getAuthorID()
+  {
+    return authorID;
   }
   /* Code from template association_GetOne */
   public LibrarySystem getLibrarySystem()
@@ -184,7 +182,7 @@ public class Person
     return index;
   }
   /* Code from template association_SetOneToMany */
-  @ManyToOne(cascade={CascadeType.ALL})
+  @ManyToOne(optional=false)
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {
     boolean wasSet = false;
@@ -502,10 +500,10 @@ public class Person
 
   public String toString()
   {
-    return super.toString() + "["+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "authorID" + "=" + (getAuthorID() != null ? !getAuthorID().equals(this)  ? getAuthorID().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "firstName" + "=" + (getFirstName() != null ? !getFirstName().equals(this)  ? getFirstName().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "lastName" + "=" + (getLastName() != null ? !getLastName().equals(this)  ? getLastName().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+    return super.toString() + "["+
+            "authorID" + ":" + getAuthorID()+ "," +
+            "firstName" + ":" + getFirstName()+ "," +
+            "lastName" + ":" + getLastName()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "librarySystem = "+(getLibrarySystem()!=null?Integer.toHexString(System.identityHashCode(getLibrarySystem())):"null");
   }
 }

@@ -1,0 +1,163 @@
+namespace ca.mcgill.ecse321.libraryservice.model;
+
+
+@Entity
+class LibrarySystem
+{
+  1 <@>- * UserAccount;
+  1 <@>- * Newspaper;
+  1 <@>- * OpeningHour;
+  1 <@>- * TimeSlot;
+  1 <@>- * NewspaperArticle;
+  1 <@>- * Person;
+}
+
+@Entity
+class Address
+{
+  autounique addressID;
+  String address;
+  String city;
+  String country;
+  1 address <- * UserAccount userAccount;
+  * -<@> 1 LibrarySystem;
+}
+
+@Entity
+class UserAccount
+{
+  autounique userID;
+  String firstName;
+  String lastName;
+  boolean onlineAccount;
+  abstract;
+}
+
+@Entity
+class Patron
+{
+  isA UserAccount;
+  autounique patronID;
+  boolean validatedAccount;
+}
+
+@Entity
+class Librarian
+{
+  isA UserAccount;
+  autounique libraranID;
+  * librarian -- * TimeSlot workshift;
+}
+
+@Entity
+class HeadLibrarian
+{
+  isA Librarian;
+  autounique headLibrarianID;
+  1 -- * TimeSlot workshift;
+  1 -- 0..7 OpeningHour openingHour;
+  1 -- * Holiday holidays;
+}
+
+@Entity
+class BorrowableItem
+{
+  enum ItemState { Borrowed, Damaged, Available, Reserved }
+  * items -- 1 LibraryItem itemType;
+  * itemBorrowed-- 0..1 UserAccount borrower;
+  * itemReserved-- 0..1 UserAccount reserver;
+  autounique barCodeNumber;
+  ItemState state;
+
+}
+
+@Entity
+class LibraryItem
+{
+    * -<@> 1 LibrarySystem;
+    autounique isbn;
+    String name;  
+    abstract;
+}
+
+@Entity
+class Newspaper
+{
+  autounique paperID;
+  String name;
+  1 newspaper -- * NewspaperArticle articles;
+}
+
+@Entity
+class NewspaperArticle
+{
+  autounique barCodeNumber;
+  Date date;
+}
+
+@Entity
+class Book
+{
+  isA LibraryItem;
+  autounique bookID;
+  * -- 1..* Person author;
+}
+
+@Entity
+class Movie
+{
+  isA LibraryItem;
+  autounique movieID;
+  * -- 1..* Person director;
+}
+
+@Entity
+class Music
+{
+  isA LibraryItem;
+  autounique musicID;
+  * -- 1..* Person artist;
+}
+
+@Entity
+class Person
+{
+  autounique authorID;
+  String firstName;
+  String lastName;
+}
+
+@Entity
+class TimeSlot
+{
+  autounique timeSlotID;
+  Date startDate;
+  Time startTime;
+  Date endDate;
+  Time endTime; 
+}
+
+@Entity
+class OpeningHour
+{
+  enum DayOfWeek {Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday}
+  DayOfWeek dayOfWeek;
+  autounique hourID;
+  Time startTime;
+  Time endTime;
+}
+
+@Entity
+class Holiday
+{
+  autounique holidayID;
+  Date date;
+  Time startTime;
+  Time endtime;
+  * -<@> 1 LibrarySystem;
+}
+
+
+
+
+

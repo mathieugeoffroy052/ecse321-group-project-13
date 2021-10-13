@@ -1,15 +1,14 @@
+package ca.mcgill.ecse321.libraryservice.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.29.1.4607.2d2b84eb8 modeling language!*/
 
-package ca.mcgill.ecse321.libraryservice.model;
+import javax.persistence.*;
 import java.util.*;
 import java.sql.Time;
 import java.sql.Date;
 
-import javax.persistence.*;
-import java.util.Set;
-
 @Entity
+// line 2 "Library.ump"
 public class LibrarySystem
 {
 
@@ -609,9 +608,9 @@ public class LibrarySystem
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public NewspaperArticle addNewspaperArticle(int aBarCodeNumber, Date aDate, Newspaper aNewspaper)
+  public NewspaperArticle addNewspaperArticle(Date aDate, Newspaper aNewspaper)
   {
-    return new NewspaperArticle(aBarCodeNumber, aDate, this, aNewspaper);
+    return new NewspaperArticle(aDate, this, aNewspaper);
   }
 
   public boolean addNewspaperArticle(NewspaperArticle aNewspaperArticle)
@@ -681,9 +680,9 @@ public class LibrarySystem
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Person addPerson(String aAuthorID, String aFirstName, String aLastName)
+  public Person addPerson(String aFirstName, String aLastName)
   {
-    return new Person(aAuthorID, aFirstName, aLastName, this);
+    return new Person(aFirstName, aLastName, this);
   }
 
   public boolean addPerson(Person aPerson)

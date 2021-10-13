@@ -1,13 +1,12 @@
+package ca.mcgill.ecse321.libraryservice.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.29.1.4607.2d2b84eb8 modeling language!*/
 
-package ca.mcgill.ecse321.libraryservice.model;
-import java.sql.Time;
 import javax.persistence.*;
-import java.util.Set;
-
+import java.sql.Time;
 
 @Entity
+// line 137 "Library.ump"
 public class OpeningHour
 {
 
@@ -18,6 +17,12 @@ public class OpeningHour
   public enum DayOfWeek { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday }
 
   //------------------------
+  // STATIC VARIABLES
+  //------------------------
+
+  private static int nextHourID = 1;
+
+  //------------------------
   // MEMBER VARIABLES
   //------------------------
 
@@ -25,6 +30,9 @@ public class OpeningHour
   private DayOfWeek dayOfWeek;
   private Time startTime;
   private Time endTime;
+
+  //Autounique Attributes
+  private int hourID;
 
   //OpeningHour Associations
   private LibrarySystem librarySystem;
@@ -39,6 +47,7 @@ public class OpeningHour
     dayOfWeek = aDayOfWeek;
     startTime = aStartTime;
     endTime = aEndTime;
+    hourID = nextHourID++;
     boolean didAddLibrarySystem = setLibrarySystem(aLibrarySystem);
     if (!didAddLibrarySystem)
     {
@@ -79,7 +88,6 @@ public class OpeningHour
     return wasSet;
   }
 
-  @Id
   public DayOfWeek getDayOfWeek()
   {
     return dayOfWeek;
@@ -94,6 +102,11 @@ public class OpeningHour
   {
     return endTime;
   }
+  @Id
+  public int getHourID()
+  {
+    return hourID;
+  }
   /* Code from template association_GetOne */
   public LibrarySystem getLibrarySystem()
   {
@@ -105,7 +118,7 @@ public class OpeningHour
     return headLibrarian;
   }
   /* Code from template association_SetOneToMany */
-  @ManyToOne(cascade={CascadeType.ALL})
+  @ManyToOne(optional=false)
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {
     boolean wasSet = false;
@@ -125,7 +138,7 @@ public class OpeningHour
     return wasSet;
   }
   /* Code from template association_SetOneToAtMostN */
-  @ManyToOne(cascade={CascadeType.ALL})
+  @ManyToOne(optional=false)
   public boolean setHeadLibrarian(HeadLibrarian aHeadLibrarian)
   {
     boolean wasSet = false;
@@ -176,7 +189,8 @@ public class OpeningHour
 
   public String toString()
   {
-    return super.toString() + "["+ "]" + System.getProperties().getProperty("line.separator") +
+    return super.toString() + "["+
+            "hourID" + ":" + getHourID()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "dayOfWeek" + "=" + (getDayOfWeek() != null ? !getDayOfWeek().equals(this)  ? getDayOfWeek().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "startTime" + "=" + (getStartTime() != null ? !getStartTime().equals(this)  ? getStartTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "endTime" + "=" + (getEndTime() != null ? !getEndTime().equals(this)  ? getEndTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
