@@ -2,3 +2,10 @@
 
 .vscode/
 .idea/
+
+
+.settings/
+.classpath
+.project
+
+.DS_Store
