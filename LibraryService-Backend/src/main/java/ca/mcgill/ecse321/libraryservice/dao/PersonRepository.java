@@ -5,5 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 import ca.mcgill.ecse321.libraryservice.model.Person;
 
 public interface PersonRepository extends CrudRepository<Person, Integer>{
-
+	
+	Person findPersonByAuthorID(int authorID);
 }
