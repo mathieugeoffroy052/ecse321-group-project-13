@@ -76,6 +76,7 @@ public class BorrowableItem
     return itemType;
   }
   /* Code from template association_SetOneToMany */
+  @ManyToOne(optional=false)
   public boolean setItemType(LibraryItem aItemType)
   {
     boolean wasSet = false;
