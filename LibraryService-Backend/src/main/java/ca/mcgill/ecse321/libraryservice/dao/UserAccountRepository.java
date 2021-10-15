@@ -6,4 +6,6 @@ import ca.mcgill.ecse321.libraryservice.model.UserAccount;
 
 public interface UserAccountRepository extends CrudRepository<UserAccount, Integer>{
 
+	UserAccount findByUserAccount(Integer id);
+	
 }
