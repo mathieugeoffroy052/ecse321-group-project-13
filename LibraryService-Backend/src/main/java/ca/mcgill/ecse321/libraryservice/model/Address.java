@@ -1,11 +1,11 @@
-package ca.mcgill.ecse321.libraryservice.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.29.1.4607.2d2b84eb8 modeling language!*/
+
+package ca.mcgill.ecse321.libraryservice.model;
 import javax.persistence.*;
 
-
 @Entity
-// line 13 "Library.ump"
+// line 16 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump"
 public class Address
 {
 
@@ -96,6 +96,7 @@ public class Address
     return addressID;
   }
   /* Code from template association_GetOne */
+  
   public LibrarySystem getLibrarySystem()
   {
     return librarySystem;

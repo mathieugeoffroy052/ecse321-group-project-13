@@ -1,14 +1,14 @@
-package ca.mcgill.ecse321.libraryservice.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.29.1.4607.2d2b84eb8 modeling language!*/
 
-import javax.persistence.*;
+package ca.mcgill.ecse321.libraryservice.model;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.*;
+import javax.persistence.*;
 
 @Entity
-// line 127 "Library.ump"
+// line 127 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump"
 public class TimeSlot
 {
 
@@ -33,7 +33,7 @@ public class TimeSlot
 
   //TimeSlot Associations
   private LibrarySystem librarySystem;
-  private List<Librarian> librarian;
+  private List<Librarian> worker;
   private HeadLibrarian headLibrarian;
 
   //------------------------
@@ -52,7 +52,7 @@ public class TimeSlot
     {
       throw new RuntimeException("Unable to create timeSlot due to librarySystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
-    librarian = new ArrayList<Librarian>();
+    worker = new ArrayList<Librarian>();
     boolean didAddHeadLibrarian = setHeadLibrarian(aHeadLibrarian);
     if (!didAddHeadLibrarian)
     {
@@ -114,7 +114,8 @@ public class TimeSlot
   public Time getEndTime()
   {
     return endTime;
-  }
+  } 
+
   @Id
   public int getTimeSlotID()
   {
@@ -126,33 +127,33 @@ public class TimeSlot
     return librarySystem;
   }
   /* Code from template association_GetMany */
-  public Librarian getLibrarian(int index)
+  public Librarian getWorker(int index)
   {
-    Librarian aLibrarian = librarian.get(index);
-    return aLibrarian;
+    Librarian aWorker = worker.get(index);
+    return aWorker;
   }
 
-  public List<Librarian> getLibrarian()
+  public List<Librarian> getWorker()
   {
-    List<Librarian> newLibrarian = Collections.unmodifiableList(librarian);
-    return newLibrarian;
+    List<Librarian> newWorker = Collections.unmodifiableList(worker);
+    return newWorker;
   }
 
-  public int numberOfLibrarian()
+  public int numberOfWorker()
   {
-    int number = librarian.size();
+    int number = worker.size();
     return number;
   }
 
-  public boolean hasLibrarian()
+  public boolean hasWorker()
   {
-    boolean has = librarian.size() > 0;
+    boolean has = worker.size() > 0;
     return has;
   }
 
-  public int indexOfLibrarian(Librarian aLibrarian)
+  public int indexOfWorker(Librarian aWorker)
   {
-    int index = librarian.indexOf(aLibrarian);
+    int index = worker.indexOf(aWorker);
     return index;
   }
   /* Code from template association_GetOne */
@@ -181,84 +182,84 @@ public class TimeSlot
     return wasSet;
   }
   /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfLibrarian()
+  public static int minimumNumberOfWorker()
   {
     return 0;
   }
   /* Code from template association_AddManyToManyMethod */
-  public boolean addLibrarian(Librarian aLibrarian)
+  public boolean addWorker(Librarian aWorker)
   {
     boolean wasAdded = false;
-    if (librarian.contains(aLibrarian)) { return false; }
-    librarian.add(aLibrarian);
-    if (aLibrarian.indexOfWorkshift(this) != -1)
+    if (worker.contains(aWorker)) { return false; }
+    worker.add(aWorker);
+    if (aWorker.indexOfWorkshift(this) != -1)
     {
       wasAdded = true;
     }
     else
     {
-      wasAdded = aLibrarian.addWorkshift(this);
+      wasAdded = aWorker.addWorkshift(this);
       if (!wasAdded)
       {
-        librarian.remove(aLibrarian);
+        worker.remove(aWorker);
       }
     }
     return wasAdded;
   }
   /* Code from template association_RemoveMany */
-  public boolean removeLibrarian(Librarian aLibrarian)
+  public boolean removeWorker(Librarian aWorker)
   {
     boolean wasRemoved = false;
-    if (!librarian.contains(aLibrarian))
+    if (!worker.contains(aWorker))
     {
       return wasRemoved;
     }
 
-    int oldIndex = librarian.indexOf(aLibrarian);
-    librarian.remove(oldIndex);
-    if (aLibrarian.indexOfWorkshift(this) == -1)
+    int oldIndex = worker.indexOf(aWorker);
+    worker.remove(oldIndex);
+    if (aWorker.indexOfWorkshift(this) == -1)
     {
       wasRemoved = true;
     }
     else
     {
-      wasRemoved = aLibrarian.removeWorkshift(this);
+      wasRemoved = aWorker.removeWorkshift(this);
       if (!wasRemoved)
       {
-        librarian.add(oldIndex,aLibrarian);
+        worker.add(oldIndex,aWorker);
       }
     }
     return wasRemoved;
   }
   /* Code from template association_AddIndexControlFunctions */
-  public boolean addLibrarianAt(Librarian aLibrarian, int index)
+  public boolean addWorkerAt(Librarian aWorker, int index)
   {  
     boolean wasAdded = false;
-    if(addLibrarian(aLibrarian))
+    if(addWorker(aWorker))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfLibrarian()) { index = numberOfLibrarian() - 1; }
-      librarian.remove(aLibrarian);
-      librarian.add(index, aLibrarian);
+      if(index > numberOfWorker()) { index = numberOfWorker() - 1; }
+      worker.remove(aWorker);
+      worker.add(index, aWorker);
       wasAdded = true;
     }
     return wasAdded;
   }
 
-  public boolean addOrMoveLibrarianAt(Librarian aLibrarian, int index)
+  public boolean addOrMoveWorkerAt(Librarian aWorker, int index)
   {
     boolean wasAdded = false;
-    if(librarian.contains(aLibrarian))
+    if(worker.contains(aWorker))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfLibrarian()) { index = numberOfLibrarian() - 1; }
-      librarian.remove(aLibrarian);
-      librarian.add(index, aLibrarian);
+      if(index > numberOfWorker()) { index = numberOfWorker() - 1; }
+      worker.remove(aWorker);
+      worker.add(index, aWorker);
       wasAdded = true;
     } 
     else 
     {
-      wasAdded = addLibrarianAt(aLibrarian, index);
+      wasAdded = addWorkerAt(aWorker, index);
     }
     return wasAdded;
   }
@@ -291,11 +292,11 @@ public class TimeSlot
     {
       placeholderLibrarySystem.removeTimeSlot(this);
     }
-    ArrayList<Librarian> copyOfLibrarian = new ArrayList<Librarian>(librarian);
-    librarian.clear();
-    for(Librarian aLibrarian : copyOfLibrarian)
+    ArrayList<Librarian> copyOfWorker = new ArrayList<Librarian>(worker);
+    worker.clear();
+    for(Librarian aWorker : copyOfWorker)
     {
-      aLibrarian.removeWorkshift(this);
+      aWorker.removeWorkshift(this);
     }
     HeadLibrarian placeholderHeadLibrarian = headLibrarian;
     this.headLibrarian = null;

@@ -1,12 +1,12 @@
-package ca.mcgill.ecse321.libraryservice.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.29.1.4607.2d2b84eb8 modeling language!*/
 
-import javax.persistence.*;
+package ca.mcgill.ecse321.libraryservice.model;
 import java.util.*;
+import javax.persistence.*;
 
 @Entity
-// line 119 "Library.ump"
+// line 119 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump"
 public class Person
 {
 
@@ -206,48 +206,38 @@ public class Person
   {
     return 0;
   }
-  /* Code from template association_AddManyToManyMethod */
+  /* Code from template association_AddManyToOne */
+  public Book addBook(String aName, LibrarySystem aLibrarySystem)
+  {
+    return new Book(aName, aLibrarySystem, this);
+  }
+
   public boolean addBook(Book aBook)
   {
     boolean wasAdded = false;
     if (books.contains(aBook)) { return false; }
-    books.add(aBook);
-    if (aBook.indexOfAuthor(this) != -1)
+    Person existingAuthor = aBook.getAuthor();
+    boolean isNewAuthor = existingAuthor != null && !this.equals(existingAuthor);
+    if (isNewAuthor)
     {
-      wasAdded = true;
+      aBook.setAuthor(this);
     }
     else
     {
-      wasAdded = aBook.addAuthor(this);
-      if (!wasAdded)
-      {
-        books.remove(aBook);
-      }
+      books.add(aBook);
     }
+    wasAdded = true;
     return wasAdded;
   }
-  /* Code from template association_RemoveMany */
+
   public boolean removeBook(Book aBook)
   {
     boolean wasRemoved = false;
-    if (!books.contains(aBook))
+    //Unable to remove aBook, as it must always have a author
+    if (!this.equals(aBook.getAuthor()))
     {
-      return wasRemoved;
-    }
-
-    int oldIndex = books.indexOf(aBook);
-    books.remove(oldIndex);
-    if (aBook.indexOfAuthor(this) == -1)
-    {
+      books.remove(aBook);
       wasRemoved = true;
-    }
-    else
-    {
-      wasRemoved = aBook.removeAuthor(this);
-      if (!wasRemoved)
-      {
-        books.add(oldIndex,aBook);
-      }
     }
     return wasRemoved;
   }
@@ -288,48 +278,38 @@ public class Person
   {
     return 0;
   }
-  /* Code from template association_AddManyToManyMethod */
+  /* Code from template association_AddManyToOne */
+  public Movie addMovy(String aName, LibrarySystem aLibrarySystem)
+  {
+    return new Movie(aName, aLibrarySystem, this);
+  }
+
   public boolean addMovy(Movie aMovy)
   {
     boolean wasAdded = false;
     if (movies.contains(aMovy)) { return false; }
-    movies.add(aMovy);
-    if (aMovy.indexOfDirector(this) != -1)
+    Person existingDirector = aMovy.getDirector();
+    boolean isNewDirector = existingDirector != null && !this.equals(existingDirector);
+    if (isNewDirector)
     {
-      wasAdded = true;
+      aMovy.setDirector(this);
     }
     else
     {
-      wasAdded = aMovy.addDirector(this);
-      if (!wasAdded)
-      {
-        movies.remove(aMovy);
-      }
+      movies.add(aMovy);
     }
+    wasAdded = true;
     return wasAdded;
   }
-  /* Code from template association_RemoveMany */
+
   public boolean removeMovy(Movie aMovy)
   {
     boolean wasRemoved = false;
-    if (!movies.contains(aMovy))
+    //Unable to remove aMovy, as it must always have a director
+    if (!this.equals(aMovy.getDirector()))
     {
-      return wasRemoved;
-    }
-
-    int oldIndex = movies.indexOf(aMovy);
-    movies.remove(oldIndex);
-    if (aMovy.indexOfDirector(this) == -1)
-    {
+      movies.remove(aMovy);
       wasRemoved = true;
-    }
-    else
-    {
-      wasRemoved = aMovy.removeDirector(this);
-      if (!wasRemoved)
-      {
-        movies.add(oldIndex,aMovy);
-      }
     }
     return wasRemoved;
   }
@@ -370,48 +350,38 @@ public class Person
   {
     return 0;
   }
-  /* Code from template association_AddManyToManyMethod */
+  /* Code from template association_AddManyToOne */
+  public Music addMusic(String aName, LibrarySystem aLibrarySystem)
+  {
+    return new Music(aName, aLibrarySystem, this);
+  }
+
   public boolean addMusic(Music aMusic)
   {
     boolean wasAdded = false;
     if (musics.contains(aMusic)) { return false; }
-    musics.add(aMusic);
-    if (aMusic.indexOfArtist(this) != -1)
+    Person existingArtist = aMusic.getArtist();
+    boolean isNewArtist = existingArtist != null && !this.equals(existingArtist);
+    if (isNewArtist)
     {
-      wasAdded = true;
+      aMusic.setArtist(this);
     }
     else
     {
-      wasAdded = aMusic.addArtist(this);
-      if (!wasAdded)
-      {
-        musics.remove(aMusic);
-      }
+      musics.add(aMusic);
     }
+    wasAdded = true;
     return wasAdded;
   }
-  /* Code from template association_RemoveMany */
+
   public boolean removeMusic(Music aMusic)
   {
     boolean wasRemoved = false;
-    if (!musics.contains(aMusic))
+    //Unable to remove aMusic, as it must always have a artist
+    if (!this.equals(aMusic.getArtist()))
     {
-      return wasRemoved;
-    }
-
-    int oldIndex = musics.indexOf(aMusic);
-    musics.remove(oldIndex);
-    if (aMusic.indexOfArtist(this) == -1)
-    {
+      musics.remove(aMusic);
       wasRemoved = true;
-    }
-    else
-    {
-      wasRemoved = aMusic.removeArtist(this);
-      if (!wasRemoved)
-      {
-        musics.add(oldIndex,aMusic);
-      }
     }
     return wasRemoved;
   }
@@ -456,44 +426,20 @@ public class Person
     {
       placeholderLibrarySystem.removePerson(this);
     }
-    ArrayList<Book> copyOfBooks = new ArrayList<Book>(books);
-    books.clear();
-    for(Book aBook : copyOfBooks)
+    for(int i=books.size(); i > 0; i--)
     {
-      if (aBook.numberOfAuthor() <= Book.minimumNumberOfAuthor())
-      {
-        aBook.delete();
-      }
-      else
-      {
-        aBook.removeAuthor(this);
-      }
+      Book aBook = books.get(i - 1);
+      aBook.delete();
     }
-    ArrayList<Movie> copyOfMovies = new ArrayList<Movie>(movies);
-    movies.clear();
-    for(Movie aMovy : copyOfMovies)
+    for(int i=movies.size(); i > 0; i--)
     {
-      if (aMovy.numberOfDirector() <= Movie.minimumNumberOfDirector())
-      {
-        aMovy.delete();
-      }
-      else
-      {
-        aMovy.removeDirector(this);
-      }
+      Movie aMovy = movies.get(i - 1);
+      aMovy.delete();
     }
-    ArrayList<Music> copyOfMusics = new ArrayList<Music>(musics);
-    musics.clear();
-    for(Music aMusic : copyOfMusics)
+    for(int i=musics.size(); i > 0; i--)
     {
-      if (aMusic.numberOfArtist() <= Music.minimumNumberOfArtist())
-      {
-        aMusic.delete();
-      }
-      else
-      {
-        aMusic.removeArtist(this);
-      }
+      Music aMusic = musics.get(i - 1);
+      aMusic.delete();
     }
   }
 

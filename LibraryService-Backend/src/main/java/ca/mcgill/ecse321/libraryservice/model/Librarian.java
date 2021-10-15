@@ -1,12 +1,12 @@
-package ca.mcgill.ecse321.libraryservice.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.29.1.4607.2d2b84eb8 modeling language!*/
 
-import javax.persistence.*;
+package ca.mcgill.ecse321.libraryservice.model;
 import java.util.*;
+import javax.persistence.*;
 
 @Entity
-// line 42 "Library.ump"
+// line 45 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump"
 public class Librarian extends UserAccount
 {
 
@@ -40,7 +40,6 @@ public class Librarian extends UserAccount
   //------------------------
   // INTERFACE
   //------------------------
-  @Id
   public int getLibraranID()
   {
     return libraranID;
@@ -86,13 +85,13 @@ public class Librarian extends UserAccount
     boolean wasAdded = false;
     if (workshift.contains(aWorkshift)) { return false; }
     workshift.add(aWorkshift);
-    if (aWorkshift.indexOfLibrarian(this) != -1)
+    if (aWorkshift.indexOfWorker(this) != -1)
     {
       wasAdded = true;
     }
     else
     {
-      wasAdded = aWorkshift.addLibrarian(this);
+      wasAdded = aWorkshift.addWorker(this);
       if (!wasAdded)
       {
         workshift.remove(aWorkshift);
@@ -111,13 +110,13 @@ public class Librarian extends UserAccount
 
     int oldIndex = workshift.indexOf(aWorkshift);
     workshift.remove(oldIndex);
-    if (aWorkshift.indexOfLibrarian(this) == -1)
+    if (aWorkshift.indexOfWorker(this) == -1)
     {
       wasRemoved = true;
     }
     else
     {
-      wasRemoved = aWorkshift.removeLibrarian(this);
+      wasRemoved = aWorkshift.removeWorker(this);
       if (!wasRemoved)
       {
         workshift.add(oldIndex,aWorkshift);
@@ -164,7 +163,7 @@ public class Librarian extends UserAccount
     workshift.clear();
     for(TimeSlot aWorkshift : copyOfWorkshift)
     {
-      aWorkshift.removeLibrarian(this);
+      aWorkshift.removeWorker(this);
     }
     super.delete();
   }
