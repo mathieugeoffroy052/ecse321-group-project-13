@@ -6,7 +6,7 @@ import java.util.*;
 import javax.persistence.*;
 
 @Entity
-// line 98 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump"
+// line 106 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump 16-05-11-860.ump"
 public class Book extends LibraryItem
 {
 
@@ -24,10 +24,9 @@ public class Book extends LibraryItem
   public Book(String aName, LibrarySystem aLibrarySystem, Person aAuthor)
   {
     super(aName, aLibrarySystem);
-    boolean didAddAuthor = setAuthor(aAuthor);
-    if (!didAddAuthor)
+    if (!setAuthor(aAuthor))
     {
-      throw new RuntimeException("Unable to create book due to author. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create Book due to aAuthor. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }
 
@@ -39,35 +38,22 @@ public class Book extends LibraryItem
   {
     return author;
   }
-  /* Code from template association_SetOneToMany */
+  /* Code from template association_SetUnidirectionalOne */
   @ManyToOne(optional=false)
-  public boolean setAuthor(Person aAuthor)
+  public boolean setAuthor(Person aNewAuthor)
   {
     boolean wasSet = false;
-    if (aAuthor == null)
+    if (aNewAuthor != null)
     {
-      return wasSet;
+      author = aNewAuthor;
+      wasSet = true;
     }
-
-    Person existingAuthor = author;
-    author = aAuthor;
-    if (existingAuthor != null && !existingAuthor.equals(aAuthor))
-    {
-      existingAuthor.removeBook(this);
-    }
-    author.addBook(this);
-    wasSet = true;
     return wasSet;
   }
 
   public void delete()
   {
-    Person placeholderAuthor = author;
-    this.author = null;
-    if(placeholderAuthor != null)
-    {
-      placeholderAuthor.removeBook(this);
-    }
+    author = null;
     super.delete();
   }
 

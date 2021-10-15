@@ -2,11 +2,10 @@
 /*This code was generated using the UMPLE 1.29.1.4607.2d2b84eb8 modeling language!*/
 
 package ca.mcgill.ecse321.libraryservice.model;
-import java.util.*;
 import javax.persistence.*;
 
 @Entity
-// line 37 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump"
+// line 38 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump 16-05-11-860.ump"
 public class Patron extends UserAccount
 {
 

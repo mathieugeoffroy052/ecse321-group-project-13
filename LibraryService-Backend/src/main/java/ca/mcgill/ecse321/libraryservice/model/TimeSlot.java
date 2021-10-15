@@ -8,7 +8,7 @@ import java.util.*;
 import javax.persistence.*;
 
 @Entity
-// line 127 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump"
+// line 135 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump 16-05-11-860.ump"
 public class TimeSlot
 {
 
@@ -114,8 +114,7 @@ public class TimeSlot
   public Time getEndTime()
   {
     return endTime;
-  } 
-
+  }
   @Id
   public int getTimeSlotID()
   {

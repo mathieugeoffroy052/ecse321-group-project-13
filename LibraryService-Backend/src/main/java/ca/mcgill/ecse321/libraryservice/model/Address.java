@@ -5,7 +5,7 @@ package ca.mcgill.ecse321.libraryservice.model;
 import javax.persistence.*;
 
 @Entity
-// line 16 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump"
+// line 17 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump 16-05-11-860.ump"
 public class Address
 {
 
@@ -89,14 +89,12 @@ public class Address
   {
     return country;
   }
-
   @Id
   public int getAddressID()
   {
     return addressID;
   }
   /* Code from template association_GetOne */
-  
   public LibrarySystem getLibrarySystem()
   {
     return librarySystem;

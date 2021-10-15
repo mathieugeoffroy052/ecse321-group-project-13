@@ -6,7 +6,7 @@ import java.util.*;
 import javax.persistence.*;
 
 @Entity
-// line 105 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump"
+// line 113 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump 16-05-11-860.ump"
 public class Movie extends LibraryItem
 {
 
@@ -24,10 +24,9 @@ public class Movie extends LibraryItem
   public Movie(String aName, LibrarySystem aLibrarySystem, Person aDirector)
   {
     super(aName, aLibrarySystem);
-    boolean didAddDirector = setDirector(aDirector);
-    if (!didAddDirector)
+    if (!setDirector(aDirector))
     {
-      throw new RuntimeException("Unable to create movy due to director. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create Movie due to aDirector. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }
 
@@ -39,35 +38,22 @@ public class Movie extends LibraryItem
   {
     return director;
   }
-  /* Code from template association_SetOneToMany */
+  /* Code from template association_SetUnidirectionalOne */
   @ManyToOne(optional=false)
-  public boolean setDirector(Person aDirector)
+  public boolean setDirector(Person aNewDirector)
   {
     boolean wasSet = false;
-    if (aDirector == null)
+    if (aNewDirector != null)
     {
-      return wasSet;
+      director = aNewDirector;
+      wasSet = true;
     }
-
-    Person existingDirector = director;
-    director = aDirector;
-    if (existingDirector != null && !existingDirector.equals(aDirector))
-    {
-      existingDirector.removeMovy(this);
-    }
-    director.addMovy(this);
-    wasSet = true;
     return wasSet;
   }
 
   public void delete()
   {
-    Person placeholderDirector = director;
-    this.director = null;
-    if(placeholderDirector != null)
-    {
-      placeholderDirector.removeMovy(this);
-    }
+    director = null;
     super.delete();
   }
 

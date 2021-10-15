@@ -7,7 +7,7 @@ import java.sql.Date;
 import javax.persistence.*;
 
 @Entity
-// line 83 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump"
+// line 91 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump 16-05-11-860.ump"
 public class Newspaper
 {
 
@@ -69,7 +69,6 @@ public class Newspaper
     return paperID;
   }
   /* Code from template association_GetMany */
-  @OneToMany
   public NewspaperArticle getArticle(int index)
   {
     NewspaperArticle aArticle = articles.get(index);
@@ -177,6 +176,7 @@ public class Newspaper
     return wasAdded;
   }
   /* Code from template association_SetOneToMany */
+  @ManyToOne(optional=false)
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {
     boolean wasSet = false;

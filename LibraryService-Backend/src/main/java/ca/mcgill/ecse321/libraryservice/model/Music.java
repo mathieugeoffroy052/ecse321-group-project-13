@@ -6,7 +6,7 @@ import java.util.*;
 import javax.persistence.*;
 
 @Entity
-// line 112 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump"
+// line 120 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump 16-05-11-860.ump"
 public class Music extends LibraryItem
 {
 
@@ -24,10 +24,9 @@ public class Music extends LibraryItem
   public Music(String aName, LibrarySystem aLibrarySystem, Person aArtist)
   {
     super(aName, aLibrarySystem);
-    boolean didAddArtist = setArtist(aArtist);
-    if (!didAddArtist)
+    if (!setArtist(aArtist))
     {
-      throw new RuntimeException("Unable to create music due to artist. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create Music due to aArtist. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }
 
@@ -39,35 +38,22 @@ public class Music extends LibraryItem
   {
     return artist;
   }
-  /* Code from template association_SetOneToMany */
+  /* Code from template association_SetUnidirectionalOne */
   @ManyToOne(optional=false)
-  public boolean setArtist(Person aArtist)
+  public boolean setArtist(Person aNewArtist)
   {
     boolean wasSet = false;
-    if (aArtist == null)
+    if (aNewArtist != null)
     {
-      return wasSet;
+      artist = aNewArtist;
+      wasSet = true;
     }
-
-    Person existingArtist = artist;
-    artist = aArtist;
-    if (existingArtist != null && !existingArtist.equals(aArtist))
-    {
-      existingArtist.removeMusic(this);
-    }
-    artist.addMusic(this);
-    wasSet = true;
     return wasSet;
   }
 
   public void delete()
   {
-    Person placeholderArtist = artist;
-    this.artist = null;
-    if(placeholderArtist != null)
-    {
-      placeholderArtist.removeMusic(this);
-    }
+    artist = null;
     super.delete();
   }
 

@@ -6,7 +6,7 @@ import java.sql.Time;
 import javax.persistence.*;
 
 @Entity
-// line 137 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump"
+// line 145 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump 16-05-11-860.ump"
 public class OpeningHour
 {
 
@@ -102,7 +102,6 @@ public class OpeningHour
   {
     return endTime;
   }
-
   @Id
   public int getHourID()
   {

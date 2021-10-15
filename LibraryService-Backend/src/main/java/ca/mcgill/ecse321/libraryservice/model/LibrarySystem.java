@@ -3,11 +3,9 @@
 
 package ca.mcgill.ecse321.libraryservice.model;
 import java.util.*;
-
-import javax.persistence.*;
-
 import java.sql.Time;
 import java.sql.Date;
+import javax.persistence.*;
 
 @Entity
 // line 5 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump 16-05-11-860.ump"
@@ -18,14 +16,14 @@ public class LibrarySystem
   // STATIC VARIABLES
   //------------------------
 
-  private static int nextSystemID = 1;
+  private static int nextSystemId = 1;
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //Autounique Attributes
-  private int systemID;
+  private int systemId;
 
   //LibrarySystem Associations
   private List<UserAccount> userAccounts;
@@ -44,7 +42,7 @@ public class LibrarySystem
 
   public LibrarySystem()
   {
-    systemID = nextSystemID++;
+    systemId = nextSystemId++;
     userAccounts = new ArrayList<UserAccount>();
     newspapers = new ArrayList<Newspaper>();
     openingHours = new ArrayList<OpeningHour>();
@@ -59,11 +57,10 @@ public class LibrarySystem
   //------------------------
   // INTERFACE
   //------------------------
-
   @Id
-  public int getSystemID()
+  public int getSystemId()
   {
-    return systemID;
+    return systemId;
   }
   /* Code from template association_GetMany */
   public UserAccount getUserAccount(int index)
@@ -1049,6 +1046,6 @@ public class LibrarySystem
   public String toString()
   {
     return super.toString() + "["+
-            "systemID" + ":" + getSystemID()+ "]";
+            "systemId" + ":" + getSystemId()+ "]";
   }
 }

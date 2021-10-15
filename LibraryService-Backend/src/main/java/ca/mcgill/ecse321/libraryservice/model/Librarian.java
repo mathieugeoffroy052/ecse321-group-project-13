@@ -6,7 +6,7 @@ import java.util.*;
 import javax.persistence.*;
 
 @Entity
-// line 45 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump"
+// line 46 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump 16-05-11-860.ump"
 public class Librarian extends UserAccount
 {
 
@@ -40,6 +40,7 @@ public class Librarian extends UserAccount
   //------------------------
   // INTERFACE
   //------------------------
+
   public int getLibraranID()
   {
     return libraranID;
