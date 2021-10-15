@@ -58,6 +58,15 @@ public class Patron extends UserAccount
     return patronID;
   }
 
+  public boolean setPatronID(int aPatronID)
+  {
+    patronID = aPatronID;
+    if(patronID==aPatronID){
+      return true;
+    }
+    else return false;
+  }
+
   public void delete()
   {
     super.delete();

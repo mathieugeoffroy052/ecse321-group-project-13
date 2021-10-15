@@ -57,18 +57,30 @@ public class Transaction
   {
     return transactionID;
   }
+
+  public boolean setTransactionID(int aTransactionID)
+  {
+    transactionID = aTransactionID;
+    if(transactionID==aTransactionID){
+      return true;
+    }
+    else return false;
+  }
+
+
   /* Code from template association_GetOne */
+  @ManyToOne(optional=false)
   public BorrowableItem getItem()
   {
     return item;
   }
   /* Code from template association_GetOne */
+  @ManyToOne(optional=false)
   public UserAccount getUser()
   {
     return user;
   }
   /* Code from template association_SetUnidirectionalOne */
-  @ManyToOne(optional=false)
   public boolean setItem(BorrowableItem aNewItem)
   {
     boolean wasSet = false;
@@ -80,7 +92,6 @@ public class Transaction
     return wasSet;
   }
   /* Code from template association_SetUnidirectionalOne */
-  @ManyToOne(optional=false)
   public boolean setUser(UserAccount aNewUser)
   {
     boolean wasSet = false;

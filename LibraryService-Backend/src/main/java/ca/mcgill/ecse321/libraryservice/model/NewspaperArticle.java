@@ -71,18 +71,29 @@ public class NewspaperArticle
   {
     return barCodeNumber;
   }
+
+  public boolean setBarCodeNumber(int aBarCodeNumber)
+  {
+    barCodeNumber = aBarCodeNumber;
+    if(barCodeNumber==aBarCodeNumber){
+      return true;
+    }
+    else return false;
+  }
+
   /* Code from template association_GetOne */
+  @ManyToOne(optional=false)
   public LibrarySystem getLibrarySystem()
   {
     return librarySystem;
   }
   /* Code from template association_GetOne */
+  @ManyToOne(optional=false)
   public Newspaper getNewspaper()
   {
     return newspaper;
   }
   /* Code from template association_SetOneToMany */
-  @ManyToOne(optional=false)
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {
     boolean wasSet = false;
@@ -102,7 +113,6 @@ public class NewspaperArticle
     return wasSet;
   }
   /* Code from template association_SetOneToMany */
-  @ManyToOne(optional=false)
   public boolean setNewspaper(Newspaper aNewspaper)
   {
     boolean wasSet = false;

@@ -43,6 +43,7 @@ public class HeadLibrarian extends Librarian
     return aWorkshift;
   }
 
+  @OneToMany
   public List<TimeSlot> getWorkshift()
   {
     List<TimeSlot> newWorkshift = Collections.unmodifiableList(workshift);
@@ -53,6 +54,38 @@ public class HeadLibrarian extends Librarian
   {
     int number = workshift.size();
     return number;
+  }
+
+  public boolean setWorkshift(ArrayList<TimeSlot> aWorkshift)
+  {
+    boolean wasSet = false;
+    workshift = aWorkshift;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setHolidays(ArrayList<Holiday> aHolidays)
+  {
+    boolean wasSet = false;
+    holidays = aHolidays;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setLibrarianID(int aLibrarianID)
+  {
+    boolean wasSet = false;
+    super.setLibrarianID(aLibrarianID);
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setOpeningHour(ArrayList<OpeningHour> aOpeningHour)
+  {
+    boolean wasSet = false;
+    openingHour = aOpeningHour;
+    wasSet = true;
+    return wasSet;
   }
 
   public boolean hasWorkshift()
@@ -72,7 +105,7 @@ public class HeadLibrarian extends Librarian
     OpeningHour aOpeningHour = openingHour.get(index);
     return aOpeningHour;
   }
-
+  @OneToMany
   public List<OpeningHour> getOpeningHour()
   {
     List<OpeningHour> newOpeningHour = Collections.unmodifiableList(openingHour);
@@ -102,7 +135,7 @@ public class HeadLibrarian extends Librarian
     Holiday aHoliday = holidays.get(index);
     return aHoliday;
   }
-
+  @OneToMany
   public List<Holiday> getHolidays()
   {
     List<Holiday> newHolidays = Collections.unmodifiableList(holidays);

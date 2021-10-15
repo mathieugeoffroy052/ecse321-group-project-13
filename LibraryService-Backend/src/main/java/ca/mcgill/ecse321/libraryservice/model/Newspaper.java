@@ -59,6 +59,14 @@ public class Newspaper
     return wasSet;
   }
 
+  public boolean setArticles(ArrayList<NewspaperArticle> aArticles)
+  {
+    boolean wasSet = false;
+    articles = aArticles;
+    wasSet = true;
+    return wasSet;
+  }
+
   public String getName()
   {
     return name;
@@ -68,13 +76,23 @@ public class Newspaper
   {
     return paperID;
   }
+
+  public boolean setPaperID(int aPaperID)
+  {
+    paperID = aPaperID;
+    if(paperID==aPaperID){
+      return true;
+    }
+    else return false;
+  }
+
   /* Code from template association_GetMany */
   public NewspaperArticle getArticle(int index)
   {
     NewspaperArticle aArticle = articles.get(index);
     return aArticle;
   }
-
+  @OneToMany
   public List<NewspaperArticle> getArticles()
   {
     List<NewspaperArticle> newArticles = Collections.unmodifiableList(articles);
@@ -99,6 +117,7 @@ public class Newspaper
     return index;
   }
   /* Code from template association_GetOne */
+  @ManyToOne(optional=false)
   public LibrarySystem getLibrarySystem()
   {
     return librarySystem;
@@ -176,7 +195,6 @@ public class Newspaper
     return wasAdded;
   }
   /* Code from template association_SetOneToMany */
-  @ManyToOne(optional=false)
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {
     boolean wasSet = false;

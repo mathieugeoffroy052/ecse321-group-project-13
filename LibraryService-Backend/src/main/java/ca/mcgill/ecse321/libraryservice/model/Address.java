@@ -94,13 +94,23 @@ public class Address
   {
     return addressID;
   }
+
+  public boolean setAddressID(int aAddressID)
+  {
+    addressID = aAddressID;
+    if(addressID==aAddressID){
+      return true;
+    }
+    else return false;
+  }
+
   /* Code from template association_GetOne */
+  @ManyToOne(optional=false)
   public LibrarySystem getLibrarySystem()
   {
     return librarySystem;
   }
   /* Code from template association_SetOneToMany */
-  @ManyToOne(optional=false)
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {
     boolean wasSet = false;

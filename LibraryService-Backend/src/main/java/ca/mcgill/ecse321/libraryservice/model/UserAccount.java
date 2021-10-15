@@ -99,18 +99,28 @@ public abstract class UserAccount
   {
     return userID;
   }
+
+  public boolean setUserID(int aUserID)
+  {
+    userID = aUserID;
+    if(userID==aUserID){
+      return true;
+    }
+    else return false;
+  }
   /* Code from template association_GetOne */
+  @ManyToOne(optional=false)
   public LibrarySystem getLibrarySystem()
   {
     return librarySystem;
   }
   /* Code from template association_GetOne */
+  @ManyToOne(optional=false)
   public Address getAddress()
   {
     return address;
   }
   /* Code from template association_SetOneToMany */
-  @ManyToOne(optional=false)
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {
     boolean wasSet = false;
@@ -130,7 +140,6 @@ public abstract class UserAccount
     return wasSet;
   }
   /* Code from template association_SetUnidirectionalOne */
-  @ManyToOne(optional=false)
   public boolean setAddress(Address aNewAddress)
   {
     boolean wasSet = false;

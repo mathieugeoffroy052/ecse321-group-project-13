@@ -65,18 +65,28 @@ public class BorrowableItem
   {
     return state;
   }
+
   @Id
   public int getBarCodeNumber()
   {
     return barCodeNumber;
   }
+
+  public boolean setBarCodeNumber(int aBarCodeNumber)
+  {
+    barCodeNumber = aBarCodeNumber;
+    if(barCodeNumber==aBarCodeNumber){
+      return true;
+    }
+    else return false;
+  }
   /* Code from template association_GetOne */
+  @ManyToOne(optional=false)
   public LibraryItem getItemType()
   {
     return itemType;
   }
   /* Code from template association_SetOneToMany */
-  @ManyToOne(optional=false)
   public boolean setItemType(LibraryItem aItemType)
   {
     boolean wasSet = false;

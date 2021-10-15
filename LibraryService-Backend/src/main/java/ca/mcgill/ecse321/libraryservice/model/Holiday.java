@@ -102,18 +102,29 @@ public class Holiday
   {
     return holidayID;
   }
+
+  public boolean setHolidayID(int aholidayID)
+  {
+    holidayID = aholidayID;
+    if(holidayID==aholidayID){
+      return true;
+    }
+    else return false;
+  }
+
   /* Code from template association_GetOne */
+  @ManyToOne(optional=false)
   public LibrarySystem getLibrarySystem()
   {
     return librarySystem;
   }
   /* Code from template association_GetOne */
+  @ManyToOne(optional=false)
   public HeadLibrarian getHeadLibrarian()
   {
     return headLibrarian;
   }
   /* Code from template association_SetOneToMany */
-  @ManyToOne(optional=false)
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {
     boolean wasSet = false;
@@ -133,7 +144,6 @@ public class Holiday
     return wasSet;
   }
   /* Code from template association_SetOneToMany */
-  @ManyToOne(optional=false)
   public boolean setHeadLibrarian(HeadLibrarian aHeadLibrarian)
   {
     boolean wasSet = false;
