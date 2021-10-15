@@ -1,11 +1,11 @@
-package ca.mcgill.ecse321.libraryservice.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.29.1.4607.2d2b84eb8 modeling language!*/
+
+package ca.mcgill.ecse321.libraryservice.model;
 import javax.persistence.*;
 
-
 @Entity
-// line 13 "Library.ump"
+// line 17 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump 16-05-11-860.ump"
 public class Address
 {
 
@@ -89,19 +89,28 @@ public class Address
   {
     return country;
   }
-
   @Id
   public int getAddressID()
   {
     return addressID;
   }
+
+  public boolean setAddressID(int aAddressID)
+  {
+    addressID = aAddressID;
+    if(addressID==aAddressID){
+      return true;
+    }
+    else return false;
+  }
+
   /* Code from template association_GetOne */
+  @ManyToOne(optional=false)
   public LibrarySystem getLibrarySystem()
   {
     return librarySystem;
   }
   /* Code from template association_SetOneToMany */
-  @ManyToOne(optional=false)
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {
     boolean wasSet = false;

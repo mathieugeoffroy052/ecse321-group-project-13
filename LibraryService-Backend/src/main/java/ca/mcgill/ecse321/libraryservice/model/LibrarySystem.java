@@ -1,20 +1,29 @@
-package ca.mcgill.ecse321.libraryservice.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.29.1.4607.2d2b84eb8 modeling language!*/
 
-import javax.persistence.*;
+package ca.mcgill.ecse321.libraryservice.model;
 import java.util.*;
 import java.sql.Time;
 import java.sql.Date;
+import javax.persistence.*;
 
 @Entity
-// line 2 "Library.ump"
+// line 5 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump 16-05-11-860.ump"
 public class LibrarySystem
 {
 
   //------------------------
+  // STATIC VARIABLES
+  //------------------------
+
+  private static int nextSystemId = 1;
+
+  //------------------------
   // MEMBER VARIABLES
   //------------------------
+
+  //Autounique Attributes
+  private int systemId;
 
   //LibrarySystem Associations
   private List<UserAccount> userAccounts;
@@ -25,7 +34,7 @@ public class LibrarySystem
   private List<Person> persons;
   private List<Address> addresses;
   private List<LibraryItem> libraryItems;
-  private List<Holiday> holidaies;
+  private List<Holiday> holidays;
 
   //------------------------
   // CONSTRUCTOR
@@ -33,6 +42,7 @@ public class LibrarySystem
 
   public LibrarySystem()
   {
+    systemId = nextSystemId++;
     userAccounts = new ArrayList<UserAccount>();
     newspapers = new ArrayList<Newspaper>();
     openingHours = new ArrayList<OpeningHour>();
@@ -41,19 +51,116 @@ public class LibrarySystem
     persons = new ArrayList<Person>();
     addresses = new ArrayList<Address>();
     libraryItems = new ArrayList<LibraryItem>();
-    holidaies = new ArrayList<Holiday>();
+    holidays = new ArrayList<Holiday>();
   }
 
   //------------------------
   // INTERFACE
   //------------------------
+  @Id
+  public int getSystemId()
+  {
+    return systemId;
+  }
+
+  public boolean setSystemId(int aSystemId)
+  {
+    systemId = aSystemId;
+    if(systemId==aSystemId){
+      return true;
+    }
+    else return false;
+  }
+
+  public boolean setNewspaperArticles(ArrayList<NewspaperArticle> aNewspaperArticles)
+  {
+    newspaperArticles = aNewspaperArticles;
+    if(newspaperArticles==aNewspaperArticles){
+      return true;
+    }
+    else return false;
+  }
+
+  public boolean setAddresses(ArrayList<Address> aAddresses)
+  {
+    addresses = aAddresses;
+    if(addresses==aAddresses){
+      return true;
+    }
+    else return false;
+  }
+
+  public boolean setHolidays(ArrayList<Holiday> aholidays)
+  {
+    holidays = aholidays;
+    if(holidays==aholidays){
+      return true;
+    }
+    else return false;
+  }
+
+  public boolean setPersons(ArrayList<Person> aPersons)
+  {
+    persons = aPersons;
+    if(persons==aPersons){
+      return true;
+    }
+    else return false;
+  }
+
+  public boolean setLibraryItems(ArrayList<LibraryItem> aLibraryItems)
+  {
+    libraryItems = aLibraryItems;
+    if(libraryItems==aLibraryItems){
+      return true;
+    }
+    else return false;
+  }
+
+  public boolean setTimeSlots(ArrayList<TimeSlot> aTimeSlots)
+  {
+    timeSlots = aTimeSlots;
+    if(timeSlots==aTimeSlots){
+      return true;
+    }
+    else return false;
+  }
+
+  public boolean setOpeningHours(ArrayList<OpeningHour> aOpeningHours)
+  {
+    openingHours = aOpeningHours;
+    if(openingHours==aOpeningHours){
+      return true;
+    }
+    else return false;
+  }
+
+  public boolean setNewspapers(ArrayList<Newspaper> aNewspapers)
+  {
+    newspapers = aNewspapers;
+    if(newspapers==aNewspapers){
+      return true;
+    }
+    else return false;
+  }
+
+  public boolean setUserAccounts(ArrayList<UserAccount> aUserAccounts)
+  {
+    userAccounts = aUserAccounts;
+    if(userAccounts==aUserAccounts){
+      return true;
+    }
+    else return false;
+  }
+
+
   /* Code from template association_GetMany */
   public UserAccount getUserAccount(int index)
   {
     UserAccount aUserAccount = userAccounts.get(index);
     return aUserAccount;
   }
-
+  @OneToMany
   public List<UserAccount> getUserAccounts()
   {
     List<UserAccount> newUserAccounts = Collections.unmodifiableList(userAccounts);
@@ -83,7 +190,7 @@ public class LibrarySystem
     Newspaper aNewspaper = newspapers.get(index);
     return aNewspaper;
   }
-
+  @OneToMany
   public List<Newspaper> getNewspapers()
   {
     List<Newspaper> newNewspapers = Collections.unmodifiableList(newspapers);
@@ -113,7 +220,7 @@ public class LibrarySystem
     OpeningHour aOpeningHour = openingHours.get(index);
     return aOpeningHour;
   }
-
+  @OneToMany
   public List<OpeningHour> getOpeningHours()
   {
     List<OpeningHour> newOpeningHours = Collections.unmodifiableList(openingHours);
@@ -143,7 +250,7 @@ public class LibrarySystem
     TimeSlot aTimeSlot = timeSlots.get(index);
     return aTimeSlot;
   }
-
+  @OneToMany
   public List<TimeSlot> getTimeSlots()
   {
     List<TimeSlot> newTimeSlots = Collections.unmodifiableList(timeSlots);
@@ -173,7 +280,7 @@ public class LibrarySystem
     NewspaperArticle aNewspaperArticle = newspaperArticles.get(index);
     return aNewspaperArticle;
   }
-
+  @OneToMany
   public List<NewspaperArticle> getNewspaperArticles()
   {
     List<NewspaperArticle> newNewspaperArticles = Collections.unmodifiableList(newspaperArticles);
@@ -203,7 +310,7 @@ public class LibrarySystem
     Person aPerson = persons.get(index);
     return aPerson;
   }
-
+  @OneToMany
   public List<Person> getPersons()
   {
     List<Person> newPersons = Collections.unmodifiableList(persons);
@@ -233,7 +340,7 @@ public class LibrarySystem
     Address aAddress = addresses.get(index);
     return aAddress;
   }
-
+  @OneToMany
   public List<Address> getAddresses()
   {
     List<Address> newAddresses = Collections.unmodifiableList(addresses);
@@ -263,7 +370,7 @@ public class LibrarySystem
     LibraryItem aLibraryItem = libraryItems.get(index);
     return aLibraryItem;
   }
-
+  @OneToMany
   public List<LibraryItem> getLibraryItems()
   {
     List<LibraryItem> newLibraryItems = Collections.unmodifiableList(libraryItems);
@@ -290,31 +397,31 @@ public class LibrarySystem
   /* Code from template association_GetMany */
   public Holiday getHoliday(int index)
   {
-    Holiday aHoliday = holidaies.get(index);
+    Holiday aHoliday = holidays.get(index);
     return aHoliday;
   }
-
-  public List<Holiday> getHolidaies()
+  @OneToMany
+  public List<Holiday> getholidays()
   {
-    List<Holiday> newHolidaies = Collections.unmodifiableList(holidaies);
-    return newHolidaies;
+    List<Holiday> newholidays = Collections.unmodifiableList(holidays);
+    return newholidays;
   }
 
-  public int numberOfHolidaies()
+  public int numberOfholidays()
   {
-    int number = holidaies.size();
+    int number = holidays.size();
     return number;
   }
 
-  public boolean hasHolidaies()
+  public boolean hasholidays()
   {
-    boolean has = holidaies.size() > 0;
+    boolean has = holidays.size() > 0;
     return has;
   }
 
   public int indexOfHoliday(Holiday aHoliday)
   {
-    int index = holidaies.indexOf(aHoliday);
+    int index = holidays.indexOf(aHoliday);
     return index;
   }
   /* Code from template association_MinimumNumberOfMethod */
@@ -888,7 +995,7 @@ public class LibrarySystem
     return wasAdded;
   }
   /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfHolidaies()
+  public static int minimumNumberOfholidays()
   {
     return 0;
   }
@@ -901,7 +1008,7 @@ public class LibrarySystem
   public boolean addHoliday(Holiday aHoliday)
   {
     boolean wasAdded = false;
-    if (holidaies.contains(aHoliday)) { return false; }
+    if (holidays.contains(aHoliday)) { return false; }
     LibrarySystem existingLibrarySystem = aHoliday.getLibrarySystem();
     boolean isNewLibrarySystem = existingLibrarySystem != null && !this.equals(existingLibrarySystem);
     if (isNewLibrarySystem)
@@ -910,7 +1017,7 @@ public class LibrarySystem
     }
     else
     {
-      holidaies.add(aHoliday);
+      holidays.add(aHoliday);
     }
     wasAdded = true;
     return wasAdded;
@@ -922,7 +1029,7 @@ public class LibrarySystem
     //Unable to remove aHoliday, as it must always have a librarySystem
     if (!this.equals(aHoliday.getLibrarySystem()))
     {
-      holidaies.remove(aHoliday);
+      holidays.remove(aHoliday);
       wasRemoved = true;
     }
     return wasRemoved;
@@ -934,9 +1041,9 @@ public class LibrarySystem
     if(addHoliday(aHoliday))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfHolidaies()) { index = numberOfHolidaies() - 1; }
-      holidaies.remove(aHoliday);
-      holidaies.add(index, aHoliday);
+      if(index > numberOfholidays()) { index = numberOfholidays() - 1; }
+      holidays.remove(aHoliday);
+      holidays.add(index, aHoliday);
       wasAdded = true;
     }
     return wasAdded;
@@ -945,12 +1052,12 @@ public class LibrarySystem
   public boolean addOrMoveHolidayAt(Holiday aHoliday, int index)
   {
     boolean wasAdded = false;
-    if(holidaies.contains(aHoliday))
+    if(holidays.contains(aHoliday))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfHolidaies()) { index = numberOfHolidaies() - 1; }
-      holidaies.remove(aHoliday);
-      holidaies.add(index, aHoliday);
+      if(index > numberOfholidays()) { index = numberOfholidays() - 1; }
+      holidays.remove(aHoliday);
+      holidays.add(index, aHoliday);
       wasAdded = true;
     } 
     else 
@@ -1018,13 +1125,19 @@ public class LibrarySystem
       libraryItems.remove(aLibraryItem);
     }
     
-    while (holidaies.size() > 0)
+    while (holidays.size() > 0)
     {
-      Holiday aHoliday = holidaies.get(holidaies.size() - 1);
+      Holiday aHoliday = holidays.get(holidays.size() - 1);
       aHoliday.delete();
-      holidaies.remove(aHoliday);
+      holidays.remove(aHoliday);
     }
     
   }
 
+
+  public String toString()
+  {
+    return super.toString() + "["+
+            "systemId" + ":" + getSystemId()+ "]";
+  }
 }
