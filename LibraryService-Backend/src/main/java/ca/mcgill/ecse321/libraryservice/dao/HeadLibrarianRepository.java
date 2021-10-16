@@ -9,7 +9,12 @@ import java.util.List;
 
 public interface HeadLibrarianRepository extends CrudRepository<HeadLibrarian, Integer>{
 
-	//HeadLibrarian findByTimeSlotID(Integer timeSlotID);
 	
+	
+	HeadLibrarian findByUserID(Integer userID);
+	
+	HeadLibrarian findByTimeSlotID(Integer timeSlotID);
+	HeadLibrarian findByHourID(Integer hourID);
+	HeadLibrarian findByHolidayID(Integer holidayID);
 	
 }
