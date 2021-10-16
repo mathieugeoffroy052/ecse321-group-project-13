@@ -13,7 +13,7 @@ public class BorrowableItem
   // ENUMERATIONS
   //------------------------
 
-  public enum ItemState { Borrowed, Damaged, Available, Reserved }
+  public enum ItemState { Borrowed, Damaged, Available, Reserved, Booked }
 
   //------------------------
   // STATIC VARIABLES
