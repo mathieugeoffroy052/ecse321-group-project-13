@@ -9,9 +9,9 @@ import java.util.List;
 public interface LibrarianRepository extends CrudRepository<Librarian, Integer> {
 	
 	
-	Librarian findLibrarianByUserID(Integer userID);
+	Librarian findLibrarianByUserAccount(Integer userID);
 	
-	List<Librarian> findByTimeSlotID(Integer timeSlotID);
+	List<Librarian> findByTimeSlot(Integer timeSlotID);
 	
 	
 	

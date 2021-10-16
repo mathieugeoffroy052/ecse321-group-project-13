@@ -8,10 +8,10 @@ import java.util.List;
 
 public interface UserAccountRepository extends CrudRepository<UserAccount, Integer>{
 
-	UserAccount findByUserID(Integer userID);
+	UserAccount findByUserAccount(Integer userID);
 	
 	List<UserAccount> findByAddress(Integer id);
 	
-	List<UserAccount> findBySystemID(Integer systemID);
+	List<UserAccount> findByLibrarySystem(Integer systemID);
 	
 }
