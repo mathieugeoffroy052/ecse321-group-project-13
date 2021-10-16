@@ -1,12 +1,12 @@
-package ca.mcgill.ecse321.libraryservice.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.29.1.4607.2d2b84eb8 modeling language!*/
 
-import javax.persistence.*;
+package ca.mcgill.ecse321.libraryservice.model;
 import java.util.*;
+import javax.persistence.*;
 
 @Entity
-// line 42 "Library.ump"
+// line 46 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump 16-05-11-860.ump"
 public class Librarian extends UserAccount
 {
 
@@ -14,14 +14,14 @@ public class Librarian extends UserAccount
   // STATIC VARIABLES
   //------------------------
 
-  private static int nextLibraranID = 1;
+  private static int nextlibrarianID = 1;
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //Autounique Attributes
-  private int libraranID;
+  private int librarianID;
 
   //Librarian Associations
   private List<TimeSlot> workshift;
@@ -33,25 +33,44 @@ public class Librarian extends UserAccount
   public Librarian(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, Address aAddress)
   {
     super(aFirstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress);
-    libraranID = nextLibraranID++;
+    librarianID = nextlibrarianID++;
     workshift = new ArrayList<TimeSlot>();
   }
 
   //------------------------
   // INTERFACE
   //------------------------
-  @Id
-  public int getLibraranID()
+  
+  public int getlibrarianID()
   {
-    return libraranID;
+    return librarianID;
   }
+
+  public boolean setLibrarianID(int aLibrarianID)
+  {
+    librarianID = aLibrarianID;
+    if(librarianID==aLibrarianID){
+      return true;
+    }
+    else return false;
+  }
+
+  public boolean setWorkshift(ArrayList<TimeSlot> aWorkshift)
+  {
+    workshift = aWorkshift;
+    if(workshift==aWorkshift){
+      return true;
+    }
+    else return false;
+  }
+
   /* Code from template association_GetMany */
   public TimeSlot getWorkshift(int index)
   {
     TimeSlot aWorkshift = workshift.get(index);
     return aWorkshift;
   }
-
+  @OneToMany
   public List<TimeSlot> getWorkshift()
   {
     List<TimeSlot> newWorkshift = Collections.unmodifiableList(workshift);
@@ -86,13 +105,13 @@ public class Librarian extends UserAccount
     boolean wasAdded = false;
     if (workshift.contains(aWorkshift)) { return false; }
     workshift.add(aWorkshift);
-    if (aWorkshift.indexOfLibrarian(this) != -1)
+    if (aWorkshift.indexOfWorker(this) != -1)
     {
       wasAdded = true;
     }
     else
     {
-      wasAdded = aWorkshift.addLibrarian(this);
+      wasAdded = aWorkshift.addWorker(this);
       if (!wasAdded)
       {
         workshift.remove(aWorkshift);
@@ -111,13 +130,13 @@ public class Librarian extends UserAccount
 
     int oldIndex = workshift.indexOf(aWorkshift);
     workshift.remove(oldIndex);
-    if (aWorkshift.indexOfLibrarian(this) == -1)
+    if (aWorkshift.indexOfWorker(this) == -1)
     {
       wasRemoved = true;
     }
     else
     {
-      wasRemoved = aWorkshift.removeLibrarian(this);
+      wasRemoved = aWorkshift.removeWorker(this);
       if (!wasRemoved)
       {
         workshift.add(oldIndex,aWorkshift);
@@ -164,7 +183,7 @@ public class Librarian extends UserAccount
     workshift.clear();
     for(TimeSlot aWorkshift : copyOfWorkshift)
     {
-      aWorkshift.removeLibrarian(this);
+      aWorkshift.removeWorker(this);
     }
     super.delete();
   }
@@ -173,6 +192,6 @@ public class Librarian extends UserAccount
   public String toString()
   {
     return super.toString() + "["+
-            "libraranID" + ":" + getLibraranID()+ "]";
+            "librarianID" + ":" + getlibrarianID()+ "]";
   }
 }

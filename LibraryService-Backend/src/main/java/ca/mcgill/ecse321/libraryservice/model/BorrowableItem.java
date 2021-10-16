@@ -1,11 +1,11 @@
-package ca.mcgill.ecse321.libraryservice.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.29.1.4607.2d2b84eb8 modeling language!*/
 
+package ca.mcgill.ecse321.libraryservice.model;
 import javax.persistence.*;
 
 @Entity
-// line 59 "Library.ump"
+// line 63 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump 16-05-11-860.ump"
 public class BorrowableItem
 {
 
@@ -13,7 +13,7 @@ public class BorrowableItem
   // ENUMERATIONS
   //------------------------
 
-  public enum ItemState { Borrowed, Damaged, Available, Reserved }
+  public enum ItemState { Borrowed, Damaged, Available, Reserved, Booked }
 
   //------------------------
   // STATIC VARIABLES
@@ -33,8 +33,6 @@ public class BorrowableItem
 
   //BorrowableItem Associations
   private LibraryItem itemType;
-  private UserAccount borrower;
-  private UserAccount reserver;
 
   //------------------------
   // CONSTRUCTOR
@@ -73,32 +71,20 @@ public class BorrowableItem
   {
     return barCodeNumber;
   }
+
+  public boolean setBarCodeNumber(int aBarCodeNumber)
+  {
+    barCodeNumber = aBarCodeNumber;
+    if(barCodeNumber==aBarCodeNumber){
+      return true;
+    }
+    else return false;
+  }
   /* Code from template association_GetOne */
+  @ManyToOne(optional=false)
   public LibraryItem getItemType()
   {
     return itemType;
-  }
-  /* Code from template association_GetOne */
-  public UserAccount getBorrower()
-  {
-    return borrower;
-  }
-
-  public boolean hasBorrower()
-  {
-    boolean has = borrower != null;
-    return has;
-  }
-  /* Code from template association_GetOne */
-  public UserAccount getReserver()
-  {
-    return reserver;
-  }
-
-  public boolean hasReserver()
-  {
-    boolean has = reserver != null;
-    return has;
   }
   /* Code from template association_SetOneToMany */
   public boolean setItemType(LibraryItem aItemType)
@@ -119,42 +105,6 @@ public class BorrowableItem
     wasSet = true;
     return wasSet;
   }
-  /* Code from template association_SetOptionalOneToMany */
-  @ManyToOne(optional=false)
-  public boolean setBorrower(UserAccount aBorrower)
-  {
-    boolean wasSet = false;
-    UserAccount existingBorrower = borrower;
-    borrower = aBorrower;
-    if (existingBorrower != null && !existingBorrower.equals(aBorrower))
-    {
-      existingBorrower.removeItemBorrowed(this);
-    }
-    if (aBorrower != null)
-    {
-      aBorrower.addItemBorrowed(this);
-    }
-    wasSet = true;
-    return wasSet;
-  }
-  /* Code from template association_SetOptionalOneToMany */
-  @ManyToOne(optional=false)
-  public boolean setReserver(UserAccount aReserver)
-  {
-    boolean wasSet = false;
-    UserAccount existingReserver = reserver;
-    reserver = aReserver;
-    if (existingReserver != null && !existingReserver.equals(aReserver))
-    {
-      existingReserver.removeItemReserved(this);
-    }
-    if (aReserver != null)
-    {
-      aReserver.addItemReserved(this);
-    }
-    wasSet = true;
-    return wasSet;
-  }
 
   public void delete()
   {
@@ -164,18 +114,6 @@ public class BorrowableItem
     {
       placeholderItemType.removeItem(this);
     }
-    if (borrower != null)
-    {
-      UserAccount placeholderBorrower = borrower;
-      this.borrower = null;
-      placeholderBorrower.removeItemBorrowed(this);
-    }
-    if (reserver != null)
-    {
-      UserAccount placeholderReserver = reserver;
-      this.reserver = null;
-      placeholderReserver.removeItemReserved(this);
-    }
   }
 
 
@@ -184,8 +122,6 @@ public class BorrowableItem
     return super.toString() + "["+
             "barCodeNumber" + ":" + getBarCodeNumber()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "state" + "=" + (getState() != null ? !getState().equals(this)  ? getState().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "itemType = "+(getItemType()!=null?Integer.toHexString(System.identityHashCode(getItemType())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "borrower = "+(getBorrower()!=null?Integer.toHexString(System.identityHashCode(getBorrower())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "reserver = "+(getReserver()!=null?Integer.toHexString(System.identityHashCode(getReserver())):"null");
+            "  " + "itemType = "+(getItemType()!=null?Integer.toHexString(System.identityHashCode(getItemType())):"null");
   }
 }

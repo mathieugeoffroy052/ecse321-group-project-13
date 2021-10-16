@@ -1,11 +1,11 @@
-package ca.mcgill.ecse321.libraryservice.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.29.1.4607.2d2b84eb8 modeling language!*/
+
+package ca.mcgill.ecse321.libraryservice.model;
 import javax.persistence.*;
 
-
 @Entity
-// line 13 "Library.ump"
+// line 17 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump 16-05-11-860.ump"
 public class Address
 {
 
@@ -27,24 +27,16 @@ public class Address
   //Autounique Attributes
   private int addressID;
 
-  //Address Associations
-  private LibrarySystem librarySystem;
-
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Address(String aAddress, String aCity, String aCountry, LibrarySystem aLibrarySystem)
+  public Address(String aAddress, String aCity, String aCountry)
   {
     address = aAddress;
     city = aCity;
     country = aCountry;
     addressID = nextAddressID++;
-    boolean didAddLibrarySystem = setLibrarySystem(aLibrarySystem);
-    if (!didAddLibrarySystem)
-    {
-      throw new RuntimeException("Unable to create address due to librarySystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
   }
 
   //------------------------
@@ -89,48 +81,20 @@ public class Address
   {
     return country;
   }
-
   @Id
   public int getAddressID()
   {
     return addressID;
   }
-  /* Code from template association_GetOne */
-  public LibrarySystem getLibrarySystem()
-  {
-    return librarySystem;
-  }
-  /* Code from template association_SetOneToMany */
-  @ManyToOne(optional=false)
-  public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
-  {
-    boolean wasSet = false;
-    if (aLibrarySystem == null)
-    {
-      return wasSet;
-    }
 
-    LibrarySystem existingLibrarySystem = librarySystem;
-    librarySystem = aLibrarySystem;
-    if (existingLibrarySystem != null && !existingLibrarySystem.equals(aLibrarySystem))
-    {
-      existingLibrarySystem.removeAddress(this);
-    }
-    librarySystem.addAddress(this);
-    wasSet = true;
-    return wasSet;
-  }
-
-  public void delete()
+  public boolean setAddressID(int aAddressID)
   {
-    LibrarySystem placeholderLibrarySystem = librarySystem;
-    this.librarySystem = null;
-    if(placeholderLibrarySystem != null)
-    {
-      placeholderLibrarySystem.removeAddress(this);
+    addressID = aAddressID;
+    if(addressID==aAddressID){
+      return true;
     }
+    else return false;
   }
-
 
   public String toString()
   {
@@ -138,7 +102,6 @@ public class Address
             "addressID" + ":" + getAddressID()+ "," +
             "address" + ":" + getAddress()+ "," +
             "city" + ":" + getCity()+ "," +
-            "country" + ":" + getCountry()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "librarySystem = "+(getLibrarySystem()!=null?Integer.toHexString(System.identityHashCode(getLibrarySystem())):"null");
+            "country" + ":" + getCountry()+ "]" + System.getProperties().getProperty("line.separator");
   }
 }

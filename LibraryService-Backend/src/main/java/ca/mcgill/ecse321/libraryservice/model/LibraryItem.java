@@ -1,12 +1,12 @@
-package ca.mcgill.ecse321.libraryservice.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.29.1.4607.2d2b84eb8 modeling language!*/
 
-import javax.persistence.*;
+package ca.mcgill.ecse321.libraryservice.model;
 import java.util.*;
+import javax.persistence.*;
 
 @Entity
-// line 71 "Library.ump"
+// line 82 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump 16-05-11-860.ump"
 public abstract class LibraryItem
 {
 
@@ -58,6 +58,14 @@ public abstract class LibraryItem
     return wasSet;
   }
 
+  public boolean setItems(ArrayList<BorrowableItem> aItems)
+  {
+    boolean wasSet = false;
+    items = aItems;
+    wasSet = true;
+    return wasSet;
+  }
+  
   public String getName()
   {
     return name;
@@ -67,7 +75,18 @@ public abstract class LibraryItem
   {
     return isbn;
   }
+
+  public boolean setIsbn(int aIsbn)
+  {
+    isbn = aIsbn;
+    if(isbn==aIsbn){
+      return true;
+    }
+    else return false;
+  }
+
   /* Code from template association_GetOne */
+  @ManyToOne(optional=false)
   public LibrarySystem getLibrarySystem()
   {
     return librarySystem;
@@ -78,7 +97,7 @@ public abstract class LibraryItem
     BorrowableItem aItem = items.get(index);
     return aItem;
   }
-
+  @OneToMany
   public List<BorrowableItem> getItems()
   {
     List<BorrowableItem> newItems = Collections.unmodifiableList(items);
@@ -103,7 +122,6 @@ public abstract class LibraryItem
     return index;
   }
   /* Code from template association_SetOneToMany */
-  @ManyToOne(optional=false)
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {
     boolean wasSet = false;
