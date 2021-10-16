@@ -156,9 +156,9 @@ public class Holiday
     headLibrarian = aHeadLibrarian;
     if (existingHeadLibrarian != null && !existingHeadLibrarian.equals(aHeadLibrarian))
     {
-      existingHeadLibrarian.removeHoliday(this);
+      librarySystem.removeHoliday(this);
     }
-    headLibrarian.addHoliday(this);
+    librarySystem.addHoliday(this);
     wasSet = true;
     return wasSet;
   }
@@ -175,7 +175,7 @@ public class Holiday
     this.headLibrarian = null;
     if(placeholderHeadLibrarian != null)
     {
-      placeholderHeadLibrarian.removeHoliday(this);
+      librarySystem.removeHoliday(this);
     }
   }
 
