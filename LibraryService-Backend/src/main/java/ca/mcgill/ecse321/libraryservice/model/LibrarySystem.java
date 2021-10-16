@@ -32,7 +32,6 @@ public class LibrarySystem
   private List<TimeSlot> timeSlots;
   private List<NewspaperArticle> newspaperArticles;
   private List<Person> persons;
-  private List<Address> addresses;
   private List<LibraryItem> libraryItems;
   private List<Holiday> holidays;
 
@@ -49,7 +48,6 @@ public class LibrarySystem
     timeSlots = new ArrayList<TimeSlot>();
     newspaperArticles = new ArrayList<NewspaperArticle>();
     persons = new ArrayList<Person>();
-    addresses = new ArrayList<Address>();
     libraryItems = new ArrayList<LibraryItem>();
     holidays = new ArrayList<Holiday>();
   }
@@ -76,15 +74,6 @@ public class LibrarySystem
   {
     newspaperArticles = aNewspaperArticles;
     if(newspaperArticles==aNewspaperArticles){
-      return true;
-    }
-    else return false;
-  }
-
-  public boolean setAddresses(ArrayList<Address> aAddresses)
-  {
-    addresses = aAddresses;
-    if(addresses==aAddresses){
       return true;
     }
     else return false;
@@ -334,36 +323,7 @@ public class LibrarySystem
     int index = persons.indexOf(aPerson);
     return index;
   }
-  /* Code from template association_GetMany */
-  public Address getAddress(int index)
-  {
-    Address aAddress = addresses.get(index);
-    return aAddress;
-  }
-  @OneToMany
-  public List<Address> getAddresses()
-  {
-    List<Address> newAddresses = Collections.unmodifiableList(addresses);
-    return newAddresses;
-  }
 
-  public int numberOfAddresses()
-  {
-    int number = addresses.size();
-    return number;
-  }
-
-  public boolean hasAddresses()
-  {
-    boolean has = addresses.size() > 0;
-    return has;
-  }
-
-  public int indexOfAddress(Address aAddress)
-  {
-    int index = addresses.indexOf(aAddress);
-    return index;
-  }
   /* Code from template association_GetMany */
   public LibraryItem getLibraryItem(int index)
   {
@@ -569,6 +529,11 @@ public class LibrarySystem
   public static int minimumNumberOfOpeningHours()
   {
     return 0;
+  }
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int maximumNumberOfOpeningHour()
+  {
+    return 7;
   }
   /* Code from template association_AddManyToOne */
   public OpeningHour addOpeningHour(OpeningHour.DayOfWeek aDayOfWeek, Time aStartTime, Time aEndTime, HeadLibrarian aHeadLibrarian)
@@ -853,78 +818,7 @@ public class LibrarySystem
     }
     return wasAdded;
   }
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfAddresses()
-  {
-    return 0;
-  }
-  /* Code from template association_AddManyToOne */
-  public Address addAddress(String aAddress, String aCity, String aCountry)
-  {
-    return new Address(aAddress, aCity, aCountry, this);
-  }
 
-  public boolean addAddress(Address aAddress)
-  {
-    boolean wasAdded = false;
-    if (addresses.contains(aAddress)) { return false; }
-    LibrarySystem existingLibrarySystem = aAddress.getLibrarySystem();
-    boolean isNewLibrarySystem = existingLibrarySystem != null && !this.equals(existingLibrarySystem);
-    if (isNewLibrarySystem)
-    {
-      aAddress.setLibrarySystem(this);
-    }
-    else
-    {
-      addresses.add(aAddress);
-    }
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeAddress(Address aAddress)
-  {
-    boolean wasRemoved = false;
-    //Unable to remove aAddress, as it must always have a librarySystem
-    if (!this.equals(aAddress.getLibrarySystem()))
-    {
-      addresses.remove(aAddress);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addAddressAt(Address aAddress, int index)
-  {  
-    boolean wasAdded = false;
-    if(addAddress(aAddress))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfAddresses()) { index = numberOfAddresses() - 1; }
-      addresses.remove(aAddress);
-      addresses.add(index, aAddress);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveAddressAt(Address aAddress, int index)
-  {
-    boolean wasAdded = false;
-    if(addresses.contains(aAddress))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfAddresses()) { index = numberOfAddresses() - 1; }
-      addresses.remove(aAddress);
-      addresses.add(index, aAddress);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addAddressAt(aAddress, index);
-    }
-    return wasAdded;
-  }
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfLibraryItems()
   {
@@ -1109,13 +1003,6 @@ public class LibrarySystem
       Person aPerson = persons.get(persons.size() - 1);
       aPerson.delete();
       persons.remove(aPerson);
-    }
-    
-    while (addresses.size() > 0)
-    {
-      Address aAddress = addresses.get(addresses.size() - 1);
-      aAddress.delete();
-      addresses.remove(aAddress);
     }
     
     while (libraryItems.size() > 0)
