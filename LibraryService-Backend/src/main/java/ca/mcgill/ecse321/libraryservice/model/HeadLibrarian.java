@@ -1,14 +1,14 @@
-package ca.mcgill.ecse321.libraryservice.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.29.1.4607.2d2b84eb8 modeling language!*/
 
-import javax.persistence.*;
+package ca.mcgill.ecse321.libraryservice.model;
 import java.util.*;
 import java.sql.Date;
 import java.sql.Time;
+import javax.persistence.*;
 
 @Entity
-// line 50 "Library.ump"
+// line 54 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump 16-05-11-860.ump"
 public class HeadLibrarian extends Librarian
 {
 
@@ -43,6 +43,7 @@ public class HeadLibrarian extends Librarian
     return aWorkshift;
   }
 
+  @OneToMany
   public List<TimeSlot> getWorkshift()
   {
     List<TimeSlot> newWorkshift = Collections.unmodifiableList(workshift);
@@ -53,6 +54,38 @@ public class HeadLibrarian extends Librarian
   {
     int number = workshift.size();
     return number;
+  }
+
+  public boolean setWorkshift(ArrayList<TimeSlot> aWorkshift)
+  {
+    boolean wasSet = false;
+    workshift = aWorkshift;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setHolidays(ArrayList<Holiday> aHolidays)
+  {
+    boolean wasSet = false;
+    holidays = aHolidays;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setLibrarianID(int aLibrarianID)
+  {
+    boolean wasSet = false;
+    super.setLibrarianID(aLibrarianID);
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setOpeningHour(ArrayList<OpeningHour> aOpeningHour)
+  {
+    boolean wasSet = false;
+    openingHour = aOpeningHour;
+    wasSet = true;
+    return wasSet;
   }
 
   public boolean hasWorkshift()
@@ -72,7 +105,7 @@ public class HeadLibrarian extends Librarian
     OpeningHour aOpeningHour = openingHour.get(index);
     return aOpeningHour;
   }
-
+  @OneToMany
   public List<OpeningHour> getOpeningHour()
   {
     List<OpeningHour> newOpeningHour = Collections.unmodifiableList(openingHour);
@@ -102,7 +135,7 @@ public class HeadLibrarian extends Librarian
     Holiday aHoliday = holidays.get(index);
     return aHoliday;
   }
-
+  @OneToMany
   public List<Holiday> getHolidays()
   {
     List<Holiday> newHolidays = Collections.unmodifiableList(holidays);

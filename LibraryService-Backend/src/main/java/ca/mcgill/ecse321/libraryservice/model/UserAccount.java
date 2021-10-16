@@ -1,12 +1,11 @@
-package ca.mcgill.ecse321.libraryservice.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.29.1.4607.2d2b84eb8 modeling language!*/
 
+package ca.mcgill.ecse321.libraryservice.model;
 import javax.persistence.*;
-import java.util.*;
 
 @Entity
-// line 24 "Library.ump"
+// line 28 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump 16-05-11-860.ump"
 public abstract class UserAccount
 {
 
@@ -31,8 +30,6 @@ public abstract class UserAccount
   //UserAccount Associations
   private LibrarySystem librarySystem;
   private Address address;
-  private List<BorrowableItem> itemBorrowed;
-  private List<BorrowableItem> itemReserved;
 
   //------------------------
   // CONSTRUCTOR
@@ -53,8 +50,6 @@ public abstract class UserAccount
     {
       throw new RuntimeException("Unable to create UserAccount due to aAddress. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
-    itemBorrowed = new ArrayList<BorrowableItem>();
-    itemReserved = new ArrayList<BorrowableItem>();
   }
 
   //------------------------
@@ -104,78 +99,28 @@ public abstract class UserAccount
   {
     return userID;
   }
+
+  public boolean setUserID(int aUserID)
+  {
+    userID = aUserID;
+    if(userID==aUserID){
+      return true;
+    }
+    else return false;
+  }
   /* Code from template association_GetOne */
+  @ManyToOne(optional=false)
   public LibrarySystem getLibrarySystem()
   {
     return librarySystem;
   }
   /* Code from template association_GetOne */
+  @ManyToOne(optional=false)
   public Address getAddress()
   {
     return address;
   }
-  /* Code from template association_GetMany */
-  public BorrowableItem getItemBorrowed(int index)
-  {
-    BorrowableItem aItemBorrowed = itemBorrowed.get(index);
-    return aItemBorrowed;
-  }
-
-  public List<BorrowableItem> getItemBorrowed()
-  {
-    List<BorrowableItem> newItemBorrowed = Collections.unmodifiableList(itemBorrowed);
-    return newItemBorrowed;
-  }
-
-  public int numberOfItemBorrowed()
-  {
-    int number = itemBorrowed.size();
-    return number;
-  }
-
-  public boolean hasItemBorrowed()
-  {
-    boolean has = itemBorrowed.size() > 0;
-    return has;
-  }
-
-  public int indexOfItemBorrowed(BorrowableItem aItemBorrowed)
-  {
-    int index = itemBorrowed.indexOf(aItemBorrowed);
-    return index;
-  }
-  /* Code from template association_GetMany */
-  public BorrowableItem getItemReserved(int index)
-  {
-    BorrowableItem aItemReserved = itemReserved.get(index);
-    return aItemReserved;
-  }
-
-  public List<BorrowableItem> getItemReserved()
-  {
-    List<BorrowableItem> newItemReserved = Collections.unmodifiableList(itemReserved);
-    return newItemReserved;
-  }
-
-  public int numberOfItemReserved()
-  {
-    int number = itemReserved.size();
-    return number;
-  }
-
-  public boolean hasItemReserved()
-  {
-    boolean has = itemReserved.size() > 0;
-    return has;
-  }
-
-  public int indexOfItemReserved(BorrowableItem aItemReserved)
-  {
-    int index = itemReserved.indexOf(aItemReserved);
-    return index;
-  }
   /* Code from template association_SetOneToMany */
-  @ManyToOne(optional=false)
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {
     boolean wasSet = false;
@@ -195,7 +140,6 @@ public abstract class UserAccount
     return wasSet;
   }
   /* Code from template association_SetUnidirectionalOne */
-  @ManyToOne(optional=false)
   public boolean setAddress(Address aNewAddress)
   {
     boolean wasSet = false;
@@ -205,148 +149,6 @@ public abstract class UserAccount
       wasSet = true;
     }
     return wasSet;
-  }
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfItemBorrowed()
-  {
-    return 0;
-  }
-  /* Code from template association_AddManyToOptionalOne */
-  public boolean addItemBorrowed(BorrowableItem aItemBorrowed)
-  {
-    boolean wasAdded = false;
-    if (itemBorrowed.contains(aItemBorrowed)) { return false; }
-    UserAccount existingBorrower = aItemBorrowed.getBorrower();
-    if (existingBorrower == null)
-    {
-      aItemBorrowed.setBorrower(this);
-    }
-    else if (!this.equals(existingBorrower))
-    {
-      existingBorrower.removeItemBorrowed(aItemBorrowed);
-      addItemBorrowed(aItemBorrowed);
-    }
-    else
-    {
-      itemBorrowed.add(aItemBorrowed);
-    }
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeItemBorrowed(BorrowableItem aItemBorrowed)
-  {
-    boolean wasRemoved = false;
-    if (itemBorrowed.contains(aItemBorrowed))
-    {
-      itemBorrowed.remove(aItemBorrowed);
-      aItemBorrowed.setBorrower(null);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addItemBorrowedAt(BorrowableItem aItemBorrowed, int index)
-  {  
-    boolean wasAdded = false;
-    if(addItemBorrowed(aItemBorrowed))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfItemBorrowed()) { index = numberOfItemBorrowed() - 1; }
-      itemBorrowed.remove(aItemBorrowed);
-      itemBorrowed.add(index, aItemBorrowed);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveItemBorrowedAt(BorrowableItem aItemBorrowed, int index)
-  {
-    boolean wasAdded = false;
-    if(itemBorrowed.contains(aItemBorrowed))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfItemBorrowed()) { index = numberOfItemBorrowed() - 1; }
-      itemBorrowed.remove(aItemBorrowed);
-      itemBorrowed.add(index, aItemBorrowed);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addItemBorrowedAt(aItemBorrowed, index);
-    }
-    return wasAdded;
-  }
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfItemReserved()
-  {
-    return 0;
-  }
-  /* Code from template association_AddManyToOptionalOne */
-  public boolean addItemReserved(BorrowableItem aItemReserved)
-  {
-    boolean wasAdded = false;
-    if (itemReserved.contains(aItemReserved)) { return false; }
-    UserAccount existingReserver = aItemReserved.getReserver();
-    if (existingReserver == null)
-    {
-      aItemReserved.setReserver(this);
-    }
-    else if (!this.equals(existingReserver))
-    {
-      existingReserver.removeItemReserved(aItemReserved);
-      addItemReserved(aItemReserved);
-    }
-    else
-    {
-      itemReserved.add(aItemReserved);
-    }
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeItemReserved(BorrowableItem aItemReserved)
-  {
-    boolean wasRemoved = false;
-    if (itemReserved.contains(aItemReserved))
-    {
-      itemReserved.remove(aItemReserved);
-      aItemReserved.setReserver(null);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addItemReservedAt(BorrowableItem aItemReserved, int index)
-  {  
-    boolean wasAdded = false;
-    if(addItemReserved(aItemReserved))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfItemReserved()) { index = numberOfItemReserved() - 1; }
-      itemReserved.remove(aItemReserved);
-      itemReserved.add(index, aItemReserved);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveItemReservedAt(BorrowableItem aItemReserved, int index)
-  {
-    boolean wasAdded = false;
-    if(itemReserved.contains(aItemReserved))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfItemReserved()) { index = numberOfItemReserved() - 1; }
-      itemReserved.remove(aItemReserved);
-      itemReserved.add(index, aItemReserved);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addItemReservedAt(aItemReserved, index);
-    }
-    return wasAdded;
   }
 
   public void delete()
@@ -358,14 +160,6 @@ public abstract class UserAccount
       placeholderLibrarySystem.removeUserAccount(this);
     }
     address = null;
-    while( !itemBorrowed.isEmpty() )
-    {
-      itemBorrowed.get(0).setBorrower(null);
-    }
-    while( !itemReserved.isEmpty() )
-    {
-      itemReserved.get(0).setReserver(null);
-    }
   }
 
 
