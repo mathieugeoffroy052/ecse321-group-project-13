@@ -80,7 +80,6 @@ public class Person
     return authorID;
   }
 
-
   public boolean setAuthorID(int aAuthorID)
   {
     authorID = aAuthorID;
@@ -89,7 +88,6 @@ public class Person
     }
     else return false;
   }
-  
   /* Code from template association_GetOne */
   @ManyToOne(optional=false)
   public LibrarySystem getLibrarySystem()

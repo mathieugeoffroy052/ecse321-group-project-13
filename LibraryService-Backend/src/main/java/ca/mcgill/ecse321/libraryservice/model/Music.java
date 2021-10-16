@@ -34,14 +34,12 @@ public class Music extends LibraryItem
   // INTERFACE
   //------------------------
   /* Code from template association_GetOne */
-
   @ManyToOne(optional=false)
   public Person getArtist()
   {
     return artist;
   }
   /* Code from template association_SetUnidirectionalOne */
-
   public boolean setArtist(Person aNewArtist)
   {
     boolean wasSet = false;

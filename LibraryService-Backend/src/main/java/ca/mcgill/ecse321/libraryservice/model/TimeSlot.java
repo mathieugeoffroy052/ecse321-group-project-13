@@ -149,7 +149,6 @@ public class TimeSlot
     Librarian aWorker = worker.get(index);
     return aWorker;
   }
-
   @ManyToMany
   public List<Librarian> getWorker()
   {
