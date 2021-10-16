@@ -1,5 +1,9 @@
 package ca.mcgill.ecse321.libraryservice.dao;
 
-public interface RoomRepository {
+import org.springframework.data.repository.CrudRepository;
+
+import ca.mcgill.ecse321.libraryservice.model.Room;
+
+public interface RoomRepository extends CrudRepository<Room, Integer>{
 
 }
