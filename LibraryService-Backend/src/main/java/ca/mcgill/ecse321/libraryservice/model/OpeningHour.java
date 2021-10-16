@@ -107,18 +107,29 @@ public class OpeningHour
   {
     return hourID;
   }
+
+  public boolean setHourID(int aHourID)
+  {
+    hourID = aHourID;
+    if(hourID==aHourID){
+      return true;
+    }
+    else return false;
+  }
+
   /* Code from template association_GetOne */
+  @ManyToOne(optional=false)
   public LibrarySystem getLibrarySystem()
   {
     return librarySystem;
   }
   /* Code from template association_GetOne */
+  @ManyToOne(optional=false)
   public HeadLibrarian getHeadLibrarian()
   {
     return headLibrarian;
   }
   /* Code from template association_SetOneToMany */
-  @ManyToOne(optional=false)
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {
     boolean wasSet = false;
@@ -138,7 +149,6 @@ public class OpeningHour
     return wasSet;
   }
   /* Code from template association_SetOneToAtMostN */
-  @ManyToOne(optional=false)
   public boolean setHeadLibrarian(HeadLibrarian aHeadLibrarian)
   {
     boolean wasSet = false;
@@ -149,7 +159,7 @@ public class OpeningHour
     }
 
     //headLibrarian already at maximum (7)
-    if (aHeadLibrarian.numberOfOpeningHour() >= HeadLibrarian.maximumNumberOfOpeningHour())
+    if (librarySystem.numberOfOpeningHours() >= LibrarySystem.maximumNumberOfOpeningHour())
     {
       return wasSet;
     }
@@ -158,14 +168,14 @@ public class OpeningHour
     headLibrarian = aHeadLibrarian;
     if (existingHeadLibrarian != null && !existingHeadLibrarian.equals(aHeadLibrarian))
     {
-      boolean didRemove = existingHeadLibrarian.removeOpeningHour(this);
+      boolean didRemove = librarySystem.removeOpeningHour(this);
       if (!didRemove)
       {
         headLibrarian = existingHeadLibrarian;
         return wasSet;
       }
     }
-    headLibrarian.addOpeningHour(this);
+    librarySystem.addOpeningHour(this);
     wasSet = true;
     return wasSet;
   }
@@ -182,7 +192,7 @@ public class OpeningHour
     this.headLibrarian = null;
     if(placeholderHeadLibrarian != null)
     {
-      placeholderHeadLibrarian.removeOpeningHour(this);
+      librarySystem.removeOpeningHour(this);
     }
   }
 

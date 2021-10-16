@@ -34,12 +34,14 @@ public class Book extends LibraryItem
   // INTERFACE
   //------------------------
   /* Code from template association_GetOne */
+
+  @ManyToOne(optional=false)
   public Person getAuthor()
   {
     return author;
   }
   /* Code from template association_SetUnidirectionalOne */
-  @ManyToOne(optional=false)
+
   public boolean setAuthor(Person aNewAuthor)
   {
     boolean wasSet = false;

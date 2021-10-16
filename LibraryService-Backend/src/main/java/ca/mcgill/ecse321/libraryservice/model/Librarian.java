@@ -14,14 +14,14 @@ public class Librarian extends UserAccount
   // STATIC VARIABLES
   //------------------------
 
-  private static int nextLibraranID = 1;
+  private static int nextlibrarianID = 1;
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //Autounique Attributes
-  private int libraranID;
+  private int librarianID;
 
   //Librarian Associations
   private List<TimeSlot> workshift;
@@ -33,7 +33,7 @@ public class Librarian extends UserAccount
   public Librarian(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, Address aAddress)
   {
     super(aFirstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress);
-    libraranID = nextLibraranID++;
+    librarianID = nextlibrarianID++;
     workshift = new ArrayList<TimeSlot>();
   }
 
@@ -41,17 +41,37 @@ public class Librarian extends UserAccount
   // INTERFACE
   //------------------------
 
-  public int getLibraranID()
+  
+  public int getlibrarianID()
   {
-    return libraranID;
+    return librarianID;
   }
+
+  public boolean setLibrarianID(int aLibrarianID)
+  {
+    librarianID = aLibrarianID;
+    if(librarianID==aLibrarianID){
+      return true;
+    }
+    else return false;
+  }
+
+  public boolean setWorkshift(ArrayList<TimeSlot> aWorkshift)
+  {
+    workshift = aWorkshift;
+    if(workshift==aWorkshift){
+      return true;
+    }
+    else return false;
+  }
+
   /* Code from template association_GetMany */
   public TimeSlot getWorkshift(int index)
   {
     TimeSlot aWorkshift = workshift.get(index);
     return aWorkshift;
   }
-
+  @OneToMany
   public List<TimeSlot> getWorkshift()
   {
     List<TimeSlot> newWorkshift = Collections.unmodifiableList(workshift);
@@ -173,6 +193,6 @@ public class Librarian extends UserAccount
   public String toString()
   {
     return super.toString() + "["+
-            "libraranID" + ":" + getLibraranID()+ "]";
+            "librarianID" + ":" + getlibrarianID()+ "]";
   }
 }

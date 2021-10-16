@@ -13,7 +13,7 @@ public class BorrowableItem
   // ENUMERATIONS
   //------------------------
 
-  public enum ItemState { Borrowed, Damaged, Available, Reserved }
+  public enum ItemState { Borrowed, Damaged, Available, Reserved, Booked }
 
   //------------------------
   // STATIC VARIABLES
@@ -70,7 +70,18 @@ public class BorrowableItem
   {
     return barCodeNumber;
   }
+
+
+  public boolean setBarCodeNumber(int aBarCodeNumber)
+  {
+    barCodeNumber = aBarCodeNumber;
+    if(barCodeNumber==aBarCodeNumber){
+      return true;
+    }
+    else return false;
+  }
   /* Code from template association_GetOne */
+  @ManyToOne(optional=false)
   public LibraryItem getItemType()
   {
     return itemType;
