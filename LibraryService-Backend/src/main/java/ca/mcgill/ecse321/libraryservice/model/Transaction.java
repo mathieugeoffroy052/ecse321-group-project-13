@@ -3,6 +3,8 @@
 
 package ca.mcgill.ecse321.libraryservice.model;
 import javax.persistence.*;
+import java.sql.Date;
+import java.sql.Time;
 
 @Entity
 // line 73 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump 16-05-11-860.ump"
@@ -27,6 +29,7 @@ public class Transaction
 
   //Autounique Attributes
   private int transactionID;
+  private Date deadline;
 
   //Transaction Associations
   private BorrowableItem item;
@@ -36,7 +39,7 @@ public class Transaction
   // CONSTRUCTOR
   //------------------------
 
-  public Transaction(BorrowableItem aItem, UserAccount aUser)
+  public Transaction(BorrowableItem aItem, UserAccount aUser, Date aDeadline)
   {
     transactionID = nextTransactionID++;
     if (!setItem(aItem))
@@ -46,6 +49,9 @@ public class Transaction
     if (!setUser(aUser))
     {
       throw new RuntimeException("Unable to create Transaction due to aUser. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
+    if (!setDeadline(aDeadline)){
+      throw new RuntimeException("Unable to create Transaction due to aDeadline.");
     }
   }
 
@@ -58,10 +64,24 @@ public class Transaction
     return transactionID;
   }
 
+  public Date getDeadline()
+  {
+    return deadline;
+  }
+
   public boolean setTransactionID(int aTransactionID)
   {
     transactionID = aTransactionID;
     if(transactionID==aTransactionID){
+      return true;
+    }
+    else return false;
+  }
+
+  public boolean setDeadline(Date aDeadline)
+  {
+    deadline = aDeadline;
+    if(deadline==aDeadline){
       return true;
     }
     else return false;
