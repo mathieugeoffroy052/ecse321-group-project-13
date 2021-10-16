@@ -10,7 +10,7 @@ import java.util.List;
 public interface HeadLibrarianRepository extends CrudRepository<HeadLibrarian, Integer>{
 
 	
-	HeadLibrarian findHeadLibrarianByUserAccount(Integer userID);
+	HeadLibrarian findHeadLibrarianByUserID(int userID);
 	
 	
 	
