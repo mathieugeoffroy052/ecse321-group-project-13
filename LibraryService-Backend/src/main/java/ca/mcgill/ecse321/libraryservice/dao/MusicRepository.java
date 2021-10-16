@@ -9,8 +9,8 @@ import ca.mcgill.ecse321.libraryservice.model.Person;
 
 public interface MusicRepository extends CrudRepository<Music, Integer>{
 	
-	Music findMusicByMusicID(int musicID);
+	Music findMusicByIsbn(int isbn);
 	
-	List<Music> findByArtist(Person artist);
+	List<Music> findByPerson(Person artist);
 
 }

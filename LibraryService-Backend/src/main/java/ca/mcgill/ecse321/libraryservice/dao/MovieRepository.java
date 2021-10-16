@@ -9,8 +9,8 @@ import ca.mcgill.ecse321.libraryservice.model.Person;
 
 public interface MovieRepository extends CrudRepository<Movie, Integer>{
 	
-	Movie findMovieByMovieID(int movieID);
+	Movie findMovieByIsbn(int isbn);
 	
-	List<Movie> findByDirector(Person director);
+	List<Movie> findByPerson(Person director);
 	
 }

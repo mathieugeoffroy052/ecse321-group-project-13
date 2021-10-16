@@ -9,8 +9,8 @@ import ca.mcgill.ecse321.libraryservice.model.Person;
 
 public interface BookRepository extends CrudRepository<Book, Integer>{
 	
-	Book findBookByBookID(int bookID);
+	Book findBookByIsbn(int isbn);
 	
-	List<Book> findByAuthor(Person author);
+	List<Book> findByPerson(Person author);
 
 }
