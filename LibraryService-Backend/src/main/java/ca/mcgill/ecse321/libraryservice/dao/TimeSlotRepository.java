@@ -13,4 +13,5 @@ public interface TimeSlotRepository extends CrudRepository<TimeSlot, Integer>{
 	List<TimeSlot> findByLibrarian(Librarian librarian);
 	
 	List<TimeSlot> findByHeadLibrarian(HeadLibrarian headLibrarian);
+	
 }
