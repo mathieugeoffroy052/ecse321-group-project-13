@@ -8,7 +8,7 @@ import java.util.List;
 public interface PatronRepository extends CrudRepository<Patron, Integer>{
 
 	//Within the interface
-	Patron findPatronbyID(Integer id);
+	Patron findPatronByUserID(Integer id);
 	
 	
 	

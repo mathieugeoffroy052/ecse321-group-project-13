@@ -7,7 +7,10 @@ import java.util.List;
 
 public interface UserAccountRepository extends CrudRepository<UserAccount, Integer>{
 
-	List<UserAccount> findbyAddress(Integer id);
+	UserAccount findByUserID(Integer userID);
+	
+	List<UserAccount> findByAddress(Integer id);
+	
 	
 	
 }
