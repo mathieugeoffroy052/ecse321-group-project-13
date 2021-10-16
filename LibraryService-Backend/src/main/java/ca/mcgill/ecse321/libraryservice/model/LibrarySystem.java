@@ -61,7 +61,6 @@ public class LibrarySystem
     return systemId;
   }
 
-
   public boolean setSystemId(int aSystemId)
   {
     systemId = aSystemId;
@@ -142,6 +141,7 @@ public class LibrarySystem
     }
     else return false;
   }
+
 
   /* Code from template association_GetMany */
   public UserAccount getUserAccount(int index)
