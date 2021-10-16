@@ -65,12 +65,12 @@ public class BorrowableItem
   {
     return state;
   }
-
   @Id
   public int getBarCodeNumber()
   {
     return barCodeNumber;
   }
+
 
   public boolean setBarCodeNumber(int aBarCodeNumber)
   {

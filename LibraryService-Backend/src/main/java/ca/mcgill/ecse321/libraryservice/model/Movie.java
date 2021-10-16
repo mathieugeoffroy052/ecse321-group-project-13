@@ -34,12 +34,14 @@ public class Movie extends LibraryItem
   // INTERFACE
   //------------------------
   /* Code from template association_GetOne */
+
   @ManyToOne(optional=false)
   public Person getDirector()
   {
     return director;
   }
   /* Code from template association_SetUnidirectionalOne */
+
   public boolean setDirector(Person aNewDirector)
   {
     boolean wasSet = false;
