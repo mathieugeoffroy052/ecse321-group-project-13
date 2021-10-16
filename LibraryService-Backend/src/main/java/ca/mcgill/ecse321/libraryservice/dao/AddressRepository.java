@@ -10,7 +10,6 @@ public interface AddressRepository extends CrudRepository<Address, Integer> {
 
 	Address findAddressByAddressID(Integer addressID);
 	
-	List<Address> findByUserID(Integer userID);
 	
-	List<Address> findBySystemID(Integer systemID);
+	
 }
