@@ -55,18 +55,8 @@ public class Transaction
   }
 
   //------------------------
-  // INTERFACE
+  // PRIMARY KEY
   //------------------------
-  @Id
-  public int getTransactionID()
-  {
-    return transactionID;
-  }
-
-  public Date getDeadline()
-  {
-    return deadline;
-  }
 
   public boolean setTransactionID(int aTransactionID)
   {
@@ -75,6 +65,21 @@ public class Transaction
       return true;
     }
     else return false;
+  }
+
+  @Id
+  public int getTransactionID()
+  {
+    return transactionID;
+  }
+
+  //------------------------
+  // INTERFACE
+  //------------------------
+
+  public Date getDeadline()
+  {
+    return deadline;
   }
 
   public boolean setDeadline(Date aDeadline)
@@ -86,19 +91,20 @@ public class Transaction
     else return false;
   }
 
-
   /* Code from template association_GetOne */
   @ManyToOne(optional=false)
   public BorrowableItem getItem()
   {
     return item;
   }
+
   /* Code from template association_GetOne */
   @ManyToOne(optional=false)
   public UserAccount getUser()
   {
     return user;
   }
+
   /* Code from template association_SetUnidirectionalOne */
   public boolean setItem(BorrowableItem aNewItem)
   {
@@ -110,6 +116,7 @@ public class Transaction
     }
     return wasSet;
   }
+  
   /* Code from template association_SetUnidirectionalOne */
   public boolean setUser(UserAccount aNewUser)
   {

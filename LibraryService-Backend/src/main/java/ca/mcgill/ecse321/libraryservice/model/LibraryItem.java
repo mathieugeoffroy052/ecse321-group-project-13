@@ -47,6 +47,25 @@ public abstract class LibraryItem
   }
 
   //------------------------
+  // PRIMARY KEY
+  //------------------------
+  
+  public boolean setIsbn(int aIsbn)
+  {
+    isbn = aIsbn;
+    if(isbn==aIsbn){
+      return true;
+    }
+    else return false;
+  }
+  
+  @Id
+  public int getIsbn()
+  {
+    return isbn;
+  }
+
+  //------------------------
   // INTERFACE
   //------------------------
 
@@ -70,20 +89,6 @@ public abstract class LibraryItem
   {
     return name;
   }
-  @Id
-  public int getIsbn()
-  {
-    return isbn;
-  }
-
-  public boolean setIsbn(int aIsbn)
-  {
-    isbn = aIsbn;
-    if(isbn==aIsbn){
-      return true;
-    }
-    else return false;
-  }
 
   /* Code from template association_GetOne */
   @ManyToOne(optional=false)
@@ -91,12 +96,14 @@ public abstract class LibraryItem
   {
     return librarySystem;
   }
+
   /* Code from template association_GetMany */
   public BorrowableItem getBorrowableItem(int index)
   {
     BorrowableItem aItem = borrowableItem.get(index);
     return aItem;
   }
+
   @OneToMany
   public List<BorrowableItem> getBorrowableItem()
   {
@@ -121,6 +128,7 @@ public abstract class LibraryItem
     int index = borrowableItem.indexOf(aItem);
     return index;
   }
+
   /* Code from template association_SetOneToMany */
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {
@@ -140,11 +148,13 @@ public abstract class LibraryItem
     wasSet = true;
     return wasSet;
   }
+
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfBorrowableItem()
   {
     return 0;
   }
+
   /* Code from template association_AddManyToOne */
   public BorrowableItem addBorrowableItem(BorrowableItem.ItemState aState)
   {
@@ -180,6 +190,7 @@ public abstract class LibraryItem
     }
     return wasRemoved;
   }
+  
   /* Code from template association_AddIndexControlFunctions */
   public boolean addBorrowableItemAt(BorrowableItem aItem, int index)
   {  

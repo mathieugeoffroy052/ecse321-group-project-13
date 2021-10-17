@@ -3,6 +3,7 @@
 
 package ca.mcgill.ecse321.libraryservice.model;
 import javax.persistence.*;
+
 @Entity
 // line 120 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump 16-05-11-860.ump"
 public class Music extends LibraryItem

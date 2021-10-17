@@ -56,6 +56,25 @@ public class Holiday
   }
 
   //------------------------
+  // PRIMARY KEY
+  //------------------------
+
+  public boolean setHolidayID(int aholidayID)
+  {
+    holidayID = aholidayID;
+    if(holidayID==aholidayID){
+      return true;
+    }
+    else return false;
+  }
+
+  @Id
+  public int getHolidayID()
+  {
+    return holidayID;
+  }
+
+  //------------------------
   // INTERFACE
   //------------------------
 
@@ -97,20 +116,6 @@ public class Holiday
   {
     return endtime;
   }
-  @Id
-  public int getHolidayID()
-  {
-    return holidayID;
-  }
-
-  public boolean setHolidayID(int aholidayID)
-  {
-    holidayID = aholidayID;
-    if(holidayID==aholidayID){
-      return true;
-    }
-    else return false;
-  }
 
   /* Code from template association_GetOne */
   @ManyToOne(optional=false)
@@ -118,12 +123,14 @@ public class Holiday
   {
     return librarySystem;
   }
+
   /* Code from template association_GetOne */
   @ManyToOne(optional=false)
   public HeadLibrarian getHeadLibrarian()
   {
     return headLibrarian;
   }
+
   /* Code from template association_SetOneToMany */
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {
@@ -143,6 +150,7 @@ public class Holiday
     wasSet = true;
     return wasSet;
   }
+
   /* Code from template association_SetOneToMany */
   public boolean setHeadLibrarian(HeadLibrarian aHeadLibrarian)
   {

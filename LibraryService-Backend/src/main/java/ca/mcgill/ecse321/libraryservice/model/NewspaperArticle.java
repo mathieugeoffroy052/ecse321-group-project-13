@@ -51,6 +51,25 @@ public class NewspaperArticle
   }
 
   //------------------------
+  // PRIMARY KEY
+  //------------------------
+
+  public boolean setBarCodeNumber(int aBarCodeNumber)
+  {
+    barCodeNumber = aBarCodeNumber;
+    if(barCodeNumber==aBarCodeNumber){
+      return true;
+    }
+    else return false;
+  }
+
+  @Id
+  public int getBarCodeNumber()
+  {
+    return barCodeNumber;
+  }
+
+  //------------------------
   // INTERFACE
   //------------------------
 
@@ -66,20 +85,6 @@ public class NewspaperArticle
   {
     return date;
   }
-  @Id
-  public int getBarCodeNumber()
-  {
-    return barCodeNumber;
-  }
-
-  public boolean setBarCodeNumber(int aBarCodeNumber)
-  {
-    barCodeNumber = aBarCodeNumber;
-    if(barCodeNumber==aBarCodeNumber){
-      return true;
-    }
-    else return false;
-  }
 
   /* Code from template association_GetOne */
   @ManyToOne(optional=false)
@@ -87,12 +92,14 @@ public class NewspaperArticle
   {
     return librarySystem;
   }
+
   /* Code from template association_GetOne */
   @ManyToOne(optional=false)
   public Newspaper getNewspaper()
   {
     return newspaper;
   }
+
   /* Code from template association_SetOneToMany */
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {
@@ -112,6 +119,7 @@ public class NewspaperArticle
     wasSet = true;
     return wasSet;
   }
+  
   /* Code from template association_SetOneToMany */
   public boolean setNewspaper(Newspaper aNewspaper)
   {

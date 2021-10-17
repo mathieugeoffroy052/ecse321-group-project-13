@@ -70,6 +70,7 @@ public class Librarian extends UserAccount
     TimeSlot aTimeSlot = timeSlot.get(index);
     return aTimeSlot;
   }
+
   @OneToMany
   public List<TimeSlot> getTimeSlot()
   {
@@ -94,11 +95,13 @@ public class Librarian extends UserAccount
     int index = timeSlot.indexOf(aTimeSlot);
     return index;
   }
+
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfTimeSlot()
   {
     return 0;
   }
+
   /* Code from template association_AddManyToManyMethod */
   public boolean addTimeSlot(TimeSlot aTimeSlot)
   {
@@ -119,6 +122,7 @@ public class Librarian extends UserAccount
     }
     return wasAdded;
   }
+
   /* Code from template association_RemoveMany */
   public boolean removeTimeSlot(TimeSlot aTimeSlot)
   {
@@ -144,6 +148,7 @@ public class Librarian extends UserAccount
     }
     return wasRemoved;
   }
+  
   /* Code from template association_AddIndexControlFunctions */
   public boolean addTimeSlotAt(TimeSlot aTimeSlot, int index)
   {  

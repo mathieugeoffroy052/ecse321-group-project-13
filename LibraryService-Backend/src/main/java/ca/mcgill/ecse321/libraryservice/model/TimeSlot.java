@@ -61,6 +61,25 @@ public class TimeSlot
   }
 
   //------------------------
+  // PRIMARY KEY
+  //------------------------
+
+  public boolean setTimeSlotID(int aTimeSlotID)
+  {
+    timeSlotID = aTimeSlotID;
+    if(timeSlotID==aTimeSlotID){
+      return true;
+    }
+    else return false;
+  }
+
+  @Id
+  public int getTimeSlotID()
+  {
+    return timeSlotID;
+  }
+
+  //------------------------
   // INTERFACE
   //------------------------
 
@@ -123,32 +142,21 @@ public class TimeSlot
   {
     return endTime;
   }
-  @Id
-  public int getTimeSlotID()
-  {
-    return timeSlotID;
-  }
 
-  public boolean setTimeSlotID(int aTimeSlotID)
-  {
-    timeSlotID = aTimeSlotID;
-    if(timeSlotID==aTimeSlotID){
-      return true;
-    }
-    else return false;
-  }
   /* Code from template association_GetOne */
   @ManyToOne(optional=false)
   public LibrarySystem getLibrarySystem()
   {
     return librarySystem;
   }
+
   /* Code from template association_GetMany */
   public Librarian getLibrarian(int index)
   {
     Librarian aLibrarian = librarian.get(index);
     return aLibrarian;
   }
+
   @ManyToMany
   public List<Librarian> getLibrarian()
   {
@@ -173,12 +181,14 @@ public class TimeSlot
     int index = librarian.indexOf(aLibrarian);
     return index;
   }
+
   /* Code from template association_GetOne */
   @ManyToOne(optional=false)
   public HeadLibrarian getHeadLibrarian()
   {
     return headLibrarian;
   }
+
   /* Code from template association_SetOneToMany */
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {
@@ -198,11 +208,13 @@ public class TimeSlot
     wasSet = true;
     return wasSet;
   }
+
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfLibrarian()
   {
     return 0;
   }
+
   /* Code from template association_AddManyToManyMethod */
   public boolean addLibrarian(Librarian aLibrarian)
   {
@@ -223,6 +235,7 @@ public class TimeSlot
     }
     return wasAdded;
   }
+
   /* Code from template association_RemoveMany */
   public boolean removeLibrarian(Librarian aLibrarian)
   {
@@ -248,6 +261,7 @@ public class TimeSlot
     }
     return wasRemoved;
   }
+
   /* Code from template association_AddIndexControlFunctions */
   public boolean addLibrarianAt(Librarian aLibrarian, int index)
   {  
@@ -280,6 +294,7 @@ public class TimeSlot
     }
     return wasAdded;
   }
+  
   /* Code from template association_SetOneToMany */
   public boolean setHeadLibrarian(HeadLibrarian aHeadLibrarian)
   {

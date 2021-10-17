@@ -55,6 +55,25 @@ public abstract class UserAccount
   }
 
   //------------------------
+  // PRIMARY KEY
+  //------------------------
+
+  public boolean setUserID(int aUserID)
+  {
+    userID = aUserID;
+    if(userID==aUserID){
+      return true;
+    }
+    else return false;
+  }
+
+  @Id
+  public int getUserID()
+  {
+    return userID;
+  }
+
+  //------------------------
   // INTERFACE
   //------------------------
 
@@ -109,32 +128,21 @@ public abstract class UserAccount
   {
     return onlineAccount;
   }
-  @Id
-  public int getUserID()
-  {
-    return userID;
-  }
 
-  public boolean setUserID(int aUserID)
-  {
-    userID = aUserID;
-    if(userID==aUserID){
-      return true;
-    }
-    else return false;
-  }
   /* Code from template association_GetOne */
   @ManyToOne(optional=false)
   public LibrarySystem getLibrarySystem()
   {
     return librarySystem;
   }
+
   /* Code from template association_GetOne */
   @ManyToOne(optional=false)
   public Address getAddress()
   {
     return address;
   }
+
   /* Code from template association_SetOneToMany */
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {
@@ -154,6 +162,7 @@ public abstract class UserAccount
     wasSet = true;
     return wasSet;
   }
+  
   /* Code from template association_SetUnidirectionalOne */
   public boolean setAddress(Address aNewAddress)
   {

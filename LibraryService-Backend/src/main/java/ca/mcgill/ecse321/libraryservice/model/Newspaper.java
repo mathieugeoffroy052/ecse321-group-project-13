@@ -47,6 +47,26 @@ public class Newspaper
     }
   }
 
+
+  //------------------------
+  // PRIMARY KEY
+  //------------------------
+
+  public boolean setPaperID(int aPaperID)
+  {
+    paperID = aPaperID;
+    if(paperID==aPaperID){
+      return true;
+    }
+    else return false;
+  }
+
+  @Id
+  public int getPaperID()
+  {
+    return paperID;
+  }
+  
   //------------------------
   // INTERFACE
   //------------------------
@@ -71,20 +91,6 @@ public class Newspaper
   {
     return name;
   }
-  @Id
-  public int getPaperID()
-  {
-    return paperID;
-  }
-
-  public boolean setPaperID(int aPaperID)
-  {
-    paperID = aPaperID;
-    if(paperID==aPaperID){
-      return true;
-    }
-    else return false;
-  }
 
   /* Code from template association_GetMany */
   public NewspaperArticle getArticle(int index)
@@ -92,6 +98,7 @@ public class Newspaper
     NewspaperArticle aArticle = articles.get(index);
     return aArticle;
   }
+
   @OneToMany
   public List<NewspaperArticle> getArticles()
   {
@@ -116,17 +123,20 @@ public class Newspaper
     int index = articles.indexOf(aArticle);
     return index;
   }
+
   /* Code from template association_GetOne */
   @ManyToOne(optional=false)
   public LibrarySystem getLibrarySystem()
   {
     return librarySystem;
   }
+
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfArticles()
   {
     return 0;
   }
+
   /* Code from template association_AddManyToOne */
   public NewspaperArticle addArticle(Date aDate, LibrarySystem aLibrarySystem)
   {
@@ -162,6 +172,7 @@ public class Newspaper
     }
     return wasRemoved;
   }
+
   /* Code from template association_AddIndexControlFunctions */
   public boolean addArticleAt(NewspaperArticle aArticle, int index)
   {  
@@ -194,6 +205,7 @@ public class Newspaper
     }
     return wasAdded;
   }
+  
   /* Code from template association_SetOneToMany */
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {

@@ -50,6 +50,25 @@ public class BorrowableItem
   }
 
   //------------------------
+  // PRIMARY KEY
+  //------------------------
+
+  public boolean setBarCodeNumber(int aBarCodeNumber)
+  {
+    barCodeNumber = aBarCodeNumber;
+    if(barCodeNumber==aBarCodeNumber){
+      return true;
+    }
+    else return false;
+  }
+  
+  @Id
+  public int getBarCodeNumber()
+  {
+    return barCodeNumber;
+  }
+
+  //------------------------
   // INTERFACE
   //------------------------
 
@@ -66,26 +85,13 @@ public class BorrowableItem
     return state;
   }
 
-  @Id
-  public int getBarCodeNumber()
-  {
-    return barCodeNumber;
-  }
-
-  public boolean setBarCodeNumber(int aBarCodeNumber)
-  {
-    barCodeNumber = aBarCodeNumber;
-    if(barCodeNumber==aBarCodeNumber){
-      return true;
-    }
-    else return false;
-  }
   /* Code from template association_GetOne */
   @ManyToOne(optional=false)
   public LibraryItem getLibraryItem()
   {
     return libraryItem;
   }
+
   /* Code from template association_SetOneToMany */
   public boolean setLibraryItem(LibraryItem aLibraryItem)
   {
