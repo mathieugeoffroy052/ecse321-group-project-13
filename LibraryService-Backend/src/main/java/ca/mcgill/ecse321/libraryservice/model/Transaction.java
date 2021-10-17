@@ -14,7 +14,7 @@ public class Transaction
   // ENUMERATIONS
   //------------------------
 
-  public enum TransactionType { Borrowing, Reservation, Waitlist, Renewal }
+  public enum TransactionType { Borrowing, Reservation, Waitlist, Renewal, Return }
 
   //------------------------
   // STATIC VARIABLES
@@ -31,21 +31,21 @@ public class Transaction
   private Date deadline;
 
   //Transaction Associations
-  private BorrowableItem item;
-  private UserAccount user;
+  private BorrowableItem borrowableItem;
+  private UserAccount userAccount;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Transaction(BorrowableItem aItem, UserAccount aUser, Date aDeadline)
+  public Transaction(BorrowableItem aItem, UserAccount aUserAccount, Date aDeadline)
   {
     transactionID = nextTransactionID++;
-    if (!setItem(aItem))
+    if (!setBorrowableItem(aItem))
     {
       throw new RuntimeException("Unable to create Transaction due to aItem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
-    if (!setUser(aUser))
+    if (!setUserAccount(aUserAccount))
     {
       throw new RuntimeException("Unable to create Transaction due to aUser. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
@@ -93,37 +93,37 @@ public class Transaction
 
   /* Code from template association_GetOne */
   @ManyToOne(optional=false)
-  public BorrowableItem getItem()
+  public BorrowableItem getBorrowableItem()
   {
-    return item;
+    return borrowableItem;
   }
 
   /* Code from template association_GetOne */
   @ManyToOne(optional=false)
-  public UserAccount getUser()
+  public UserAccount getUserAccount()
   {
-    return user;
+    return userAccount;
   }
 
   /* Code from template association_SetUnidirectionalOne */
-  public boolean setItem(BorrowableItem aNewItem)
+  public boolean setBorrowableItem(BorrowableItem aNewItem)
   {
     boolean wasSet = false;
     if (aNewItem != null)
     {
-      item = aNewItem;
+      borrowableItem = aNewItem;
       wasSet = true;
     }
     return wasSet;
   }
   
   /* Code from template association_SetUnidirectionalOne */
-  public boolean setUser(UserAccount aNewUser)
+  public boolean setUserAccount(UserAccount aNewUser)
   {
     boolean wasSet = false;
     if (aNewUser != null)
     {
-      user = aNewUser;
+      userAccount = aNewUser;
       wasSet = true;
     }
     return wasSet;
@@ -131,8 +131,8 @@ public class Transaction
 
   public void delete()
   {
-    item = null;
-    user = null;
+    borrowableItem = null;
+    userAccount = null;
   }
 
 
@@ -140,7 +140,7 @@ public class Transaction
   {
     return super.toString() + "["+
             "transactionID" + ":" + getTransactionID()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "item = "+(getItem()!=null?Integer.toHexString(System.identityHashCode(getItem())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "user = "+(getUser()!=null?Integer.toHexString(System.identityHashCode(getUser())):"null");
+            "  " + "borrowableitem = "+(getBorrowableItem()!=null?Integer.toHexString(System.identityHashCode(getBorrowableItem())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "userAccount = "+(getUserAccount()!=null?Integer.toHexString(System.identityHashCode(getUserAccount())):"null");
   }
 }

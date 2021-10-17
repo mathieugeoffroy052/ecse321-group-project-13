@@ -24,6 +24,7 @@ public abstract class UserAccount
   private String lastName;
   private boolean onlineAccount;
   private String password;
+  private int balance;
 
   //Autounique Attributes
   private int userID;
@@ -36,11 +37,12 @@ public abstract class UserAccount
   // CONSTRUCTOR
   //------------------------
 
-  public UserAccount(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, Address aAddress, String aPassword)
+  public UserAccount(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, Address aAddress, String aPassword, int aBalance)
   {
     firstName = aFirstName;
     lastName = aLastName;
     password = aPassword;
+    balance = aBalance;
     onlineAccount = aOnlineAccount;
     userID = nextUserID++;
     boolean didAddLibrarySystem = setLibrarySystem(aLibrarySystem);
@@ -101,6 +103,14 @@ public abstract class UserAccount
     return wasSet;
   }
 
+  public boolean setBalance(int aBalance)
+  {
+    boolean wasSet = false;
+    balance = aBalance;
+    wasSet = true;
+    return wasSet;
+  }
+
   public boolean setOnlineAccount(boolean aOnlineAccount)
   {
     boolean wasSet = false;
@@ -122,6 +132,11 @@ public abstract class UserAccount
   public String getPassword()
   {
     return password;
+  }
+
+  public int getBalance()
+  {
+    return balance;
   }
 
   public boolean getOnlineAccount()
@@ -193,6 +208,7 @@ public abstract class UserAccount
             "userID" + ":" + getUserID()+ "," +
             "firstName" + ":" + getFirstName()+ "," +
             "lastName" + ":" + getLastName()+ "," +
+            "balance" + ":" + getBalance()+ ","+
             "onlineAccount" + ":" + getOnlineAccount()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "librarySystem = "+(getLibrarySystem()!=null?Integer.toHexString(System.identityHashCode(getLibrarySystem())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "address = "+(getAddress()!=null?Integer.toHexString(System.identityHashCode(getAddress())):"null");

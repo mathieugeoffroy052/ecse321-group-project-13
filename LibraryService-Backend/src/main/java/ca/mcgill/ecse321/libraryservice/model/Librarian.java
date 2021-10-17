@@ -30,9 +30,9 @@ public class Librarian extends UserAccount
   // CONSTRUCTOR
   //------------------------
 
-  public Librarian(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, Address aAddress, String aPassword)
+  public Librarian(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, Address aAddress, String aPassword, int aBalance)
   {
-    super(aFirstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aPassword);
+    super(aFirstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aPassword, aBalance);
     librarianID = nextlibrarianID++;
     timeSlot = new ArrayList<TimeSlot>();
   }
