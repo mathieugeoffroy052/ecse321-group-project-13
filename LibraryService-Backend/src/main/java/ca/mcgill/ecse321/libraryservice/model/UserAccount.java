@@ -24,6 +24,7 @@ public abstract class UserAccount
   private String lastName;
   private boolean onlineAccount;
   private String password;
+  private int balance;
 
   //Autounique Attributes
   private int userID;
@@ -36,11 +37,12 @@ public abstract class UserAccount
   // CONSTRUCTOR
   //------------------------
 
-  public UserAccount(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, Address aAddress, String aPassword)
+  public UserAccount(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, Address aAddress, String aPassword, int aBalance)
   {
     firstName = aFirstName;
     lastName = aLastName;
     password = aPassword;
+    balance = aBalance;
     onlineAccount = aOnlineAccount;
     userID = nextUserID++;
     boolean didAddLibrarySystem = setLibrarySystem(aLibrarySystem);
@@ -52,6 +54,25 @@ public abstract class UserAccount
     {
       throw new RuntimeException("Unable to create UserAccount due to aAddress. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
+  }
+
+  //------------------------
+  // PRIMARY KEY
+  //------------------------
+
+  public boolean setUserID(int aUserID)
+  {
+    userID = aUserID;
+    if(userID==aUserID){
+      return true;
+    }
+    else return false;
+  }
+
+  @Id
+  public int getUserID()
+  {
+    return userID;
   }
 
   //------------------------
@@ -82,6 +103,14 @@ public abstract class UserAccount
     return wasSet;
   }
 
+  public boolean setBalance(int aBalance)
+  {
+    boolean wasSet = false;
+    balance = aBalance;
+    wasSet = true;
+    return wasSet;
+  }
+
   public boolean setOnlineAccount(boolean aOnlineAccount)
   {
     boolean wasSet = false;
@@ -105,36 +134,30 @@ public abstract class UserAccount
     return password;
   }
 
+  public int getBalance()
+  {
+    return balance;
+  }
+
   public boolean getOnlineAccount()
   {
     return onlineAccount;
   }
-  @Id
-  public int getUserID()
-  {
-    return userID;
-  }
 
-  public boolean setUserID(int aUserID)
-  {
-    userID = aUserID;
-    if(userID==aUserID){
-      return true;
-    }
-    else return false;
-  }
   /* Code from template association_GetOne */
   @ManyToOne(optional=false)
   public LibrarySystem getLibrarySystem()
   {
     return librarySystem;
   }
+
   /* Code from template association_GetOne */
   @ManyToOne(optional=false)
   public Address getAddress()
   {
     return address;
   }
+
   /* Code from template association_SetOneToMany */
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {
@@ -154,6 +177,7 @@ public abstract class UserAccount
     wasSet = true;
     return wasSet;
   }
+  
   /* Code from template association_SetUnidirectionalOne */
   public boolean setAddress(Address aNewAddress)
   {
@@ -184,6 +208,7 @@ public abstract class UserAccount
             "userID" + ":" + getUserID()+ "," +
             "firstName" + ":" + getFirstName()+ "," +
             "lastName" + ":" + getLastName()+ "," +
+            "balance" + ":" + getBalance()+ ","+
             "onlineAccount" + ":" + getOnlineAccount()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "librarySystem = "+(getLibrarySystem()!=null?Integer.toHexString(System.identityHashCode(getLibrarySystem())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "address = "+(getAddress()!=null?Integer.toHexString(System.identityHashCode(getAddress())):"null");

@@ -40,6 +40,25 @@ public class Address
   }
 
   //------------------------
+  // PRIMARY KEY
+  //------------------------
+
+  public boolean setAddressID(int aAddressID)
+  {
+    addressID = aAddressID;
+    if(addressID==aAddressID){
+      return true;
+    }
+    else return false;
+  }
+  
+  @Id
+  public int getAddressID()
+  {
+    return addressID;
+  }
+
+  //------------------------
   // INTERFACE
   //------------------------
 
@@ -81,20 +100,7 @@ public class Address
   {
     return country;
   }
-  @Id
-  public int getAddressID()
-  {
-    return addressID;
-  }
 
-  public boolean setAddressID(int aAddressID)
-  {
-    addressID = aAddressID;
-    if(addressID==aAddressID){
-      return true;
-    }
-    else return false;
-  }
 
   public String toString()
   {

@@ -51,13 +51,8 @@ public class LibrarySystem
   }
 
   //------------------------
-  // INTERFACE
+  // PRIMARY KEY
   //------------------------
-  @Id
-  public int getSystemId()
-  {
-    return systemId;
-  }
 
   public boolean setSystemId(int aSystemId)
   {
@@ -67,6 +62,16 @@ public class LibrarySystem
     }
     else return false;
   }
+  
+  @Id
+  public int getSystemId()
+  {
+    return systemId;
+  }
+
+  //------------------------
+  // INTERFACE
+  //------------------------
 
   public boolean setNewspaperArticles(ArrayList<NewspaperArticle> aNewspaperArticles)
   {
@@ -85,7 +90,6 @@ public class LibrarySystem
     }
     else return false;
   }
-
 
   public boolean setLibraryItems(ArrayList<LibraryItem> aLibraryItems)
   {
@@ -139,6 +143,7 @@ public class LibrarySystem
     UserAccount aUserAccount = userAccounts.get(index);
     return aUserAccount;
   }
+
   @OneToMany
   public List<UserAccount> getUserAccounts()
   {
@@ -163,12 +168,14 @@ public class LibrarySystem
     int index = userAccounts.indexOf(aUserAccount);
     return index;
   }
+
   /* Code from template association_GetMany */
   public Newspaper getNewspaper(int index)
   {
     Newspaper aNewspaper = newspapers.get(index);
     return aNewspaper;
   }
+
   @OneToMany
   public List<Newspaper> getNewspapers()
   {
@@ -193,12 +200,14 @@ public class LibrarySystem
     int index = newspapers.indexOf(aNewspaper);
     return index;
   }
+
   /* Code from template association_GetMany */
   public OpeningHour getOpeningHour(int index)
   {
     OpeningHour aOpeningHour = openingHours.get(index);
     return aOpeningHour;
   }
+
   @OneToMany
   public List<OpeningHour> getOpeningHours()
   {
@@ -223,12 +232,14 @@ public class LibrarySystem
     int index = openingHours.indexOf(aOpeningHour);
     return index;
   }
+
   /* Code from template association_GetMany */
   public TimeSlot getTimeSlot(int index)
   {
     TimeSlot aTimeSlot = timeSlots.get(index);
     return aTimeSlot;
   }
+
   @OneToMany
   public List<TimeSlot> getTimeSlots()
   {
@@ -253,12 +264,14 @@ public class LibrarySystem
     int index = timeSlots.indexOf(aTimeSlot);
     return index;
   }
+
   /* Code from template association_GetMany */
   public NewspaperArticle getNewspaperArticle(int index)
   {
     NewspaperArticle aNewspaperArticle = newspaperArticles.get(index);
     return aNewspaperArticle;
   }
+
   @OneToMany
   public List<NewspaperArticle> getNewspaperArticles()
   {
@@ -290,6 +303,7 @@ public class LibrarySystem
     LibraryItem aLibraryItem = libraryItems.get(index);
     return aLibraryItem;
   }
+
   @OneToMany
   public List<LibraryItem> getLibraryItems()
   {
@@ -314,12 +328,14 @@ public class LibrarySystem
     int index = libraryItems.indexOf(aLibraryItem);
     return index;
   }
+
   /* Code from template association_GetMany */
   public Holiday getHoliday(int index)
   {
     Holiday aHoliday = holidays.get(index);
     return aHoliday;
   }
+
   @OneToMany
   public List<Holiday> getholidays()
   {
@@ -344,6 +360,7 @@ public class LibrarySystem
     int index = holidays.indexOf(aHoliday);
     return index;
   }
+
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfUserAccounts()
   {
@@ -381,6 +398,7 @@ public class LibrarySystem
     }
     return wasRemoved;
   }
+
   /* Code from template association_AddIndexControlFunctions */
   public boolean addUserAccountAt(UserAccount aUserAccount, int index)
   {  
@@ -413,11 +431,13 @@ public class LibrarySystem
     }
     return wasAdded;
   }
+
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfNewspapers()
   {
     return 0;
   }
+
   /* Code from template association_AddManyToOne */
   public Newspaper addNewspaper(String aName)
   {
@@ -453,6 +473,7 @@ public class LibrarySystem
     }
     return wasRemoved;
   }
+
   /* Code from template association_AddIndexControlFunctions */
   public boolean addNewspaperAt(Newspaper aNewspaper, int index)
   {  
@@ -485,16 +506,19 @@ public class LibrarySystem
     }
     return wasAdded;
   }
+
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfOpeningHours()
   {
     return 0;
   }
+
   /* Code from template association_MinimumNumberOfMethod */
   public static int maximumNumberOfOpeningHour()
   {
     return 7;
   }
+
   /* Code from template association_AddManyToOne */
   public OpeningHour addOpeningHour(OpeningHour.DayOfWeek aDayOfWeek, Time aStartTime, Time aEndTime, HeadLibrarian aHeadLibrarian)
   {
@@ -530,6 +554,7 @@ public class LibrarySystem
     }
     return wasRemoved;
   }
+
   /* Code from template association_AddIndexControlFunctions */
   public boolean addOpeningHourAt(OpeningHour aOpeningHour, int index)
   {  
@@ -562,11 +587,13 @@ public class LibrarySystem
     }
     return wasAdded;
   }
+
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfTimeSlots()
   {
     return 0;
   }
+
   /* Code from template association_AddManyToOne */
   public TimeSlot addTimeSlot(Date aStartDate, Time aStartTime, Date aEndDate, Time aEndTime, HeadLibrarian aHeadLibrarian)
   {
@@ -602,6 +629,7 @@ public class LibrarySystem
     }
     return wasRemoved;
   }
+
   /* Code from template association_AddIndexControlFunctions */
   public boolean addTimeSlotAt(TimeSlot aTimeSlot, int index)
   {  
@@ -634,11 +662,13 @@ public class LibrarySystem
     }
     return wasAdded;
   }
+
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfNewspaperArticles()
   {
     return 0;
   }
+
   /* Code from template association_AddManyToOne */
   public NewspaperArticle addNewspaperArticle(Date aDate, Newspaper aNewspaper)
   {
@@ -674,6 +704,7 @@ public class LibrarySystem
     }
     return wasRemoved;
   }
+
   /* Code from template association_AddIndexControlFunctions */
   public boolean addNewspaperArticleAt(NewspaperArticle aNewspaperArticle, int index)
   {  
@@ -706,6 +737,7 @@ public class LibrarySystem
     }
     return wasAdded;
   }
+
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfPersons()
   {
@@ -717,9 +749,8 @@ public class LibrarySystem
   {
     return 0;
   }
+
   /* Code from template association_AddManyToOne */
-
-
   public boolean addLibraryItem(LibraryItem aLibraryItem)
   {
     boolean wasAdded = false;
@@ -749,6 +780,7 @@ public class LibrarySystem
     }
     return wasRemoved;
   }
+
   /* Code from template association_AddIndexControlFunctions */
   public boolean addLibraryItemAt(LibraryItem aLibraryItem, int index)
   {  
@@ -781,11 +813,13 @@ public class LibrarySystem
     }
     return wasAdded;
   }
+
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfholidays()
   {
     return 0;
   }
+
   /* Code from template association_AddManyToOne */
   public Holiday addHoliday(Date aDate, Time aStartTime, Time aEndtime, HeadLibrarian aHeadLibrarian)
   {
@@ -821,6 +855,7 @@ public class LibrarySystem
     }
     return wasRemoved;
   }
+  
   /* Code from template association_AddIndexControlFunctions */
   public boolean addHolidayAt(Holiday aHoliday, int index)
   {  

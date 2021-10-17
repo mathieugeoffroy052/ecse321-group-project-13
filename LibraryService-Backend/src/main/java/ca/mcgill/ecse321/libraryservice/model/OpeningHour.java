@@ -61,6 +61,25 @@ public class OpeningHour
   }
 
   //------------------------
+  // PRIMARY KEY
+  //------------------------
+
+  public boolean setHourID(int aHourID)
+  {
+    hourID = aHourID;
+    if(hourID==aHourID){
+      return true;
+    }
+    else return false;
+  }
+
+  @Id
+  public int getHourID()
+  {
+    return hourID;
+  }
+
+  //------------------------
   // INTERFACE
   //------------------------
 
@@ -102,20 +121,6 @@ public class OpeningHour
   {
     return endTime;
   }
-  @Id
-  public int getHourID()
-  {
-    return hourID;
-  }
-
-  public boolean setHourID(int aHourID)
-  {
-    hourID = aHourID;
-    if(hourID==aHourID){
-      return true;
-    }
-    else return false;
-  }
 
   /* Code from template association_GetOne */
   @ManyToOne(optional=false)
@@ -123,12 +128,14 @@ public class OpeningHour
   {
     return librarySystem;
   }
+
   /* Code from template association_GetOne */
   @ManyToOne(optional=false)
   public HeadLibrarian getHeadLibrarian()
   {
     return headLibrarian;
   }
+
   /* Code from template association_SetOneToMany */
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {
@@ -148,6 +155,7 @@ public class OpeningHour
     wasSet = true;
     return wasSet;
   }
+  
   /* Code from template association_SetOneToAtMostN */
   public boolean setHeadLibrarian(HeadLibrarian aHeadLibrarian)
   {

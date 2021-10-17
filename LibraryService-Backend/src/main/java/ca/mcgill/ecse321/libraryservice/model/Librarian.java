@@ -30,9 +30,9 @@ public class Librarian extends UserAccount
   // CONSTRUCTOR
   //------------------------
 
-  public Librarian(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, Address aAddress, String aPassword)
+  public Librarian(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, Address aAddress, String aPassword, int aBalance)
   {
-    super(aFirstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aPassword);
+    super(aFirstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aPassword, aBalance);
     librarianID = nextlibrarianID++;
     timeSlot = new ArrayList<TimeSlot>();
   }
@@ -70,6 +70,7 @@ public class Librarian extends UserAccount
     TimeSlot aTimeSlot = timeSlot.get(index);
     return aTimeSlot;
   }
+
   @OneToMany
   public List<TimeSlot> getTimeSlot()
   {
@@ -94,11 +95,13 @@ public class Librarian extends UserAccount
     int index = timeSlot.indexOf(aTimeSlot);
     return index;
   }
+
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfTimeSlot()
   {
     return 0;
   }
+
   /* Code from template association_AddManyToManyMethod */
   public boolean addTimeSlot(TimeSlot aTimeSlot)
   {
@@ -119,6 +122,7 @@ public class Librarian extends UserAccount
     }
     return wasAdded;
   }
+
   /* Code from template association_RemoveMany */
   public boolean removeTimeSlot(TimeSlot aTimeSlot)
   {
@@ -143,38 +147,6 @@ public class Librarian extends UserAccount
       }
     }
     return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addTimeSlotAt(TimeSlot aTimeSlot, int index)
-  {  
-    boolean wasAdded = false;
-    if(addTimeSlot(aTimeSlot))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfTimeSlot()) { index = numberOfTimeSlot() - 1; }
-      timeSlot.remove(aTimeSlot);
-      timeSlot.add(index, aTimeSlot);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveTimeSlotAt(TimeSlot aTimeSlot, int index)
-  {
-    boolean wasAdded = false;
-    if(timeSlot.contains(aTimeSlot))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfTimeSlot()) { index = numberOfTimeSlot() - 1; }
-      timeSlot.remove(aTimeSlot);
-      timeSlot.add(index, aTimeSlot);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addTimeSlotAt(aTimeSlot, index);
-    }
-    return wasAdded;
   }
 
   public void delete()
