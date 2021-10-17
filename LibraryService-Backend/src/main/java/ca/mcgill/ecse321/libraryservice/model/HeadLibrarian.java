@@ -16,9 +16,9 @@ public class HeadLibrarian extends Librarian
   // CONSTRUCTOR
   //------------------------
 
-  public HeadLibrarian(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, Address aAddress)
+  public HeadLibrarian(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, Address aAddress, String aPassword)
   {
-    super(aFirstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress);
+    super(aFirstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aPassword);
   }
 
   //------------------------

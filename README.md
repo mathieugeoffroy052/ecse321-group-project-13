@@ -4,7 +4,8 @@
 ## Scope of the Project:
 ### The Library System :books:
 
-This project consists of developing a system for a library which supports the booking and reserving of library items and events by users of the system as well as providing management functions to the head librarian such as hiring/firing librarians, creating opening hours and managing schedules. Patrons or librarians will be able to create online library accounts if they wish to do so. the project will be composed of creating a frontend website and application.
+This project will consist of designing and implementing a website and application for a library which allows for the booking of borrowableItem and events by its users.   
+
 
 --------------------------------------------------------------------------
 ## Team Members:

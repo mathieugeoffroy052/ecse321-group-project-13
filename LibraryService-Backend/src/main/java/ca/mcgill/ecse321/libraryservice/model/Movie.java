@@ -14,42 +14,34 @@ public class Movie extends LibraryItem
   // MEMBER VARIABLES
   //------------------------
 
-  //Movie Associations
-  private Person director;
+  private String director;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Movie(String aName, LibrarySystem aLibrarySystem, Person aDirector)
+  public Movie(String aName, LibrarySystem aLibrarySystem, String aDirector)
   {
     super(aName, aLibrarySystem);
-    if (!setDirector(aDirector))
-    {
-      throw new RuntimeException("Unable to create Movie due to aDirector. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
+    director = aDirector;
   }
 
   //------------------------
   // INTERFACE
   //------------------------
-  /* Code from template association_GetOne */
-  @ManyToOne(optional=false)
-  public Person getDirector()
-  {
+
+  public String getDirector(){
     return director;
   }
-  /* Code from template association_SetUnidirectionalOne */
-  public boolean setDirector(Person aNewDirector)
+
+  public boolean setDirector(String aDirector)
   {
     boolean wasSet = false;
-    if (aNewDirector != null)
-    {
-      director = aNewDirector;
-      wasSet = true;
-    }
+    director = aDirector;
+    wasSet = true;
     return wasSet;
   }
+
 
   public void delete()
   {

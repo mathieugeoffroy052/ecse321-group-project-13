@@ -23,6 +23,7 @@ public abstract class UserAccount
   private String firstName;
   private String lastName;
   private boolean onlineAccount;
+  private String password;
 
   //Autounique Attributes
   private int userID;
@@ -35,10 +36,11 @@ public abstract class UserAccount
   // CONSTRUCTOR
   //------------------------
 
-  public UserAccount(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, Address aAddress)
+  public UserAccount(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, Address aAddress, String aPassword)
   {
     firstName = aFirstName;
     lastName = aLastName;
+    password = aPassword;
     onlineAccount = aOnlineAccount;
     userID = nextUserID++;
     boolean didAddLibrarySystem = setLibrarySystem(aLibrarySystem);
@@ -72,6 +74,14 @@ public abstract class UserAccount
     return wasSet;
   }
 
+  public boolean setPassword(String aPassword)
+  {
+    boolean wasSet = false;
+    password = aPassword;
+    wasSet = true;
+    return wasSet;
+  }
+
   public boolean setOnlineAccount(boolean aOnlineAccount)
   {
     boolean wasSet = false;
@@ -88,6 +98,11 @@ public abstract class UserAccount
   public String getLastName()
   {
     return lastName;
+  }
+
+  public String getPassword()
+  {
+    return password;
   }
 
   public boolean getOnlineAccount()

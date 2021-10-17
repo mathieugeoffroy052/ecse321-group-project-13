@@ -14,46 +14,36 @@ public class Book extends LibraryItem
   // MEMBER VARIABLES
   //------------------------
 
-  //Book Associations
-  private Person author;
+  private String author;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Book(String aName, LibrarySystem aLibrarySystem, Person aAuthor)
+  public Book(String aName, LibrarySystem aLibrarySystem, String aAuthor)
   {
     super(aName, aLibrarySystem);
-    if (!setAuthor(aAuthor))
-    {
-      throw new RuntimeException("Unable to create Book due to aAuthor. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
+    author = aAuthor;
   }
 
   //------------------------
   // INTERFACE
   //------------------------
-  /* Code from template association_GetOne */
-  @ManyToOne(optional=false)
-  public Person getAuthor()
-  {
+
+  public String getAuthor(){
     return author;
   }
-  /* Code from template association_SetUnidirectionalOne */
-  public boolean setAuthor(Person aNewAuthor)
+
+  public boolean setAuthor(String aAuthor)
   {
     boolean wasSet = false;
-    if (aNewAuthor != null)
-    {
-      author = aNewAuthor;
-      wasSet = true;
-    }
+    author = aAuthor;
+    wasSet = true;
     return wasSet;
   }
 
   public void delete()
   {
-    author = null;
     super.delete();
   }
 
