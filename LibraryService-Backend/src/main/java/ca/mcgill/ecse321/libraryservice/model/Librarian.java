@@ -24,7 +24,7 @@ public class Librarian extends UserAccount
   private int librarianID;
 
   //Librarian Associations
-  private List<TimeSlot> workshift;
+  private List<TimeSlot> timeSlot;
 
   //------------------------
   // CONSTRUCTOR
@@ -34,7 +34,7 @@ public class Librarian extends UserAccount
   {
     super(aFirstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aPassword);
     librarianID = nextlibrarianID++;
-    workshift = new ArrayList<TimeSlot>();
+    timeSlot = new ArrayList<TimeSlot>();
   }
 
   //------------------------
@@ -55,135 +55,135 @@ public class Librarian extends UserAccount
     else return false;
   }
 
-  public boolean setWorkshift(ArrayList<TimeSlot> aWorkshift)
+  public boolean setTimeSlot(ArrayList<TimeSlot> aTimeSlot)
   {
-    workshift = aWorkshift;
-    if(workshift==aWorkshift){
+    timeSlot = aTimeSlot;
+    if(timeSlot==aTimeSlot){
       return true;
     }
     else return false;
   }
 
   /* Code from template association_GetMany */
-  public TimeSlot getWorkshift(int index)
+  public TimeSlot getTimeSlot(int index)
   {
-    TimeSlot aWorkshift = workshift.get(index);
-    return aWorkshift;
+    TimeSlot aTimeSlot = timeSlot.get(index);
+    return aTimeSlot;
   }
   @OneToMany
-  public List<TimeSlot> getWorkshift()
+  public List<TimeSlot> getTimeSlot()
   {
-    List<TimeSlot> newWorkshift = Collections.unmodifiableList(workshift);
-    return newWorkshift;
+    List<TimeSlot> newTimeSlot = Collections.unmodifiableList(timeSlot);
+    return newTimeSlot;
   }
 
-  public int numberOfWorkshift()
+  public int numberOfTimeSlot()
   {
-    int number = workshift.size();
+    int number = timeSlot.size();
     return number;
   }
 
-  public boolean hasWorkshift()
+  public boolean hasTimeSlot()
   {
-    boolean has = workshift.size() > 0;
+    boolean has = timeSlot.size() > 0;
     return has;
   }
 
-  public int indexOfWorkshift(TimeSlot aWorkshift)
+  public int indexOfTimeSlot(TimeSlot aTimeSlot)
   {
-    int index = workshift.indexOf(aWorkshift);
+    int index = timeSlot.indexOf(aTimeSlot);
     return index;
   }
   /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfWorkshift()
+  public static int minimumNumberOfTimeSlot()
   {
     return 0;
   }
   /* Code from template association_AddManyToManyMethod */
-  public boolean addWorkshift(TimeSlot aWorkshift)
+  public boolean addTimeSlot(TimeSlot aTimeSlot)
   {
     boolean wasAdded = false;
-    if (workshift.contains(aWorkshift)) { return false; }
-    workshift.add(aWorkshift);
-    if (aWorkshift.indexOfWorker(this) != -1)
+    if (timeSlot.contains(aTimeSlot)) { return false; }
+    timeSlot.add(aTimeSlot);
+    if (aTimeSlot.indexOfLibrarian(this) != -1)
     {
       wasAdded = true;
     }
     else
     {
-      wasAdded = aWorkshift.addWorker(this);
+      wasAdded = aTimeSlot.addLibrarian(this);
       if (!wasAdded)
       {
-        workshift.remove(aWorkshift);
+        timeSlot.remove(aTimeSlot);
       }
     }
     return wasAdded;
   }
   /* Code from template association_RemoveMany */
-  public boolean removeWorkshift(TimeSlot aWorkshift)
+  public boolean removeTimeSlot(TimeSlot aTimeSlot)
   {
     boolean wasRemoved = false;
-    if (!workshift.contains(aWorkshift))
+    if (!timeSlot.contains(aTimeSlot))
     {
       return wasRemoved;
     }
 
-    int oldIndex = workshift.indexOf(aWorkshift);
-    workshift.remove(oldIndex);
-    if (aWorkshift.indexOfWorker(this) == -1)
+    int oldIndex = timeSlot.indexOf(aTimeSlot);
+    timeSlot.remove(oldIndex);
+    if (aTimeSlot.indexOfLibrarian(this) == -1)
     {
       wasRemoved = true;
     }
     else
     {
-      wasRemoved = aWorkshift.removeWorker(this);
+      wasRemoved = aTimeSlot.removeLibrarian(this);
       if (!wasRemoved)
       {
-        workshift.add(oldIndex,aWorkshift);
+        timeSlot.add(oldIndex,aTimeSlot);
       }
     }
     return wasRemoved;
   }
   /* Code from template association_AddIndexControlFunctions */
-  public boolean addWorkshiftAt(TimeSlot aWorkshift, int index)
+  public boolean addTimeSlotAt(TimeSlot aTimeSlot, int index)
   {  
     boolean wasAdded = false;
-    if(addWorkshift(aWorkshift))
+    if(addTimeSlot(aTimeSlot))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfWorkshift()) { index = numberOfWorkshift() - 1; }
-      workshift.remove(aWorkshift);
-      workshift.add(index, aWorkshift);
+      if(index > numberOfTimeSlot()) { index = numberOfTimeSlot() - 1; }
+      timeSlot.remove(aTimeSlot);
+      timeSlot.add(index, aTimeSlot);
       wasAdded = true;
     }
     return wasAdded;
   }
 
-  public boolean addOrMoveWorkshiftAt(TimeSlot aWorkshift, int index)
+  public boolean addOrMoveTimeSlotAt(TimeSlot aTimeSlot, int index)
   {
     boolean wasAdded = false;
-    if(workshift.contains(aWorkshift))
+    if(timeSlot.contains(aTimeSlot))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfWorkshift()) { index = numberOfWorkshift() - 1; }
-      workshift.remove(aWorkshift);
-      workshift.add(index, aWorkshift);
+      if(index > numberOfTimeSlot()) { index = numberOfTimeSlot() - 1; }
+      timeSlot.remove(aTimeSlot);
+      timeSlot.add(index, aTimeSlot);
       wasAdded = true;
     } 
     else 
     {
-      wasAdded = addWorkshiftAt(aWorkshift, index);
+      wasAdded = addTimeSlotAt(aTimeSlot, index);
     }
     return wasAdded;
   }
 
   public void delete()
   {
-    ArrayList<TimeSlot> copyOfWorkshift = new ArrayList<TimeSlot>(workshift);
-    workshift.clear();
-    for(TimeSlot aWorkshift : copyOfWorkshift)
+    ArrayList<TimeSlot> copyOfTimeSlot = new ArrayList<TimeSlot>(timeSlot);
+    timeSlot.clear();
+    for(TimeSlot aTimeSlot : copyOfTimeSlot)
     {
-      aWorkshift.removeWorker(this);
+      aTimeSlot.removeLibrarian(this);
     }
     super.delete();
   }
