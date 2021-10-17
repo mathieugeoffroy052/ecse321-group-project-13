@@ -2,17 +2,11 @@ name: Java CI with Gradle
 
 on:
   push:
-<<<<<<< HEAD
     branches: 
       - master
   pull_request:
     branches: 
       - master
-=======
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
->>>>>>> origin/ramin-crud-interfaces
 
 jobs:
   build:
