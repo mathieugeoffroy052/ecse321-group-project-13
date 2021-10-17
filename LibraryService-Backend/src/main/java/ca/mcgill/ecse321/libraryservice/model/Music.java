@@ -4,7 +4,6 @@
 package ca.mcgill.ecse321.libraryservice.model;
 import java.util.*;
 import javax.persistence.*;
-
 @Entity
 // line 120 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump 16-05-11-860.ump"
 public class Music extends LibraryItem
@@ -14,46 +13,36 @@ public class Music extends LibraryItem
   // MEMBER VARIABLES
   //------------------------
 
-  //Music Associations
-  private Person artist;
+  private String artist;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Music(String aName, LibrarySystem aLibrarySystem, Person aArtist)
+  public Music(String aName, LibrarySystem aLibrarySystem, String aArtist)
   {
     super(aName, aLibrarySystem);
-    if (!setArtist(aArtist))
-    {
-      throw new RuntimeException("Unable to create Music due to aArtist. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
+    artist = aArtist;
   }
 
   //------------------------
   // INTERFACE
   //------------------------
-  /* Code from template association_GetOne */
-  @ManyToOne(optional=false)
-  public Person getArtist()
-  {
+
+  public String getArtist(){
     return artist;
   }
-  /* Code from template association_SetUnidirectionalOne */
-  public boolean setArtist(Person aNewArtist)
+
+  public boolean setArtist(String aArtist)
   {
     boolean wasSet = false;
-    if (aNewArtist != null)
-    {
-      artist = aNewArtist;
-      wasSet = true;
-    }
+    artist = aArtist;
+    wasSet = true;
     return wasSet;
   }
 
   public void delete()
   {
-    artist = null;
     super.delete();
   }
 
