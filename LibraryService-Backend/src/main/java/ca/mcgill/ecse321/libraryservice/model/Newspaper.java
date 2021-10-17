@@ -172,39 +172,6 @@ public class Newspaper
     }
     return wasRemoved;
   }
-
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addArticleAt(NewspaperArticle aArticle, int index)
-  {  
-    boolean wasAdded = false;
-    if(addArticle(aArticle))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfArticles()) { index = numberOfArticles() - 1; }
-      articles.remove(aArticle);
-      articles.add(index, aArticle);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveArticleAt(NewspaperArticle aArticle, int index)
-  {
-    boolean wasAdded = false;
-    if(articles.contains(aArticle))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfArticles()) { index = numberOfArticles() - 1; }
-      articles.remove(aArticle);
-      articles.add(index, aArticle);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addArticleAt(aArticle, index);
-    }
-    return wasAdded;
-  }
   
   /* Code from template association_SetOneToMany */
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)

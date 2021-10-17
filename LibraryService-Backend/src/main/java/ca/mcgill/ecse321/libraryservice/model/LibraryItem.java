@@ -191,38 +191,6 @@ public abstract class LibraryItem
     return wasRemoved;
   }
   
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addBorrowableItemAt(BorrowableItem aItem, int index)
-  {  
-    boolean wasAdded = false;
-    if(addBorrowableItem(aItem))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfBorrowableItem()) { index = numberOfBorrowableItem() - 1; }
-      borrowableItem.remove(aItem);
-      borrowableItem.add(index, aItem);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveBorrowableItemAt(BorrowableItem aItem, int index)
-  {
-    boolean wasAdded = false;
-    if(borrowableItem.contains(aItem))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfBorrowableItem()) { index = numberOfBorrowableItem() - 1; }
-      borrowableItem.remove(aItem);
-      borrowableItem.add(index, aItem);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addBorrowableItemAt(aItem, index);
-    }
-    return wasAdded;
-  }
 
   public void delete()
   {
