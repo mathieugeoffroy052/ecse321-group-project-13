@@ -29,9 +29,9 @@ public class Patron extends UserAccount
   // CONSTRUCTOR
   //------------------------
 
-  public Patron(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, Address aAddress, boolean aValidatedAccount)
+  public Patron(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, Address aAddress, boolean aValidatedAccount, String aPassWord)
   {
-    super(aFirstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress);
+    super(aFirstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aPassWord);
     validatedAccount = aValidatedAccount;
     patronID = nextPatronID++;
   }

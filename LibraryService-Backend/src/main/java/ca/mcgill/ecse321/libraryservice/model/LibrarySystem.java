@@ -31,7 +31,6 @@ public class LibrarySystem
   private List<OpeningHour> openingHours;
   private List<TimeSlot> timeSlots;
   private List<NewspaperArticle> newspaperArticles;
-  private List<Person> persons;
   private List<LibraryItem> libraryItems;
   private List<Holiday> holidays;
 
@@ -47,7 +46,6 @@ public class LibrarySystem
     openingHours = new ArrayList<OpeningHour>();
     timeSlots = new ArrayList<TimeSlot>();
     newspaperArticles = new ArrayList<NewspaperArticle>();
-    persons = new ArrayList<Person>();
     libraryItems = new ArrayList<LibraryItem>();
     holidays = new ArrayList<Holiday>();
   }
@@ -88,14 +86,6 @@ public class LibrarySystem
     else return false;
   }
 
-  public boolean setPersons(ArrayList<Person> aPersons)
-  {
-    persons = aPersons;
-    if(persons==aPersons){
-      return true;
-    }
-    else return false;
-  }
 
   public boolean setLibraryItems(ArrayList<LibraryItem> aLibraryItems)
   {
@@ -291,36 +281,6 @@ public class LibrarySystem
   public int indexOfNewspaperArticle(NewspaperArticle aNewspaperArticle)
   {
     int index = newspaperArticles.indexOf(aNewspaperArticle);
-    return index;
-  }
-  /* Code from template association_GetMany */
-  public Person getPerson(int index)
-  {
-    Person aPerson = persons.get(index);
-    return aPerson;
-  }
-  @OneToMany
-  public List<Person> getPersons()
-  {
-    List<Person> newPersons = Collections.unmodifiableList(persons);
-    return newPersons;
-  }
-
-  public int numberOfPersons()
-  {
-    int number = persons.size();
-    return number;
-  }
-
-  public boolean hasPersons()
-  {
-    boolean has = persons.size() > 0;
-    return has;
-  }
-
-  public int indexOfPerson(Person aPerson)
-  {
-    int index = persons.indexOf(aPerson);
     return index;
   }
 
@@ -751,73 +711,6 @@ public class LibrarySystem
   {
     return 0;
   }
-  /* Code from template association_AddManyToOne */
-  public Person addPerson(String aFirstName, String aLastName)
-  {
-    return new Person(aFirstName, aLastName, this);
-  }
-
-  public boolean addPerson(Person aPerson)
-  {
-    boolean wasAdded = false;
-    if (persons.contains(aPerson)) { return false; }
-    LibrarySystem existingLibrarySystem = aPerson.getLibrarySystem();
-    boolean isNewLibrarySystem = existingLibrarySystem != null && !this.equals(existingLibrarySystem);
-    if (isNewLibrarySystem)
-    {
-      aPerson.setLibrarySystem(this);
-    }
-    else
-    {
-      persons.add(aPerson);
-    }
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removePerson(Person aPerson)
-  {
-    boolean wasRemoved = false;
-    //Unable to remove aPerson, as it must always have a librarySystem
-    if (!this.equals(aPerson.getLibrarySystem()))
-    {
-      persons.remove(aPerson);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addPersonAt(Person aPerson, int index)
-  {  
-    boolean wasAdded = false;
-    if(addPerson(aPerson))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfPersons()) { index = numberOfPersons() - 1; }
-      persons.remove(aPerson);
-      persons.add(index, aPerson);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMovePersonAt(Person aPerson, int index)
-  {
-    boolean wasAdded = false;
-    if(persons.contains(aPerson))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfPersons()) { index = numberOfPersons() - 1; }
-      persons.remove(aPerson);
-      persons.add(index, aPerson);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addPersonAt(aPerson, index);
-    }
-    return wasAdded;
-  }
 
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfLibraryItems()
@@ -996,13 +889,6 @@ public class LibrarySystem
       NewspaperArticle aNewspaperArticle = newspaperArticles.get(newspaperArticles.size() - 1);
       aNewspaperArticle.delete();
       newspaperArticles.remove(aNewspaperArticle);
-    }
-    
-    while (persons.size() > 0)
-    {
-      Person aPerson = persons.get(persons.size() - 1);
-      aPerson.delete();
-      persons.remove(aPerson);
     }
     
     while (libraryItems.size() > 0)
