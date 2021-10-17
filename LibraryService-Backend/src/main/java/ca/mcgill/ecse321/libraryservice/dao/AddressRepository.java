@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.libraryservice.dao;
 
+<<<<<<< HEAD
 //imports
 import ca.mcgill.ecse321.libraryservice.model.Address;
 import ca.mcgill.ecse321.libraryservice.model.UserAccount;
@@ -12,4 +13,8 @@ public interface AddressRepository extends CrudRepository<Address, Integer> {
 	
 	
 	
+=======
+public interface AddressRepository {
+
+>>>>>>> origin/ramin-crud-interfaces
 }

@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.libraryservice.dao;
 
+
 //imports
 import ca.mcgill.ecse321.libraryservice.model.Librarian;
 import ca.mcgill.ecse321.libraryservice.model.HeadLibrarian;
@@ -17,5 +18,4 @@ public interface LibrarianRepository extends CrudRepository<Librarian, Integer> 
 	
 	
 }
-
 

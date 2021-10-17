@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.libraryservice.dao;
 
+<<<<<<< HEAD
 //imports
 import org.springframework.data.repository.CrudRepository;
 import ca.mcgill.ecse321.libraryservice.model.UserAccount;
@@ -15,4 +16,8 @@ public interface UserAccountRepository extends CrudRepository<UserAccount, Integ
 	
 	List<UserAccount> findByLibrarySystem(LibrarySystem systemID);
 	
+=======
+public interface UserAccountRepository {
+
+>>>>>>> origin/ramin-crud-interfaces
 }
