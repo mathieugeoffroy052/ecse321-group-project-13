@@ -6,4 +6,6 @@ import ca.mcgill.ecse321.libraryservice.model.LibraryItem;
 
 public interface LibraryItemRepository extends CrudRepository<LibraryItem, Integer>{
     
+    LibraryItem findByIsbn(int isbn);
+
 }
