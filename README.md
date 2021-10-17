@@ -4,7 +4,7 @@
 ## Scope of the Project:
 ### The Library System :books:
 
-This project will consist of designing and implementing a website and application for a library which allows for the booking of items and events by its users.   
+This project will consist of designing and implementing a website and application for a library which allows for the booking of borrowableItem and events by its users.   
 
 --------------------------------------------------------------------------
 ## Team Members:

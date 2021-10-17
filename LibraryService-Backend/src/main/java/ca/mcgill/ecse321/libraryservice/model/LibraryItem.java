@@ -28,7 +28,7 @@ public abstract class LibraryItem
 
   //LibraryItem Associations
   private LibrarySystem librarySystem;
-  private List<BorrowableItem> items;
+  private List<BorrowableItem> borrowableItem;
 
   //------------------------
   // CONSTRUCTOR
@@ -43,7 +43,7 @@ public abstract class LibraryItem
     {
       throw new RuntimeException("Unable to create libraryItem due to librarySystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
-    items = new ArrayList<BorrowableItem>();
+    borrowableItem = new ArrayList<BorrowableItem>();
   }
 
   //------------------------
@@ -58,10 +58,10 @@ public abstract class LibraryItem
     return wasSet;
   }
 
-  public boolean setItems(ArrayList<BorrowableItem> aItems)
+  public boolean setBorrowableItem(ArrayList<BorrowableItem> aItems)
   {
     boolean wasSet = false;
-    items = aItems;
+    borrowableItem = aItems;
     wasSet = true;
     return wasSet;
   }
@@ -92,33 +92,33 @@ public abstract class LibraryItem
     return librarySystem;
   }
   /* Code from template association_GetMany */
-  public BorrowableItem getItem(int index)
+  public BorrowableItem getBorrowableItem(int index)
   {
-    BorrowableItem aItem = items.get(index);
+    BorrowableItem aItem = borrowableItem.get(index);
     return aItem;
   }
   @OneToMany
-  public List<BorrowableItem> getItems()
+  public List<BorrowableItem> getBorrowableItem()
   {
-    List<BorrowableItem> newItems = Collections.unmodifiableList(items);
+    List<BorrowableItem> newItems = Collections.unmodifiableList(borrowableItem);
     return newItems;
   }
 
-  public int numberOfItems()
+  public int numberOfBorrowableItem()
   {
-    int number = items.size();
+    int number = borrowableItem.size();
     return number;
   }
 
-  public boolean hasItems()
+  public boolean hasBorrowableItem()
   {
-    boolean has = items.size() > 0;
+    boolean has = borrowableItem.size() > 0;
     return has;
   }
 
-  public int indexOfItem(BorrowableItem aItem)
+  public int indexOfBorrowableItem(BorrowableItem aItem)
   {
-    int index = items.indexOf(aItem);
+    int index = borrowableItem.indexOf(aItem);
     return index;
   }
   /* Code from template association_SetOneToMany */
@@ -141,74 +141,74 @@ public abstract class LibraryItem
     return wasSet;
   }
   /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfItems()
+  public static int minimumNumberOfBorrowableItem()
   {
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public BorrowableItem addItem(BorrowableItem.ItemState aState)
+  public BorrowableItem addBorrowableItem(BorrowableItem.ItemState aState)
   {
     return new BorrowableItem(aState, this);
   }
 
-  public boolean addItem(BorrowableItem aItem)
+  public boolean addBorrowableItem(BorrowableItem aItem)
   {
     boolean wasAdded = false;
-    if (items.contains(aItem)) { return false; }
-    LibraryItem existingItemType = aItem.getItemType();
-    boolean isNewItemType = existingItemType != null && !this.equals(existingItemType);
-    if (isNewItemType)
+    if (borrowableItem.contains(aItem)) { return false; }
+    LibraryItem existingLibraryItem = aItem.getLibraryItem();
+    boolean isNewLibraryItem = existingLibraryItem != null && !this.equals(existingLibraryItem);
+    if (isNewLibraryItem)
     {
-      aItem.setItemType(this);
+      aItem.setLibraryItem(this);
     }
     else
     {
-      items.add(aItem);
+      borrowableItem.add(aItem);
     }
     wasAdded = true;
     return wasAdded;
   }
 
-  public boolean removeItem(BorrowableItem aItem)
+  public boolean removeBorrowableItem(BorrowableItem aItem)
   {
     boolean wasRemoved = false;
-    //Unable to remove aItem, as it must always have a itemType
-    if (!this.equals(aItem.getItemType()))
+    //Unable to remove aItem, as it must always have a libraryItem
+    if (!this.equals(aItem.getLibraryItem()))
     {
-      items.remove(aItem);
+      borrowableItem.remove(aItem);
       wasRemoved = true;
     }
     return wasRemoved;
   }
   /* Code from template association_AddIndexControlFunctions */
-  public boolean addItemAt(BorrowableItem aItem, int index)
+  public boolean addBorrowableItemAt(BorrowableItem aItem, int index)
   {  
     boolean wasAdded = false;
-    if(addItem(aItem))
+    if(addBorrowableItem(aItem))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfItems()) { index = numberOfItems() - 1; }
-      items.remove(aItem);
-      items.add(index, aItem);
+      if(index > numberOfBorrowableItem()) { index = numberOfBorrowableItem() - 1; }
+      borrowableItem.remove(aItem);
+      borrowableItem.add(index, aItem);
       wasAdded = true;
     }
     return wasAdded;
   }
 
-  public boolean addOrMoveItemAt(BorrowableItem aItem, int index)
+  public boolean addOrMoveBorrowableItemAt(BorrowableItem aItem, int index)
   {
     boolean wasAdded = false;
-    if(items.contains(aItem))
+    if(borrowableItem.contains(aItem))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfItems()) { index = numberOfItems() - 1; }
-      items.remove(aItem);
-      items.add(index, aItem);
+      if(index > numberOfBorrowableItem()) { index = numberOfBorrowableItem() - 1; }
+      borrowableItem.remove(aItem);
+      borrowableItem.add(index, aItem);
       wasAdded = true;
     } 
     else 
     {
-      wasAdded = addItemAt(aItem, index);
+      wasAdded = addBorrowableItemAt(aItem, index);
     }
     return wasAdded;
   }
@@ -221,9 +221,9 @@ public abstract class LibraryItem
     {
       placeholderLibrarySystem.removeLibraryItem(this);
     }
-    for(int i=items.size(); i > 0; i--)
+    for(int i=borrowableItem.size(); i > 0; i--)
     {
-      BorrowableItem aItem = items.get(i - 1);
+      BorrowableItem aItem = borrowableItem.get(i - 1);
       aItem.delete();
     }
   }
