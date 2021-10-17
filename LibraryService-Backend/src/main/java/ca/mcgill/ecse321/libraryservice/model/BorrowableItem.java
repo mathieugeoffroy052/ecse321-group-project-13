@@ -32,20 +32,20 @@ public class BorrowableItem
   private int barCodeNumber;
 
   //BorrowableItem Associations
-  private LibraryItem itemType;
+  private LibraryItem libraryItem;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public BorrowableItem(ItemState aState, LibraryItem aItemType)
+  public BorrowableItem(ItemState aState, LibraryItem aLibraryItem)
   {
     state = aState;
     barCodeNumber = nextBarCodeNumber++;
-    boolean didAddItemType = setItemType(aItemType);
-    if (!didAddItemType)
+    boolean didAddLibraryItem = setLibraryItem(aLibraryItem);
+    if (!didAddLibraryItem)
     {
-      throw new RuntimeException("Unable to create item due to itemType. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create item due to libraryItem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }
 
@@ -82,37 +82,37 @@ public class BorrowableItem
   }
   /* Code from template association_GetOne */
   @ManyToOne(optional=false)
-  public LibraryItem getItemType()
+  public LibraryItem getLibraryItem()
   {
-    return itemType;
+    return libraryItem;
   }
   /* Code from template association_SetOneToMany */
-  public boolean setItemType(LibraryItem aItemType)
+  public boolean setLibraryItem(LibraryItem aLibraryItem)
   {
     boolean wasSet = false;
-    if (aItemType == null)
+    if (aLibraryItem == null)
     {
       return wasSet;
     }
 
-    LibraryItem existingItemType = itemType;
-    itemType = aItemType;
-    if (existingItemType != null && !existingItemType.equals(aItemType))
+    LibraryItem existingLibraryItem = libraryItem;
+    libraryItem = aLibraryItem;
+    if (existingLibraryItem != null && !existingLibraryItem.equals(aLibraryItem))
     {
-      existingItemType.removeItem(this);
+      existingLibraryItem.removeBorrowableItem(this);
     }
-    itemType.addItem(this);
+    libraryItem.addBorrowableItem(this);
     wasSet = true;
     return wasSet;
   }
 
   public void delete()
   {
-    LibraryItem placeholderItemType = itemType;
-    this.itemType = null;
-    if(placeholderItemType != null)
+    LibraryItem placeholderLibraryItem = libraryItem;
+    this.libraryItem = null;
+    if(placeholderLibraryItem != null)
     {
-      placeholderItemType.removeItem(this);
+      placeholderLibraryItem.removeBorrowableItem(this);
     }
   }
 
@@ -122,6 +122,6 @@ public class BorrowableItem
     return super.toString() + "["+
             "barCodeNumber" + ":" + getBarCodeNumber()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "state" + "=" + (getState() != null ? !getState().equals(this)  ? getState().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "itemType = "+(getItemType()!=null?Integer.toHexString(System.identityHashCode(getItemType())):"null");
+            "  " + "libraryItem = "+(getLibraryItem()!=null?Integer.toHexString(System.identityHashCode(getLibraryItem())):"null");
   }
 }
