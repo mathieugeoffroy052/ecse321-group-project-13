@@ -34,7 +34,7 @@ public class Book extends LibraryItem
     return author;
   }
 
-  public boolean setDirector(String aAuthor)
+  public boolean setAuthor(String aAuthor)
   {
     boolean wasSet = false;
     author = aAuthor;
