@@ -261,39 +261,6 @@ public class TimeSlot
     }
     return wasRemoved;
   }
-
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addLibrarianAt(Librarian aLibrarian, int index)
-  {  
-    boolean wasAdded = false;
-    if(addLibrarian(aLibrarian))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfLibrarian()) { index = numberOfLibrarian() - 1; }
-      librarian.remove(aLibrarian);
-      librarian.add(index, aLibrarian);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveLibrarianAt(Librarian aLibrarian, int index)
-  {
-    boolean wasAdded = false;
-    if(librarian.contains(aLibrarian))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfLibrarian()) { index = numberOfLibrarian() - 1; }
-      librarian.remove(aLibrarian);
-      librarian.add(index, aLibrarian);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addLibrarianAt(aLibrarian, index);
-    }
-    return wasAdded;
-  }
   
   /* Code from template association_SetOneToMany */
   public boolean setHeadLibrarian(HeadLibrarian aHeadLibrarian)

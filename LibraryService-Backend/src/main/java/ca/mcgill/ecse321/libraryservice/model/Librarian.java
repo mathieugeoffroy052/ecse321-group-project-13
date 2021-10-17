@@ -148,39 +148,6 @@ public class Librarian extends UserAccount
     }
     return wasRemoved;
   }
-  
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addTimeSlotAt(TimeSlot aTimeSlot, int index)
-  {  
-    boolean wasAdded = false;
-    if(addTimeSlot(aTimeSlot))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfTimeSlot()) { index = numberOfTimeSlot() - 1; }
-      timeSlot.remove(aTimeSlot);
-      timeSlot.add(index, aTimeSlot);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveTimeSlotAt(TimeSlot aTimeSlot, int index)
-  {
-    boolean wasAdded = false;
-    if(timeSlot.contains(aTimeSlot))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfTimeSlot()) { index = numberOfTimeSlot() - 1; }
-      timeSlot.remove(aTimeSlot);
-      timeSlot.add(index, aTimeSlot);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addTimeSlotAt(aTimeSlot, index);
-    }
-    return wasAdded;
-  }
 
   public void delete()
   {
