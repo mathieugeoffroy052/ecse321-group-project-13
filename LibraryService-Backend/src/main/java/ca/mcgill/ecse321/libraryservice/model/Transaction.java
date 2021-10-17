@@ -4,7 +4,6 @@
 package ca.mcgill.ecse321.libraryservice.model;
 import javax.persistence.*;
 import java.sql.Date;
-import java.sql.Time;
 
 @Entity
 // line 73 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump 16-05-11-860.ump"
