@@ -1,15 +1,12 @@
 package ca.mcgill.ecse321.libraryservice.dao;
 
-
-//imports
 import org.springframework.data.repository.CrudRepository;
+
 import ca.mcgill.ecse321.libraryservice.model.Patron;
-import java.util.List;
+import ca.mcgill.ecse321.libraryservice.model.Room;
 
-public interface PatronRepository extends CrudRepository<Patron, Integer>{
+public interface RoomRepository extends CrudRepository<Room, Integer>{
 
 	
-	Patron findPatronByUserID(int userID);
-	
-	
+	Room findRoomByIsbn(int isbn);
 }
