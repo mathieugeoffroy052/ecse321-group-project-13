@@ -21,7 +21,7 @@ This project consists of developing a system for a library which supports the bo
 --------------------------------------------------------------------------
 ### Overview Table :chart_with_upwards_trend: : 
 | Team Members           | Roles                                                                                                                                |   Hours   |
-| ---------------------- |:------------------------------------------------------------------------------------------------------------------------------------:| ---------:|
+| :---------------------:|:------------------------------------------------------------------------------------------------------------------------------------:| :--------:|
 | Amani Jammoul          | Domain model, Requirements, CRUD repositories, Use-case diagram, Success Spectrum                                                    |20         |
 | Eloyann Roy-Javanbakht | Domain model, Requirements, Persistance Tests, Use-case diagram, Success Spectrum                                                    |16         |
 | Gabrielle Halpin       | Domain model, Requirements, Heroku application, Debugging, Model classes, Continuous Integration, Use-case diagram, Success Spectrum |22         |
