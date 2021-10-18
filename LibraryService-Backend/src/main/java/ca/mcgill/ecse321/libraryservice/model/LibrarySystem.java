@@ -214,7 +214,7 @@ public class LibrarySystem
     return aUserAccount;
   }
 
-  @OneToMany(cascade={CascadeType.ALL})
+  @OneToMany(cascade={CascadeType.ALL}, mappedBy = "librarySystem")
   public List<UserAccount> getUserAccounts()
   {
     List<UserAccount> newUserAccounts = Collections.unmodifiableList(userAccounts);
