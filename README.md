@@ -16,10 +16,10 @@ This project consists of developing a system for a library which supports the bo
 - :woman_technologist: Zoya Malhi
 
 --------------------------------------------------------------------------
-## Deliverable 1
-### (https://github.com/McGill-ECSE321-Fall2021/project-group-13/wiki/Deliverable-1)
+## Project Deliverables
+### [Deliverable 1](https://github.com/McGill-ECSE321-Fall2021/project-group-13/wiki/Deliverable-1)
 --------------------------------------------------------------------------
-## Overview Table :chart_with_upwards_trend: : 
+### Overview Table :chart_with_upwards_trend: : 
 | Team Members           | Roles                                                                                                                                |   Hours   |
 | ---------------------- |:------------------------------------------------------------------------------------------------------------------------------------:| ---------:|
 | Amani Jammoul          | Domain model, Requirements, CRUD repositories, Use-case diagram, Success Spectrum                                                    |20         |
