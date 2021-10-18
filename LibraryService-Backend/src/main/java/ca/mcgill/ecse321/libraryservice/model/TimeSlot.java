@@ -161,7 +161,7 @@ public class TimeSlot
     return aLibrarian;
   }
 
-  @ManyToMany
+  @ManyToMany(mappedBy = "librarianID")
   public List<Librarian> getLibrarian()
   {
     List<Librarian> newLibrarian = Collections.unmodifiableList(librarian);
