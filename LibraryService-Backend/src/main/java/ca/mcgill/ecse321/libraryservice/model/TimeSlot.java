@@ -33,7 +33,7 @@ public class TimeSlot
 
   //TimeSlot Associations
   private LibrarySystem librarySystem;
-  private List<Librarian> librarian;
+  private Set<Librarian> librarian;
   private HeadLibrarian headLibrarian;
 
   //------------------------
@@ -56,7 +56,6 @@ public class TimeSlot
     {
       throw new RuntimeException("Unable to create timeSlot due to librarySystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
-    librarian = new Set<Librarian>();
     boolean didAddHeadLibrarian = setHeadLibrarian(aHeadLibrarian);
     if (!didAddHeadLibrarian)
     {
@@ -154,18 +153,11 @@ public class TimeSlot
     return librarySystem;
   }
 
-  /* Code from template association_GetMany */
-  public Librarian getLibrarian(int index)
-  {
-    Librarian aLibrarian = librarian.get(index);
-    return aLibrarian;
-  }
-
+  
   @ManyToMany(mappedBy = "librarianID")
-  public List<Librarian> getLibrarian()
+  public Set<Librarian> getLibrarian()
   {
-    List<Librarian> newLibrarian = Collections.unmodifiableList(librarian);
-    return newLibrarian;
+    return librarian;
   }
 
   public int numberOfLibrarian()
@@ -178,12 +170,6 @@ public class TimeSlot
   {
     boolean has = librarian.size() > 0;
     return has;
-  }
-
-  public int indexOfLibrarian(Librarian aLibrarian)
-  {
-    int index = librarian.indexOf(aLibrarian);
-    return index;
   }
 
   /* Code from template association_GetOne */
@@ -225,7 +211,7 @@ public class TimeSlot
     boolean wasAdded = false;
     if (librarian.contains(aLibrarian)) { return false; }
     librarian.add(aLibrarian);
-    if (aLibrarian.indexOfTimeSlot(this) != -1)
+    if (aLibrarian.getTimeSlot().contains(this))
     {
       wasAdded = true;
     }
@@ -248,10 +234,8 @@ public class TimeSlot
     {
       return wasRemoved;
     }
-
-    int oldIndex = librarian.indexOf(aLibrarian);
-    librarian.remove(oldIndex);
-    if (aLibrarian.indexOfTimeSlot(this) == -1)
+    librarian.remove(aLibrarian);
+    if (aLibrarian.getTimeSlot().contains(this))
     {
       wasRemoved = true;
     }
@@ -260,7 +244,7 @@ public class TimeSlot
       wasRemoved = aLibrarian.removeTimeSlot(this);
       if (!wasRemoved)
       {
-        librarian.add(oldIndex,aLibrarian);
+        librarian.add(aLibrarian);
       }
     }
     return wasRemoved;
@@ -294,7 +278,7 @@ public class TimeSlot
     {
       placeholderLibrarySystem.removeTimeSlot(this);
     }
-    Set<Librarian> copyOfLibrarian = new Set<Librarian>(librarian);
+    Set<Librarian> copyOfLibrarian = librarian;
     librarian.clear();
     for(Librarian aLibrarian : copyOfLibrarian)
     {

@@ -98,7 +98,7 @@ public class Librarian extends UserAccount
     boolean wasAdded = false;
     if (timeSlot.contains(aTimeSlot)) { return false; }
     timeSlot.add(aTimeSlot);
-    if (aTimeSlot.indexOfLibrarian(this) != -1)
+    if (aTimeSlot.getLibrarian().contains(this))
     {
       wasAdded = true;
     }
@@ -111,6 +111,30 @@ public class Librarian extends UserAccount
       }
     }
     return wasAdded;
+  }
+
+  public boolean removeTimeSlot(TimeSlot aTimeSlot)
+  {
+    boolean wasRemoved = false;
+    if (!timeSlot.contains(aTimeSlot))
+    {
+      return wasRemoved;
+    }
+
+    timeSlot.remove(aTimeSlot);
+    if (aTimeSlot.getLibrarian().contains(this))
+    {
+      wasRemoved = true;
+    }
+    else
+    {
+      wasRemoved = aTimeSlot.removeLibrarian(this);
+      if (!wasRemoved)
+      {
+        timeSlot.add(aTimeSlot);
+      }
+    }
+    return wasRemoved;
   }
 
   public void delete()
