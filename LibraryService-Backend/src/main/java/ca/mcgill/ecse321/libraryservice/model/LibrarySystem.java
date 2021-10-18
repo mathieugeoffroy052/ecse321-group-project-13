@@ -82,10 +82,30 @@ public class LibrarySystem
     else return false;
   }
 
+  //overloaded method
+  public boolean setNewspaperArticles(List<NewspaperArticle> aNewspaperArticles)
+  {
+    newspaperArticles = new ArrayList<NewspaperArticle>(aNewspaperArticles);
+    if(newspaperArticles!=null){
+      return true;
+    }
+    else return false;
+  }
+
   public boolean setHolidays(ArrayList<Holiday> aholidays)
   {
     holidays = aholidays;
     if(holidays==aholidays){
+      return true;
+    }
+    else return false;
+  }
+
+  //overloaded method
+  public boolean setHolidays(List<Holiday> aholidays)
+  {
+    holidays = new ArrayList<Holiday>(aholidays);
+    if(holidays!= null){
       return true;
     }
     else return false;
@@ -100,10 +120,30 @@ public class LibrarySystem
     else return false;
   }
 
+  //overloaded method
+  public boolean setLibraryItems(List<LibraryItem> aLibraryItems)
+  {
+    libraryItems = new ArrayList<LibraryItem>(aLibraryItems);
+    if(libraryItems!=null){
+      return true;
+    }
+    else return false;
+  }
+
   public boolean setTimeSlots(ArrayList<TimeSlot> aTimeSlots)
   {
     timeSlots = aTimeSlots;
     if(timeSlots==aTimeSlots){
+      return true;
+    }
+    else return false;
+  }
+
+  //overloaded method
+  public boolean setTimeSlots(List<TimeSlot> aTimeSlots)
+  {
+    timeSlots = new ArrayList<TimeSlot>(aTimeSlots);
+    if(timeSlots!=null){
       return true;
     }
     else return false;
@@ -118,6 +158,16 @@ public class LibrarySystem
     else return false;
   }
 
+  //overloaded method
+  public boolean setOpeningHours(List<OpeningHour> aOpeningHours)
+  {
+    openingHours = new ArrayList<OpeningHour>(aOpeningHours);
+    if(openingHours!=null){
+      return true;
+    }
+    else return false;
+  }
+
   public boolean setNewspapers(ArrayList<Newspaper> aNewspapers)
   {
     newspapers = aNewspapers;
@@ -127,10 +177,30 @@ public class LibrarySystem
     else return false;
   }
 
+  //overloaded method
+  public boolean setNewspapers(List<Newspaper> aNewspapers)
+  {
+    newspapers = new ArrayList<Newspaper>(aNewspapers);
+    if(newspapers!=null){
+      return true;
+    }
+    else return false;
+  }
+
   public boolean setUserAccounts(ArrayList<UserAccount> aUserAccounts)
   {
     userAccounts = aUserAccounts;
     if(userAccounts==aUserAccounts){
+      return true;
+    }
+    else return false;
+  }
+
+  //overloaded method
+  public boolean setUserAccounts(List<UserAccount> aUserAccounts)
+  {
+    userAccounts = new ArrayList<UserAccount>(aUserAccounts);
+    if(userAccounts!=null){
       return true;
     }
     else return false;
@@ -337,13 +407,13 @@ public class LibrarySystem
   }
 
   @OneToMany
-  public List<Holiday> getholidays()
+  public List<Holiday> getHolidays()
   {
     List<Holiday> newholidays = Collections.unmodifiableList(holidays);
     return newholidays;
   }
 
-  public int numberOfholidays()
+  public int numberOfHolidays()
   {
     int number = holidays.size();
     return number;
@@ -863,7 +933,7 @@ public class LibrarySystem
     if(addHoliday(aHoliday))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfholidays()) { index = numberOfholidays() - 1; }
+      if(index > numberOfHolidays()) { index = numberOfHolidays() - 1; }
       holidays.remove(aHoliday);
       holidays.add(index, aHoliday);
       wasAdded = true;
@@ -877,7 +947,7 @@ public class LibrarySystem
     if(holidays.contains(aHoliday))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfholidays()) { index = numberOfholidays() - 1; }
+      if(index > numberOfHolidays()) { index = numberOfHolidays() - 1; }
       holidays.remove(aHoliday);
       holidays.add(index, aHoliday);
       wasAdded = true;
