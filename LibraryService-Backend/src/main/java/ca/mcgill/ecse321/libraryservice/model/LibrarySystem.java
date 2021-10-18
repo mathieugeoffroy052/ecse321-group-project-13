@@ -26,13 +26,13 @@ public class LibrarySystem
   private int systemId;
 
   //LibrarySystem Associations
-  private List<UserAccount> userAccounts;
-  private List<Newspaper> newspapers;
-  private List<OpeningHour> openingHours;
-  private List<TimeSlot> timeSlots;
-  private List<NewspaperArticle> newspaperArticles;
-  private List<LibraryItem> libraryItems;
-  private List<Holiday> holidays;
+  private Set<UserAccount> userAccounts;
+  private Set<Newspaper> newspapers;
+  private Set<OpeningHour> openingHours;
+  private Set<TimeSlot> timeSlots;
+  private Set<NewspaperArticle> newspaperArticles;
+  private Set<LibraryItem> libraryItems;
+  private Set<Holiday> holidays;
 
   //------------------------
   // CONSTRUCTOR
@@ -41,13 +41,6 @@ public class LibrarySystem
   public LibrarySystem()
   {
     systemId = nextSystemId++;
-    userAccounts = new ArrayList<UserAccount>();
-    newspapers = new ArrayList<Newspaper>();
-    openingHours = new ArrayList<OpeningHour>();
-    timeSlots = new ArrayList<TimeSlot>();
-    newspaperArticles = new ArrayList<NewspaperArticle>();
-    libraryItems = new ArrayList<LibraryItem>();
-    holidays = new ArrayList<Holiday>();
   }
 
   //------------------------
@@ -73,7 +66,7 @@ public class LibrarySystem
   // INTERFACE
   //------------------------
 
-  public boolean setNewspaperArticles(ArrayList<NewspaperArticle> aNewspaperArticles)
+  public boolean setNewspaperArticles(Set<NewspaperArticle> aNewspaperArticles)
   {
     newspaperArticles = aNewspaperArticles;
     if(newspaperArticles==aNewspaperArticles){
@@ -82,17 +75,7 @@ public class LibrarySystem
     else return false;
   }
 
-  //overloaded method
-  public boolean setNewspaperArticles(List<NewspaperArticle> aNewspaperArticles)
-  {
-    newspaperArticles = new ArrayList<NewspaperArticle>(aNewspaperArticles);
-    if(newspaperArticles!=null){
-      return true;
-    }
-    else return false;
-  }
-
-  public boolean setHolidays(ArrayList<Holiday> aholidays)
+  public boolean setHolidays(Set<Holiday> aholidays)
   {
     holidays = aholidays;
     if(holidays==aholidays){
@@ -101,17 +84,7 @@ public class LibrarySystem
     else return false;
   }
 
-  //overloaded method
-  public boolean setHolidays(List<Holiday> aholidays)
-  {
-    holidays = new ArrayList<Holiday>(aholidays);
-    if(holidays!= null){
-      return true;
-    }
-    else return false;
-  }
-
-  public boolean setLibraryItems(ArrayList<LibraryItem> aLibraryItems)
+  public boolean setLibraryItems(Set<LibraryItem> aLibraryItems)
   {
     libraryItems = aLibraryItems;
     if(libraryItems==aLibraryItems){
@@ -120,17 +93,7 @@ public class LibrarySystem
     else return false;
   }
 
-  //overloaded method
-  public boolean setLibraryItems(List<LibraryItem> aLibraryItems)
-  {
-    libraryItems = new ArrayList<LibraryItem>(aLibraryItems);
-    if(libraryItems!=null){
-      return true;
-    }
-    else return false;
-  }
-
-  public boolean setTimeSlots(ArrayList<TimeSlot> aTimeSlots)
+  public boolean setTimeSlots(Set<TimeSlot> aTimeSlots)
   {
     timeSlots = aTimeSlots;
     if(timeSlots==aTimeSlots){
@@ -139,17 +102,7 @@ public class LibrarySystem
     else return false;
   }
 
-  //overloaded method
-  public boolean setTimeSlots(List<TimeSlot> aTimeSlots)
-  {
-    timeSlots = new ArrayList<TimeSlot>(aTimeSlots);
-    if(timeSlots!=null){
-      return true;
-    }
-    else return false;
-  }
-
-  public boolean setOpeningHours(ArrayList<OpeningHour> aOpeningHours)
+  public boolean setOpeningHours(Set<OpeningHour> aOpeningHours)
   {
     openingHours = aOpeningHours;
     if(openingHours==aOpeningHours){
@@ -158,17 +111,7 @@ public class LibrarySystem
     else return false;
   }
 
-  //overloaded method
-  public boolean setOpeningHours(List<OpeningHour> aOpeningHours)
-  {
-    openingHours = new ArrayList<OpeningHour>(aOpeningHours);
-    if(openingHours!=null){
-      return true;
-    }
-    else return false;
-  }
-
-  public boolean setNewspapers(ArrayList<Newspaper> aNewspapers)
+  public boolean setNewspapers(Set<Newspaper> aNewspapers)
   {
     newspapers = aNewspapers;
     if(newspapers==aNewspapers){
@@ -177,17 +120,7 @@ public class LibrarySystem
     else return false;
   }
 
-  //overloaded method
-  public boolean setNewspapers(List<Newspaper> aNewspapers)
-  {
-    newspapers = new ArrayList<Newspaper>(aNewspapers);
-    if(newspapers!=null){
-      return true;
-    }
-    else return false;
-  }
-
-  public boolean setUserAccounts(ArrayList<UserAccount> aUserAccounts)
+  public boolean setUserAccounts(Set<UserAccount> aUserAccounts)
   {
     userAccounts = aUserAccounts;
     if(userAccounts==aUserAccounts){
@@ -196,28 +129,10 @@ public class LibrarySystem
     else return false;
   }
 
-  //overloaded method
-  public boolean setUserAccounts(List<UserAccount> aUserAccounts)
-  {
-    userAccounts = new ArrayList<UserAccount>(aUserAccounts);
-    if(userAccounts!=null){
-      return true;
-    }
-    else return false;
-  }
-
-
-  /* Code from template association_GetMany */
-  public UserAccount getUserAccount(int index)
-  {
-    UserAccount aUserAccount = userAccounts.get(index);
-    return aUserAccount;
-  }
-
   @OneToMany(cascade={CascadeType.ALL}, mappedBy = "librarySystem")
-  public List<UserAccount> getUserAccounts()
+  public Set<UserAccount> getUserAccounts()
   {
-    List<UserAccount> newUserAccounts = Collections.unmodifiableList(userAccounts);
+    Set<UserAccount> newUserAccounts = userAccounts;
     return newUserAccounts;
   }
 
@@ -233,24 +148,10 @@ public class LibrarySystem
     return has;
   }
 
-  public int indexOfUserAccount(UserAccount aUserAccount)
-  {
-    int index = userAccounts.indexOf(aUserAccount);
-    return index;
-  }
-
-  /* Code from template association_GetMany */
-  public Newspaper getNewspaper(int index)
-  {
-    Newspaper aNewspaper = newspapers.get(index);
-    return aNewspaper;
-  }
-
   @OneToMany(cascade={CascadeType.ALL}, mappedBy = "librarySystem")
-  public List<Newspaper> getNewspapers()
+  public Set<Newspaper> getNewspapers()
   {
-    List<Newspaper> newNewspapers = Collections.unmodifiableList(newspapers);
-    return newNewspapers;
+    return newspapers;
   }
 
   public int numberOfNewspapers()
@@ -265,24 +166,10 @@ public class LibrarySystem
     return has;
   }
 
-  public int indexOfNewspaper(Newspaper aNewspaper)
-  {
-    int index = newspapers.indexOf(aNewspaper);
-    return index;
-  }
-
-  /* Code from template association_GetMany */
-  public OpeningHour getOpeningHour(int index)
-  {
-    OpeningHour aOpeningHour = openingHours.get(index);
-    return aOpeningHour;
-  }
-
   @OneToMany(cascade={CascadeType.ALL}, mappedBy = "librarySystem")
-  public List<OpeningHour> getOpeningHours()
+  public Set<OpeningHour> getOpeningHours()
   {
-    List<OpeningHour> newOpeningHours = Collections.unmodifiableList(openingHours);
-    return newOpeningHours;
+    return openingHours;
   }
 
   public int numberOfOpeningHours()
@@ -297,24 +184,10 @@ public class LibrarySystem
     return has;
   }
 
-  public int indexOfOpeningHour(OpeningHour aOpeningHour)
-  {
-    int index = openingHours.indexOf(aOpeningHour);
-    return index;
-  }
-
-  /* Code from template association_GetMany */
-  public TimeSlot getTimeSlot(int index)
-  {
-    TimeSlot aTimeSlot = timeSlots.get(index);
-    return aTimeSlot;
-  }
-
   @OneToMany(cascade={CascadeType.ALL}, mappedBy = "librarySystem")
-  public List<TimeSlot> getTimeSlots()
+  public Set<TimeSlot> getTimeSlots()
   {
-    List<TimeSlot> newTimeSlots = Collections.unmodifiableList(timeSlots);
-    return newTimeSlots;
+    return timeSlots;
   }
 
   public int numberOfTimeSlots()
@@ -329,24 +202,10 @@ public class LibrarySystem
     return has;
   }
 
-  public int indexOfTimeSlot(TimeSlot aTimeSlot)
-  {
-    int index = timeSlots.indexOf(aTimeSlot);
-    return index;
-  }
-
-  /* Code from template association_GetMany */
-  public NewspaperArticle getNewspaperArticle(int index)
-  {
-    NewspaperArticle aNewspaperArticle = newspaperArticles.get(index);
-    return aNewspaperArticle;
-  }
-
   @OneToMany(cascade={CascadeType.ALL}, mappedBy = "librarySystem")
-  public List<NewspaperArticle> getNewspaperArticles()
+  public Set<NewspaperArticle> getNewspaperArticles()
   {
-    List<NewspaperArticle> newNewspaperArticles = Collections.unmodifiableList(newspaperArticles);
-    return newNewspaperArticles;
+    return newspaperArticles;
   }
 
   public int numberOfNewspaperArticles()
@@ -361,24 +220,10 @@ public class LibrarySystem
     return has;
   }
 
-  public int indexOfNewspaperArticle(NewspaperArticle aNewspaperArticle)
-  {
-    int index = newspaperArticles.indexOf(aNewspaperArticle);
-    return index;
-  }
-
-  /* Code from template association_GetMany */
-  public LibraryItem getLibraryItem(int index)
-  {
-    LibraryItem aLibraryItem = libraryItems.get(index);
-    return aLibraryItem;
-  }
-
   @OneToMany(cascade={CascadeType.ALL}, mappedBy = "librarySystem")
-  public List<LibraryItem> getLibraryItems()
+  public Set<LibraryItem> getLibraryItems()
   {
-    List<LibraryItem> newLibraryItems = Collections.unmodifiableList(libraryItems);
-    return newLibraryItems;
+    return libraryItems;
   }
 
   public int numberOfLibraryItems()
@@ -393,24 +238,10 @@ public class LibrarySystem
     return has;
   }
 
-  public int indexOfLibraryItem(LibraryItem aLibraryItem)
-  {
-    int index = libraryItems.indexOf(aLibraryItem);
-    return index;
-  }
-
-  /* Code from template association_GetMany */
-  public Holiday getHoliday(int index)
-  {
-    Holiday aHoliday = holidays.get(index);
-    return aHoliday;
-  }
-
   @OneToMany(cascade={CascadeType.ALL}, mappedBy = "librarySystem")
-  public List<Holiday> getHolidays()
+  public Set<Holiday> getHolidays()
   {
-    List<Holiday> newholidays = Collections.unmodifiableList(holidays);
-    return newholidays;
+    return holidays;
   }
 
   public int numberOfHolidays()
@@ -423,12 +254,6 @@ public class LibrarySystem
   {
     boolean has = holidays.size() > 0;
     return has;
-  }
-
-  public int indexOfHoliday(Holiday aHoliday)
-  {
-    int index = holidays.indexOf(aHoliday);
-    return index;
   }
 
   /* Code from template association_MinimumNumberOfMethod */
@@ -467,39 +292,6 @@ public class LibrarySystem
       wasRemoved = true;
     }
     return wasRemoved;
-  }
-
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addUserAccountAt(UserAccount aUserAccount, int index)
-  {  
-    boolean wasAdded = false;
-    if(addUserAccount(aUserAccount))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfUserAccounts()) { index = numberOfUserAccounts() - 1; }
-      userAccounts.remove(aUserAccount);
-      userAccounts.add(index, aUserAccount);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveUserAccountAt(UserAccount aUserAccount, int index)
-  {
-    boolean wasAdded = false;
-    if(userAccounts.contains(aUserAccount))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfUserAccounts()) { index = numberOfUserAccounts() - 1; }
-      userAccounts.remove(aUserAccount);
-      userAccounts.add(index, aUserAccount);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addUserAccountAt(aUserAccount, index);
-    }
-    return wasAdded;
   }
 
   /* Code from template association_MinimumNumberOfMethod */
@@ -542,39 +334,6 @@ public class LibrarySystem
       wasRemoved = true;
     }
     return wasRemoved;
-  }
-
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addNewspaperAt(Newspaper aNewspaper, int index)
-  {  
-    boolean wasAdded = false;
-    if(addNewspaper(aNewspaper))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfNewspapers()) { index = numberOfNewspapers() - 1; }
-      newspapers.remove(aNewspaper);
-      newspapers.add(index, aNewspaper);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveNewspaperAt(Newspaper aNewspaper, int index)
-  {
-    boolean wasAdded = false;
-    if(newspapers.contains(aNewspaper))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfNewspapers()) { index = numberOfNewspapers() - 1; }
-      newspapers.remove(aNewspaper);
-      newspapers.add(index, aNewspaper);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addNewspaperAt(aNewspaper, index);
-    }
-    return wasAdded;
   }
 
   /* Code from template association_MinimumNumberOfMethod */
@@ -625,39 +384,6 @@ public class LibrarySystem
     return wasRemoved;
   }
 
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addOpeningHourAt(OpeningHour aOpeningHour, int index)
-  {  
-    boolean wasAdded = false;
-    if(addOpeningHour(aOpeningHour))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfOpeningHours()) { index = numberOfOpeningHours() - 1; }
-      openingHours.remove(aOpeningHour);
-      openingHours.add(index, aOpeningHour);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveOpeningHourAt(OpeningHour aOpeningHour, int index)
-  {
-    boolean wasAdded = false;
-    if(openingHours.contains(aOpeningHour))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfOpeningHours()) { index = numberOfOpeningHours() - 1; }
-      openingHours.remove(aOpeningHour);
-      openingHours.add(index, aOpeningHour);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addOpeningHourAt(aOpeningHour, index);
-    }
-    return wasAdded;
-  }
-
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfTimeSlots()
   {
@@ -700,39 +426,6 @@ public class LibrarySystem
     return wasRemoved;
   }
 
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addTimeSlotAt(TimeSlot aTimeSlot, int index)
-  {  
-    boolean wasAdded = false;
-    if(addTimeSlot(aTimeSlot))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfTimeSlots()) { index = numberOfTimeSlots() - 1; }
-      timeSlots.remove(aTimeSlot);
-      timeSlots.add(index, aTimeSlot);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveTimeSlotAt(TimeSlot aTimeSlot, int index)
-  {
-    boolean wasAdded = false;
-    if(timeSlots.contains(aTimeSlot))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfTimeSlots()) { index = numberOfTimeSlots() - 1; }
-      timeSlots.remove(aTimeSlot);
-      timeSlots.add(index, aTimeSlot);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addTimeSlotAt(aTimeSlot, index);
-    }
-    return wasAdded;
-  }
-
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfNewspaperArticles()
   {
@@ -773,39 +466,6 @@ public class LibrarySystem
       wasRemoved = true;
     }
     return wasRemoved;
-  }
-
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addNewspaperArticleAt(NewspaperArticle aNewspaperArticle, int index)
-  {  
-    boolean wasAdded = false;
-    if(addNewspaperArticle(aNewspaperArticle))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfNewspaperArticles()) { index = numberOfNewspaperArticles() - 1; }
-      newspaperArticles.remove(aNewspaperArticle);
-      newspaperArticles.add(index, aNewspaperArticle);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveNewspaperArticleAt(NewspaperArticle aNewspaperArticle, int index)
-  {
-    boolean wasAdded = false;
-    if(newspaperArticles.contains(aNewspaperArticle))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfNewspaperArticles()) { index = numberOfNewspaperArticles() - 1; }
-      newspaperArticles.remove(aNewspaperArticle);
-      newspaperArticles.add(index, aNewspaperArticle);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addNewspaperArticleAt(aNewspaperArticle, index);
-    }
-    return wasAdded;
   }
 
   /* Code from template association_MinimumNumberOfMethod */
@@ -851,39 +511,6 @@ public class LibrarySystem
     return wasRemoved;
   }
 
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addLibraryItemAt(LibraryItem aLibraryItem, int index)
-  {  
-    boolean wasAdded = false;
-    if(addLibraryItem(aLibraryItem))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfLibraryItems()) { index = numberOfLibraryItems() - 1; }
-      libraryItems.remove(aLibraryItem);
-      libraryItems.add(index, aLibraryItem);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveLibraryItemAt(LibraryItem aLibraryItem, int index)
-  {
-    boolean wasAdded = false;
-    if(libraryItems.contains(aLibraryItem))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfLibraryItems()) { index = numberOfLibraryItems() - 1; }
-      libraryItems.remove(aLibraryItem);
-      libraryItems.add(index, aLibraryItem);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addLibraryItemAt(aLibraryItem, index);
-    }
-    return wasAdded;
-  }
-
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfholidays()
   {
@@ -925,89 +552,49 @@ public class LibrarySystem
     }
     return wasRemoved;
   }
-  
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addHolidayAt(Holiday aHoliday, int index)
-  {  
-    boolean wasAdded = false;
-    if(addHoliday(aHoliday))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfHolidays()) { index = numberOfHolidays() - 1; }
-      holidays.remove(aHoliday);
-      holidays.add(index, aHoliday);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveHolidayAt(Holiday aHoliday, int index)
-  {
-    boolean wasAdded = false;
-    if(holidays.contains(aHoliday))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfHolidays()) { index = numberOfHolidays() - 1; }
-      holidays.remove(aHoliday);
-      holidays.add(index, aHoliday);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addHolidayAt(aHoliday, index);
-    }
-    return wasAdded;
-  }
 
   public void delete()
   {
-    while (userAccounts.size() > 0)
+    for (UserAccount account: userAccounts)
     {
-      UserAccount aUserAccount = userAccounts.get(userAccounts.size() - 1);
-      aUserAccount.delete();
-      userAccounts.remove(aUserAccount);
+      account.delete();
+      userAccounts.remove(account);
     }
     
-    while (newspapers.size() > 0)
+    for (Newspaper newspaper:newspapers)
     {
-      Newspaper aNewspaper = newspapers.get(newspapers.size() - 1);
-      aNewspaper.delete();
-      newspapers.remove(aNewspaper);
+      newspaper.delete();
+      newspapers.remove(newspaper);
     }
     
-    while (openingHours.size() > 0)
+    for (OpeningHour hour : openingHours)
     {
-      OpeningHour aOpeningHour = openingHours.get(openingHours.size() - 1);
-      aOpeningHour.delete();
-      openingHours.remove(aOpeningHour);
+      hour.delete();
+      openingHours.remove(hour);
     }
     
-    while (timeSlots.size() > 0)
+    for (TimeSlot time: timeSlots)
     {
-      TimeSlot aTimeSlot = timeSlots.get(timeSlots.size() - 1);
-      aTimeSlot.delete();
-      timeSlots.remove(aTimeSlot);
+      time.delete();
+      timeSlots.remove(time);
     }
     
-    while (newspaperArticles.size() > 0)
+    for (NewspaperArticle article: newspaperArticles)
     {
-      NewspaperArticle aNewspaperArticle = newspaperArticles.get(newspaperArticles.size() - 1);
-      aNewspaperArticle.delete();
-      newspaperArticles.remove(aNewspaperArticle);
+      article.delete();
+      newspaperArticles.remove(article);
     }
     
-    while (libraryItems.size() > 0)
+    for (LibraryItem item: libraryItems)
     {
-      LibraryItem aLibraryItem = libraryItems.get(libraryItems.size() - 1);
-      aLibraryItem.delete();
-      libraryItems.remove(aLibraryItem);
+      item.delete();
+      libraryItems.remove(item);
     }
     
-    while (holidays.size() > 0)
+    for (Holiday holiday: holidays)
     {
-      Holiday aHoliday = holidays.get(holidays.size() - 1);
-      aHoliday.delete();
-      holidays.remove(aHoliday);
+      holiday.delete();
+      holidays.remove(holiday);
     }
     
   }

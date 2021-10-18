@@ -43,7 +43,7 @@ public class Newspaper
   {
     name = aName;
     paperID = nextPaperID++;
-    articles = new ArrayList<NewspaperArticle>();
+    articles = new Set<NewspaperArticle>();
     boolean didAddLibrarySystem = setLibrarySystem(aLibrarySystem);
     if (!didAddLibrarySystem)
     {
@@ -83,7 +83,7 @@ public class Newspaper
     return wasSet;
   }
 
-  public boolean setArticles(ArrayList<NewspaperArticle> aArticles)
+  public boolean setArticles(Set<NewspaperArticle> aArticles)
   {
     boolean wasSet = false;
     articles = aArticles;

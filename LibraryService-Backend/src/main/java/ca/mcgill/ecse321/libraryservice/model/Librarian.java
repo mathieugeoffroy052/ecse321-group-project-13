@@ -24,7 +24,7 @@ public class Librarian extends UserAccount
   private int librarianID;
 
   //Librarian Associations
-  private List<TimeSlot> timeSlot;
+  private Set<TimeSlot> timeSlot;
 
   //------------------------
   // CONSTRUCTOR
@@ -39,7 +39,6 @@ public class Librarian extends UserAccount
   {
     super(aFirstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aPassword, aBalance);
     librarianID = nextlibrarianID++;
-    timeSlot = new ArrayList<TimeSlot>();
   }
 
   //------------------------
@@ -60,7 +59,7 @@ public class Librarian extends UserAccount
     else return false;
   }
 
-  public boolean setTimeSlot(ArrayList<TimeSlot> aTimeSlot)
+  public boolean setTimeSlot(Set<TimeSlot> aTimeSlot)
   {
     timeSlot = aTimeSlot;
     if(timeSlot==aTimeSlot){
@@ -69,18 +68,10 @@ public class Librarian extends UserAccount
     else return false;
   }
 
-  /* Code from template association_GetMany */
-  public TimeSlot getTimeSlot(int index)
-  {
-    TimeSlot aTimeSlot = timeSlot.get(index);
-    return aTimeSlot;
-  }
-
   @ManyToMany
-  public List<TimeSlot> getTimeSlot()
+  public Set<TimeSlot> getTimeSlot()
   {
-    List<TimeSlot> newTimeSlot = Collections.unmodifiableList(timeSlot);
-    return newTimeSlot;
+    return timeSlot;
   }
 
   public int numberOfTimeSlot()
@@ -93,12 +84,6 @@ public class Librarian extends UserAccount
   {
     boolean has = timeSlot.size() > 0;
     return has;
-  }
-
-  public int indexOfTimeSlot(TimeSlot aTimeSlot)
-  {
-    int index = timeSlot.indexOf(aTimeSlot);
-    return index;
   }
 
   /* Code from template association_MinimumNumberOfMethod */
@@ -128,35 +113,9 @@ public class Librarian extends UserAccount
     return wasAdded;
   }
 
-  /* Code from template association_RemoveMany */
-  public boolean removeTimeSlot(TimeSlot aTimeSlot)
-  {
-    boolean wasRemoved = false;
-    if (!timeSlot.contains(aTimeSlot))
-    {
-      return wasRemoved;
-    }
-
-    int oldIndex = timeSlot.indexOf(aTimeSlot);
-    timeSlot.remove(oldIndex);
-    if (aTimeSlot.indexOfLibrarian(this) == -1)
-    {
-      wasRemoved = true;
-    }
-    else
-    {
-      wasRemoved = aTimeSlot.removeLibrarian(this);
-      if (!wasRemoved)
-      {
-        timeSlot.add(oldIndex,aTimeSlot);
-      }
-    }
-    return wasRemoved;
-  }
-
   public void delete()
   {
-    ArrayList<TimeSlot> copyOfTimeSlot = new ArrayList<TimeSlot>(timeSlot);
+    Set<TimeSlot> copyOfTimeSlot = timeSlot;
     timeSlot.clear();
     for(TimeSlot aTimeSlot : copyOfTimeSlot)
     {

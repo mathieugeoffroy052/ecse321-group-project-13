@@ -56,7 +56,7 @@ public class TimeSlot
     {
       throw new RuntimeException("Unable to create timeSlot due to librarySystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
-    librarian = new ArrayList<Librarian>();
+    librarian = new Set<Librarian>();
     boolean didAddHeadLibrarian = setHeadLibrarian(aHeadLibrarian);
     if (!didAddHeadLibrarian)
     {
@@ -103,7 +103,7 @@ public class TimeSlot
     return wasSet;
   }
 
-  public boolean setLibrarian(ArrayList<Librarian> aLibrarian)
+  public boolean setLibrarian(Set<Librarian> aLibrarian)
   {
     boolean wasSet = false;
     librarian = aLibrarian;
@@ -294,7 +294,7 @@ public class TimeSlot
     {
       placeholderLibrarySystem.removeTimeSlot(this);
     }
-    ArrayList<Librarian> copyOfLibrarian = new ArrayList<Librarian>(librarian);
+    Set<Librarian> copyOfLibrarian = new Set<Librarian>(librarian);
     librarian.clear();
     for(Librarian aLibrarian : copyOfLibrarian)
     {
