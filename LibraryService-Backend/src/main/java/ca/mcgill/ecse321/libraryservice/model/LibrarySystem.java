@@ -246,7 +246,7 @@ public class LibrarySystem
     return aNewspaper;
   }
 
-  @OneToMany(cascade={CascadeType.ALL})
+  @OneToMany(cascade={CascadeType.ALL}, mappedBy = "librarySystem")
   public List<Newspaper> getNewspapers()
   {
     List<Newspaper> newNewspapers = Collections.unmodifiableList(newspapers);
@@ -278,7 +278,7 @@ public class LibrarySystem
     return aOpeningHour;
   }
 
-  @OneToMany(cascade={CascadeType.ALL})
+  @OneToMany(cascade={CascadeType.ALL}, mappedBy = "librarySystem")
   public List<OpeningHour> getOpeningHours()
   {
     List<OpeningHour> newOpeningHours = Collections.unmodifiableList(openingHours);
@@ -310,7 +310,7 @@ public class LibrarySystem
     return aTimeSlot;
   }
 
-  @OneToMany(cascade={CascadeType.ALL})
+  @OneToMany(cascade={CascadeType.ALL}, mappedBy = "librarySystem")
   public List<TimeSlot> getTimeSlots()
   {
     List<TimeSlot> newTimeSlots = Collections.unmodifiableList(timeSlots);
@@ -342,7 +342,7 @@ public class LibrarySystem
     return aNewspaperArticle;
   }
 
-  @OneToMany(cascade={CascadeType.ALL})
+  @OneToMany(cascade={CascadeType.ALL}, mappedBy = "librarySystem")
   public List<NewspaperArticle> getNewspaperArticles()
   {
     List<NewspaperArticle> newNewspaperArticles = Collections.unmodifiableList(newspaperArticles);
@@ -374,7 +374,7 @@ public class LibrarySystem
     return aLibraryItem;
   }
 
-  @OneToMany(cascade={CascadeType.ALL})
+  @OneToMany(cascade={CascadeType.ALL}, mappedBy = "librarySystem")
   public List<LibraryItem> getLibraryItems()
   {
     List<LibraryItem> newLibraryItems = Collections.unmodifiableList(libraryItems);
@@ -406,7 +406,7 @@ public class LibrarySystem
     return aHoliday;
   }
 
-  @OneToMany(cascade={CascadeType.ALL})
+  @OneToMany(cascade={CascadeType.ALL}, mappedBy = "librarySystem")
   public List<Holiday> getHolidays()
   {
     List<Holiday> newholidays = Collections.unmodifiableList(holidays);
