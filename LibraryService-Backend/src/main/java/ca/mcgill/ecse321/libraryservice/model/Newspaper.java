@@ -6,6 +6,8 @@ import java.util.*;
 import java.sql.Date;
 import javax.persistence.*;
 
+import org.dom4j.dtd.AttributeDecl;
+
 @Entity
 // line 91 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump 16-05-11-860.ump"
 public class Newspaper
@@ -48,6 +50,7 @@ public class Newspaper
     {
       throw new RuntimeException("Unable to create newspaper due to librarySystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
+    articles = Collections.<NewspaperArticle>emptySet();
   }
 
 

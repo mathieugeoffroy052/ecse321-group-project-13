@@ -7,6 +7,8 @@ import java.sql.Time;
 import java.sql.Date;
 import javax.persistence.*;
 
+import org.apache.catalina.User;
+
 @Entity
 // line 5 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump 16-05-11-860.ump"
 public class LibrarySystem
@@ -41,6 +43,13 @@ public class LibrarySystem
   public LibrarySystem()
   {
     systemId = nextSystemId++;
+    userAccounts = Collections.<UserAccount>emptySet();
+    newspapers = Collections.<Newspaper>emptySet();
+    openingHours = Collections.<OpeningHour>emptySet();
+    timeSlots = Collections.<TimeSlot>emptySet();
+    newspaperArticles = Collections.<NewspaperArticle>emptySet();
+    libraryItems = Collections.<LibraryItem>emptySet();
+    holidays = Collections.<Holiday>emptySet();
   }
 
   //------------------------
@@ -555,46 +564,64 @@ public class LibrarySystem
 
   public void delete()
   {
-    for (UserAccount account: userAccounts)
-    {
-      account.delete();
-      userAccounts.remove(account);
+    if(!(userAccounts == null)){
+      for (UserAccount account: userAccounts)
+      {
+        account.delete();
+        userAccounts.remove(account);
+      }
     }
     
-    for (Newspaper newspaper:newspapers)
-    {
-      newspaper.delete();
-      newspapers.remove(newspaper);
+    if(!(newspapers== null)){
+      for (Newspaper newspaper:newspapers)
+      {
+        newspaper.delete();
+        newspapers.remove(newspaper);
+      }
     }
     
-    for (OpeningHour hour : openingHours)
-    {
-      hour.delete();
-      openingHours.remove(hour);
+    if(!(openingHours==null)){
+      for (OpeningHour hour : openingHours)
+      {
+        hour.delete();
+        openingHours.remove(hour);
+      }
     }
     
-    for (TimeSlot time: timeSlots)
+    if(!(timeSlots==null))
     {
-      time.delete();
-      timeSlots.remove(time);
+      for (TimeSlot time: timeSlots)
+      {
+        time.delete();
+        timeSlots.remove(time);
+      }
     }
     
-    for (NewspaperArticle article: newspaperArticles)
+    if(!(newspaperArticles==null))
     {
-      article.delete();
-      newspaperArticles.remove(article);
+      for (NewspaperArticle article: newspaperArticles)
+      {
+        article.delete();
+        newspaperArticles.remove(article);
+      }
     }
     
-    for (LibraryItem item: libraryItems)
+    if(!(libraryItems==null))
     {
-      item.delete();
-      libraryItems.remove(item);
+      for (LibraryItem item: libraryItems)
+      {
+        item.delete();
+        libraryItems.remove(item);
+      }
     }
-    
-    for (Holiday holiday: holidays)
+
+    if(!(holidays==null))
     {
-      holiday.delete();
-      holidays.remove(holiday);
+      for (Holiday holiday: holidays)
+      {
+        holiday.delete();
+        holidays.remove(holiday);
+      }
     }
     
   }
