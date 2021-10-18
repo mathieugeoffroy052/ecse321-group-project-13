@@ -76,7 +76,7 @@ public class Librarian extends UserAccount
     return aTimeSlot;
   }
 
-  @OneToMany
+  @ManyToMany
   public List<TimeSlot> getTimeSlot()
   {
     List<TimeSlot> newTimeSlot = Collections.unmodifiableList(timeSlot);
