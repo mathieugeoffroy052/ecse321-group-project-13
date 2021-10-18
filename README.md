@@ -16,13 +16,13 @@ This project consists of developing a system for a library which supports the bo
 - :woman_technologist: Zoya Malhi
 --------------------------------------------------------------------------
 ## Overview Table :chart_with_upwards_trend: : 
-| Team Members                | Roles         | Individual Efforts (hrs) |
-| --------------------------- |:-------------:| ------------------------:|
-| Amani Jammoul               |               |                          |
-| Eloyann Roy-Javanbakht      |               |                          |
-| Gabrielle Halpin            |               |                          |
-| Mathieu Geoffrey            |               |                          |
-| Ramin Akhavan-Sarraf        |               |                          |
-| Zoya Malhi                  |               |                          |
-__________________________________________________________________________
+| Team Members           | Roles                                                                                                                                |   Hours   |
+| ---------------------- |:------------------------------------------------------------------------------------------------------------------------------------:| ---------:|
+| Amani Jammoul          | Domain model, Requirements, CRUD repositories, Use-case diagram, Success Spectrum                                                    |     20    |
+| Eloyann Roy-Javanbakht | Domain model, Requirements, Persistance Tests, Use-case diagram, Success Spectrum                                                    |     16    |
+| Gabrielle Halpin       | Domain model, Requirements, Heroku application, Debugging, Model classes, Continuous Integration, Use-case diagram, Success Spectrum |     22    |
+| Mathieu Geoffrey       | Domain model, Requirements, Persistance Tests, Meeting minutes, Use-case diagram, Success Spectrum                                   |     21    |
+| Ramin Akhavan-Sarraf   | Domain model, Requirements, CRUD repositories, Meeting minutes, Use-case diagram, Success Spectrum                                   |     19    |
+| Zoya Malhi             | Domain model, Requirements, CRUD repositories, Use-case diagram, Project Report/Wiki, README.md file, Success Spectrum               |     21    |
+_____________________________________________________________________________________________________________________________________________________________________________
 
