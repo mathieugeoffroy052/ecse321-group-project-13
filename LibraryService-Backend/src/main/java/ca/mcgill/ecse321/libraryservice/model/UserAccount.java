@@ -37,6 +37,10 @@ public abstract class UserAccount
   // CONSTRUCTOR
   //------------------------
 
+  public UserAccount() {
+    userID = nextUserID++;
+  }
+
   public UserAccount(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, Address aAddress, String aPassword, int aBalance)
   {
     firstName = aFirstName;

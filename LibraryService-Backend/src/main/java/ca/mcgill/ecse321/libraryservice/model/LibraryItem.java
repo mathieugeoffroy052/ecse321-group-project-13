@@ -34,6 +34,10 @@ public abstract class LibraryItem
   // CONSTRUCTOR
   //------------------------
 
+  public LibraryItem() {
+    isbn = nextIsbn++;
+  }
+
   public LibraryItem(String aName, LibrarySystem aLibrarySystem)
   {
     name = aName;
@@ -104,7 +108,7 @@ public abstract class LibraryItem
     return aItem;
   }
 
-  @OneToMany
+  @OneToMany(mappedBy = "libraryItem")
   public List<BorrowableItem> getBorrowableItem()
   {
     List<BorrowableItem> newItems = Collections.unmodifiableList(borrowableItem);

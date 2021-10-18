@@ -31,6 +31,10 @@ public class Address
   // CONSTRUCTOR
   //------------------------
 
+  public Address() {
+    addressID = nextAddressID++;
+  }
+
   public Address(String aAddress, String aCity, String aCountry)
   {
     address = aAddress;

@@ -13,6 +13,10 @@ public class HeadLibrarian extends Librarian
   // CONSTRUCTOR
   //------------------------
 
+  public HeadLibrarian() {
+    super();
+  }
+
   public HeadLibrarian(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, Address aAddress, String aPassword, int aBalance)
   {
     super(aFirstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aPassword, aBalance);

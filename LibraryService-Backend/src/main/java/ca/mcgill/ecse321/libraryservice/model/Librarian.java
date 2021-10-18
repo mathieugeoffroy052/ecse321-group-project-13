@@ -30,6 +30,11 @@ public class Librarian extends UserAccount
   // CONSTRUCTOR
   //------------------------
 
+  public Librarian() {
+    super();
+    librarianID = nextlibrarianID++;
+  }
+
   public Librarian(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, Address aAddress, String aPassword, int aBalance)
   {
     super(aFirstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aPassword, aBalance);
@@ -71,7 +76,7 @@ public class Librarian extends UserAccount
     return aTimeSlot;
   }
 
-  @OneToMany
+  @ManyToMany
   public List<TimeSlot> getTimeSlot()
   {
     List<TimeSlot> newTimeSlot = Collections.unmodifiableList(timeSlot);

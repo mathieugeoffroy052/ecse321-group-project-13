@@ -38,6 +38,10 @@ public class BorrowableItem
   // CONSTRUCTOR
   //------------------------
 
+  public BorrowableItem() {
+    barCodeNumber = nextBarCodeNumber++;
+  }
+
   public BorrowableItem(ItemState aState, LibraryItem aLibraryItem)
   {
     state = aState;
@@ -86,7 +90,7 @@ public class BorrowableItem
   }
 
   /* Code from template association_GetOne */
-  @ManyToOne(optional=false)
+  @ManyToOne(optional = false)
   public LibraryItem getLibraryItem()
   {
     return libraryItem;

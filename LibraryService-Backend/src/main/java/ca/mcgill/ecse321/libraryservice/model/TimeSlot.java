@@ -40,6 +40,10 @@ public class TimeSlot
   // CONSTRUCTOR
   //------------------------
 
+  public TimeSlot() {
+    timeSlotID = nextTimeSlotID++;
+  }
+
   public TimeSlot(Date aStartDate, Time aStartTime, Date aEndDate, Time aEndTime, LibrarySystem aLibrarySystem, HeadLibrarian aHeadLibrarian)
   {
     startDate = aStartDate;

@@ -34,6 +34,10 @@ public class NewspaperArticle
   // CONSTRUCTOR
   //------------------------
 
+  public NewspaperArticle() {
+    barCodeNumber = nextBarCodeNumber++;
+  }
+
   public NewspaperArticle(Date aDate, LibrarySystem aLibrarySystem, Newspaper aNewspaper)
   {
     date = aDate;

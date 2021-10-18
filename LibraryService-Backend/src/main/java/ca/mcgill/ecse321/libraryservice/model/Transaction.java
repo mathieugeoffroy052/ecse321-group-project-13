@@ -38,6 +38,10 @@ public class Transaction
   // CONSTRUCTOR
   //------------------------
 
+  public Transaction() {
+    transactionID = nextTransactionID++;
+  }
+
   public Transaction(BorrowableItem aItem, UserAccount aUserAccount, Date aDeadline)
   {
     transactionID = nextTransactionID++;
