@@ -43,13 +43,6 @@ public class LibrarySystem
   public LibrarySystem()
   {
     systemId = nextSystemId++;
-    userAccounts = Collections.<UserAccount>emptySet();
-    newspapers = Collections.<Newspaper>emptySet();
-    openingHours = Collections.<OpeningHour>emptySet();
-    timeSlots = Collections.<TimeSlot>emptySet();
-    newspaperArticles = Collections.<NewspaperArticle>emptySet();
-    libraryItems = Collections.<LibraryItem>emptySet();
-    holidays = Collections.<Holiday>emptySet();
   }
 
   //------------------------
@@ -273,23 +266,24 @@ public class LibrarySystem
   /* Code from template association_AddManyToOne */
 
 
-  public boolean addUserAccount(UserAccount aUserAccount)
-  {
-    boolean wasAdded = false;
-    if (userAccounts.contains(aUserAccount)) { return false; }
-    LibrarySystem existingLibrarySystem = aUserAccount.getLibrarySystem();
-    boolean isNewLibrarySystem = existingLibrarySystem != null && !this.equals(existingLibrarySystem);
-    if (isNewLibrarySystem)
-    {
-      aUserAccount.setLibrarySystem(this);
-    }
-    else
-    {
-      userAccounts.add(aUserAccount);
-    }
-    wasAdded = true;
-    return wasAdded;
-  }
+  // public boolean addUserAccount(UserAccount aUserAccount)
+  // {
+  //   boolean wasAdded = false;
+  //   if (userAccounts)
+  //   if (userAccounts.contains(aUserAccount)) { return false; }
+  //   LibrarySystem existingLibrarySystem = aUserAccount.getLibrarySystem();
+  //   boolean isNewLibrarySystem = existingLibrarySystem != null && !this.equals(existingLibrarySystem);
+  //   if (isNewLibrarySystem)
+  //   {
+  //     aUserAccount.setLibrarySystem(this);
+  //   }
+  //   else
+  //   {
+  //     userAccounts.add(aUserAccount);
+  //   }
+  //   wasAdded = true;
+  //   return wasAdded;
+  // }
 
   public boolean removeUserAccount(UserAccount aUserAccount)
   {

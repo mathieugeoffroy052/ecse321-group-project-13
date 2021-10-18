@@ -47,7 +47,6 @@ public abstract class LibraryItem
     {
       throw new RuntimeException("Unable to create libraryItem due to librarySystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
-    borrowableItem = Collections.<BorrowableItem>emptySet();
   }
 
   //------------------------

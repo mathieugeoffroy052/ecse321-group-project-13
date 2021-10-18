@@ -61,7 +61,6 @@ public class TimeSlot
     {
       throw new RuntimeException("Unable to create timeSlot due to headLibrarian. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
-    librarian = Collections.<Librarian>emptySet();
   }
 
   //------------------------

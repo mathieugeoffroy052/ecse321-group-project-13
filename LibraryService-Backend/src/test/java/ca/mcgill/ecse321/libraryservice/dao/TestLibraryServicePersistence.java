@@ -715,10 +715,6 @@ public class TestLibraryServicePersistence {
         assertNotNull(librarySystemTest, "Returned null, object was not saved in persistance layer"); //write validation
         assertEquals(idTest, librarySystemTest.getSystemId(), "Value of system ID returned by db not equal to" +idTest ); //read validation from db
 
-
-
-
-
     }
 
     @Test
@@ -746,14 +742,7 @@ public class TestLibraryServicePersistence {
 
         libraryItemRepository.save(bookTest);
 
-        
 
-
-    
-        
-        
-       
-       
 
         bookTest=null;
 
@@ -789,14 +778,8 @@ public class TestLibraryServicePersistence {
    
         assertNotNull(libraryItemRepository.findByLibrarySystem(lst), "Returned null, object was not saved in persistance layer"); //write validation
 
-        
-
-
-
 
     }
-
-
 
 
     @Test

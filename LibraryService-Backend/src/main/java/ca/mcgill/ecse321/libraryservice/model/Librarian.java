@@ -39,7 +39,6 @@ public class Librarian extends UserAccount
   {
     super(aFirstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aPassword, aBalance);
     librarianID = nextlibrarianID++;
-    timeSlot =  Collections.<TimeSlot>emptySet();
   }
 
   //------------------------

@@ -50,7 +50,6 @@ public class Newspaper
     {
       throw new RuntimeException("Unable to create newspaper due to librarySystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
-    articles = Collections.<NewspaperArticle>emptySet();
   }
 
 
@@ -100,10 +99,9 @@ public class Newspaper
 
 
 
-  @OneToMany
+  @OneToMany(mappedBy ="newspaper")
   public Set<NewspaperArticle> getArticles()
   {
-   
     return articles;
   }
 
