@@ -28,7 +28,7 @@ public abstract class LibraryItem
 
   //LibraryItem Associations
   private LibrarySystem librarySystem;
-  private List<BorrowableItem> borrowableItem;
+  private Set<BorrowableItem> borrowableItem;
 
   //------------------------
   // CONSTRUCTOR
@@ -47,7 +47,6 @@ public abstract class LibraryItem
     {
       throw new RuntimeException("Unable to create libraryItem due to librarySystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
-    borrowableItem = new ArrayList<BorrowableItem>();
   }
 
   //------------------------
@@ -81,7 +80,7 @@ public abstract class LibraryItem
     return wasSet;
   }
 
-  public boolean setBorrowableItem(ArrayList<BorrowableItem> aItems)
+  public boolean setBorrowableItem(Set<BorrowableItem> aItems)
   {
     boolean wasSet = false;
     borrowableItem = aItems;
@@ -101,18 +100,10 @@ public abstract class LibraryItem
     return librarySystem;
   }
 
-  /* Code from template association_GetMany */
-  public BorrowableItem getBorrowableItem(int index)
-  {
-    BorrowableItem aItem = borrowableItem.get(index);
-    return aItem;
-  }
-
   @OneToMany(mappedBy = "libraryItem")
-  public List<BorrowableItem> getBorrowableItem()
+  public Set<BorrowableItem> getBorrowableItem()
   {
-    List<BorrowableItem> newItems = Collections.unmodifiableList(borrowableItem);
-    return newItems;
+    return borrowableItem;
   }
 
   public int numberOfBorrowableItem()
@@ -125,12 +116,6 @@ public abstract class LibraryItem
   {
     boolean has = borrowableItem.size() > 0;
     return has;
-  }
-
-  public int indexOfBorrowableItem(BorrowableItem aItem)
-  {
-    int index = borrowableItem.indexOf(aItem);
-    return index;
   }
 
   /* Code from template association_SetOneToMany */
@@ -204,10 +189,9 @@ public abstract class LibraryItem
     {
       placeholderLibrarySystem.removeLibraryItem(this);
     }
-    for(int i=borrowableItem.size(); i > 0; i--)
+    for(BorrowableItem item: borrowableItem)
     {
-      BorrowableItem aItem = borrowableItem.get(i - 1);
-      aItem.delete();
+      item.delete();
     }
   }
 
