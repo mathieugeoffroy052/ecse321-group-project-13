@@ -177,7 +177,7 @@ public abstract class UserAccount
     {
       existingLibrarySystem.removeUserAccount(this);
     }
-    librarySystem.addUserAccount(this);
+    librarySystem.setUserAccounts(aLibrarySystem.getUserAccounts());
     wasSet = true;
     return wasSet;
   }

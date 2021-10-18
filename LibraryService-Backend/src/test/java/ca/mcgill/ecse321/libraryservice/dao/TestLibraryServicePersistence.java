@@ -61,8 +61,6 @@ public class TestLibraryServicePersistence {
     @Autowired
     private UserAccountRepository userAccountRepository;
 
-    private LibrarySystem library;
-
     @AfterEach
     public void clearDatabase() {
         //delete all instances from bottom to top of model
@@ -85,13 +83,11 @@ public class TestLibraryServicePersistence {
         addressRepository.deleteAll();
         userAccountRepository.deleteAll();
         librarySystemRepository.deleteAll();
-
-        library.delete();
     }
 
     @Test
     public void testPersistAndLoadPatron() {
-        library = new LibrarySystem();
+        LibrarySystem library = new LibrarySystem();
         librarySystemRepository.save(library);
         
         //create inputs for patron constructor
@@ -137,7 +133,7 @@ public class TestLibraryServicePersistence {
 
     @Test
     public void testPersistAndLoadPatronByReference() {
-        library = new LibrarySystem();
+        LibrarySystem library = new LibrarySystem();
         librarySystemRepository.save(library);
 
         //create inputs for patron constructor
@@ -179,7 +175,7 @@ public class TestLibraryServicePersistence {
 
     @Test
     public void testPersistAndLoadLibrarian() {
-        library = new LibrarySystem();
+        LibrarySystem library = new LibrarySystem();
         librarySystemRepository.save(library);
 
         //create inputs for librarian constructor
@@ -226,7 +222,7 @@ public class TestLibraryServicePersistence {
 
     @Test @SuppressWarnings("deprecation")
     public void testPersistAndLoadLibrarianByReference() {
-        library = new LibrarySystem();
+        LibrarySystem library = new LibrarySystem();
         librarySystemRepository.save(library);
 
         //create inputs for librarian constructor
@@ -298,7 +294,7 @@ public class TestLibraryServicePersistence {
 
     @Test
     public void testPersistAndLoadHeadLibrarian() {
-        library = new LibrarySystem();
+        LibrarySystem library = new LibrarySystem();
         librarySystemRepository.save(library);
 
         //create inputs for head librarian constructor
@@ -345,7 +341,7 @@ public class TestLibraryServicePersistence {
 
     @Test @SuppressWarnings("deprecation")
     public void testPersistAndLoadTimeSlot() {
-        library = new LibrarySystem();
+        LibrarySystem library = new LibrarySystem();
         librarySystemRepository.save(library);
 
         //create inputs for timeslot constructor
@@ -409,7 +405,7 @@ public class TestLibraryServicePersistence {
 
     @Test @SuppressWarnings("deprecation")
     public void testPersistAndLoadTimeSlotByReference() {
-        library = new LibrarySystem();
+        LibrarySystem library = new LibrarySystem();
         librarySystemRepository.save(library);
 
         //create inputs for timeslot constructor
@@ -469,7 +465,7 @@ public class TestLibraryServicePersistence {
 
     @Test @SuppressWarnings("deprecation")
     public void testPersistAndLoadHoliday() {
-        library = new LibrarySystem();
+        LibrarySystem library = new LibrarySystem();
         librarySystemRepository.save(library);
 
         //create inputs for holiday constructor
@@ -531,7 +527,7 @@ public class TestLibraryServicePersistence {
 
     @Test @SuppressWarnings("deprecation")
     public void testPersistAndLoadOpeningHours() {
-        library = new LibrarySystem();
+        LibrarySystem library = new LibrarySystem();
         //librarySystemRepository.save(library);
 
         //create inputs for Opening hours constructor
@@ -594,9 +590,6 @@ public class TestLibraryServicePersistence {
 
     @Test
     public void testPersistAndLoadAddress() {
-        library = new LibrarySystem();
-        
-
         //create address inputs
         String streetAndNumber = "60 Street";
         String city = "Vancouver";
@@ -626,7 +619,7 @@ public class TestLibraryServicePersistence {
 
     @Test @SuppressWarnings("deprecation")
     public void testPersistAndLoadTransaction() {
-        library = new LibrarySystem();
+        LibrarySystem library = new LibrarySystem();
         librarySystemRepository.save(library);
 
         //create inputs for transaction
@@ -722,17 +715,13 @@ public class TestLibraryServicePersistence {
         assertNotNull(librarySystemTest, "Returned null, object was not saved in persistance layer"); //write validation
         assertEquals(idTest, librarySystemTest.getSystemId(), "Value of system ID returned by db not equal to" +idTest ); //read validation from db
 
-
-
-
-
     }
 
     @Test
     public void testPersistAndLoadBookAndLibraryItemAndBorowableItem() { //boorrowableitem //book //library item
        //new library instance
         LibrarySystem lst = new LibrarySystem();
-
+        librarySystemRepository.save(lst);
        
 
         //initiate varaibles for constructors
@@ -753,14 +742,7 @@ public class TestLibraryServicePersistence {
 
         libraryItemRepository.save(bookTest);
 
-        
 
-
-    
-        
-        
-       
-       
 
         bookTest=null;
 
@@ -777,6 +759,7 @@ public class TestLibraryServicePersistence {
         String name= "maya";
         String director= "hamid";
         LibrarySystem lst = new LibrarySystem();
+        librarySystemRepository.save(lst);
 
         
         Movie movieTest= new Movie(name, lst, director); // object +attributes
@@ -793,20 +776,17 @@ public class TestLibraryServicePersistence {
         //testing for abstract methods
        //having this as repo makes things awk
    
-        assertNotNull(libraryItemRepository.findByLibrarySystem(library), "Returned null, object was not saved in persistance layer"); //write validation
-
-        
-
-
+        assertNotNull(libraryItemRepository.findByLibrarySystem(lst), "Returned null, object was not saved in persistance layer"); //write validation
 
 
     }
 
 
-
-
     @Test
     public void testPersistAndLoadMusicAndLibraryItem() { //music
+        LibrarySystem library = new LibrarySystem();
+        librarySystemRepository.save(library);
+
         String name= "maya";
         String rapper= "hamid";
 

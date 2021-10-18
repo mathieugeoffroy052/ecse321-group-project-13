@@ -6,6 +6,8 @@ import java.util.*;
 import java.sql.Date;
 import javax.persistence.*;
 
+import org.dom4j.dtd.AttributeDecl;
+
 @Entity
 // line 91 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump 16-05-11-860.ump"
 public class Newspaper
@@ -28,7 +30,7 @@ public class Newspaper
   private int paperID;
 
   //Newspaper Associations
-  private List<NewspaperArticle> articles;
+  private Set<NewspaperArticle> articles;
   private LibrarySystem librarySystem;
 
   //------------------------
@@ -43,7 +45,6 @@ public class Newspaper
   {
     name = aName;
     paperID = nextPaperID++;
-    articles = new ArrayList<NewspaperArticle>();
     boolean didAddLibrarySystem = setLibrarySystem(aLibrarySystem);
     if (!didAddLibrarySystem)
     {
@@ -58,7 +59,7 @@ public class Newspaper
 
   public boolean setPaperID(int aPaperID)
   {
-    paperID = aPaperID;
+    this.paperID = aPaperID;
     if(paperID==aPaperID){
       return true;
     }
@@ -68,7 +69,7 @@ public class Newspaper
   @Id
   public int getPaperID()
   {
-    return paperID;
+    return this.paperID;
   }
   
   //------------------------
@@ -83,7 +84,7 @@ public class Newspaper
     return wasSet;
   }
 
-  public boolean setArticles(ArrayList<NewspaperArticle> aArticles)
+  public boolean setArticles(Set<NewspaperArticle> aArticles)
   {
     boolean wasSet = false;
     articles = aArticles;
@@ -93,27 +94,21 @@ public class Newspaper
 
   public String getName()
   {
-    return name;
+    return this.name;
   }
 
-  /* Code from template association_GetMany */
-  public NewspaperArticle getArticle(int index)
-  {
-    NewspaperArticle aArticle = articles.get(index);
-    return aArticle;
-  }
 
-  @OneToMany(mappedBy = "newspaper")
-  public List<NewspaperArticle> getArticles()
+
+  @OneToMany(mappedBy ="newspaper")
+  public Set<NewspaperArticle> getArticles()
   {
-    List<NewspaperArticle> newArticles = Collections.unmodifiableList(articles);
-    return newArticles;
+    return articles;
   }
 
   public int numberOfArticles()
   {
-    int number = articles.size();
-    return number;
+   
+    return articles.size();
   }
 
   public boolean hasArticles()
@@ -122,11 +117,7 @@ public class Newspaper
     return has;
   }
 
-  public int indexOfArticle(NewspaperArticle aArticle)
-  {
-    int index = articles.indexOf(aArticle);
-    return index;
-  }
+
 
   /* Code from template association_GetOne */
   @ManyToOne(optional=false)
@@ -199,9 +190,9 @@ public class Newspaper
 
   public void delete()
   {
-    for(int i=articles.size(); i > 0; i--)
+    for(NewspaperArticle aArticle  : articles)
     {
-      NewspaperArticle aArticle = articles.get(i - 1);
+      
       aArticle.delete();
     }
     LibrarySystem placeholderLibrarySystem = librarySystem;
