@@ -43,7 +43,6 @@ public class Newspaper
   {
     name = aName;
     paperID = nextPaperID++;
-
     boolean didAddLibrarySystem = setLibrarySystem(aLibrarySystem);
     if (!didAddLibrarySystem)
     {
