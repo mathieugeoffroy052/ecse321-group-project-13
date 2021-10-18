@@ -213,6 +213,7 @@ public class TestLibraryServicePersistence {
         addressRepository.save(address);
         librarianRepository.save(librarian);
 
+
         //clear librarian
         librarian = null;
 
@@ -580,6 +581,133 @@ public class TestLibraryServicePersistence {
         assertEquals(library, transaction.getBorrowableItem().getLibraryItem());
 
     }
+    @Test
+    public void testPersistAndLoadLibrarySystem() {
+        library = new LibrarySystem();
+
+        librarySystemRepository.save(library);
+        int idTest=777;
+        
+        LibrarySystem librarySystemTest= new LibrarySystem(); //save/load
+    
+        librarySystemTest.setSystemId(idTest); //attribute save/load
+        librarySystemRepository.save(librarySystemTest);
+        
+        librarySystemTest=null; //set object null to check references
+
+        librarySystemTest=librarySystemRepository.findBySystemId(idTest);
+        assertNotNull(librarySystemTest, "Returned null, object was not saved in persistance layer"); //write validation
+        assertEquals(idTest, librarySystemTest.getSystemId(), "Value of system ID returned by db not equal to" +idTest ); //read validation from db
+
+
+
+
+
+    }
+
+    @Test
+    public void testPersistAndLoadBookAndLibraryItemAndBorowableItem() { //boorrowableitem //book //library item
+       //new library instance
+        library = new LibrarySystem();
+        librarySystemRepository.save(library);
+
+        //initiate varaibles for constructors
+        String name= "maya";
+        String author= "hamid";
+        ItemState stateTest= ItemState.Available;
+        
+        
+        Book bookTest= new Book(name, library, author); // object +attributes
+        int isbnTest= bookTest.getIsbn();
+
+        bookRepository.save(bookTest);
+        libraryItemRepository.save(bookTest);
+       
+        //add borowable item
+        BorrowableItem borroableItemTest=  new BorrowableItem(stateTest, bookTest); 
+        borrowableItemRepository.save(borroableItemTest);
+         bookTest=null;
+
+
+        bookTest=bookRepository.findByIsbn(isbnTest);
+        assertNotNull(bookTest, "Returned null, object was not saved in persistance layer"); //write validation
+        assertEquals(author, bookTest.getAuthor(), "Value of system ID returned by db not equal to" +author ); //read validation from db
+
+        //testing for abstract methods
+       //having this as repo makes things awk
+   
+        assertNotNull(libraryItemRepository.findByLibrarySystem(library), "Returned null, object was not saved in persistance layer"); //write validation
+
+
+
+
+    }
+
+    @Test
+    public void testPersistAndLoadMovieAndLibraryItem() { //movie
+        String name= "maya";
+        String director= "hamid";
+
+        Movie movieTest= new Movie(name, library, director); // object +attributes
+        int isbnTest= movieTest.getIsbn();
+
+        movieRepository.save(movieTest);
+        libraryItemRepository.save(movieTest);
+        movieTest=null;
+
+        movieTest=movieRepository.findByIsbn(isbnTest);
+        assertNotNull(movieTest, "Returned null, object was not saved in persistance layer"); //write validation
+        assertEquals(director, movieTest.getDirector(), "Value of system ID returned by db not equal to" +director ); //read validation from db
+
+        //testing for abstract methods
+       //having this as repo makes things awk
+   
+        assertNotNull(libraryItemRepository.findByLibrarySystem(library), "Returned null, object was not saved in persistance layer"); //write validation
+
+        
+
+
+
+
+    }
+
+
+
+
+    @Test
+    public void testPersistAndLoadMusicAndLibraryItem() { //music
+        String name= "maya";
+        String rapper= "hamid";
+
+        Music musicTest= new Music(name, library, rapper); // object +attributes
+        int isbnTest= musicTest.getIsbn();
+
+        musicRepository.save(musicTest);
+        libraryItemRepository.save(musicTest);
+        musicTest=null;
+
+        musicTest=musicRepository.findByIsbn(isbnTest);
+        assertNotNull(musicTest, "Returned null, object was not saved in persistance layer"); //write validation
+        assertEquals(rapper, musicTest.getArtist(), "Value of system ID returned by db not equal to" +rapper ); //read validation from db
+
+        //testing for abstract methods
+       //having this as repo makes things awk
+   
+        assertNotNull(libraryItemRepository.findByLibrarySystem(library), "Returned null, object was not saved in persistance layer"); //write validation
+
+
+
+    }
+
+
+    @Test 
+    public void testPerisistAndLoadNewspaperArticleItem() {
+        
+
+
+
+    }
+
 
 }
 
