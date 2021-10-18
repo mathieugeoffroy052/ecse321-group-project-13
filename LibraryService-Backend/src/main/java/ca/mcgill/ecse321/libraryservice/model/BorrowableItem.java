@@ -38,6 +38,10 @@ public class BorrowableItem
   // CONSTRUCTOR
   //------------------------
 
+  public BorrowableItem() {
+    barCodeNumber = nextBarCodeNumber++;
+  }
+
   public BorrowableItem(ItemState aState, LibraryItem aLibraryItem)
   {
     state = aState;

@@ -19,6 +19,10 @@ public class Movie extends LibraryItem
   // CONSTRUCTOR
   //------------------------
 
+  public Movie() {
+    super();
+  }
+
   public Movie(String aName, LibrarySystem aLibrarySystem, String aDirector)
   {
     super(aName, aLibrarySystem);

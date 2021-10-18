@@ -19,6 +19,10 @@ public class Music extends LibraryItem
   // CONSTRUCTOR
   //------------------------
 
+  public Music() {
+    super();
+  }
+
   public Music(String aName, LibrarySystem aLibrarySystem, String aArtist)
   {
     super(aName, aLibrarySystem);

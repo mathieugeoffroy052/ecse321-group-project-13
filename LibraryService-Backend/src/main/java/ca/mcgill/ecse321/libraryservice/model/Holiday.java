@@ -37,6 +37,10 @@ public class Holiday
   // CONSTRUCTOR
   //------------------------
 
+  public Holiday() {
+    holidayID = nextHolidayID++;
+  }
+
   public Holiday(Date aDate, Time aStartTime, Time aEndtime, LibrarySystem aLibrarySystem, HeadLibrarian aHeadLibrarian)
   {
     date = aDate;

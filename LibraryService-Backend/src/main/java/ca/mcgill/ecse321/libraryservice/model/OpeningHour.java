@@ -42,6 +42,10 @@ public class OpeningHour
   // CONSTRUCTOR
   //------------------------
 
+  public OpeningHour() {
+    hourID = nextHourID++;
+  }
+
   public OpeningHour(DayOfWeek aDayOfWeek, Time aStartTime, Time aEndTime, LibrarySystem aLibrarySystem, HeadLibrarian aHeadLibrarian)
   {
     dayOfWeek = aDayOfWeek;

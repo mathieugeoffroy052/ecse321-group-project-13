@@ -17,6 +17,10 @@ public class Room extends LibraryItem
   // CONSTRUCTOR
   //------------------------
 
+  public Room() {
+    super();
+  }
+
   public Room(String aName, LibrarySystem aLibrarySystem)
   {
     super(aName, aLibrarySystem);

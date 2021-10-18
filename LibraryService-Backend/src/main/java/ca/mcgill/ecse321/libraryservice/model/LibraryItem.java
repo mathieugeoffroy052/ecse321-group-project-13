@@ -34,6 +34,10 @@ public abstract class LibraryItem
   // CONSTRUCTOR
   //------------------------
 
+  public LibraryItem() {
+    isbn = nextIsbn++;
+  }
+
   public LibraryItem(String aName, LibrarySystem aLibrarySystem)
   {
     name = aName;

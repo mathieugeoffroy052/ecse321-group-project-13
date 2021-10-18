@@ -18,6 +18,9 @@ public class Book extends LibraryItem
   //------------------------
   // CONSTRUCTOR
   //------------------------
+  public Book() {
+    super();
+  }
 
   public Book(String aName, LibrarySystem aLibrarySystem, String aAuthor)
   {
