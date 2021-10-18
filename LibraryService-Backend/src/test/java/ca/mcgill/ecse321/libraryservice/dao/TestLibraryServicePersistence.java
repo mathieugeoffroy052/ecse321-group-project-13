@@ -61,7 +61,7 @@ public class TestLibraryServicePersistence {
     @Autowired
     private UserAccountRepository userAccountRepository;
 
-    private LibrarySystem library = new LibrarySystem();
+    private LibrarySystem library;
 
     @AfterEach
     public void clearDatabase() {
@@ -87,11 +87,13 @@ public class TestLibraryServicePersistence {
         librarySystemRepository.deleteAll();
 
         library.delete();
-        library = new LibrarySystem();
     }
 
     @Test
     public void testPersistAndLoadPatron() {
+        library = new LibrarySystem();
+        librarySystemRepository.save(library);
+        
         //create inputs for patron constructor
         String firstName = "John";
         String lastName = "Doe";
@@ -139,6 +141,9 @@ public class TestLibraryServicePersistence {
 
     @Test
     public void testPersistAndLoadPatronByReference() {
+        library = new LibrarySystem();
+        librarySystemRepository.save(library);
+
         //create inputs for patron constructor
         String firstName = "John";
         String lastName = "Doe";
@@ -155,9 +160,6 @@ public class TestLibraryServicePersistence {
 
         //create patron
         Patron patron = new Patron(firstName, lastName, online, library, address, validated, password, balance);
-
-        //get patronID to retrieve patron from DB
-        int patronID = patron.getUserID();
 
         //save patron in DB
         addressRepository.save(address);
@@ -185,6 +187,9 @@ public class TestLibraryServicePersistence {
 
     @Test
     public void testPersistAndLoadLibrarian() {
+        library = new LibrarySystem();
+        librarySystemRepository.save(library);
+
         //create inputs for librarian constructor
         String firstName = "Jake";
         String lastName = "Morello";
@@ -228,6 +233,9 @@ public class TestLibraryServicePersistence {
 
     @Test
     public void testPersistAndLoadHeadLibrarian() {
+        library = new LibrarySystem();
+        librarySystemRepository.save(library);
+
         //create inputs for head librarian constructor
         String firstName = "Laura";
         String lastName = "Porto";
@@ -271,6 +279,9 @@ public class TestLibraryServicePersistence {
 
     @Test @SuppressWarnings("deprecation")
     public void testPersistAndLoadTimeSlot() {
+        library = new LibrarySystem();
+        librarySystemRepository.save(library);
+
         //create inputs for holiday constructor
         Date startDate = new Date(2020, 12, 25);
         Time startTime =  new Time(12, 43, 0);
@@ -333,6 +344,9 @@ public class TestLibraryServicePersistence {
 
     @Test @SuppressWarnings("deprecation")
     public void testPersistAndLoadHoliday() {
+        library = new LibrarySystem();
+        librarySystemRepository.save(library);
+
         //create inputs for holiday constructor
         Date date = new Date(2020, 12, 25);
         Time startTime =  new Time(12, 43, 0);
@@ -392,6 +406,9 @@ public class TestLibraryServicePersistence {
 
     @Test @SuppressWarnings("deprecation")
     public void testPersistAndLoadOpeningHours() {
+        library = new LibrarySystem();
+        librarySystemRepository.save(library);
+
         //create inputs for Opening hours constructor
         DayOfWeek dayOfWeek = DayOfWeek.Saturday;
         Time startTime =  new Time(12, 43, 0);
@@ -451,6 +468,9 @@ public class TestLibraryServicePersistence {
 
     @Test
     public void testPersistAndLoadAddress() {
+        library = new LibrarySystem();
+        
+
         //create address inputs
         String streetAndNumber = "60 Street";
         String city = "Vancouver";
@@ -480,6 +500,9 @@ public class TestLibraryServicePersistence {
 
     @Test @SuppressWarnings("deprecation")
     public void testPersistAndLoadTransaction() {
+        library = new LibrarySystem();
+        librarySystemRepository.save(library);
+
         //create inputs for transaction
         Date deadline =  new Date(2021, 5, 10);
 
