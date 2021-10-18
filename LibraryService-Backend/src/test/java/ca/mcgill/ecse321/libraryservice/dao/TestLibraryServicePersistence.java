@@ -489,9 +489,11 @@ public class TestLibraryServicePersistence {
         String city = "Toronto";
         String country = "Canada";
         Address address = new Address(streetAndNumber, city, country);
+        addressRepository.save(address);
 
         //create head librarian
         HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance);
+        headLibrarianRepository.save(headLibrarian);
 
         //create holiday
         Holiday holiday = new Holiday(date, startTime, endTime, library, headLibrarian);
@@ -500,8 +502,6 @@ public class TestLibraryServicePersistence {
         int holidayID = holiday.getHolidayID();
 
         //save holiday to DB
-        addressRepository.save(address);
-        headLibrarianRepository.save(headLibrarian);
         holidayRepository.save(holiday);
 
         //clear timeslot
@@ -511,21 +511,21 @@ public class TestLibraryServicePersistence {
         holiday = holidayRepository.findHolidayByHolidayID(holidayID);
 
         //test functionality
-        assertNotNull(holiday);
-        assertEquals(date, holiday.getDate());
-        assertEquals(startTime, holiday.getStartTime());
-        assertEquals(endTime, holiday.getEndtime());
-        assertEquals(library, holiday.getLibrarySystem());
+        assertNotNull(holiday, "No holiday retrieved");
+        assertEquals(date, holiday.getDate(), "holiday.date mismatch");
+        assertEquals(startTime, holiday.getStartTime(), "holiday.startTime mismatch");
+        assertEquals(endTime, holiday.getEndtime(), "holiday.endTime mismatch");
+        
         
         //test persistence of head librarian within holiday
-        assertNotNull(headLibrarian);
-        assertEquals(firstName, holiday.getHeadLibrarian().getFirstName());
-        assertEquals(lastName, holiday.getHeadLibrarian().getLastName());
-        assertEquals(online, holiday.getHeadLibrarian().getOnlineAccount());
-        assertEquals(password, holiday.getHeadLibrarian().getPassword());
-        assertEquals(streetAndNumber, holiday.getHeadLibrarian().getAddress().getAddress());
-        assertEquals(city, holiday.getHeadLibrarian().getAddress().getCity());
-        assertEquals(country, holiday.getHeadLibrarian().getAddress().getCountry());
+        assertNotNull(holiday.getHeadLibrarian(), "No head librarian retrieved");
+        assertEquals(firstName, holiday.getHeadLibrarian().getFirstName(), "holiday.headLibrarian.firstName mismatch");
+        assertEquals(lastName, holiday.getHeadLibrarian().getLastName(), "holiday.headLibrarian.lastName mismatch");
+        assertEquals(online, holiday.getHeadLibrarian().getOnlineAccount(), "holiday.headLibrarian.onlineAccount mismatch");
+        assertEquals(password, holiday.getHeadLibrarian().getPassword(), "holiday.headLibrarian.password mismatch");
+        assertEquals(streetAndNumber, holiday.getHeadLibrarian().getAddress().getAddress(), "holiday.headLibrarian.address.address mismatch");
+        assertEquals(city, holiday.getHeadLibrarian().getAddress().getCity(), "holiday.headLibrarian.address.city mismatch");
+        assertEquals(country, holiday.getHeadLibrarian().getAddress().getCountry(), "holiday.headLibrarian.address.country mismatch");
 
     }
 
