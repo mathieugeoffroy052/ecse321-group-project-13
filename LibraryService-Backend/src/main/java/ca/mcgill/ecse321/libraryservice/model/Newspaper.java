@@ -35,6 +35,10 @@ public class Newspaper
   // CONSTRUCTOR
   //------------------------
 
+  public Newspaper() {
+    paperID = nextPaperID++;
+  }
+
   public Newspaper(String aName, LibrarySystem aLibrarySystem)
   {
     name = aName;
