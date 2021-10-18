@@ -583,9 +583,7 @@ public class TestLibraryServicePersistence {
     }
     @Test
     public void testPersistAndLoadLibrarySystem() {
-        library = new LibrarySystem();
 
-        librarySystemRepository.save(library);
         int idTest=777;
         
         LibrarySystem librarySystemTest= new LibrarySystem(); //save/load
@@ -608,37 +606,43 @@ public class TestLibraryServicePersistence {
     @Test
     public void testPersistAndLoadBookAndLibraryItemAndBorowableItem() { //boorrowableitem //book //library item
        //new library instance
-        library = new LibrarySystem();
-        librarySystemRepository.save(library);
+        LibrarySystem lst = new LibrarySystem();
+
+       
 
         //initiate varaibles for constructors
         String name= "maya";
         String author= "hamid";
-        ItemState stateTest= ItemState.Available;
+       ItemState stateTest= ItemState.Available;
+    
+
         
-        
-        Book bookTest= new Book(name, library, author); // object +attributes
+        Book bookTest= new Book(name, lst, author); // object +attributes
         int isbnTest= bookTest.getIsbn();
 
-        bookRepository.save(bookTest);
-        libraryItemRepository.save(bookTest);
-       
         //add borowable item
-        BorrowableItem borroableItemTest=  new BorrowableItem(stateTest, bookTest); 
-        borrowableItemRepository.save(borroableItemTest);
-         bookTest=null;
+       BorrowableItem borroableItemTest=  new BorrowableItem(stateTest, bookTest); 
+        
+       borrowableItemRepository.save(borroableItemTest);
+        bookRepository.save(bookTest);
+
+        libraryItemRepository.save(bookTest);
+
+        
+
+
+    
+        
+        
+       
+       
+
+        bookTest=null;
 
 
         bookTest=bookRepository.findByIsbn(isbnTest);
         assertNotNull(bookTest, "Returned null, object was not saved in persistance layer"); //write validation
         assertEquals(author, bookTest.getAuthor(), "Value of system ID returned by db not equal to" +author ); //read validation from db
-
-        //testing for abstract methods
-       //having this as repo makes things awk
-   
-        assertNotNull(libraryItemRepository.findByLibrarySystem(library), "Returned null, object was not saved in persistance layer"); //write validation
-
-
 
 
     }
@@ -647,8 +651,10 @@ public class TestLibraryServicePersistence {
     public void testPersistAndLoadMovieAndLibraryItem() { //movie
         String name= "maya";
         String director= "hamid";
+        LibrarySystem lst = new LibrarySystem();
 
-        Movie movieTest= new Movie(name, library, director); // object +attributes
+        
+        Movie movieTest= new Movie(name, lst, director); // object +attributes
         int isbnTest= movieTest.getIsbn();
 
         movieRepository.save(movieTest);
