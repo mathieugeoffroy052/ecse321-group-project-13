@@ -103,7 +103,7 @@ public class Newspaper
     return aArticle;
   }
 
-  @OneToMany
+  @OneToMany(cascade={CascadeType.ALL})
   public List<NewspaperArticle> getArticles()
   {
     List<NewspaperArticle> newArticles = Collections.unmodifiableList(articles);

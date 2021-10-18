@@ -108,7 +108,7 @@ public abstract class LibraryItem
     return aItem;
   }
 
-  @OneToMany
+  @OneToMany(cascade={CascadeType.ALL})
   public List<BorrowableItem> getBorrowableItem()
   {
     List<BorrowableItem> newItems = Collections.unmodifiableList(borrowableItem);
