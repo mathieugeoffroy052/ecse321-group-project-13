@@ -103,7 +103,7 @@ public class Newspaper
     return aArticle;
   }
 
-  @OneToMany
+  @OneToMany(mappedBy = "newspaper")
   public List<NewspaperArticle> getArticles()
   {
     List<NewspaperArticle> newArticles = Collections.unmodifiableList(articles);
