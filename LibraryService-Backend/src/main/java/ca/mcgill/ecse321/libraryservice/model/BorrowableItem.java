@@ -90,7 +90,7 @@ public class BorrowableItem
   }
 
   /* Code from template association_GetOne */
-  @ManyToOne(optional=false)
+  @ManyToOne(optional = false)
   public LibraryItem getLibraryItem()
   {
     return libraryItem;
