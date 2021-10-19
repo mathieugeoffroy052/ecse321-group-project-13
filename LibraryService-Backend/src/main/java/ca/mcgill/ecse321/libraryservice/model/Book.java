@@ -44,9 +44,4 @@ public class Book extends LibraryItem
     return wasSet;
   }
 
-  public void delete()
-  {
-    super.delete();
-  }
-
 }

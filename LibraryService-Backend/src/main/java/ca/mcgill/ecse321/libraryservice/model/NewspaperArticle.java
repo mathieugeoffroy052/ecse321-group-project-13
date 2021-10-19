@@ -112,14 +112,7 @@ public class NewspaperArticle
     {
       return wasSet;
     }
-
-    LibrarySystem existingLibrarySystem = librarySystem;
     librarySystem = aLibrarySystem;
-    if (existingLibrarySystem != null && !existingLibrarySystem.equals(aLibrarySystem))
-    {
-      existingLibrarySystem.removeNewspaperArticle(this);
-    }
-    librarySystem.addNewspaperArticle(this);
     wasSet = true;
     return wasSet;
   }
@@ -132,34 +125,10 @@ public class NewspaperArticle
     {
       return wasSet;
     }
-
-    Newspaper existingNewspaper = newspaper;
     newspaper = aNewspaper;
-    if (existingNewspaper != null && !existingNewspaper.equals(aNewspaper))
-    {
-      existingNewspaper.removeArticle(this);
-    }
-    newspaper.addArticle(this);
     wasSet = true;
     return wasSet;
   }
-
-  public void delete()
-  {
-    LibrarySystem placeholderLibrarySystem = librarySystem;
-    this.librarySystem = null;
-    if(placeholderLibrarySystem != null)
-    {
-      placeholderLibrarySystem.removeNewspaperArticle(this);
-    }
-    Newspaper placeholderNewspaper = newspaper;
-    this.newspaper = null;
-    if(placeholderNewspaper != null)
-    {
-      placeholderNewspaper.removeArticle(this);
-    }
-  }
-
 
   public String toString()
   {

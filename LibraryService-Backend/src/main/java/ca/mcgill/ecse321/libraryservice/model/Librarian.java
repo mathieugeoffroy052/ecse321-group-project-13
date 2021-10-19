@@ -96,63 +96,6 @@ public class Librarian extends UserAccount
     return 0;
   }
 
-  /* Code from template association_AddManyToManyMethod */
-  public boolean addTimeSlot(TimeSlot aTimeSlot)
-  {
-    boolean wasAdded = false;
-    if (timeSlot.contains(aTimeSlot)) { return false; }
-    timeSlot.add(aTimeSlot);
-    if (aTimeSlot.getLibrarian().contains(this))
-    {
-      wasAdded = true;
-    }
-    else
-    {
-      wasAdded = aTimeSlot.addLibrarian(this);
-      if (!wasAdded)
-      {
-        timeSlot.remove(aTimeSlot);
-      }
-    }
-    return wasAdded;
-  }
-
-  public boolean removeTimeSlot(TimeSlot aTimeSlot)
-  {
-    boolean wasRemoved = false;
-    if (!timeSlot.contains(aTimeSlot))
-    {
-      return wasRemoved;
-    }
-
-    timeSlot.remove(aTimeSlot);
-    if (aTimeSlot.getLibrarian().contains(this))
-    {
-      wasRemoved = true;
-    }
-    else
-    {
-      wasRemoved = aTimeSlot.removeLibrarian(this);
-      if (!wasRemoved)
-      {
-        timeSlot.add(aTimeSlot);
-      }
-    }
-    return wasRemoved;
-  }
-
-  public void delete()
-  {
-    Set<TimeSlot> copyOfTimeSlot = timeSlot;
-    timeSlot.clear();
-    for(TimeSlot aTimeSlot : copyOfTimeSlot)
-    {
-      aTimeSlot.removeLibrarian(this);
-    }
-    super.delete();
-  }
-
-
   public String toString()
   {
     return super.toString() + "["+

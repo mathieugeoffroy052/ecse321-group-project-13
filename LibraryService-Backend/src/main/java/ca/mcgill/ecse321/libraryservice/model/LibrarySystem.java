@@ -263,80 +263,11 @@ public class LibrarySystem
   {
     return 0;
   }
-  /* Code from template association_AddManyToOne */
-
-
-  // public boolean addUserAccount(UserAccount aUserAccount)
-  // {
-  //   boolean wasAdded = false;
-  //   if (userAccounts)
-  //   if (userAccounts.contains(aUserAccount)) { return false; }
-  //   LibrarySystem existingLibrarySystem = aUserAccount.getLibrarySystem();
-  //   boolean isNewLibrarySystem = existingLibrarySystem != null && !this.equals(existingLibrarySystem);
-  //   if (isNewLibrarySystem)
-  //   {
-  //     aUserAccount.setLibrarySystem(this);
-  //   }
-  //   else
-  //   {
-  //     userAccounts.add(aUserAccount);
-  //   }
-  //   wasAdded = true;
-  //   return wasAdded;
-  // }
-
-  public boolean removeUserAccount(UserAccount aUserAccount)
-  {
-    boolean wasRemoved = false;
-    //Unable to remove aUserAccount, as it must always have a librarySystem
-    if (!this.equals(aUserAccount.getLibrarySystem()))
-    {
-      userAccounts.remove(aUserAccount);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
 
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfNewspapers()
   {
     return 0;
-  }
-
-  /* Code from template association_AddManyToOne */
-  public Newspaper addNewspaper(String aName)
-  {
-    return new Newspaper(aName, this);
-  }
-
-  public boolean addNewspaper(Newspaper aNewspaper)
-  {
-    boolean wasAdded = false;
-    if (newspapers.contains(aNewspaper)) { return false; }
-    LibrarySystem existingLibrarySystem = aNewspaper.getLibrarySystem();
-    boolean isNewLibrarySystem = existingLibrarySystem != null && !this.equals(existingLibrarySystem);
-    if (isNewLibrarySystem)
-    {
-      aNewspaper.setLibrarySystem(this);
-    }
-    else
-    {
-      newspapers.add(aNewspaper);
-    }
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeNewspaper(Newspaper aNewspaper)
-  {
-    boolean wasRemoved = false;
-    //Unable to remove aNewspaper, as it must always have a librarySystem
-    if (!this.equals(aNewspaper.getLibrarySystem()))
-    {
-      newspapers.remove(aNewspaper);
-      wasRemoved = true;
-    }
-    return wasRemoved;
   }
 
   /* Code from template association_MinimumNumberOfMethod */
@@ -351,124 +282,16 @@ public class LibrarySystem
     return 7;
   }
 
-  /* Code from template association_AddManyToOne */
-  public OpeningHour addOpeningHour(OpeningHour.DayOfWeek aDayOfWeek, Time aStartTime, Time aEndTime, HeadLibrarian aHeadLibrarian)
-  {
-    return new OpeningHour(aDayOfWeek, aStartTime, aEndTime, this, aHeadLibrarian);
-  }
-
-  public boolean addOpeningHour(OpeningHour aOpeningHour)
-  {
-    boolean wasAdded = false;
-    if (openingHours.contains(aOpeningHour)) { return false; }
-    LibrarySystem existingLibrarySystem = aOpeningHour.getLibrarySystem();
-    boolean isNewLibrarySystem = existingLibrarySystem != null && !this.equals(existingLibrarySystem);
-    if (isNewLibrarySystem)
-    {
-      aOpeningHour.setLibrarySystem(this);
-    }
-    else
-    {
-      openingHours.add(aOpeningHour);
-    }
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeOpeningHour(OpeningHour aOpeningHour)
-  {
-    boolean wasRemoved = false;
-    //Unable to remove aOpeningHour, as it must always have a librarySystem
-    if (!this.equals(aOpeningHour.getLibrarySystem()))
-    {
-      openingHours.remove(aOpeningHour);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
-
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfTimeSlots()
   {
     return 0;
   }
 
-  /* Code from template association_AddManyToOne */
-  public TimeSlot addTimeSlot(Date aStartDate, Time aStartTime, Date aEndDate, Time aEndTime, HeadLibrarian aHeadLibrarian)
-  {
-    return new TimeSlot(aStartDate, aStartTime, aEndDate, aEndTime, this, aHeadLibrarian);
-  }
-
-  public boolean addTimeSlot(TimeSlot aTimeSlot)
-  {
-    boolean wasAdded = false;
-    if (timeSlots.contains(aTimeSlot)) { return false; }
-    LibrarySystem existingLibrarySystem = aTimeSlot.getLibrarySystem();
-    boolean isNewLibrarySystem = existingLibrarySystem != null && !this.equals(existingLibrarySystem);
-    if (isNewLibrarySystem)
-    {
-      aTimeSlot.setLibrarySystem(this);
-    }
-    else
-    {
-      timeSlots.add(aTimeSlot);
-    }
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeTimeSlot(TimeSlot aTimeSlot)
-  {
-    boolean wasRemoved = false;
-    //Unable to remove aTimeSlot, as it must always have a librarySystem
-    if (!this.equals(aTimeSlot.getLibrarySystem()))
-    {
-      timeSlots.remove(aTimeSlot);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
-
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfNewspaperArticles()
   {
     return 0;
-  }
-
-  /* Code from template association_AddManyToOne */
-  public NewspaperArticle addNewspaperArticle(Date aDate, Newspaper aNewspaper)
-  {
-    return new NewspaperArticle(aDate, this, aNewspaper);
-  }
-
-  public boolean addNewspaperArticle(NewspaperArticle aNewspaperArticle)
-  {
-    boolean wasAdded = false;
-    if (newspaperArticles.contains(aNewspaperArticle)) { return false; }
-    LibrarySystem existingLibrarySystem = aNewspaperArticle.getLibrarySystem();
-    boolean isNewLibrarySystem = existingLibrarySystem != null && !this.equals(existingLibrarySystem);
-    if (isNewLibrarySystem)
-    {
-      aNewspaperArticle.setLibrarySystem(this);
-    }
-    else
-    {
-      newspaperArticles.add(aNewspaperArticle);
-    }
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeNewspaperArticle(NewspaperArticle aNewspaperArticle)
-  {
-    boolean wasRemoved = false;
-    //Unable to remove aNewspaperArticle, as it must always have a librarySystem
-    if (!this.equals(aNewspaperArticle.getLibrarySystem()))
-    {
-      newspaperArticles.remove(aNewspaperArticle);
-      wasRemoved = true;
-    }
-    return wasRemoved;
   }
 
   /* Code from template association_MinimumNumberOfMethod */
@@ -483,85 +306,11 @@ public class LibrarySystem
     return 0;
   }
 
-  /* Code from template association_AddManyToOne */
-  public boolean addLibraryItem(LibraryItem aLibraryItem)
-  {
-    boolean wasAdded = false;
-    if (libraryItems.contains(aLibraryItem)) { return false; }
-    LibrarySystem existingLibrarySystem = aLibraryItem.getLibrarySystem();
-    boolean isNewLibrarySystem = existingLibrarySystem != null && !this.equals(existingLibrarySystem);
-    if (isNewLibrarySystem)
-    {
-      aLibraryItem.setLibrarySystem(this);
-    }
-    else
-    {
-      libraryItems.add(aLibraryItem);
-    }
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeLibraryItem(LibraryItem aLibraryItem)
-  {
-    boolean wasRemoved = false;
-    //Unable to remove aLibraryItem, as it must always have a librarySystem
-    if (!this.equals(aLibraryItem.getLibrarySystem()))
-    {
-      libraryItems.remove(aLibraryItem);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
-
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfholidays()
-  {
-    return 0;
-  }
-
-  /* Code from template association_AddManyToOne */
-  public Holiday addHoliday(Date aDate, Time aStartTime, Time aEndtime, HeadLibrarian aHeadLibrarian)
-  {
-    return new Holiday(aDate, aStartTime, aEndtime, this, aHeadLibrarian);
-  }
-
-  public boolean addHoliday(Holiday aHoliday)
-  {
-    boolean wasAdded = false;
-    if (holidays.contains(aHoliday)) { return false; }
-    LibrarySystem existingLibrarySystem = aHoliday.getLibrarySystem();
-    boolean isNewLibrarySystem = existingLibrarySystem != null && !this.equals(existingLibrarySystem);
-    if (isNewLibrarySystem)
-    {
-      aHoliday.setLibrarySystem(this);
-    }
-    else
-    {
-      holidays.add(aHoliday);
-    }
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeHoliday(Holiday aHoliday)
-  {
-    boolean wasRemoved = false;
-    //Unable to remove aHoliday, as it must always have a librarySystem
-    if (!this.equals(aHoliday.getLibrarySystem()))
-    {
-      holidays.remove(aHoliday);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
-
   public void delete()
   {
     if(!(userAccounts == null)){
       for (UserAccount account: userAccounts)
       {
-        account.delete();
         userAccounts.remove(account);
       }
     }
@@ -569,7 +318,6 @@ public class LibrarySystem
     if(!(newspapers== null)){
       for (Newspaper newspaper:newspapers)
       {
-        newspaper.delete();
         newspapers.remove(newspaper);
       }
     }
@@ -577,7 +325,6 @@ public class LibrarySystem
     if(!(openingHours==null)){
       for (OpeningHour hour : openingHours)
       {
-        hour.delete();
         openingHours.remove(hour);
       }
     }
@@ -586,7 +333,6 @@ public class LibrarySystem
     {
       for (TimeSlot time: timeSlots)
       {
-        time.delete();
         timeSlots.remove(time);
       }
     }
@@ -595,7 +341,6 @@ public class LibrarySystem
     {
       for (NewspaperArticle article: newspaperArticles)
       {
-        article.delete();
         newspaperArticles.remove(article);
       }
     }
@@ -604,7 +349,6 @@ public class LibrarySystem
     {
       for (LibraryItem item: libraryItems)
       {
-        item.delete();
         libraryItems.remove(item);
       }
     }
@@ -613,7 +357,6 @@ public class LibrarySystem
     {
       for (Holiday holiday: holidays)
       {
-        holiday.delete();
         holidays.remove(holiday);
       }
     }

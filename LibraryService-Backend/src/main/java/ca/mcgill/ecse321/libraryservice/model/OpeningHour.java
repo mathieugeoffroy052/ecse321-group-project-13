@@ -148,14 +148,7 @@ public class OpeningHour
     {
       return wasSet;
     }
-
-    LibrarySystem existingLibrarySystem = librarySystem;
     librarySystem = aLibrarySystem;
-    if (existingLibrarySystem != null && !existingLibrarySystem.equals(aLibrarySystem))
-    {
-      existingLibrarySystem.removeOpeningHour(this);
-    }
-    librarySystem.addOpeningHour(this);
     wasSet = true;
     return wasSet;
   }
@@ -175,39 +168,10 @@ public class OpeningHour
     {
       return wasSet;
     }
-    
-    HeadLibrarian existingHeadLibrarian = headLibrarian;
-    headLibrarian = aHeadLibrarian;
-    if (existingHeadLibrarian != null && !existingHeadLibrarian.equals(aHeadLibrarian))
-    {
-      boolean didRemove = librarySystem.removeOpeningHour(this);
-      if (!didRemove)
-      {
-        headLibrarian = existingHeadLibrarian;
-        return wasSet;
-      }
-    }
-    librarySystem.addOpeningHour(this);
+    this.headLibrarian = aHeadLibrarian;
     wasSet = true;
     return wasSet;
   }
-
-  public void delete()
-  {
-    LibrarySystem placeholderLibrarySystem = librarySystem;
-    this.librarySystem = null;
-    if(placeholderLibrarySystem != null)
-    {
-      placeholderLibrarySystem.removeOpeningHour(this);
-    }
-    HeadLibrarian placeholderHeadLibrarian = headLibrarian;
-    this.headLibrarian = null;
-    if(placeholderHeadLibrarian != null)
-    {
-      librarySystem.removeOpeningHour(this);
-    }
-  }
-
 
   public String toString()
   {
