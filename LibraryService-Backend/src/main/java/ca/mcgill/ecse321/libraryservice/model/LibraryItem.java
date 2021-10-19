@@ -122,11 +122,7 @@ public abstract class LibraryItem
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {
     boolean wasSet = false;
-    if (aLibrarySystem == null)
-    {
-      return wasSet;
-    }
-    librarySystem.setLibraryItems(aLibrarySystem.getLibraryItems());
+    this.librarySystem = aLibrarySystem;
     wasSet = true;
     return wasSet;
   }

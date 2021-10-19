@@ -79,7 +79,7 @@ public class BorrowableItem
   public boolean setState(ItemState aState)
   {
     boolean wasSet = false;
-    state = aState;
+    this.state = aState;
     wasSet = true;
     return wasSet;
   }
@@ -100,11 +100,7 @@ public class BorrowableItem
   public boolean setLibraryItem(LibraryItem aLibraryItem)
   {
     boolean wasSet = false;
-    if (aLibraryItem == null)
-    {
-      return wasSet;
-    }
-    libraryItem.setBorrowableItem(aLibraryItem.getBorrowableItem());
+    this.libraryItem = aLibraryItem;
     wasSet = true;
     return wasSet;
   }

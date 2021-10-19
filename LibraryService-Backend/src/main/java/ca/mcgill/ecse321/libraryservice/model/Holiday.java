@@ -139,11 +139,7 @@ public class Holiday
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {
     boolean wasSet = false;
-    if (aLibrarySystem == null)
-    {
-      return wasSet;
-    }
-    librarySystem.setHolidays(librarySystem.getHolidays());
+    this.librarySystem = aLibrarySystem;
     wasSet = true;
     return wasSet;
   }
@@ -152,11 +148,7 @@ public class Holiday
   public boolean setHeadLibrarian(HeadLibrarian aHeadLibrarian)
   {
     boolean wasSet = false;
-    if (aHeadLibrarian == null)
-    {
-      return wasSet;
-    }
-    librarySystem.setHolidays(librarySystem.getHolidays());
+    this.headLibrarian = aHeadLibrarian;
     wasSet = true;
     return wasSet;
   }
