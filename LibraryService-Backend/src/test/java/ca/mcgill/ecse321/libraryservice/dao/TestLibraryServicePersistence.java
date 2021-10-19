@@ -5,11 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -72,6 +72,7 @@ public class TestLibraryServicePersistence {
         headLibrarianRepository.deleteAll();
         librarianRepository.deleteAll();
         patronRepository.deleteAll();
+        transactionRepository.deleteAll();
         borrowableItemRepository.deleteAll();
         roomRepository.deleteAll();
         musicRepository.deleteAll();
@@ -79,7 +80,6 @@ public class TestLibraryServicePersistence {
         bookRepository.deleteAll();
         librarianRepository.deleteAll();
         libraryItemRepository.deleteAll();
-        transactionRepository.deleteAll();
         addressRepository.deleteAll();
         userAccountRepository.deleteAll();
         librarySystemRepository.deleteAll();
@@ -241,6 +241,7 @@ public class TestLibraryServicePersistence {
 
         //create librarian
         Librarian librarian = new Librarian(firstName, lastName, online, library, address, password, balance);
+        librarianRepository.save(librarian);
 
         //create inputs for timeslot constructor
         Date startDate = new Date(2020, 12, 25);
@@ -268,18 +269,16 @@ public class TestLibraryServicePersistence {
 
         //create timeslot
         TimeSlot timeSlot = new TimeSlot(startDate, startTime, endDate, endTime, library, headLibrarian);
-        int timeSlotID = timeSlot.getTimeSlotID();
+        Set<Librarian> librarianSet = new HashSet<Librarian>();
+        librarianSet.add(librarian);
+        timeSlot.setLibrarian(librarianSet);
         timeSlotRepository.save(timeSlot);
-
-        //save librarian in DB
-        librarianRepository.save(librarian);
-
 
         //clear librarian
         librarian = null;
 
         //get librarian from DB
-        librarian = librarianRepository.findByTimeSlot(timeSlotRepository.findTimeSlotByTimeSlotID(timeSlotID)).get(0);
+        librarian = librarianRepository.findLibrarianByTimeSlot(timeSlot).get(0);
 
         //test functionnality
         assertNotNull(librarian, "No librarian retrieved");
@@ -731,14 +730,15 @@ public class TestLibraryServicePersistence {
         
         Book bookTest= new Book(name, lst, author); // object +attributes
         int isbnTest= bookTest.getIsbn();
-
-        //add borowable item
-       BorrowableItem borroableItemTest=  new BorrowableItem(stateTest, bookTest); 
-        
-       borrowableItemRepository.save(borroableItemTest);
         bookRepository.save(bookTest);
 
-        libraryItemRepository.save(bookTest);
+        //add borowable item
+       BorrowableItem borroableItemTest =  new BorrowableItem(stateTest, bookTest); 
+        
+       borrowableItemRepository.save(borroableItemTest);
+        
+
+        
 
 
 
