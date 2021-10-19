@@ -9,7 +9,7 @@ This project consists of developing a system for a library which supports the bo
 --------------------------------------------------------------------------
 ## Team Members:
 | Team Members | Major | Year|
-| :---------: | :-----: | :----: | 
+| :--------- | :-----: | :----: | 
 | - :woman_technologist: Amani Jammoul | Software Engineering | U2 |
 | - :woman_technologist: Eloyann Roy-Javanbakht | Software Engineering | U3 |
 | - :woman_technologist: Gabrielle Halpin | Software Engineering | U2 |
