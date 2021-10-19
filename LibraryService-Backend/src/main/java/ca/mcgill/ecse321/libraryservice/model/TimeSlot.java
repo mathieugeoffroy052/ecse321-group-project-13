@@ -187,14 +187,7 @@ public class TimeSlot
     {
       return wasSet;
     }
-
-    LibrarySystem existingLibrarySystem = librarySystem;
     librarySystem = aLibrarySystem;
-    if (existingLibrarySystem != null && !existingLibrarySystem.equals(aLibrarySystem))
-    {
-      existingLibrarySystem.removeTimeSlot(this);
-    }
-    librarySystem.addTimeSlot(this);
     wasSet = true;
     return wasSet;
   }
@@ -213,40 +206,10 @@ public class TimeSlot
     {
       return wasSet;
     }
-
-    HeadLibrarian existingHeadLibrarian = headLibrarian;
     headLibrarian = aHeadLibrarian;
-    if (existingHeadLibrarian != null && !existingHeadLibrarian.equals(aHeadLibrarian))
-    {
-      existingHeadLibrarian.removeTimeSlot(this);
-    }
-    headLibrarian.addTimeSlot(this);
     wasSet = true;
     return wasSet;
   }
-
-  public void delete()
-  {
-    LibrarySystem placeholderLibrarySystem = librarySystem;
-    this.librarySystem = null;
-    if(placeholderLibrarySystem != null)
-    {
-      placeholderLibrarySystem.removeTimeSlot(this);
-    }
-    Set<Librarian> copyOfLibrarian = librarian;
-    librarian.clear();
-    for(Librarian aLibrarian : copyOfLibrarian)
-    {
-      aLibrarian.removeTimeSlot(this);
-    }
-    HeadLibrarian placeholderHeadLibrarian = headLibrarian;
-    this.headLibrarian = null;
-    if(placeholderHeadLibrarian != null)
-    {
-      placeholderHeadLibrarian.removeTimeSlot(this);
-    }
-  }
-
 
   public String toString()
   {

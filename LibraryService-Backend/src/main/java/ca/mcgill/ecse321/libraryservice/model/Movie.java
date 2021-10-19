@@ -45,11 +45,4 @@ public class Movie extends LibraryItem
     return wasSet;
   }
 
-
-  public void delete()
-  {
-    director = null;
-    super.delete();
-  }
-
 }

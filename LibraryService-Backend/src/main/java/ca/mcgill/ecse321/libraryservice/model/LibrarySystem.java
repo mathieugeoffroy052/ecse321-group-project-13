@@ -311,7 +311,6 @@ public class LibrarySystem
     if(!(userAccounts == null)){
       for (UserAccount account: userAccounts)
       {
-        account.delete();
         userAccounts.remove(account);
       }
     }
@@ -319,7 +318,6 @@ public class LibrarySystem
     if(!(newspapers== null)){
       for (Newspaper newspaper:newspapers)
       {
-        newspaper.delete();
         newspapers.remove(newspaper);
       }
     }

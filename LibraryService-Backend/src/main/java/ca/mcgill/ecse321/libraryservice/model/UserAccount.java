@@ -170,14 +170,7 @@ public abstract class UserAccount
     {
       return wasSet;
     }
-
-    LibrarySystem existingLibrarySystem = librarySystem;
     librarySystem = aLibrarySystem;
-    if (existingLibrarySystem != null && !existingLibrarySystem.equals(aLibrarySystem))
-    {
-      existingLibrarySystem.removeUserAccount(this);
-    }
-    librarySystem.setUserAccounts(aLibrarySystem.getUserAccounts());
     wasSet = true;
     return wasSet;
   }
@@ -193,18 +186,6 @@ public abstract class UserAccount
     }
     return wasSet;
   }
-
-  public void delete()
-  {
-    LibrarySystem placeholderLibrarySystem = librarySystem;
-    this.librarySystem = null;
-    if(placeholderLibrarySystem != null)
-    {
-      placeholderLibrarySystem.removeUserAccount(this);
-    }
-    address = null;
-  }
-
 
   public String toString()
   {

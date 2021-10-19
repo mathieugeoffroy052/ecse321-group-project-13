@@ -45,9 +45,4 @@ public class Music extends LibraryItem
     return wasSet;
   }
 
-  public void delete()
-  {
-    super.delete();
-  }
-
 }
