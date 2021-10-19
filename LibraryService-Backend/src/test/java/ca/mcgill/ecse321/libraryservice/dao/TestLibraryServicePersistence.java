@@ -567,6 +567,65 @@ public class TestLibraryServicePersistence {
     }
 
     @Test @SuppressWarnings("deprecation")
+    public void testPersistAndLoadHolidayByReference() {
+        LibrarySystem library = new LibrarySystem();
+        librarySystemRepository.save(library);
+
+        //create inputs for holiday constructor
+        Date date = new Date(2020, 12, 25);
+        Time startTime =  new Time(12, 43, 0);
+        Time endTime = new Time(13, 55, 3);
+
+        //create inputs for head librarian constructor
+        String firstName = "Lorri";
+        String lastName = "Kent";
+        boolean online = false;
+        String password = "zxcvbnm";
+        int balance = 0;
+
+        //create address for head librarian constructor
+        String streetAndNumber = "10 Road";
+        String city = "Toronto";
+        String country = "Canada";
+        Address address = new Address(streetAndNumber, city, country);
+        addressRepository.save(address);
+
+        //create head librarian
+        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance);
+        headLibrarianRepository.save(headLibrarian);
+
+        //create holiday
+        Holiday holiday = new Holiday(date, startTime, endTime, library, headLibrarian);
+
+        //save holiday to DB
+        holidayRepository.save(holiday);
+
+        //clear timeslot
+        holiday = null;
+
+        //get holiday from DB
+        holiday = holidayRepository.findByHeadLibrarian(headLibrarian).get(0);
+
+        //test functionality
+        assertNotNull(holiday, "No holiday retrieved");
+        assertEquals(date, holiday.getDate(), "holiday.date mismatch");
+        assertEquals(startTime, holiday.getStartTime(), "holiday.startTime mismatch");
+        assertEquals(endTime, holiday.getEndtime(), "holiday.endTime mismatch");
+        
+        
+        //test persistence of head librarian within holiday
+        assertNotNull(holiday.getHeadLibrarian(), "No head librarian retrieved");
+        assertEquals(firstName, holiday.getHeadLibrarian().getFirstName(), "holiday.headLibrarian.firstName mismatch");
+        assertEquals(lastName, holiday.getHeadLibrarian().getLastName(), "holiday.headLibrarian.lastName mismatch");
+        assertEquals(online, holiday.getHeadLibrarian().getOnlineAccount(), "holiday.headLibrarian.onlineAccount mismatch");
+        assertEquals(password, holiday.getHeadLibrarian().getPassword(), "holiday.headLibrarian.password mismatch");
+        assertEquals(streetAndNumber, holiday.getHeadLibrarian().getAddress().getAddress(), "holiday.headLibrarian.address.address mismatch");
+        assertEquals(city, holiday.getHeadLibrarian().getAddress().getCity(), "holiday.headLibrarian.address.city mismatch");
+        assertEquals(country, holiday.getHeadLibrarian().getAddress().getCountry(), "holiday.headLibrarian.address.country mismatch");
+
+    }
+
+    @Test @SuppressWarnings("deprecation")
     public void testPersistAndLoadOpeningHours() {
         LibrarySystem library = new LibrarySystem();
         librarySystemRepository.save(library);
@@ -611,21 +670,80 @@ public class TestLibraryServicePersistence {
         openingHour = openingHourRepository.findOpeningHourByHourID(openingHourID);
 
         //test functionality
-        assertNotNull(openingHour);
-        assertEquals(dayOfWeek, openingHour.getDayOfWeek());
-        assertEquals(startTime, openingHour.getStartTime());
-        assertEquals(endTime, openingHour.getEndTime());
-        assertEquals(library.getSystemId(), openingHour.getLibrarySystem().getSystemId());
+        assertNotNull(openingHour, "No openinghour retrieved");
+        assertEquals(dayOfWeek, openingHour.getDayOfWeek(), "openingHour.dayOfWeek mismatch");
+        assertEquals(startTime, openingHour.getStartTime(), "openingHour.startTime mismatch");
+        assertEquals(endTime, openingHour.getEndTime(), "openingHour.endTime mismatch");
+        assertEquals(library.getSystemId(), openingHour.getLibrarySystem().getSystemId(), "openingHour.librarySystem.SystemID mismatch");
         
-        //test persistence of head librarian within holiday
-        assertNotNull(headLibrarian);
-        assertEquals(firstName, openingHour.getHeadLibrarian().getFirstName());
-        assertEquals(lastName, openingHour.getHeadLibrarian().getLastName());
-        assertEquals(online, openingHour.getHeadLibrarian().getOnlineAccount());
-        assertEquals(password, openingHour.getHeadLibrarian().getPassword());
-        assertEquals(streetAndNumber, openingHour.getHeadLibrarian().getAddress().getAddress());
-        assertEquals(city, openingHour.getHeadLibrarian().getAddress().getCity());
-        assertEquals(country, openingHour.getHeadLibrarian().getAddress().getCountry());
+        //test persistence of head librarian within opening hour
+        assertNotNull(openingHour.getHeadLibrarian(), "No head librarian retrieved");
+        assertEquals(firstName, openingHour.getHeadLibrarian().getFirstName(), "openingHour.headLibrarian.firstName mismatch");
+        assertEquals(lastName, openingHour.getHeadLibrarian().getLastName(), "openingHour.headLibrarian.lastName mismatch");
+        assertEquals(online, openingHour.getHeadLibrarian().getOnlineAccount(), "openingHour.headLibrarian.onlineAccount mismatch");
+        assertEquals(password, openingHour.getHeadLibrarian().getPassword(), "openingHour.headLibrarian.password mismatch");
+        assertEquals(streetAndNumber, openingHour.getHeadLibrarian().getAddress().getAddress(), "openingHour.headLibrarian.address.address mismatch");
+        assertEquals(city, openingHour.getHeadLibrarian().getAddress().getCity(), "openingHour.headLibrarian.address.city mismatch");
+        assertEquals(country, openingHour.getHeadLibrarian().getAddress().getCountry(), "openingHour.headLibrarian.address.country mismatch");
+
+    }
+
+    @Test @SuppressWarnings("deprecation")
+    public void testPersistAndLoadOpeningHoursByReference() {
+        LibrarySystem library = new LibrarySystem();
+        librarySystemRepository.save(library);
+
+        //create inputs for Opening hours constructor
+        DayOfWeek dayOfWeek = DayOfWeek.Saturday;
+        Time startTime =  new Time(12, 43, 0);
+        Time endTime = new Time(13, 55, 3);
+
+        //create inputs for head librarian constructor
+        String firstName = "Lorri";
+        String lastName = "Kent";
+        boolean online = false;
+        String password = "zxcvbnm";
+        int balance = 0;
+
+        //create address for head librarian constructor
+        String streetAndNumber = "10 Road";
+        String city = "Toronto";
+        String country = "Canada";
+        Address address = new Address(streetAndNumber, city, country);
+        addressRepository.save(address);
+
+        //create head librarian
+        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance);
+        headLibrarianRepository.save(headLibrarian);
+
+        //create opening hour
+        OpeningHour openingHour = new OpeningHour(dayOfWeek, startTime, endTime, library, headLibrarian);
+
+        //save openingHourID to DB
+        openingHourRepository.save(openingHour);
+
+        //clear openingHour
+        openingHour = null;
+
+        //get openingHour from DB
+        openingHour = openingHourRepository.findByHeadLibrarian(headLibrarian).get(0);
+
+        //test functionality
+        assertNotNull(openingHour, "No openinghour retrieved");
+        assertEquals(dayOfWeek, openingHour.getDayOfWeek(), "openingHour.dayOfWeek mismatch");
+        assertEquals(startTime, openingHour.getStartTime(), "openingHour.startTime mismatch");
+        assertEquals(endTime, openingHour.getEndTime(), "openingHour.endTime mismatch");
+        assertEquals(library.getSystemId(), openingHour.getLibrarySystem().getSystemId(), "openingHour.librarySystem.SystemID mismatch");
+        
+        //test persistence of head librarian within opening hour
+        assertNotNull(openingHour.getHeadLibrarian(), "No head librarian retrieved");
+        assertEquals(firstName, openingHour.getHeadLibrarian().getFirstName(), "openingHour.headLibrarian.firstName mismatch");
+        assertEquals(lastName, openingHour.getHeadLibrarian().getLastName(), "openingHour.headLibrarian.lastName mismatch");
+        assertEquals(online, openingHour.getHeadLibrarian().getOnlineAccount(), "openingHour.headLibrarian.onlineAccount mismatch");
+        assertEquals(password, openingHour.getHeadLibrarian().getPassword(), "openingHour.headLibrarian.password mismatch");
+        assertEquals(streetAndNumber, openingHour.getHeadLibrarian().getAddress().getAddress(), "openingHour.headLibrarian.address.address mismatch");
+        assertEquals(city, openingHour.getHeadLibrarian().getAddress().getCity(), "openingHour.headLibrarian.address.city mismatch");
+        assertEquals(country, openingHour.getHeadLibrarian().getAddress().getCountry(), "openingHour.headLibrarian.address.country mismatch");
 
     }
 
@@ -698,6 +816,7 @@ public class TestLibraryServicePersistence {
 
         //create item
         BorrowableItem item = new BorrowableItem(state, book);
+        borrowableItemRepository.save(item);
 
         //create transaction
         Transaction transaction = new Transaction(item, patron, deadline);
@@ -715,29 +834,109 @@ public class TestLibraryServicePersistence {
         transaction = transactionRepository.findTransactionByTransactionID(transactionID);
 
         //test functionality
-        assertNotNull(transaction);
+        assertNotNull(transaction, "No transaction retrieved");
         assertEquals(deadline, transaction.getDeadline());
 
         //test patron within transaction
-        assertEquals(firstName, transaction.getUserAccount().getFirstName());
-        assertEquals(lastName, transaction.getUserAccount().getLastName());
-        assertEquals(online, transaction.getUserAccount().getOnlineAccount());
-        assertEquals(validated, ((Patron)transaction.getUserAccount()).getValidatedAccount());
-        assertEquals(password, transaction.getUserAccount().getPassword());
-        assertEquals(streetAndNumber, transaction.getUserAccount().getAddress().getAddress());
-        assertEquals(city, transaction.getUserAccount().getAddress().getCity());
-        assertEquals(country, transaction.getUserAccount().getAddress().getCountry());
-        assertNotNull(transaction.getUserAccount().getLibrarySystem());
+        assertEquals(firstName, transaction.getUserAccount().getFirstName(), "transaction.userAccount.firstName mismatch");
+        assertEquals(lastName, transaction.getUserAccount().getLastName(), "transaction.userAccount.lastName mismatch");
+        assertEquals(online, transaction.getUserAccount().getOnlineAccount(), "transaction.userAccount.onlineAccount mismatch");
+        assertEquals(validated, ((Patron)transaction.getUserAccount()).getValidatedAccount(), "transaction.userAccount.validateAccount mismatch");
+        assertEquals(password, transaction.getUserAccount().getPassword(), "transaction.userAccount.password mismatch");
+        assertEquals(streetAndNumber, transaction.getUserAccount().getAddress().getAddress(), "transaction.userAccount.address.address mismatch");
+        assertEquals(city, transaction.getUserAccount().getAddress().getCity(), "transaction.userAccount.address.city mismatch");
+        assertEquals(country, transaction.getUserAccount().getAddress().getCountry(), "transaction.userAccount.address.country mismatch");
+        assertEquals(library.getSystemId(), transaction.getUserAccount().getLibrarySystem().getSystemId(), "transaction.userAccount.librarySystem.systemID mismatch");
 
         //test borrowable item within transaction
-        assertEquals(state, transaction.getBorrowableItem().getState());
+        assertEquals(state, transaction.getBorrowableItem().getState(), "transaction.borrowableItem.state mismatch");
 
         //test library item within transaction
-        assertEquals(name, transaction.getBorrowableItem().getLibraryItem().getName());
-        assertEquals(author, ((Book) transaction.getBorrowableItem().getLibraryItem()).getAuthor()); 
-        assertNotNull(transaction.getBorrowableItem().getLibraryItem().getLibrarySystem());
+        assertEquals(name, transaction.getBorrowableItem().getLibraryItem().getName(), "transaction.borrowableItem.state mismatch");
+        assertEquals(author, ((Book) transaction.getBorrowableItem().getLibraryItem()).getAuthor(), "transaction.borrowableitem.libraryItem.author mismatch"); 
+        assertEquals(library.getSystemId(), transaction.getBorrowableItem().getLibraryItem().getLibrarySystem(), "transaction.borrowableitem.libraryItem.librarySystem.systemID mismatch");
 
     }
+
+    @Test @SuppressWarnings("deprecation")
+    public void testPersistAndLoadTransactionByReference() {
+        LibrarySystem library = new LibrarySystem();
+        librarySystemRepository.save(library);
+
+        //create inputs for transaction
+        Date deadline =  new Date(2021, 5, 10);
+
+        //create input for Patron (user)
+        String firstName = "Matty";
+        String lastName = "Pattaty";
+        boolean online = true;
+        boolean validated = true;
+        String password = "thisisapassword";
+        int balance = 0;
+
+        //create address for patron constructor
+        String streetAndNumber = "4330 Durocher";
+        String city = "Montreal";
+        String country = "Canada";
+        Address address = new Address(streetAndNumber, city, country);
+        addressRepository.save(address);
+
+        //create patron
+        Patron patron = new Patron(firstName, lastName, online, library, address, validated, password, balance);
+        patronRepository.save(patron);
+
+        //create input for book
+        String author = "Shakespeare";
+        String name = "Othello";
+
+        //create book
+        Book book = new Book(name, library, author);
+        bookRepository.save(book);
+
+        //create inputs for item
+        ItemState state = ItemState.Available;
+
+        //create item
+        BorrowableItem item = new BorrowableItem(state, book);
+        borrowableItemRepository.save(item);
+
+        //create transaction
+        Transaction transaction = new Transaction(item, patron, deadline);
+
+        //save in DB
+        transactionRepository.save(transaction);
+
+        //clear all instances
+        transaction = null;
+
+        //get transaction from DB
+        transaction = transactionRepository.findByBorrowableItem(item).get(0);
+
+        //test functionality
+        assertNotNull(transaction, "No transaction retrieved");
+        assertEquals(deadline, transaction.getDeadline());
+
+        //test patron within transaction
+        assertEquals(firstName, transaction.getUserAccount().getFirstName(), "transaction.userAccount.firstName mismatch");
+        assertEquals(lastName, transaction.getUserAccount().getLastName(), "transaction.userAccount.lastName mismatch");
+        assertEquals(online, transaction.getUserAccount().getOnlineAccount(), "transaction.userAccount.onlineAccount mismatch");
+        assertEquals(validated, ((Patron)transaction.getUserAccount()).getValidatedAccount(), "transaction.userAccount.validateAccount mismatch");
+        assertEquals(password, transaction.getUserAccount().getPassword(), "transaction.userAccount.password mismatch");
+        assertEquals(streetAndNumber, transaction.getUserAccount().getAddress().getAddress(), "transaction.userAccount.address.address mismatch");
+        assertEquals(city, transaction.getUserAccount().getAddress().getCity(), "transaction.userAccount.address.city mismatch");
+        assertEquals(country, transaction.getUserAccount().getAddress().getCountry(), "transaction.userAccount.address.country mismatch");
+        assertEquals(library.getSystemId(), transaction.getUserAccount().getLibrarySystem().getSystemId(), "transaction.userAccount.librarySystem.systemID mismatch");
+
+        //test borrowable item within transaction
+        assertEquals(state, transaction.getBorrowableItem().getState(), "transaction.borrowableItem.state mismatch");
+
+        //test library item within transaction
+        assertEquals(name, transaction.getBorrowableItem().getLibraryItem().getName(), "transaction.borrowableItem.state mismatch");
+        assertEquals(author, ((Book) transaction.getBorrowableItem().getLibraryItem()).getAuthor(), "transaction.borrowableitem.libraryItem.author mismatch"); 
+        assertEquals(library.getSystemId(), transaction.getBorrowableItem().getLibraryItem().getLibrarySystem().getSystemId(), "transaction.borrowableitem.libraryItem.librarySystem.systemID mismatch");
+
+    }
+
     @Test
     public void testPersistAndLoadLibrarySystem() {
 
