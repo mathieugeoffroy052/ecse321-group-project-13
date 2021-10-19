@@ -19,7 +19,7 @@ This project consists of developing a system for a library which supports the bo
 
 --------------------------------------------------------------------------
 ## Project Deliverables
-### * [Deliverable 1](https://github.com/McGill-ECSE321-Fall2021/project-group-13/wiki/Deliverable-1)
+### [Deliverable 1](https://github.com/McGill-ECSE321-Fall2021/project-group-13/wiki/Deliverable-1)
 --------------------------------------------------------------------------
 ### Overview Table :chart_with_upwards_trend: : 
 | Team Members           | Roles                                                                                                                                |   Hours   |
@@ -27,8 +27,8 @@ This project consists of developing a system for a library which supports the bo
 | Amani Jammoul          | Domain model, Requirements, CRUD repositories, Use-case diagram, Success Spectrum                                                    |20         |
 | Eloyann Roy-Javanbakht | Domain model, Requirements, Persistance Tests, Use-case diagram, Success Spectrum                                                    |16         |
 | Gabrielle Halpin       | Domain model, Requirements, Gradle/Spring/Heroku application, Debugging, Model classes, Continuous Integration, Use-case diagram, Database debugging, Testing, Success Spectrum |25         |
-| Mathieu Geoffrey       | Domain model, Requirements, Persistance Tests, Meeting minutes, Use-case diagram, Success Spectrum                                   |21         |
+| Mathieu Geoffrey       | Domain model, Requirements, Persistance Tests, Meeting minutes, Use-case diagram, Success Spectrum                                   |29         |
 | Ramin Akhavan-Sarraf   | Domain model, Requirements, CRUD repositories, Meeting minutes, Use-case diagram, Success Spectrum                                   |21         |
-| Zoya Malhi             | Domain model, Requirements, CRUD repositories, Use-case diagram, Project Report/Wiki, README.md file, Success Spectrum               |21         |
+| Zoya Malhi             | Domain model, Requirements, CRUD repositories, Use-case diagram, Project Report/Wiki, README.md file, Success Spectrum               |24         |
 _____________________________________________________________________________________________________________________________________________________________________________
 
