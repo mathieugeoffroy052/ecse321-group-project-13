@@ -68,7 +68,7 @@ public class Librarian extends UserAccount
     else return false;
   }
 
-  @ManyToMany
+  @ManyToMany(mappedBy = "librarianID")
   public Set<TimeSlot> getTimeSlot()
   {
     return timeSlot;

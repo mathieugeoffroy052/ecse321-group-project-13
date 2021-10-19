@@ -133,7 +133,7 @@ public abstract class LibraryItem
     {
       existingLibrarySystem.removeLibraryItem(this);
     }
-    librarySystem.addLibraryItem(this);
+    librarySystem.setLibraryItems(aLibrarySystem.getLibraryItems());
     wasSet = true;
     return wasSet;
   }
