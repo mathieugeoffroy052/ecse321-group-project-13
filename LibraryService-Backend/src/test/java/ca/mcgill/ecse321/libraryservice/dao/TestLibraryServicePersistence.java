@@ -221,119 +221,7 @@ public class TestLibraryServicePersistence {
         assertEquals(country, librarian.getAddress().getCountry(), "librarian.address.country mismatch");
     }
 
-    @Test @SuppressWarnings("deprecation")
-    public void testPersistAndLoadLibrarianByReference() {
-        LibrarySystem library = new LibrarySystem();
-        librarySystemRepository.save(library);
 
-        //create inputs for librarian constructor
-        String firstName = "Jake";
-        String lastName = "Morello";
-        boolean online = false;
-        String password = "qwertyuiop";
-        int balance = 0;
-
-        //create address for librarian constructor
-        String streetAndNumber = "100 Durocher";
-        String city = "Montreal";
-        String country = "Canada";
-        Address address = new Address(streetAndNumber, city, country);
-        addressRepository.save(address);
-
-        //create librarian
-        Librarian librarian = new Librarian(firstName, lastName, online, library, address, password, balance);
-
-        //create inputs for timeslot constructor
-        Date startDate = new Date(2020, 12, 25);
-        Time startTime =  new Time(12, 43, 0);
-        Date endDate = new Date(2020, 12, 28);
-        Time endTime = new Time(13, 55, 3);
-
-        //create inputs for head librarian constructor
-        String firstNameHeadLib = "Laura";
-        String lastNameHeadLib = "Porto";
-        boolean onlineHeadLib = true;
-        String passwordHeadLib = "asdfghjkl";
-        int balanceHeadLib = 0;
-
-        //create address for head librarian constructor
-        String streetAndNumberHeadLib = "500 Sherbrook";
-        String cityHeadLib = "Montreal";
-        String countryHeadLib = "Canada";
-        Address addressHeadLib = new Address(streetAndNumberHeadLib, cityHeadLib, countryHeadLib);
-        addressRepository.save(addressHeadLib);
-
-        //create head librarian
-        HeadLibrarian headLibrarian = new HeadLibrarian(firstNameHeadLib, lastNameHeadLib, onlineHeadLib, library, addressHeadLib, passwordHeadLib, balanceHeadLib);
-        headLibrarianRepository.save(headLibrarian);
-
-        //create timeslot
-        TimeSlot timeSlot = new TimeSlot(startDate, startTime, endDate, endTime, library, headLibrarian);
-        Set<Librarian> librarianSet = new HashSet<Librarian>();
-        librarianSet.add(librarian);
-        timeSlot.setLibrarian(librarianSet);
-        timeSlotRepository.save(timeSlot);
-        librarianRepository.save(librarian);
-
-        //clear librarian
-        librarian = null;
-
-        //get librarian from DB
-        librarian = librarianRepository.findLibrarianByTimeSlot(timeSlot).get(0);
-
-        //test functionnality
-        assertNotNull(librarian, "No librarian retrieved");
-        assertEquals(firstName, librarian.getFirstName(), "librarian.firstName mismatch");
-        assertEquals(lastName, librarian.getLastName(), "librarian.lastName mismatch");
-        assertEquals(online, librarian.getOnlineAccount(), "librarian.onlineAccount mismatch");
-        assertEquals(password, librarian.getPassword(), "librarian.password mismatch");
-        assertEquals(streetAndNumber, headLibrarian.getAddress().getAddress(), "librarian.address.adress mismatch");
-        assertEquals(city, headLibrarian.getAddress().getCity(), "librarian.address.city mismatch");
-        assertEquals(country, headLibrarian.getAddress().getCountry(), "librarian.address.country mismatch");
-    }
-
-    //test by eloyann commited by gabby du to git issues
-    @Test @SuppressWarnings("deprecation")
-    public void testPerisistAndLoadNewspaperArticleItem() {
-       //librarysystem
-        LibrarySystem library = new LibrarySystem();
-        librarySystemRepository.save(library);
-
-        //newspaperArticle
-
-        Date dateTest = new Date(2020, 12, 25);
-        NewspaperArticle newsArtcicleTest = new NewspaperArticle();
-        newsArtcicleTest.setDate(dateTest);
-        newsArtcicleTest.setLibrarySystem(library);
-        int  theidtest=newsArtcicleTest.getBarCodeNumber();
-
-        //newspaper
-        String name= "maya";
-        String rapper= "hamid";
-        Newspaper newspapertester= new Newspaper();
-        newspapertester.setName(name);
-        newspapertester.setLibrarySystem(library);
-        int idnews= newspapertester.getPaperID();
-        
-
-        newspaperArticleRepository.save(newsArtcicleTest);
-        newspaperRepository.save(newspapertester);
-
-        newspapertester=null;
-        newsArtcicleTest=null;
-
-        newsArtcicleTest=newspaperArticleRepository.findNewspaperArticleByBarCodeNumber(theidtest);
-        assertNotNull(newsArtcicleTest, "Returned null, object was not saved in persistance layer"); //write validation
-        assertEquals(dateTest, newsArtcicleTest.getDate(), "Value of system ID returned by db not equal to" +rapper ); //read validation from db
-
-        newspapertester=newspaperRepository.findNewspaperByPaperID(idnews);
-
-        //testing for abstract methods
-       //having this as repo makes things awk
-   
-        assertNotNull(libraryItemRepository.findByLibrarySystem(library), "Returned null, object was not saved in persistance layer"); //write validation
-
-    }
 
     @Test
     public void testPersistAndLoadHeadLibrarian() {
@@ -856,7 +744,7 @@ public class TestLibraryServicePersistence {
         //test library item within transaction
         assertEquals(name, transaction.getBorrowableItem().getLibraryItem().getName(), "transaction.borrowableItem.state mismatch");
         assertEquals(author, ((Book) transaction.getBorrowableItem().getLibraryItem()).getAuthor(), "transaction.borrowableitem.libraryItem.author mismatch"); 
-        assertEquals(library.getSystemId(), transaction.getBorrowableItem().getLibraryItem().getLibrarySystem().getSystemId(), "transaction.borrowableitem.libraryItem.librarySystem.systemID mismatch");
+        assertEquals(library.getSystemId(), transaction.getBorrowableItem().getLibraryItem().getLibrarySystem(), "transaction.borrowableitem.libraryItem.librarySystem.systemID mismatch");
 
     }
 
@@ -1049,5 +937,7 @@ public class TestLibraryServicePersistence {
 
 
 
-    }
+    }  
+
 }
+
