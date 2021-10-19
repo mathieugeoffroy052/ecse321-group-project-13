@@ -273,7 +273,6 @@ public class TestLibraryServicePersistence {
 
         //save librarian in DB
         librarianRepository.save(librarian);
-        userAccountRepository.save(librarian);
 
 
         //clear librarian
@@ -529,7 +528,7 @@ public class TestLibraryServicePersistence {
     @Test @SuppressWarnings("deprecation")
     public void testPersistAndLoadOpeningHours() {
         LibrarySystem library = new LibrarySystem();
-        //librarySystemRepository.save(library);
+        librarySystemRepository.save(library);
 
         //create inputs for Opening hours constructor
         DayOfWeek dayOfWeek = DayOfWeek.Saturday;
@@ -548,21 +547,21 @@ public class TestLibraryServicePersistence {
         String city = "Toronto";
         String country = "Canada";
         Address address = new Address(streetAndNumber, city, country);
+        addressRepository.save(address);
 
         //create head librarian
         HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance);
+        headLibrarianRepository.save(headLibrarian);
 
         //create opening hour
         OpeningHour openingHour = new OpeningHour(dayOfWeek, startTime, endTime, library, headLibrarian);
+        
 
         //get openingHourID to retreive from DB
         int openingHourID = openingHour.getHourID();
 
         //save openingHourID to DB
-        addressRepository.save(address);
-        headLibrarianRepository.save(headLibrarian);
         openingHourRepository.save(openingHour);
-        librarySystemRepository.save(library);
 
         //clear openingHour
         openingHour = null;
@@ -575,7 +574,7 @@ public class TestLibraryServicePersistence {
         assertEquals(dayOfWeek, openingHour.getDayOfWeek());
         assertEquals(startTime, openingHour.getStartTime());
         assertEquals(endTime, openingHour.getEndTime());
-        assertEquals(library, openingHour.getLibrarySystem());
+        assertEquals(library.getSystemId(), openingHour.getLibrarySystem().getSystemId());
         
         //test persistence of head librarian within holiday
         assertNotNull(headLibrarian);
@@ -639,9 +638,11 @@ public class TestLibraryServicePersistence {
         String city = "Montreal";
         String country = "Canada";
         Address address = new Address(streetAndNumber, city, country);
+        addressRepository.save(address);
 
         //create patron
         Patron patron = new Patron(firstName, lastName, online, library, address, validated, password, balance);
+        patronRepository.save(patron);
 
         //create input for book
         String author = "Shakespeare";
@@ -649,6 +650,7 @@ public class TestLibraryServicePersistence {
 
         //create book
         Book book = new Book(name, library, author);
+        bookRepository.save(book);
 
         //create inputs for item
         ItemState state = ItemState.Available;
@@ -663,11 +665,6 @@ public class TestLibraryServicePersistence {
         int transactionID = transaction.getTransactionID();
 
         //save in DB
-        addressRepository.save(address);
-        patronRepository.save(patron);
-        bookRepository.save(book);
-        borrowableItemRepository.save(item);
-        transactionRepository.save(transaction);
         transactionRepository.save(transaction);
 
         //clear all instances
