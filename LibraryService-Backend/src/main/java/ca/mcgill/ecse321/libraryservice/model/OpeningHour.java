@@ -162,12 +162,6 @@ public class OpeningHour
     {
       return wasSet;
     }
-
-    //headLibrarian already at maximum (7)
-    if (librarySystem.numberOfOpeningHours() >= LibrarySystem.maximumNumberOfOpeningHour())
-    {
-      return wasSet;
-    }
     this.headLibrarian = aHeadLibrarian;
     wasSet = true;
     return wasSet;
