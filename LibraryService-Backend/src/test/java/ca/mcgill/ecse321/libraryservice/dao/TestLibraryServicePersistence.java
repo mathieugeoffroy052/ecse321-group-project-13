@@ -5,11 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -72,6 +72,7 @@ public class TestLibraryServicePersistence {
         headLibrarianRepository.deleteAll();
         librarianRepository.deleteAll();
         patronRepository.deleteAll();
+        transactionRepository.deleteAll();
         borrowableItemRepository.deleteAll();
         roomRepository.deleteAll();
         musicRepository.deleteAll();
@@ -79,7 +80,6 @@ public class TestLibraryServicePersistence {
         bookRepository.deleteAll();
         librarianRepository.deleteAll();
         libraryItemRepository.deleteAll();
-        transactionRepository.deleteAll();
         addressRepository.deleteAll();
         userAccountRepository.deleteAll();
         librarySystemRepository.deleteAll();
@@ -241,6 +241,7 @@ public class TestLibraryServicePersistence {
 
         //create librarian
         Librarian librarian = new Librarian(firstName, lastName, online, library, address, password, balance);
+        librarianRepository.save(librarian);
 
         //create inputs for timeslot constructor
         Date startDate = new Date(2020, 12, 25);
@@ -268,18 +269,16 @@ public class TestLibraryServicePersistence {
 
         //create timeslot
         TimeSlot timeSlot = new TimeSlot(startDate, startTime, endDate, endTime, library, headLibrarian);
+        Set<Librarian> librarianSet = new HashSet<Librarian>();
+        librarianSet.add(librarian);
+        timeSlot.setLibrarian(librarianSet);
         timeSlotRepository.save(timeSlot);
-
-        //save librarian in DB
-        librarianRepository.save(librarian);
-        userAccountRepository.save(librarian);
-
 
         //clear librarian
         librarian = null;
 
         //get librarian from DB
-        librarian = librarianRepository.findByTimeSlot(timeSlot).get(0);
+        librarian = librarianRepository.findLibrarianByTimeSlot(timeSlot).get(0);
 
         //test functionnality
         assertNotNull(librarian, "No librarian retrieved");
@@ -528,7 +527,7 @@ public class TestLibraryServicePersistence {
     @Test @SuppressWarnings("deprecation")
     public void testPersistAndLoadOpeningHours() {
         LibrarySystem library = new LibrarySystem();
-        //librarySystemRepository.save(library);
+        librarySystemRepository.save(library);
 
         //create inputs for Opening hours constructor
         DayOfWeek dayOfWeek = DayOfWeek.Saturday;
@@ -547,21 +546,21 @@ public class TestLibraryServicePersistence {
         String city = "Toronto";
         String country = "Canada";
         Address address = new Address(streetAndNumber, city, country);
+        addressRepository.save(address);
 
         //create head librarian
         HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance);
+        headLibrarianRepository.save(headLibrarian);
 
         //create opening hour
         OpeningHour openingHour = new OpeningHour(dayOfWeek, startTime, endTime, library, headLibrarian);
+        
 
         //get openingHourID to retreive from DB
         int openingHourID = openingHour.getHourID();
 
         //save openingHourID to DB
-        addressRepository.save(address);
-        headLibrarianRepository.save(headLibrarian);
         openingHourRepository.save(openingHour);
-        librarySystemRepository.save(library);
 
         //clear openingHour
         openingHour = null;
@@ -574,7 +573,7 @@ public class TestLibraryServicePersistence {
         assertEquals(dayOfWeek, openingHour.getDayOfWeek());
         assertEquals(startTime, openingHour.getStartTime());
         assertEquals(endTime, openingHour.getEndTime());
-        assertEquals(library, openingHour.getLibrarySystem());
+        assertEquals(library.getSystemId(), openingHour.getLibrarySystem().getSystemId());
         
         //test persistence of head librarian within holiday
         assertNotNull(headLibrarian);
@@ -638,9 +637,11 @@ public class TestLibraryServicePersistence {
         String city = "Montreal";
         String country = "Canada";
         Address address = new Address(streetAndNumber, city, country);
+        addressRepository.save(address);
 
         //create patron
         Patron patron = new Patron(firstName, lastName, online, library, address, validated, password, balance);
+        patronRepository.save(patron);
 
         //create input for book
         String author = "Shakespeare";
@@ -648,6 +649,7 @@ public class TestLibraryServicePersistence {
 
         //create book
         Book book = new Book(name, library, author);
+        bookRepository.save(book);
 
         //create inputs for item
         ItemState state = ItemState.Available;
@@ -662,11 +664,6 @@ public class TestLibraryServicePersistence {
         int transactionID = transaction.getTransactionID();
 
         //save in DB
-        addressRepository.save(address);
-        patronRepository.save(patron);
-        bookRepository.save(book);
-        borrowableItemRepository.save(item);
-        transactionRepository.save(transaction);
         transactionRepository.save(transaction);
 
         //clear all instances
@@ -733,14 +730,15 @@ public class TestLibraryServicePersistence {
         
         Book bookTest= new Book(name, lst, author); // object +attributes
         int isbnTest= bookTest.getIsbn();
-
-        //add borowable item
-       BorrowableItem borroableItemTest=  new BorrowableItem(stateTest, bookTest); 
-        
-       borrowableItemRepository.save(borroableItemTest);
         bookRepository.save(bookTest);
 
-        libraryItemRepository.save(bookTest);
+        //add borowable item
+       BorrowableItem borroableItemTest =  new BorrowableItem(stateTest, bookTest); 
+        
+       borrowableItemRepository.save(borroableItemTest);
+        
+
+        
 
 
 
