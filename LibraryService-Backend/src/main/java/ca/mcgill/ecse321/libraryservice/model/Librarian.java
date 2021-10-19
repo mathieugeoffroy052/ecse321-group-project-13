@@ -68,7 +68,11 @@ public class Librarian extends UserAccount
     else return false;
   }
 
-  @ManyToMany(mappedBy = "librarianID")
+  @ManyToMany
+  @JoinTable(
+    joinColumns = @JoinColumn(name = "librarianID"),
+    inverseJoinColumns = @JoinColumn(name = "timeSlotID")
+  )
   public Set<TimeSlot> getTimeSlot()
   {
     return timeSlot;
