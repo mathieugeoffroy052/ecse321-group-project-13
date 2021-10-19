@@ -100,7 +100,8 @@ public class Transaction
   }
 
   /* Code from template association_GetOne */
-  @ManyToOne(optional=false, cascade = CascadeType.ALL)
+  @ManyToOne(optional=false)
+  @OnDelete (action = OnDeleteAction.CASCADE)
   public BorrowableItem getBorrowableItem()
   {
     return borrowableItem;
