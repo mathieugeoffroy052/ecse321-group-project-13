@@ -272,8 +272,8 @@ public class TestLibraryServicePersistence {
         Set<Librarian> librarianSet = new HashSet<Librarian>();
         librarianSet.add(librarian);
         timeSlot.setLibrarian(librarianSet);
-        librarianRepository.save(librarian);
         timeSlotRepository.save(timeSlot);
+        librarianRepository.save(librarian);
 
         //clear librarian
         librarian = null;
@@ -293,7 +293,7 @@ public class TestLibraryServicePersistence {
     }
 
     //test by eloyann commited by gabby du to git issues
-    @Test 
+    @Test @SuppressWarnings("deprecation")
     public void testPerisistAndLoadNewspaperArticleItem() {
        //librarysystem
         LibrarySystem library = new LibrarySystem();
@@ -1049,8 +1049,5 @@ public class TestLibraryServicePersistence {
 
 
 
-    }    
-
-
+    }
 }
-
