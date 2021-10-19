@@ -131,42 +131,6 @@ public class Newspaper
   {
     return 0;
   }
-
-  /* Code from template association_AddManyToOne */
-  public NewspaperArticle addArticle(Date aDate, LibrarySystem aLibrarySystem)
-  {
-    return new NewspaperArticle(aDate, aLibrarySystem, this);
-  }
-
-  public boolean addArticle(NewspaperArticle aArticle)
-  {
-    boolean wasAdded = false;
-    if (articles.contains(aArticle)) { return false; }
-    Newspaper existingNewspaper = aArticle.getNewspaper();
-    boolean isNewNewspaper = existingNewspaper != null && !this.equals(existingNewspaper);
-    if (isNewNewspaper)
-    {
-      aArticle.setNewspaper(this);
-    }
-    else
-    {
-      articles.add(aArticle);
-    }
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeArticle(NewspaperArticle aArticle)
-  {
-    boolean wasRemoved = false;
-    //Unable to remove aArticle, as it must always have a newspaper
-    if (!this.equals(aArticle.getNewspaper()))
-    {
-      articles.remove(aArticle);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
   
   /* Code from template association_SetOneToMany */
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
@@ -176,33 +140,10 @@ public class Newspaper
     {
       return wasSet;
     }
-
-    LibrarySystem existingLibrarySystem = librarySystem;
     librarySystem = aLibrarySystem;
-    if (existingLibrarySystem != null && !existingLibrarySystem.equals(aLibrarySystem))
-    {
-      existingLibrarySystem.removeNewspaper(this);
-    }
-    librarySystem.addNewspaper(this);
     wasSet = true;
     return wasSet;
   }
-
-  public void delete()
-  {
-    for(NewspaperArticle aArticle  : articles)
-    {
-      
-      aArticle.delete();
-    }
-    LibrarySystem placeholderLibrarySystem = librarySystem;
-    this.librarySystem = null;
-    if(placeholderLibrarySystem != null)
-    {
-      placeholderLibrarySystem.removeNewspaper(this);
-    }
-  }
-
 
   public String toString()
   {

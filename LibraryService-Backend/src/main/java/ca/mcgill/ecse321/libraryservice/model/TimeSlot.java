@@ -187,14 +187,7 @@ public class TimeSlot
     {
       return wasSet;
     }
-
-    LibrarySystem existingLibrarySystem = librarySystem;
     librarySystem = aLibrarySystem;
-    if (existingLibrarySystem != null && !existingLibrarySystem.equals(aLibrarySystem))
-    {
-      existingLibrarySystem.removeTimeSlot(this);
-    }
-    librarySystem.addTimeSlot(this);
     wasSet = true;
     return wasSet;
   }
@@ -203,51 +196,6 @@ public class TimeSlot
   public static int minimumNumberOfLibrarian()
   {
     return 0;
-  }
-
-  /* Code from template association_AddManyToManyMethod */
-  public boolean addLibrarian(Librarian aLibrarian)
-  {
-    boolean wasAdded = false;
-    if (librarian.contains(aLibrarian)) { return false; }
-    librarian.add(aLibrarian);
-    if (aLibrarian.getTimeSlot().contains(this))
-    {
-      wasAdded = true;
-    }
-    else
-    {
-      wasAdded = aLibrarian.addTimeSlot(this);
-      if (!wasAdded)
-      {
-        librarian.remove(aLibrarian);
-      }
-    }
-    return wasAdded;
-  }
-
-  /* Code from template association_RemoveMany */
-  public boolean removeLibrarian(Librarian aLibrarian)
-  {
-    boolean wasRemoved = false;
-    if (!librarian.contains(aLibrarian))
-    {
-      return wasRemoved;
-    }
-    librarian.remove(aLibrarian);
-    if (aLibrarian.getTimeSlot().contains(this))
-    {
-      wasRemoved = true;
-    }
-    else
-    {
-      wasRemoved = aLibrarian.removeTimeSlot(this);
-      if (!wasRemoved)
-      {
-        librarian.add(aLibrarian);
-      }
-    }
-    return wasRemoved;
   }
   
   /* Code from template association_SetOneToMany */
@@ -258,40 +206,10 @@ public class TimeSlot
     {
       return wasSet;
     }
-
-    HeadLibrarian existingHeadLibrarian = headLibrarian;
     headLibrarian = aHeadLibrarian;
-    if (existingHeadLibrarian != null && !existingHeadLibrarian.equals(aHeadLibrarian))
-    {
-      existingHeadLibrarian.removeTimeSlot(this);
-    }
-    headLibrarian.addTimeSlot(this);
     wasSet = true;
     return wasSet;
   }
-
-  public void delete()
-  {
-    LibrarySystem placeholderLibrarySystem = librarySystem;
-    this.librarySystem = null;
-    if(placeholderLibrarySystem != null)
-    {
-      placeholderLibrarySystem.removeTimeSlot(this);
-    }
-    Set<Librarian> copyOfLibrarian = librarian;
-    librarian.clear();
-    for(Librarian aLibrarian : copyOfLibrarian)
-    {
-      aLibrarian.removeTimeSlot(this);
-    }
-    HeadLibrarian placeholderHeadLibrarian = headLibrarian;
-    this.headLibrarian = null;
-    if(placeholderHeadLibrarian != null)
-    {
-      placeholderHeadLibrarian.removeTimeSlot(this);
-    }
-  }
-
 
   public String toString()
   {

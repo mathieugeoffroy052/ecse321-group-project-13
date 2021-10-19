@@ -688,7 +688,7 @@ public class TestLibraryServicePersistence {
         assertEquals(streetAndNumber, transaction.getUserAccount().getAddress().getAddress());
         assertEquals(city, transaction.getUserAccount().getAddress().getCity());
         assertEquals(country, transaction.getUserAccount().getAddress().getCountry());
-        assertEquals(library, transaction.getUserAccount().getLibrarySystem());
+        assertNotNull(transaction.getUserAccount().getLibrarySystem());
 
         //test borrowable item within transaction
         assertEquals(state, transaction.getBorrowableItem().getState());
@@ -696,7 +696,7 @@ public class TestLibraryServicePersistence {
         //test library item within transaction
         assertEquals(name, transaction.getBorrowableItem().getLibraryItem().getName());
         assertEquals(author, ((Book) transaction.getBorrowableItem().getLibraryItem()).getAuthor()); 
-        assertEquals(library, transaction.getBorrowableItem().getLibraryItem());
+        assertNotNull(transaction.getBorrowableItem().getLibraryItem().getLibrarySystem());
 
     }
     @Test

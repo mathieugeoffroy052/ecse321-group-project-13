@@ -26,13 +26,4 @@ public class Room extends LibraryItem
     super(aName, aLibrarySystem);
   }
 
-  //------------------------
-  // INTERFACE
-  //------------------------
-
-  public void delete()
-  {
-    super.delete();
-  }
-
 }

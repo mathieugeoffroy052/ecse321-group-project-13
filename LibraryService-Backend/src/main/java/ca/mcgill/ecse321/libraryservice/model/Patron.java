@@ -72,11 +72,6 @@ public class Patron extends UserAccount
     else return false;
   }
 
-  public void delete()
-  {
-    super.delete();
-  }
-
 
   public String toString()
   {

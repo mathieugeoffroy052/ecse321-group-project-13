@@ -122,18 +122,7 @@ public abstract class LibraryItem
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {
     boolean wasSet = false;
-    if (aLibrarySystem == null)
-    {
-      return wasSet;
-    }
-
-    LibrarySystem existingLibrarySystem = librarySystem;
-    librarySystem = aLibrarySystem;
-    if (existingLibrarySystem != null && !existingLibrarySystem.equals(aLibrarySystem))
-    {
-      existingLibrarySystem.removeLibraryItem(this);
-    }
-    librarySystem.setLibraryItems(aLibrarySystem.getLibraryItems());
+    this.librarySystem = aLibrarySystem;
     wasSet = true;
     return wasSet;
   }
@@ -143,58 +132,6 @@ public abstract class LibraryItem
   {
     return 0;
   }
-
-  /* Code from template association_AddManyToOne */
-  public BorrowableItem addBorrowableItem(BorrowableItem.ItemState aState)
-  {
-    return new BorrowableItem(aState, this);
-  }
-
-  public boolean addBorrowableItem(BorrowableItem aItem)
-  {
-    boolean wasAdded = false;
-    if (borrowableItem.contains(aItem)) { return false; }
-    LibraryItem existingLibraryItem = aItem.getLibraryItem();
-    boolean isNewLibraryItem = existingLibraryItem != null && !this.equals(existingLibraryItem);
-    if (isNewLibraryItem)
-    {
-      aItem.setLibraryItem(this);
-    }
-    else
-    {
-      borrowableItem.add(aItem);
-    }
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeBorrowableItem(BorrowableItem aItem)
-  {
-    boolean wasRemoved = false;
-    //Unable to remove aItem, as it must always have a libraryItem
-    if (!this.equals(aItem.getLibraryItem()))
-    {
-      borrowableItem.remove(aItem);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
-  
-
-  public void delete()
-  {
-    LibrarySystem placeholderLibrarySystem = librarySystem;
-    this.librarySystem = null;
-    if(placeholderLibrarySystem != null)
-    {
-      placeholderLibrarySystem.removeLibraryItem(this);
-    }
-    for(BorrowableItem item: borrowableItem)
-    {
-      item.delete();
-    }
-  }
-
 
   public String toString()
   {
