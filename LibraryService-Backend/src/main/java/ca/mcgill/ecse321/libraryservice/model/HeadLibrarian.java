@@ -34,9 +34,4 @@ public class HeadLibrarian extends Librarian
     return wasSet;
   }
 
-  public void delete()
-  {
-    super.delete();
-  }
-
 }

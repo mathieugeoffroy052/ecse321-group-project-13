@@ -96,14 +96,14 @@ public class Transaction
   }
 
   /* Code from template association_GetOne */
-  @ManyToOne(optional=false)
+  @ManyToOne(optional=false, cascade = CascadeType.ALL)
   public BorrowableItem getBorrowableItem()
   {
     return borrowableItem;
   }
 
   /* Code from template association_GetOne */
-  @ManyToOne(optional=false)
+  @ManyToOne(optional=false, cascade = CascadeType.ALL)
   public UserAccount getUserAccount()
   {
     return userAccount;

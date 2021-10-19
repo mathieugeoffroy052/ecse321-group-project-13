@@ -688,7 +688,7 @@ public class TestLibraryServicePersistence {
         assertEquals(streetAndNumber, transaction.getUserAccount().getAddress().getAddress());
         assertEquals(city, transaction.getUserAccount().getAddress().getCity());
         assertEquals(country, transaction.getUserAccount().getAddress().getCountry());
-        assertEquals(library, transaction.getUserAccount().getLibrarySystem());
+        assertNotNull(transaction.getUserAccount().getLibrarySystem());
 
         //test borrowable item within transaction
         assertEquals(state, transaction.getBorrowableItem().getState());
@@ -696,7 +696,7 @@ public class TestLibraryServicePersistence {
         //test library item within transaction
         assertEquals(name, transaction.getBorrowableItem().getLibraryItem().getName());
         assertEquals(author, ((Book) transaction.getBorrowableItem().getLibraryItem()).getAuthor()); 
-        assertEquals(library, transaction.getBorrowableItem().getLibraryItem());
+        assertNotNull(transaction.getBorrowableItem().getLibraryItem().getLibrarySystem());
 
     }
     @Test
@@ -813,7 +813,56 @@ public class TestLibraryServicePersistence {
 
     @Test 
     public void testPerisistAndLoadNewspaperArticleItem() {
+       //librarysystem
+        LibrarySystem library = new LibrarySystem();
+        librarySystemRepository.save(library);
+
+
+
+
+        //newspaperArticle
+
+        Date dateTest = new Date(2021, 1, 7);
+        NewspaperArticle newsArtcicleTest = new NewspaperArticle();
+        newsArtcicleTest.setDate(dateTest);
+        newsArtcicleTest.setLibrarySystem(library);
+        int  theidtest=newsArtcicleTest.getBarCodeNumber();
+
+
+
+        //newspaper
+        String name= "maya";
+        String rapper= "hamid";
+        Newspaper newspapertester= new Newspaper();
+        newspapertester.setName(name);
+        newspapertester.setLibrarySystem(library);
+int idnews= newspapertester.getPaperID();
         
+
+        newspaperArticleRepository.save(newsArtcicleTest);
+        newspaperRepository.save(newspapertester);
+
+        newspapertester=null;
+        newsArtcicleTest=null;
+
+
+        
+    
+
+
+
+        newsArtcicleTest=newspaperArticleRepository.findNewspaperArticleByBarCodeNumber(theidtest);
+        assertNotNull(newsArtcicleTest, "Returned null, object was not saved in persistance layer"); //write validation
+        assertEquals(dateTest, newsArtcicleTest.getDate(), "Value of system ID returned by db not equal to" +rapper ); //read validation from db
+
+        newspapertester=newspaperRepository.findNewspaperByPaperID(idnews);
+
+        //testing for abstract methods
+       //having this as repo makes things awk
+   
+        assertNotNull(libraryItemRepository.findByLibrarySystem(library), "Returned null, object was not saved in persistance layer"); //write validation
+
+  
 
 
 
