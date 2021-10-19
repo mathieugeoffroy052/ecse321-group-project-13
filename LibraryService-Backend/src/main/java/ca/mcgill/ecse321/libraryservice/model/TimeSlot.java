@@ -154,7 +154,7 @@ public class TimeSlot
   }
 
   
-  @ManyToMany(mappedBy = "librarianID")
+  @ManyToMany
   public Set<Librarian> getLibrarian()
   {
     return librarian;
