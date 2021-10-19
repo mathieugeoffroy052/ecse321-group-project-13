@@ -204,51 +204,6 @@ public class TimeSlot
   {
     return 0;
   }
-
-  /* Code from template association_AddManyToManyMethod */
-  public boolean addLibrarian(Librarian aLibrarian)
-  {
-    boolean wasAdded = false;
-    if (librarian.contains(aLibrarian)) { return false; }
-    librarian.add(aLibrarian);
-    if (aLibrarian.getTimeSlot().contains(this))
-    {
-      wasAdded = true;
-    }
-    else
-    {
-      wasAdded = aLibrarian.addTimeSlot(this);
-      if (!wasAdded)
-      {
-        librarian.remove(aLibrarian);
-      }
-    }
-    return wasAdded;
-  }
-
-  /* Code from template association_RemoveMany */
-  public boolean removeLibrarian(Librarian aLibrarian)
-  {
-    boolean wasRemoved = false;
-    if (!librarian.contains(aLibrarian))
-    {
-      return wasRemoved;
-    }
-    librarian.remove(aLibrarian);
-    if (aLibrarian.getTimeSlot().contains(this))
-    {
-      wasRemoved = true;
-    }
-    else
-    {
-      wasRemoved = aLibrarian.removeTimeSlot(this);
-      if (!wasRemoved)
-      {
-        librarian.add(aLibrarian);
-      }
-    }
-    return wasRemoved;
-  }
   
   /* Code from template association_SetOneToMany */
   public boolean setHeadLibrarian(HeadLibrarian aHeadLibrarian)

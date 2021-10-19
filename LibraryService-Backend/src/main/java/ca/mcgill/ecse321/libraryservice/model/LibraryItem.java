@@ -144,43 +144,6 @@ public abstract class LibraryItem
     return 0;
   }
 
-  /* Code from template association_AddManyToOne */
-  public BorrowableItem addBorrowableItem(BorrowableItem.ItemState aState)
-  {
-    return new BorrowableItem(aState, this);
-  }
-
-  public boolean addBorrowableItem(BorrowableItem aItem)
-  {
-    boolean wasAdded = false;
-    if (borrowableItem.contains(aItem)) { return false; }
-    LibraryItem existingLibraryItem = aItem.getLibraryItem();
-    boolean isNewLibraryItem = existingLibraryItem != null && !this.equals(existingLibraryItem);
-    if (isNewLibraryItem)
-    {
-      aItem.setLibraryItem(this);
-    }
-    else
-    {
-      borrowableItem.add(aItem);
-    }
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeBorrowableItem(BorrowableItem aItem)
-  {
-    boolean wasRemoved = false;
-    //Unable to remove aItem, as it must always have a libraryItem
-    if (!this.equals(aItem.getLibraryItem()))
-    {
-      borrowableItem.remove(aItem);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
-  
-
   public void delete()
   {
     LibrarySystem placeholderLibrarySystem = librarySystem;
