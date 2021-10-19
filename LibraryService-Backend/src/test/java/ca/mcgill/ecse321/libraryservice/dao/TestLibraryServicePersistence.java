@@ -268,6 +268,7 @@ public class TestLibraryServicePersistence {
 
         //create timeslot
         TimeSlot timeSlot = new TimeSlot(startDate, startTime, endDate, endTime, library, headLibrarian);
+        int timeSlotID = timeSlot.getTimeSlotID();
         timeSlotRepository.save(timeSlot);
 
         //save librarian in DB
@@ -279,7 +280,7 @@ public class TestLibraryServicePersistence {
         librarian = null;
 
         //get librarian from DB
-        librarian = librarianRepository.findByTimeSlot(timeSlot).get(0);
+        librarian = librarianRepository.findByTimeSlot(timeSlotRepository.findTimeSlotByTimeSlotID(timeSlotID)).get(0);
 
         //test functionnality
         assertNotNull(librarian, "No librarian retrieved");
