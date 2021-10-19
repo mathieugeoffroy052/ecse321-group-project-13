@@ -272,8 +272,8 @@ public class TestLibraryServicePersistence {
         Set<Librarian> librarianSet = new HashSet<Librarian>();
         librarianSet.add(librarian);
         timeSlot.setLibrarian(librarianSet);
-        timeSlotRepository.save(timeSlot);
         librarianRepository.save(librarian);
+        timeSlotRepository.save(timeSlot);
 
         //clear librarian
         librarian = null;
@@ -332,6 +332,8 @@ public class TestLibraryServicePersistence {
        //having this as repo makes things awk
    
         assertNotNull(libraryItemRepository.findByLibrarySystem(library), "Returned null, object was not saved in persistance layer"); //write validation
+
+    }
 
     @Test
     public void testPersistAndLoadHeadLibrarian() {
