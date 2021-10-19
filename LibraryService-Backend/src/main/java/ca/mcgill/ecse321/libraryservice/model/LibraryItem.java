@@ -126,13 +126,6 @@ public abstract class LibraryItem
     {
       return wasSet;
     }
-
-    LibrarySystem existingLibrarySystem = librarySystem;
-    librarySystem = aLibrarySystem;
-    if (existingLibrarySystem != null && !existingLibrarySystem.equals(aLibrarySystem))
-    {
-      existingLibrarySystem.removeLibraryItem(this);
-    }
     librarySystem.setLibraryItems(aLibrarySystem.getLibraryItems());
     wasSet = true;
     return wasSet;
@@ -143,21 +136,6 @@ public abstract class LibraryItem
   {
     return 0;
   }
-
-  public void delete()
-  {
-    LibrarySystem placeholderLibrarySystem = librarySystem;
-    this.librarySystem = null;
-    if(placeholderLibrarySystem != null)
-    {
-      placeholderLibrarySystem.removeLibraryItem(this);
-    }
-    for(BorrowableItem item: borrowableItem)
-    {
-      item.delete();
-    }
-  }
-
 
   public String toString()
   {

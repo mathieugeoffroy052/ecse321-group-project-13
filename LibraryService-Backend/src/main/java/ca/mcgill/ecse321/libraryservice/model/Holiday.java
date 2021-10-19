@@ -143,14 +143,7 @@ public class Holiday
     {
       return wasSet;
     }
-
-    LibrarySystem existingLibrarySystem = librarySystem;
-    librarySystem = aLibrarySystem;
-    if (existingLibrarySystem != null && !existingLibrarySystem.equals(aLibrarySystem))
-    {
-      existingLibrarySystem.removeHoliday(this);
-    }
-    librarySystem.addHoliday(this);
+    librarySystem.setHolidays(librarySystem.getHolidays());
     wasSet = true;
     return wasSet;
   }
@@ -163,34 +156,10 @@ public class Holiday
     {
       return wasSet;
     }
-
-    HeadLibrarian existingHeadLibrarian = headLibrarian;
-    headLibrarian = aHeadLibrarian;
-    if (existingHeadLibrarian != null && !existingHeadLibrarian.equals(aHeadLibrarian))
-    {
-      librarySystem.removeHoliday(this);
-    }
-    librarySystem.addHoliday(this);
+    librarySystem.setHolidays(librarySystem.getHolidays());
     wasSet = true;
     return wasSet;
   }
-
-  public void delete()
-  {
-    LibrarySystem placeholderLibrarySystem = librarySystem;
-    this.librarySystem = null;
-    if(placeholderLibrarySystem != null)
-    {
-      placeholderLibrarySystem.removeHoliday(this);
-    }
-    HeadLibrarian placeholderHeadLibrarian = headLibrarian;
-    this.headLibrarian = null;
-    if(placeholderHeadLibrarian != null)
-    {
-      librarySystem.removeHoliday(this);
-    }
-  }
-
 
   public String toString()
   {

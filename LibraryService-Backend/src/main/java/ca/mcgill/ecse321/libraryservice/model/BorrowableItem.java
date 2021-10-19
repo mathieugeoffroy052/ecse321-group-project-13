@@ -104,26 +104,9 @@ public class BorrowableItem
     {
       return wasSet;
     }
-
-    LibraryItem existingLibraryItem = libraryItem;
-    libraryItem = aLibraryItem;
-    if (existingLibraryItem != null && !existingLibraryItem.equals(aLibraryItem))
-    {
-      existingLibraryItem.removeBorrowableItem(this);
-    }
-    libraryItem.addBorrowableItem(this);
+    libraryItem.setBorrowableItem(aLibraryItem.getBorrowableItem());
     wasSet = true;
     return wasSet;
-  }
-
-  public void delete()
-  {
-    LibraryItem placeholderLibraryItem = libraryItem;
-    this.libraryItem = null;
-    if(placeholderLibraryItem != null)
-    {
-      placeholderLibraryItem.removeBorrowableItem(this);
-    }
   }
 
 

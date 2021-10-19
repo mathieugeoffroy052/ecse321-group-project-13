@@ -327,7 +327,6 @@ public class LibrarySystem
     if(!(openingHours==null)){
       for (OpeningHour hour : openingHours)
       {
-        hour.delete();
         openingHours.remove(hour);
       }
     }
@@ -336,7 +335,6 @@ public class LibrarySystem
     {
       for (TimeSlot time: timeSlots)
       {
-        time.delete();
         timeSlots.remove(time);
       }
     }
@@ -345,7 +343,6 @@ public class LibrarySystem
     {
       for (NewspaperArticle article: newspaperArticles)
       {
-        article.delete();
         newspaperArticles.remove(article);
       }
     }
@@ -354,7 +351,6 @@ public class LibrarySystem
     {
       for (LibraryItem item: libraryItems)
       {
-        item.delete();
         libraryItems.remove(item);
       }
     }
@@ -363,7 +359,6 @@ public class LibrarySystem
     {
       for (Holiday holiday: holidays)
       {
-        holiday.delete();
         holidays.remove(holiday);
       }
     }

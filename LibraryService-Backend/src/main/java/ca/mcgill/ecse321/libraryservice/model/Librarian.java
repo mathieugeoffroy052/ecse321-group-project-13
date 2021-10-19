@@ -96,18 +96,6 @@ public class Librarian extends UserAccount
     return 0;
   }
 
-  public void delete()
-  {
-    Set<TimeSlot> copyOfTimeSlot = timeSlot;
-    timeSlot.clear();
-    for(TimeSlot aTimeSlot : copyOfTimeSlot)
-    {
-      aTimeSlot.removeLibrarian(this);
-    }
-    super.delete();
-  }
-
-
   public String toString()
   {
     return super.toString() + "["+
