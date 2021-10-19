@@ -744,7 +744,7 @@ public class TestLibraryServicePersistence {
         //test library item within transaction
         assertEquals(name, transaction.getBorrowableItem().getLibraryItem().getName(), "transaction.borrowableItem.state mismatch");
         assertEquals(author, ((Book) transaction.getBorrowableItem().getLibraryItem()).getAuthor(), "transaction.borrowableitem.libraryItem.author mismatch"); 
-        assertEquals(library.getSystemId(), transaction.getBorrowableItem().getLibraryItem().getLibrarySystem(), "transaction.borrowableitem.libraryItem.librarySystem.systemID mismatch");
+        assertEquals(library.getSystemId(), transaction.getBorrowableItem().getLibraryItem().getLibrarySystem().getSystemId(), "transaction.borrowableitem.libraryItem.librarySystem.systemID mismatch");
 
     }
 
