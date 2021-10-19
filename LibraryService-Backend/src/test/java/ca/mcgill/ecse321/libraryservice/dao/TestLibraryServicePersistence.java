@@ -7,6 +7,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -241,7 +242,6 @@ public class TestLibraryServicePersistence {
 
         //create librarian
         Librarian librarian = new Librarian(firstName, lastName, online, library, address, password, balance);
-        librarianRepository.save(librarian);
 
         //create inputs for timeslot constructor
         Date startDate = new Date(2020, 12, 25);
@@ -273,6 +273,7 @@ public class TestLibraryServicePersistence {
         librarianSet.add(librarian);
         timeSlot.setLibrarian(librarianSet);
         timeSlotRepository.save(timeSlot);
+        librarianRepository.save(librarian);
 
         //clear librarian
         librarian = null;
