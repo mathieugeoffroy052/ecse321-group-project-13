@@ -292,6 +292,47 @@ public class TestLibraryServicePersistence {
         assertEquals(country, headLibrarian.getAddress().getCountry(), "librarian.address.country mismatch");
     }
 
+    //test by eloyann commited by gabby du to git issues
+    @Test 
+    public void testPerisistAndLoadNewspaperArticleItem() {
+       //librarysystem
+        LibrarySystem library = new LibrarySystem();
+        librarySystemRepository.save(library);
+
+        //newspaperArticle
+
+        Date dateTest = new Date(2020, 12, 25);
+        NewspaperArticle newsArtcicleTest = new NewspaperArticle();
+        newsArtcicleTest.setDate(dateTest);
+        newsArtcicleTest.setLibrarySystem(library);
+        int  theidtest=newsArtcicleTest.getBarCodeNumber();
+
+        //newspaper
+        String name= "maya";
+        String rapper= "hamid";
+        Newspaper newspapertester= new Newspaper();
+        newspapertester.setName(name);
+        newspapertester.setLibrarySystem(library);
+        int idnews= newspapertester.getPaperID();
+        
+
+        newspaperArticleRepository.save(newsArtcicleTest);
+        newspaperRepository.save(newspapertester);
+
+        newspapertester=null;
+        newsArtcicleTest=null;
+
+        newsArtcicleTest=newspaperArticleRepository.findNewspaperArticleByBarCodeNumber(theidtest);
+        assertNotNull(newsArtcicleTest, "Returned null, object was not saved in persistance layer"); //write validation
+        assertEquals(dateTest, newsArtcicleTest.getDate(), "Value of system ID returned by db not equal to" +rapper ); //read validation from db
+
+        newspapertester=newspaperRepository.findNewspaperByPaperID(idnews);
+
+        //testing for abstract methods
+       //having this as repo makes things awk
+   
+        assertNotNull(libraryItemRepository.findByLibrarySystem(library), "Returned null, object was not saved in persistance layer"); //write validation
+
     @Test
     public void testPersistAndLoadHeadLibrarian() {
         LibrarySystem library = new LibrarySystem();
@@ -807,18 +848,7 @@ public class TestLibraryServicePersistence {
 
 
 
-    }
-
-
-    @Test 
-    public void testPerisistAndLoadNewspaperArticleItem() {
-        
-
-
-
-    }
-
-    
+    }    
 
 
 }
