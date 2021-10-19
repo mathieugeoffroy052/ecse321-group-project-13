@@ -8,12 +8,14 @@ This project consists of developing a system for a library which supports the bo
 
 --------------------------------------------------------------------------
 ## Team Members:
-- :woman_technologist: Amani Jammoul
-- :woman_technologist: Eloyann Roy-Javanbakht
-- :woman_technologist: Gabrielle Halpin
-- :man_technologist: Mathieu Geoffroy
-- :man_technologist: Ramin Akhavan-Sarraf
-- :woman_technologist: Zoya Malhi
+| Team Members | Major | Year|
+| :---------: | :-----: | :----: | 
+| - :woman_technologist: Amani Jammoul | Software Engineering | U2 |
+| - :woman_technologist: Eloyann Roy-Javanbakht | Software Engineering | U3 |
+| - :woman_technologist: Gabrielle Halpin | Software Engineering | U2 |
+| - :man_technologist: Mathieu Geoffroy | Software Engineering | U2 |
+| - :man_technologist: Ramin Akhavan-Sarraf | Software Engineering | U2 |
+| - :woman_technologist: Zoya Malhi | Software Engineering | U2 |
 
 --------------------------------------------------------------------------
 ## Project Deliverables
