@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Entity
 // line 82 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump 16-05-11-860.ump"
-public abstract class LibraryItem
+public class LibraryItem
 {
 
   //------------------------
@@ -16,19 +16,24 @@ public abstract class LibraryItem
 
   private static int nextIsbn = 1;
 
+  public enum ItemType { Book, Room, Movie, Music, NewspaperArticle }
+
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //LibraryItem Attributes
   private String name;
+  private boolean isViewable;
+  private Date date;
+  private String creator;
+  private ItemType itemType;
 
   //Autounique Attributes
   private int isbn;
 
   //LibraryItem Associations
   private LibrarySystem librarySystem;
-  private Set<BorrowableItem> borrowableItem;
 
   //------------------------
   // CONSTRUCTOR
@@ -38,10 +43,14 @@ public abstract class LibraryItem
     isbn = nextIsbn++;
   }
 
-  public LibraryItem(String aName, LibrarySystem aLibrarySystem)
+  public LibraryItem(String aName, LibrarySystem aLibrarySystem, ItemType aItemType, Date aDate, String aCreator, boolean aIsViewable)
   {
     name = aName;
     isbn = nextIsbn++;
+    date = aDate;
+    itemType = aItemType;
+    creator = aCreator;
+    isViewable = aIsViewable;
     boolean didAddLibrarySystem = setLibrarySystem(aLibrarySystem);
     if (!didAddLibrarySystem)
     {
@@ -80,17 +89,57 @@ public abstract class LibraryItem
     return wasSet;
   }
 
-  public boolean setBorrowableItem(Set<BorrowableItem> aItems)
-  {
+  public boolean setType(ItemType aItemType){
     boolean wasSet = false;
-    borrowableItem = aItems;
+    itemType = aItemType;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setIsViewable(boolean aIsViewable){
+    boolean wasSet = false;
+    isViewable = aIsViewable;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setIsViewable(Date aDate){
+    boolean wasSet = false;
+    date = aDate;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setCreator(String aCreator){
+    boolean wasSet = false;
+    creator = aCreator;
     wasSet = true;
     return wasSet;
   }
   
+  public String getCreator()
+  {
+    return creator;
+  }
+
+  public Date getDate()
+  {
+    return date;
+  }
+
   public String getName()
   {
     return name;
+  }
+
+  public ItemType getType()
+  {
+    return itemType;
+  }
+
+  public boolean getIsViewable()
+  {
+    return isViewable;
   }
 
   /* Code from template association_GetOne */
@@ -100,24 +149,6 @@ public abstract class LibraryItem
     return librarySystem;
   }
 
-  @OneToMany(mappedBy = "libraryItem")
-  public Set<BorrowableItem> getBorrowableItem()
-  {
-    return borrowableItem;
-  }
-
-  public int numberOfBorrowableItem()
-  {
-    int number = borrowableItem.size();
-    return number;
-  }
-
-  public boolean hasBorrowableItem()
-  {
-    boolean has = borrowableItem.size() > 0;
-    return has;
-  }
-
   /* Code from template association_SetOneToMany */
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {
@@ -125,12 +156,6 @@ public abstract class LibraryItem
     this.librarySystem = aLibrarySystem;
     wasSet = true;
     return wasSet;
-  }
-
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfBorrowableItem()
-  {
-    return 0;
   }
 
   public String toString()

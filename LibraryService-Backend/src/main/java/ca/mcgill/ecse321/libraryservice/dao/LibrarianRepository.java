@@ -12,6 +12,6 @@ public interface LibrarianRepository extends CrudRepository<Librarian, Integer> 
 
 	Librarian findLibrarianByUserID(int userID);
 	
-	List<Librarian> findByTimeSlot(TimeSlot timeSlotID);
+	List<Librarian> findLibrarianByTimeSlot(TimeSlot timeSlot);
 	
 }

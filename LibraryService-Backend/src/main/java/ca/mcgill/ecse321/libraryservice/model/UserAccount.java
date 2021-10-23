@@ -25,13 +25,13 @@ public abstract class UserAccount
   private boolean onlineAccount;
   private String password;
   private int balance;
+  private String address;
 
   //Autounique Attributes
   private int userID;
 
   //UserAccount Associations
   private LibrarySystem librarySystem;
-  private Address address;
 
   //------------------------
   // CONSTRUCTOR
@@ -41,7 +41,7 @@ public abstract class UserAccount
     userID = nextUserID++;
   }
 
-  public UserAccount(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, Address aAddress, String aPassword, int aBalance)
+  public UserAccount(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, String aPassword, int aBalance)
   {
     firstName = aFirstName;
     lastName = aLastName;
@@ -49,14 +49,11 @@ public abstract class UserAccount
     balance = aBalance;
     onlineAccount = aOnlineAccount;
     userID = nextUserID++;
+    address = aAddress;
     boolean didAddLibrarySystem = setLibrarySystem(aLibrarySystem);
     if (!didAddLibrarySystem)
     {
       throw new RuntimeException("Unable to create userAccount due to librarySystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-    if (!setAddress(aAddress))
-    {
-      throw new RuntimeException("Unable to create UserAccount due to aAddress. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }
 
@@ -95,6 +92,14 @@ public abstract class UserAccount
   {
     boolean wasSet = false;
     lastName = aLastName;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setAddress(String aAddress)
+  {
+    boolean wasSet = false;
+    address = aAddress;
     wasSet = true;
     return wasSet;
   }
@@ -155,9 +160,7 @@ public abstract class UserAccount
     return librarySystem;
   }
 
-  /* Code from template association_GetOne */
-  @ManyToOne(optional=false)
-  public Address getAddress()
+  public String getAddress()
   {
     return address;
   }
@@ -172,18 +175,6 @@ public abstract class UserAccount
     }
     librarySystem = aLibrarySystem;
     wasSet = true;
-    return wasSet;
-  }
-  
-  /* Code from template association_SetUnidirectionalOne */
-  public boolean setAddress(Address aNewAddress)
-  {
-    boolean wasSet = false;
-    if (aNewAddress != null)
-    {
-      address = aNewAddress;
-      wasSet = true;
-    }
     return wasSet;
   }
 

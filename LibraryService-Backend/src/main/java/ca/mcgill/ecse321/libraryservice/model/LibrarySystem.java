@@ -29,10 +29,8 @@ public class LibrarySystem
 
   //LibrarySystem Associations
   private Set<UserAccount> userAccounts;
-  private Set<Newspaper> newspapers;
   private Set<OpeningHour> openingHours;
   private Set<TimeSlot> timeSlots;
-  private Set<NewspaperArticle> newspaperArticles;
   private Set<LibraryItem> libraryItems;
   private Set<Holiday> holidays;
 
@@ -67,15 +65,6 @@ public class LibrarySystem
   //------------------------
   // INTERFACE
   //------------------------
-
-  public boolean setNewspaperArticles(Set<NewspaperArticle> aNewspaperArticles)
-  {
-    newspaperArticles = aNewspaperArticles;
-    if(newspaperArticles==aNewspaperArticles){
-      return true;
-    }
-    else return false;
-  }
 
   public boolean setHolidays(Set<Holiday> aholidays)
   {
@@ -113,15 +102,6 @@ public class LibrarySystem
     else return false;
   }
 
-  public boolean setNewspapers(Set<Newspaper> aNewspapers)
-  {
-    newspapers = aNewspapers;
-    if(newspapers==aNewspapers){
-      return true;
-    }
-    else return false;
-  }
-
   public boolean setUserAccounts(Set<UserAccount> aUserAccounts)
   {
     userAccounts = aUserAccounts;
@@ -147,24 +127,6 @@ public class LibrarySystem
   public boolean hasUserAccounts()
   {
     boolean has = userAccounts.size() > 0;
-    return has;
-  }
-
-  @OneToMany(cascade={CascadeType.ALL}, mappedBy = "librarySystem")
-  public Set<Newspaper> getNewspapers()
-  {
-    return newspapers;
-  }
-
-  public int numberOfNewspapers()
-  {
-    int number = newspapers.size();
-    return number;
-  }
-
-  public boolean hasNewspapers()
-  {
-    boolean has = newspapers.size() > 0;
     return has;
   }
 
@@ -201,24 +163,6 @@ public class LibrarySystem
   public boolean hasTimeSlots()
   {
     boolean has = timeSlots.size() > 0;
-    return has;
-  }
-
-  @OneToMany(cascade={CascadeType.ALL}, mappedBy = "librarySystem")
-  public Set<NewspaperArticle> getNewspaperArticles()
-  {
-    return newspaperArticles;
-  }
-
-  public int numberOfNewspaperArticles()
-  {
-    int number = newspaperArticles.size();
-    return number;
-  }
-
-  public boolean hasNewspaperArticles()
-  {
-    boolean has = newspaperArticles.size() > 0;
     return has;
   }
 
@@ -315,13 +259,6 @@ public class LibrarySystem
       }
     }
     
-    if(!(newspapers== null)){
-      for (Newspaper newspaper:newspapers)
-      {
-        newspapers.remove(newspaper);
-      }
-    }
-    
     if(!(openingHours==null)){
       for (OpeningHour hour : openingHours)
       {
@@ -334,14 +271,6 @@ public class LibrarySystem
       for (TimeSlot time: timeSlots)
       {
         timeSlots.remove(time);
-      }
-    }
-    
-    if(!(newspaperArticles==null))
-    {
-      for (NewspaperArticle article: newspaperArticles)
-      {
-        newspaperArticles.remove(article);
       }
     }
     

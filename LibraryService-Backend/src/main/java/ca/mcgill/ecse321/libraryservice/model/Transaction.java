@@ -3,6 +3,10 @@
 
 package ca.mcgill.ecse321.libraryservice.model;
 import javax.persistence.*;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import java.sql.Date;
 
 @Entity
@@ -96,14 +100,16 @@ public class Transaction
   }
 
   /* Code from template association_GetOne */
-  @ManyToOne(optional=false, cascade = CascadeType.ALL)
+  @ManyToOne(optional=false)
+  @OnDelete (action = OnDeleteAction.CASCADE)
   public BorrowableItem getBorrowableItem()
   {
     return borrowableItem;
   }
 
   /* Code from template association_GetOne */
-  @ManyToOne(optional=false, cascade = CascadeType.ALL)
+  @ManyToOne(optional=false)
+  @OnDelete (action = OnDeleteAction.CASCADE)
   public UserAccount getUserAccount()
   {
     return userAccount;
