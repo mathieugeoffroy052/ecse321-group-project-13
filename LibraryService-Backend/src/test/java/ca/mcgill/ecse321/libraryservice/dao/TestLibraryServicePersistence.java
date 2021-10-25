@@ -26,10 +26,6 @@ public class TestLibraryServicePersistence {
     
     //adding all CRUD interface instances
     @Autowired
-    private AddressRepository addressRepository;
-    @Autowired
-    private BookRepository bookRepository;
-    @Autowired
     private BorrowableItemRepository borrowableItemRepository;
     @Autowired
     private HeadLibrarianRepository headLibrarianRepository;
@@ -42,19 +38,9 @@ public class TestLibraryServicePersistence {
     @Autowired
     private LibrarySystemRepository librarySystemRepository;
     @Autowired
-    private MovieRepository movieRepository;
-    @Autowired
-    private MusicRepository musicRepository;
-    @Autowired
-    private NewspaperArticleRepository newspaperArticleRepository;
-    @Autowired
-    private NewspaperRepository newspaperRepository;
-    @Autowired
     private OpeningHourRepository openingHourRepository;
     @Autowired
     private PatronRepository patronRepository;
-    @Autowired
-    private RoomRepository roomRepository;
     @Autowired
     private TimeSlotRepository timeSlotRepository;
     @Autowired
@@ -65,8 +51,6 @@ public class TestLibraryServicePersistence {
     @AfterEach
     public void clearDatabase() {
         //delete all instances from bottom to top of model
-        newspaperRepository.deleteAll();
-        newspaperArticleRepository.deleteAll();
         holidayRepository.deleteAll();
         openingHourRepository.deleteAll();
         timeSlotRepository.deleteAll();
@@ -75,13 +59,8 @@ public class TestLibraryServicePersistence {
         patronRepository.deleteAll();
         transactionRepository.deleteAll();
         borrowableItemRepository.deleteAll();
-        roomRepository.deleteAll();
-        musicRepository.deleteAll();
-        movieRepository.deleteAll();
-        bookRepository.deleteAll();
         librarianRepository.deleteAll();
         libraryItemRepository.deleteAll();
-        addressRepository.deleteAll();
         userAccountRepository.deleteAll();
         librarySystemRepository.deleteAll();
     }
@@ -98,13 +77,7 @@ public class TestLibraryServicePersistence {
         boolean validated = false;
         String password = "123456789";
         int balance = 0;
-
-        //create address for patron constructor
-        String streetAndNumber = "4000 McGill";
-        String city = "Montreal";
-        String country = "Canada";
-        Address address = new Address(streetAndNumber, city, country);
-        addressRepository.save(address);
+        String address = "4000 McGill, Montreal, Canada";
 
         //create patron
         Patron patron = new Patron(firstName, lastName, online, library, address, validated, password, balance);
@@ -130,48 +103,7 @@ public class TestLibraryServicePersistence {
         assertEquals(online, patron.getOnlineAccount(), "patron.onlineAccount mismatch");
         assertEquals(validated, patron.getValidatedAccount(), "patron.validatedAccount mismatch");
         assertEquals(password, patron.getPassword(), "patron.password mismatch");
-    }
-
-    @Test
-    public void testPersistAndLoadPatronByReference() {
-        LibrarySystem library = new LibrarySystem();
-        librarySystemRepository.save(library);
-
-        //create inputs for patron constructor
-        String firstName = "John";
-        String lastName = "Doe";
-        boolean online = true;
-        boolean validated = false;
-        String password = "123456789";
-        int balance = 0;
-
-        //create address for patron constructor
-        String streetAndNumber = "4000 McGill";
-        String city = "Montreal";
-        String country = "Canada";
-        Address address = new Address(streetAndNumber, city, country);
-        addressRepository.save(address);
-
-        //create patron
-        Patron patron = new Patron(firstName, lastName, online, library, address, validated, password, balance);
-
-        //save patron in DB
-        patronRepository.save(patron);
-        userAccountRepository.save(patron);
-
-        //clear patron
-        patron = null;
-
-        //get patron from DB
-        patron = patronRepository.findPatronByAddress(address);
-
-        //test functionnality
-        assertNotNull(patron, "No Patron retrieved");
-        assertEquals(firstName, patron.getFirstName(), "patron.firstName mismatch");
-        assertEquals(lastName, patron.getLastName(), "patron.lastName mismatch");
-        assertEquals(online, patron.getOnlineAccount(), "patron.onlineAccount mismatch");
-        assertEquals(validated, patron.getValidatedAccount());
-        assertEquals(password, patron.getPassword());
+        assertEquals(address, patron.getAddress(), "patron.address mismatch");
     }
 
     @Test
@@ -185,14 +117,8 @@ public class TestLibraryServicePersistence {
         boolean online = false;
         String password = "qwertyuiop";
         int balance = 0;
-
-        //create address for librarian constructor
-        String streetAndNumber = "100 Durocher";
-        String city = "Montreal";
-        String country = "Canada";
-        Address address = new Address(streetAndNumber, city, country);
-        addressRepository.save(address);
-
+        String address = "100 Durocher, Montreal, Canada";
+        
         //create librarian
         Librarian librarian = new Librarian(firstName, lastName, online, library, address, password, balance);
 
@@ -216,9 +142,7 @@ public class TestLibraryServicePersistence {
         assertEquals(lastName, librarian.getLastName(), "librarian.lastName mismatch");
         assertEquals(online, librarian.getOnlineAccount(), "librarian.onlineAccount mismatch");
         assertEquals(password, librarian.getPassword(), "librarian.password mismatch");
-        assertEquals(streetAndNumber, librarian.getAddress().getAddress(), "librarian.address.adress mismatch");
-        assertEquals(city, librarian.getAddress().getCity(), "librarian.address.city mismatch");
-        assertEquals(country, librarian.getAddress().getCountry(), "librarian.address.country mismatch");
+        assertEquals(address, librarian.getAddress(), "librarian.address mismatch");
     }
 
 
@@ -234,13 +158,7 @@ public class TestLibraryServicePersistence {
         boolean online = true;
         String password = "asdfghjkl";
         int balance = 0;
-
-        //create address for head librarian constructor
-        String streetAndNumber = "500 Sherbrook";
-        String city = "Montreal";
-        String country = "Canada";
-        Address address = new Address(streetAndNumber, city, country);
-        addressRepository.save(address);
+        String address = "500 Sherbrooke, Montreal, Canada";
 
         //create head librarian
         HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance);
@@ -263,9 +181,7 @@ public class TestLibraryServicePersistence {
         assertEquals(lastName, headLibrarian.getLastName(), "headLibrarian.lastName mismatch");
         assertEquals(online, headLibrarian.getOnlineAccount(), "headLibrarian.onlineAccount mismatch");
         assertEquals(password, headLibrarian.getPassword(), "headLibrarian.password msmatch");
-        assertEquals(streetAndNumber, headLibrarian.getAddress().getAddress(), "headLibrarian.address.adress mismatch");
-        assertEquals(city, headLibrarian.getAddress().getCity(), "headLibrarian.address.city mismatch");
-        assertEquals(country, headLibrarian.getAddress().getCountry(), "headLibrarian.address.country mismatch");
+        assertEquals(address, headLibrarian.getAddress(), "headLibrarian.address mismatch");
     }
 
     /* No findHeadLibrarianByReference */
@@ -287,13 +203,7 @@ public class TestLibraryServicePersistence {
         boolean online = false;
         String password = "zxcvbnm";
         int balance = 0;
-
-        //create address for head librarian constructor
-        String streetAndNumber = "10 Road";
-        String city = "Toronto";
-        String country = "Canada";
-        Address address = new Address(streetAndNumber, city, country);
-        addressRepository.save(address);
+        String address = "10 Road, Toronto, Canada";
 
         //create head librarian
         HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance);
@@ -328,9 +238,7 @@ public class TestLibraryServicePersistence {
         assertEquals(lastName, timeSlot.getHeadLibrarian().getLastName(), "timeslot.headLibrarian.lastName mismatch");
         assertEquals(online, timeSlot.getHeadLibrarian().getOnlineAccount(), "timeslot.headLibrarian.onlineAccount mismatch");
         assertEquals(password, timeSlot.getHeadLibrarian().getPassword(), "timeslot.headLibrarian.password mismatch");
-        assertEquals(streetAndNumber, timeSlot.getHeadLibrarian().getAddress().getAddress(), "timeslot.headLibrarian.address.address mismatch");
-        assertEquals(city, timeSlot.getHeadLibrarian().getAddress().getCity(), "timeslot.headLibrarian.address.city mismatch");
-        assertEquals(country, timeSlot.getHeadLibrarian().getAddress().getCountry(), "timeslot.headLibrarian.address.country mismatch");
+        assertEquals(address, timeSlot.getHeadLibrarian().getAddress(), "timeslot.headLibrarian.address mismatch");
 
     }
 
@@ -351,13 +259,7 @@ public class TestLibraryServicePersistence {
         boolean online = false;
         String password = "zxcvbnm";
         int balance = 0;
-
-        //create address for head librarian constructor
-        String streetAndNumber = "10 Road";
-        String city = "Toronto";
-        String country = "Canada";
-        Address address = new Address(streetAndNumber, city, country);
-        addressRepository.save(address);
+        String address = "10 Road, Toronto, Canada";
 
         //create head librarian
         HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance);
@@ -388,9 +290,7 @@ public class TestLibraryServicePersistence {
         assertEquals(lastName, timeSlot.getHeadLibrarian().getLastName(), "timeslot.headLibrarian.lastName mismatch");
         assertEquals(online, timeSlot.getHeadLibrarian().getOnlineAccount(), "timeslot.headLibrarian.onlineAccount mismatch");
         assertEquals(password, timeSlot.getHeadLibrarian().getPassword(), "timeslot.headLibrarian.password mismatch");
-        assertEquals(streetAndNumber, timeSlot.getHeadLibrarian().getAddress().getAddress(), "timeslot.headLibrarian.address.address mismatch");
-        assertEquals(city, timeSlot.getHeadLibrarian().getAddress().getCity(), "timeslot.headLibrarian.address.city mismatch");
-        assertEquals(country, timeSlot.getHeadLibrarian().getAddress().getCountry(), "timeslot.headLibrarian.address.country mismatch");
+        assertEquals(address, timeSlot.getHeadLibrarian().getAddress(), "timeslot.headLibrarian.address mismatch");
 
     }
 
@@ -410,13 +310,7 @@ public class TestLibraryServicePersistence {
         boolean online = false;
         String password = "zxcvbnm";
         int balance = 0;
-
-        //create address for head librarian constructor
-        String streetAndNumber = "10 Road";
-        String city = "Toronto";
-        String country = "Canada";
-        Address address = new Address(streetAndNumber, city, country);
-        addressRepository.save(address);
+        String address = "10 Road, Toronto, Canada";
 
         //create head librarian
         HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance);
@@ -450,9 +344,7 @@ public class TestLibraryServicePersistence {
         assertEquals(lastName, holiday.getHeadLibrarian().getLastName(), "holiday.headLibrarian.lastName mismatch");
         assertEquals(online, holiday.getHeadLibrarian().getOnlineAccount(), "holiday.headLibrarian.onlineAccount mismatch");
         assertEquals(password, holiday.getHeadLibrarian().getPassword(), "holiday.headLibrarian.password mismatch");
-        assertEquals(streetAndNumber, holiday.getHeadLibrarian().getAddress().getAddress(), "holiday.headLibrarian.address.address mismatch");
-        assertEquals(city, holiday.getHeadLibrarian().getAddress().getCity(), "holiday.headLibrarian.address.city mismatch");
-        assertEquals(country, holiday.getHeadLibrarian().getAddress().getCountry(), "holiday.headLibrarian.address.country mismatch");
+        assertEquals(address, holiday.getHeadLibrarian().getAddress(), "holiday.headLibrarian.address mismatch");
 
     }
 
@@ -472,13 +364,7 @@ public class TestLibraryServicePersistence {
         boolean online = false;
         String password = "zxcvbnm";
         int balance = 0;
-
-        //create address for head librarian constructor
-        String streetAndNumber = "10 Road";
-        String city = "Toronto";
-        String country = "Canada";
-        Address address = new Address(streetAndNumber, city, country);
-        addressRepository.save(address);
+        String address = "10 Road, Toronto, Canada";
 
         //create head librarian
         HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance);
@@ -509,9 +395,7 @@ public class TestLibraryServicePersistence {
         assertEquals(lastName, holiday.getHeadLibrarian().getLastName(), "holiday.headLibrarian.lastName mismatch");
         assertEquals(online, holiday.getHeadLibrarian().getOnlineAccount(), "holiday.headLibrarian.onlineAccount mismatch");
         assertEquals(password, holiday.getHeadLibrarian().getPassword(), "holiday.headLibrarian.password mismatch");
-        assertEquals(streetAndNumber, holiday.getHeadLibrarian().getAddress().getAddress(), "holiday.headLibrarian.address.address mismatch");
-        assertEquals(city, holiday.getHeadLibrarian().getAddress().getCity(), "holiday.headLibrarian.address.city mismatch");
-        assertEquals(country, holiday.getHeadLibrarian().getAddress().getCountry(), "holiday.headLibrarian.address.country mismatch");
+        assertEquals(address, holiday.getHeadLibrarian().getAddress(), "holiday.headLibrarian.address.address mismatch");
 
     }
 
@@ -531,13 +415,7 @@ public class TestLibraryServicePersistence {
         boolean online = false;
         String password = "zxcvbnm";
         int balance = 0;
-
-        //create address for head librarian constructor
-        String streetAndNumber = "10 Road";
-        String city = "Toronto";
-        String country = "Canada";
-        Address address = new Address(streetAndNumber, city, country);
-        addressRepository.save(address);
+        String address = "10 Road, Toronto, Canada";
 
         //create head librarian
         HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance);
@@ -572,9 +450,7 @@ public class TestLibraryServicePersistence {
         assertEquals(lastName, openingHour.getHeadLibrarian().getLastName(), "openingHour.headLibrarian.lastName mismatch");
         assertEquals(online, openingHour.getHeadLibrarian().getOnlineAccount(), "openingHour.headLibrarian.onlineAccount mismatch");
         assertEquals(password, openingHour.getHeadLibrarian().getPassword(), "openingHour.headLibrarian.password mismatch");
-        assertEquals(streetAndNumber, openingHour.getHeadLibrarian().getAddress().getAddress(), "openingHour.headLibrarian.address.address mismatch");
-        assertEquals(city, openingHour.getHeadLibrarian().getAddress().getCity(), "openingHour.headLibrarian.address.city mismatch");
-        assertEquals(country, openingHour.getHeadLibrarian().getAddress().getCountry(), "openingHour.headLibrarian.address.country mismatch");
+        assertEquals(address, openingHour.getHeadLibrarian().getAddress(), "openingHour.headLibrarian.address mismatch");
 
     }
 
@@ -594,13 +470,7 @@ public class TestLibraryServicePersistence {
         boolean online = false;
         String password = "zxcvbnm";
         int balance = 0;
-
-        //create address for head librarian constructor
-        String streetAndNumber = "10 Road";
-        String city = "Toronto";
-        String country = "Canada";
-        Address address = new Address(streetAndNumber, city, country);
-        addressRepository.save(address);
+        String address = "10 Road, Toronto, Canada";
 
         //create head librarian
         HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance);
@@ -631,39 +501,8 @@ public class TestLibraryServicePersistence {
         assertEquals(lastName, openingHour.getHeadLibrarian().getLastName(), "openingHour.headLibrarian.lastName mismatch");
         assertEquals(online, openingHour.getHeadLibrarian().getOnlineAccount(), "openingHour.headLibrarian.onlineAccount mismatch");
         assertEquals(password, openingHour.getHeadLibrarian().getPassword(), "openingHour.headLibrarian.password mismatch");
-        assertEquals(streetAndNumber, openingHour.getHeadLibrarian().getAddress().getAddress(), "openingHour.headLibrarian.address.address mismatch");
-        assertEquals(city, openingHour.getHeadLibrarian().getAddress().getCity(), "openingHour.headLibrarian.address.city mismatch");
-        assertEquals(country, openingHour.getHeadLibrarian().getAddress().getCountry(), "openingHour.headLibrarian.address.country mismatch");
+        assertEquals(address, openingHour.getHeadLibrarian().getAddress(), "openingHour.headLibrarian.address.address mismatch");
 
-    }
-
-    @Test
-    public void testPersistAndLoadAddress() {
-        //create address inputs
-        String streetAndNumber = "60 Street";
-        String city = "Vancouver";
-        String country = "Canada";
-
-        //create address
-        Address address = new Address(streetAndNumber, city, country);
-
-        //get addressID to find in DB
-        int addressID = address.getAddressID();
-
-        //save address in DB
-        addressRepository.save(address);
-
-        //clear address
-        address = null;
-
-        //retrieve address from DB
-        address = addressRepository.findAddressByAddressID(addressID);
-
-        //test functionality
-        assertNotNull(address);
-        assertEquals(streetAndNumber, address.getAddress());
-        assertEquals(city, address.getCity());
-        assertEquals(country, address.getCountry());
     }
 
     @Test @SuppressWarnings("deprecation")
