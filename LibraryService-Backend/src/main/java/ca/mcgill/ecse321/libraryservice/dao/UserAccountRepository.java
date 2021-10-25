@@ -4,7 +4,6 @@ package ca.mcgill.ecse321.libraryservice.dao;
 import org.springframework.data.repository.CrudRepository;
 
 import ca.mcgill.ecse321.libraryservice.model.UserAccount;
-import ca.mcgill.ecse321.libraryservice.model.Address;
 import ca.mcgill.ecse321.libraryservice.model.LibrarySystem;
 
 import java.util.List;
