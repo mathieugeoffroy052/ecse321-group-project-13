@@ -13,8 +13,6 @@ public interface UserAccountRepository extends CrudRepository<UserAccount, Integ
 
 	UserAccount findUserAccountByUserID(int userID);
 	
-	List<UserAccount> findByAddress(Address addressID);
-	
 	List<UserAccount> findByLibrarySystem(LibrarySystem systemID);
 	
 }
