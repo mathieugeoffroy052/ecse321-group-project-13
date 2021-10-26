@@ -571,7 +571,6 @@ public class TestLibraryServicePersistence {
         assertEquals(deadline, transaction.getDeadline(), "transaction.deadline mismatch");
 
         //test patron within transaction
-        //firstname, lastname, onlineAccount, validatedAccount, password, address, balance, patronID, 
         assertEquals(firstName, transaction.getUserAccount().getFirstName(), "transaction.userAccount.firstName mismatch");
         assertEquals(lastName, transaction.getUserAccount().getLastName(), "transaction.userAccount.lastName mismatch");
         assertEquals(online, transaction.getUserAccount().getOnlineAccount(), "transaction.userAccount.onlineAccount mismatch");
@@ -585,7 +584,6 @@ public class TestLibraryServicePersistence {
         assertEquals(state, transaction.getBorrowableItem().getState(), "transaction.borrowableItem.state mismatch");
 
         //test library item within transaction
-        //viewable, date, name, creator, itemType, isbn 
         assertEquals(viewable, transaction.getBorrowableItem().getLibraryItem().getIsViewable(), "transaction.borrowableItem.libraryItem.isViewable mismatch");
         assertEquals(publishingDate, transaction.getBorrowableItem().getLibraryItem().getDate(), "transaction.borrowableItem.libraryItem.date mismatch");
         assertEquals(name, transaction.getBorrowableItem().getLibraryItem().getName(), "transaction.borrowableItem.libraryItem.state mismatch");
@@ -608,31 +606,28 @@ public class TestLibraryServicePersistence {
         boolean validated = true;
         String password = "thisisapassword";
         int balance = 0;
-
-        //create address for patron constructor
-        String streetAndNumber = "4330 Durocher";
-        String city = "Montreal";
-        String country = "Canada";
-        Address address = new Address(streetAndNumber, city, country);
-        addressRepository.save(address);
+        String address = "50 Rue Prince Arthur, Montreal, Canada";
 
         //create patron
         Patron patron = new Patron(firstName, lastName, online, library, address, validated, password, balance);
+
         patronRepository.save(patron);
 
-        //create input for book
-        String author = "Shakespeare";
-        String name = "Othello";
+        //create inputs for LibraryItem
+        boolean viewable = true;
+        Date publishingDate = new Date(1590, 10, 20);
+        ItemType itemType = ItemType.Book;
+        String creator = "Shakespeare";
+        String name = "Hamlet";
 
-        //create book
-        Book book = new Book(name, library, author);
-        bookRepository.save(book);
+        //create library item
+        LibraryItem libraryItem = new LibraryItem(name, library, itemType, publishingDate, creator, viewable);
 
-        //create inputs for item
+        //create inputs for BorrowableItem
         ItemState state = ItemState.Available;
 
         //create item
-        BorrowableItem item = new BorrowableItem(state, book);
+        BorrowableItem item = new BorrowableItem(state, libraryItem);
         borrowableItemRepository.save(item);
 
         //create transaction
@@ -649,7 +644,7 @@ public class TestLibraryServicePersistence {
 
         //test functionality
         assertNotNull(transaction, "No transaction retrieved");
-        assertEquals(deadline, transaction.getDeadline());
+        assertEquals(deadline, transaction.getDeadline(), "transaction.deadline mismatch");
 
         //test patron within transaction
         assertEquals(firstName, transaction.getUserAccount().getFirstName(), "transaction.userAccount.firstName mismatch");
@@ -657,24 +652,24 @@ public class TestLibraryServicePersistence {
         assertEquals(online, transaction.getUserAccount().getOnlineAccount(), "transaction.userAccount.onlineAccount mismatch");
         assertEquals(validated, ((Patron)transaction.getUserAccount()).getValidatedAccount(), "transaction.userAccount.validateAccount mismatch");
         assertEquals(password, transaction.getUserAccount().getPassword(), "transaction.userAccount.password mismatch");
-        assertEquals(streetAndNumber, transaction.getUserAccount().getAddress().getAddress(), "transaction.userAccount.address.address mismatch");
-        assertEquals(city, transaction.getUserAccount().getAddress().getCity(), "transaction.userAccount.address.city mismatch");
-        assertEquals(country, transaction.getUserAccount().getAddress().getCountry(), "transaction.userAccount.address.country mismatch");
+        assertEquals(address, transaction.getUserAccount().getAddress(), "transaction.userAccount.address mismatch");
+        assertEquals(balance, transaction.getUserAccount().getBalance(), "transaction.userAccount.balance mismatch");
         assertEquals(library.getSystemId(), transaction.getUserAccount().getLibrarySystem().getSystemId(), "transaction.userAccount.librarySystem.systemID mismatch");
 
         //test borrowable item within transaction
         assertEquals(state, transaction.getBorrowableItem().getState(), "transaction.borrowableItem.state mismatch");
 
         //test library item within transaction
-        assertEquals(name, transaction.getBorrowableItem().getLibraryItem().getName(), "transaction.borrowableItem.state mismatch");
-        assertEquals(author, ((Book) transaction.getBorrowableItem().getLibraryItem()).getAuthor(), "transaction.borrowableitem.libraryItem.author mismatch"); 
-        assertEquals(library.getSystemId(), transaction.getBorrowableItem().getLibraryItem().getLibrarySystem().getSystemId(), "transaction.borrowableitem.libraryItem.librarySystem.systemID mismatch");
-
+        assertEquals(viewable, transaction.getBorrowableItem().getLibraryItem().getIsViewable(), "transaction.borrowableItem.libraryItem.isViewable mismatch");
+        assertEquals(publishingDate, transaction.getBorrowableItem().getLibraryItem().getDate(), "transaction.borrowableItem.libraryItem.date mismatch");
+        assertEquals(name, transaction.getBorrowableItem().getLibraryItem().getName(), "transaction.borrowableItem.libraryItem.state mismatch");
+        assertEquals(creator, transaction.getBorrowableItem().getLibraryItem().getCreator(), "transaction.borrowableitem.libraryItem.creator mismatch"); 
+        assertEquals(library.getSystemId(), transaction.getBorrowableItem().getLibraryItem().getLibrarySystem(), "transaction.borrowableitem.libraryItem.librarySystem.systemID mismatch");
     }
+
     @Test
     public void testPersistAndLoadTransactionByReferenceUserAccount() {
     }
-
 
 
     @Test
