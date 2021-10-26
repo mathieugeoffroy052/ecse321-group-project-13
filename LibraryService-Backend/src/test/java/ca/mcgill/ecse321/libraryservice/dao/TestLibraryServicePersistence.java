@@ -96,6 +96,7 @@ public class TestLibraryServicePersistence {
         //get patron from DB
         patron = patronRepository.findPatronByUserID(patronID);
 
+
         //test functionnality
         assertNotNull(patron, "No Patron retrieved");
         assertEquals(firstName, patron.getFirstName(), "patron.firstName mismatch");
@@ -145,6 +146,8 @@ public class TestLibraryServicePersistence {
         assertEquals(address, librarian.getAddress(), "librarian.address mismatch");
     }
 
+    
+
 
 
     @Test
@@ -171,6 +174,7 @@ public class TestLibraryServicePersistence {
 
         //clear head librarian
         headLibrarian = null;
+
 
         //get head librarian from DB
         headLibrarian = headLibrarianRepository.findHeadLibrarianByUserID(headLibrarianID);
@@ -243,7 +247,7 @@ public class TestLibraryServicePersistence {
     }
 
     @Test @SuppressWarnings("deprecation")
-    public void testPersistAndLoadTimeSlotByReference() {
+    public void testPersistAndLoadTimeSlotByReferenceByHeadLibrarian() {
         LibrarySystem library = new LibrarySystem();
         librarySystemRepository.save(library);
 
@@ -293,7 +297,9 @@ public class TestLibraryServicePersistence {
         assertEquals(address, timeSlot.getHeadLibrarian().getAddress(), "timeslot.headLibrarian.address mismatch");
 
     }
-
+    @Test
+    public void testPersistAndLoadTimeSlotByReferenceLibrarian() {
+    }
     @Test @SuppressWarnings("deprecation")
     public void testPersistAndLoadHoliday() {
         LibrarySystem library = new LibrarySystem();
@@ -521,15 +527,11 @@ public class TestLibraryServicePersistence {
         String password = "thisisapassword";
         int balance = 0;
 
-        //create address for patron constructor
-        String streetAndNumber = "4330 Durocher";
-        String city = "Montreal";
-        String country = "Canada";
-        Address address = new Address(streetAndNumber, city, country);
-        addressRepository.save(address);
+
 
         //create patron
-        Patron patron = new Patron(firstName, lastName, online, library, address, validated, password, balance);
+        Patron patron = new Patron(aFirstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aValidatedAccount, aPassWord, aBalance);
+        
         patronRepository.save(patron);
 
         //create input for book
@@ -588,7 +590,7 @@ public class TestLibraryServicePersistence {
     }
 
     @Test @SuppressWarnings("deprecation")
-    public void testPersistAndLoadTransactionByReference() {
+    public void testPersistAndLoadTransactionByReferenceBorrowableitem() {
         LibrarySystem library = new LibrarySystem();
         librarySystemRepository.save(library);
 
@@ -665,6 +667,11 @@ public class TestLibraryServicePersistence {
         assertEquals(library.getSystemId(), transaction.getBorrowableItem().getLibraryItem().getLibrarySystem().getSystemId(), "transaction.borrowableitem.libraryItem.librarySystem.systemID mismatch");
 
     }
+    @Test
+    public void testPersistAndLoadTransactionByReferenceUserAccount() {
+    }
+
+
 
     @Test
     public void testPersistAndLoadLibrarySystem() {
@@ -685,8 +692,24 @@ public class TestLibraryServicePersistence {
     }
 
     @Test
-    public void testPersistAndLoadBookAndLibraryItemAndBorowableItem() { //boorrowableitem //book //library item
-       //new library instance
+    public void testPersistAndLoadTimeSlotLibrarySystemByReference() {
+    
+    }
+
+    @Test
+    public void testPersistAndLoadLibraryItemLibrarySystemByReference() {
+    
+    }
+
+    @Test
+    public void testPersistAndLoadUserAccountLibrarySystemByReference() {
+    
+    }
+
+
+    @Test
+    public void testPersistAndLoadBorrowableitem() { //boorrowableitem //book //library item
+      /**  //new library instance
         LibrarySystem lst = new LibrarySystem();
         librarySystemRepository.save(lst);
        
@@ -697,7 +720,7 @@ public class TestLibraryServicePersistence {
        ItemState stateTest= ItemState.Available;
     
 
-        
+       /** 
         Book bookTest= new Book(name, lst, author); // object +attributes
         int isbnTest= bookTest.getIsbn();
         bookRepository.save(bookTest);
@@ -719,64 +742,25 @@ public class TestLibraryServicePersistence {
         assertNotNull(bookTest, "Returned null, object was not saved in persistance layer"); //write validation
         assertEquals(author, bookTest.getAuthor(), "Value of system ID returned by db not equal to" +author ); //read validation from db
 
-
+*/ 
+    }
+    @Test
+    public void testPersistAndBLoadLibraryItem() { 
+    }
+    @Test
+    public void testPersistAndLoadBorrowableitemByRefLibraryItem() { 
+    }
+    @Test
+    public void testPersistAndLoadHolidayByRefLibraryItem() { 
+    }
+    @Test
+    public void testPersistAndLoadOpeningHourByRefLibraryItem() { 
     }
 
-    @Test
-    public void testPersistAndLoadMovieAndLibraryItem() { //movie
-        String name= "maya";
-        String director= "hamid";
-        LibrarySystem lst = new LibrarySystem();
-        librarySystemRepository.save(lst);
-
-        
-        Movie movieTest= new Movie(name, lst, director); // object +attributes
-        int isbnTest= movieTest.getIsbn();
-
-        movieRepository.save(movieTest);
-        libraryItemRepository.save(movieTest);
-        movieTest=null;
-
-        movieTest=movieRepository.findByIsbn(isbnTest);
-        assertNotNull(movieTest, "Returned null, object was not saved in persistance layer"); //write validation
-        assertEquals(director, movieTest.getDirector(), "Value of system ID returned by db not equal to" +director ); //read validation from db
-
-        //testing for abstract methods
-       //having this as repo makes things awk
-   
-        assertNotNull(libraryItemRepository.findByLibrarySystem(lst), "Returned null, object was not saved in persistance layer"); //write validation
-
-
-    }
-
-
-    @Test
-    public void testPersistAndLoadMusicAndLibraryItem() { //music
-        LibrarySystem library = new LibrarySystem();
-        librarySystemRepository.save(library);
-
-        String name= "maya";
-        String rapper= "hamid";
-
-        Music musicTest= new Music(name, library, rapper); // object +attributes
-        int isbnTest= musicTest.getIsbn();
-
-        musicRepository.save(musicTest);
-        libraryItemRepository.save(musicTest);
-        musicTest=null;
-
-        musicTest=musicRepository.findByIsbn(isbnTest);
-        assertNotNull(musicTest, "Returned null, object was not saved in persistance layer"); //write validation
-        assertEquals(rapper, musicTest.getArtist(), "Value of system ID returned by db not equal to" +rapper ); //read validation from db
-
-        //testing for abstract methods
-       //having this as repo makes things awk
-   
-        assertNotNull(libraryItemRepository.findByLibrarySystem(library), "Returned null, object was not saved in persistance layer"); //write validation
+  
 
 
 
-    }  
 
 }
 
