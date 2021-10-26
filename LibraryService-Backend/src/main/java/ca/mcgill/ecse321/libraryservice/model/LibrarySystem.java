@@ -3,11 +3,7 @@
 
 package ca.mcgill.ecse321.libraryservice.model;
 import java.util.*;
-import java.sql.Time;
-import java.sql.Date;
 import javax.persistence.*;
-
-import org.apache.catalina.User;
 
 @Entity
 // line 5 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump 16-05-11-860.ump"
