@@ -862,10 +862,10 @@ public class TestLibraryServicePersistence {
         LibrarySystem library = new LibrarySystem();
         librarySystemRepository.save(library);
 
-        //inputs for borrowable item
+        //inputs for borrowableItem
         ItemState state = ItemState.Available;
 
-        //inputs for library item
+        //inputs for libraryItem
         boolean viewable = true;
         Date releaseDate = new Date(2017, 10, 20);
         ItemType itemType = ItemType.Music;
@@ -882,10 +882,10 @@ public class TestLibraryServicePersistence {
 
         borrowableItemRepository.save(borrowableItem);
 
-        //null borrowable item
+        //clear borrowable item
         borrowableItem = null;
 
-        //get borrowable item by library item
+        //retrieve borrowable item by library item from DB
         borrowableItem = borrowableItemRepository.findByLibraryItem(libraryItem).get(0);
 
         //test functionality
@@ -902,6 +902,38 @@ public class TestLibraryServicePersistence {
 
     @Test
     public void testPersistAndLoadLibraryItem() { 
+        LibrarySystem library = new LibrarySystem();
+        librarySystemRepository.save(library);
+
+        //inputs for libraryItem
+        boolean viewable = true;
+        Date releaseDate = new Date(2021, 8, 20);
+        ItemType itemType = ItemType.NewspaperArticle;
+        String creator = "New York Time";
+        String name = "September 20, 2021";
+
+        //create library item and persist
+        LibraryItem libraryItem = new LibraryItem(name, library, itemType, releaseDate, creator, viewable);
+
+        libraryItemRepository.save(libraryItem);
+
+        //get library item isbn
+        int isbn = libraryItem.getIsbn();
+
+        //clear library item
+        libraryItem = null;
+
+        //retrieve library item from DB
+        libraryItem = libraryItemRepository.findByIsbn(isbn);
+
+        //test functionality
+        assertNotNull(libraryItem, "No libraryItem retrieved");
+        assertEquals(viewable, libraryItem.getIsViewable(), "libraryItem.isViewable mismatch");
+        assertEquals(releaseDate, libraryItem.getDate(), "libraryItem.date mismatch");
+        assertEquals(itemType, libraryItem.getType(), "libraryItem.type mismatch");
+        assertEquals(creator, libraryItem.getCreator(), "libraryItem.creator mismatch");
+        assertEquals(name, libraryItem.getName(), "libraryItem.name mismatch");
+        assertEquals(library.getSystemId(), libraryItem.getLibrarySystem().getSystemId(), "libraryItem.librarySystem.systemID mismatch");
     }
 
     @Test
