@@ -144,9 +144,6 @@ public class TestLibraryServicePersistence {
         assertEquals(address, librarian.getAddress(), "librarian.address mismatch");
     }
 
-    
-
-
 
     @Test
     public void testPersistAndLoadHeadLibrarian() {
@@ -185,6 +182,7 @@ public class TestLibraryServicePersistence {
         assertEquals(password, headLibrarian.getPassword(), "headLibrarian.password msmatch");
         assertEquals(address, headLibrarian.getAddress(), "headLibrarian.address mismatch");
     }
+
 
     /* No findHeadLibrarianByReference */
 
@@ -241,7 +239,6 @@ public class TestLibraryServicePersistence {
         assertEquals(online, timeSlot.getHeadLibrarian().getOnlineAccount(), "timeslot.headLibrarian.onlineAccount mismatch");
         assertEquals(password, timeSlot.getHeadLibrarian().getPassword(), "timeslot.headLibrarian.password mismatch");
         assertEquals(address, timeSlot.getHeadLibrarian().getAddress(), "timeslot.headLibrarian.address mismatch");
-
     }
 
     @Test @SuppressWarnings("deprecation")
@@ -295,9 +292,11 @@ public class TestLibraryServicePersistence {
         assertEquals(address, timeSlot.getHeadLibrarian().getAddress(), "timeslot.headLibrarian.address mismatch");
 
     }
+
     @Test
     public void testPersistAndLoadTimeSlotByReferenceLibrarian() {
     }
+
     @Test @SuppressWarnings("deprecation")
     public void testPersistAndLoadHoliday() {
         LibrarySystem library = new LibrarySystem();
@@ -506,7 +505,6 @@ public class TestLibraryServicePersistence {
         assertEquals(online, openingHour.getHeadLibrarian().getOnlineAccount(), "openingHour.headLibrarian.onlineAccount mismatch");
         assertEquals(password, openingHour.getHeadLibrarian().getPassword(), "openingHour.headLibrarian.password mismatch");
         assertEquals(address, openingHour.getHeadLibrarian().getAddress(), "openingHour.headLibrarian.address.address mismatch");
-
     }
 
     @Test @SuppressWarnings("deprecation")
@@ -688,13 +686,13 @@ public class TestLibraryServicePersistence {
 
         //create inputs for LibraryItem
         boolean viewable = true;
-        Date publishingDate = new Date(1590, 10, 20);
+        Date releaseDate = new Date(2005, 10, 20);
         ItemType itemType = ItemType.Movie;
         String creator = "James Cameron";
         String name = "Titanic";
 
         //create library item
-        LibraryItem libraryItem = new LibraryItem(name, library, itemType, publishingDate, creator, viewable);
+        LibraryItem libraryItem = new LibraryItem(name, library, itemType, releaseDate, creator, viewable);
 
         //create inputs for BorrowableItem
         ItemState state = ItemState.Available;
@@ -734,7 +732,7 @@ public class TestLibraryServicePersistence {
 
         //test library item within transaction
         assertEquals(viewable, transaction.getBorrowableItem().getLibraryItem().getIsViewable(), "transaction.borrowableItem.libraryItem.isViewable mismatch");
-        assertEquals(publishingDate, transaction.getBorrowableItem().getLibraryItem().getDate(), "transaction.borrowableItem.libraryItem.date mismatch");
+        assertEquals(releaseDate, transaction.getBorrowableItem().getLibraryItem().getDate(), "transaction.borrowableItem.libraryItem.date mismatch");
         assertEquals(name, transaction.getBorrowableItem().getLibraryItem().getName(), "transaction.borrowableItem.libraryItem.state mismatch");
         assertEquals(creator, transaction.getBorrowableItem().getLibraryItem().getCreator(), "transaction.borrowableitem.libraryItem.creator mismatch"); 
         assertEquals(library.getSystemId(), transaction.getBorrowableItem().getLibraryItem().getLibrarySystem(), "transaction.borrowableitem.libraryItem.librarySystem.systemID mismatch");
@@ -742,8 +740,60 @@ public class TestLibraryServicePersistence {
 
 
     @Test
-    public void testPersistAndLoadLibrarySystem() {
+    public void testPersistAndLoadBorrowableItem() { 
+        LibrarySystem library = new LibrarySystem();
+        librarySystemRepository.save(library);
 
+        //create inputs for BorrowableItem
+        ItemState state = ItemState.Available;
+
+        //create inputs for LibraryItem
+        boolean viewable = true;
+        Date releaseDate = new Date(2019, 5, 6);
+        ItemType itemType = ItemType.Music;
+        String creator = "Maluma";
+        String name = "11:11";
+
+        //create library item
+        LibraryItem libraryItem = new LibraryItem(name, library, itemType, releaseDate, creator, viewable);
+
+        //create borrowable item
+        BorrowableItem borrowableItem = new BorrowableItem(state, libraryItem);
+
+        //get bar code number to find
+        int barCodeNumber = borrowableItem.getBarCodeNumber();
+
+        borrowableItemRepository.save(borrowableItem);
+
+        //clear borrowable item
+        borrowableItem = null;
+
+        //retrieve borrowable item from DB
+        borrowableItem = borrowableItemRepository.findBorrowableItemByBarCodeNumber(barCodeNumber);
+
+        //test functionality
+        assertNotNull(borrowableItem, "No transaction retrieved");
+        assertEquals(state, borrowableItem.getState(), "borrowableItem.state mismatch");
+
+        //test library item within borrowable item
+        //viewable, releaseDate, itemType, creator, name
+        assertEquals(viewable, borrowableItem.getLibraryItem().getIsViewable(), "borrowableItem.libraryItem.isViewable mismatch");
+        assertEquals(releaseDate, borrowableItem.getLibraryItem().getDate(), "borrowableItem.libraryItem.date mismatch");
+        assertEquals(itemType, borrowableItem.getLibraryItem().getType(), "borrowableItem.libraryItem.type mismatch");
+        assertEquals(creator, borrowableItem.getLibraryItem().getCreator(), "borrowableItem.libraryItem.creator mismatch");
+        assertEquals(name, borrowableItem.getLibraryItem().getName(), "borrowableItem.libraryItem.name mismatch");
+    }
+
+    @Test
+    public void testPersistAndLoadBorrowableItemByRefLibraryItem() { 
+    }
+
+    @Test
+    public void testPersistAndLoadLibraryItem() { 
+    }
+
+    @Test
+    public void testPersistAndLoadLibrarySystem() {
         int idTest=777;
         
         LibrarySystem librarySystemTest= new LibrarySystem(); //save/load
@@ -760,75 +810,23 @@ public class TestLibraryServicePersistence {
     }
 
     @Test
-    public void testPersistAndLoadTimeSlotLibrarySystemByReference() {
-    
-    }
-
-    @Test
-    public void testPersistAndLoadLibraryItemLibrarySystemByReference() {
-    
-    }
-
-    @Test
-    public void testPersistAndLoadUserAccountLibrarySystemByReference() {
-    
-    }
-
-
-    @Test
-    public void testPersistAndLoadBorrowableitem() { //boorrowableitem //book //library item
-      /**  //new library instance
-        LibrarySystem lst = new LibrarySystem();
-        librarySystemRepository.save(lst);
-       
-
-        //initiate varaibles for constructors
-        String name= "maya";
-        String author= "hamid";
-       ItemState stateTest= ItemState.Available;
-    
-
-       /** 
-        Book bookTest= new Book(name, lst, author); // object +attributes
-        int isbnTest= bookTest.getIsbn();
-        bookRepository.save(bookTest);
-
-        //add borowable item
-       BorrowableItem borroableItemTest =  new BorrowableItem(stateTest, bookTest); 
-        
-       borrowableItemRepository.save(borroableItemTest);
-        
-
-        
-
-
-
-        bookTest=null;
-
-
-        bookTest=bookRepository.findByIsbn(isbnTest);
-        assertNotNull(bookTest, "Returned null, object was not saved in persistance layer"); //write validation
-        assertEquals(author, bookTest.getAuthor(), "Value of system ID returned by db not equal to" +author ); //read validation from db
-
-*/ 
-    }
-    @Test
-    public void testPersistAndBLoadLibraryItem() { 
-    }
-    @Test
-    public void testPersistAndLoadBorrowableitemByRefLibraryItem() { 
-    }
-    @Test
     public void testPersistAndLoadHolidayByRefLibraryItem() { 
     }
+
     @Test
     public void testPersistAndLoadOpeningHourByRefLibraryItem() { 
     }
 
-  
+    @Test
+    public void testPersistAndLoadTimeSlotLibrarySystemByReference() {
+    }
 
+    @Test
+    public void testPersistAndLoadLibraryItemLibrarySystemByReference() {
+    }
 
-
-
+    @Test
+    public void testPersistAndLoadUserAccountLibrarySystemByReference() {
+    }
 }
 
