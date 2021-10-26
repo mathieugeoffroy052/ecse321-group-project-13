@@ -295,6 +295,81 @@ public class TestLibraryServicePersistence {
 
     @Test
     public void testPersistAndLoadTimeSlotByReferenceLibrarian() {
+        LibrarySystem library = new LibrarySystem();
+        librarySystemRepository.save(library);
+
+         //create inputs for TimeSlot 
+         Date startDate = new Date(2021, 10, 26);
+         Time startTime =  new Time(9, 30, 0);
+         Date endDate = new Date(2021, 10, 26);
+         Time endTime = new Time(16, 30, 0);
+
+        //inputs for head librarian
+        String hLibFirstName = "Anna";
+        String hLibLastName = "Banana";
+        boolean hLibOnline = true;
+        String hLibAddress = "50 Rodeo Dr, Beverly Hills, CA, USA";
+        String hLibPassword = "boss";
+        int hLibBalance = 0;
+
+        //create head libarian and persist
+        HeadLibrarian headLibrarian = new HeadLibrarian(hLibFirstName, hLibLastName, hLibOnline, library, hLibAddress, hLibPassword, hLibBalance);
+
+        headLibrarianRepository.save(headLibrarian);
+
+        //create time slot and persist
+        TimeSlot timeSlot = new TimeSlot(startDate, startTime, endDate, endTime, library, headLibrarian);
+
+        timeSlotRepository.save(timeSlot);
+
+        //inputs for librarian
+        String libFirstName = "Ben";
+        String libLastName = "William";
+        boolean libOnline = true;
+        String libAddress = "1000 Rue Sherbrooke O, Montreal, Canada";
+        String libPassword = "benspassword";
+        int libBalance = 0;
+
+        //create librarian, persist
+        Librarian librarian = new Librarian(libFirstName, libLastName, libOnline, library, libAddress, libPassword, libBalance);
+
+        librarianRepository.save(librarian);
+
+        //add librarian to time slot
+        timeSlot.addLibrarian(librarian);
+
+        //null time slot
+        timeSlot = null;
+
+        //time slot findByLibrarian 
+        timeSlot = timeSlotRepository.findByLibrarian(librarian).get(0);
+
+        //test functionality
+        assertNotNull(timeSlot, "No timeSlot retrieved");
+        assertEquals(startDate, timeSlot.getStartDate(), "transaction.startDate mismatch");
+        assertEquals(startTime, timeSlot.getStartTime(), "transaction.startTime mismatch");
+        assertEquals(endDate, timeSlot.getEndDate(), "transaction.endDate mismatch");
+        assertEquals(endTime, timeSlot.getEndTime(), "transaction.endTime mismatch");
+        assertEquals(library.getSystemId(), timeSlot.getLibrarySystem().getSystemId(), "timeSlot.headLibrarian.librarySystem.systemID mismatch");
+
+        //test persistence of head librian within transaction
+        assertEquals(hLibFirstName, timeSlot.getHeadLibrarian().getFirstName(), "timeSlot.headLibrarian.firstName mismatch");
+        assertEquals(hLibLastName, timeSlot.getHeadLibrarian().getLastName(), "timeSlot.headLibrarian.lastName mismatch");
+        assertEquals(hLibOnline, timeSlot.getHeadLibrarian().getOnlineAccount(), "timeSlot.headLibrarian.onlineAccount mismatch");
+        assertEquals(hLibPassword, timeSlot.getHeadLibrarian().getPassword(), "timeSlot.headLibrarian.password mismatch");
+        assertEquals(hLibAddress, timeSlot.getHeadLibrarian().getAddress(), "timeSlot.headLibrarian.address mismatch");
+        assertEquals(hLibBalance, timeSlot.getHeadLibrarian().getBalance(), "timeSlot.headLibrarian.balance mismatch");
+        assertEquals(library.getSystemId(), timeSlot.getHeadLibrarian().getLibrarySystem().getSystemId(), "timeSlot.headLibrarian.librarySystem.systemID mismatch");
+
+        //test persistence of librarian
+        Librarian libFromTimeSlot = (Librarian) timeSlot.getLibrarian().toArray()[0];
+        assertEquals(libFirstName, libFromTimeSlot.getFirstName(), "timeSlot.librarian[0].firstName mismatch");
+        assertEquals(libLastName, libFromTimeSlot.getLastName(), "timeSlot.librarian[0].lastName mismatch");
+        assertEquals(libOnline, libFromTimeSlot.getOnlineAccount(), "timeSlot.librarian[0].onlineAccount mismatch");
+        assertEquals(libPassword, libFromTimeSlot.getPassword(), "timeSlot.librarian[0].password mismatch");
+        assertEquals(libAddress, libFromTimeSlot.getAddress(), "timeSlot.librarian[0].address mismatch");
+        assertEquals(libBalance, libFromTimeSlot.getBalance(), "timeSlot.librarian[0].balance mismatch");
+        assertEquals(library.getSystemId(), libFromTimeSlot.getLibrarySystem().getSystemId(), "timeSlot.librarian[0].librarySystem.systemID mismatch");
     }
 
     @Test @SuppressWarnings("deprecation")
@@ -399,7 +474,6 @@ public class TestLibraryServicePersistence {
         assertEquals(online, holiday.getHeadLibrarian().getOnlineAccount(), "holiday.headLibrarian.onlineAccount mismatch");
         assertEquals(password, holiday.getHeadLibrarian().getPassword(), "holiday.headLibrarian.password mismatch");
         assertEquals(address, holiday.getHeadLibrarian().getAddress(), "holiday.headLibrarian.address.address mismatch");
-
     }
 
     @Test @SuppressWarnings("deprecation")
@@ -772,11 +846,10 @@ public class TestLibraryServicePersistence {
         borrowableItem = borrowableItemRepository.findBorrowableItemByBarCodeNumber(barCodeNumber);
 
         //test functionality
-        assertNotNull(borrowableItem, "No transaction retrieved");
+        assertNotNull(borrowableItem, "No borrowableItem retrieved");
         assertEquals(state, borrowableItem.getState(), "borrowableItem.state mismatch");
 
         //test library item within borrowable item
-        //viewable, releaseDate, itemType, creator, name
         assertEquals(viewable, borrowableItem.getLibraryItem().getIsViewable(), "borrowableItem.libraryItem.isViewable mismatch");
         assertEquals(releaseDate, borrowableItem.getLibraryItem().getDate(), "borrowableItem.libraryItem.date mismatch");
         assertEquals(itemType, borrowableItem.getLibraryItem().getType(), "borrowableItem.libraryItem.type mismatch");
