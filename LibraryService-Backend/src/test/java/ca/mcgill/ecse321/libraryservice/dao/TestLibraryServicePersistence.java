@@ -166,10 +166,11 @@ public class TestLibraryServicePersistence {
 
         //save head librarian in DB
         headLibrarianRepository.save(headLibrarian);
+        librarianRepository.save(headLibrarian);
+        userAccountRepository.save(headLibrarian);
 
         //clear head librarian
         headLibrarian = null;
-
 
         //get head librarian from DB
         headLibrarian = headLibrarianRepository.findHeadLibrarianByUserID(headLibrarianID);
@@ -206,7 +207,10 @@ public class TestLibraryServicePersistence {
 
         //create head librarian
         HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance);
+        
         headLibrarianRepository.save(headLibrarian);
+        librarianRepository.save(headLibrarian);
+        userAccountRepository.save(headLibrarian);
 
         //create timeslot
         TimeSlot timeSlot = new TimeSlot(startDate, startTime, endDate, endTime, library, headLibrarian);
@@ -262,7 +266,10 @@ public class TestLibraryServicePersistence {
 
         //create head librarian
         HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance);
+        
         headLibrarianRepository.save(headLibrarian);
+        librarianRepository.save(headLibrarian);
+        userAccountRepository.save(headLibrarian);
 
         //create timeslot
         TimeSlot timeSlot = new TimeSlot(startDate, startTime, endDate, endTime, library, headLibrarian);
@@ -317,6 +324,8 @@ public class TestLibraryServicePersistence {
         HeadLibrarian headLibrarian = new HeadLibrarian(hLibFirstName, hLibLastName, hLibOnline, library, hLibAddress, hLibPassword, hLibBalance);
 
         headLibrarianRepository.save(headLibrarian);
+        librarianRepository.save(headLibrarian);
+        userAccountRepository.save(headLibrarian);
 
         //create time slot and persist
         TimeSlot timeSlot = new TimeSlot(startDate, startTime, endDate, endTime, library, headLibrarian);
@@ -335,6 +344,7 @@ public class TestLibraryServicePersistence {
         Librarian librarian = new Librarian(libFirstName, libLastName, libOnline, library, libAddress, libPassword, libBalance);
 
         librarianRepository.save(librarian);
+        userAccountRepository.save(librarian);
 
         //add librarian to time slot
         timeSlot.addLibrarian(librarian);
@@ -394,7 +404,10 @@ public class TestLibraryServicePersistence {
 
         //create head librarian
         HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance);
+        
         headLibrarianRepository.save(headLibrarian);
+        librarianRepository.save(headLibrarian);
+        userAccountRepository.save(headLibrarian);
 
         //create holiday
         Holiday holiday = new Holiday(date, startTime, endTime, library, headLibrarian);
@@ -449,7 +462,10 @@ public class TestLibraryServicePersistence {
 
         //create head librarian
         HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance);
+        
         headLibrarianRepository.save(headLibrarian);
+        librarianRepository.save(headLibrarian);
+        userAccountRepository.save(headLibrarian);
 
         //create holiday
         Holiday holiday = new Holiday(date, startTime, endTime, library, headLibrarian);
@@ -500,7 +516,10 @@ public class TestLibraryServicePersistence {
 
         //create head librarian
         HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance);
+       
         headLibrarianRepository.save(headLibrarian);
+        librarianRepository.save(headLibrarian);
+        userAccountRepository.save(headLibrarian);
 
         //create opening hour
         OpeningHour openingHour = new OpeningHour(dayOfWeek, startTime, endTime, library, headLibrarian);
@@ -556,7 +575,10 @@ public class TestLibraryServicePersistence {
 
         //create head librarian
         HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance);
+        
         headLibrarianRepository.save(headLibrarian);
+        librarianRepository.save(headLibrarian);
+        userAccountRepository.save(headLibrarian);
 
         //create opening hour
         OpeningHour openingHour = new OpeningHour(dayOfWeek, startTime, endTime, library, headLibrarian);
@@ -988,6 +1010,8 @@ public class TestLibraryServicePersistence {
         HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance);
         
         headLibrarianRepository.save(headLibrarian);
+        librarianRepository.save(headLibrarian);
+        userAccountRepository.save(headLibrarian);
 
         //create holiday and persist
         Holiday holiday = new Holiday(date, startTime, endTime, library, headLibrarian);
@@ -1029,6 +1053,8 @@ public class TestLibraryServicePersistence {
         HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance);
         
         headLibrarianRepository.save(headLibrarian);
+        librarianRepository.save(headLibrarian);
+        userAccountRepository.save(headLibrarian);
 
         //create opening hours and persist
         OpeningHour openingHour = new OpeningHour(dayOfWeek, startTime, endTime, library, headLibrarian);
@@ -1072,6 +1098,8 @@ public class TestLibraryServicePersistence {
         HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance);
         
         headLibrarianRepository.save(headLibrarian);
+        librarianRepository.save(headLibrarian);
+        userAccountRepository.save(headLibrarian);
 
         //create time slot and persist
         TimeSlot timeSlot = new TimeSlot(startDate, startTime, endDate, endTime, library, headLibrarian);
