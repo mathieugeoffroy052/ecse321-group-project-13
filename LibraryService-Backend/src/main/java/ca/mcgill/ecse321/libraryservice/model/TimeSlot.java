@@ -112,6 +112,13 @@ public class TimeSlot
     return wasSet;
   }
 
+  public boolean addLibrarian(Librarian aLibrarian){
+    boolean wasSet = false;
+    librarian.add(aLibrarian);
+    wasSet = true;
+    return wasSet;
+  }
+
   public boolean setEndDate(Date aEndDate)
   {
     boolean wasSet = false;
