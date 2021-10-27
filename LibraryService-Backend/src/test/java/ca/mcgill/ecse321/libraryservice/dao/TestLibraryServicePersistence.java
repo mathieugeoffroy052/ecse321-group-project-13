@@ -608,6 +608,7 @@ public class TestLibraryServicePersistence {
         Patron patron = new Patron(firstName, lastName, online, library, address, validated, password, balance);
         
         patronRepository.save(patron);
+        userAccountRepository.save(patron);
 
         //create inputs for LibraryItem
         boolean viewable = true;
@@ -688,6 +689,7 @@ public class TestLibraryServicePersistence {
         Patron patron = new Patron(firstName, lastName, online, library, address, validated, password, balance);
 
         patronRepository.save(patron);
+        userAccountRepository.save(patron);
 
         //create inputs for LibraryItem
         boolean viewable = true;
@@ -765,6 +767,7 @@ public class TestLibraryServicePersistence {
         Patron patron = new Patron(firstName, lastName, online, library, address, validated, password, balance);
 
         patronRepository.save(patron);
+        userAccountRepository.save(patron);
 
         //create inputs for LibraryItem
         boolean viewable = true;
@@ -1052,18 +1055,41 @@ public class TestLibraryServicePersistence {
         librarySystemRepository.save(library);
 
         //inputs for timeSlot
+        Date startDate = new Date(2021, 1, 20);
+        Time startTime =  new Time(10, 0, 0);
+        Date endDate = new Date(2021, 1, 20);
+        Time endTime = new Time(18, 0, 0);
 
         //inputs headLibrarian
+        String firstName = "Samantha";
+        String lastName = "Jules";
+        boolean online = true;
+        String password = "a1b2c3d4";
+        int balance = 0;
+        String address = "10203 5th Av, New York, New York, USA";
 
         //create head librarian and persist
+        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance);
+        
+        headLibrarianRepository.save(headLibrarian);
 
         //create time slot and persist
+        TimeSlot timeSlot = new TimeSlot(startDate, startTime, endDate, endTime, library, headLibrarian);
 
+        timeSlotRepository.save(timeSlot);
+        
         //clear time slot
+        timeSlot = null;
 
         //retrieve time slot by library system from DB
+        timeSlot = timeSlotRepository.findByLibrarySystem(library).get(0);
 
         //test functionality
+        assertNotNull(timeSlot, "No timeslot retrieved");
+        assertEquals(startDate, timeSlot.getStartDate(), "timeslot.startDate mismatch");
+        assertEquals(startTime, timeSlot.getStartTime(), "timeslot.startTime mismatch");
+        assertEquals(endDate, timeSlot.getEndDate(), "timeslot.endDate mismatch");
+        assertEquals(endTime, timeSlot.getEndTime(), "timeslot.endTime mismatch");
     }
 
     @Test
@@ -1072,14 +1098,31 @@ public class TestLibraryServicePersistence {
         librarySystemRepository.save(library);
 
         //inputs for libraryItem
+        boolean viewable = true;
+        Date releaseDate = new Date(2021, 8, 20);
+        ItemType itemType = ItemType.Book;
+        String creator = "Gillian Flynn";
+        String name = "Gone Girl";
 
         //create library item and persist
+        LibraryItem libraryItem = new LibraryItem(name, library, itemType, releaseDate, creator, viewable);
+
+        libraryItemRepository.save(libraryItem);
 
         //clear library item
+        libraryItem = null;
 
         //retrieve library item by library system from DB
+        libraryItem = libraryItemRepository.findByLibrarySystem(library).get(0);
 
         //test functionality
+        assertNotNull(libraryItem, "No libraryItem retrieved");
+        assertEquals(viewable, libraryItem.getIsViewable(), "libraryItem.isViewable mismatch");
+        assertEquals(releaseDate, libraryItem.getDate(), "libraryItem.date mismatch");
+        assertEquals(itemType, libraryItem.getType(), "libraryItem.type mismatch");
+        assertEquals(creator, libraryItem.getCreator(), "libraryItem.creator mismatch");
+        assertEquals(name, libraryItem.getName(), "libraryItem.name mismatch");
+        assertEquals(library.getSystemId(), libraryItem.getLibrarySystem().getSystemId(), "libraryItem.librarySystem.systemID mismatch");
     }
 
     @Test
@@ -1088,14 +1131,34 @@ public class TestLibraryServicePersistence {
         librarySystemRepository.save(library);
 
         //inputs for patron
+        String firstName = "Jane";
+        String lastName = "Doe";
+        boolean online = true;
+        boolean validated = true;
+        String password = "thisIsJane";
+        int balance = 25;
+        String address = "4000 McGill, Montreal, Canada";
 
         //create patron and persist
+        Patron patron = new Patron(firstName, lastName, online, library, address, validated, password, balance);
+        
+        patronRepository.save(patron);
+        userAccountRepository.save(patron); 
 
         //clear patron
+        patron = null;
 
         //retrieve patron by library system from DB
+        patron = (Patron) userAccountRepository.findByLibrarySystem(library).get(0);
 
         //test functionality
+        assertNotNull(patron, "No Patron retrieved");
+        assertEquals(firstName, patron.getFirstName(), "patron.firstName mismatch");
+        assertEquals(lastName, patron.getLastName(), "patron.lastName mismatch");
+        assertEquals(online, patron.getOnlineAccount(), "patron.onlineAccount mismatch");
+        assertEquals(validated, patron.getValidatedAccount(), "patron.validatedAccount mismatch");
+        assertEquals(password, patron.getPassword(), "patron.password mismatch");
+        assertEquals(address, patron.getAddress(), "patron.address mismatch");
     }
 }
 
