@@ -340,14 +340,15 @@ public class TestLibraryServicePersistence {
 
         //create librarian, persist
         Librarian librarian = new Librarian(libFirstName, libLastName, libOnline, library, libAddress, libPassword, libBalance);
-
-        userAccountRepository.save(librarian);
-        librarianRepository.save(librarian);
         
-        timeSlotRepository.save(timeSlot);
+        librarianRepository.save(librarian);
+        userAccountRepository.save(librarian);
+        
 
         //add librarian to time slot
         timeSlot.addLibrarian(librarian);
+        
+        timeSlotRepository.save(timeSlot);
 
         //null time slot
         timeSlot = null;

@@ -167,7 +167,7 @@ public class TimeSlot
   }
 
   
-  @ManyToMany
+  @ManyToMany(fetch=FetchType.EAGER)
   @OnDelete (action = OnDeleteAction.CASCADE)
   public Set<Librarian> getLibrarian()
   {
