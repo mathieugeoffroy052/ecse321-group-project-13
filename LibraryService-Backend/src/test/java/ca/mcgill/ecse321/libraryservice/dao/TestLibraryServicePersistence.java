@@ -330,8 +330,6 @@ public class TestLibraryServicePersistence {
         //create time slot and persist
         TimeSlot timeSlot = new TimeSlot(startDate, startTime, endDate, endTime, library, headLibrarian);
 
-        timeSlotRepository.save(timeSlot);
-
         //inputs for librarian
         String libFirstName = "Ben";
         String libLastName = "William";
@@ -342,12 +340,15 @@ public class TestLibraryServicePersistence {
 
         //create librarian, persist
         Librarian librarian = new Librarian(libFirstName, libLastName, libOnline, library, libAddress, libPassword, libBalance);
-
+        
         librarianRepository.save(librarian);
         userAccountRepository.save(librarian);
+        
 
         //add librarian to time slot
         timeSlot.addLibrarian(librarian);
+        
+        timeSlotRepository.save(timeSlot);
 
         //null time slot
         timeSlot = null;
@@ -629,8 +630,6 @@ public class TestLibraryServicePersistence {
         //create patron
         Patron patron = new Patron(firstName, lastName, online, library, address, validated, password, balance);
         
-        patronRepository.save(patron);
-        userAccountRepository.save(patron);
 
         //create inputs for LibraryItem
         boolean viewable = true;
@@ -647,7 +646,7 @@ public class TestLibraryServicePersistence {
 
         //create item
         BorrowableItem item = new BorrowableItem(state, libraryItem);
-        borrowableItemRepository.save(item);
+
 
         //create transaction
         Transaction transaction = new Transaction(item, patron, deadline);
@@ -656,7 +655,11 @@ public class TestLibraryServicePersistence {
         int transactionID = transaction.getTransactionID();
 
         //save in DB
+        userAccountRepository.save(patron);
+        libraryItemRepository.save(libraryItem);
+        borrowableItemRepository.save(item);
         transactionRepository.save(transaction);
+        patronRepository.save(patron);
 
         //clear all instances
         transaction = null;
@@ -686,7 +689,7 @@ public class TestLibraryServicePersistence {
         assertEquals(publishingDate, transaction.getBorrowableItem().getLibraryItem().getDate(), "transaction.borrowableItem.libraryItem.date mismatch");
         assertEquals(name, transaction.getBorrowableItem().getLibraryItem().getName(), "transaction.borrowableItem.libraryItem.state mismatch");
         assertEquals(creator, transaction.getBorrowableItem().getLibraryItem().getCreator(), "transaction.borrowableitem.libraryItem.creator mismatch"); 
-        assertEquals(library.getSystemId(), transaction.getBorrowableItem().getLibraryItem().getLibrarySystem(), "transaction.borrowableitem.libraryItem.librarySystem.systemID mismatch");
+        assertEquals(library.getSystemId(), transaction.getBorrowableItem().getLibraryItem().getLibrarySystem().getSystemId(), "transaction.borrowableitem.libraryItem.librarySystem.systemID mismatch");
     }
 
 
@@ -722,7 +725,8 @@ public class TestLibraryServicePersistence {
 
         //create library item
         LibraryItem libraryItem = new LibraryItem(name, library, itemType, publishingDate, creator, viewable);
-
+        libraryItemRepository.save(libraryItem);
+        
         //create inputs for BorrowableItem
         ItemState state = ItemState.Available;
 
@@ -764,7 +768,7 @@ public class TestLibraryServicePersistence {
         assertEquals(publishingDate, transaction.getBorrowableItem().getLibraryItem().getDate(), "transaction.borrowableItem.libraryItem.date mismatch");
         assertEquals(name, transaction.getBorrowableItem().getLibraryItem().getName(), "transaction.borrowableItem.libraryItem.state mismatch");
         assertEquals(creator, transaction.getBorrowableItem().getLibraryItem().getCreator(), "transaction.borrowableitem.libraryItem.creator mismatch"); 
-        assertEquals(library.getSystemId(), transaction.getBorrowableItem().getLibraryItem().getLibrarySystem(), "transaction.borrowableitem.libraryItem.librarySystem.systemID mismatch");
+        assertEquals(library.getSystemId(), transaction.getBorrowableItem().getLibraryItem().getLibrarySystem().getSystemId(), "transaction.borrowableitem.libraryItem.librarySystem.systemID mismatch");
     }
 
 
@@ -800,7 +804,8 @@ public class TestLibraryServicePersistence {
 
         //create library item
         LibraryItem libraryItem = new LibraryItem(name, library, itemType, releaseDate, creator, viewable);
-
+        libraryItemRepository.save(libraryItem);
+        
         //create inputs for BorrowableItem
         ItemState state = ItemState.Available;
 
@@ -842,7 +847,7 @@ public class TestLibraryServicePersistence {
         assertEquals(releaseDate, transaction.getBorrowableItem().getLibraryItem().getDate(), "transaction.borrowableItem.libraryItem.date mismatch");
         assertEquals(name, transaction.getBorrowableItem().getLibraryItem().getName(), "transaction.borrowableItem.libraryItem.state mismatch");
         assertEquals(creator, transaction.getBorrowableItem().getLibraryItem().getCreator(), "transaction.borrowableitem.libraryItem.creator mismatch"); 
-        assertEquals(library.getSystemId(), transaction.getBorrowableItem().getLibraryItem().getLibrarySystem(), "transaction.borrowableitem.libraryItem.librarySystem.systemID mismatch");
+        assertEquals(library.getSystemId(), transaction.getBorrowableItem().getLibraryItem().getLibrarySystem().getSystemId(), "transaction.borrowableitem.libraryItem.librarySystem.systemID mismatch");
     }
 
 
@@ -863,7 +868,8 @@ public class TestLibraryServicePersistence {
 
         //create library item
         LibraryItem libraryItem = new LibraryItem(name, library, itemType, releaseDate, creator, viewable);
-
+        libraryItemRepository.save(libraryItem);
+        
         //create borrowable item
         BorrowableItem borrowableItem = new BorrowableItem(state, libraryItem);
 
@@ -877,6 +883,7 @@ public class TestLibraryServicePersistence {
 
         //retrieve borrowable item from DB
         borrowableItem = borrowableItemRepository.findBorrowableItemByBarCodeNumber(barCodeNumber);
+        
 
         //test functionality
         assertNotNull(borrowableItem, "No borrowableItem retrieved");
@@ -931,7 +938,7 @@ public class TestLibraryServicePersistence {
         assertEquals(releaseDate, borrowableItem.getLibraryItem().getDate(), "borrowableItem.libraryItem.date mismatch");
         assertEquals(name, borrowableItem.getLibraryItem().getName(), "borrowableItem.libraryItem.state mismatch");
         assertEquals(creator, borrowableItem.getLibraryItem().getCreator(), "borrowableitem.libraryItem.creator mismatch"); 
-        assertEquals(library.getSystemId(), borrowableItem.getLibraryItem().getLibrarySystem(), "borrowableitem.libraryItem.librarySystem.systemID mismatch");
+        assertEquals(library.getSystemId(), borrowableItem.getLibraryItem().getLibrarySystem().getSystemId(), "borrowableitem.libraryItem.librarySystem.systemID mismatch");
     }
 
 
@@ -1096,15 +1103,15 @@ public class TestLibraryServicePersistence {
 
         //create head librarian and persist
         HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance);
-        
-        headLibrarianRepository.save(headLibrarian);
-        librarianRepository.save(headLibrarian);
-        userAccountRepository.save(headLibrarian);
 
         //create time slot and persist
         TimeSlot timeSlot = new TimeSlot(startDate, startTime, endDate, endTime, library, headLibrarian);
 
+        headLibrarianRepository.save(headLibrarian);
+        librarianRepository.save(headLibrarian);
+        userAccountRepository.save(headLibrarian);
         timeSlotRepository.save(timeSlot);
+
         
         //clear time slot
         timeSlot = null;

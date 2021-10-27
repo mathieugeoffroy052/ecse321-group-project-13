@@ -53,6 +53,7 @@ public class TimeSlot
     endDate = aEndDate;
     endTime = aEndTime;
     timeSlotID = nextTimeSlotID++;
+    headLibrarian = aHeadLibrarian;
     boolean didAddLibrarySystem = setLibrarySystem(aLibrarySystem);
     if (!didAddLibrarySystem)
     {
@@ -114,6 +115,9 @@ public class TimeSlot
 
   public boolean addLibrarian(Librarian aLibrarian){
     boolean wasSet = false;
+    if(librarian == null) {
+    	librarian = new HashSet<Librarian>();
+    }
     librarian.add(aLibrarian);
     wasSet = true;
     return wasSet;
@@ -163,7 +167,7 @@ public class TimeSlot
   }
 
   
-  @ManyToMany
+  @ManyToMany(fetch=FetchType.EAGER)
   @OnDelete (action = OnDeleteAction.CASCADE)
   public Set<Librarian> getLibrarian()
   {
