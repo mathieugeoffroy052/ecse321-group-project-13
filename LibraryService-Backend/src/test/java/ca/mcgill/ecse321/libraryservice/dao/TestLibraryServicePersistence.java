@@ -301,7 +301,7 @@ public class TestLibraryServicePersistence {
     }
 
 
-    @Test
+    @Test @SuppressWarnings("deprecation")
     public void testPersistAndLoadTimeSlotByReferenceLibrarian() {
         LibrarySystem library = new LibrarySystem();
         librarySystemRepository.save(library);
@@ -768,7 +768,7 @@ public class TestLibraryServicePersistence {
     }
 
 
-    @Test
+    @Test @SuppressWarnings("deprecation")
     public void testPersistAndLoadTransactionByReferenceUserAccount() {
         LibrarySystem library = new LibrarySystem();
         librarySystemRepository.save(library);
@@ -846,7 +846,7 @@ public class TestLibraryServicePersistence {
     }
 
 
-    @Test
+    @Test @SuppressWarnings("deprecation")
     public void testPersistAndLoadBorrowableItem() { 
         LibrarySystem library = new LibrarySystem();
         librarySystemRepository.save(library);
@@ -891,7 +891,7 @@ public class TestLibraryServicePersistence {
     }
 
 
-    @Test
+    @Test @SuppressWarnings("deprecation")
     public void testPersistAndLoadBorrowableItemByRefLibraryItem() { 
         LibrarySystem library = new LibrarySystem();
         librarySystemRepository.save(library);
@@ -935,7 +935,7 @@ public class TestLibraryServicePersistence {
     }
 
 
-    @Test
+    @Test @SuppressWarnings("deprecation")
     public void testPersistAndLoadLibraryItem() { 
         LibrarySystem library = new LibrarySystem();
         librarySystemRepository.save(library);
@@ -988,7 +988,7 @@ public class TestLibraryServicePersistence {
         assertEquals(idTest, librarySystemTest.getSystemId(), "Value of system ID returned by db not equal to" +idTest ); //read validation from db
     }
 
-    @Test
+    @Test @SuppressWarnings("deprecation")
     public void testPersistAndLoadHolidayByRefLibrarySystem() { 
         LibrarySystem library = new LibrarySystem();
         librarySystemRepository.save(library);
@@ -1031,7 +1031,7 @@ public class TestLibraryServicePersistence {
         assertEquals(endTime, holiday.getEndtime(), "holiday.endTime mismatch");
     }
 
-    @Test
+    @Test @SuppressWarnings("deprecation")
     public void testPersistAndLoadOpeningHourByRefLibrarySystem() { 
         LibrarySystem library = new LibrarySystem();
         librarySystemRepository.save(library);
@@ -1075,7 +1075,7 @@ public class TestLibraryServicePersistence {
         assertEquals(library.getSystemId(), openingHour.getLibrarySystem().getSystemId(), "openingHour.librarySystem.SystemID mismatch");
     }
 
-    @Test
+    @Test @SuppressWarnings("deprecation")
     public void testPersistAndLoadTimeSlotByRefLibrarySystem() {
         LibrarySystem library = new LibrarySystem();
         librarySystemRepository.save(library);
@@ -1120,7 +1120,7 @@ public class TestLibraryServicePersistence {
         assertEquals(endTime, timeSlot.getEndTime(), "timeslot.endTime mismatch");
     }
 
-    @Test
+    @Test @SuppressWarnings("deprecation")
     public void testPersistAndLoadLibraryItemByRefLibrarySystem() {
         LibrarySystem library = new LibrarySystem();
         librarySystemRepository.save(library);
