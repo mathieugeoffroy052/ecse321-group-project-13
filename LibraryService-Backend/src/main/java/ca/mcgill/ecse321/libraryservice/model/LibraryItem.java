@@ -89,6 +89,14 @@ public class LibraryItem
     return wasSet;
   }
 
+  public boolean setDate(Date aDate)
+  {
+    boolean wasSet = false;
+    date = aDate;
+    wasSet = true;
+    return wasSet;
+  }
+
   public boolean setType(ItemType aItemType){
     boolean wasSet = false;
     itemType = aItemType;
