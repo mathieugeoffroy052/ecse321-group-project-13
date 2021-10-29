@@ -33,12 +33,16 @@ public class TimeSlot
 
   //TimeSlot Associations
   private LibrarySystem librarySystem;
-  private List<Librarian> librarian;
+  private Set<Librarian> librarian;
   private HeadLibrarian headLibrarian;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
+
+  public TimeSlot() {
+    timeSlotID = nextTimeSlotID++;
+  }
 
   public TimeSlot(Date aStartDate, Time aStartTime, Date aEndDate, Time aEndTime, LibrarySystem aLibrarySystem, HeadLibrarian aHeadLibrarian)
   {
@@ -52,12 +56,30 @@ public class TimeSlot
     {
       throw new RuntimeException("Unable to create timeSlot due to librarySystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
-    librarian = new ArrayList<Librarian>();
     boolean didAddHeadLibrarian = setHeadLibrarian(aHeadLibrarian);
     if (!didAddHeadLibrarian)
     {
       throw new RuntimeException("Unable to create timeSlot due to headLibrarian. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
+  }
+
+  //------------------------
+  // PRIMARY KEY
+  //------------------------
+
+  public boolean setTimeSlotID(int aTimeSlotID)
+  {
+    timeSlotID = aTimeSlotID;
+    if(timeSlotID==aTimeSlotID){
+      return true;
+    }
+    else return false;
+  }
+
+  @Id
+  public int getTimeSlotID()
+  {
+    return timeSlotID;
   }
 
   //------------------------
@@ -80,7 +102,7 @@ public class TimeSlot
     return wasSet;
   }
 
-  public boolean setLibrarian(ArrayList<Librarian> aLibrarian)
+  public boolean setLibrarian(Set<Librarian> aLibrarian)
   {
     boolean wasSet = false;
     librarian = aLibrarian;
@@ -123,37 +145,19 @@ public class TimeSlot
   {
     return endTime;
   }
-  @Id
-  public int getTimeSlotID()
-  {
-    return timeSlotID;
-  }
 
-  public boolean setTimeSlotID(int aTimeSlotID)
-  {
-    timeSlotID = aTimeSlotID;
-    if(timeSlotID==aTimeSlotID){
-      return true;
-    }
-    else return false;
-  }
   /* Code from template association_GetOne */
   @ManyToOne(optional=false)
   public LibrarySystem getLibrarySystem()
   {
     return librarySystem;
   }
-  /* Code from template association_GetMany */
-  public Librarian getLibrarian(int index)
+
+  
+  @ManyToMany(mappedBy = "timeSlot")
+  public Set<Librarian> getLibrarian()
   {
-    Librarian aLibrarian = librarian.get(index);
-    return aLibrarian;
-  }
-  @ManyToMany
-  public List<Librarian> getLibrarian()
-  {
-    List<Librarian> newLibrarian = Collections.unmodifiableList(librarian);
-    return newLibrarian;
+    return librarian;
   }
 
   public int numberOfLibrarian()
@@ -168,17 +172,13 @@ public class TimeSlot
     return has;
   }
 
-  public int indexOfLibrarian(Librarian aLibrarian)
-  {
-    int index = librarian.indexOf(aLibrarian);
-    return index;
-  }
   /* Code from template association_GetOne */
   @ManyToOne(optional=false)
   public HeadLibrarian getHeadLibrarian()
   {
     return headLibrarian;
   }
+
   /* Code from template association_SetOneToMany */
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {
@@ -187,99 +187,17 @@ public class TimeSlot
     {
       return wasSet;
     }
-
-    LibrarySystem existingLibrarySystem = librarySystem;
     librarySystem = aLibrarySystem;
-    if (existingLibrarySystem != null && !existingLibrarySystem.equals(aLibrarySystem))
-    {
-      existingLibrarySystem.removeTimeSlot(this);
-    }
-    librarySystem.addTimeSlot(this);
     wasSet = true;
     return wasSet;
   }
+
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfLibrarian()
   {
     return 0;
   }
-  /* Code from template association_AddManyToManyMethod */
-  public boolean addLibrarian(Librarian aLibrarian)
-  {
-    boolean wasAdded = false;
-    if (librarian.contains(aLibrarian)) { return false; }
-    librarian.add(aLibrarian);
-    if (aLibrarian.indexOfTimeSlot(this) != -1)
-    {
-      wasAdded = true;
-    }
-    else
-    {
-      wasAdded = aLibrarian.addTimeSlot(this);
-      if (!wasAdded)
-      {
-        librarian.remove(aLibrarian);
-      }
-    }
-    return wasAdded;
-  }
-  /* Code from template association_RemoveMany */
-  public boolean removeLibrarian(Librarian aLibrarian)
-  {
-    boolean wasRemoved = false;
-    if (!librarian.contains(aLibrarian))
-    {
-      return wasRemoved;
-    }
-
-    int oldIndex = librarian.indexOf(aLibrarian);
-    librarian.remove(oldIndex);
-    if (aLibrarian.indexOfTimeSlot(this) == -1)
-    {
-      wasRemoved = true;
-    }
-    else
-    {
-      wasRemoved = aLibrarian.removeTimeSlot(this);
-      if (!wasRemoved)
-      {
-        librarian.add(oldIndex,aLibrarian);
-      }
-    }
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addLibrarianAt(Librarian aLibrarian, int index)
-  {  
-    boolean wasAdded = false;
-    if(addLibrarian(aLibrarian))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfLibrarian()) { index = numberOfLibrarian() - 1; }
-      librarian.remove(aLibrarian);
-      librarian.add(index, aLibrarian);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveLibrarianAt(Librarian aLibrarian, int index)
-  {
-    boolean wasAdded = false;
-    if(librarian.contains(aLibrarian))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfLibrarian()) { index = numberOfLibrarian() - 1; }
-      librarian.remove(aLibrarian);
-      librarian.add(index, aLibrarian);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addLibrarianAt(aLibrarian, index);
-    }
-    return wasAdded;
-  }
+  
   /* Code from template association_SetOneToMany */
   public boolean setHeadLibrarian(HeadLibrarian aHeadLibrarian)
   {
@@ -288,40 +206,10 @@ public class TimeSlot
     {
       return wasSet;
     }
-
-    HeadLibrarian existingHeadLibrarian = headLibrarian;
     headLibrarian = aHeadLibrarian;
-    if (existingHeadLibrarian != null && !existingHeadLibrarian.equals(aHeadLibrarian))
-    {
-      existingHeadLibrarian.removeTimeSlot(this);
-    }
-    headLibrarian.addTimeSlot(this);
     wasSet = true;
     return wasSet;
   }
-
-  public void delete()
-  {
-    LibrarySystem placeholderLibrarySystem = librarySystem;
-    this.librarySystem = null;
-    if(placeholderLibrarySystem != null)
-    {
-      placeholderLibrarySystem.removeTimeSlot(this);
-    }
-    ArrayList<Librarian> copyOfLibrarian = new ArrayList<Librarian>(librarian);
-    librarian.clear();
-    for(Librarian aLibrarian : copyOfLibrarian)
-    {
-      aLibrarian.removeTimeSlot(this);
-    }
-    HeadLibrarian placeholderHeadLibrarian = headLibrarian;
-    this.headLibrarian = null;
-    if(placeholderHeadLibrarian != null)
-    {
-      placeholderHeadLibrarian.removeTimeSlot(this);
-    }
-  }
-
 
   public String toString()
   {

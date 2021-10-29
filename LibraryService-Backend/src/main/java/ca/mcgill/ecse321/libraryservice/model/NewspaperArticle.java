@@ -34,6 +34,10 @@ public class NewspaperArticle
   // CONSTRUCTOR
   //------------------------
 
+  public NewspaperArticle() {
+    barCodeNumber = nextBarCodeNumber++;
+  }
+
   public NewspaperArticle(Date aDate, LibrarySystem aLibrarySystem, Newspaper aNewspaper)
   {
     date = aDate;
@@ -48,6 +52,25 @@ public class NewspaperArticle
     {
       throw new RuntimeException("Unable to create article due to newspaper. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
+  }
+
+  //------------------------
+  // PRIMARY KEY
+  //------------------------
+
+  public boolean setBarCodeNumber(int aBarCodeNumber)
+  {
+    barCodeNumber = aBarCodeNumber;
+    if(barCodeNumber==aBarCodeNumber){
+      return true;
+    }
+    else return false;
+  }
+
+  @Id
+  public int getBarCodeNumber()
+  {
+    return barCodeNumber;
   }
 
   //------------------------
@@ -66,20 +89,6 @@ public class NewspaperArticle
   {
     return date;
   }
-  @Id
-  public int getBarCodeNumber()
-  {
-    return barCodeNumber;
-  }
-
-  public boolean setBarCodeNumber(int aBarCodeNumber)
-  {
-    barCodeNumber = aBarCodeNumber;
-    if(barCodeNumber==aBarCodeNumber){
-      return true;
-    }
-    else return false;
-  }
 
   /* Code from template association_GetOne */
   @ManyToOne(optional=false)
@@ -87,12 +96,14 @@ public class NewspaperArticle
   {
     return librarySystem;
   }
+
   /* Code from template association_GetOne */
   @ManyToOne(optional=false)
   public Newspaper getNewspaper()
   {
     return newspaper;
   }
+
   /* Code from template association_SetOneToMany */
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {
@@ -101,17 +112,11 @@ public class NewspaperArticle
     {
       return wasSet;
     }
-
-    LibrarySystem existingLibrarySystem = librarySystem;
     librarySystem = aLibrarySystem;
-    if (existingLibrarySystem != null && !existingLibrarySystem.equals(aLibrarySystem))
-    {
-      existingLibrarySystem.removeNewspaperArticle(this);
-    }
-    librarySystem.addNewspaperArticle(this);
     wasSet = true;
     return wasSet;
   }
+  
   /* Code from template association_SetOneToMany */
   public boolean setNewspaper(Newspaper aNewspaper)
   {
@@ -120,34 +125,10 @@ public class NewspaperArticle
     {
       return wasSet;
     }
-
-    Newspaper existingNewspaper = newspaper;
     newspaper = aNewspaper;
-    if (existingNewspaper != null && !existingNewspaper.equals(aNewspaper))
-    {
-      existingNewspaper.removeArticle(this);
-    }
-    newspaper.addArticle(this);
     wasSet = true;
     return wasSet;
   }
-
-  public void delete()
-  {
-    LibrarySystem placeholderLibrarySystem = librarySystem;
-    this.librarySystem = null;
-    if(placeholderLibrarySystem != null)
-    {
-      placeholderLibrarySystem.removeNewspaperArticle(this);
-    }
-    Newspaper placeholderNewspaper = newspaper;
-    this.newspaper = null;
-    if(placeholderNewspaper != null)
-    {
-      placeholderNewspaper.removeArticle(this);
-    }
-  }
-
 
   public String toString()
   {

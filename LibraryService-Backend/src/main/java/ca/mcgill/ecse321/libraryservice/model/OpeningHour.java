@@ -42,6 +42,10 @@ public class OpeningHour
   // CONSTRUCTOR
   //------------------------
 
+  public OpeningHour() {
+    hourID = nextHourID++;
+  }
+
   public OpeningHour(DayOfWeek aDayOfWeek, Time aStartTime, Time aEndTime, LibrarySystem aLibrarySystem, HeadLibrarian aHeadLibrarian)
   {
     dayOfWeek = aDayOfWeek;
@@ -58,6 +62,25 @@ public class OpeningHour
     {
       throw new RuntimeException("Unable to create openingHour due to headLibrarian. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
+  }
+
+  //------------------------
+  // PRIMARY KEY
+  //------------------------
+
+  public boolean setHourID(int aHourID)
+  {
+    hourID = aHourID;
+    if(hourID==aHourID){
+      return true;
+    }
+    else return false;
+  }
+
+  @Id
+  public int getHourID()
+  {
+    return hourID;
   }
 
   //------------------------
@@ -102,20 +125,6 @@ public class OpeningHour
   {
     return endTime;
   }
-  @Id
-  public int getHourID()
-  {
-    return hourID;
-  }
-
-  public boolean setHourID(int aHourID)
-  {
-    hourID = aHourID;
-    if(hourID==aHourID){
-      return true;
-    }
-    else return false;
-  }
 
   /* Code from template association_GetOne */
   @ManyToOne(optional=false)
@@ -123,12 +132,14 @@ public class OpeningHour
   {
     return librarySystem;
   }
+
   /* Code from template association_GetOne */
   @ManyToOne(optional=false)
   public HeadLibrarian getHeadLibrarian()
   {
     return headLibrarian;
   }
+
   /* Code from template association_SetOneToMany */
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {
@@ -137,17 +148,11 @@ public class OpeningHour
     {
       return wasSet;
     }
-
-    LibrarySystem existingLibrarySystem = librarySystem;
     librarySystem = aLibrarySystem;
-    if (existingLibrarySystem != null && !existingLibrarySystem.equals(aLibrarySystem))
-    {
-      existingLibrarySystem.removeOpeningHour(this);
-    }
-    librarySystem.addOpeningHour(this);
     wasSet = true;
     return wasSet;
   }
+  
   /* Code from template association_SetOneToAtMostN */
   public boolean setHeadLibrarian(HeadLibrarian aHeadLibrarian)
   {
@@ -157,45 +162,10 @@ public class OpeningHour
     {
       return wasSet;
     }
-
-    //headLibrarian already at maximum (7)
-    if (librarySystem.numberOfOpeningHours() >= LibrarySystem.maximumNumberOfOpeningHour())
-    {
-      return wasSet;
-    }
-    
-    HeadLibrarian existingHeadLibrarian = headLibrarian;
-    headLibrarian = aHeadLibrarian;
-    if (existingHeadLibrarian != null && !existingHeadLibrarian.equals(aHeadLibrarian))
-    {
-      boolean didRemove = librarySystem.removeOpeningHour(this);
-      if (!didRemove)
-      {
-        headLibrarian = existingHeadLibrarian;
-        return wasSet;
-      }
-    }
-    librarySystem.addOpeningHour(this);
+    this.headLibrarian = aHeadLibrarian;
     wasSet = true;
     return wasSet;
   }
-
-  public void delete()
-  {
-    LibrarySystem placeholderLibrarySystem = librarySystem;
-    this.librarySystem = null;
-    if(placeholderLibrarySystem != null)
-    {
-      placeholderLibrarySystem.removeOpeningHour(this);
-    }
-    HeadLibrarian placeholderHeadLibrarian = headLibrarian;
-    this.headLibrarian = null;
-    if(placeholderHeadLibrarian != null)
-    {
-      librarySystem.removeOpeningHour(this);
-    }
-  }
-
 
   public String toString()
   {

@@ -8,7 +8,8 @@ import ca.mcgill.ecse321.libraryservice.model.OpeningHour;
 import ca.mcgill.ecse321.libraryservice.model.HeadLibrarian;
 import ca.mcgill.ecse321.libraryservice.model.LibrarySystem;
 
-public interface OpeningHourRepository extends CrudRepository<OpeningHour, Integer>{
+public interface OpeningHourRepository extends CrudRepository<OpeningHour, Integer> {
+	
 	OpeningHour findOpeningHourByHourID(int hourID);
 	
 	List<OpeningHour> findByHeadLibrarian(HeadLibrarian headLibrarian);

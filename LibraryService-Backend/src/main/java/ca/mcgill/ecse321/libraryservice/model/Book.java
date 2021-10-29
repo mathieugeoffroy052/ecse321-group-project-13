@@ -2,7 +2,6 @@
 /*This code was generated using the UMPLE 1.29.1.4607.2d2b84eb8 modeling language!*/
 
 package ca.mcgill.ecse321.libraryservice.model;
-import java.util.*;
 import javax.persistence.*;
 
 @Entity
@@ -19,6 +18,9 @@ public class Book extends LibraryItem
   //------------------------
   // CONSTRUCTOR
   //------------------------
+  public Book() {
+    super();
+  }
 
   public Book(String aName, LibrarySystem aLibrarySystem, String aAuthor)
   {
@@ -40,11 +42,6 @@ public class Book extends LibraryItem
     author = aAuthor;
     wasSet = true;
     return wasSet;
-  }
-
-  public void delete()
-  {
-    super.delete();
   }
 
 }

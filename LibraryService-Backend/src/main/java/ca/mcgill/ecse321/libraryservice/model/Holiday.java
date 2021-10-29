@@ -37,6 +37,10 @@ public class Holiday
   // CONSTRUCTOR
   //------------------------
 
+  public Holiday() {
+    holidayID = nextHolidayID++;
+  }
+
   public Holiday(Date aDate, Time aStartTime, Time aEndtime, LibrarySystem aLibrarySystem, HeadLibrarian aHeadLibrarian)
   {
     date = aDate;
@@ -53,6 +57,25 @@ public class Holiday
     {
       throw new RuntimeException("Unable to create holiday due to headLibrarian. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
+  }
+
+  //------------------------
+  // PRIMARY KEY
+  //------------------------
+
+  public boolean setHolidayID(int aholidayID)
+  {
+    holidayID = aholidayID;
+    if(holidayID==aholidayID){
+      return true;
+    }
+    else return false;
+  }
+
+  @Id
+  public int getHolidayID()
+  {
+    return holidayID;
   }
 
   //------------------------
@@ -97,20 +120,6 @@ public class Holiday
   {
     return endtime;
   }
-  @Id
-  public int getHolidayID()
-  {
-    return holidayID;
-  }
-
-  public boolean setHolidayID(int aholidayID)
-  {
-    holidayID = aholidayID;
-    if(holidayID==aholidayID){
-      return true;
-    }
-    else return false;
-  }
 
   /* Code from template association_GetOne */
   @ManyToOne(optional=false)
@@ -118,67 +127,31 @@ public class Holiday
   {
     return librarySystem;
   }
+
   /* Code from template association_GetOne */
   @ManyToOne(optional=false)
   public HeadLibrarian getHeadLibrarian()
   {
     return headLibrarian;
   }
+
   /* Code from template association_SetOneToMany */
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {
     boolean wasSet = false;
-    if (aLibrarySystem == null)
-    {
-      return wasSet;
-    }
-
-    LibrarySystem existingLibrarySystem = librarySystem;
-    librarySystem = aLibrarySystem;
-    if (existingLibrarySystem != null && !existingLibrarySystem.equals(aLibrarySystem))
-    {
-      existingLibrarySystem.removeHoliday(this);
-    }
-    librarySystem.addHoliday(this);
+    this.librarySystem = aLibrarySystem;
     wasSet = true;
     return wasSet;
   }
+
   /* Code from template association_SetOneToMany */
   public boolean setHeadLibrarian(HeadLibrarian aHeadLibrarian)
   {
     boolean wasSet = false;
-    if (aHeadLibrarian == null)
-    {
-      return wasSet;
-    }
-
-    HeadLibrarian existingHeadLibrarian = headLibrarian;
-    headLibrarian = aHeadLibrarian;
-    if (existingHeadLibrarian != null && !existingHeadLibrarian.equals(aHeadLibrarian))
-    {
-      librarySystem.removeHoliday(this);
-    }
-    librarySystem.addHoliday(this);
+    this.headLibrarian = aHeadLibrarian;
     wasSet = true;
     return wasSet;
   }
-
-  public void delete()
-  {
-    LibrarySystem placeholderLibrarySystem = librarySystem;
-    this.librarySystem = null;
-    if(placeholderLibrarySystem != null)
-    {
-      placeholderLibrarySystem.removeHoliday(this);
-    }
-    HeadLibrarian placeholderHeadLibrarian = headLibrarian;
-    this.headLibrarian = null;
-    if(placeholderHeadLibrarian != null)
-    {
-      librarySystem.removeHoliday(this);
-    }
-  }
-
 
   public String toString()
   {

@@ -28,11 +28,15 @@ public abstract class LibraryItem
 
   //LibraryItem Associations
   private LibrarySystem librarySystem;
-  private List<BorrowableItem> borrowableItem;
+  private Set<BorrowableItem> borrowableItem;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
+
+  public LibraryItem() {
+    isbn = nextIsbn++;
+  }
 
   public LibraryItem(String aName, LibrarySystem aLibrarySystem)
   {
@@ -43,7 +47,25 @@ public abstract class LibraryItem
     {
       throw new RuntimeException("Unable to create libraryItem due to librarySystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
-    borrowableItem = new ArrayList<BorrowableItem>();
+  }
+
+  //------------------------
+  // PRIMARY KEY
+  //------------------------
+  
+  public boolean setIsbn(int aIsbn)
+  {
+    isbn = aIsbn;
+    if(isbn==aIsbn){
+      return true;
+    }
+    else return false;
+  }
+  
+  @Id
+  public int getIsbn()
+  {
+    return isbn;
   }
 
   //------------------------
@@ -58,7 +80,7 @@ public abstract class LibraryItem
     return wasSet;
   }
 
-  public boolean setBorrowableItem(ArrayList<BorrowableItem> aItems)
+  public boolean setBorrowableItem(Set<BorrowableItem> aItems)
   {
     boolean wasSet = false;
     borrowableItem = aItems;
@@ -70,20 +92,6 @@ public abstract class LibraryItem
   {
     return name;
   }
-  @Id
-  public int getIsbn()
-  {
-    return isbn;
-  }
-
-  public boolean setIsbn(int aIsbn)
-  {
-    isbn = aIsbn;
-    if(isbn==aIsbn){
-      return true;
-    }
-    else return false;
-  }
 
   /* Code from template association_GetOne */
   @ManyToOne(optional=false)
@@ -91,17 +99,11 @@ public abstract class LibraryItem
   {
     return librarySystem;
   }
-  /* Code from template association_GetMany */
-  public BorrowableItem getBorrowableItem(int index)
+
+  @OneToMany(mappedBy = "libraryItem")
+  public Set<BorrowableItem> getBorrowableItem()
   {
-    BorrowableItem aItem = borrowableItem.get(index);
-    return aItem;
-  }
-  @OneToMany
-  public List<BorrowableItem> getBorrowableItem()
-  {
-    List<BorrowableItem> newItems = Collections.unmodifiableList(borrowableItem);
-    return newItems;
+    return borrowableItem;
   }
 
   public int numberOfBorrowableItem()
@@ -116,118 +118,20 @@ public abstract class LibraryItem
     return has;
   }
 
-  public int indexOfBorrowableItem(BorrowableItem aItem)
-  {
-    int index = borrowableItem.indexOf(aItem);
-    return index;
-  }
   /* Code from template association_SetOneToMany */
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {
     boolean wasSet = false;
-    if (aLibrarySystem == null)
-    {
-      return wasSet;
-    }
-
-    LibrarySystem existingLibrarySystem = librarySystem;
-    librarySystem = aLibrarySystem;
-    if (existingLibrarySystem != null && !existingLibrarySystem.equals(aLibrarySystem))
-    {
-      existingLibrarySystem.removeLibraryItem(this);
-    }
-    librarySystem.addLibraryItem(this);
+    this.librarySystem = aLibrarySystem;
     wasSet = true;
     return wasSet;
   }
+
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfBorrowableItem()
   {
     return 0;
   }
-  /* Code from template association_AddManyToOne */
-  public BorrowableItem addBorrowableItem(BorrowableItem.ItemState aState)
-  {
-    return new BorrowableItem(aState, this);
-  }
-
-  public boolean addBorrowableItem(BorrowableItem aItem)
-  {
-    boolean wasAdded = false;
-    if (borrowableItem.contains(aItem)) { return false; }
-    LibraryItem existingLibraryItem = aItem.getLibraryItem();
-    boolean isNewLibraryItem = existingLibraryItem != null && !this.equals(existingLibraryItem);
-    if (isNewLibraryItem)
-    {
-      aItem.setLibraryItem(this);
-    }
-    else
-    {
-      borrowableItem.add(aItem);
-    }
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeBorrowableItem(BorrowableItem aItem)
-  {
-    boolean wasRemoved = false;
-    //Unable to remove aItem, as it must always have a libraryItem
-    if (!this.equals(aItem.getLibraryItem()))
-    {
-      borrowableItem.remove(aItem);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addBorrowableItemAt(BorrowableItem aItem, int index)
-  {  
-    boolean wasAdded = false;
-    if(addBorrowableItem(aItem))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfBorrowableItem()) { index = numberOfBorrowableItem() - 1; }
-      borrowableItem.remove(aItem);
-      borrowableItem.add(index, aItem);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveBorrowableItemAt(BorrowableItem aItem, int index)
-  {
-    boolean wasAdded = false;
-    if(borrowableItem.contains(aItem))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfBorrowableItem()) { index = numberOfBorrowableItem() - 1; }
-      borrowableItem.remove(aItem);
-      borrowableItem.add(index, aItem);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addBorrowableItemAt(aItem, index);
-    }
-    return wasAdded;
-  }
-
-  public void delete()
-  {
-    LibrarySystem placeholderLibrarySystem = librarySystem;
-    this.librarySystem = null;
-    if(placeholderLibrarySystem != null)
-    {
-      placeholderLibrarySystem.removeLibraryItem(this);
-    }
-    for(int i=borrowableItem.size(); i > 0; i--)
-    {
-      BorrowableItem aItem = borrowableItem.get(i - 1);
-      aItem.delete();
-    }
-  }
-
 
   public String toString()
   {

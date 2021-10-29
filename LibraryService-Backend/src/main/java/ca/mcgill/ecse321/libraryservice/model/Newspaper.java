@@ -6,6 +6,8 @@ import java.util.*;
 import java.sql.Date;
 import javax.persistence.*;
 
+import org.dom4j.dtd.AttributeDecl;
+
 @Entity
 // line 91 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump 16-05-11-860.ump"
 public class Newspaper
@@ -28,18 +30,21 @@ public class Newspaper
   private int paperID;
 
   //Newspaper Associations
-  private List<NewspaperArticle> articles;
+  private Set<NewspaperArticle> articles;
   private LibrarySystem librarySystem;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
+  public Newspaper() {
+    paperID = nextPaperID++;
+  }
+
   public Newspaper(String aName, LibrarySystem aLibrarySystem)
   {
     name = aName;
     paperID = nextPaperID++;
-    articles = new ArrayList<NewspaperArticle>();
     boolean didAddLibrarySystem = setLibrarySystem(aLibrarySystem);
     if (!didAddLibrarySystem)
     {
@@ -47,6 +52,26 @@ public class Newspaper
     }
   }
 
+
+  //------------------------
+  // PRIMARY KEY
+  //------------------------
+
+  public boolean setPaperID(int aPaperID)
+  {
+    this.paperID = aPaperID;
+    if(paperID==aPaperID){
+      return true;
+    }
+    else return false;
+  }
+
+  @Id
+  public int getPaperID()
+  {
+    return this.paperID;
+  }
+  
   //------------------------
   // INTERFACE
   //------------------------
@@ -59,7 +84,7 @@ public class Newspaper
     return wasSet;
   }
 
-  public boolean setArticles(ArrayList<NewspaperArticle> aArticles)
+  public boolean setArticles(Set<NewspaperArticle> aArticles)
   {
     boolean wasSet = false;
     articles = aArticles;
@@ -69,40 +94,21 @@ public class Newspaper
 
   public String getName()
   {
-    return name;
-  }
-  @Id
-  public int getPaperID()
-  {
-    return paperID;
+    return this.name;
   }
 
-  public boolean setPaperID(int aPaperID)
-  {
-    paperID = aPaperID;
-    if(paperID==aPaperID){
-      return true;
-    }
-    else return false;
-  }
 
-  /* Code from template association_GetMany */
-  public NewspaperArticle getArticle(int index)
+
+  @OneToMany(mappedBy ="newspaper")
+  public Set<NewspaperArticle> getArticles()
   {
-    NewspaperArticle aArticle = articles.get(index);
-    return aArticle;
-  }
-  @OneToMany
-  public List<NewspaperArticle> getArticles()
-  {
-    List<NewspaperArticle> newArticles = Collections.unmodifiableList(articles);
-    return newArticles;
+    return articles;
   }
 
   public int numberOfArticles()
   {
-    int number = articles.size();
-    return number;
+   
+    return articles.size();
   }
 
   public boolean hasArticles()
@@ -111,89 +117,21 @@ public class Newspaper
     return has;
   }
 
-  public int indexOfArticle(NewspaperArticle aArticle)
-  {
-    int index = articles.indexOf(aArticle);
-    return index;
-  }
+
+
   /* Code from template association_GetOne */
   @ManyToOne(optional=false)
   public LibrarySystem getLibrarySystem()
   {
     return librarySystem;
   }
+
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfArticles()
   {
     return 0;
   }
-  /* Code from template association_AddManyToOne */
-  public NewspaperArticle addArticle(Date aDate, LibrarySystem aLibrarySystem)
-  {
-    return new NewspaperArticle(aDate, aLibrarySystem, this);
-  }
-
-  public boolean addArticle(NewspaperArticle aArticle)
-  {
-    boolean wasAdded = false;
-    if (articles.contains(aArticle)) { return false; }
-    Newspaper existingNewspaper = aArticle.getNewspaper();
-    boolean isNewNewspaper = existingNewspaper != null && !this.equals(existingNewspaper);
-    if (isNewNewspaper)
-    {
-      aArticle.setNewspaper(this);
-    }
-    else
-    {
-      articles.add(aArticle);
-    }
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeArticle(NewspaperArticle aArticle)
-  {
-    boolean wasRemoved = false;
-    //Unable to remove aArticle, as it must always have a newspaper
-    if (!this.equals(aArticle.getNewspaper()))
-    {
-      articles.remove(aArticle);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addArticleAt(NewspaperArticle aArticle, int index)
-  {  
-    boolean wasAdded = false;
-    if(addArticle(aArticle))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfArticles()) { index = numberOfArticles() - 1; }
-      articles.remove(aArticle);
-      articles.add(index, aArticle);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveArticleAt(NewspaperArticle aArticle, int index)
-  {
-    boolean wasAdded = false;
-    if(articles.contains(aArticle))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfArticles()) { index = numberOfArticles() - 1; }
-      articles.remove(aArticle);
-      articles.add(index, aArticle);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addArticleAt(aArticle, index);
-    }
-    return wasAdded;
-  }
+  
   /* Code from template association_SetOneToMany */
   public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
   {
@@ -202,33 +140,10 @@ public class Newspaper
     {
       return wasSet;
     }
-
-    LibrarySystem existingLibrarySystem = librarySystem;
     librarySystem = aLibrarySystem;
-    if (existingLibrarySystem != null && !existingLibrarySystem.equals(aLibrarySystem))
-    {
-      existingLibrarySystem.removeNewspaper(this);
-    }
-    librarySystem.addNewspaper(this);
     wasSet = true;
     return wasSet;
   }
-
-  public void delete()
-  {
-    for(int i=articles.size(); i > 0; i--)
-    {
-      NewspaperArticle aArticle = articles.get(i - 1);
-      aArticle.delete();
-    }
-    LibrarySystem placeholderLibrarySystem = librarySystem;
-    this.librarySystem = null;
-    if(placeholderLibrarySystem != null)
-    {
-      placeholderLibrarySystem.removeNewspaper(this);
-    }
-  }
-
 
   public String toString()
   {

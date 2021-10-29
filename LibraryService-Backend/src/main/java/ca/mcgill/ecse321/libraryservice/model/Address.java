@@ -31,12 +31,35 @@ public class Address
   // CONSTRUCTOR
   //------------------------
 
+  public Address() {
+    addressID = nextAddressID++;
+  }
+
   public Address(String aAddress, String aCity, String aCountry)
   {
     address = aAddress;
     city = aCity;
     country = aCountry;
     addressID = nextAddressID++;
+  }
+
+  //------------------------
+  // PRIMARY KEY
+  //------------------------
+
+  public boolean setAddressID(int aAddressID)
+  {
+    addressID = aAddressID;
+    if(addressID==aAddressID){
+      return true;
+    }
+    else return false;
+  }
+  
+  @Id
+  public int getAddressID()
+  {
+    return addressID;
   }
 
   //------------------------
@@ -81,20 +104,7 @@ public class Address
   {
     return country;
   }
-  @Id
-  public int getAddressID()
-  {
-    return addressID;
-  }
 
-  public boolean setAddressID(int aAddressID)
-  {
-    addressID = aAddressID;
-    if(addressID==aAddressID){
-      return true;
-    }
-    else return false;
-  }
 
   public String toString()
   {

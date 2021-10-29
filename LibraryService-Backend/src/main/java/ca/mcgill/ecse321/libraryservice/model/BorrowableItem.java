@@ -38,6 +38,10 @@ public class BorrowableItem
   // CONSTRUCTOR
   //------------------------
 
+  public BorrowableItem() {
+    barCodeNumber = nextBarCodeNumber++;
+  }
+
   public BorrowableItem(ItemState aState, LibraryItem aLibraryItem)
   {
     state = aState;
@@ -50,27 +54,8 @@ public class BorrowableItem
   }
 
   //------------------------
-  // INTERFACE
+  // PRIMARY KEY
   //------------------------
-
-  public boolean setState(ItemState aState)
-  {
-    boolean wasSet = false;
-    state = aState;
-    wasSet = true;
-    return wasSet;
-  }
-
-  public ItemState getState()
-  {
-    return state;
-  }
-
-  @Id
-  public int getBarCodeNumber()
-  {
-    return barCodeNumber;
-  }
 
   public boolean setBarCodeNumber(int aBarCodeNumber)
   {
@@ -80,40 +65,44 @@ public class BorrowableItem
     }
     else return false;
   }
-  /* Code from template association_GetOne */
-  @ManyToOne(optional=false)
-  public LibraryItem getLibraryItem()
+  
+  @Id
+  public int getBarCodeNumber()
   {
-    return libraryItem;
+    return barCodeNumber;
   }
-  /* Code from template association_SetOneToMany */
-  public boolean setLibraryItem(LibraryItem aLibraryItem)
+
+  //------------------------
+  // INTERFACE
+  //------------------------
+
+  public boolean setState(ItemState aState)
   {
     boolean wasSet = false;
-    if (aLibraryItem == null)
-    {
-      return wasSet;
-    }
-
-    LibraryItem existingLibraryItem = libraryItem;
-    libraryItem = aLibraryItem;
-    if (existingLibraryItem != null && !existingLibraryItem.equals(aLibraryItem))
-    {
-      existingLibraryItem.removeBorrowableItem(this);
-    }
-    libraryItem.addBorrowableItem(this);
+    this.state = aState;
     wasSet = true;
     return wasSet;
   }
 
-  public void delete()
+  public ItemState getState()
   {
-    LibraryItem placeholderLibraryItem = libraryItem;
-    this.libraryItem = null;
-    if(placeholderLibraryItem != null)
-    {
-      placeholderLibraryItem.removeBorrowableItem(this);
-    }
+    return state;
+  }
+
+  /* Code from template association_GetOne */
+  @ManyToOne(optional = false)
+  public LibraryItem getLibraryItem()
+  {
+    return libraryItem;
+  }
+
+  /* Code from template association_SetOneToMany */
+  public boolean setLibraryItem(LibraryItem aLibraryItem)
+  {
+    boolean wasSet = false;
+    this.libraryItem = aLibraryItem;
+    wasSet = true;
+    return wasSet;
   }
 
 
