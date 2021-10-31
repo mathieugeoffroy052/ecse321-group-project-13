@@ -4,12 +4,17 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ca.mcgill.ecse321.libraryservice.dao.*;
+import ca.mcgill.ecse321.libraryservice.model.BorrowableItem;
+import ca.mcgill.ecse321.libraryservice.model.LibraryItem;
+import ca.mcgill.ecse321.libraryservice.model.LibrarySystem;
+import ca.mcgill.ecse321.libraryservice.model.LibraryItem.ItemType;
 
 
 @Service
@@ -38,5 +43,120 @@ public class LibraryServiceService {
     private TransactionRepository transactionRepository;
     @Autowired
     private UserAccountRepository userAccountRepository;
+
+    @Transactional
+    public List<BorrowableItem> getBorrowableItemsFromItemIsbn(int isbn){
+        LibraryItem item = libraryItemRepository.findByIsbn(isbn);
+        List<BorrowableItem> allBorrowableItems = borrowableItemRepository.findByLibraryItem(item);
+        return allBorrowableItems;
+    }
+
+    @Transactional
+    public List<LibraryItem> getAllBooks() throws Exception{
+        LibrarySystem library;
+        try{
+            library = (LibrarySystem) librarySystemRepository.findAll().iterator().next(); // uses the first library system found in the database
+        }catch(NoSuchElementException e){
+            throw new Exception("No library system(s) exist in the database");
+        }
+        List<LibraryItem> allLibraryItems = libraryItemRepository.findByLibrarySystem(library);
+        List<LibraryItem> allBooks = new ArrayList<LibraryItem>();
+        for(LibraryItem i : allLibraryItems){
+            if(i.getType().equals(ItemType.Book)){
+                allBooks.add(i);
+            }
+        }
+        return allBooks;
+    }
+
+    @Transactional
+    public LibraryItem getBookFromAuthor(String authorName) throws Exception{
+        List<LibraryItem> allBooks = getAllBooks();
+        for(LibraryItem a : allBooks){
+            if(a.getCreator().equals(authorName)) return a;
+        }
+        return null;
+    }
+
+    @Transactional
+    public LibraryItem getBookFromTitle(String bookTitle) throws Exception{
+        List<LibraryItem> allBooks = getAllBooks();
+        for(LibraryItem a : allBooks){
+            if(a.getName().equals(bookTitle)) return a;
+        }
+        return null;
+    }
+
+    @Transactional
+    public List<LibraryItem> getAllMusic() throws Exception{
+        LibrarySystem library;
+        try{
+            library = (LibrarySystem) librarySystemRepository.findAll().iterator().next(); // uses the first library system found in the database
+        }catch(NoSuchElementException e){
+            throw new Exception("No library system(s) exist in the database");
+        }
+        List<LibraryItem> allLibraryItems = libraryItemRepository.findByLibrarySystem(library);
+        List<LibraryItem> allMusic = new ArrayList<LibraryItem>();
+        for(LibraryItem i : allLibraryItems){
+            if(i.getType().equals(ItemType.Music)){
+                allMusic.add(i);
+            }
+        }
+        return allMusic;
+    }
+
+    @Transactional
+    public LibraryItem getMusicFromArtist(String artistName) throws Exception{
+        List<LibraryItem> allMusic = getAllMusic();
+        for(LibraryItem a : allMusic){
+            if(a.getCreator().equals(artistName)) return a;
+        }
+        return null;
+    }
+
+    @Transactional
+    public LibraryItem getMusicFromTitle(String musicTitle) throws Exception{
+        List<LibraryItem> allMusic = getAllMusic();
+        for(LibraryItem a : allMusic){
+            if(a.getName().equals(musicTitle)) return a;
+        }
+        return null;
+    }
+
+    @Transactional
+    public List<LibraryItem> getAllMovies() throws Exception{
+        LibrarySystem library;
+        try{
+            library = (LibrarySystem) librarySystemRepository.findAll().iterator().next(); // uses the first library system found in the database
+        }catch(NoSuchElementException e){
+            throw new Exception("No library system(s) exist in the database");
+        }
+        List<LibraryItem> allLibraryItems = libraryItemRepository.findByLibrarySystem(library);
+        List<LibraryItem> allMovies = new ArrayList<LibraryItem>();
+        for(LibraryItem i : allLibraryItems){
+            if(i.getType().equals(ItemType.Music)){
+                allMovies.add(i);
+            }
+        }
+        return allMovies;
+    }
+
+    @Transactional
+    public LibraryItem getMovieFromDirector(String directorName) throws Exception{
+        List<LibraryItem> allMovies = getAllMovies();
+        for(LibraryItem a : allMovies){
+            if(a.getCreator().equals(directorName)) return a;
+        }
+        return null;
+    }
+
+    @Transactional
+    public LibraryItem getMovieFromTitle(String movieTitle) throws Exception{
+        List<LibraryItem> allMovies = getAllMovies();
+        for(LibraryItem a : allMovies){
+            if(a.getName().equals(movieTitle)) return a;
+        }
+        return null;
+    }
 	
 }
