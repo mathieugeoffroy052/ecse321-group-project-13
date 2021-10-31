@@ -16,10 +16,6 @@ import ca.mcgill.ecse321.libraryservice.dao.*;
 public class LibraryServiceService {
 
     //all DAOs
-	@Autowired
-    private AddressRepository addressRepository;
-    @Autowired
-    private BookRepository bookRepository;
     @Autowired
     private BorrowableItemRepository borrowableItemRepository;
     @Autowired
@@ -33,19 +29,9 @@ public class LibraryServiceService {
     @Autowired
     private LibrarySystemRepository librarySystemRepository;
     @Autowired
-    private MovieRepository movieRepository;
-    @Autowired
-    private MusicRepository musicRepository;
-    @Autowired
-    private NewspaperArticleRepository newspaperArticleRepository;
-    @Autowired
-    private NewspaperRepository newspaperRepository;
-    @Autowired
     private OpeningHourRepository openingHourRepository;
     @Autowired
     private PatronRepository patronRepository;
-    @Autowired
-    private RoomRepository roomRepository;
     @Autowired
     private TimeSlotRepository timeSlotRepository;
     @Autowired
