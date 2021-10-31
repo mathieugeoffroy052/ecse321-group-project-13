@@ -6,6 +6,8 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.*;
 import javax.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 // line 135 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump 16-05-11-860.ump"
@@ -51,6 +53,7 @@ public class TimeSlot
     endDate = aEndDate;
     endTime = aEndTime;
     timeSlotID = nextTimeSlotID++;
+    headLibrarian = aHeadLibrarian;
     boolean didAddLibrarySystem = setLibrarySystem(aLibrarySystem);
     if (!didAddLibrarySystem)
     {
@@ -110,6 +113,16 @@ public class TimeSlot
     return wasSet;
   }
 
+  public boolean addLibrarian(Librarian aLibrarian){
+    boolean wasSet = false;
+    if(librarian == null) {
+    	librarian = new HashSet<Librarian>();
+    }
+    librarian.add(aLibrarian);
+    wasSet = true;
+    return wasSet;
+  }
+
   public boolean setEndDate(Date aEndDate)
   {
     boolean wasSet = false;
@@ -154,7 +167,8 @@ public class TimeSlot
   }
 
   
-  @ManyToMany(mappedBy = "timeSlot")
+  @ManyToMany(fetch=FetchType.EAGER)
+  @OnDelete (action = OnDeleteAction.CASCADE)
   public Set<Librarian> getLibrarian()
   {
     return librarian;

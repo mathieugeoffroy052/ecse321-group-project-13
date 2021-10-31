@@ -2,7 +2,6 @@
 /*This code was generated using the UMPLE 1.29.1.4607.2d2b84eb8 modeling language!*/
 
 package ca.mcgill.ecse321.libraryservice.model;
-import java.util.*;
 import javax.persistence.*;
 
 @Entity
@@ -23,9 +22,6 @@ public class Librarian extends UserAccount
   //Autounique Attributes
   private int librarianID;
 
-  //Librarian Associations
-  private Set<TimeSlot> timeSlot;
-
   //------------------------
   // CONSTRUCTOR
   //------------------------
@@ -35,7 +31,7 @@ public class Librarian extends UserAccount
     librarianID = nextlibrarianID++;
   }
 
-  public Librarian(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, Address aAddress, String aPassword, int aBalance)
+  public Librarian(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, String aPassword, int aBalance)
   {
     super(aFirstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aPassword, aBalance);
     librarianID = nextlibrarianID++;
@@ -57,43 +53,6 @@ public class Librarian extends UserAccount
       return true;
     }
     else return false;
-  }
-
-  public boolean setTimeSlot(Set<TimeSlot> aTimeSlot)
-  {
-    timeSlot = aTimeSlot;
-    if(timeSlot==aTimeSlot){
-      return true;
-    }
-    else return false;
-  }
-
-  @ManyToMany
-  @JoinTable(
-    joinColumns = @JoinColumn(name = "librarianID"),
-    inverseJoinColumns = @JoinColumn(name = "timeSlotID")
-  )
-  public Set<TimeSlot> getTimeSlot()
-  {
-    return timeSlot;
-  }
-
-  public int numberOfTimeSlot()
-  {
-    int number = timeSlot.size();
-    return number;
-  }
-
-  public boolean hasTimeSlot()
-  {
-    boolean has = timeSlot.size() > 0;
-    return has;
-  }
-
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfTimeSlot()
-  {
-    return 0;
   }
 
   public String toString()

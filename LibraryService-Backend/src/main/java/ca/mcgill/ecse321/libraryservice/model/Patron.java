@@ -34,7 +34,7 @@ public class Patron extends UserAccount
     patronID = nextPatronID++;
   }
 
-  public Patron(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, Address aAddress, boolean aValidatedAccount, String aPassWord, int aBalance)
+  public Patron(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, boolean aValidatedAccount, String aPassWord, int aBalance)
   {
     super(aFirstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aPassWord, aBalance);
     validatedAccount = aValidatedAccount;
