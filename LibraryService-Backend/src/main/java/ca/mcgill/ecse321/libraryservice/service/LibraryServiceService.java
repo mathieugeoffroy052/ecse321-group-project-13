@@ -199,5 +199,37 @@ public class LibraryServiceService {
         transactionRepository.save(itemReservation);
         return itemReservation;
     }
+
+    @Transactional
+    public List<BorrowableItem> getBorrowedItemsFromUser(UserAccount account){
+        List<Transaction> allUserTransactions = transactionRepository.findByUserAccount(account);
+        List<BorrowableItem> allBorrowedItems = new ArrayList<BorrowableItem>();
+        for(Transaction t : allUserTransactions){
+            if(t.getTransactionType().equals(TransactionType.Borrowing) || t.getTransactionType().equals(TransactionType.Renewal)){
+               allBorrowedItems.add(t.getBorrowableItem()); 
+            } 
+        }
+        return allBorrowedItems;
+    }
+
+    @Transactional
+    public List<BorrowableItem> getReservedItemsFromUser(UserAccount account){
+        List<Transaction> allUserTransactions = transactionRepository.findByUserAccount(account);
+        List<BorrowableItem> allReservedItems = new ArrayList<BorrowableItem>();
+        for(Transaction t : allUserTransactions){
+            if(t.getTransactionType().equals(TransactionType.Reservation)){
+                allReservedItems.add(t.getBorrowableItem()); 
+            } 
+        }
+        return allReservedItems;
+    }
+
+    @Transactional
+    public List<UserAccount> getUsersOnWaitlist(BorrowableItem item){
+        List<Transaction> allItemTransactions = transactionRepository.findByBorrowableItem(item);
+        List<UserAccount> users = new ArrayList<UserAccount>();
+        for(Transaction t : allItemTransactions) users.add(t.getUserAccount());
+        return users;
+    }
 	
 }
