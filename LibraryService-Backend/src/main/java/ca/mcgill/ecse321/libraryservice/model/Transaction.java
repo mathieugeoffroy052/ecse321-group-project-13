@@ -18,7 +18,7 @@ public class Transaction
   // ENUMERATIONS
   //------------------------
 
-  public enum TransactionType { Borrowing, Reservation, Waitlist, Renewal, Return }
+  public enum TransactionType { Borrowing, ItemReservation, RoomReservation, Waitlist, Renewal, Return }
 
   //------------------------
   // STATIC VARIABLES

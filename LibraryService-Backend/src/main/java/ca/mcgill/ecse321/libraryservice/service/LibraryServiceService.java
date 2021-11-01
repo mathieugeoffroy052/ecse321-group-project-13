@@ -163,10 +163,18 @@ public class LibraryServiceService {
     public Transaction createItemReserveTransaction(BorrowableItem item, UserAccount account){
         LocalDate localDeadline = LocalDate.now().plusDays(7); // 7 day deadline for reservation?
         Date deadline = Date.valueOf(localDeadline);
-        Transaction itemReservation = new Transaction(item, account, TransactionType.Reservation, deadline); 
+        Transaction itemReservation = new Transaction(item, account, TransactionType.ItemReservation, deadline); 
         transactionRepository.save(itemReservation);
         return itemReservation;
     }
+
+    @Transactional
+    public Transaction createRoomReserveTransaction(BorrowableItem item, UserAccount account){
+        Transaction itemReservation = new Transaction(item, account, TransactionType.RoomReservation, null); // No deadline for room reservation
+        transactionRepository.save(itemReservation);
+        return itemReservation;
+    }
+
 
     @Transactional
     public Transaction createItemBorrowTransaction(BorrowableItem item, UserAccount account){
@@ -217,7 +225,7 @@ public class LibraryServiceService {
         List<Transaction> allUserTransactions = transactionRepository.findByUserAccount(account);
         List<BorrowableItem> allReservedItems = new ArrayList<BorrowableItem>();
         for(Transaction t : allUserTransactions){
-            if(t.getTransactionType().equals(TransactionType.Reservation)){
+            if(t.getTransactionType().equals(TransactionType.ItemReservation)){
                 allReservedItems.add(t.getBorrowableItem()); 
             } 
         }
