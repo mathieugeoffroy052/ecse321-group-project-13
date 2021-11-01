@@ -5,6 +5,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -79,6 +80,16 @@ public class LibraryServiceService {
 	public Patron getPatron(int userID) {
 		Patron person = patronRepository.findPatronByUserID(userID);
 		return person;
+	}
+
+    @Transactional
+	public List<Patron> getAllPatron() {
+		return toList(patronRepository.findAll());
+	}
+
+    @Transactional
+	public List<UserAccount> getAllUserAccounts() {
+		return toList(userAccountRepository.findAll());
 	}
 
 }
