@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.libraryservice.service;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -11,10 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ca.mcgill.ecse321.libraryservice.dao.*;
-import ca.mcgill.ecse321.libraryservice.model.BorrowableItem;
-import ca.mcgill.ecse321.libraryservice.model.LibraryItem;
-import ca.mcgill.ecse321.libraryservice.model.LibrarySystem;
+import ca.mcgill.ecse321.libraryservice.model.*;
 import ca.mcgill.ecse321.libraryservice.model.LibraryItem.ItemType;
+import ca.mcgill.ecse321.libraryservice.model.Transaction.TransactionType;
 
 
 @Service
@@ -157,6 +157,47 @@ public class LibraryServiceService {
             if(a.getName().equals(movieTitle)) return a;
         }
         return null;
+    }
+
+    @Transactional
+    public Transaction createItemReserveTransaction(BorrowableItem item, UserAccount account){
+        LocalDate localDeadline = LocalDate.now().plusDays(7); // 7 day deadline for reservation?
+        Date deadline = Date.valueOf(localDeadline);
+        Transaction itemReservation = new Transaction(item, account, TransactionType.Reservation, deadline); 
+        transactionRepository.save(itemReservation);
+        return itemReservation;
+    }
+
+    @Transactional
+    public Transaction createItemBorrowTransaction(BorrowableItem item, UserAccount account){
+        LocalDate localDeadline = LocalDate.now().plusDays(20); // Deadline is set 20 days away from current day
+        Date deadline = Date.valueOf(localDeadline);
+        Transaction itemReservation = new Transaction(item, account, TransactionType.Borrowing, deadline); 
+        transactionRepository.save(itemReservation);
+        return itemReservation;
+    }
+
+    @Transactional
+    public Transaction createItemReturnTransaction(BorrowableItem item, UserAccount account){
+        Transaction itemReservation = new Transaction(item, account, TransactionType.Return, null); // No deadline for return
+        transactionRepository.save(itemReservation);
+        return itemReservation;
+    }
+
+    @Transactional
+    public Transaction createItemWaitlistTransaction(BorrowableItem item, UserAccount account){
+        Transaction itemReservation = new Transaction(item, account, TransactionType.Waitlist, null); // No deadline for waitlist
+        transactionRepository.save(itemReservation);
+        return itemReservation;
+    }
+
+    @Transactional
+    public Transaction createItemRenewalTransaction(BorrowableItem item, UserAccount account){
+        LocalDate localDeadline = LocalDate.now().plusDays(20); // Deadline is set 20 days away from current day
+        Date deadline = Date.valueOf(localDeadline);
+        Transaction itemReservation = new Transaction(item, account, TransactionType.Renewal, deadline); 
+        transactionRepository.save(itemReservation);
+        return itemReservation;
     }
 	
 }
