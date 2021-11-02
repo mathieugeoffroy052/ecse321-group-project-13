@@ -208,7 +208,7 @@ public class LibraryServiceService {
     public LibraryItem getNewspaperFromWriter(String writerName) throws Exception{
         List<LibraryItem> allNewspapers = getAllNewspapers();
         for(LibraryItem newspaper : allNewspapers){
-            if(newspaper.getName().equals(writerName)) return newspaper;
+            if(newspaper.getCreator().equals(writerName)) return newspaper;
         }
         return null;
     }
