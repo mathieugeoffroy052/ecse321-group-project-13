@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -262,6 +263,12 @@ public class LibraryServiceService {
 	}
 
     @Transactional
+	public UserAccount getLibrarian(int librarianID) {
+		UserAccount librarian = userAccountRepository.findUserAccountByUserID(librarianID);
+		return librarian;
+	}
+
+    @Transactional
 	public Patron createPatron(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, boolean aValidatedAccount, String aPassword, int aBalance) {
 		Patron patron = new Patron();
 		patron.setFirstName(aFirstName);
@@ -281,15 +288,5 @@ public class LibraryServiceService {
 		Patron person = patronRepository.findPatronByUserID(userID);
 		return person;
 	}
-
-    // @Transactional
-	// public List<Patron> getAllPatron() {
-	// 	return toList(patronRepository.findAll());
-	// }
-
-    // @Transactional
-	// public List<UserAccount> getAllUserAccounts() {
-	// 	return toList(userAccountRepository.findAll());
-	// }
 
 }
