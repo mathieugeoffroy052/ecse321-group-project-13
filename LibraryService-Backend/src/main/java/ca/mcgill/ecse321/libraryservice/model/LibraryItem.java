@@ -111,7 +111,7 @@ public class LibraryItem
     return wasSet;
   }
 
-  public boolean setIsViewable(Date aDate){
+  public boolean setIsDate(Date aDate){
     boolean wasSet = false;
     date = aDate;
     wasSet = true;
