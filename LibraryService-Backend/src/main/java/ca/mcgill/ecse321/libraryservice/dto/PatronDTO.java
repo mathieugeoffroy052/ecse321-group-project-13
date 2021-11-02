@@ -1,22 +1,7 @@
 package ca.mcgill.ecse321.libraryservice.dto;
 
 public class PatronDTO extends UserAccountDTO{
-      //------------------------
-  // STATIC VARIABLES
-  //------------------------
-
-  private static int nextPatronID = 1;
-
-  //------------------------
-  // MEMBER VARIABLES
-  //------------------------
-
-  //Patron Attributes
   private boolean validatedAccount;
-
-  //------------------------
-  // CONSTRUCTOR
-  //------------------------
 
   public PatronDTO() {}
 
