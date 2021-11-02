@@ -18,7 +18,7 @@ public class Transaction
   // ENUMERATIONS
   //------------------------
 
-  public enum TransactionType { Borrowing, Reservation, Waitlist, Renewal, Return }
+  public enum TransactionType { Borrowing, ItemReservation, RoomReservation, Waitlist, Renewal, Return }
 
   //------------------------
   // STATIC VARIABLES
@@ -29,6 +29,9 @@ public class Transaction
   //------------------------
   // MEMBER VARIABLES
   //------------------------
+
+  //Transaction Attributes
+  TransactionType transactionType;
 
   //Autounique Attributes
   private int transactionID;
@@ -46,7 +49,7 @@ public class Transaction
     transactionID = nextTransactionID++;
   }
 
-  public Transaction(BorrowableItem aItem, UserAccount aUserAccount, Date aDeadline)
+  public Transaction(BorrowableItem aItem, UserAccount aUserAccount, TransactionType aTransactionType, Date aDeadline)
   {
     transactionID = nextTransactionID++;
     if (!setBorrowableItem(aItem))
@@ -56,6 +59,10 @@ public class Transaction
     if (!setUserAccount(aUserAccount))
     {
       throw new RuntimeException("Unable to create Transaction due to aUser. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
+    if (!setTransactionType(aTransactionType))
+    {
+      throw new RuntimeException("Unable to create Transaction due to aTransactionType.");
     }
     if (!setDeadline(aDeadline)){
       throw new RuntimeException("Unable to create Transaction due to aDeadline.");
@@ -134,6 +141,22 @@ public class Transaction
     if (aNewUser != null)
     {
       userAccount = aNewUser;
+      wasSet = true;
+    }
+    return wasSet;
+  }
+
+  public TransactionType getTransactionType()
+  {
+    return transactionType;
+  }
+
+  public boolean setTransactionType(TransactionType aTransactionType)
+  {
+    boolean wasSet = false;
+    if (aTransactionType != null)
+    {
+      transactionType = aTransactionType;
       wasSet = true;
     }
     return wasSet;
