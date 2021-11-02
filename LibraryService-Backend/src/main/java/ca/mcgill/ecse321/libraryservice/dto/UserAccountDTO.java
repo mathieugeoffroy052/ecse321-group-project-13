@@ -1,28 +1,12 @@
 package ca.mcgill.ecse321.libraryservice.dto;
 
 public class UserAccountDTO {
-    
-  //------------------------
-  // STATIC VARIABLES
-  //------------------------
-
-  private static int nextUserID = 1;
-
-  //------------------------
-  // MEMBER VARIABLES
-  //------------------------
-
-  //UserAccount Attributes
   private String firstName;
   private String lastName;
   private boolean onlineAccount;
   private String password;
   private int balance;
   private String address;
-
-  //------------------------
-  // CONSTRUCTOR
-  //------------------------
 
   public UserAccountDTO() {}
 

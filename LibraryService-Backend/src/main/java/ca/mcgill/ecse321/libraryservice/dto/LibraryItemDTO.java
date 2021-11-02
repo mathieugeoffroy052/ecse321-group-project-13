@@ -1,24 +1,15 @@
 package ca.mcgill.ecse321.libraryservice.dto;
 import java.util.*;
-import javax.persistence.*;
+
 public class LibraryItemDTO {
 
   private enum ItemType { Book, Room, Movie, Music, NewspaperArticle }
 
-  //------------------------
-  // MEMBER VARIABLES
-  //------------------------
-
-  //LibraryItem Attributes
   private String name;
   private boolean isViewable;
   private Date date;
   private String creator;
   private ItemType itemType;
-
-  //------------------------
-  // CONSTRUCTOR
-  //------------------------
 
   public LibraryItemDTO() {
   }
