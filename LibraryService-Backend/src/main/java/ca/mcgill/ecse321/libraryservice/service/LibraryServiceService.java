@@ -82,14 +82,14 @@ public class LibraryServiceService {
 		return person;
 	}
 
-    @Transactional
-	public List<Patron> getAllPatron() {
-		return toList(patronRepository.findAll());
-	}
+    // @Transactional
+	// public List<Patron> getAllPatron() {
+	// 	return toList(patronRepository.findAll());
+	// }
 
-    @Transactional
-	public List<UserAccount> getAllUserAccounts() {
-		return toList(userAccountRepository.findAll());
-	}
+    // @Transactional
+	// public List<UserAccount> getAllUserAccounts() {
+	// 	return toList(userAccountRepository.findAll());
+	// }
 
 }
