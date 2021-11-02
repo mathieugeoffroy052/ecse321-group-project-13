@@ -160,6 +160,60 @@ public class LibraryServiceService {
     }
 
     @Transactional
+    public List<LibraryItem> getAllRoomReservations() throws Exception{
+        LibrarySystem library;
+        try{
+            library = (LibrarySystem) librarySystemRepository.findAll().iterator().next(); // uses the first library system found in the database
+        }catch(NoSuchElementException e){
+            throw new Exception("No library system(s) exist in the database");
+        }
+        List<LibraryItem> allLibraryItems = libraryItemRepository.findByLibrarySystem(library);
+        List<LibraryItem> allRooms = new ArrayList<>();
+        for(LibraryItem libItem : allLibraryItems){
+            if (libItem.getType() == ItemType.Room){
+                allRooms.add(libItem);
+            }
+        }
+        return allRooms;
+    }
+
+    @Transactional
+    public List<LibraryItem> getAllNewspapers() throws Exception{
+        LibrarySystem library;
+        try{
+            library = (LibrarySystem) librarySystemRepository.findAll().iterator().next(); // uses the first library system found in the database
+        }catch(NoSuchElementException e){
+            throw new Exception("No library system(s) exist in the database");
+        }
+        List<LibraryItem> allLibraryItems = libraryItemRepository.findByLibrarySystem(library);
+        List<LibraryItem> allNewspapers = new ArrayList<>();
+        for(LibraryItem libItem : allLibraryItems){
+            if (libItem.getType() == ItemType.NewspaperArticle){
+                allNewspapers.add(libItem);
+            }
+        }
+        return allNewspapers;
+    }
+
+    @Transactional
+    public LibraryItem getNewspaperFromTitle(String newspaperTitle) throws Exception{
+        List<LibraryItem> allNewspapers = getAllNewspapers();
+        for(LibraryItem newspaper : allNewspapers){
+            if(newspaper.getName().equals(newspaperTitle)) return newspaper;
+        }
+        return null;
+    }
+
+    @Transactional
+    public LibraryItem getNewspaperFromWriter(String writerName) throws Exception{
+        List<LibraryItem> allNewspapers = getAllNewspapers();
+        for(LibraryItem newspaper : allNewspapers){
+            if(newspaper.getName().equals(writerName)) return newspaper;
+        }
+        return null;
+    }
+
+    @Transactional
     public Transaction createItemReserveTransaction(BorrowableItem item, UserAccount account){
         LocalDate localDeadline = LocalDate.now().plusDays(7); // 7 day deadline for reservation?
         Date deadline = Date.valueOf(localDeadline);
