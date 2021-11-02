@@ -26,10 +26,6 @@ public class OpeningHourDTO {
 		return headLibrarian;
 	}
 
-	public void setHeadLibrarian(HeadLibrarianDTO aHeadLibrarian) {
-		headLibrarian = aHeadLibrarian;
-	}
-
 	public Time getStartTime() {
 		return startTime;
 	}
@@ -42,16 +38,8 @@ public class OpeningHourDTO {
 		return endTime;
 	}
 
-	public void setEndTime(Time time) {
-		endTime = time;
-	}
-
 	public DayOfWeek getDayOfWeek() {
 		return dayOfWeek;
-	}
-
-	public void setDayOfWeek(DayOfWeek aDayOfWeek) {
-		dayOfWeek = aDayOfWeek;
 	}
 
 }
