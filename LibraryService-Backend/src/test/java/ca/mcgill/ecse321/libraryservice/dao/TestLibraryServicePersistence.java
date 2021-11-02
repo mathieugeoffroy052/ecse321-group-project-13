@@ -17,6 +17,7 @@ import ca.mcgill.ecse321.libraryservice.model.*;
 import ca.mcgill.ecse321.libraryservice.model.BorrowableItem.ItemState;
 import ca.mcgill.ecse321.libraryservice.model.LibraryItem.ItemType;
 import ca.mcgill.ecse321.libraryservice.model.OpeningHour.DayOfWeek;
+import ca.mcgill.ecse321.libraryservice.model.Transaction.TransactionType;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -616,6 +617,7 @@ public class TestLibraryServicePersistence {
         librarySystemRepository.save(library);
 
         //create inputs for transaction
+        TransactionType transactionType = TransactionType.Borrowing;
         Date deadline =  new Date(2021, 5, 10);
 
         //create input for Patron (user)
@@ -649,7 +651,7 @@ public class TestLibraryServicePersistence {
 
 
         //create transaction
-        Transaction transaction = new Transaction(item, patron, deadline);
+        Transaction transaction = new Transaction(item, patron, transactionType, deadline);
 
         //get IDs to find in DB
         int transactionID = transaction.getTransactionID();
@@ -669,6 +671,7 @@ public class TestLibraryServicePersistence {
 
         //test functionality
         assertNotNull(transaction, "No transaction retrieved");
+        assertEquals(transactionType, transaction.getTransactionType(), "transaction.transactionType mismatch");
         assertEquals(deadline, transaction.getDeadline(), "transaction.deadline mismatch");
 
         //test patron within transaction
@@ -699,6 +702,7 @@ public class TestLibraryServicePersistence {
         librarySystemRepository.save(library);
 
         //create inputs for transaction
+        TransactionType transactionType = TransactionType.Renewal;
         Date deadline =  new Date(2021, 5, 10);
 
         //create input for Patron (user)
@@ -735,7 +739,7 @@ public class TestLibraryServicePersistence {
         borrowableItemRepository.save(item);
 
         //create transaction
-        Transaction transaction = new Transaction(item, patron, deadline);
+        Transaction transaction = new Transaction(item, patron, transactionType, deadline);
 
         //save in DB
         transactionRepository.save(transaction);
@@ -748,6 +752,7 @@ public class TestLibraryServicePersistence {
 
         //test functionality
         assertNotNull(transaction, "No transaction retrieved");
+        assertEquals(transactionType, transaction.getTransactionType(), "transaction.transactionType mismatch");
         assertEquals(deadline, transaction.getDeadline(), "transaction.deadline mismatch");
 
         //test patron within transaction
@@ -778,6 +783,7 @@ public class TestLibraryServicePersistence {
         librarySystemRepository.save(library);
 
         //create inputs for transaction
+        TransactionType transactionType = TransactionType.Return;
         Date deadline =  new Date(2021, 12, 5);
 
         //create input for Patron (user)
@@ -814,7 +820,7 @@ public class TestLibraryServicePersistence {
         borrowableItemRepository.save(item);
 
         //create transaction
-        Transaction transaction = new Transaction(item, patron, deadline);
+        Transaction transaction = new Transaction(item, patron, transactionType, deadline);
 
         //save in DB
         transactionRepository.save(transaction);
@@ -827,6 +833,7 @@ public class TestLibraryServicePersistence {
 
         //test functionality
         assertNotNull(transaction, "No transaction retrieved");
+        assertEquals(transactionType, transaction.getTransactionType(), "transaction.transactionType mismatch");
         assertEquals(deadline, transaction.getDeadline(), "transaction.deadline mismatch");
 
         //test patron within transaction
