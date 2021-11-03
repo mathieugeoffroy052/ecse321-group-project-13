@@ -239,5 +239,75 @@ public class LibraryServiceService {
         for(Transaction t : allItemTransactions) users.add(t.getUserAccount());
         return users;
     }
-	
+    
+    /* TimeSlot Service Methods */
+    @Transactional
+    public List<TimeSlot> getAllTimeSlots() throws Exception {
+        LibrarySystem library;
+        try{
+            library = (LibrarySystem) librarySystemRepository.findAll().iterator().next(); // uses the first library system found in the database
+        }catch(NoSuchElementException e){
+            throw new Exception("No library system(s) exist in the database");
+        }
+        List<TimeSlot> allTimeSlots = timeSlotRepository.findByLibrarySystem(library);
+        return allTimeSlots;
+    }
+
+    @Transactional
+    public List<TimeSlot> getTimeSlotsFromLibrarian(Librarian librarian) {
+        List<TimeSlot> librarianTimeSlots = timeSlotRepository.findByLibrarian(librarian);
+        return librarianTimeSlots;
+    }
+
+    @Transactional
+    public List<TimeSlot> getTimeSlotsFromHeadLibrarian(HeadLibrarian headLibrarian) {
+        List<TimeSlot> librarianTimeSlots = timeSlotRepository.findByHeadLibrarian(headLibrarian);
+        return librarianTimeSlots;
+    }
+
+    @Transactional
+    public List<TimeSlot> getTimeSlotsFromLibrarianFirstNameAndLastName(String firstName, String lastName) {
+        Librarian librarian = (Librarian) userAccountRepository.findByFirstNameAndLastName(firstName, lastName);
+        List<TimeSlot> librarianTimeSlots = timeSlotRepository.findByLibrarian(librarian);
+        return librarianTimeSlots;
+    }
+
+    @Transactional
+    public List<TimeSlot> getTimeSlotsFromLibrarianUserID(int id) {
+        Librarian librarian = (Librarian) userAccountRepository.findUserAccountByUserID(id);
+        List<TimeSlot> librarianTimeSlots = timeSlotRepository.findByLibrarian(librarian);
+        return librarianTimeSlots;
+    }
+
+    @Transactional
+    public TimeSlot getTimeSlotsFromId(int id) {
+        TimeSlot timeSlot = timeSlotRepository.findTimeSlotByTimeSlotID(id);
+        return timeSlot;
+    }
+
+    @Transactional
+    public TimeSlot createTimeSlot(Date startDate, Time startTime, Date endDate, Time endTime) throws Exception {
+        LibrarySystem library;
+        try{
+            library = (LibrarySystem) librarySystemRepository.findAll().iterator().next(); // uses the first library system found in the database
+        }catch(NoSuchElementException e){
+            throw new Exception("No library system(s) exist in the database");
+        }
+        HeadLibrarian headLibrarian;
+        try {
+            headLibrarian = headLibrarianRepository.findAll().iterator().next(); //find first and only head librarian
+        } catch(NoSuchElementException e) {
+            throw new Exception("No Head Librarian exits in the database");
+        }
+        TimeSlot timeSlot = new TimeSlot(startDate, startTime, endDate, endTime, library, headLibrarian);
+        return timeSlot;
+    }
+
+    @Transactional
+    public TimeSlot assignTimeSlotToLibrarian(TimeSlot timeSlot, Librarian librarian) {
+        timeSlot.addLibrarian(librarian);
+        return timeSlot;
+    }
+
+
 }

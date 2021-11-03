@@ -13,5 +13,7 @@ public interface UserAccountRepository extends CrudRepository<UserAccount, Integ
 	UserAccount findUserAccountByUserID(int userID);
 	
 	List<UserAccount> findByLibrarySystem(LibrarySystem systemID);
+
+	UserAccount findByFirstNameAndLastName(String firstName, String lastName);
 	
 }
