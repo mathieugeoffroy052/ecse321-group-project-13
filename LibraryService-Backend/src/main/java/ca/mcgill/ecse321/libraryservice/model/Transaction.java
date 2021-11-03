@@ -31,7 +31,7 @@ public class Transaction
   //------------------------
 
   //Transaction Attributes
-  TransactionType transactionType;
+  private TransactionType transactionType;
 
   //Autounique Attributes
   private int transactionID;
