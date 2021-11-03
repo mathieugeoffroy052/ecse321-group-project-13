@@ -2,8 +2,6 @@ package ca.mcgill.ecse321.libraryservice.dto;
 
 import java.sql.Date;
 
-import ca.mcgill.ecse321.libraryservice.model.BorrowableItem;
-import ca.mcgill.ecse321.libraryservice.model.UserAccount;
 
 public class TransactionDTO {
   private enum TransactionType { Borrowing, ItemReservation, RoomReservation, Waitlist, Renewal, Return }
@@ -12,15 +10,15 @@ public class TransactionDTO {
 
   private Date deadline;
 
-  private BorrowableItem borrowableItem;
-  private UserAccount userAccount;
+  private BorrowableItemDTO borrowableItem;
+  private UserAccountDTO userAccount;
   
 
-  public TransactionDTO(TransactionType type, BorrowableItem borrowableItem, UserAccount userAccount){
+  public TransactionDTO(TransactionType type, BorrowableItemDTO borrowableItem, UserAccountDTO userAccount){
     this(type, Date.valueOf("2001-01-01"), borrowableItem, userAccount);
   }
 
-  public TransactionDTO(TransactionType type, Date deadline, BorrowableItem borrowableItem, UserAccount userAccount){
+  public TransactionDTO(TransactionType type, Date deadline, BorrowableItemDTO borrowableItem, UserAccountDTO userAccount){
       this.transactionType = type;
       this.deadline = deadline;
       this.borrowableItem = borrowableItem;
@@ -35,11 +33,11 @@ public class TransactionDTO {
       return this.deadline;
   }
 
-  public BorrowableItem getBorrowableItem(){
+  public BorrowableItemDTO getBorrowableItem(){
     return this.borrowableItem;
   }
 
-  public UserAccount getUserAccount(){
+  public UserAccountDTO getUserAccount(){
       return this.userAccount;
   }
 
