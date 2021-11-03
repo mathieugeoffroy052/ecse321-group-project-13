@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ca.mcgill.ecse321.libraryservice.dao.*;
 import ca.mcgill.ecse321.libraryservice.model.*;
 import ca.mcgill.ecse321.libraryservice.model.LibraryItem.ItemType;
+import ca.mcgill.ecse321.libraryservice.model.OpeningHour.DayOfWeek;
 import ca.mcgill.ecse321.libraryservice.model.Transaction.TransactionType;
 
 
@@ -239,7 +240,7 @@ public class LibraryServiceService {
         for(Transaction t : allItemTransactions) users.add(t.getUserAccount());
         return users;
     }
-    
+
     /* TimeSlot Service Methods */
     @Transactional
     public List<TimeSlot> getAllTimeSlots() throws Exception {
@@ -261,8 +262,8 @@ public class LibraryServiceService {
 
     @Transactional
     public List<TimeSlot> getTimeSlotsFromHeadLibrarian(HeadLibrarian headLibrarian) {
-        List<TimeSlot> librarianTimeSlots = timeSlotRepository.findByHeadLibrarian(headLibrarian);
-        return librarianTimeSlots;
+        List<TimeSlot> timeSlots = timeSlotRepository.findByHeadLibrarian(headLibrarian);
+        return timeSlots;
     }
 
     @Transactional
@@ -300,6 +301,7 @@ public class LibraryServiceService {
             throw new Exception("No Head Librarian exits in the database");
         }
         TimeSlot timeSlot = new TimeSlot(startDate, startTime, endDate, endTime, library, headLibrarian);
+        timeSlotRepository.save(timeSlot);
         return timeSlot;
     }
 
@@ -309,5 +311,65 @@ public class LibraryServiceService {
         return timeSlot;
     }
 
+    /* Opening Hours Service Methods */
+    @Transactional
+    public List<OpeningHour> getAllOpeningHours() throws Exception {
+        LibrarySystem library;
+        try{
+            library = (LibrarySystem) librarySystemRepository.findAll().iterator().next(); // uses the first library system found in the database
+        }catch(NoSuchElementException e){
+            throw new Exception("No library system(s) exist in the database");
+        }
+        List<OpeningHour> allOpeningHours = openingHourRepository.findByLibrarySystem(library);
+        return allOpeningHours;
+    }
 
+    @Transactional
+    public OpeningHour getOpeningHourFromID(int id) {
+        OpeningHour openingHour = openingHourRepository.findOpeningHourByHourID(id);
+        return openingHour;
+    }
+     
+    @Transactional
+    public List<OpeningHour> getOpeningHoursByDayOfWeek(String day) throws Exception{
+        DayOfWeek dayOfWeek;
+        try {
+            dayOfWeek = DayOfWeek.valueOf(day); //case sensitive match
+        } catch (IllegalArgumentException e) {
+            throw new Exception("Invalid day");
+        }
+        List<OpeningHour> openingHours = openingHourRepository.findByDayOfWeek(dayOfWeek);
+        return openingHours;
+    }
+
+    @Transactional
+    public List<OpeningHour> getOpeningHoursFromHeadLibrarian(HeadLibrarian headLibrarian) {
+        List<OpeningHour> openingHours = openingHourRepository.findByHeadLibrarian(headLibrarian);
+        return openingHours;
+    }
+
+    @Transactional
+    public OpeningHour createOpeningHour(String day, Time startTime, Time endTime) throws Exception {
+        DayOfWeek dayOfWeek;
+        try {
+            dayOfWeek = DayOfWeek.valueOf(day); //case sensitive match
+        } catch (IllegalArgumentException e) {
+            throw new Exception("Invalid day");
+        }
+        LibrarySystem library;
+        try{
+            library = (LibrarySystem) librarySystemRepository.findAll().iterator().next(); // uses the first library system found in the database
+        }catch(NoSuchElementException e){
+            throw new Exception("No library system(s) exist in the database");
+        }
+        HeadLibrarian headLibrarian;
+        try {
+            headLibrarian = headLibrarianRepository.findAll().iterator().next(); //find first and only head librarian
+        } catch(NoSuchElementException e) {
+            throw new Exception("No Head Librarian exits in the database");
+        }
+        OpeningHour openingHour = new OpeningHour(dayOfWeek, startTime, endTime, library, headLibrarian);
+        openingHourRepository.save(openingHour);
+        return openingHour;
+    }    
 }
