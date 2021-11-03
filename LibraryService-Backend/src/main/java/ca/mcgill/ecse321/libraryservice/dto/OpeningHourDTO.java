@@ -30,10 +30,6 @@ public class OpeningHourDTO {
 		return startTime;
 	}
 
-	public void setStartTime(Time time) {
-		startTime = time;
-	}
-
 	public Time getEndTime() {
 		return endTime;
 	}
