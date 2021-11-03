@@ -372,4 +372,49 @@ public class LibraryServiceService {
         openingHourRepository.save(openingHour);
         return openingHour;
     }    
+
+    /* Holiday service methods */
+    @Transactional
+    public List<Holiday> getAllHolidays() throws Exception {
+        LibrarySystem library;
+        try{
+            library = (LibrarySystem) librarySystemRepository.findAll().iterator().next(); // uses the first library system found in the database
+        }catch(NoSuchElementException e){
+            throw new Exception("No library system(s) exist in the database");
+        }
+        List<Holiday> allHolidays = holidayRepository.findByLibrarySystem(library);
+        return allHolidays;
+    }
+
+    @Transactional
+    public Holiday getHolidayFromId(int id) {
+        Holiday holiday = holidayRepository.findHolidayByHolidayID(id);
+        return holiday;
+    }
+
+    @Transactional
+    public List<Holiday> getHolidaysFromHeadLibrarian(HeadLibrarian headLibrarian) {
+        List<Holiday> holidays = holidayRepository.findByHeadLibrarian(headLibrarian);
+        return holidays;
+    }
+
+    @Transactional
+    public Holiday createHoliday(Date date, Time startTime, Time endTime) throws Exception{
+        LibrarySystem library;
+        try{
+            library = (LibrarySystem) librarySystemRepository.findAll().iterator().next(); // uses the first library system found in the database
+        }catch(NoSuchElementException e){
+            throw new Exception("No library system(s) exist in the database");
+        }
+        HeadLibrarian headLibrarian;
+        try {
+            headLibrarian = headLibrarianRepository.findAll().iterator().next(); //find first and only head librarian
+        } catch(NoSuchElementException e) {
+            throw new Exception("No Head Librarian exits in the database");
+        }
+        Holiday holiday = new Holiday(date, startTime, endTime, library, headLibrarian);
+        holidayRepository.save(holiday);
+        return holiday;
+    }
+
 }
