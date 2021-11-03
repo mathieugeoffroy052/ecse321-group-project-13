@@ -1,7 +1,6 @@
 package ca.mcgill.ecse321.libraryservice.dto;
 
 public class PatronDTO extends UserAccountDTO{
-    
   private boolean validatedAccount;
 
   public PatronDTO() {}
