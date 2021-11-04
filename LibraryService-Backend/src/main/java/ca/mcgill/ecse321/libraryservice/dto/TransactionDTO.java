@@ -4,7 +4,7 @@ import java.sql.Date;
 
 
 public class TransactionDTO {
-  private enum TransactionType { Borrowing, ItemReservation, RoomReservation, Waitlist, Renewal, Return }
+  public enum TransactionType { Borrowing, ItemReservation, RoomReservation, Waitlist, Renewal, Return }
 
   private TransactionType transactionType;
 

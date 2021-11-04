@@ -1,6 +1,9 @@
 package ca.mcgill.ecse321.libraryservice.controller;
 
+import java.util.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,6 +34,9 @@ public class LibraryServiceRestController {
         Librarian librarian = service.createLibrarian(firstName, lastName, onlineAccount, librarySystem, address, passWord, balance);
         return convertToDto(librarian);
     }
+
+
+    ////////// Helper methods ////////
 
     private PatronDTO convertToDto(Patron patron) {
         if (patron == null) {
@@ -82,6 +88,49 @@ public class LibraryServiceRestController {
         LibraryItemDTO.ItemType itemType = LibraryItemDTO.ItemType.valueOf(libraryItem.getType().toString());
         LibraryItemDTO libraryItemDTO = new LibraryItemDTO(libraryItem.getName(), itemType, libraryItem.getDate(), libraryItem.getCreator(), libraryItem.getIsViewable());
         return libraryItemDTO;
+    }
+
+    private BorrowableItemDTO convertToDto(BorrowableItem borrowableItem) {
+        if (borrowableItem== null) {
+            throw new IllegalArgumentException("There is no such library item!");
+        }
+        LibraryItemDTO item = convertToDto(borrowableItem.getLibraryItem());
+        BorrowableItemDTO.ItemState itemState = BorrowableItemDTO.ItemState.valueOf(borrowableItem.getState().toString());
+        BorrowableItemDTO borrowableItemDTO = new BorrowableItemDTO(itemState, item);
+        return borrowableItemDTO;
+    }
+
+    private TimeslotDTO convertToDto(TimeSlot timeslot) {
+        if (timeslot == null) {
+            throw new IllegalArgumentException("There is no such library item!");
+        }
+        HeadLibrarianDTO headLibrarianDTO = convertToDto(timeslot.getHeadLibrarian());
+        Set<LibrarianDTO> librarianDTO = new HashSet<LibrarianDTO>();
+        for (Librarian librarian: timeslot.getLibrarian()){
+            LibrarianDTO lib = convertToDto(librarian);
+            librarianDTO.add(lib);
+        }
+        TimeslotDTO timeslotDTO= new TimeslotDTO(timeslot.getStartDate(), timeslot.getStartTime(), timeslot.getEndDate(), timeslot.getEndTime(), librarianDTO, headLibrarianDTO);
+        return timeslotDTO;
+    }
+
+    private TransactionDTO convertToDto(Transaction transaction) {
+        if (transaction== null) {
+            throw new IllegalArgumentException("There is no such library item!");
+        }
+        BorrowableItemDTO item = convertToDto(transaction.getBorrowableItem());
+        UserAccountDTO userAccountDTO = convertToDto(transaction.getUserAccount());
+        TransactionDTO.TransactionType itemType = TransactionDTO.TransactionType.valueOf(transaction.getTransactionType().toString());
+        TransactionDTO transactionDTO = new TransactionDTO(itemType, transaction.getDeadline(), item, userAccountDTO);
+        return transactionDTO;
+    }
+
+    private UserAccountDTO convertToDto(UserAccount userAccount) {
+        if (userAccount == null) {
+            throw new IllegalArgumentException("There is no such library item!");
+        }
+        UserAccountDTO userAccountDTO = new UserAccountDTO(userAccount.getFirstName(), userAccount.getLastName(), userAccount.getOnlineAccount(), userAccount.getAddress(), userAccount.getPassword(), userAccount.getBalance());
+        return userAccountDTO;
     }
 
 }

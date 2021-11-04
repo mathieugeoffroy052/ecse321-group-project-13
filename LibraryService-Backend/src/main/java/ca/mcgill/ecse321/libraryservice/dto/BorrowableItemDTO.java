@@ -1,7 +1,7 @@
 package ca.mcgill.ecse321.libraryservice.dto;
 
 public class BorrowableItemDTO {
-  private enum ItemState { Borrowed, Damaged, Available, Reserved, Booked }
+  public enum ItemState { Borrowed, Damaged, Available, Reserved, Booked }
 
   private ItemState state;
   private LibraryItemDTO libraryItem;
