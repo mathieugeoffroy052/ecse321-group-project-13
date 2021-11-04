@@ -45,6 +45,13 @@ public class LibraryServiceService {
     @Autowired
     private UserAccountRepository userAccountRepository;
 
+    // ASSUMPTION : There exists only 1 instance of the LibraryService in the database, and that instance is used in the following business methods
+
+    /** 
+     * @param isbn
+     * @return List<BorrowableItem> - list of borrowable items with given isbn
+     * @author Amani Jammoul
+     */
     @Transactional
     public List<BorrowableItem> getBorrowableItemsFromItemIsbn(int isbn){
         LibraryItem item = libraryItemRepository.findByIsbn(isbn);
@@ -52,6 +59,12 @@ public class LibraryServiceService {
         return allBorrowableItems;
     }
 
+    
+    /** 
+     * @return List<LibraryItem> - all library items in library system
+     * @throws Exception
+     * @author Amani Jammoul
+     */
     @Transactional
     public List<LibraryItem> getAllBooks() throws Exception{
         LibrarySystem library;
@@ -70,6 +83,13 @@ public class LibraryServiceService {
         return allBooks;
     }
 
+    
+    /** 
+     * @param authorName
+     * @return LibraryItem - book written by the author
+     * @throws Exception
+     * @author Amani Jammoul
+     */
     @Transactional
     public LibraryItem getBookFromAuthor(String authorName) throws Exception{
         List<LibraryItem> allBooks = getAllBooks();
@@ -79,6 +99,13 @@ public class LibraryServiceService {
         return null;
     }
 
+    
+    /** 
+     * @param bookTitle
+     * @return LibraryItem - book with the given title name
+     * @throws Exception
+     * @author Amani Jammoul
+     */
     @Transactional
     public LibraryItem getBookFromTitle(String bookTitle) throws Exception{
         List<LibraryItem> allBooks = getAllBooks();
@@ -88,6 +115,12 @@ public class LibraryServiceService {
         return null;
     }
 
+    
+    /** 
+     * @return List<LibraryItem> - list of all music items
+     * @throws Exception
+     * @author Amani Jammoul
+     */
     @Transactional
     public List<LibraryItem> getAllMusic() throws Exception{
         LibrarySystem library;
@@ -106,6 +139,13 @@ public class LibraryServiceService {
         return allMusic;
     }
 
+    
+    /** 
+     * @param artistName 
+     * @return LibraryItem - music item created by artist
+     * @throws Exception
+     * @author Amani Jammoul
+     */
     @Transactional
     public LibraryItem getMusicFromArtist(String artistName) throws Exception{
         List<LibraryItem> allMusic = getAllMusic();
@@ -115,6 +155,13 @@ public class LibraryServiceService {
         return null;
     }
 
+    
+    /** 
+     * @param musicTitle
+     * @return LibraryItem - music item with given title
+     * @throws Exception
+     * @author Amani Jammoul
+     */
     @Transactional
     public LibraryItem getMusicFromTitle(String musicTitle) throws Exception{
         List<LibraryItem> allMusic = getAllMusic();
@@ -124,6 +171,12 @@ public class LibraryServiceService {
         return null;
     }
 
+    
+    /** 
+     * @return List<LibraryItem> - list of all movie items
+     * @throws Exception
+     * @author Amani Jammoul
+     */
     @Transactional
     public List<LibraryItem> getAllMovies() throws Exception{
         LibrarySystem library;
@@ -142,6 +195,13 @@ public class LibraryServiceService {
         return allMovies;
     }
 
+    
+    /** 
+     * @param directorName
+     * @return LibraryItem - movie item created by the director
+     * @throws Exception
+     * @author Amani Jammoul
+     */
     @Transactional
     public LibraryItem getMovieFromDirector(String directorName) throws Exception{
         List<LibraryItem> allMovies = getAllMovies();
@@ -151,6 +211,13 @@ public class LibraryServiceService {
         return null;
     }
 
+    
+    /** 
+     * @param movieTitle
+     * @return LibraryItem - movie item with the given title
+     * @throws Exception
+     * @author Amani Jammoul
+     */
     @Transactional
     public LibraryItem getMovieFromTitle(String movieTitle) throws Exception{
         List<LibraryItem> allMovies = getAllMovies();
@@ -160,6 +227,14 @@ public class LibraryServiceService {
         return null;
     }
 
+    
+    /** 
+     * Creates an item reservation transaction between a user account and a borrowable item
+     * @param item
+     * @param account
+     * @return Transaction - Type : ItemReservation
+     * @author Amani Jammoul
+     */
     @Transactional
     public Transaction createItemReserveTransaction(BorrowableItem item, UserAccount account){
         LocalDate localDeadline = LocalDate.now().plusDays(7); // 7 day deadline for reservation?
@@ -169,6 +244,14 @@ public class LibraryServiceService {
         return itemReservation;
     }
 
+    
+    /** 
+     * Creates a room reservation transaction between a user account and a room (borrowable item)
+     * @param item
+     * @param account
+     * @return Transaction - Type : RoomReservation
+     * @author Amani Jammoul
+     */
     @Transactional
     public Transaction createRoomReserveTransaction(BorrowableItem item, UserAccount account){
         Transaction itemReservation = new Transaction(item, account, TransactionType.RoomReservation, null); // No deadline for room reservation
@@ -176,7 +259,14 @@ public class LibraryServiceService {
         return itemReservation;
     }
 
-
+    
+    /** 
+     * Creates an item borrow transaction between a user account and a borrowable item
+     * @param item
+     * @param account
+     * @return Transaction
+     * @author Amani Jammoul
+     */
     @Transactional
     public Transaction createItemBorrowTransaction(BorrowableItem item, UserAccount account){
         LocalDate localDeadline = LocalDate.now().plusDays(20); // Deadline is set 20 days away from current day
@@ -186,6 +276,14 @@ public class LibraryServiceService {
         return itemReservation;
     }
 
+    
+    /** 
+     * Creates an item return transaction between a user account and a borrowable item
+     * @param item
+     * @param account
+     * @return Transaction
+     * @author Amani Jammoul
+     */
     @Transactional
     public Transaction createItemReturnTransaction(BorrowableItem item, UserAccount account){
         Transaction itemReservation = new Transaction(item, account, TransactionType.Return, null); // No deadline for return
@@ -193,6 +291,14 @@ public class LibraryServiceService {
         return itemReservation;
     }
 
+    
+    /** 
+     * Creates an item waitlist transaction between a user account and a borrowable item
+     * @param item
+     * @param account
+     * @return Transaction
+     * @author Amani Jammoul
+     */
     @Transactional
     public Transaction createItemWaitlistTransaction(BorrowableItem item, UserAccount account){
         Transaction itemReservation = new Transaction(item, account, TransactionType.Waitlist, null); // No deadline for waitlist
@@ -200,6 +306,14 @@ public class LibraryServiceService {
         return itemReservation;
     }
 
+    
+    /** 
+     * Creates an item renewal transaction between a user account and a borrowable item
+     * @param item
+     * @param account
+     * @return Transaction
+     * @author Amani Jammoul
+     */
     @Transactional
     public Transaction createItemRenewalTransaction(BorrowableItem item, UserAccount account){
         LocalDate localDeadline = LocalDate.now().plusDays(20); // Deadline is set 20 days away from current day
@@ -209,6 +323,12 @@ public class LibraryServiceService {
         return itemReservation;
     }
 
+    
+    /** 
+     * @param account
+     * @return List<BorrowableItem> - list of all items borrowed (checked out) by a user
+     * @author Amani Jammoul
+     */
     @Transactional
     public List<BorrowableItem> getBorrowedItemsFromUser(UserAccount account){
         List<Transaction> allUserTransactions = transactionRepository.findByUserAccount(account);
@@ -220,7 +340,12 @@ public class LibraryServiceService {
         }
         return allBorrowedItems;
     }
-
+    
+    /** 
+     * @param account
+     * @return List<BorrowableItem> - list of all items reserved for a user
+     * @author Amani Jammoul
+     */
     @Transactional
     public List<BorrowableItem> getReservedItemsFromUser(UserAccount account){
         List<Transaction> allUserTransactions = transactionRepository.findByUserAccount(account);
@@ -231,6 +356,24 @@ public class LibraryServiceService {
             } 
         }
         return allReservedItems;
+    }
+
+    
+    /** 
+     * @param item
+     * @return List<UserAccount> - list of all user accounts that are on the waitlist for an item
+     * @author Amani Jammoul
+     */
+    @Transactional
+    public List<UserAccount> getUsersOnWaitlist(BorrowableItem item){
+        List<Transaction> allItemTransactions = transactionRepository.findByBorrowableItem(item);
+        List<UserAccount> allWaitlistedUsers = new ArrayList<UserAccount>();
+        for(Transaction t : allItemTransactions){
+            if(t.getTransactionType().equals(TransactionType.Waitlist)){
+                allWaitlistedUsers.add(t.getUserAccount());
+            } 
+        }
+        return allWaitlistedUsers;
     }
 
    
@@ -521,14 +664,6 @@ public class LibraryServiceService {
     
           
     }
-
-        
-    
-
-
-
-
-
 
 }
 
