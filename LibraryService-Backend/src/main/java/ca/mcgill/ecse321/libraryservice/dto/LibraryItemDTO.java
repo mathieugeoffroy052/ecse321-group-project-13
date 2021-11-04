@@ -3,7 +3,7 @@ import java.util.*;
 
 public class LibraryItemDTO {
 
-  private enum ItemType { Book, Room, Movie, Music, NewspaperArticle }
+  public enum ItemType { Book, Room, Movie, Music, NewspaperArticle }
 
   private String name;
   private boolean isViewable;

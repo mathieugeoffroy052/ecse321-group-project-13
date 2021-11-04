@@ -5,7 +5,7 @@ import java.sql.Time;
 
 public class OpeningHourDTO {
 	
-	private enum DayOfWeek { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday }
+	public enum DayOfWeek { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday }
 
 	private HeadLibrarianDTO headLibrarian;
 	private Time startTime;
