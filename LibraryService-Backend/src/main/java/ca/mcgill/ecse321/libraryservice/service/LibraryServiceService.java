@@ -455,7 +455,7 @@ public class LibraryServiceService {
      */
     @Transactional
 	public UserAccount getLibrarian(int userID) {
-		UserAccount librarian = userAccountRepository.findUserAccountByUserID(userID
+		UserAccount librarian = userAccountRepository.findUserAccountByUserID(userID);
 		return librarian;
 	}
 
