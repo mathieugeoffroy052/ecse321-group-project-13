@@ -497,6 +497,17 @@ public class LibraryServiceService {
 		return person;
 	}
 
+    /***
+     * This returns a list of all users associated to a specific account
+     * @param userID
+     * @return users 
+     */
+    @Transactional
+	public List<UserAccount> getAllUsers(LibrarySystem librarySystem) {
+		List<UserAccount> users = userAccountRepository.findByLibrarySystem(librarySystem);
+		return users;
+	}
+
 
    public Iterable<Librarian>  getLibrarians() throws Exception{
     
