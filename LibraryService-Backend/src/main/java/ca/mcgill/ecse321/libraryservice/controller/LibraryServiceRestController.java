@@ -217,6 +217,21 @@ public class LibraryServiceRestController {
     }
 
     private HeadLibrarian convertToDomainObject(HeadLibrarianDTO headLibrarianDTO) {
+        if (service == null) {
+            throw new IllegalArgumentException("There is no service!");
+        }
+        HeadLibrarian headLibrarian;
+        try {
+            headLibrarian = service.getHeadLibrarian();
+        } catch (Exception e) {
+            throw new IllegalArgumentException("There is head librarian in this service!");
+        }
+        if (headLibrarian.getFirstName().equals(headLibrarianDTO.getFirstName()) && headLibrarian.getLastName().equals(headLibrarianDTO.getLastName())) {
+            return headLibrarian;
+        }
+        else {
+            throw new IllegalArgumentException("There is no such head librarian dto!");
+        }
     }
 
     private Holiday convertToDomainObject(HolidayDTO holidayDTO) {
