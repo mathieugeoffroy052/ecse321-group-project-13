@@ -91,7 +91,11 @@ public class LibraryServiceRestController {
         return librarianDTO;
     }
 
-
+    /**
+     * @author Ramin Akhavan-Sarraf
+     * @param HeadLibrarian 
+     * @return HeadLibrarianDTO
+     */
     private HeadLibrarianDTO convertToDto(HeadLibrarian headLibrarian) {
         if (headLibrarian== null) {
             throw new IllegalArgumentException("There is no such head librarian!");
@@ -100,25 +104,42 @@ public class LibraryServiceRestController {
         return headLibrarianDTO;
     }
 
-    private HolidayDTO convertToDto(Holiday holiday, HeadLibrarian headLibrarian) {
+    /**
+     * @author Ramin Akhavan-Sarraf
+     * @param Holiday
+     * @return HolidayDTO
+     */
+    private HolidayDTO convertToDto(Holiday holiday) {
         if (holiday == null) {
             throw new IllegalArgumentException("There is no such holiday!");
         }
+        HeadLibrarian headLibrarian = holiday.getHeadLibrarian();
         HeadLibrarianDTO headLibrarianDTO = new HeadLibrarianDTO(headLibrarian.getFirstName(),headLibrarian.getLastName(),headLibrarian.getOnlineAccount(),headLibrarian.getAddress(), headLibrarian.getPassword(), headLibrarian.getBalance());
         HolidayDTO holidayDTO = new HolidayDTO(holiday.getDate(), holiday.getStartTime(), holiday.getEndtime(), headLibrarianDTO);
         return holidayDTO;
     }
 
-    private OpeningHourDTO convertToDto(OpeningHour openingHour, HeadLibrarian headLibrarian) {
+    /**
+     * @author Ramin Akhavan-Sarraf
+     * @param OpeningHour
+     * @return OpeningHourDTO
+     */
+    private OpeningHourDTO convertToDto(OpeningHour openingHour) {
         if (openingHour == null) {
             throw new IllegalArgumentException("There is no such opening hour!");
         }
+        HeadLibrarian headLibrarian = openingHour.getHeadLibrarian();
         HeadLibrarianDTO headLibrarianDTO = new HeadLibrarianDTO(headLibrarian.getFirstName(),headLibrarian.getLastName(),headLibrarian.getOnlineAccount(),headLibrarian.getAddress(), headLibrarian.getPassword(), headLibrarian.getBalance());
         OpeningHourDTO.DayOfWeek dayOfWeek = OpeningHourDTO.DayOfWeek.valueOf(openingHour.getDayOfWeek().toString());
         OpeningHourDTO openingHourDTO = new OpeningHourDTO(dayOfWeek, openingHour.getStartTime(), openingHour.getEndTime(), headLibrarianDTO);
         return openingHourDTO;
     }
 
+    /**
+     * @author Ramin Akhavan-Sarraf
+     * @param LibraryItem
+     * @return LibraryItemDTO
+     */
     private LibraryItemDTO convertToDto(LibraryItem libraryItem) {
         if (libraryItem== null) {
             throw new IllegalArgumentException("There is no such library item!");
@@ -190,7 +211,6 @@ public class LibraryServiceRestController {
     //each method need to check to make sure the individual is in the system before creating them.
 
     private BorrowableItem convertToDomainObject(BorrowableItemDTO borrowableItemDTO) {
-        
     }
 
     private LibraryItem convertToDomainObject(LibraryItemDTO libraryItemDTO) {
