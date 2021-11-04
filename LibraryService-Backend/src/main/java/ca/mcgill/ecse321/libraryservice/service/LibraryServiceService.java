@@ -554,6 +554,7 @@ public class LibraryServiceService {
     /* TimeSlot Service Methods */
     /**
      * Get all timeslots from the first and only library system.
+     * @author Mathieu Geoffroy
      * @throws Exception - If there is no library system
      * @return List of TimeSlots
      */
@@ -571,6 +572,7 @@ public class LibraryServiceService {
 
     /**
      * Get a list of timeslots for a specific librarian
+     * @author Mathieu Geoffroy
      * @param librarian - librarian that is 'working' those timeslots
      * @return List of timeslots
      */
@@ -582,6 +584,7 @@ public class LibraryServiceService {
 
     /**
      * Get a list of timeslots that have been assigned by the (only) head librarian
+     * @author Mathieu Geoffroy
      * @return List of timeslots
      */
     @Transactional
@@ -592,6 +595,7 @@ public class LibraryServiceService {
 
     /**
      * Get timeslot list (workshits) for a specific librarian by inputing the librarian's first and last name
+     * @author Mathieu Geoffroy
      * @param firstName - librarian's first name
      * @param lastName - librarian's last name
      * @return list of timeslots
@@ -605,6 +609,7 @@ public class LibraryServiceService {
 
     /**
      * Get timeslot list (workshifts) for a specific librarian by inputing the librarian,s UserId
+     * @author Mathieu Geoffroy
      * @param id - Librarian's user id
      * @return list of timeslots
      */
@@ -617,6 +622,7 @@ public class LibraryServiceService {
 
     /**
      * Get a timeslot by inputing its id
+     * @author Mathieu Geoffroy
      * @param id - timeslot id
      * @return TimeSlot
     */
@@ -629,6 +635,7 @@ public class LibraryServiceService {
     /**
      * Create a timeslot in the first (and only) available library system with the first (and only)
      * available head librarian. The timeslot is saved to the DB.
+     * @author Mathieu Geoffroy
      * @param startDate - Start date of timeslot
      * @param startTime - Start time of timeslot
      * @param endDate - End date of timeslot 
@@ -658,6 +665,7 @@ public class LibraryServiceService {
 
     /**
      * Assigns a librarian to a timeslot and update the DB
+     * @author Mathieu Geoffroy
      * @param ts - the timeslot to which the librarian will be assigned
      * @param librarian - the librarian being assigned
      * @return updated TimeSlot
@@ -673,6 +681,7 @@ public class LibraryServiceService {
     /* Opening Hours Service Methods */
     /**
      * get all the opening hours in the first (and only) available library system
+     * @author Mathieu Geoffroy
      * @return lsit of OpeningHour
      * @throws Exception - when there is no library system
      */
@@ -689,6 +698,7 @@ public class LibraryServiceService {
     }
     /**
      * get opening hour from its id
+     * @author Mathieu Geoffroy
      * @param id - opening hour id
      * @return  openingHour 
      */
@@ -700,6 +710,7 @@ public class LibraryServiceService {
      
     /**
      * get opening hour list for a given day of the week
+     * @author Mathieu Geoffroy
      * @param day - string for day of week that MUST start with a capital letter (case sensitive matching)
      * @return list of opening hours of a certain day of week
      * @throws Exception - when the input is not match (case-sensitve) with the correct day of week
@@ -718,6 +729,7 @@ public class LibraryServiceService {
 
     /**
      * get the opening hours that have been made by a head librarian
+     * @author Mathieu Geoffroy
      * @param headLibrarian - the head librarian that made the opening hours
      * @return - list of opening hours
      */
@@ -730,6 +742,7 @@ public class LibraryServiceService {
     /**
      * Create opening hour with the first (and only) available library system and first (and only) available
      * head librarian. Saves the opening hour to the DB
+     * @author Mathieu Geoffroy
      * @param day - string of day of week (case-sensistive): MUST start with capital letter
      * @param startTime - start time of opening hour
      * @param endTime - end time of opening hour
@@ -766,6 +779,7 @@ public class LibraryServiceService {
     /* Holiday service methods */
     /**
      * get all the holidays from the first (and only) librry system
+     * @author Mathieu Geoffroy
      * @return list of holidays
      * @throws Exception - when there is no library system
      */
@@ -783,6 +797,7 @@ public class LibraryServiceService {
 
     /**
      * get holiday from its holiday id 
+     * @author Mathieu Geoffroy
      * @param id - holiday id
      * @return holiday
      */
@@ -794,6 +809,7 @@ public class LibraryServiceService {
 
     /**
      * get holidays made by the head librarian
+     * @author Mathieu Geoffroy
      * @param headLibrarian - head librarian that created the holidays
      * @return list of holiday
      */
@@ -806,6 +822,7 @@ public class LibraryServiceService {
     /**
      * Create holiday with first (and only) available library system and the first (and only)
      * avaialbe head librarian. Saves to DB
+     * @author Mathieu Geoffroy
      * @param date - date of holiday
      * @param startTime - start time of holiday
      * @param endTime - end time of holiday
@@ -831,8 +848,6 @@ public class LibraryServiceService {
         holidayRepository.save(holiday);
         return holiday;
     }
-
-}
 
     public boolean ReplaceHeadLibrarian(UserAccount current, String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, String aPassword, int aBalance )
     throws Exception {
