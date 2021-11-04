@@ -242,6 +242,18 @@ public class LibraryServiceService {
         return users;
     }
 	
+
+    /***
+     * This method creates and save the object in the database and returns the Librarian object
+     * @param aFirstName
+     * @param aLastName
+     * @param aOnlineAccount
+     * @param aLibrarySystem
+     * @param aAddress
+     * @param aPassword
+     * @param aBalance
+     * @return librarian
+     */
     @Transactional
 	public Librarian createLibrarian(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, String aPassword, int aBalance) {
 		Librarian librarian = new Librarian();
@@ -256,18 +268,41 @@ public class LibraryServiceService {
 		return librarian;
 	}
 
+
+    /***
+     * Thismethod retrieves the user from the database
+     * @param userID
+     * @return person
+     */
     @Transactional
 	public UserAccount getUser(int userID) {
 		UserAccount person = userAccountRepository.findUserAccountByUserID(userID);
 		return person;
 	}
 
+    /***
+     * This methods returns the librarian objetct from teh database
+     * @param librarianID
+     * @return librarian
+     */
     @Transactional
 	public UserAccount getLibrarian(int librarianID) {
 		UserAccount librarian = userAccountRepository.findUserAccountByUserID(librarianID);
 		return librarian;
 	}
 
+    /**
+     * This method creates the Patron object and stores it in the database
+     * @param aFirstName
+     * @param aLastName
+     * @param aOnlineAccount
+     * @param aLibrarySystem
+     * @param aAddress
+     * @param aValidatedAccount
+     * @param aPassword
+     * @param aBalance
+     * @return patron
+     */
     @Transactional
 	public Patron createPatron(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, boolean aValidatedAccount, String aPassword, int aBalance) {
 		Patron patron = new Patron();
@@ -283,6 +318,11 @@ public class LibraryServiceService {
 		return patron;
 	}
 
+    /***
+     * This method gets the batron object from the database
+     * @param userID
+     * @return person 
+     */
     @Transactional
 	public Patron getPatron(int userID) {
 		Patron person = patronRepository.findPatronByUserID(userID);
