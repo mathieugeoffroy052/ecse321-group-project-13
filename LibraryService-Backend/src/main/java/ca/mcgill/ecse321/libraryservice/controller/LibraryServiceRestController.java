@@ -16,6 +16,20 @@ public class LibraryServiceRestController {
     @Autowired
 	private LibraryServiceService service;
 
+
+/**
+ * example of controller methods, here they are split by model java classes, 
+ * source https://github.com/McGill-ECSE321-Fall2020/project-group-09/blob/master/ArtGallerySystem-Backend/src/main/java/ca/mcgill/ecse321/artgallerysystem/controller/AddressController.java
+@PutMapping(value = {"/address/updatefull/{id}", "/address/updatefull/{id}/"})
+public AddressDTO updateFullAddress(@PathVariable("id") String id, @RequestParam("name") String name, 
+		@RequestParam("phone") String phoneNumber, @RequestParam("streetaddress") String streetAddress,
+		@RequestParam("city") String city, @RequestParam("province") String province, 
+		@RequestParam("postalcode") String postalCode, @RequestParam("country") String country) {
+	Address address = addressservice.updateAddress(id, name, phoneNumber, streetAddress, city, province, postalCode, country);
+	return convertToDto(address);
+}
+ */
+
     @PostMapping(value = { "/patrons/{firstName, lastName, onlineAccount, librarySystem, address, validatedAccount, passWord, balance}", "/patrons/{firstName, lastName, onlineAccount, address, validatedAccount, passWord, balance}/" })
     public PatronDTO createPatron(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName,
     @PathVariable("onlineAccount") boolean onlineAccount, @PathVariable("librarySystem") LibrarySystem librarySystem, @PathVariable("address") String address, @PathVariable("validatedAccount") boolean validatedAccount,
