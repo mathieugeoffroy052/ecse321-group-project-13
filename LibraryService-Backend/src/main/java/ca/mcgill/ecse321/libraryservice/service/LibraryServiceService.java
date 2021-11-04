@@ -454,8 +454,8 @@ public class LibraryServiceService {
      * @return librarian
      */
     @Transactional
-	public UserAccount getLibrarian(int librarianID) {
-		UserAccount librarian = userAccountRepository.findUserAccountByUserID(librarianID);
+	public UserAccount getLibrarian(int userID) {
+		UserAccount librarian = userAccountRepository.findUserAccountByUserID(userID
 		return librarian;
 	}
 
@@ -497,7 +497,7 @@ public class LibraryServiceService {
 		return person;
 	}
 
-}
+
    public Iterable<Librarian>  getLibrarians() throws Exception{
     
        try {
