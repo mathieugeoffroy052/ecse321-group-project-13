@@ -242,6 +242,11 @@ public class LibraryServiceService {
     }
 
     /* TimeSlot Service Methods */
+    /**
+     * Get all timeslots from the first and only library system.
+     * @throws Exception - If there is no library system
+     * @return List of TimeSlots
+     */
     @Transactional
     public List<TimeSlot> getAllTimeSlots() throws Exception {
         LibrarySystem library;
@@ -254,18 +259,33 @@ public class LibraryServiceService {
         return allTimeSlots;
     }
 
+    /**
+     * Get a list of timeslots for a specific librarian
+     * @param librarian - librarian that is 'working' those timeslots
+     * @return List of timeslots
+     */
     @Transactional
     public List<TimeSlot> getTimeSlotsFromLibrarian(Librarian librarian) {
         List<TimeSlot> librarianTimeSlots = timeSlotRepository.findByLibrarian(librarian);
         return librarianTimeSlots;
     }
 
+    /**
+     * Get a list of timeslots that have been assigned by the (only) head librarian
+     * @return List of timeslots
+     */
     @Transactional
     public List<TimeSlot> getTimeSlotsFromHeadLibrarian(HeadLibrarian headLibrarian) {
         List<TimeSlot> timeSlots = timeSlotRepository.findByHeadLibrarian(headLibrarian);
         return timeSlots;
     }
 
+    /**
+     * Get timeslot list (workshits) for a specific librarian by inputing the librarian's first and last name
+     * @param firstName - librarian's first name
+     * @param lastName - librarian's last name
+     * @return list of timeslots
+     */
     @Transactional
     public List<TimeSlot> getTimeSlotsFromLibrarianFirstNameAndLastName(String firstName, String lastName) {
         Librarian librarian = (Librarian) userAccountRepository.findByFirstNameAndLastName(firstName, lastName);
@@ -273,6 +293,11 @@ public class LibraryServiceService {
         return librarianTimeSlots;
     }
 
+    /**
+     * Get timeslot list (workshifts) for a specific librarian by inputing the librarian,s UserId
+     * @param id - Librarian's user id
+     * @return list of timeslots
+     */
     @Transactional
     public List<TimeSlot> getTimeSlotsFromLibrarianUserID(int id) {
         Librarian librarian = (Librarian) userAccountRepository.findUserAccountByUserID(id);
@@ -280,12 +305,28 @@ public class LibraryServiceService {
         return librarianTimeSlots;
     }
 
+    /**
+     * Get a timeslot by inputing its id
+     * @param id - timeslot id
+     * @return TimeSlot
+    */
     @Transactional
     public TimeSlot getTimeSlotsFromId(int id) {
         TimeSlot timeSlot = timeSlotRepository.findTimeSlotByTimeSlotID(id);
         return timeSlot;
     }
 
+    /**
+     * Create a timeslot in the first (and only) available library system with the first (and only)
+     * available head librarian. The timeslot is saved to the DB.
+     * @param startDate - Start date of timeslot
+     * @param startTime - Start time of timeslot
+     * @param endDate - End date of timeslot 
+     * @param endTime - End time of timeslot
+     * @return Timeslot that was created
+     * @throws Exception - If the library system does not exit
+     * @throws Exception - If there is no head librarian
+     */
     @Transactional
     public TimeSlot createTimeSlot(Date startDate, Time startTime, Date endDate, Time endTime) throws Exception {
         LibrarySystem library;
@@ -305,13 +346,26 @@ public class LibraryServiceService {
         return timeSlot;
     }
 
+    /**
+     * Assigns a librarian to a timeslot and update the DB
+     * @param ts - the timeslot to which the librarian will be assigned
+     * @param librarian - the librarian being assigned
+     * @return updated TimeSlot
+     */
     @Transactional
-    public TimeSlot assignTimeSlotToLibrarian(TimeSlot timeSlot, Librarian librarian) {
+    public TimeSlot assignTimeSlotToLibrarian(TimeSlot ts, Librarian librarian) {
+        TimeSlot timeSlot = timeSlotRepository.findTimeSlotByTimeSlotID(ts.getTimeSlotID());
         timeSlot.addLibrarian(librarian);
+        timeSlotRepository.save(timeSlot);
         return timeSlot;
     }
 
     /* Opening Hours Service Methods */
+    /**
+     * get all the opening hours in the first (and only) available library system
+     * @return lsit of OpeningHour
+     * @throws Exception - when there is no library system
+     */
     @Transactional
     public List<OpeningHour> getAllOpeningHours() throws Exception {
         LibrarySystem library;
@@ -323,13 +377,23 @@ public class LibraryServiceService {
         List<OpeningHour> allOpeningHours = openingHourRepository.findByLibrarySystem(library);
         return allOpeningHours;
     }
-
+    /**
+     * get opening hour from its id
+     * @param id - opening hour id
+     * @return  openingHour 
+     */
     @Transactional
     public OpeningHour getOpeningHourFromID(int id) {
         OpeningHour openingHour = openingHourRepository.findOpeningHourByHourID(id);
         return openingHour;
     }
      
+    /**
+     * get opening hour list for a given day of the week
+     * @param day - string for day of week that MUST start with a capital letter (case sensitive matching)
+     * @return list of opening hours of a certain day of week
+     * @throws Exception - when the input is not match (case-sensitve) with the correct day of week
+     */
     @Transactional
     public List<OpeningHour> getOpeningHoursByDayOfWeek(String day) throws Exception{
         DayOfWeek dayOfWeek;
@@ -342,12 +406,28 @@ public class LibraryServiceService {
         return openingHours;
     }
 
+    /**
+     * get the opening hours that have been made by a head librarian
+     * @param headLibrarian - the head librarian that made the opening hours
+     * @return - list of opening hours
+     */
     @Transactional
     public List<OpeningHour> getOpeningHoursFromHeadLibrarian(HeadLibrarian headLibrarian) {
         List<OpeningHour> openingHours = openingHourRepository.findByHeadLibrarian(headLibrarian);
         return openingHours;
     }
 
+    /**
+     * Create opening hour with the first (and only) available library system and first (and only) available
+     * head librarian. Saves the opening hour to the DB
+     * @param day - string of day of week (case-sensistive): MUST start with capital letter
+     * @param startTime - start time of opening hour
+     * @param endTime - end time of opening hour
+     * @return the create opening hour
+     * @throws Exception - When the day string does not match the DayOfWeek enum format
+     * @throws Exception - When there is no library systme
+     * @throws Exception - When there is no head librarian
+     */
     @Transactional
     public OpeningHour createOpeningHour(String day, Time startTime, Time endTime) throws Exception {
         DayOfWeek dayOfWeek;
@@ -374,6 +454,11 @@ public class LibraryServiceService {
     }    
 
     /* Holiday service methods */
+    /**
+     * get all the holidays from the first (and only) librry system
+     * @return list of holidays
+     * @throws Exception - when there is no library system
+     */
     @Transactional
     public List<Holiday> getAllHolidays() throws Exception {
         LibrarySystem library;
@@ -386,18 +471,38 @@ public class LibraryServiceService {
         return allHolidays;
     }
 
+    /**
+     * get holiday from its holiday id 
+     * @param id - holiday id
+     * @return holiday
+     */
     @Transactional
     public Holiday getHolidayFromId(int id) {
         Holiday holiday = holidayRepository.findHolidayByHolidayID(id);
         return holiday;
     }
 
+    /**
+     * get holidays made by the head librarian
+     * @param headLibrarian - head librarian that created the holidays
+     * @return list of holiday
+     */
     @Transactional
     public List<Holiday> getHolidaysFromHeadLibrarian(HeadLibrarian headLibrarian) {
         List<Holiday> holidays = holidayRepository.findByHeadLibrarian(headLibrarian);
         return holidays;
     }
 
+    /**
+     * Create holiday with first (and only) available library system and the first (and only)
+     * avaialbe head librarian. Saves to DB
+     * @param date - date of holiday
+     * @param startTime - start time of holiday
+     * @param endTime - end time of holiday
+     * @return holiday that was created
+     * @throws Exception - when there is no library system
+     * @throws Exception - when there is no head librarian
+     */
     @Transactional
     public Holiday createHoliday(Date date, Time startTime, Time endTime) throws Exception{
         LibrarySystem library;
