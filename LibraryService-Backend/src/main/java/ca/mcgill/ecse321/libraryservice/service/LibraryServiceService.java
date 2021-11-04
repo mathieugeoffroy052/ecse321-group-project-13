@@ -4,10 +4,9 @@ import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
-
-import org.hibernate.jdbc.Expectations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -411,19 +410,106 @@ public class LibraryServiceService {
       
     }
 
-	
-    public Iterable<Librarian>  getLibrarians() throws Exception{
+
+    /***
+     * This method creates and save the object in the database and returns the Librarian object
+     * @param aFirstName
+     * @param aLastName
+     * @param aOnlineAccount
+     * @param aLibrarySystem
+     * @param aAddress
+     * @param aPassword
+     * @param aBalance
+     * @return librarian
+     */
+    @Transactional
+	public Librarian createLibrarian(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, String aPassword, int aBalance) {
+		Librarian librarian = new Librarian();
+		librarian.setFirstName(aFirstName);
+        librarian.setLastName(aLastName);
+        librarian.setOnlineAccount(aOnlineAccount);
+        librarian.setLibrarySystem(aLibrarySystem);
+        librarian.setAddress(aAddress);
+        librarian.setPassword(aPassword);
+        librarian.setBalance(aBalance);
+		librarianRepository.save(librarian);
+		return librarian;
+	}
+
+
+    /***
+     * Thismethod retrieves the user from the database
+     * @param userID
+     * @return person
+     */
+    @Transactional
+	public UserAccount getUser(int userID) {
+		UserAccount person = userAccountRepository.findUserAccountByUserID(userID);
+		return person;
+	}
+
+    /***
+     * This methods returns the librarian objetct from teh database
+     * @param librarianID
+     * @return librarian
+     */
+    @Transactional
+	public UserAccount getLibrarian(int librarianID) {
+		UserAccount librarian = userAccountRepository.findUserAccountByUserID(librarianID);
+		return librarian;
+	}
+
+    /**
+     * This method creates the Patron object and stores it in the database
+     * @param aFirstName
+     * @param aLastName
+     * @param aOnlineAccount
+     * @param aLibrarySystem
+     * @param aAddress
+     * @param aValidatedAccount
+     * @param aPassword
+     * @param aBalance
+     * @return patron
+     */
+    @Transactional
+	public Patron createPatron(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, boolean aValidatedAccount, String aPassword, int aBalance) {
+		Patron patron = new Patron();
+		patron.setFirstName(aFirstName);
+        patron.setLastName(aLastName);
+        patron.setOnlineAccount(aOnlineAccount);
+        patron.setLibrarySystem(aLibrarySystem);
+        patron.setAddress(aAddress);
+        patron.setPassword(aPassword);
+        patron.setBalance(aBalance);
+        patron.setValidatedAccount(aValidatedAccount);
+		patronRepository.save(patron);
+		return patron;
+	}
+
+    /***
+     * This method gets the batron object from the database
+     * @param userID
+     * @return person 
+     */
+    @Transactional
+	public Patron getPatron(int userID) {
+		Patron person = patronRepository.findPatronByUserID(userID);
+		return person;
+	}
+
+}
+   public Iterable<Librarian>  getLibrarians() throws Exception{
     
-        try {
-         Iterable<Librarian> librarian;
-         librarian= librarianRepository.findAll();
-        return librarian;
-        } catch (Exception e) {
-         throw new Exception("This User ID does not correspond to a Head Librarian");
-        }
+       try {
+        Iterable<Librarian> librarian;
+        librarian= librarianRepository.findAll();
+       return librarian;
+       } catch (Exception e) {
+        throw new Exception("This User ID does not correspond to a Head Librarian");
+       }
     
           
-     }
+    }
 
         
     
