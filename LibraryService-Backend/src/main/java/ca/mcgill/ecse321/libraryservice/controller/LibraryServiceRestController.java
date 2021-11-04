@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import ca.mcgill.ecse321.libraryservice.dto.*;
+import ca.mcgill.ecse321.libraryservice.dto.LibraryItemDTO.ItemType;
 import ca.mcgill.ecse321.libraryservice.model.*;
 import ca.mcgill.ecse321.libraryservice.service.LibraryServiceService;
 
@@ -214,22 +215,55 @@ public class LibraryServiceRestController {
     }
 
     private LibraryItem convertToDomainObject(LibraryItemDTO libraryItemDTO) {
-    }
-
-    private HeadLibrarian convertToDomainObject(HeadLibrarianDTO headLibrarianDTO) {
         if (service == null) {
             throw new IllegalArgumentException("There is no service!");
         }
+        List<LibraryItem> libraryItems;
+        LibraryItem theLibraryItem = null;
+        try{
+            if(libraryItemDTO.getType() == ItemType.Book){
+                libraryItems = service.getAllBooks();
+            }
+            else if(libraryItemDTO.getType() == ItemType.Movie){
+                libraryItems = service.getAllMovies();
+            }
+            else if(libraryItemDTO.getType() == ItemType.Music){
+                libraryItems = service.getAllMusic();
+            }
+            else if(libraryItemDTO.getType() == ItemType.NewspaperArticle){
+                libraryItems = service.getAllNewspapers();
+            }
+            else{
+                libraryItems = service.getAllRoomReservations();
+            }
+        }
+        catch (Exception e){
+            throw new IllegalArgumentException("Could not get library item from service!");
+        }
+        for (LibraryItem libraryItem: libraryItems){
+            if(libraryItem.getName().equalsIgnoreCase(libraryItemDTO.getName())){
+                theLibraryItem = libraryItem;
+            }
+        }
+        
+        if (theLibraryItem == null){
+            throw new IllegalArgumentException("There is no such library item dto!");
+        }
+        return theLibraryItem;
+    }
+
+    private HeadLibrarian convertToDomainObject(HeadLibrarianDTO headLibrarianDTO) {
         HeadLibrarian headLibrarian;
         try {
-            headLibrarian = service.getHeadLibrarian();
+            headLibrarian = service.getIfLibrarianHeadFromFullName(headLibrarianDTO.getFirstName(), headLibrarianDTO.getLastName());
         } catch (Exception e) {
-            throw new IllegalArgumentException("There is head librarian in this service!");
+            throw new IllegalArgumentException("Could not get head librarian from service!");
         }
-        if (headLibrarian.getFirstName().equals(headLibrarianDTO.getFirstName()) && headLibrarian.getLastName().equals(headLibrarianDTO.getLastName())) {
+
+        if (headLibrarian != null) {
             return headLibrarian;
         }
-        else {
+        else{
             throw new IllegalArgumentException("There is no such head librarian dto!");
         }
     }
@@ -238,7 +272,18 @@ public class LibraryServiceRestController {
     }
 
     private Librarian convertToDomainObject(LibrarianDTO librarianDTO){
-
+        Librarian librarian;
+        try {
+            librarian = service.getLibrarianFromFullName(librarianDTO.getFirstName(), librarianDTO.getLastName());
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Could not get librarian from service!");
+        }
+        if (librarian != null) {
+            return librarian;
+        }
+        else{
+            throw new IllegalArgumentException("There is no such librarian dto!");
+        }
     }
 
     private OpeningHour convertToDomainObject(OpeningHourDTO openingHourDTO){

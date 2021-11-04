@@ -278,6 +278,7 @@ public class LibraryServiceService {
 
     /**
      * Get a newspaper based on the title of the article
+     * @param newspaper article title
      * @returns a newspaper
      * @author Ramin Akhavan-Sarraf
      */
@@ -292,6 +293,7 @@ public class LibraryServiceService {
 
     /**
      * Get a newspaper based on the writer of the article
+     * @param newspaper article writer
      * @returns a newspaper
      * @author Ramin Akhavan-Sarraf
      */
