@@ -7,11 +7,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.FlashMapManager;
 
 import ca.mcgill.ecse321.libraryservice.dao.*;
 import ca.mcgill.ecse321.libraryservice.model.*;
@@ -234,14 +233,183 @@ public class LibraryServiceService {
         return allReservedItems;
     }
 
+   
+    /**
+     * Headlibrarian getters 
+     * 1.get HeadLibrarian by ID (THROWS EXCPEPTION IF NOT EXIST)
+     * 2.get the Headlibrarian by from first & lastName
+     * 3.boolean to ensure only have 1 librarian instance at any time
+     * 4.boolean version of 1 Checing if user is a head librarian
+     * 5.get currentheadlibrarian
+     * @author Eloyann Roy-Javanbakht
+     * 
+     * */
     @Transactional
-    public List<UserAccount> getUsersOnWaitlist(BorrowableItem item){
-        List<Transaction> allItemTransactions = transactionRepository.findByBorrowableItem(item);
-        List<UserAccount> users = new ArrayList<UserAccount>();
-        for(Transaction t : allItemTransactions) users.add(t.getUserAccount());
-        return users;
+    public HeadLibrarian getHeadLibrarianFromUserId(int userID) throws Exception{
+    
+       try {
+        HeadLibrarian headLibrarian;
+        headLibrarian= headLibrarianRepository.findHeadLibrarianByUserID(userID);
+        return headLibrarian;
+       } catch (Exception e) {
+        throw new Exception("This User ID does not correspond to a Head Librarian");
+       }
+
+
+         
     }
-	
+    public HeadLibrarian getIfLibrarianHeadFromFullName(String firstName, String lastName){
+    
+      
+         Iterable<HeadLibrarian> headlibrarians = headLibrarianRepository.findAll();
+       
+        for (HeadLibrarian n: headlibrarians){
+            if(n.getFirstName().equals(firstName) && n.getLastName().equals(lastName)) return n;
+
+        }
+        return null;
+
+    }
+
+    @Transactional
+    public boolean checkOnlyOneHeadLibrarian(){
+      long counter=headLibrarianRepository.count();
+        if(counter!=1) return false;
+        else return true;
+
+    }
+
+    @Transactional
+    public boolean checkIfHeadLibrarianFromUserId(int userID) throws Exception {
+        try { 
+        headLibrarianRepository.findHeadLibrarianByUserID(userID);
+        return true;
+      } catch (Exception e) {
+        throw new  Exception("This User ID does not correspond to a Head Librarian");
+      }
+      
+    }
+    public HeadLibrarian getHeadLibrarian() throws Exception{
+    
+        try {
+         Iterable<HeadLibrarian> headLibrarian;
+         headLibrarian= headLibrarianRepository.findAll();
+        for(HeadLibrarian head: headLibrarian){ return head;}
+       
+        } catch (Exception e) {
+         throw new Exception("There isn't any headLibrarian");
+        }
+        return null;
+ 
+ 
+          
+     }
+    /**HeadLibrarian Create and Replace
+     * 1. Create A Headlibrarian-- checks if has or not 
+     * 2. Replacing the current headlibrarian with a new one
+     * 3. Create Librarian--checks the user creating it is a head librarian
+     * 4. remove LIbrarian--checks the user deleting it is a head librarian
+     * @author Eloyann Roy-Javanbakht
+     */
+
+
+    public boolean CreateANewHeadLibrarian(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, String aPassword, int aBalance )
+    throws Exception {
+        HeadLibrarian headLibrarian;
+      if(checkOnlyOneHeadLibrarian()) throw new  Exception("This User  does not the credentials to add a new librarian");
+   
+      headLibrarian=new HeadLibrarian(aFirstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aPassword, aBalance);
+
+       librarianRepository.save(headLibrarian);
+    
+        return true;
+        
+    }
+
+    public boolean ReplaceHeadLibrarian(UserAccount current, String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, String aPassword, int aBalance )
+    throws Exception {
+       HeadLibrarian headLibrarian=getHeadLibrarian();
+       if(current.equals(headLibrarian)) 
+      headLibrarianRepository.delete(headLibrarian);
+
+      headLibrarian=new HeadLibrarian(aFirstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aPassword, aBalance);
+      librarianRepository.save(headLibrarian);
+    
+        return true;
+        
+    }
+
+
+
+
+    //librarian create
+    public Librarian createANewLibrarian(UserAccount creater, String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, String aPassword, int aBalance ) throws Exception {
+        
+        try {
+        getHeadLibrarianFromUserId(creater.getUserID());
+
+        } catch (Exception e) {
+            throw new  Exception("This User  does not the credentials to add a new librarian");
+        }
+        if(getLibrarianFromFullName(aFirstName, aLastName).getAddress().equals(aAddress)) throw new Exception("This User already has a librarian account");
+        Librarian librarian=new Librarian(aFirstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aPassword, aBalance);
+        librarianRepository.save(librarian);
+        return librarian;
+
+    
+
+        
+    }
+
+
+
+        //librarian delete
+    public Librarian deleteALibrarian(UserAccount creater, String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, String aPassword, int aBalance ) throws Exception {
+    
+        try {
+        getHeadLibrarianFromUserId(creater.getUserID());
+
+        } catch (Exception e) {
+            throw new  Exception("This User  does not the credentials to add a new librarian");
+        }
+
+        Librarian librarian=new Librarian(aFirstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aPassword, aBalance);
+        librarianRepository.delete(librarian);
+        return librarian;
+    }
+
+
+
+   /**Librarian getters
+    * 1. get librarian from name
+    * 2. get librarian from ID
+    * 3. get all librarians
+    * @author Eloyann Roy-Javanbakht
+    */
+   public Librarian getLibrarianFromFullName(String firstName, String lastName){
+        
+    Iterable<Librarian> librarians = librarianRepository.findAll();
+  
+   for (Librarian n: librarians){
+       if(n.getFirstName().equals(firstName) && n.getLastName().equals(lastName)) return n;
+
+   }
+  return null;
+
+   }
+   public Librarian getLibrarianFromUserId(int userID) throws Exception{
+    
+    try {
+     Librarian librarian;
+     librarian= librarianRepository.findLibrarianByUserID(userID);
+     return librarian;
+    } catch (Exception e) {
+     throw new Exception("This User ID does not correspond to a Head Librarian");
+    }
+
+      
+    }
+
 
     /***
      * This method creates and save the object in the database and returns the Librarian object
@@ -330,3 +498,27 @@ public class LibraryServiceService {
 	}
 
 }
+   public Iterable<Librarian>  getLibrarians() throws Exception{
+    
+       try {
+        Iterable<Librarian> librarian;
+        librarian= librarianRepository.findAll();
+       return librarian;
+       } catch (Exception e) {
+        throw new Exception("This User ID does not correspond to a Head Librarian");
+       }
+    
+          
+    }
+
+        
+    
+
+
+
+
+
+
+}
+
+
