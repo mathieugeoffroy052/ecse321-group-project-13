@@ -287,6 +287,10 @@ public class LibraryServiceRestController {
     }
 
     private OpeningHour convertToDomainObject(OpeningHourDTO openingHourDTO){
+    	OpeningHour openingHour;
+    //	try {
+    //		openingHour = service.
+    //	}
     }
 
     private Patron convertToDomainObject(PatronDTO patronDTO){

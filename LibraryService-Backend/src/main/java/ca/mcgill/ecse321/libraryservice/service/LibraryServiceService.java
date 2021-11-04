@@ -715,7 +715,7 @@ public class LibraryServiceService {
 	}
 
     /***
-     * This method gets the batron object from the database
+     * This method gets the patron object from the database
      * @author Gabrielle halpin
      * @param userID
      * @return person 
@@ -751,6 +751,20 @@ public class LibraryServiceService {
     
           
     }
+   
+
+   /***
+    * This returns the opening hour corresponding to the id
+    * @author Zoya Malhi
+    * @param userID
+    * @return users 
+    */
+   @Transactional
+   public OpeningHour getOpeningHour(int hourID){
+	   OpeningHour openingHour = openingHourRepository.findOpeningHourByHourID(hourID);
+	   return openingHour;
+   }
+   
 
 }
 
