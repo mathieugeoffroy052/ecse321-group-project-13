@@ -159,7 +159,13 @@ public class LibraryServiceService {
         return null;
     }
 
-    //This method is used to get all the room reservations made by users
+    /**
+     * Get all room reservations that are in the system
+     * @throws if there is no library system found
+     * @returns a list of room reservations
+     * 
+     */
+
     @Transactional
     public List<LibraryItem> getAllRoomReservations() throws Exception{
         LibrarySystem library;
@@ -178,7 +184,12 @@ public class LibraryServiceService {
         return allRooms;
     }
 
-    //This method is used to get all the  newspapers of the library system
+    /**
+     * Get all newspapers that are in the system
+     * @throws if there is no library system found
+     * @returns a list of newspapers
+     * 
+     */
     @Transactional
     public List<LibraryItem> getAllNewspapers() throws Exception{
         LibrarySystem library;
@@ -197,7 +208,10 @@ public class LibraryServiceService {
         return allNewspapers;
     }
 
-    //This method is used to get a newspaper based on the title
+    /**
+     * Get a newspaper based on the title of the article
+     * @returns a newspaper
+     */
     @Transactional
     public LibraryItem getNewspaperFromTitle(String newspaperTitle) throws Exception{
         List<LibraryItem> allNewspapers = getAllNewspapers();
@@ -207,7 +221,10 @@ public class LibraryServiceService {
         return null;
     }
 
-    //This method is used to get a newspaper based on the article's writer
+    /**
+     * Get a newspaper based on the writer of the article
+     * @returns a newspaper
+     */
     @Transactional
     public LibraryItem getNewspaperFromWriter(String writerName) throws Exception{
         List<LibraryItem> allNewspapers = getAllNewspapers();
