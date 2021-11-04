@@ -725,6 +725,21 @@ public class LibraryServiceService {
 		Patron person = patronRepository.findPatronByUserID(userID);
 		return person;
 	}
+    
+    /***
+     * This method gets the patron object from the database
+     * @author Zoya Malhi
+     * @param firstname, lastName
+     * @return null 
+     */
+    public Patron getIfPatronFromFullName(String firstName, String lastName){
+        Iterable<Patron> patron = patronRepository.findAll();
+        for (Patron p: patron){
+           if(p.getFirstName().equals(firstName) && p.getLastName().equals(lastName)) return p;
+       }
+       return null;
+
+   }
 
     /***
      * This returns a list of all users associated to a specific account
@@ -756,14 +771,15 @@ public class LibraryServiceService {
    /***
     * This returns the opening hour corresponding to the id
     * @author Zoya Malhi
-    * @param userID
-    * @return users 
+    * @param hourID
+    * @return openingHour 
     */
    @Transactional
-   public OpeningHour getOpeningHour(int hourID){
+   public OpeningHour getOpeningHourFromHourID(int hourID){
 	   OpeningHour openingHour = openingHourRepository.findOpeningHourByHourID(hourID);
 	   return openingHour;
    }
+   
    
 
 }
