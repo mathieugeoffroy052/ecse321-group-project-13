@@ -3,20 +3,19 @@ package ca.mcgill.ecse321.libraryservice.dto;
 import java.sql.Date;
 import java.sql.Time;
 
-import ca.mcgill.ecse321.libraryservice.model.HeadLibrarian;
 
 public class HolidayDTO {
   private Date date;
   private Time startTime;
   private Time endtime;
 
-  private HeadLibrarian headLibrarian;
+  private HeadLibrarianDTO headLibrarian;
 
-  public HolidayDTO(HeadLibrarian headLibrarian){
+  public HolidayDTO(HeadLibrarianDTO headLibrarian){
     this(Date.valueOf("1999-12-25"), Time.valueOf("00:00:00"), Time.valueOf("23:59:59"), headLibrarian);
   }
 
-  public HolidayDTO(Date date, Time startTime, Time endTime, HeadLibrarian headLibrarian){
+  public HolidayDTO(Date date, Time startTime, Time endTime, HeadLibrarianDTO headLibrarian){
       this.date = date;
       this.startTime = startTime;
       this.endtime = endTime;
@@ -35,7 +34,7 @@ public class HolidayDTO {
        return this.endtime;
    }
 
-   public HeadLibrarian getHeadLibrarian(){
+   public HeadLibrarianDTO getHeadLibrarian(){
        return this.headLibrarian;
    }
   
