@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import ca.mcgill.ecse321.libraryservice.dto.*;
 import ca.mcgill.ecse321.libraryservice.model.*;
-import ca.mcgill.ecse321.libraryservice.model.OpeningHour.DayOfWeek;
 import ca.mcgill.ecse321.libraryservice.service.LibraryServiceService;
 
 @CrossOrigin(origins = "*")
