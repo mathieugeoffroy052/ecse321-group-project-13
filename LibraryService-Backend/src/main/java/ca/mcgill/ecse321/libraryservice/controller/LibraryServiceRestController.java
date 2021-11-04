@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.libraryservice.controller;
 
+import java.sql.Time;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,19 @@ public class LibraryServiceRestController {
     @Autowired
 	private LibraryServiceService service;
 
+    /***
+     * @author Gabrielle Halpin
+     * @param firstName
+     * @param lastName
+     * @param onlineAccount
+     * @param librarySystem
+     * @param address
+     * @param validatedAccount
+     * @param passWord
+     * @param balance
+     * @return
+     * @throws IllegalArgumentException
+     */
     @PostMapping(value = { "/createPatron/{firstName}/{lastName}/{onlineAccount}/{librarySystem}/{address}/{validatedAccount}/{passWord}/{balance}", "/createPatron/{firstName}/{lastName}/{onlineAccount}/{librarySystem}/{address}/{validatedAccount}/{passWord}/{balance}" })
     public PatronDTO createPatron(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName,
     @PathVariable("onlineAccount") boolean onlineAccount, @PathVariable("librarySystem") LibrarySystem librarySystem, @PathVariable("address") String address, @PathVariable("validatedAccount") boolean validatedAccount,
@@ -27,6 +41,19 @@ public class LibraryServiceRestController {
         return convertToDto(patron);
     }
 
+
+    /**
+     * @author Gabrielle Halpin
+     * @param firstName
+     * @param lastName
+     * @param onlineAccount
+     * @param librarySystem
+     * @param address
+     * @param passWord
+     * @param balance
+     * @return
+     * @throws IllegalArgumentException
+     */
     @PostMapping(value = { "/createLibrarian/{firstName}/{lastName}/{onlineAccount}/{librarySystem}/{address}/{passWord}/{balance}", "/createLibrarian/{firstName}/{lastName}/{onlineAccount}/{librarySystem}/{address}/{passWord}/{balance}" })
     public LibrarianDTO createLibrarian(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName,
     @PathVariable("onlineAccount") boolean onlineAccount, @PathVariable("librarySystem") LibrarySystem librarySystem, @PathVariable("address") String address,
@@ -36,8 +63,13 @@ public class LibraryServiceRestController {
     }
 
 
-    ////////// Helper methods ////////
+    ////////// Helper methods - convertToDTO////////
 
+    /**
+     * @author Gabrielle Halpin
+     * @param patron
+     * @return
+     */
     private PatronDTO convertToDto(Patron patron) {
         if (patron == null) {
             throw new IllegalArgumentException("There is no such patron!");
@@ -46,6 +78,11 @@ public class LibraryServiceRestController {
         return patronDTO;
     }
 
+    /**
+     * @author Gabrielle Halpin
+     * @param librarian
+     * @return
+     */
     private LibrarianDTO convertToDto(Librarian librarian) {
         if (librarian == null) {
             throw new IllegalArgumentException("There is no such patron!");
@@ -53,6 +90,7 @@ public class LibraryServiceRestController {
         LibrarianDTO librarianDTO = new LibrarianDTO(librarian.getFirstName(),librarian.getLastName(),librarian.getOnlineAccount(),librarian.getAddress(), librarian.getPassword(), librarian.getBalance());
         return librarianDTO;
     }
+
 
     private HeadLibrarianDTO convertToDto(HeadLibrarian headLibrarian) {
         if (headLibrarian== null) {
@@ -100,6 +138,11 @@ public class LibraryServiceRestController {
         return borrowableItemDTO;
     }
 
+    /**
+     * @author Gabrielle Halpin
+     * @param timeslot
+     * @return
+     */
     private TimeslotDTO convertToDto(TimeSlot timeslot) {
         if (timeslot == null) {
             throw new IllegalArgumentException("There is no such library item!");
@@ -114,6 +157,11 @@ public class LibraryServiceRestController {
         return timeslotDTO;
     }
 
+    /**
+     * @author Gabrielle Halpin
+     * @param transaction
+     * @return
+     */
     private TransactionDTO convertToDto(Transaction transaction) {
         if (transaction== null) {
             throw new IllegalArgumentException("There is no such library item!");
@@ -125,6 +173,11 @@ public class LibraryServiceRestController {
         return transactionDTO;
     }
 
+    /**
+     * @author Gabrielle Halpin
+     * @param userAccount
+     * @return
+     */
     private UserAccountDTO convertToDto(UserAccount userAccount) {
         if (userAccount == null) {
             throw new IllegalArgumentException("There is no such library item!");
@@ -133,4 +186,38 @@ public class LibraryServiceRestController {
         return userAccountDTO;
     }
 
+    ///////// Helper methods - convertToDomainObject//////////
+    //each method need to check to make sure the individual is in the system before creating them.
+
+    private BorrowableItem convertToDomainObject(BorrowableItemDTO borrowableItemDTO) {
+        
+    }
+
+    private LibraryItem convertToDomainObject(LibraryItemDTO libraryItemDTO) {
+    }
+
+    private HeadLibrarian convertToDomainObject(HeadLibrarianDTO headLibrarianDTO) {
+    }
+
+    private Holiday convertToDomainObject(HolidayDTO holidayDTO) {
+    }
+
+    private Librarian convertToDomainObject(LibrarianDTO librarianDTO){
+
+    }
+
+    private OpeningHour convertToDomainObject(OpeningHourDTO openingHourDTO){
+    }
+
+    private Patron convertToDomainObject(PatronDTO patronDTO){
+    }
+
+    private TimeSlot convertToDomainObject(TimeslotDTO timeslotDTO){
+    }
+
+    private Transaction convertToDomainObject(TransactionDTO transactionDTO){
+    }
+
+    private UserAccount convertToDomainObject(UserAccountDTO userAccountDTO){
+    }
 }

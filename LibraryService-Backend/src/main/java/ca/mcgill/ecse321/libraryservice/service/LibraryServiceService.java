@@ -509,6 +509,7 @@ public class LibraryServiceService {
       }
       
     }
+
     public HeadLibrarian getHeadLibrarian() throws Exception{
     
         try {
@@ -633,6 +634,7 @@ public class LibraryServiceService {
 
     /***
      * This method creates and save the object in the database and returns the Librarian object
+     * @author Gabrielle Halpin
      * @param aFirstName
      * @param aLastName
      * @param aOnlineAccount
@@ -641,6 +643,7 @@ public class LibraryServiceService {
      * @param aPassword
      * @param aBalance
      * @return librarian
+     * 
      */
     @Transactional
 	public Librarian createLibrarian(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, String aPassword, int aBalance) {
@@ -659,6 +662,7 @@ public class LibraryServiceService {
 
     /***
      * Thismethod retrieves the user from the database
+     * @author gabrielle Halpin
      * @param userID
      * @return person
      */
@@ -670,6 +674,7 @@ public class LibraryServiceService {
 
     /***
      * This methods returns the librarian objetct from teh database
+     * @author Gabrielle Halpin
      * @param librarianID
      * @return librarian
      */
@@ -681,6 +686,7 @@ public class LibraryServiceService {
 
     /**
      * This method creates the Patron object and stores it in the database
+     * @author Gabrielle Halpin
      * @param aFirstName
      * @param aLastName
      * @param aOnlineAccount
@@ -708,6 +714,7 @@ public class LibraryServiceService {
 
     /***
      * This method gets the batron object from the database
+     * @author Gabrielle halpin
      * @param userID
      * @return person 
      */
@@ -719,6 +726,7 @@ public class LibraryServiceService {
 
     /***
      * This returns a list of all users associated to a specific account
+     * @author Gabrielle Halpin
      * @param userID
      * @return users 
      */
