@@ -227,6 +227,83 @@ public class LibraryServiceService {
         return null;
     }
 
+    /**
+     * Get all room reservations that are in the system
+     * @throws if there is no library system found
+     * @returns a list of room reservations
+     * @author Ramin Akhavan-Sarraf 
+     */
+
+    @Transactional
+    public List<LibraryItem> getAllRoomReservations() throws Exception{
+        LibrarySystem library;
+        try{
+            library = (LibrarySystem) librarySystemRepository.findAll().iterator().next(); // uses the first library system found in the database
+        }catch(NoSuchElementException e){
+            throw new Exception("No library system(s) exist in the database");
+        }
+        List<LibraryItem> allLibraryItems = libraryItemRepository.findByLibrarySystem(library);
+        List<LibraryItem> allRooms = new ArrayList<>();
+        for(LibraryItem libItem : allLibraryItems){
+            if (libItem.getType() == ItemType.Room){
+                allRooms.add(libItem);
+            }
+        }
+        return allRooms;
+    }
+
+    /**
+     * Get all newspapers that are in the system
+     * @throws if there is no library system found
+     * @returns a list of newspapers
+     * @author Ramin Akhavan-Sarraf
+     */
+    @Transactional
+    public List<LibraryItem> getAllNewspapers() throws Exception{
+        LibrarySystem library;
+        try{
+            library = (LibrarySystem) librarySystemRepository.findAll().iterator().next(); // uses the first library system found in the database
+        }catch(NoSuchElementException e){
+            throw new Exception("No library system(s) exist in the database");
+        }
+        List<LibraryItem> allLibraryItems = libraryItemRepository.findByLibrarySystem(library);
+        List<LibraryItem> allNewspapers = new ArrayList<>();
+        for(LibraryItem libItem : allLibraryItems){
+            if (libItem.getType() == ItemType.NewspaperArticle){
+                allNewspapers.add(libItem);
+            }
+        }
+        return allNewspapers;
+    }
+
+    /**
+     * Get a newspaper based on the title of the article
+     * @returns a newspaper
+     * @author Ramin Akhavan-Sarraf
+     */
+    @Transactional
+    public LibraryItem getNewspaperFromTitle(String newspaperTitle) throws Exception{
+        List<LibraryItem> allNewspapers = getAllNewspapers();
+        for(LibraryItem newspaper : allNewspapers){
+            if(newspaper.getName().equals(newspaperTitle)) return newspaper;
+        }
+        return null;
+    }
+
+    /**
+     * Get a newspaper based on the writer of the article
+     * @returns a newspaper
+     * @author Ramin Akhavan-Sarraf
+     */
+    @Transactional
+    public LibraryItem getNewspaperFromWriter(String writerName) throws Exception{
+        List<LibraryItem> allNewspapers = getAllNewspapers();
+        for(LibraryItem newspaper : allNewspapers){
+            if(newspaper.getCreator().equals(writerName)) return newspaper;
+        }
+        return null;
+    }
+
     
     /** 
      * Creates an item reservation transaction between a user account and a borrowable item
