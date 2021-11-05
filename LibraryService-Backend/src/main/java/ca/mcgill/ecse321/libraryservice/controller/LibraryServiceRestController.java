@@ -212,7 +212,7 @@ public class LibraryServiceRestController {
     //each method need to check to make sure the individual is in the system before creating them.
 
     private BorrowableItem convertToDomainObject(BorrowableItemDTO borrowableItemDTO) {
-        
+        return null;
     }
 
     /**
