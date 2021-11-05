@@ -214,10 +214,13 @@ public class LibraryServiceRestController {
     private BorrowableItem convertToDomainObject(BorrowableItemDTO borrowableItemDTO) {
     }
 
+    /**
+     * Gets the corresponding regular library item from the DTO version
+     * @param LibraryItemDTO
+     * @returns LibraryItem
+     * @author Ramin Akhavan-Sarraf
+     */
     private LibraryItem convertToDomainObject(LibraryItemDTO libraryItemDTO) {
-        if (service == null) {
-            throw new IllegalArgumentException("There is no service!");
-        }
         List<LibraryItem> libraryItems;
         LibraryItem theLibraryItem = null;
         try{
@@ -252,6 +255,12 @@ public class LibraryServiceRestController {
         return theLibraryItem;
     }
 
+    /**
+     * Gets the corresponding regular head librarian from the DTO version
+     * @param HeadLibrarianDTO
+     * @returns HeadLibrarian
+     * @author Ramin Akhavan-Sarraf
+     */
     private HeadLibrarian convertToDomainObject(HeadLibrarianDTO headLibrarianDTO) {
         HeadLibrarian headLibrarian;
         try {
@@ -271,6 +280,13 @@ public class LibraryServiceRestController {
     private Holiday convertToDomainObject(HolidayDTO holidayDTO) {
     }
 
+
+    /**
+     * Gets the corresponding regular librarian from the DTO version
+     * @param LibrarianDTO
+     * @returns Librarian
+     * @author Ramin Akhavan-Sarraf
+     */
     private Librarian convertToDomainObject(LibrarianDTO librarianDTO){
         Librarian librarian;
         try {
