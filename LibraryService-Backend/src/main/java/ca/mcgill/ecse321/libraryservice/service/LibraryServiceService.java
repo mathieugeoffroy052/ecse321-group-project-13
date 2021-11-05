@@ -1044,6 +1044,8 @@ public class LibraryServiceService {
 		}
 	}
     
+    
+ //// TO BE VERIFIED -Zoya /////////////////   
     /***
      * This method gets the patron object, given the userID, from a list of patrons in the database.
      * @author Zoya Malhi
@@ -1073,7 +1075,6 @@ public class LibraryServiceService {
 
    }
     
-    
     /***
      * This method deletes a patron object from the database.
      * @author Zoya Malhi
@@ -1100,7 +1101,7 @@ public class LibraryServiceService {
      * @param none
      * @return patrons 
      */
-    public Iterable<Patron> getPatrons() throws Exception{
+    public Iterable<Patron> getAllPatrons() throws Exception{
         
         try {
          Iterable<Patron> patrons;
@@ -1109,7 +1110,7 @@ public class LibraryServiceService {
          return patrons;
          
         } catch (Exception e) {
-         throw new Exception("This User ID does not correspond to a Head Librarian");
+         throw new Exception("There are no patrons in the database.");
         }
      
            
@@ -1121,11 +1122,17 @@ public class LibraryServiceService {
      * @author Gabrielle Halpin
      * @param userID
      * @return users 
+     * @throws Exception 
      */
     @Transactional
-	public List<UserAccount> getAllUsers(LibrarySystem librarySystem) {
-		List<UserAccount> users = userAccountRepository.findByLibrarySystem(librarySystem);
+	public List<UserAccount> getAllUsers(LibrarySystem librarySystem) throws Exception {
+		try {
+			List<UserAccount> users = userAccountRepository.findByLibrarySystem(librarySystem);
+		
 		return users;
+		}catch (Exception e) {
+	         throw new Exception("There are no users in the database");
+		}
 	}
 
 
@@ -1138,8 +1145,7 @@ public class LibraryServiceService {
        } catch (Exception e) {
         throw new Exception("This User ID does not correspond to a Head Librarian");
        }
-    
-          
+      
     }
    
 
