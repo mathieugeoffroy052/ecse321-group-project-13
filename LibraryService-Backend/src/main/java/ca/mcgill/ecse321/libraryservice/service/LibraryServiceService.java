@@ -1029,17 +1029,16 @@ public class LibraryServiceService {
     /***
      * This method gets the patron object from the database
      * @author Zoya Malhi
-     * @param firstname, lastName
+     * @param userID
      * @return null 
      */
     public Patron getPatronFromUserID(int userID){
-        try {
-        	Iterable<Patron> patron = patronRepository.findAll();
+       try {
+    	   Iterable<Patron> patron = patronRepository.findAll();
         
-        for (Patron p: patron){
-           if(p.getUserID() == userID) return p;
-           
-        }
+    	   for (Patron p: patron){
+    		   if(p.getUserID() == userID) return p;
+    	   }
            if (patron != null) {
            return (Patron) patron;
            }
@@ -1048,7 +1047,7 @@ public class LibraryServiceService {
            throw new IllegalArgumentException("There is no such patron!");
            }
        
-        }
+       }
        catch (Exception e) {
            throw new IllegalArgumentException("Could not get patron from user ID!");
        
