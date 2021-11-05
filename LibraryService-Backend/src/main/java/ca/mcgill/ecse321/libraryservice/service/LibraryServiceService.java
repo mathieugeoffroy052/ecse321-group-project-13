@@ -1094,7 +1094,26 @@ public class LibraryServiceService {
         return patron;
     }
 
-    
+    /***
+     * This method gets all patrons in the database.
+     * @author Zoya Malhi
+     * @param none
+     * @return patrons 
+     */
+    public Iterable<Patron> getPatrons() throws Exception{
+        
+        try {
+         Iterable<Patron> patrons;
+         patrons = patronRepository.findAll();
+        
+         return patrons;
+         
+        } catch (Exception e) {
+         throw new Exception("This User ID does not correspond to a Head Librarian");
+        }
+     
+           
+     }
     
 
     /***
@@ -1110,7 +1129,7 @@ public class LibraryServiceService {
 	}
 
 
-   public Iterable<Librarian>  getLibrarians() throws Exception{
+   public Iterable<Librarian> getLibrarians() throws Exception{
     
        try {
         Iterable<Librarian> librarian;
