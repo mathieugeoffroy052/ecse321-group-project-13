@@ -1059,18 +1059,18 @@ public class LibraryServiceService {
     	   for (Patron p: patron){
     		   if(p.getUserID() == userID) return p;
     	   }
-          return (Patron) patron;
+         
        }
        catch (Exception e) {
            throw new IllegalArgumentException("Could not get patron from user ID!");
        
        }
-
+       return null;
    }
     /***
     * This method gets the patron object, given the userID, from a list of patrons in the database.
     * @author Zoya Malhi
-    * @param userID
+    * @param firstName, lastName
     * @return null 
     */
     public Patron getPatronFromFullName(String firstName, String lastName){
