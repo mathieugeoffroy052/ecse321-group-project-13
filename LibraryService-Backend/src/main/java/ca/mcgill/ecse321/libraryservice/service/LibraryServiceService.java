@@ -93,6 +93,9 @@ public class LibraryServiceService {
      */
     @Transactional
     public LibraryItem getBookFromAuthor(String authorName) throws Exception{
+        if (authorName == null || authorName.trim().length() == 0) {
+            throw new IllegalArgumentException("Author name cannot be empty!");
+        }
         List<LibraryItem> allBooks = getAllBooks();
         for(LibraryItem a : allBooks){
             if(a.getCreator().equals(authorName)) return a;
@@ -109,6 +112,9 @@ public class LibraryServiceService {
      */
     @Transactional
     public LibraryItem getBookFromTitle(String bookTitle) throws Exception{
+        if (bookTitle == null || bookTitle.trim().length() == 0) {
+            throw new IllegalArgumentException("Book title cannot be empty!");
+        }
         List<LibraryItem> allBooks = getAllBooks();
         for(LibraryItem a : allBooks){
             if(a.getName().equals(bookTitle)) return a;
@@ -149,6 +155,9 @@ public class LibraryServiceService {
      */
     @Transactional
     public LibraryItem getMusicFromArtist(String artistName) throws Exception{
+        if (artistName == null || artistName.trim().length() == 0) {
+            throw new IllegalArgumentException("Artist name cannot be empty!");
+        }
         List<LibraryItem> allMusic = getAllMusic();
         for(LibraryItem a : allMusic){
             if(a.getCreator().equals(artistName)) return a;
@@ -165,6 +174,9 @@ public class LibraryServiceService {
      */
     @Transactional
     public LibraryItem getMusicFromTitle(String musicTitle) throws Exception{
+        if (musicTitle == null || musicTitle.trim().length() == 0) {
+            throw new IllegalArgumentException("Music title cannot be empty!");
+        }
         List<LibraryItem> allMusic = getAllMusic();
         for(LibraryItem a : allMusic){
             if(a.getName().equals(musicTitle)) return a;
@@ -205,6 +217,9 @@ public class LibraryServiceService {
      */
     @Transactional
     public LibraryItem getMovieFromDirector(String directorName) throws Exception{
+        if (directorName == null || directorName.trim().length() == 0) {
+            throw new IllegalArgumentException("Director name cannot be empty!");
+        }
         List<LibraryItem> allMovies = getAllMovies();
         for(LibraryItem a : allMovies){
             if(a.getCreator().equals(directorName)) return a;
@@ -221,6 +236,9 @@ public class LibraryServiceService {
      */
     @Transactional
     public LibraryItem getMovieFromTitle(String movieTitle) throws Exception{
+        if (movieTitle == null || movieTitle.trim().length() == 0) {
+            throw new IllegalArgumentException("Movie title cannot be empty!");
+        }
         List<LibraryItem> allMovies = getAllMovies();
         for(LibraryItem a : allMovies){
             if(a.getName().equals(movieTitle)) return a;
@@ -317,6 +335,19 @@ public class LibraryServiceService {
      */
     @Transactional
     public Transaction createItemReserveTransaction(BorrowableItem item, UserAccount account){
+        // Input validation
+        String error = "";
+        if (item == null) {
+            error = error + "Item cannot be empty! ";
+        }
+        if (account == null) {
+            error = error + "Account cannot be empty! ";
+        }
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
+        
         LocalDate localDeadline = LocalDate.now().plusDays(7); // 7 day deadline for reservation?
         Date deadline = Date.valueOf(localDeadline);
         Transaction itemReservation = new Transaction(item, account, TransactionType.ItemReservation, deadline); 
@@ -334,6 +365,19 @@ public class LibraryServiceService {
      */
     @Transactional
     public Transaction createRoomReserveTransaction(BorrowableItem item, UserAccount account){
+        // Input validation
+        String error = "";
+        if (item == null) {
+            error = error + "Item cannot be empty! ";
+        }
+        if (account == null) {
+            error = error + "Account cannot be empty! ";
+        }
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
+
         Transaction itemReservation = new Transaction(item, account, TransactionType.RoomReservation, null); // No deadline for room reservation
         transactionRepository.save(itemReservation);
         return itemReservation;
@@ -349,6 +393,19 @@ public class LibraryServiceService {
      */
     @Transactional
     public Transaction createItemBorrowTransaction(BorrowableItem item, UserAccount account){
+        // Input validation
+        String error = "";
+        if (item == null) {
+            error = error + "Item cannot be empty! ";
+        }
+        if (account == null) {
+            error = error + "Account cannot be empty! ";
+        }
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
+
         LocalDate localDeadline = LocalDate.now().plusDays(20); // Deadline is set 20 days away from current day
         Date deadline = Date.valueOf(localDeadline);
         Transaction itemReservation = new Transaction(item, account, TransactionType.Borrowing, deadline); 
@@ -366,6 +423,19 @@ public class LibraryServiceService {
      */
     @Transactional
     public Transaction createItemReturnTransaction(BorrowableItem item, UserAccount account){
+        // Input validation
+        String error = "";
+        if (item == null) {
+            error = error + "Item cannot be empty! ";
+        }
+        if (account == null) {
+            error = error + "Account cannot be empty! ";
+        }
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
+
         Transaction itemReservation = new Transaction(item, account, TransactionType.Return, null); // No deadline for return
         transactionRepository.save(itemReservation);
         return itemReservation;
@@ -381,6 +451,19 @@ public class LibraryServiceService {
      */
     @Transactional
     public Transaction createItemWaitlistTransaction(BorrowableItem item, UserAccount account){
+        // Input validation
+        String error = "";
+        if (item == null) {
+            error = error + "Item cannot be empty! ";
+        }
+        if (account == null) {
+            error = error + "Account cannot be empty! ";
+        }
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
+
         Transaction itemReservation = new Transaction(item, account, TransactionType.Waitlist, null); // No deadline for waitlist
         transactionRepository.save(itemReservation);
         return itemReservation;
@@ -396,6 +479,19 @@ public class LibraryServiceService {
      */
     @Transactional
     public Transaction createItemRenewalTransaction(BorrowableItem item, UserAccount account){
+        // Input validation
+        String error = "";
+        if (item == null) {
+            error = error + "Item cannot be empty! ";
+        }
+        if (account == null) {
+            error = error + "Account cannot be empty! ";
+        }
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
+
         LocalDate localDeadline = LocalDate.now().plusDays(20); // Deadline is set 20 days away from current day
         Date deadline = Date.valueOf(localDeadline);
         Transaction itemReservation = new Transaction(item, account, TransactionType.Renewal, deadline); 
@@ -411,6 +507,9 @@ public class LibraryServiceService {
      */
     @Transactional
     public List<BorrowableItem> getBorrowedItemsFromUser(UserAccount account){
+        if (account == null) {
+            throw new IllegalArgumentException("Account cannot be empty!");
+        }
         List<Transaction> allUserTransactions = transactionRepository.findByUserAccount(account);
         List<BorrowableItem> allBorrowedItems = new ArrayList<BorrowableItem>();
         for(Transaction t : allUserTransactions){
@@ -428,6 +527,9 @@ public class LibraryServiceService {
      */
     @Transactional
     public List<BorrowableItem> getReservedItemsFromUser(UserAccount account){
+        if (account == null) {
+            throw new IllegalArgumentException("Account cannot be empty!");
+        }
         List<Transaction> allUserTransactions = transactionRepository.findByUserAccount(account);
         List<BorrowableItem> allReservedItems = new ArrayList<BorrowableItem>();
         for(Transaction t : allUserTransactions){
@@ -446,6 +548,9 @@ public class LibraryServiceService {
      */
     @Transactional
     public List<UserAccount> getUsersOnWaitlist(BorrowableItem item){
+        if (item == null) {
+            throw new IllegalArgumentException("Item cannot be empty!");
+        }
         List<Transaction> allItemTransactions = transactionRepository.findByBorrowableItem(item);
         List<UserAccount> allWaitlistedUsers = new ArrayList<UserAccount>();
         for(Transaction t : allItemTransactions){
@@ -478,9 +583,8 @@ public class LibraryServiceService {
         throw new Exception("This User ID does not correspond to a Head Librarian");
        }
 
-
-         
     }
+    
     public HeadLibrarian getIfLibrarianHeadFromFullName(String firstName, String lastName){
     
       
