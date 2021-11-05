@@ -268,7 +268,21 @@ public class LibraryServiceRestController {
         }
     }
 
-    private Holiday convertToDomainObject(HolidayDTO holidayDTO) {
+    /**
+     * @author Zoya Malhi
+     * @param holidayDTO
+     * @return null
+     */
+    private Holiday convertToDomainObject(HolidayDTO holidayDTO) throws Exception {
+    	
+    		List<Holiday> allHolidays = service.getAllHolidays();
+    		for (Holiday holiday : allHolidays) {
+    			if(holiday.getDate().equals(holidayDTO.getDate())) {
+    				return holiday;
+    			}
+    		}
+			return null;
+    	
     }
 
     private Librarian convertToDomainObject(LibrarianDTO librarianDTO){
@@ -300,7 +314,7 @@ public class LibraryServiceRestController {
     /**
      * @author Zoya Malhi
      * @param patronDTO
-     * @return
+     * @return patron
      */
     private Patron convertToDomainObject(PatronDTO patronDTO){
     	Patron patron;
