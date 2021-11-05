@@ -212,12 +212,16 @@ public class LibraryServiceRestController {
     //each method need to check to make sure the individual is in the system before creating them.
 
     private BorrowableItem convertToDomainObject(BorrowableItemDTO borrowableItemDTO) {
+        
     }
 
+    /**
+     * Gets the corresponding regular library item from the DTO version
+     * @param LibraryItemDTO
+     * @returns LibraryItem
+     * @author Ramin Akhavan-Sarraf
+     */
     private LibraryItem convertToDomainObject(LibraryItemDTO libraryItemDTO) {
-        if (service == null) {
-            throw new IllegalArgumentException("There is no service!");
-        }
         List<LibraryItem> libraryItems;
         LibraryItem theLibraryItem = null;
         try{
@@ -252,6 +256,12 @@ public class LibraryServiceRestController {
         return theLibraryItem;
     }
 
+    /**
+     * Gets the corresponding regular head librarian from the DTO version
+     * @param HeadLibrarianDTO
+     * @returns HeadLibrarian
+     * @author Ramin Akhavan-Sarraf
+     */
     private HeadLibrarian convertToDomainObject(HeadLibrarianDTO headLibrarianDTO) {
         HeadLibrarian headLibrarian;
         try {
@@ -260,31 +270,49 @@ public class LibraryServiceRestController {
             throw new IllegalArgumentException("Could not get head librarian from service!");
         }
 
-        if (headLibrarian != null) {
-            return headLibrarian;
-        }
-        else{
+        if (headLibrarian == null) {
             throw new IllegalArgumentException("There is no such head librarian dto!");
         }
+        return headLibrarian;
     }
+
+  /***
+     * Gets the corresponding regular holiday from the DTO version
+     * @param HolidayDTO
+     * @returns Holiday
+     * @author Ramin Akhavan-Sarraf
+     */
+    private Holiday convertToDomainObject(HolidayDTO holidayDTO) {
+        List<Holiday> holidays;
+        Holiday theHoliday = null;
+        try {
+            holidays = service.getAllHolidays();
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Could not get librarian from service!");
+        }
+        for(Holiday holiday: holidays){
+            if(holiday.getDate().toLocalDate().isEqual(holidayDTO.getDate().toLocalDate())){
+                if (holiday.getStartTime().toLocalTime().compareTo(holidayDTO.getStartTime().toLocalTime()) == 0){
+                    if (holiday.getEndtime().toLocalTime().compareTo(holidayDTO.getEndTime().toLocalTime()) == 0){
+                        theHoliday = holiday;
+                    }
+                }
+
+            }
+        }
+        if(theHoliday == null){
+            throw new IllegalArgumentException("There is no such holiday dto!");
+        }
+        return theHoliday;
+    }
+
 
     /**
-     * @author Zoya Malhi
-     * @param holidayDTO
-     * @return null
+     * Gets the corresponding regular librarian from the DTO version
+     * @param LibrarianDTO
+     * @returns Librarian
+     * @author Ramin Akhavan-Sarraf
      */
-    private Holiday convertToDomainObject(HolidayDTO holidayDTO) throws Exception {
-    	
-    		List<Holiday> allHolidays = service.getAllHolidays();
-    		for (Holiday holiday : allHolidays) {
-    			if(holiday.getDate().equals(holidayDTO.getDate())) {
-    				return holiday;
-    			}
-    		}
-			return null;
-    	
-    }
-
     private Librarian convertToDomainObject(LibrarianDTO librarianDTO){
         Librarian librarian;
         try {
@@ -292,24 +320,27 @@ public class LibraryServiceRestController {
         } catch (Exception e) {
             throw new IllegalArgumentException("Could not get librarian from service!");
         }
-        if (librarian != null) {
-            return librarian;
-        }
-        else{
+        if (librarian == null) {
             throw new IllegalArgumentException("There is no such librarian dto!");
         }
+        return librarian;
     }
 
-	/*
-	 * private OpeningHour convertToDomainObject(OpeningHourDTO openingHourDTO){
-	 * 
-	 * OpeningHour openingHour; try { openingHour =
-	 * service.getOpeningHourbyHourID(openingHourDTO.getStartTime(),
-	 * openingHourDTO.getEndTime(), openingHourDTO.getDayOfWeek()); } catch
-	 * (Exception e) { throw new
-	 * IllegalArgumentException("Could not get opening hour from service!"); } }
-	 */
-
+    /**
+     * @author Zoya Malhi
+     * @param OpeningHourDTO
+     * @return null
+     */
+	 private OpeningHour convertToDomainObject(OpeningHourDTO openingHourDTO){
+		 List<OpeningHour> openingHours;
+	     OpeningHour openingHour = null;
+	     try {
+	         openingHours = service.getAllOpeningHours();
+	     } catch (Exception e) {
+	         throw new IllegalArgumentException("Could not get opening hours from service!");
+	     }
+	     return null;
+	 }
     
     /**
      * @author Zoya Malhi
