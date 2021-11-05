@@ -1045,7 +1045,7 @@ public class LibraryServiceService {
 	}
     
     
- //// TO BE VERIFIED -Zoya /////////////////   
+ //// ***TO BE VERIFIED -Zoya******************* /////////////////   
     /***
      * This method gets the patron object, given the userID, from a list of patrons in the database.
      * @author Zoya Malhi
@@ -1059,14 +1059,7 @@ public class LibraryServiceService {
     	   for (Patron p: patron){
     		   if(p.getUserID() == userID) return p;
     	   }
-           if (patron != null) {
-           return (Patron) patron;
-           }
-       
-           else {
-           throw new IllegalArgumentException("There is no such patron!");
-           }
-       
+          return (Patron) patron;
        }
        catch (Exception e) {
            throw new IllegalArgumentException("Could not get patron from user ID!");
@@ -1074,6 +1067,28 @@ public class LibraryServiceService {
        }
 
    }
+    /***
+    * This method gets the patron object, given the userID, from a list of patrons in the database.
+    * @author Zoya Malhi
+    * @param userID
+    * @return null 
+    */
+    public Patron getPatronFromFullName(String firstName, String lastName){
+       try { 
+        Iterable<Patron> patron = patronRepository.findAll();
+      
+       for (Patron p: patron){
+           if(p.getFirstName().equals(firstName) && p.getLastName().equals(lastName)) return p;
+
+       }
+      }
+      catch (Exception e) {
+          throw new IllegalArgumentException("Could not get patron from full name!");
+      
+      }
+	return null;
+
+    }
     
     /***
      * This method deletes a patron object from the database.

@@ -305,7 +305,7 @@ public class LibraryServiceRestController {
     private Patron convertToDomainObject(PatronDTO patronDTO){
     	Patron patron;
     	try {
-    		patron = service.getIfPatronFromFullName(patronDTO.getFirstName(), patronDTO.getLastName()); 
+    		patron = service.getPatron(patronDTO.); 
     	
     	 } catch (Exception e) {
              throw new IllegalArgumentException("Could not get patron from service!");
