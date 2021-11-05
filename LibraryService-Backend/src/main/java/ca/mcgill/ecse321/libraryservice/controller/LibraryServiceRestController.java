@@ -337,10 +337,13 @@ public class LibraryServiceRestController {
 	     try {
 	         openingHours = service.getAllOpeningHours();
 	         for(OpeningHour o : openingHours) {
-	        	 if(o.getStartTime() == openingHourDTO.getStartTime() && o.getEndTime() == openingHourDTO.getEndTime() && o.getDayOfWeek().equals(openingHourDTO.getDayOfWeek())) {
-	        		 return o;
-	        	 }
-	         }
+	        	 
+	                 if (o.getStartTime().toLocalTime().compareTo(openingHourDTO.getStartTime().toLocalTime()) == 0){
+	                     if (o.getEndTime().toLocalTime().compareTo(openingHourDTO.getEndTime().toLocalTime()) == 0){
+	                         openingHour = o;
+	                     }
+	                 }
+	     }
 	     } catch (Exception e) {
 	         throw new IllegalArgumentException("Could not get opening hours from service!");
 	     }
