@@ -1032,12 +1032,27 @@ public class LibraryServiceService {
      * @param firstname, lastName
      * @return null 
      */
-    public Patron getIfPatronFromFullName(String firstName, String lastName){
-        Iterable<Patron> patron = patronRepository.findAll();
+    public Patron getPatronFromUserID(int userID){
+        try {
+        	Iterable<Patron> patron = patronRepository.findAll();
+        
         for (Patron p: patron){
-           if(p.getFirstName().equals(firstName) && p.getLastName().equals(lastName)) return p;
+           if(p.getUserID() == userID) return p;
+           
+        }
+           if (patron != null) {
+           return (Patron) patron;
+           }
+       
+           else {
+           throw new IllegalArgumentException("There is no such patron!");
+           }
+       
+        }
+       catch (Exception e) {
+           throw new IllegalArgumentException("Could not get patron from user ID!");
+       
        }
-       return null;
 
    }
 
@@ -1074,12 +1089,12 @@ public class LibraryServiceService {
     * @param hourID
     * @return openingHour 
     */
-   @Transactional
-   public OpeningHour getOpeningHourFromHourID(int hourID){
-	   OpeningHour openingHour = openingHourRepository.findOpeningHourByHourID(hourID);
-	   return openingHour;
-   }
-   
+ //  @Transactional
+//   public OpeningHour getOpeningHourFromHourID(int hourID){
+//	   OpeningHour openingHour = openingHourRepository.findOpeningHourByHourID(hourID);
+//	   return openingHour;
+//   }
+//   
    
 
 }
