@@ -353,18 +353,14 @@ public class LibraryServiceRestController {
     /**
      * @author Zoya Malhi
      * @param patronDTO
-     * @return patron
+     * @return null
      */
     private Patron convertToDomainObject(PatronDTO patronDTO){
     	
-    	Iterable<Patron> patrons;
-	     Patron patron = null;
 	     try {
-	         patrons = service.getAllPatrons();
-	         for (Patron p : patrons) {
-	        	// if (p.getPatronID() == (patronDTO.get))
-	         }
-	         
+	    	 Patron patron;
+	         patron = service.getPatronFromFullName(patronDTO.getFirstName(), patronDTO.getLastName());
+	     
 	     } catch (Exception e) {
 	         throw new IllegalArgumentException("Could not get patrons from service!");
 	     }
@@ -373,7 +369,11 @@ public class LibraryServiceRestController {
     	
     	
     }
-
+    /**
+     * @author Zoya Malhi
+     * @param timeslotDTO
+     * @return null
+     */
     private TimeSlot convertToDomainObject(TimeslotDTO timeslotDTO){
     	List<TimeSlot> timeslots;
 	     TimeSlot timeslot = null;
@@ -394,9 +394,39 @@ public class LibraryServiceRestController {
     	return null;
     }
 
+    /**
+     * @author Zoya Malhi
+     * @param transactionDTO
+     * @return null
+     */
     private Transaction convertToDomainObject(TransactionDTO transactionDTO){
+    	 try {
+	    	 Transaction transaction;
+	        // transaction = service.getAllUsers(null);
+	     
+	     } catch (Exception e) {
+	         throw new IllegalArgumentException("Could not get patrons from service!");
+	     }
+	     return null;
     }
-
+    
+    /**
+     * @author Zoya Malhi
+     * @param userAccountDTO
+     * @return null
+     */
     private UserAccount convertToDomainObject(UserAccountDTO userAccountDTO){
+    	
+    	List<UserAccount> userAccounts;
+    //	userAccounts = service.getUser(userAccountDTO.)
+    //	UserAccount account = null;
+    	try {
+    	//	userAccounts = service.getAllUsers();
+    		
+    	}catch (Exception e) {
+	         throw new IllegalArgumentException("Could not get patrons from service!");
+	     }
+	     return null;
+    	
     }
 }
