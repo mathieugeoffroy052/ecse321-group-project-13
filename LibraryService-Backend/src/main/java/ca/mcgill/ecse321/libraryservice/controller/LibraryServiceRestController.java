@@ -212,6 +212,7 @@ public class LibraryServiceRestController {
     //each method need to check to make sure the individual is in the system before creating them.
 
     private BorrowableItem convertToDomainObject(BorrowableItemDTO borrowableItemDTO) {
+        
     }
 
     /**
@@ -269,15 +270,40 @@ public class LibraryServiceRestController {
             throw new IllegalArgumentException("Could not get head librarian from service!");
         }
 
-        if (headLibrarian != null) {
-            return headLibrarian;
-        }
-        else{
+        if (headLibrarian == null) {
             throw new IllegalArgumentException("There is no such head librarian dto!");
         }
+        return headLibrarian;
     }
 
+    /**
+     * Gets the corresponding regular holiday from the DTO version
+     * @param HolidayDTO
+     * @returns Holiday
+     * @author Ramin Akhavan-Sarraf
+     */
     private Holiday convertToDomainObject(HolidayDTO holidayDTO) {
+        List<Holiday> holidays;
+        Holiday theHoliday = null;
+        try {
+            holidays = service.getAllHolidays();
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Could not get librarian from service!");
+        }
+        for(Holiday holiday: holidays){
+            if(holiday.getDate().toLocalDate().isEqual(holidayDTO.getDate().toLocalDate())){
+                if (holiday.getStartTime().toLocalTime().compareTo(holidayDTO.getStartTime().toLocalTime()) == 0){
+                    if (holiday.getEndtime().toLocalTime().compareTo(holidayDTO.getEndTime().toLocalTime()) == 0){
+                        theHoliday = holiday;
+                    }
+                }
+
+            }
+        }
+        if(theHoliday == null){
+            throw new IllegalArgumentException("There is no such holiday dto!");
+        }
+        return theHoliday;
     }
 
 
@@ -294,12 +320,10 @@ public class LibraryServiceRestController {
         } catch (Exception e) {
             throw new IllegalArgumentException("Could not get librarian from service!");
         }
-        if (librarian != null) {
-            return librarian;
-        }
-        else{
+        if (librarian == null) {
             throw new IllegalArgumentException("There is no such librarian dto!");
         }
+        return librarian;
     }
 
 	/*
