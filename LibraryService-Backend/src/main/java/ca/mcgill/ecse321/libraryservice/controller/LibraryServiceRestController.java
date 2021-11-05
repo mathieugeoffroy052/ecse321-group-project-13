@@ -361,10 +361,12 @@ public class LibraryServiceRestController {
 	     Patron patron = null;
 	     try {
 	         patrons = service.getAllPatrons();
-	         
+	         for (Patron p : patrons) {
+	        	// if (p.getPatronID() == (patronDTO.get))
+	         }
 	         
 	     } catch (Exception e) {
-	         throw new IllegalArgumentException("Could not get opening hours from service!");
+	         throw new IllegalArgumentException("Could not get patrons from service!");
 	     }
 	     return null;
     	
@@ -373,6 +375,23 @@ public class LibraryServiceRestController {
     }
 
     private TimeSlot convertToDomainObject(TimeslotDTO timeslotDTO){
+    	List<TimeSlot> timeslots;
+	     TimeSlot timeslot = null;
+	     try {
+	         timeslots = service.getAllTimeSlots();
+	         for(TimeSlot t : timeslots) {
+	        	 if (t.getStartTime().toLocalTime().compareTo(timeslotDTO.getStartTime().toLocalTime()) == 0){
+                     if (t.getEndTime().toLocalTime().compareTo(timeslotDTO.getEndTime().toLocalTime()) == 0){
+                         timeslot = t;
+                     }
+                 }
+	         }
+	        	 
+	         }catch (Exception e) {
+		         throw new IllegalArgumentException("Could not get timeslot from service!");
+		     }
+	     
+    	return null;
     }
 
     private Transaction convertToDomainObject(TransactionDTO transactionDTO){
