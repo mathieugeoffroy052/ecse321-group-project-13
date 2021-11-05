@@ -1119,8 +1119,7 @@ public class LibraryServiceService {
     public Iterable<Patron> getAllPatrons() throws Exception{
         
         try {
-         Iterable<Patron> patrons;
-         patrons = patronRepository.findAll();
+         Iterable<Patron> patrons =  patronRepository.findAll();
         
          return patrons;
          

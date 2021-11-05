@@ -357,30 +357,18 @@ public class LibraryServiceRestController {
      */
     private Patron convertToDomainObject(PatronDTO patronDTO){
     	
-    	List<Patron> patrons;
+    	Iterable<Patron> patrons;
 	     Patron patron = null;
 	     try {
-	      //   patrons = service.getAllPatrons();
+	         patrons = service.getAllPatrons();
+	         
+	         
 	     } catch (Exception e) {
 	         throw new IllegalArgumentException("Could not get opening hours from service!");
 	     }
 	     return null;
     	
     	
-    	Patron patron;
-    	try {
-    		patron = service.getPatronFromFullName(patronDTO.getFirstName(), patronDTO.getLastName()); 
-    	
-    	 } catch (Exception e) {
-             throw new IllegalArgumentException("Could not get patron from service!");
-         }
-
-         if (patron != null) {
-             return patron;
-         }
-         else{
-             throw new IllegalArgumentException("There is no such patron dto!");
-         }
     	
     }
 
