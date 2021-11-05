@@ -302,10 +302,38 @@ public class LibraryServiceRestController {
         }
     }
 
-    private OpeningHour convertToDomainObject(OpeningHourDTO openingHourDTO){
-    }
+	/*
+	 * private OpeningHour convertToDomainObject(OpeningHourDTO openingHourDTO){
+	 * 
+	 * OpeningHour openingHour; try { openingHour =
+	 * service.getOpeningHourbyHourID(openingHourDTO.getStartTime(),
+	 * openingHourDTO.getEndTime(), openingHourDTO.getDayOfWeek()); } catch
+	 * (Exception e) { throw new
+	 * IllegalArgumentException("Could not get opening hour from service!"); } }
+	 */
 
+    
+    /**
+     * @author Zoya Malhi
+     * @param patronDTO
+     * @return
+     */
     private Patron convertToDomainObject(PatronDTO patronDTO){
+    	Patron patron;
+    	try {
+    		patron = service.getPatronFromFullName(patronDTO.getFirstName(), patronDTO.getLastName()); 
+    	
+    	 } catch (Exception e) {
+             throw new IllegalArgumentException("Could not get patron from service!");
+         }
+
+         if (patron != null) {
+             return patron;
+         }
+         else{
+             throw new IllegalArgumentException("There is no such patron dto!");
+         }
+    	
     }
 
     private TimeSlot convertToDomainObject(TimeslotDTO timeslotDTO){

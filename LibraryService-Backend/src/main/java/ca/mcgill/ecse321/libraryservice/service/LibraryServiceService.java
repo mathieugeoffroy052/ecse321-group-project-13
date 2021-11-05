@@ -15,6 +15,7 @@ import org.springframework.web.servlet.FlashMapManager;
 import ca.mcgill.ecse321.libraryservice.dao.*;
 import ca.mcgill.ecse321.libraryservice.model.*;
 import ca.mcgill.ecse321.libraryservice.model.LibraryItem.ItemType;
+import ca.mcgill.ecse321.libraryservice.model.OpeningHour.DayOfWeek;
 import ca.mcgill.ecse321.libraryservice.model.Transaction.TransactionType;
 
 
@@ -549,6 +550,305 @@ public class LibraryServiceService {
         
     }
 
+
+    /* TimeSlot Service Methods */
+    /**
+     * Get all timeslots from the first and only library system.
+     * @author Mathieu Geoffroy
+     * @throws Exception - If there is no library system
+     * @return List of TimeSlots
+     */
+    @Transactional
+    public List<TimeSlot> getAllTimeSlots() throws Exception {
+        LibrarySystem library;
+        try{
+            library = (LibrarySystem) librarySystemRepository.findAll().iterator().next(); // uses the first library system found in the database
+        }catch(NoSuchElementException e){
+            throw new Exception("No library system(s) exist in the database");
+        }
+        List<TimeSlot> allTimeSlots = timeSlotRepository.findByLibrarySystem(library);
+        return allTimeSlots;
+    }
+
+    /**
+     * Get a list of timeslots for a specific librarian
+     * @author Mathieu Geoffroy
+     * @param librarian - librarian that is 'working' those timeslots
+     * @return List of timeslots
+     */
+    @Transactional
+    public List<TimeSlot> getTimeSlotsFromLibrarian(Librarian librarian) {
+        List<TimeSlot> librarianTimeSlots = timeSlotRepository.findByLibrarian(librarian);
+        return librarianTimeSlots;
+    }
+
+    /**
+     * Get a list of timeslots that have been assigned by the (only) head librarian
+     * @author Mathieu Geoffroy
+     * @return List of timeslots
+     */
+    @Transactional
+    public List<TimeSlot> getTimeSlotsFromHeadLibrarian(HeadLibrarian headLibrarian) {
+        List<TimeSlot> timeSlots = timeSlotRepository.findByHeadLibrarian(headLibrarian);
+        return timeSlots;
+    }
+
+    /**
+     * Get timeslot list (workshits) for a specific librarian by inputing the librarian's first and last name
+     * @author Mathieu Geoffroy
+     * @param firstName - librarian's first name
+     * @param lastName - librarian's last name
+     * @return list of timeslots
+     */
+    @Transactional
+    public List<TimeSlot> getTimeSlotsFromLibrarianFirstNameAndLastName(String firstName, String lastName) {
+        Librarian librarian = (Librarian) userAccountRepository.findByFirstNameAndLastName(firstName, lastName);
+        List<TimeSlot> librarianTimeSlots = timeSlotRepository.findByLibrarian(librarian);
+        return librarianTimeSlots;
+    }
+
+    /**
+     * Get timeslot list (workshifts) for a specific librarian by inputing the librarian,s UserId
+     * @author Mathieu Geoffroy
+     * @param id - Librarian's user id
+     * @return list of timeslots
+     */
+    @Transactional
+    public List<TimeSlot> getTimeSlotsFromLibrarianUserID(int id) {
+        Librarian librarian = (Librarian) userAccountRepository.findUserAccountByUserID(id);
+        List<TimeSlot> librarianTimeSlots = timeSlotRepository.findByLibrarian(librarian);
+        return librarianTimeSlots;
+    }
+
+    /**
+     * Get a timeslot by inputing its id
+     * @author Mathieu Geoffroy
+     * @param id - timeslot id
+     * @return TimeSlot
+    */
+    @Transactional
+    public TimeSlot getTimeSlotsFromId(int id) {
+        TimeSlot timeSlot = timeSlotRepository.findTimeSlotByTimeSlotID(id);
+        return timeSlot;
+    }
+
+    /**
+     * Create a timeslot in the first (and only) available library system with the first (and only)
+     * available head librarian. The timeslot is saved to the DB.
+     * @author Mathieu Geoffroy
+     * @param startDate - Start date of timeslot
+     * @param startTime - Start time of timeslot
+     * @param endDate - End date of timeslot 
+     * @param endTime - End time of timeslot
+     * @return Timeslot that was created
+     * @throws Exception - If the library system does not exit
+     * @throws Exception - If there is no head librarian
+     */
+    @Transactional
+    public TimeSlot createTimeSlot(Date startDate, Time startTime, Date endDate, Time endTime) throws Exception {
+        LibrarySystem library;
+        try{
+            library = (LibrarySystem) librarySystemRepository.findAll().iterator().next(); // uses the first library system found in the database
+        }catch(NoSuchElementException e){
+            throw new Exception("No library system(s) exist in the database");
+        }
+        HeadLibrarian headLibrarian;
+        try {
+            headLibrarian = headLibrarianRepository.findAll().iterator().next(); //find first and only head librarian
+        } catch(NoSuchElementException e) {
+            throw new Exception("No Head Librarian exits in the database");
+        }
+        TimeSlot timeSlot = new TimeSlot(startDate, startTime, endDate, endTime, library, headLibrarian);
+        timeSlotRepository.save(timeSlot);
+        return timeSlot;
+    }
+
+    /**
+     * Assigns a librarian to a timeslot and update the DB
+     * @author Mathieu Geoffroy
+     * @param ts - the timeslot to which the librarian will be assigned
+     * @param librarian - the librarian being assigned
+     * @return updated TimeSlot
+     */
+    @Transactional
+    public TimeSlot assignTimeSlotToLibrarian(TimeSlot ts, Librarian librarian) {
+        TimeSlot timeSlot = timeSlotRepository.findTimeSlotByTimeSlotID(ts.getTimeSlotID());
+        timeSlot.addLibrarian(librarian);
+        timeSlotRepository.save(timeSlot);
+        return timeSlot;
+    }
+
+    /* Opening Hours Service Methods */
+    /**
+     * get all the opening hours in the first (and only) available library system
+     * @author Mathieu Geoffroy
+     * @return lsit of OpeningHour
+     * @throws Exception - when there is no library system
+     */
+    @Transactional
+    public List<OpeningHour> getAllOpeningHours() throws Exception {
+        LibrarySystem library;
+        try{
+            library = (LibrarySystem) librarySystemRepository.findAll().iterator().next(); // uses the first library system found in the database
+        }catch(NoSuchElementException e){
+            throw new Exception("No library system(s) exist in the database");
+        }
+        List<OpeningHour> allOpeningHours = openingHourRepository.findByLibrarySystem(library);
+        return allOpeningHours;
+    }
+    /**
+     * get opening hour from its id
+     * @author Mathieu Geoffroy
+     * @param id - opening hour id
+     * @return  openingHour 
+     */
+    @Transactional
+    public OpeningHour getOpeningHourFromID(int id) {
+        OpeningHour openingHour = openingHourRepository.findOpeningHourByHourID(id);
+        return openingHour;
+    }
+     
+    /**
+     * get opening hour list for a given day of the week
+     * @author Mathieu Geoffroy
+     * @param day - string for day of week that MUST start with a capital letter (case sensitive matching)
+     * @return list of opening hours of a certain day of week
+     * @throws Exception - when the input is not match (case-sensitve) with the correct day of week
+     */
+    @Transactional
+    public List<OpeningHour> getOpeningHoursByDayOfWeek(String day) throws Exception{
+        DayOfWeek dayOfWeek;
+        try {
+            dayOfWeek = DayOfWeek.valueOf(day); //case sensitive match
+        } catch (IllegalArgumentException e) {
+            throw new Exception("Invalid day");
+        }
+        List<OpeningHour> openingHours = openingHourRepository.findByDayOfWeek(dayOfWeek);
+        return openingHours;
+    }
+
+    /**
+     * get the opening hours that have been made by a head librarian
+     * @author Mathieu Geoffroy
+     * @param headLibrarian - the head librarian that made the opening hours
+     * @return - list of opening hours
+     */
+    @Transactional
+    public List<OpeningHour> getOpeningHoursFromHeadLibrarian(HeadLibrarian headLibrarian) {
+        List<OpeningHour> openingHours = openingHourRepository.findByHeadLibrarian(headLibrarian);
+        return openingHours;
+    }
+
+    /**
+     * Create opening hour with the first (and only) available library system and first (and only) available
+     * head librarian. Saves the opening hour to the DB
+     * @author Mathieu Geoffroy
+     * @param day - string of day of week (case-sensistive): MUST start with capital letter
+     * @param startTime - start time of opening hour
+     * @param endTime - end time of opening hour
+     * @return the create opening hour
+     * @throws Exception - When the day string does not match the DayOfWeek enum format
+     * @throws Exception - When there is no library systme
+     * @throws Exception - When there is no head librarian
+     */
+    @Transactional
+    public OpeningHour createOpeningHour(String day, Time startTime, Time endTime) throws Exception {
+        DayOfWeek dayOfWeek;
+        try {
+            dayOfWeek = DayOfWeek.valueOf(day); //case sensitive match
+        } catch (IllegalArgumentException e) {
+            throw new Exception("Invalid day");
+        }
+        LibrarySystem library;
+        try{
+            library = (LibrarySystem) librarySystemRepository.findAll().iterator().next(); // uses the first library system found in the database
+        }catch(NoSuchElementException e){
+            throw new Exception("No library system(s) exist in the database");
+        }
+        HeadLibrarian headLibrarian;
+        try {
+            headLibrarian = headLibrarianRepository.findAll().iterator().next(); //find first and only head librarian
+        } catch(NoSuchElementException e) {
+            throw new Exception("No Head Librarian exits in the database");
+        }
+        OpeningHour openingHour = new OpeningHour(dayOfWeek, startTime, endTime, library, headLibrarian);
+        openingHourRepository.save(openingHour);
+        return openingHour;
+    }    
+
+    /* Holiday service methods */
+    /**
+     * get all the holidays from the first (and only) librry system
+     * @author Mathieu Geoffroy
+     * @return list of holidays
+     * @throws Exception - when there is no library system
+     */
+    @Transactional
+    public List<Holiday> getAllHolidays() throws Exception {
+        LibrarySystem library;
+        try{
+            library = (LibrarySystem) librarySystemRepository.findAll().iterator().next(); // uses the first library system found in the database
+        }catch(NoSuchElementException e){
+            throw new Exception("No library system(s) exist in the database");
+        }
+        List<Holiday> allHolidays = holidayRepository.findByLibrarySystem(library);
+        return allHolidays;
+    }
+
+    /**
+     * get holiday from its holiday id 
+     * @author Mathieu Geoffroy
+     * @param id - holiday id
+     * @return holiday
+     */
+    @Transactional
+    public Holiday getHolidayFromId(int id) {
+        Holiday holiday = holidayRepository.findHolidayByHolidayID(id);
+        return holiday;
+    }
+
+    /**
+     * get holidays made by the head librarian
+     * @author Mathieu Geoffroy
+     * @param headLibrarian - head librarian that created the holidays
+     * @return list of holiday
+     */
+    @Transactional
+    public List<Holiday> getHolidaysFromHeadLibrarian(HeadLibrarian headLibrarian) {
+        List<Holiday> holidays = holidayRepository.findByHeadLibrarian(headLibrarian);
+        return holidays;
+    }
+
+    /**
+     * Create holiday with first (and only) available library system and the first (and only)
+     * avaialbe head librarian. Saves to DB
+     * @author Mathieu Geoffroy
+     * @param date - date of holiday
+     * @param startTime - start time of holiday
+     * @param endTime - end time of holiday
+     * @return holiday that was created
+     * @throws Exception - when there is no library system
+     * @throws Exception - when there is no head librarian
+     */
+    @Transactional
+    public Holiday createHoliday(Date date, Time startTime, Time endTime) throws Exception{
+        LibrarySystem library;
+        try{
+            library = (LibrarySystem) librarySystemRepository.findAll().iterator().next(); // uses the first library system found in the database
+        }catch(NoSuchElementException e){
+            throw new Exception("No library system(s) exist in the database");
+        }
+        HeadLibrarian headLibrarian;
+        try {
+            headLibrarian = headLibrarianRepository.findAll().iterator().next(); //find first and only head librarian
+        } catch(NoSuchElementException e) {
+            throw new Exception("No Head Librarian exits in the database");
+        }
+        Holiday holiday = new Holiday(date, startTime, endTime, library, headLibrarian);
+        holidayRepository.save(holiday);
+        return holiday;
+    }
+
     public boolean ReplaceHeadLibrarian(UserAccount current, String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, String aPassword, int aBalance )
     throws Exception {
        HeadLibrarian headLibrarian=getHeadLibrarian();
@@ -667,11 +967,17 @@ public class LibraryServiceService {
      * @author gabrielle Halpin
      * @param userID
      * @return person
+     * @throws Exception 
      */
     @Transactional
-	public UserAccount getUser(int userID) {
+	public UserAccount getUser(int userID) throws Exception {
+		try {
 		UserAccount person = userAccountRepository.findUserAccountByUserID(userID);
+		
 		return person;
+		}catch (Exception e) {
+	         throw new Exception("This user does not exist.");
+		}
 	}
 
     /***
@@ -679,12 +985,17 @@ public class LibraryServiceService {
      * @author Gabrielle Halpin
      * @param librarianID
      * @return librarian
+     * @throws Exception 
      */
     @Transactional
-	public UserAccount getLibrarian(int userID) {
-		UserAccount librarian = userAccountRepository.findUserAccountByUserID(userID);
+	public UserAccount getLibrarian(int userID) throws Exception {
+	try {	UserAccount librarian = userAccountRepository.findUserAccountByUserID(userID);
 		return librarian;
 	}
+    catch (Exception e) {
+        throw new Exception("This librarian does not exist.");
+	}
+}
 
     /**
      * This method creates the Patron object and stores it in the database
@@ -715,31 +1026,132 @@ public class LibraryServiceService {
 	}
 
     /***
-     * This method gets the batron object from the database
+     * This method gets the patron object from the database
      * @author Gabrielle halpin
      * @param userID
      * @return person 
+     * @throws Exception 
      */
     @Transactional
-	public Patron getPatron(int userID) {
-		Patron person = patronRepository.findPatronByUserID(userID);
+	public Patron getPatron(int userID) throws Exception {
+		try {
+			Patron person = patronRepository.findPatronByUserID(userID);
+		
 		return person;
+		}
+		catch (Exception e) {
+	         throw new Exception("This patron does not exist.");
+		}
 	}
+    
+    
+ //// ***TO BE VERIFIED -Zoya******************* /////////////////   
+    /***
+     * This method gets the patron object, given the userID, from a list of patrons in the database.
+     * @author Zoya Malhi
+     * @param userID
+     * @return null 
+     */
+    public Patron getPatronFromUserID(int userID){
+       try {
+    	   Iterable<Patron> patron = patronRepository.findAll();
+        
+    	   for (Patron p: patron){
+    		   if(p.getUserID() == userID) return p;
+    	   }
+         
+       }
+       catch (Exception e) {
+           throw new IllegalArgumentException("Could not get patron from user ID!");
+       
+       }
+       return null;
+   }
+    /***
+    * This method gets the patron object, given the userID, from a list of patrons in the database.
+    * @author Zoya Malhi
+    * @param firstName, lastName
+    * @return null 
+    */
+    public Patron getPatronFromFullName(String firstName, String lastName){
+       try { 
+        Iterable<Patron> patron = patronRepository.findAll();
+      
+       for (Patron p: patron){
+           if(p.getFirstName().equals(firstName) && p.getLastName().equals(lastName)) return p;
+
+       }
+      }
+      catch (Exception e) {
+          throw new IllegalArgumentException("Could not get patron from full name!");
+      
+      }
+	return null;
+
+    }
+    
+    /***
+     * This method deletes a patron object from the database.
+     * @author Zoya Malhi
+     * @param head, aFirstNAme, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aValidatedAccount, aPassword, aBalance
+     * @return patron 
+     */
+    public Patron deleteAPatron(UserAccount head, String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, boolean aValidatedAccount, String aPassWord, int aBalance ) throws Exception {
+        
+        try {
+        getHeadLibrarianFromUserId(head.getUserID());
+
+        } catch (Exception e) {
+            throw new  Exception("This User does not the credentials to delete an existing patron");
+        }
+
+        Patron patron=new Patron(aFirstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aValidatedAccount, aPassWord, aBalance);
+        patronRepository.delete(patron);
+        return patron;
+    }
+
+    /***
+     * This method gets all patrons in the database.
+     * @author Zoya Malhi
+     * @param none
+     * @return patrons 
+     */
+    public Iterable<Patron> getAllPatrons() throws Exception{
+        
+        try {
+         Iterable<Patron> patrons;
+         patrons = patronRepository.findAll();
+        
+         return patrons;
+         
+        } catch (Exception e) {
+         throw new Exception("There are no patrons in the database.");
+        }
+     
+           
+     }
+    
 
     /***
      * This returns a list of all users associated to a specific account
      * @author Gabrielle Halpin
      * @param userID
      * @return users 
+     * @throws Exception 
      */
     @Transactional
-	public List<UserAccount> getAllUsers(LibrarySystem librarySystem) {
-		List<UserAccount> users = userAccountRepository.findByLibrarySystem(librarySystem);
+	public List<UserAccount> getAllUsers(LibrarySystem librarySystem) throws Exception {
+		try {
+			List<UserAccount> users = userAccountRepository.findByLibrarySystem(librarySystem);
+		
 		return users;
+		}catch (Exception e) {
+	         throw new Exception("There are no users in the database");
+		}
 	}
 
 
-   public Iterable<Librarian>  getLibrarians() throws Exception{
+   public Iterable<Librarian> getLibrarians() throws Exception{
     
        try {
         Iterable<Librarian> librarian;
@@ -748,10 +1160,13 @@ public class LibraryServiceService {
        } catch (Exception e) {
         throw new Exception("This User ID does not correspond to a Head Librarian");
        }
-    
-          
+      
     }
+   
+
+  
 
 }
+
 
 
