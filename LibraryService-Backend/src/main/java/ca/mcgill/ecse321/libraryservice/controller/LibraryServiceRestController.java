@@ -336,6 +336,14 @@ public class LibraryServiceRestController {
 	     OpeningHour openingHour = null;
 	     try {
 	         openingHours = service.getAllOpeningHours();
+	         for(OpeningHour o : openingHours) {
+	        	 
+	                 if (o.getStartTime().toLocalTime().compareTo(openingHourDTO.getStartTime().toLocalTime()) == 0){
+	                     if (o.getEndTime().toLocalTime().compareTo(openingHourDTO.getEndTime().toLocalTime()) == 0){
+	                         openingHour = o;
+	                     }
+	                 }
+	     }
 	     } catch (Exception e) {
 	         throw new IllegalArgumentException("Could not get opening hours from service!");
 	     }
@@ -348,6 +356,17 @@ public class LibraryServiceRestController {
      * @return patron
      */
     private Patron convertToDomainObject(PatronDTO patronDTO){
+    	
+    	List<Patron> patrons;
+	     Patron patron = null;
+	     try {
+	      //   patrons = service.getAllPatrons();
+	     } catch (Exception e) {
+	         throw new IllegalArgumentException("Could not get opening hours from service!");
+	     }
+	     return null;
+    	
+    	
     	Patron patron;
     	try {
     		patron = service.getPatronFromFullName(patronDTO.getFirstName(), patronDTO.getLastName()); 
