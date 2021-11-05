@@ -967,11 +967,17 @@ public class LibraryServiceService {
      * @author gabrielle Halpin
      * @param userID
      * @return person
+     * @throws Exception 
      */
     @Transactional
-	public UserAccount getUser(int userID) {
+	public UserAccount getUser(int userID) throws Exception {
+		try {
 		UserAccount person = userAccountRepository.findUserAccountByUserID(userID);
+		
 		return person;
+		}catch (Exception e) {
+	         throw new Exception("This user does not exist.");
+		}
 	}
 
     /***
@@ -979,12 +985,17 @@ public class LibraryServiceService {
      * @author Gabrielle Halpin
      * @param librarianID
      * @return librarian
+     * @throws Exception 
      */
     @Transactional
-	public UserAccount getLibrarian(int userID) {
-		UserAccount librarian = userAccountRepository.findUserAccountByUserID(userID);
+	public UserAccount getLibrarian(int userID) throws Exception {
+	try {	UserAccount librarian = userAccountRepository.findUserAccountByUserID(userID);
 		return librarian;
 	}
+    catch (Exception e) {
+        throw new Exception("This librarian does not exist.");
+	}
+}
 
     /**
      * This method creates the Patron object and stores it in the database
@@ -1019,15 +1030,22 @@ public class LibraryServiceService {
      * @author Gabrielle halpin
      * @param userID
      * @return person 
+     * @throws Exception 
      */
     @Transactional
-	public Patron getPatron(int userID) {
-		Patron person = patronRepository.findPatronByUserID(userID);
+	public Patron getPatron(int userID) throws Exception {
+		try {
+			Patron person = patronRepository.findPatronByUserID(userID);
+		
 		return person;
+		}
+		catch (Exception e) {
+	         throw new Exception("This patron does not exist.");
+		}
 	}
     
     /***
-     * This method gets the patron object from the database
+     * This method gets the patron object, given the userID, from a list of patrons in the database.
      * @author Zoya Malhi
      * @param userID
      * @return null 
@@ -1054,6 +1072,30 @@ public class LibraryServiceService {
        }
 
    }
+    
+    
+    /***
+     * This method deletes a patron object from the database.
+     * @author Zoya Malhi
+     * @param head, aFirstNAme, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aValidatedAccount, aPassword, aBalance
+     * @return patron 
+     */
+    public Patron deleteAPatron(UserAccount head, String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, boolean aValidatedAccount, String aPassWord, int aBalance ) throws Exception {
+        
+        try {
+        getHeadLibrarianFromUserId(head.getUserID());
+
+        } catch (Exception e) {
+            throw new  Exception("This User does not the credentials to delete an existing patron");
+        }
+
+        Patron patron=new Patron(aFirstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aValidatedAccount, aPassWord, aBalance);
+        patronRepository.delete(patron);
+        return patron;
+    }
+
+    
+    
 
     /***
      * This returns a list of all users associated to a specific account
@@ -1082,19 +1124,7 @@ public class LibraryServiceService {
     }
    
 
-   /***
-    * This returns the opening hour corresponding to the id
-    * @author Zoya Malhi
-    * @param hourID
-    * @return openingHour 
-    */
- //  @Transactional
-//   public OpeningHour getOpeningHourFromHourID(int hourID){
-//	   OpeningHour openingHour = openingHourRepository.findOpeningHourByHourID(hourID);
-//	   return openingHour;
-//   }
-//   
-   
+  
 
 }
 
