@@ -21,27 +21,6 @@ public class LibraryServiceRestController {
     @Autowired
 	private LibraryServiceService service;
 
-    /***
-     * @author Gabrielle Halpin
-     * @param firstName
-     * @param lastName
-     * @param onlineAccount
-     * @param librarySystem
-     * @param address
-     * @param validatedAccount
-     * @param passWord
-     * @param balance
-     * @return
-     * @throws IllegalArgumentException
-     */
-    @PostMapping(value = { "/createPatron/{firstName}/{lastName}/{onlineAccount}/{librarySystem}/{address}/{validatedAccount}/{passWord}/{balance}", "/createPatron/{firstName}/{lastName}/{onlineAccount}/{librarySystem}/{address}/{validatedAccount}/{passWord}/{balance}" })
-    public PatronDTO createPatron(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName,
-    @PathVariable("onlineAccount") boolean onlineAccount, @PathVariable("librarySystem") LibrarySystem librarySystem, @PathVariable("address") String address, @PathVariable("validatedAccount") boolean validatedAccount,
-    @PathVariable("passWord") String passWord, @PathVariable("balance") int balance) throws IllegalArgumentException {
-        Patron patron = service.createPatron(firstName, lastName, onlineAccount, librarySystem, address, validatedAccount, passWord, balance);
-        return convertToDto(patron);
-    }
-
 
     ////////// Helper methods - convertToDTO////////
 
