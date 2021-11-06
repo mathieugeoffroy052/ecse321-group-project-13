@@ -7,9 +7,9 @@ public class LibrarianDTO extends UserAccountDTO{
 
   public LibrarianDTO() {}
 
-  public LibrarianDTO(String aFirstName, String aLastName, boolean aOnlineAccount, String aAddress, String aPassword, int aBalance)
+  public LibrarianDTO(String aFirstName, String aLastName, boolean aOnlineAccount, String aAddress, String aPassword, int aBalance, String aEmail)
   {
-    super(aFirstName, aLastName, aOnlineAccount,aAddress, aPassword, aBalance);
+    super(aFirstName, aLastName, aOnlineAccount,aAddress, aPassword, aBalance, aEmail);
   }
 
 }

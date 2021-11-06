@@ -7,15 +7,17 @@ public class UserAccountDTO {
   private String password;
   private int balance;
   private String address;
+  private String email;
 
   public UserAccountDTO() {}
 
-  public UserAccountDTO(String aFirstName, String aLastName, boolean aOnlineAccount, String aAddress, String aPassword, int aBalance)
+  public UserAccountDTO(String aFirstName, String aLastName, boolean aOnlineAccount, String aAddress, String aPassword, int aBalance, String aEmail)
   {
     firstName = aFirstName;
     lastName = aLastName;
     password = aPassword;
     balance = aBalance;
+    email = aEmail;
     onlineAccount = aOnlineAccount;
     address = aAddress;
   }
@@ -28,6 +30,11 @@ public class UserAccountDTO {
   public String getLastName()
   {
     return lastName;
+  }
+
+  public String getEmail()
+  {
+    return email;
   }
 
   public String getPassword()
