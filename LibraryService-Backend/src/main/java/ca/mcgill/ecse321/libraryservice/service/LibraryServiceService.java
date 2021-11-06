@@ -1627,13 +1627,7 @@ public class LibraryServiceService {
            
     }
 
-    public int getAccountBalance(UserAccount account){
-        String error = "";
-        if (account == null && error.length()==0){
-            error = error + "The account cannot be null";
-        }
-        return account.getBalance();
-    }
+    
 
     /***
      * This returns a list of all users in a library system.
