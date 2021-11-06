@@ -43,27 +43,6 @@ public class LibraryServiceRestController {
     }
 
 
-    /**
-     * @author Gabrielle Halpin
-     * @param firstName
-     * @param lastName
-     * @param onlineAccount
-     * @param librarySystem
-     * @param address
-     * @param passWord
-     * @param balance
-     * @return
-     * @throws IllegalArgumentException
-     */
-    @PostMapping(value = { "/createLibrarian/{firstName}/{lastName}/{onlineAccount}/{librarySystem}/{address}/{passWord}/{balance}", "/createLibrarian/{firstName}/{lastName}/{onlineAccount}/{librarySystem}/{address}/{passWord}/{balance}" })
-    public LibrarianDTO createLibrarian(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName,
-    @PathVariable("onlineAccount") boolean onlineAccount, @PathVariable("librarySystem") LibrarySystem librarySystem, @PathVariable("address") String address,
-    @PathVariable("passWord") String passWord, @PathVariable("balance") int balance) throws IllegalArgumentException {
-        Librarian librarian = service.createLibrarian(firstName, lastName, onlineAccount, librarySystem, address, passWord, balance);
-        return convertToDto(librarian);
-    }
-
-
     ////////// Helper methods - convertToDTO////////
 
     /**

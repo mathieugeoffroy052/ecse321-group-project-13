@@ -1468,6 +1468,8 @@ public class LibraryServiceService {
         return patron;
     }
 
+
+
     /***
      * This method gets all patrons in the database.
      * @author Zoya Malhi
@@ -1487,8 +1489,27 @@ public class LibraryServiceService {
         }
      
            
-     }
+    }
     
+
+    /**
+     * This method sets the validity of the user account
+     * @param patron
+     * @param validated
+     * @return boolean
+     * @throws Exception
+     */
+    public boolean setValidatedAccount(Patron patron, boolean validated) throws Exception{
+        
+        try {
+            Patron patronAccount =  patronRepository.findPatronByUserID(patron.getUserID());
+            return patronAccount.setValidatedAccount(validated);
+            
+           } catch (Exception e) {
+            throw new Exception("This user does not exists in the database.");
+        }
+           
+    }
 
     /***
      * This returns a list of all users associated to a specific account
@@ -1521,9 +1542,6 @@ public class LibraryServiceService {
        }
       
     }
-   
-
-  
 
 }
 
