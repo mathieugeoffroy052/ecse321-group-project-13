@@ -345,7 +345,12 @@ public class LibraryServiceRestController {
 	         for(TimeSlot t : timeslots) {
 	        	 if (t.getStartTime().toLocalTime().compareTo(timeslotDTO.getStartTime().toLocalTime()) == 0){
                      if (t.getEndTime().toLocalTime().compareTo(timeslotDTO.getEndTime().toLocalTime()) == 0){
-                         timeslot = t;
+                         if (t.getStartDate().toLocalDate().compareTo(timeslotDTO.getStartDate().toLocalDate()) == 0) {
+                             if (t.getEndDate().toLocalDate().compareTo(timeslotDTO.getEndDate().toLocalDate()) == 0) {
+                                timeslot = t;
+                                break;
+                             }
+                         }
                      }
                  }
 	         }
