@@ -1,16 +1,14 @@
 package ca.mcgill.ecse321.libraryservice.dto;
 
-import ca.mcgill.ecse321.libraryservice.model.LibraryItem;
-
 public class BorrowableItemDTO {
-  private enum ItemState { Borrowed, Damaged, Available, Reserved, Booked }
+  public enum ItemState { Borrowed, Damaged, Available, Reserved, Booked }
 
   private ItemState state;
-  private LibraryItem libraryItem;
+  private LibraryItemDTO libraryItem;
 
   public BorrowableItemDTO(){}
 
-  public BorrowableItemDTO(ItemState state, LibraryItem item){
+  public BorrowableItemDTO(ItemState state, LibraryItemDTO item){
       this.state = state;
       this.libraryItem = item;
   }
@@ -19,7 +17,7 @@ public class BorrowableItemDTO {
       return this.state;
   }
 
-  public LibraryItem getLibraryItem(){
+  public LibraryItemDTO getLibraryItem(){
       return this.libraryItem;
   }
     

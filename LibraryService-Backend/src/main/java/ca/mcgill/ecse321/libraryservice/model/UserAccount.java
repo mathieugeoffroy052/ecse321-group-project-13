@@ -26,6 +26,7 @@ public abstract class UserAccount
   private String password;
   private int balance;
   private String address;
+  private String email;
 
   //Autounique Attributes
   private int userID;
@@ -41,12 +42,13 @@ public abstract class UserAccount
     userID = nextUserID++;
   }
 
-  public UserAccount(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, String aPassword, int aBalance)
+  public UserAccount(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, String aPassword, int aBalance, String aEmail)
   {
     firstName = aFirstName;
     lastName = aLastName;
     password = aPassword;
     balance = aBalance;
+    email = aEmail;
     onlineAccount = aOnlineAccount;
     userID = nextUserID++;
     address = aAddress;
@@ -84,6 +86,14 @@ public abstract class UserAccount
   {
     boolean wasSet = false;
     firstName = aFirstName;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setEmail(String aEmail)
+  {
+    boolean wasSet = false;
+    email = aEmail;
     wasSet = true;
     return wasSet;
   }
@@ -131,6 +141,11 @@ public abstract class UserAccount
   public String getFirstName()
   {
     return firstName;
+  }
+
+  public String getEmail()
+  {
+    return email;
   }
 
   public String getLastName()

@@ -76,11 +76,12 @@ public class TestLibraryServicePersistence {
         boolean online = true;
         boolean validated = false;
         String password = "123456789";
+        String email = "john@email.com";
         int balance = 0;
         String address = "4000 McGill, Montreal, Canada";
 
         //create patron
-        Patron patron = new Patron(firstName, lastName, online, library, address, validated, password, balance);
+        Patron patron = new Patron(firstName, lastName, online, library, address, validated, password, balance, email);
 
         //get patronID to retrieve patron from DB
         int patronID = patron.getUserID();
@@ -103,6 +104,7 @@ public class TestLibraryServicePersistence {
         assertEquals(validated, patron.getValidatedAccount(), "patron.validatedAccount mismatch");
         assertEquals(password, patron.getPassword(), "patron.password mismatch");
         assertEquals(address, patron.getAddress(), "patron.address mismatch");
+        assertEquals(email, patron.getEmail(), "patron.email mismatch");
     }
 
 
@@ -116,11 +118,12 @@ public class TestLibraryServicePersistence {
         String lastName = "Morello";
         boolean online = false;
         String password = "qwertyuiop";
+        String email = "jake@email.com";
         int balance = 0;
         String address = "100 Durocher, Montreal, Canada";
         
         //create librarian
-        Librarian librarian = new Librarian(firstName, lastName, online, library, address, password, balance);
+        Librarian librarian = new Librarian(firstName, lastName, online, library, address, password, balance, email);
 
         //get librarianID to retrieve librarian from DB
         int librarianID = librarian.getUserID();
@@ -143,6 +146,7 @@ public class TestLibraryServicePersistence {
         assertEquals(online, librarian.getOnlineAccount(), "librarian.onlineAccount mismatch");
         assertEquals(password, librarian.getPassword(), "librarian.password mismatch");
         assertEquals(address, librarian.getAddress(), "librarian.address mismatch");
+        assertEquals(email, librarian.getEmail(), "librarian.email mismatch");
     }
 
 
@@ -156,11 +160,12 @@ public class TestLibraryServicePersistence {
         String lastName = "Porto";
         boolean online = true;
         String password = "asdfghjkl";
+        String email = "Laura@email.com";
         int balance = 0;
         String address = "500 Sherbrooke, Montreal, Canada";
 
         //create head librarian
-        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance);
+        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance, email);
 
         //get headLibrarianID to retrieve head librarian from DB
         int headLibrarianID = headLibrarian.getUserID();
@@ -183,6 +188,7 @@ public class TestLibraryServicePersistence {
         assertEquals(online, headLibrarian.getOnlineAccount(), "headLibrarian.onlineAccount mismatch");
         assertEquals(password, headLibrarian.getPassword(), "headLibrarian.password msmatch");
         assertEquals(address, headLibrarian.getAddress(), "headLibrarian.address mismatch");
+        assertEquals(email, headLibrarian.getEmail(), "headLibrarian.email mismatch");
     }
 
     /* No findHeadLibrarianByReference */
@@ -203,11 +209,12 @@ public class TestLibraryServicePersistence {
         String lastName = "Kent";
         boolean online = false;
         String password = "zxcvbnm";
+        String email = "Lorri@email.com";
         int balance = 0;
         String address = "10 Road, Toronto, Canada";
 
         //create head librarian
-        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance);
+        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance, email);
         
         headLibrarianRepository.save(headLibrarian);
         librarianRepository.save(headLibrarian);
@@ -243,6 +250,7 @@ public class TestLibraryServicePersistence {
         assertEquals(online, timeSlot.getHeadLibrarian().getOnlineAccount(), "timeslot.headLibrarian.onlineAccount mismatch");
         assertEquals(password, timeSlot.getHeadLibrarian().getPassword(), "timeslot.headLibrarian.password mismatch");
         assertEquals(address, timeSlot.getHeadLibrarian().getAddress(), "timeslot.headLibrarian.address mismatch");
+        assertEquals(email, timeSlot.getHeadLibrarian().getEmail(), "timeslot.headLibrarian.email mismatch");
     }
 
 
@@ -262,11 +270,12 @@ public class TestLibraryServicePersistence {
         String lastName = "Kent";
         boolean online = false;
         String password = "zxcvbnm";
+        String email = "Lorri@email.com";
         int balance = 0;
         String address = "10 Road, Toronto, Canada";
 
         //create head librarian
-        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance);
+        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance, email);
         
         headLibrarianRepository.save(headLibrarian);
         librarianRepository.save(headLibrarian);
@@ -298,6 +307,7 @@ public class TestLibraryServicePersistence {
         assertEquals(online, timeSlot.getHeadLibrarian().getOnlineAccount(), "timeslot.headLibrarian.onlineAccount mismatch");
         assertEquals(password, timeSlot.getHeadLibrarian().getPassword(), "timeslot.headLibrarian.password mismatch");
         assertEquals(address, timeSlot.getHeadLibrarian().getAddress(), "timeslot.headLibrarian.address mismatch");
+        assertEquals(email, timeSlot.getHeadLibrarian().getEmail(), "timeslot.headLibrarian.email mismatch");
 
     }
 
@@ -319,10 +329,11 @@ public class TestLibraryServicePersistence {
         boolean hLibOnline = true;
         String hLibAddress = "50 Rodeo Dr, Beverly Hills, CA, USA";
         String hLibPassword = "boss";
+        String hLibEmail = "Anna@email.com";
         int hLibBalance = 0;
 
         //create head libarian and persist
-        HeadLibrarian headLibrarian = new HeadLibrarian(hLibFirstName, hLibLastName, hLibOnline, library, hLibAddress, hLibPassword, hLibBalance);
+        HeadLibrarian headLibrarian = new HeadLibrarian(hLibFirstName, hLibLastName, hLibOnline, library, hLibAddress, hLibPassword, hLibBalance, hLibEmail);
 
         headLibrarianRepository.save(headLibrarian);
         librarianRepository.save(headLibrarian);
@@ -337,10 +348,11 @@ public class TestLibraryServicePersistence {
         boolean libOnline = true;
         String libAddress = "1000 Rue Sherbrooke O, Montreal, Canada";
         String libPassword = "benspassword";
+        String libEmail = "ben@email.com";
         int libBalance = 0;
 
         //create librarian, persist
-        Librarian librarian = new Librarian(libFirstName, libLastName, libOnline, library, libAddress, libPassword, libBalance);
+        Librarian librarian = new Librarian(libFirstName, libLastName, libOnline, library, libAddress, libPassword, libBalance, libEmail);
         
         librarianRepository.save(librarian);
         userAccountRepository.save(librarian);
@@ -372,6 +384,7 @@ public class TestLibraryServicePersistence {
         assertEquals(hLibPassword, timeSlot.getHeadLibrarian().getPassword(), "timeSlot.headLibrarian.password mismatch");
         assertEquals(hLibAddress, timeSlot.getHeadLibrarian().getAddress(), "timeSlot.headLibrarian.address mismatch");
         assertEquals(hLibBalance, timeSlot.getHeadLibrarian().getBalance(), "timeSlot.headLibrarian.balance mismatch");
+        assertEquals(hLibEmail, timeSlot.getHeadLibrarian().getEmail(), "timeSlot.headLibrarian.email mismatch");
         assertEquals(library.getSystemId(), timeSlot.getHeadLibrarian().getLibrarySystem().getSystemId(), "timeSlot.headLibrarian.librarySystem.systemID mismatch");
 
         //test persistence of librarian
@@ -382,6 +395,7 @@ public class TestLibraryServicePersistence {
         assertEquals(libPassword, libFromTimeSlot.getPassword(), "timeSlot.librarian[0].password mismatch");
         assertEquals(libAddress, libFromTimeSlot.getAddress(), "timeSlot.librarian[0].address mismatch");
         assertEquals(libBalance, libFromTimeSlot.getBalance(), "timeSlot.librarian[0].balance mismatch");
+        assertEquals(libEmail, libFromTimeSlot.getEmail(), "timeSlot.librarian[0].email mismatch");
         assertEquals(library.getSystemId(), libFromTimeSlot.getLibrarySystem().getSystemId(), "timeSlot.librarian[0].librarySystem.systemID mismatch");
     }
 
@@ -401,11 +415,12 @@ public class TestLibraryServicePersistence {
         String lastName = "Kent";
         boolean online = false;
         String password = "zxcvbnm";
+        String email = "Lorri@email.com";
         int balance = 0;
         String address = "10 Road, Toronto, Canada";
 
         //create head librarian
-        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance);
+        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance, email);
         
         headLibrarianRepository.save(headLibrarian);
         librarianRepository.save(headLibrarian);
@@ -440,6 +455,7 @@ public class TestLibraryServicePersistence {
         assertEquals(online, holiday.getHeadLibrarian().getOnlineAccount(), "holiday.headLibrarian.onlineAccount mismatch");
         assertEquals(password, holiday.getHeadLibrarian().getPassword(), "holiday.headLibrarian.password mismatch");
         assertEquals(address, holiday.getHeadLibrarian().getAddress(), "holiday.headLibrarian.address mismatch");
+        assertEquals(email, holiday.getHeadLibrarian().getEmail(), "holiday.headLibrarian.email mismatch");
 
     }
 
@@ -459,11 +475,12 @@ public class TestLibraryServicePersistence {
         String lastName = "Kent";
         boolean online = false;
         String password = "zxcvbnm";
+        String email = "Lorri@email.com";
         int balance = 0;
         String address = "10 Road, Toronto, Canada";
 
         //create head librarian
-        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance);
+        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance, email);
         
         headLibrarianRepository.save(headLibrarian);
         librarianRepository.save(headLibrarian);
@@ -495,6 +512,7 @@ public class TestLibraryServicePersistence {
         assertEquals(online, holiday.getHeadLibrarian().getOnlineAccount(), "holiday.headLibrarian.onlineAccount mismatch");
         assertEquals(password, holiday.getHeadLibrarian().getPassword(), "holiday.headLibrarian.password mismatch");
         assertEquals(address, holiday.getHeadLibrarian().getAddress(), "holiday.headLibrarian.address.address mismatch");
+        assertEquals(email, holiday.getHeadLibrarian().getEmail(), "holiday.headLibrarian.address.email mismatch");
     }
 
     
@@ -513,11 +531,12 @@ public class TestLibraryServicePersistence {
         String lastName = "Kent";
         boolean online = false;
         String password = "zxcvbnm";
+        String email = "Lorri@email.com";
         int balance = 0;
         String address = "10 Road, Toronto, Canada";
 
         //create head librarian
-        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance);
+        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance, email);
        
         headLibrarianRepository.save(headLibrarian);
         librarianRepository.save(headLibrarian);
@@ -553,6 +572,7 @@ public class TestLibraryServicePersistence {
         assertEquals(online, openingHour.getHeadLibrarian().getOnlineAccount(), "openingHour.headLibrarian.onlineAccount mismatch");
         assertEquals(password, openingHour.getHeadLibrarian().getPassword(), "openingHour.headLibrarian.password mismatch");
         assertEquals(address, openingHour.getHeadLibrarian().getAddress(), "openingHour.headLibrarian.address mismatch");
+        assertEquals(email, openingHour.getHeadLibrarian().getEmail(), "openingHour.headLibrarian.email mismatch");
 
     }
 
@@ -572,11 +592,12 @@ public class TestLibraryServicePersistence {
         String lastName = "Kent";
         boolean online = false;
         String password = "zxcvbnm";
+        String email = "Lorri@email.com";
         int balance = 0;
         String address = "10 Road, Toronto, Canada";
 
         //create head librarian
-        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance);
+        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance, email);
         
         headLibrarianRepository.save(headLibrarian);
         librarianRepository.save(headLibrarian);
@@ -608,6 +629,7 @@ public class TestLibraryServicePersistence {
         assertEquals(online, openingHour.getHeadLibrarian().getOnlineAccount(), "openingHour.headLibrarian.onlineAccount mismatch");
         assertEquals(password, openingHour.getHeadLibrarian().getPassword(), "openingHour.headLibrarian.password mismatch");
         assertEquals(address, openingHour.getHeadLibrarian().getAddress(), "openingHour.headLibrarian.address.address mismatch");
+        assertEquals(email, openingHour.getHeadLibrarian().getEmail(), "openingHour.headLibrarian.address.email mismatch");
     }
 
 
@@ -627,10 +649,11 @@ public class TestLibraryServicePersistence {
         String address = "1000 Rue Sherbrooke O, Montreal, Canada";
         boolean validated = true;
         String password = "thisisapassword";
+        String email = "Matty@email.com";
         int balance = 0;
 
         //create patron
-        Patron patron = new Patron(firstName, lastName, online, library, address, validated, password, balance);
+        Patron patron = new Patron(firstName, lastName, online, library, address, validated, password, balance, email);
         
 
         //create inputs for LibraryItem
@@ -681,6 +704,7 @@ public class TestLibraryServicePersistence {
         assertEquals(validated, ((Patron)transaction.getUserAccount()).getValidatedAccount(), "transaction.userAccount.validateAccount mismatch");
         assertEquals(password, transaction.getUserAccount().getPassword(), "transaction.userAccount.password mismatch");
         assertEquals(address, transaction.getUserAccount().getAddress(), "transaction.userAccount.address mismatch");
+        assertEquals(email, transaction.getUserAccount().getEmail(), "transaction.userAccount.email mismatch");
         assertEquals(balance, transaction.getUserAccount().getBalance(), "transaction.userAccount.balance mismatch");
         assertEquals(library.getSystemId(), transaction.getUserAccount().getLibrarySystem().getSystemId(), "transaction.userAccount.librarySystem.systemID mismatch");
 
@@ -711,11 +735,12 @@ public class TestLibraryServicePersistence {
         boolean online = true;
         boolean validated = true;
         String password = "thisisapassword";
+        String email = "Matty@email.com";
         int balance = 0;
         String address = "50 Rue Prince Arthur, Montreal, Canada";
 
         //create patron
-        Patron patron = new Patron(firstName, lastName, online, library, address, validated, password, balance);
+        Patron patron = new Patron(firstName, lastName, online, library, address, validated, password, balance, email);
 
         patronRepository.save(patron);
         userAccountRepository.save(patron);
@@ -762,6 +787,7 @@ public class TestLibraryServicePersistence {
         assertEquals(validated, ((Patron)transaction.getUserAccount()).getValidatedAccount(), "transaction.userAccount.validateAccount mismatch");
         assertEquals(password, transaction.getUserAccount().getPassword(), "transaction.userAccount.password mismatch");
         assertEquals(address, transaction.getUserAccount().getAddress(), "transaction.userAccount.address mismatch");
+        assertEquals(email, transaction.getUserAccount().getEmail(), "transaction.userAccount.email mismatch");
         assertEquals(balance, transaction.getUserAccount().getBalance(), "transaction.userAccount.balance mismatch");
         assertEquals(library.getSystemId(), transaction.getUserAccount().getLibrarySystem().getSystemId(), "transaction.userAccount.librarySystem.systemID mismatch");
 
@@ -792,11 +818,12 @@ public class TestLibraryServicePersistence {
         boolean online = true;
         boolean validated = true;
         String password = "heythisismypassword";
+        String email = "Amanda@email.com";
         int balance = 100;
         String address = "88 Av du Parc, Montreal, Canada";
 
         //create patron
-        Patron patron = new Patron(firstName, lastName, online, library, address, validated, password, balance);
+        Patron patron = new Patron(firstName, lastName, online, library, address, validated, password, balance, email);
 
         patronRepository.save(patron);
         userAccountRepository.save(patron);
@@ -843,6 +870,7 @@ public class TestLibraryServicePersistence {
         assertEquals(validated, ((Patron)transaction.getUserAccount()).getValidatedAccount(), "transaction.userAccount.validateAccount mismatch");
         assertEquals(password, transaction.getUserAccount().getPassword(), "transaction.userAccount.password mismatch");
         assertEquals(address, transaction.getUserAccount().getAddress(), "transaction.userAccount.address mismatch");
+        assertEquals(email, transaction.getUserAccount().getEmail(), "transaction.userAccount.email mismatch");
         assertEquals(balance, transaction.getUserAccount().getBalance(), "transaction.userAccount.balance mismatch");
         assertEquals(library.getSystemId(), transaction.getUserAccount().getLibrarySystem().getSystemId(), "transaction.userAccount.librarySystem.systemID mismatch");
 
@@ -1017,11 +1045,12 @@ public class TestLibraryServicePersistence {
         String lastName = "Jules";
         boolean online = true;
         String password = "a1b2c3d4";
+        String email = "Samantha@email.com";
         int balance = 0;
         String address = "10203 5th Av, New York, New York, USA";
 
         //create head librarian and persist
-        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance);
+        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance, email);
         
         headLibrarianRepository.save(headLibrarian);
         librarianRepository.save(headLibrarian);
@@ -1060,11 +1089,12 @@ public class TestLibraryServicePersistence {
         String lastName = "Jules";
         boolean online = true;
         String password = "a1b2c3d4";
+        String email = "Samantha@email.com";
         int balance = 0;
         String address = "10203 5th Av, New York, New York, USA";
 
         //create head librarian and persist
-        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance);
+        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance, email);
         
         headLibrarianRepository.save(headLibrarian);
         librarianRepository.save(headLibrarian);
@@ -1105,11 +1135,12 @@ public class TestLibraryServicePersistence {
         String lastName = "Jules";
         boolean online = true;
         String password = "a1b2c3d4";
+        String email = "Samantha@email.com";
         int balance = 0;
         String address = "10203 5th Av, New York, New York, USA";
 
         //create head librarian and persist
-        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance);
+        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance, email);
 
         //create time slot and persist
         TimeSlot timeSlot = new TimeSlot(startDate, startTime, endDate, endTime, library, headLibrarian);
@@ -1178,11 +1209,12 @@ public class TestLibraryServicePersistence {
         boolean online = true;
         boolean validated = true;
         String password = "thisIsJane";
+        String email = "Jane@email.com";
         int balance = 25;
         String address = "4000 McGill, Montreal, Canada";
 
         //create patron and persist
-        Patron patron = new Patron(firstName, lastName, online, library, address, validated, password, balance);
+        Patron patron = new Patron(firstName, lastName, online, library, address, validated, password, balance, email);
         
         patronRepository.save(patron);
         userAccountRepository.save(patron); 
@@ -1201,6 +1233,7 @@ public class TestLibraryServicePersistence {
         assertEquals(validated, patron.getValidatedAccount(), "patron.validatedAccount mismatch");
         assertEquals(password, patron.getPassword(), "patron.password mismatch");
         assertEquals(address, patron.getAddress(), "patron.address mismatch");
+        assertEquals(email, patron.getEmail(), "patron.email mismatch");
     }
 }
 

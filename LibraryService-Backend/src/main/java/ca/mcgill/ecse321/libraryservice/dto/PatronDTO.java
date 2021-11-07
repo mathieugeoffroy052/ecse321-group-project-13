@@ -5,9 +5,9 @@ public class PatronDTO extends UserAccountDTO{
 
   public PatronDTO() {}
 
-  public PatronDTO(String aFirstName, String aLastName, boolean aOnlineAccount, String aAddress, boolean aValidatedAccount, String aPassWord, int aBalance)
+  public PatronDTO(String aFirstName, String aLastName, boolean aOnlineAccount, String aAddress, boolean aValidatedAccount, String aPassWord, int aBalance, String aEmail)
   {
-    super(aFirstName, aLastName, aOnlineAccount, aAddress, aPassWord, aBalance);
+    super(aFirstName, aLastName, aOnlineAccount, aAddress, aPassWord, aBalance, aEmail);
     validatedAccount = aValidatedAccount;
   }
 
