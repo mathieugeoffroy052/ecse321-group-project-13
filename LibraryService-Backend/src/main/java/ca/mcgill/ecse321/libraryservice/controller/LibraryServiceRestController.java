@@ -366,8 +366,9 @@ public class LibraryServiceRestController {
      * @return null
      */
     private Transaction convertToDomainObject(TransactionDTO transactionDTO){
-    	 try {
-	    	 Transaction transaction;
+    	Transaction transaction = null; 
+    	try {
+	    	 
 	        // transaction = service.getAllUsers(null);
 	     
 	     } catch (Exception e) {
