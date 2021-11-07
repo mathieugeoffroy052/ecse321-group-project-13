@@ -544,6 +544,20 @@ public class LibraryServiceService {
         return itemReservation;
     }
 
+    /**
+     * Gets all transacitons from the DB
+     * @return List of all transactions
+     * @author Mathieu Geoffroy
+     */
+    public List<Transaction> getAllTransactions() {
+        Iterable<Transaction> transactions = transactionRepository.findAll();
+        List<Transaction> transactionList = new ArrayList<Transaction>();
+        for (Transaction t : transactions){
+            transactionList.add(t);
+        }
+        return transactionList;
+    }
+
     
     /** 
      * @param account

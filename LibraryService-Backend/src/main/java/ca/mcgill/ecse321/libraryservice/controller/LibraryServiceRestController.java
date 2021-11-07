@@ -114,7 +114,8 @@ public class LibraryServiceRestController {
         }
         LibraryItemDTO item = convertToDto(borrowableItem.getLibraryItem());
         BorrowableItemDTO.ItemState itemState = BorrowableItemDTO.ItemState.valueOf(borrowableItem.getState().toString());
-        BorrowableItemDTO borrowableItemDTO = new BorrowableItemDTO(itemState, item);
+        int barCodeNumber = borrowableItem.getBarCodeNumber();
+        BorrowableItemDTO borrowableItemDTO = new BorrowableItemDTO(itemState, item, barCodeNumber);
         return borrowableItemDTO;
     }
 
@@ -170,18 +171,7 @@ public class LibraryServiceRestController {
     //each method need to check to make sure the individual is in the system before creating them.
 
     private BorrowableItem convertToDomainObject(BorrowableItemDTO borrowableItemDTO) {
-    	BorrowableItem borrowableItem = null;
-	     try {
-	    	 
-	    	// borrowableItem = service.getBorrowableItemsFromItemIsbn();
-	    	//***Need to update dto class -Zoya
-	     } catch (Exception e) {
-	         throw new IllegalArgumentException("Could not get borrowable item from service!");
-	     }
-	     if (borrowableItem == null) {
-	            throw new IllegalArgumentException("There is no such borrowable item dto!");
-	        }
-	     return borrowableItem;
+        return null;
     }
 
     /**
@@ -299,7 +289,7 @@ public class LibraryServiceRestController {
      * This method converts a openingHour DTO to a domain object opening hour.
      * @author Zoya Malhi
      * @param OpeningHourDTO
-     * @return openingHour
+     * @return null
      */
 	 private OpeningHour convertToDomainObject(OpeningHourDTO openingHourDTO){
 		 List<OpeningHour> openingHours;
@@ -318,7 +308,7 @@ public class LibraryServiceRestController {
 	         throw new IllegalArgumentException("Could not get opening hours from service!");
 	     }
 	     
-	     return openingHour;
+	     return null;
 	 }
     
     /** 
@@ -338,14 +328,14 @@ public class LibraryServiceRestController {
 	     if (patron == null) {
 	            throw new IllegalArgumentException("There is no such patron dto!");
 	        }
-	     return patron;
+	     return null;
     	
     }
     /**
      * This method converts a timslot DTO to a timeslot object.
      * @author Zoya Malhi
      * @param timeslotDTO
-     * @return timeslot
+     * @return null
      */
     private TimeSlot convertToDomainObject(TimeslotDTO timeslotDTO){
     	List<TimeSlot> timeslots;
@@ -364,10 +354,10 @@ public class LibraryServiceRestController {
 		         throw new IllegalArgumentException("Could not get timeslot from service!");
 		 }
 	     if (timeslot == null) {
-	            throw new IllegalArgumentException("There is no such patron dto!");
+	            throw new IllegalArgumentException("There is no such timeslot dto!");
 	     }
 	     
-    	return timeslot;
+    	return null;
     }
 
     /**
@@ -378,15 +368,27 @@ public class LibraryServiceRestController {
      */
     private Transaction convertToDomainObject(TransactionDTO transactionDTO){
     	Transaction transaction = null; 
+        List<Transaction> transactions;
     	try {
-	    	 
-	        // transaction = service.getAllUsers(null);
+	    	 transactions = service.getAllTransactions();
+             for (Transaction t : transactions) {
+                 if ((t.getDeadline().toLocalDate().compareTo(transactionDTO.getDeadline().toLocalDate())==0)
+                 && (t.getBorrowableItem().getBarCodeNumber() == transactionDTO.getBorrowableItem().getBarCodeNumber())
+                 && (t.getTransactionType().toString().equals(transactionDTO.getTransactionType().toString()))
+                 && (t.getUserAccount().getFirstName().equals(transactionDTO.getUserAccount().getFirstName()))
+                 && (t.getUserAccount().getLastName().equals(transactionDTO.getUserAccount().getLastName()))) {
+                    transaction = t;
+                    break;
+                 }
+
+             }
+	        
 	     
 	     } catch (Exception e) {
-	         throw new IllegalArgumentException("Could not get patrons from service!");
+	         throw new IllegalArgumentException("Could not get transactions from service!");
 	     }
     	 if (transaction == null) {
-	            throw new IllegalArgumentException("There is no such patron dto!");
+	            throw new IllegalArgumentException("There is no such transaction dto!");
 	        }
 	     return transaction;
     }
@@ -394,31 +396,24 @@ public class LibraryServiceRestController {
     /**
      * @author Zoya Malhi
      * @param userAccountDTO
-     * @return userAccount
+     * @return null
      * @throws Exception 
      */
     private UserAccount convertToDomainObject(UserAccountDTO userAccountDTO) throws Exception{
     	LibrarySystem librarySystem;
     	List<UserAccount> userAccounts;
-    	UserAccount userAccount = null;
     	
     	try {
     	librarySystem = service.getLibrarySystemfrom1();
     	userAccounts = service.getAllUsers(librarySystem);
-    	
-    	for (UserAccount acc : userAccounts) {
-    		if (acc.getFirstName().equals(userAccountDTO.getFirstName()) && acc.getLastName().equals(userAccountDTO.getLastName()) && acc.getEmail().equals(userAccountDTO.getEmail())) {
-    			userAccount = acc;
-    		}
-    	}
-    		
+    
     	}catch (Exception e) {
 	         throw new IllegalArgumentException("Could not get userAccount from service!");
 	     }
     	if (userAccounts == null) {
             throw new IllegalArgumentException("There is no such userAccount dto!");
         }
-	     return userAccount;
+	     return null;
     	
     }
 }
