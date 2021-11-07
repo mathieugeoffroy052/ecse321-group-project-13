@@ -310,7 +310,7 @@ public class LibraryServiceRestController {
 	 }
     
     /** 
-     * 
+     * This method converts a patron DTO to a patron object.
      * @author Zoya Malhi
      * @param patronDTO
      * @return null
@@ -349,7 +349,10 @@ public class LibraryServiceRestController {
 	        	 
 	         }catch (Exception e) {
 		         throw new IllegalArgumentException("Could not get timeslot from service!");
-		     }
+		 }
+	     if (timeslot == null) {
+	            throw new IllegalArgumentException("There is no such patron dto!");
+	     }
 	     
     	return null;
     }

@@ -1294,9 +1294,6 @@ public class LibraryServiceService {
 		}
 	}
 
-
-
-
     /**
      * This method creates the Patron account and stores it in the database
      * @author Gabrielle Halpin
@@ -1398,6 +1395,7 @@ public class LibraryServiceService {
     added checks -elo
     checked
     */
+    @Transactional
     public Patron getPatronFromFullName(String firstName, String lastName){
        		
         String error = "";
@@ -1435,9 +1433,10 @@ public class LibraryServiceService {
      * @author Zoya Malhi
      * @param head, aFirstNAme, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aValidatedAccount, aPassword, aBalance
      * @return patron 
-     * added chekcs -elo
+     * added checks -elo
      * checked
      */
+    @Transactional
     public Patron deleteAPatron(UserAccount head, String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, boolean aValidatedAccount, String aPassWord, int aBalance, String aEmail) throws Exception {
         		
         String error = "";
@@ -1477,12 +1476,12 @@ public class LibraryServiceService {
     }
 
 
-
     /***
      * This method gets all patrons in the database.
      * @author Zoya Malhi
      * @param none
-     * @return patrons 
+     * @return list of patrons 
+     * @throws Exception 
      * checked
      */
     
@@ -1516,6 +1515,7 @@ public class LibraryServiceService {
      * @param account
      * @return boolean 
      */
+    
     public boolean changePassword(String aPassWord, UserAccount account){
         String error = "";
         if (account == null && error.length()==0){
@@ -1617,8 +1617,6 @@ public class LibraryServiceService {
            
     }
 
-    
-
     /***
      * This returns a list of all users in a library system.
      * @author Gabrielle Halpin
@@ -1639,14 +1637,20 @@ public class LibraryServiceService {
 	}
 
 
-   public Iterable<Librarian> getLibrarians() throws Exception{
-    
+    /***
+     * This method gets all librarians in the database.
+     * @author Zoya Malhi
+     * @param none
+     * @return list of librarians 
+     * @throws Exception 
+     * checked
+     */
+   public List<Librarian> getLibrarians() throws Exception{
        try {
-        Iterable<Librarian> librarian;
-        librarian= librarianRepository.findAll();
-       return librarian;
+       return toList(librarianRepository.findAll());
+       
        } catch (Exception e) {
-        throw new Exception("This User ID does not correspond to a Head Librarian");
+        throw new Exception("There are no librarians is the database.");
        }
       
     }
