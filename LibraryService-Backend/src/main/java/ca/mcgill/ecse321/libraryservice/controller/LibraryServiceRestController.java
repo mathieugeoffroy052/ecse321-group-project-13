@@ -300,7 +300,10 @@ public class LibraryServiceRestController {
 	        	 
 	                 if (o.getStartTime().toLocalTime().compareTo(openingHourDTO.getStartTime().toLocalTime()) == 0){
 	                     if (o.getEndTime().toLocalTime().compareTo(openingHourDTO.getEndTime().toLocalTime()) == 0){
-	                         openingHour = o;
+                             if (o.getDayOfWeek().toString().equals(openingHourDTO.getDayOfWeek().toString())) {
+                                openingHour = o;
+                                break;
+                             }
 	                     }
 	                 }
 	     }
