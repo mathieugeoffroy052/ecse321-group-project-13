@@ -370,7 +370,7 @@ public class LibraryServiceRestController {
 
     /**
      * This method converts a transaction DTO to a transaction object.
-     * @author Zoya Malhi
+     * @author Zoya Malhi, Mathieu Geoffroy
      * @param transactionDTO
      * @return null
      */
@@ -380,7 +380,7 @@ public class LibraryServiceRestController {
     	try {
 	    	 transactions = service.getAllTransactions();
              for (Transaction t : transactions) {
-                 if ((t.getDeadline().toLocalDate().compareTo(transactionDTO.getDeadline().toLocalDate())==0)
+                 if ((t.getDeadline().toLocalDate().isEqual(transactionDTO.getDeadline().toLocalDate()))
                  && (t.getBorrowableItem().getBarCodeNumber() == transactionDTO.getBorrowableItem().getBarCodeNumber())
                  && (t.getTransactionType().toString().equals(transactionDTO.getTransactionType().toString()))
                  && (t.getUserAccount().getFirstName().equals(transactionDTO.getUserAccount().getFirstName()))
