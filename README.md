@@ -20,8 +20,9 @@ This project consists of developing a system for a library which supports the bo
 --------------------------------------------------------------------------
 ## Project Deliverables
 ### [Deliverable 1](https://github.com/McGill-ECSE321-Fall2021/project-group-13/wiki/Deliverable-1)
+### [Deliverable 2]()
 --------------------------------------------------------------------------
-### Overview Table :chart_with_upwards_trend: : 
+### Overview Table for Deliverable 1 :chart_with_upwards_trend: : 
 | Team Members           | Roles                                                                                                                                |   Hours   |
 | :---------------------:|:------------------------------------------------------------------------------------------------------------------------------------:| :--------:|
 | Amani Jammoul          | Domain model, Requirements, CRUD repositories, Use-case diagram, Wiki, Success Spectrum                                              |23         |
@@ -30,5 +31,16 @@ This project consists of developing a system for a library which supports the bo
 | Mathieu Geoffrey       | Domain model, Requirements, Persistance Tests, Meeting minutes, Use-case diagram, Success Spectrum                                   |29         |
 | Ramin Akhavan-Sarraf   | Domain model, Requirements, CRUD repositories, Meeting minutes, Use-case diagram, Success Spectrum                                   |21         |
 | Zoya Malhi             | Domain model, Requirements, CRUD repositories, Use-case diagram, Project Report/Wiki, README.md file, Success Spectrum               |24         |
+_____________________________________________________________________________________________________________________________________________________________________________
+
+### Overview Table for Deliverable 2 :chart_with_upwards_trend: : 
+| Team Members           | Roles                                                                                                                                |   Hours   |
+| :---------------------:|:------------------------------------------------------------------------------------------------------------------------------------:| :--------:|
+| Amani Jammoul          |                                                                                                                                      |           |
+| Eloyann Roy-Javanbakht |                                                                                                                                      |           |
+| Gabrielle Halpin       |                                                                                                                                      |           |
+| Mathieu Geoffrey       |                                                                                                                                      |           |
+| Ramin Akhavan-Sarraf   |                                                                                                                                      |           |
+| Zoya Malhi             |                                                                                                                                      |           |
 _____________________________________________________________________________________________________________________________________________________________________________
 
