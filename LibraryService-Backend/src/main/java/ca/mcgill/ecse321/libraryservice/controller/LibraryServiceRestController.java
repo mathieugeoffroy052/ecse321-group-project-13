@@ -285,6 +285,7 @@ public class LibraryServiceRestController {
     }
 
     /**
+     * This method converts a openingHour DTO to a domain object opening hour.
      * @author Zoya Malhi
      * @param OpeningHourDTO
      * @return null
@@ -330,6 +331,7 @@ public class LibraryServiceRestController {
     	
     }
     /**
+     * This method converts a timslot DTO to a timeslot object.
      * @author Zoya Malhi
      * @param timeslotDTO
      * @return null
@@ -358,6 +360,7 @@ public class LibraryServiceRestController {
     }
 
     /**
+     * This method converts a transaction DTO to a transaction object.
      * @author Zoya Malhi
      * @param transactionDTO
      * @return null
@@ -370,6 +373,9 @@ public class LibraryServiceRestController {
 	     } catch (Exception e) {
 	         throw new IllegalArgumentException("Could not get patrons from service!");
 	     }
+    	 if (transaction == null) {
+	            throw new IllegalArgumentException("There is no such patron dto!");
+	        }
 	     return null;
     }
     
@@ -377,18 +383,22 @@ public class LibraryServiceRestController {
      * @author Zoya Malhi
      * @param userAccountDTO
      * @return null
+     * @throws Exception 
      */
-    private UserAccount convertToDomainObject(UserAccountDTO userAccountDTO){
-    	
+    private UserAccount convertToDomainObject(UserAccountDTO userAccountDTO) throws Exception{
+    	LibrarySystem librarySystem;
     	List<UserAccount> userAccounts;
-    //	userAccounts = service.getUser(userAccountDTO.)
-    //	UserAccount account = null;
+    	
     	try {
-    	//	userAccounts = service.getAllUsers();
-    		
+    	librarySystem = service.getLibrarySystemfrom1();
+    	userAccounts = service.getAllUsers(librarySystem);
+    
     	}catch (Exception e) {
-	         throw new IllegalArgumentException("Could not get patrons from service!");
+	         throw new IllegalArgumentException("Could not get userAccount from service!");
 	     }
+    	if (userAccounts == null) {
+            throw new IllegalArgumentException("There is no such userAccount dto!");
+        }
 	     return null;
     	
     }
