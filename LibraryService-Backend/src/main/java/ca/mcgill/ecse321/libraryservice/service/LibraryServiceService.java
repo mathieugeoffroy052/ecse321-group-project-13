@@ -887,7 +887,7 @@ public class LibraryServiceService {
             }
 
 
-                Iterable<Librarian> librarians = librarianRepository.findAll();
+                List<Librarian> librarians = getAllLibrarians();
             
             for (Librarian n: librarians){
                 if(n.getFirstName().equals(aFirstName) && n.getLastName().equals(aLastName)) {
@@ -1384,9 +1384,6 @@ public class LibraryServiceService {
 		}
 	}
     
-    
- //// ***TO BE VERIFIED -Zoya******************* /////////////////   
-
     /***
     * This method gets the patron object, given the userID, from a list of patrons in the database.
     * @author Zoya Malhi
@@ -1404,9 +1401,7 @@ public class LibraryServiceService {
         }
         if (lastName == null || lastName.trim().length() == 0) {
             error = error + "Last Name  cannot be empty! ";
-        
         }
-
         error = error.trim();
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
@@ -1495,7 +1490,7 @@ public class LibraryServiceService {
     }
     
     /***
-     * This method collects objects and stores them in a list. 
+     * This helper method collects objects and stores them in a list. 
      * @author Zoya Malhi
      * @param iterable type
      * @return list 
@@ -1645,7 +1640,7 @@ public class LibraryServiceService {
      * @throws Exception 
      * checked
      */
-   public List<Librarian> getLibrarians() throws Exception{
+   public List<Librarian> getAllLibrarians() throws Exception{
        try {
        return toList(librarianRepository.findAll());
        
