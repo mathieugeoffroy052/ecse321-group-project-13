@@ -1389,28 +1389,7 @@ public class LibraryServiceService {
     
     
  //// ***TO BE VERIFIED -Zoya******************* /////////////////   
-    /***
-     * This method gets the patron object, given the userID, from a list of patrons in the database.
-     * @author Zoya Malhi
-     * @param userID
-     * @return null 
-     * checked
-     */
-    public Patron getPatronFromUserID(int userID){
-       try {
-    	   Iterable<Patron> patron = patronRepository.findAll();
-        
-    	   for (Patron p: patron){
-    		   if(p.getUserID() == userID) return p;
-    	   }
-         
-       }
-       catch (Exception e) {
-           throw new IllegalArgumentException("Could not get patron from user ID!");
-       
-       }
-       return null;
-   }
+
     /***
     * This method gets the patron object, given the userID, from a list of patrons in the database.
     * @author Zoya Malhi
