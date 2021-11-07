@@ -1415,7 +1415,7 @@ public class LibraryServiceService {
         }
        
         try { 
-        Iterable<Patron> patron = patronRepository.findAll();
+       List<Patron> patron = getAllPatrons();
       
        for (Patron p: patron){
            if(p.getFirstName().equals(firstName) && p.getLastName().equals(lastName)) return p;

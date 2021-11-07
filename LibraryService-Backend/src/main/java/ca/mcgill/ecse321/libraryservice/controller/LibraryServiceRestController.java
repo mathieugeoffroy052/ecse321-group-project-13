@@ -305,26 +305,28 @@ public class LibraryServiceRestController {
 	     } catch (Exception e) {
 	         throw new IllegalArgumentException("Could not get opening hours from service!");
 	     }
+	     
 	     return null;
 	 }
     
-    /**
+    /** 
+     * 
      * @author Zoya Malhi
      * @param patronDTO
      * @return null
      */
     private Patron convertToDomainObject(PatronDTO patronDTO){
-    	
+    	Patron patron;
 	     try {
-	    	 List<Patron> allPatrons =  service.getAllPatrons();
-	         patron = service.getPatronFromFullName(patronDTO.getFirstName(), patronDTO.getLastName());
-	     
+	     patron = service.getPatronFromFullName(patronDTO.getFirstName(), patronDTO.getLastName());
+	    	
 	     } catch (Exception e) {
-	         throw new IllegalArgumentException("Could not get patrons from service!");
+	         throw new IllegalArgumentException("Could not get patron from service!");
 	     }
+	     if (patron == null) {
+	            throw new IllegalArgumentException("There is no such patron dto!");
+	        }
 	     return null;
-    	
-    	
     	
     }
     /**
