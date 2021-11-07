@@ -1485,19 +1485,30 @@ public class LibraryServiceService {
      * @return patrons 
      * checked
      */
-    public Iterable<Patron> getAllPatrons() throws Exception{
-        
+    
+    @Transactional
+    public List<Patron> getAllPatrons() throws Exception{
         try {
-         Iterable<Patron> patrons =  patronRepository.findAll();
-        
-         return patrons;
-         
+        return toList(patronRepository.findAll());         
         } catch (Exception e) {
          throw new Exception("There are no patrons in the database.");
         }    
     }
     
-
+    /***
+     * This method collects objects and stores them in a list. 
+     * @author Zoya Malhi
+     * @param iterable type
+     * @return list 
+     */
+    private <T> List<T> toList(Iterable<T> iterable){
+		List<T> list = new ArrayList<T>();
+		for (T t : iterable) {
+			list.add(t);
+		}
+		return list;
+	}
+    
     /**
      * This field allows the user to change their password for an online account
      * @author Gabrielle Halpin

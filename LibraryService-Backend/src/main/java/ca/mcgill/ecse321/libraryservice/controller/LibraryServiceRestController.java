@@ -316,7 +316,7 @@ public class LibraryServiceRestController {
     private Patron convertToDomainObject(PatronDTO patronDTO){
     	
 	     try {
-	    	 Patron patron;
+	    	 List<Patron> allPatrons =  service.getAllPatrons();
 	         patron = service.getPatronFromFullName(patronDTO.getFirstName(), patronDTO.getLastName());
 	     
 	     } catch (Exception e) {
