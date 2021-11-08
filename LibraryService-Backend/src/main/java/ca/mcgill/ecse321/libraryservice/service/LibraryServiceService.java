@@ -1461,7 +1461,7 @@ public class LibraryServiceService {
      * checked
      */
     @Transactional
-	public Patron getPatron(int userID) throws Exception {
+	public Patron getPatronByUserId(int userID) throws Exception {
 		try {
 			Patron person = patronRepository.findPatronByUserID(userID);
 		

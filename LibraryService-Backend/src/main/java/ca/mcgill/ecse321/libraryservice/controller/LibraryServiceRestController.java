@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import ca.mcgill.ecse321.libraryservice.dto.*;
@@ -20,6 +20,52 @@ import ca.mcgill.ecse321.libraryservice.service.LibraryServiceService;
 public class LibraryServiceRestController {
     @Autowired
 	private LibraryServiceService service;
+
+    /**
+     * This method uses the getPatronByUserId to retrieve a Patron from the database using their unique userID
+     * @param userID
+     * @return PatronDTO
+     * @throws IllegalArgumentException
+     */
+    @GetMapping(value = { "/patron/{userID}", "/patron/{userID}/" })
+    public PatronDTO getPatronByUserId(@PathVariable("userID") int userID) throws Exception {
+        return convertToDto(service.getPatronByUserId(userID));
+    }
+
+    /**
+     * This methods gets a patron from their firstname and last name
+     * @param firstName
+     * @param lastName
+     * @return PatronDTO
+     * @throws Exception
+     */
+    @GetMapping(value = { "/patrons/{firstName}/{lastName}", "/patrons/{firstname}/{lastName}/" })
+    public PatronDTO getPatronFromFullName(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName) throws Exception {
+        return convertToDto(service.getPatronFromFullName(firstName, lastName));
+    }
+
+    /**
+     * This method creates a Patron in the database and return a PatronDTO object
+     * @param creator
+     * @param firstName
+     * @param lastName
+     * @param onlineAccount
+     * @param librarySystem
+     * @param address
+     * @param validatedAccount
+     * @param password
+     * @param balance
+     * @param email
+     * @return patronDTO
+     * @throws Exception
+     */
+    @PostMapping(value = { "/createPatron/{creator}/{firstName}/{lastName}/{onlineAccount}/{librarySystem}/{address}/{validatedAccount/{password}/{balance}/{email}", "/createPatron/{creator}/{firstName}/{lastName}/{onlineAccount}/{librarySystem}/{address}/{validatedAccount/{password}/{balance}/{email}/" })
+	public PatronDTO createPatron(@PathVariable("creator") UserAccount creator, @PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName, @PathVariable("onlineAccount") boolean onlineAccount, 
+			@PathVariable("librarySystem") LibrarySystem librarySystem,@PathVariable("address") String address, @PathVariable("validatedAccount") boolean validatedAccount, @PathVariable("password") String password,
+            @PathVariable("balance") int balance, @PathVariable("email") String email) throws Exception{
+		Patron patron = service.createPatron( creator,  firstName,  lastName,  onlineAccount,  librarySystem,  address,  validatedAccount,  password,  balance,  email);
+	return convertToDto(patron);
+	}
 
 
     ////////// Helper methods - convertToDTO////////
