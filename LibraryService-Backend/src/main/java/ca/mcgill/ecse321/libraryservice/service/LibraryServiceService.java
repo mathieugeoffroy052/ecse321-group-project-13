@@ -417,6 +417,35 @@ public class LibraryServiceService {
             throw new IllegalArgumentException(error);
         }
 
+        error = "";
+        // UserAccount validation
+        boolean validAccount = false;
+        if(account instanceof Librarian) validAccount = true;
+        else{
+            validAccount = ((Patron) account).getValidatedAccount(); 
+        }
+
+        if(!validAccount){
+            error = "User account is unvalidated, cannot complete borrow transaction! ";
+        }
+
+        int borrowedItems = getBorrowedItemsFromUser(account).size();
+        if(borrowedItems >= 25){
+            error += "User already has 25 borrowable items, cannot borrow any more before returning! ";
+        }
+
+        // Item validation
+        if(item.getState() != ItemState.Available){
+            error += "This item is not available and cannot be borrowed, please try waitlist! ";
+        } else if(item.getLibraryItem().getType() == ItemType.Room || item.getLibraryItem().getType() == ItemType.NewspaperArticle){
+            error += "This item cannot be borrowed! ";
+        }
+
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
+
         LocalDate localDeadline = LocalDate.now().plusDays(20); // Deadline is set 20 days away from current day
         Date deadline = Date.valueOf(localDeadline);
         Transaction itemReservation = new Transaction(item, account, TransactionType.Borrowing, deadline); 
@@ -488,9 +517,10 @@ public class LibraryServiceService {
             throw new IllegalArgumentException(error);
         }
         
-        if(item.getState()!=ItemState.Borrowed){
-            error = error + "The item is available for reservation or borrowing no Waitlist can be created";
+        if(item.getState() != ItemState.Borrowed){
+            error = error + "This item is available for reservation or borrowing, no Waitlist necessary";
         }
+
         Transaction itemReservation = new Transaction(item, account, TransactionType.Waitlist, null); // No deadline for waitlist
         transactionRepository.save(itemReservation);
         return itemReservation;
