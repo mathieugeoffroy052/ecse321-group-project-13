@@ -87,7 +87,10 @@ public class TestLibraryServiceService {
 			return invocation.getArgument(0);
 		};
 		lenient().when(librarySystemDao.save(any(LibrarySystem.class))).thenAnswer(returnParameterAsAnswer);
+		librarySystemDao.save(libSystem);
+		System.err.println(librarySystemDao.findAll());
 		lenient().when(libraryItemDao.save(any(LibraryItem.class))).thenAnswer(returnParameterAsAnswer);
+		System.err.println(libraryItemDao.findAll());
 	}
 
 	@Test

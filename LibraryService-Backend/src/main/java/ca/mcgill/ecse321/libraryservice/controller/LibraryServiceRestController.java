@@ -334,6 +334,12 @@ public class LibraryServiceRestController {
 	return convertToDto(patron);
 	}
 
+    /**
+     * Gets all the books in the system
+     * @return List of LibraryItemDTO
+     * @throws Exception
+     * @author Ramin Akhavan-Sarraf
+     */
     @GetMapping(value = { "/books/", "/book" })
     public List<LibraryItemDTO> getAllBooks() throws Exception {
         ArrayList<LibraryItemDTO> books = new ArrayList<>();
@@ -343,6 +349,12 @@ public class LibraryServiceRestController {
         return books;
     }
 
+    /**
+     * Gets all the movies in the system
+     * @return List of LibraryItemDTO
+     * @throws Exception
+     * @author Ramin Akhavan-Sarraf
+     */
     @GetMapping(value = { "/movies/", "/movie" })
     public List<LibraryItemDTO> getAllMovies() throws Exception {
         ArrayList<LibraryItemDTO> movies = new ArrayList<>();
@@ -352,6 +364,12 @@ public class LibraryServiceRestController {
         return movies;
     }
 
+    /**
+     * Gets all the newspapers in the system
+     * @return List of LibraryItemDTO
+     * @throws Exception
+     * @author Ramin Akhavan-Sarraf
+     */
     @GetMapping(value = { "/newspapers/", "/newspapers" })
     public List<LibraryItemDTO> getAllNewspapers() throws Exception {
         ArrayList<LibraryItemDTO> newspapers = new ArrayList<>();
@@ -361,6 +379,12 @@ public class LibraryServiceRestController {
         return newspapers;
     }
 
+    /**
+     * Gets all the music in the system
+     * @return List of LibraryItemDTO
+     * @throws Exception
+     * @author Ramin Akhavan-Sarraf
+     */
     @GetMapping(value = { "/music/", "/music" })
     public List<LibraryItemDTO> getAllMusic() throws Exception {
         ArrayList<LibraryItemDTO> music = new ArrayList<>();
@@ -370,9 +394,15 @@ public class LibraryServiceRestController {
         return music;
     }
 
+    /**
+     * Gets all the user's room reservations
+     * @return List of LibraryItemDTO
+     * @throws Exception
+     * @author Ramin Akhavan-Sarraf
+     */
     @GetMapping(value = { "/user/{userID}/rooms/", "user/{userID}/rooms" })
     public List<LibraryItemDTO> getAllUserRoomReservations(@PathVariable("userId") int userID) throws Exception {
-        UserAccount user = service.getUserByUserID(userID);
+        UserAccount user = service.getUserbyUserId(userID);
         List<BorrowableItem> borrowableItems = service.getReservedItemsFromUser(user);
         ArrayList<LibraryItemDTO> rooms = new ArrayList<>();
         for(BorrowableItem item: borrowableItems){
