@@ -1371,7 +1371,7 @@ public class LibraryServiceService {
      * @throws Exception 
      */
     @Transactional
-	public UserAccount getUser(int userID) throws Exception {
+	public UserAccount getUserbyUserId(int userID) throws Exception {
 
 		try {
             UserAccount person = userAccountRepository.findUserAccountByUserID(userID);

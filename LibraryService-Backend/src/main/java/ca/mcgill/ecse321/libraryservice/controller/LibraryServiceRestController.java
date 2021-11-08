@@ -45,6 +45,17 @@ public class LibraryServiceRestController {
     }
 
     /**
+     * This methods gets a userAccount from their unique userID
+     * @param userID
+     * @return UserAccountDTO
+     * @throws Exception
+     */
+    @GetMapping(value = { "/user/{userID}", "/user/{userID}/" })
+    public UserAccountDTO getUserbyUserID(@PathVariable("userID") int userID) throws Exception {
+        return convertToDto(service.getUserbyUserId(userID));
+    }
+
+    /**
      * This method creates a Patron in the database and return a PatronDTO object
      * @param creator
      * @param firstName
