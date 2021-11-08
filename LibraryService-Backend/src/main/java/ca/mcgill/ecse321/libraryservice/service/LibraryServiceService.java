@@ -50,7 +50,6 @@ public class LibraryServiceService {
     @Autowired
     private UserAccountRepository userAccountRepository;
 
-
     /** 
      * @param isbn
      * @return List<BorrowableItem> - list of borrowable items with given isbn
@@ -62,6 +61,59 @@ public class LibraryServiceService {
         LibraryItem item = libraryItemRepository.findByIsbn(isbn);
         List<BorrowableItem> allBorrowableItems = borrowableItemRepository.findByLibraryItem(item);
         return allBorrowableItems;
+    }
+
+    /** 
+     * @param barCodeNumber
+     * @return BorrowableItem - borrowable item of given bar code number
+     * @author Amani Jammoul
+     */
+    @Transactional
+    public BorrowableItem getBorrowableItemFromBarCodeNumber(int barCodeNumber){
+        BorrowableItem item = borrowableItemRepository.findBorrowableItemByBarCodeNumber(barCodeNumber);
+        return item;
+    }
+
+    /** 
+     * @param userID
+     * @return UserAccount - account of given ID
+     * @author Amani Jammoul
+     */
+    @Transactional
+    public UserAccount getUserAccountFromUserID(int userID){
+        UserAccount account = userAccountRepository.findUserAccountByUserID(userID);
+        return account;
+    }
+
+    /** 
+     * @param userID
+     * @return UserAccount - account of given ID
+     * @author Amani Jammoul
+     * @throws Exception
+     */
+    @Transactional
+    public UserAccount getUserAccountFromFullName(String firstName, String lastName) throws Exception{
+        String error = "";
+        if (firstName == null || firstName.trim().length() == 0) {
+            error += "First name cannot be empty! ";
+        } else if(lastName == null || lastName.trim().length() == 0){
+            error += "Last name cannot be empty! ";
+        }
+
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
+
+        List<UserAccount> allAccounts = (List<UserAccount>) userAccountRepository.findAll();
+        UserAccount account = null;
+        for(UserAccount a : allAccounts){
+            if(a.getFirstName().equals(firstName) && a.getLastName().equals(lastName)){
+                account = a;
+            }
+        }
+        if(account != null) return account;
+        else throw new IllegalArgumentException("No user found with this name! ");
     }
 
     
