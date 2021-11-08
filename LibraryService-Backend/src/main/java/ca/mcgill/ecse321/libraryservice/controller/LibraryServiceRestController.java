@@ -414,6 +414,22 @@ public class LibraryServiceRestController {
         return rooms;
     }
 
+
+    /**
+     * Gets all the room reservations in the system
+     * @return List of LibraryItemDTO
+     * @throws Exception
+     * @author Ramin Akhavan-Sarraf
+     */
+    @GetMapping(value = { "/rooms/", "/rooms" })
+    public List<LibraryItemDTO> getAllRoomReservations() throws Exception {
+        ArrayList<LibraryItemDTO> rooms = new ArrayList<>();
+        for(LibraryItem reservation: service.getAllRoomReservations()){
+            rooms.add(convertToDto(reservation));
+        }
+        return rooms;
+    }
+
     ////////// Helper methods - convertToDTO////////
 
     /**
