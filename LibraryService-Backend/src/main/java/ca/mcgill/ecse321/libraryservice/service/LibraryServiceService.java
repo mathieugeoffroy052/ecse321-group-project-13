@@ -709,7 +709,7 @@ public class LibraryServiceService {
     throws Exception {
 
         String error = "";
-        if ((aFirstName == null || aFirstName.trim().length() == 0) && error.length()==0) {
+        if ((firstName == null || firstName.trim().length() == 0) && error.length()==0) {
             error = error + "First Name  cannot be empty! ";
         }
         if ((aLastName == null || aLastName.trim().length() == 0)&& error.length()==0) {
@@ -735,7 +735,7 @@ public class LibraryServiceService {
         HeadLibrarian headLibrarian;
         if(checkOnlyOneHeadLibrarian()) throw new  Exception("This User  does not the credentials to add a new librarian");
    
-        headLibrarian=new HeadLibrarian(aFirstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aPassword, aBalance, aEmail);
+        headLibrarian=new HeadLibrarian(firstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aPassword, aBalance, aEmail);
 
         librarianRepository.save(headLibrarian);
     
