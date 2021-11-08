@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.FlashMapManager;
 
 import ca.mcgill.ecse321.libraryservice.dao.*;
+import ca.mcgill.ecse321.libraryservice.dto.PatronDTO;
 import ca.mcgill.ecse321.libraryservice.dto.UserAccountDTO;
 import ca.mcgill.ecse321.libraryservice.model.*;
 import ca.mcgill.ecse321.libraryservice.model.BorrowableItem.ItemState;
@@ -1676,10 +1677,10 @@ public class LibraryServiceService {
      * @param patron
      * @param validated
      * @param creator
-     * @return boolean
+     * @return PatronDTO
      * @throws Exception
      */
-    public boolean setValidatedAccount(Patron patron, boolean validated, UserAccount creator) throws Exception{
+    public Patron setValidatedAccount(Patron patron, boolean validated, UserAccount creator) throws Exception{
         String error="";
         if (!(creator instanceof Librarian) && error.length()==0){
             error = error + "Only a Librarian can change the validity of an account";
@@ -1696,7 +1697,8 @@ public class LibraryServiceService {
         }
         try {
             Patron patronAccount =  patronRepository.findPatronByUserID(patron.getUserID());
-            return patronAccount.setValidatedAccount(validated);
+            patronAccount.setValidatedAccount(validated);
+            return patronAccount;
             
            } catch (Exception e) {
             throw new Exception("This user does not exists in the database.");

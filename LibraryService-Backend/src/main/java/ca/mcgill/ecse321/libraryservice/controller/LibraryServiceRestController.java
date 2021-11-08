@@ -93,6 +93,22 @@ public class LibraryServiceRestController {
 	}
 
     /**
+     * This method sets the validity of the user's online account
+     * @author Gabrielle Halpin
+	 * Update Password
+	 * @param user  
+	 * @param password
+	 * @return
+	 */
+	@PutMapping(value = {"/setAccountValidity/{validatedAccount}", "/setAccountValidity/{validatedAccount}/"})
+	public UserAccountDTO setAccountValidity(@RequestBody Patron patron, @PathVariable("validatedAccount") boolean validatedAccount, @RequestBody UserAccount creator) throws Exception{
+		UserAccountDTO accountDTO = new UserAccountDTO();
+		Patron  account = service.setValidatedAccount(patron, validatedAccount, creator);
+		accountDTO = convertToDto(account);
+		return accountDTO; 
+	}
+
+    /**
      * @author Gabrielle Halpin
      * This methods gets a userAccount from their unique userID
      * @param userID
