@@ -784,7 +784,7 @@ public class LibraryServiceService {
 
 
     /**
-     * @author Gabrielle Halpin ?? I wrote a method like this but I think it was changed
+     * @author Gabrielle Halpin & Eloyann 
      * @param creater
      * @param aFirstName
      * @param aLastName
@@ -1634,7 +1634,7 @@ public class LibraryServiceService {
 
     /***
      * This method gets all librarians in the database.
-     * @author Zoya Malhi
+     * @author Zoya Malhi & Eloyann RoyJavanbakht
      * @param none
      * @return list of librarians 
      * @throws Exception 
