@@ -383,39 +383,65 @@ public class LibraryServiceService {
     
     /** 
      * @param directorName
-     * @return LibraryItem - movie item created by the director
+     * @return List<LibraryItem> - all movies by director
      * @throws Exception
      * @author Amani Jammoul
      * checked
      */
     @Transactional
-    public LibraryItem getMovieFromDirector(String directorName) throws Exception{
+    public List<LibraryItem> getMoviesFromDirector(String directorName) throws Exception{
         if (directorName == null || directorName.trim().length() == 0) {
             throw new IllegalArgumentException("Director name cannot be empty!");
         }
+
         List<LibraryItem> allMovies = getAllMovies();
+        List<LibraryItem> moviesByDirector = new ArrayList<LibraryItem>();
         for(LibraryItem a : allMovies){
-            if(a.getCreator().equals(directorName)) return a;
+            if(a.getCreator().equals(directorName)) moviesByDirector.add(a);
         }
-        return null;
+        return moviesByDirector;
     }
 
     
     /** 
      * @param movieTitle
-     * @return LibraryItem - movie item with the given title
+     * @return List<LibraryItem> - all movies with the given title
      * @throws Exception
      * @author Amani Jammoul
      * checked
      */
     @Transactional
-    public LibraryItem getMovieFromTitle(String movieTitle) throws Exception{
+    public List<LibraryItem> getMoviesFromTitle(String movieTitle) throws Exception{
         if (movieTitle == null || movieTitle.trim().length() == 0) {
             throw new IllegalArgumentException("Movie title cannot be empty!");
         }
+
+        List<LibraryItem> allMovies = getAllMovies();
+        List<LibraryItem> moviesByTitle = new ArrayList<LibraryItem>();
+        for(LibraryItem a : allMovies){
+            if(a.getName().equals(movieTitle)) moviesByTitle.add(a);
+        }
+        return moviesByTitle;
+    }
+
+    /** 
+     * @param directorName
+     * @param movieTitle
+     * @return LibraryItem - music with the given title by given artist
+     * @throws Exception
+     * @author Amani Jammoul
+     */
+    @Transactional
+    public LibraryItem getMovieFromDirectorAndTitle(String directorName, String movieTitle) throws Exception{
+        if (directorName == null || directorName.trim().length() == 0) {
+            throw new IllegalArgumentException("Director name cannot be empty! ");
+        } else if (movieTitle == null || movieTitle.trim().length() == 0) {
+            throw new IllegalArgumentException("Music title cannot be empty! ");
+        }
+
         List<LibraryItem> allMovies = getAllMovies();
         for(LibraryItem a : allMovies){
-            if(a.getName().equals(movieTitle)) return a;
+            if(a.getCreator().equals(directorName) && a.getName().equals(movieTitle)) return a;
         }
         return null;
     }
@@ -460,7 +486,7 @@ public class LibraryServiceService {
     }
 
     /**
-     * Get a newspaper based on the title of the article
+     * Get newspapers based on the title of the article
      * @param newspaper article title
      * @returns a newspaper
      * @author Ramin Akhavan-Sarraf
@@ -468,19 +494,20 @@ public class LibraryServiceService {
      * checked
      */
     @Transactional
-    public LibraryItem getNewspaperFromTitle(String newspaperTitle) throws Exception{
+    public List<LibraryItem> getNewspaperFromTitle(String newspaperTitle) throws Exception{
         if (newspaperTitle == null || newspaperTitle.trim().length() == 0) {
-            throw new IllegalArgumentException("newspaper title cannot be empty!");
+            throw new IllegalArgumentException("Newspaper title cannot be empty!");
         }
         List<LibraryItem> allNewspapers = getAllNewspapers();
+        List<LibraryItem> newspapersByTitle = new ArrayList<LibraryItem>();
         for(LibraryItem newspaper : allNewspapers){
-            if(newspaper.getName().equals(newspaperTitle)) return newspaper;
+            if(newspaper.getName().equals(newspaperTitle)) newspapersByTitle.add(newspaper);
         }
-        return null;
+        return newspapersByTitle;
     }
 
     /**
-     * Get a newspaper based on the writer of the article
+     * Get newspapers based on the writer of the article
      * @param newspaper article writer
      * @returns a newspaper
      * @author Ramin Akhavan-Sarraf
@@ -488,13 +515,36 @@ public class LibraryServiceService {
      * checked
      */
     @Transactional
-    public LibraryItem getNewspaperFromWriter(String writerName) throws Exception{
+    public List<LibraryItem> getNewspaperFromWriter(String writerName) throws Exception{
         if (writerName == null || writerName.trim().length() == 0) {
             throw new IllegalArgumentException("Writer Name  cannot be empty!");
         } 
         List<LibraryItem> allNewspapers = getAllNewspapers();
+        List<LibraryItem> newspapersByWriter = new ArrayList<LibraryItem>();
         for(LibraryItem newspaper : allNewspapers){
-            if(newspaper.getCreator().equals(writerName)) return newspaper;
+            if(newspaper.getCreator().equals(writerName)) newspapersByWriter.add(newspaper);
+        }
+        return newspapersByWriter;
+    }
+
+    /** 
+     * @param writerName
+     * @param newspaperTitle
+     * @return LibraryItem - music with the given title by given artist
+     * @throws Exception
+     * @author Amani Jammoul
+     */
+    @Transactional
+    public LibraryItem getNewspaperFromWriterAndTitle(String writerName, String newspaperTitle) throws Exception{
+        if (writerName == null || writerName.trim().length() == 0) {
+            throw new IllegalArgumentException("Writer name cannot be empty! ");
+        } else if (newspaperTitle == null || newspaperTitle.trim().length() == 0) {
+            throw new IllegalArgumentException("Newspaper title cannot be empty! ");
+        }
+
+        List<LibraryItem> allNewspapers = getAllNewspapers();
+        for(LibraryItem a : allNewspapers){
+            if(a.getCreator().equals(writerName) && a.getName().equals(newspaperTitle)) return a;
         }
         return null;
     }
