@@ -391,7 +391,7 @@ public class LibraryServiceService {
      * checked
      */
     @Transactional
-    public Transaction createRoomReserveTransaction(BorrowableItem item, UserAccount account){
+    public Transaction createRoomReserveTransaction(BorrowableItem item, UserAccount account, Date date, Time startTime, Time endTime){
         // Input validation
         String error = "";
         if (item == null) {
@@ -404,7 +404,12 @@ public class LibraryServiceService {
             error = error + "Account cannot be null! ";
         } else if (userAccountRepository.findUserAccountByUserID(account.getUserID()) == null){
             error += "User does not exist!";
+        } 
+        int check = startTime.compareTo(endTime);
+        if(check > 0){
+            error += "Start time must be before end time! ";
         }
+
         error = error.trim();
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
