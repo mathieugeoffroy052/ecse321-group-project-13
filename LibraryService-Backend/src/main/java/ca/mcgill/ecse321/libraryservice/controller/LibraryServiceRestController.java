@@ -53,6 +53,22 @@ public class LibraryServiceRestController {
             return patrons;
         
     }
+
+    /**
+     * This methods gets all librarians for the database
+     * @author Gabrielle Halpin
+     * @return patrons
+     * @throws Exception
+     */
+    @GetMapping(value = { "/librarians", "/librarians/" })
+    public List<UserAccountDTO> getAllLibrarians() throws Exception{
+            List<UserAccountDTO> librarians = new ArrayList<>();
+            for (UserAccount users : service.getAllLibrarians()) {
+                librarians.add(convertToDto(users));
+            }
+            return librarians;
+        
+    }
     /**
      * This method uses the getPatronByUserId to retrieve a Patron from the database using their unique userID
      * @author Gabrielle Halpin
