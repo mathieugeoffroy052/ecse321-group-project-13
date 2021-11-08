@@ -123,8 +123,7 @@ public class LibraryServiceService {
      */
     @Transactional
     public List<LibraryItem> getAllLibraryItems() throws Exception{
-        LibrarySystem library=getLibrarySystemfrom1();
-        List<LibraryItem> allLibraryItems = libraryItemRepository.findByLibrarySystem(library);
+        List<LibraryItem> allLibraryItems = (List<LibraryItem>) libraryItemRepository.findAll();
         return allLibraryItems;
     }
 
@@ -617,6 +616,9 @@ public class LibraryServiceService {
      * Creates a room reservation transaction between a user account and a room (borrowable item)
      * @param item
      * @param account
+     * @param date - date of reservation
+     * @param startTime - start time of reservation
+     * @param endTime - end time of reservation
      * @return Transaction - Type : RoomReservation
      * @author Amani Jammoul
      * checked
