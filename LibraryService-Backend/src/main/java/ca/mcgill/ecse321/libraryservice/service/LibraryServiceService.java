@@ -297,38 +297,66 @@ public class LibraryServiceService {
 
     
     /** 
-     * @param artistName 
-     * @return LibraryItem - music item created by artist
+     * @param artistName
+     * @return List<LibraryItem> - all music by artist
      * @throws Exception
      * @author Amani Jammoul
+     * checked
      */
     @Transactional
-    public LibraryItem getMusicFromArtist(String artistName) throws Exception{
+    public List<LibraryItem> getMusicsFromArtist(String artistName) throws Exception{
         if (artistName == null || artistName.trim().length() == 0) {
             throw new IllegalArgumentException("Artist name cannot be empty!");
         }
-        List<LibraryItem> allMusic = getAllMusic();
-        for(LibraryItem a : allMusic){
-            if(a.getCreator().equals(artistName)) return a;
+
+        List<LibraryItem> allMusics = getAllMusic();
+        List<LibraryItem> musicsByArtist = new ArrayList<LibraryItem>();
+        for(LibraryItem a : allMusics){
+            if(a.getCreator().equals(artistName)) musicsByArtist.add(a);
         }
-        return null;
+        return musicsByArtist;
     }
 
     
     /** 
      * @param musicTitle
-     * @return LibraryItem - music item with given title
+     * @return List<LibraryItem> - all music with the given title
+     * @throws Exception
+     * @author Amani Jammoul
+     * checked
+     */
+    @Transactional
+    public List<LibraryItem> getMusicsFromTitle(String musicTitle) throws Exception{
+        if (musicTitle == null || musicTitle.trim().length() == 0) {
+            throw new IllegalArgumentException("Music title cannot be empty!");
+        }
+
+        List<LibraryItem> allMusics = getAllMusic();
+        List<LibraryItem> musicsByTitle = new ArrayList<LibraryItem>();
+        for(LibraryItem a : allMusics){
+            if(a.getName().equals(musicTitle)) musicsByTitle.add(a);
+        }
+        return musicsByTitle;
+    }
+
+    /** 
+     * @param artistName
+     * @param musicTitle
+     * @return LibraryItem - music with the given title by given artist
      * @throws Exception
      * @author Amani Jammoul
      */
     @Transactional
-    public LibraryItem getMusicFromTitle(String musicTitle) throws Exception{
-        if (musicTitle == null || musicTitle.trim().length() == 0) {
-            throw new IllegalArgumentException("Music title cannot be empty!");
+    public LibraryItem getMusicFromAuthorAndTitle(String artistName, String musicTitle) throws Exception{
+        if (artistName == null || artistName.trim().length() == 0) {
+            throw new IllegalArgumentException("Artist name cannot be empty! ");
+        } else if (musicTitle == null || musicTitle.trim().length() == 0) {
+            throw new IllegalArgumentException("Music title cannot be empty! ");
         }
-        List<LibraryItem> allMusic = getAllMusic();
-        for(LibraryItem a : allMusic){
-            if(a.getName().equals(musicTitle)) return a;
+
+        List<LibraryItem> allMusics = getAllMusic();
+        for(LibraryItem a : allMusics){
+            if(a.getCreator().equals(artistName) && a.getName().equals(musicTitle)) return a;
         }
         return null;
     }
