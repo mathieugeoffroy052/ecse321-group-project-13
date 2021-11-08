@@ -87,7 +87,7 @@ public class LibraryServiceService {
 
     /** 
      * @param userID
-     * @return UserAccount - account of given ID
+     * @return UserAccount - account for user with given full name
      * @author Amani Jammoul
      * @throws Exception
      */

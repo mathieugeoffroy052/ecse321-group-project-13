@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.libraryservice.controller;
 
 import java.sql.Time;
+import java.sql.Date;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -332,6 +333,60 @@ public class LibraryServiceRestController {
 	return convertToDto(patron);
 	}
 
+    @PostMapping(value = { "/reserve-item", "/reserve-item/" })
+    public TransactionDTO reserveAnItem(@RequestParam(name = "item") BorrowableItemDTO iDto, @RequestParam(name = "account") UserAccountDTO aDto) throws Exception {
+        BorrowableItem i = service.getBorrowableItemFromBarCodeNumber(iDto.getBarCodeNumber());
+        UserAccount a = service.getUserAccountFromFullName(aDto.getFirstName(), aDto.getLastName());
+
+	    Transaction t = service.createItemReserveTransaction(i, a);
+	    return convertToDto(t);
+    }
+
+    @PostMapping(value = { "/reserve-room", "/reserve-room/" })
+    public TransactionDTO reserveARoom(@RequestParam(name = "room") BorrowableItemDTO iDto, @RequestParam(name = "account") UserAccountDTO aDto, 
+                                                @RequestParam(name = "date") Date date, @RequestParam(name = "startTime") Time startTime, @RequestParam(name = "endTime") Time endTime) throws Exception {
+        BorrowableItem i = service.getBorrowableItemFromBarCodeNumber(iDto.getBarCodeNumber());
+        UserAccount a = service.getUserAccountFromFullName(aDto.getFirstName(), aDto.getLastName());
+
+	    Transaction t = service.createRoomReserveTransaction(i, a, date, startTime, endTime);
+	    return convertToDto(t);
+    }
+
+    @PostMapping(value = { "/borrow-item", "/borrow-item/" })
+    public TransactionDTO borrowAnItem(@RequestParam(name = "item") BorrowableItemDTO iDto, @RequestParam(name = "account") UserAccountDTO aDto) throws Exception {
+        BorrowableItem i = service.getBorrowableItemFromBarCodeNumber(iDto.getBarCodeNumber());
+        UserAccount a = service.getUserAccountFromFullName(aDto.getFirstName(), aDto.getLastName());
+
+	    Transaction t = service.createItemBorrowTransaction(i, a);
+	    return convertToDto(t);
+    }
+
+    @PostMapping(value = { "/renew-item", "/renew-item/" })
+    public TransactionDTO renewAnItem(@RequestParam(name = "item") BorrowableItemDTO iDto, @RequestParam(name = "account") UserAccountDTO aDto) throws Exception {
+        BorrowableItem i = service.getBorrowableItemFromBarCodeNumber(iDto.getBarCodeNumber());
+        UserAccount a = service.getUserAccountFromFullName(aDto.getFirstName(), aDto.getLastName());
+
+	    Transaction t = service.createItemRenewalTransaction(i, a);
+	    return convertToDto(t);
+    }
+
+    @PostMapping(value = { "/join-waitlist", "/join-waitlist/" })
+    public TransactionDTO joinWaitlistForAnItem(@RequestParam(name = "item") BorrowableItemDTO iDto, @RequestParam(name = "account") UserAccountDTO aDto) throws Exception {
+        BorrowableItem i = service.getBorrowableItemFromBarCodeNumber(iDto.getBarCodeNumber());
+        UserAccount a = service.getUserAccountFromFullName(aDto.getFirstName(), aDto.getLastName());
+
+	    Transaction t = service.createItemWaitlistTransaction(i, a);
+	    return convertToDto(t);
+    }
+
+    @PostMapping(value = { "/return-item", "/return-item/" })
+    public TransactionDTO returnAnItem(@RequestParam(name = "item") BorrowableItemDTO iDto, @RequestParam(name = "account") UserAccountDTO aDto) throws Exception {
+        BorrowableItem i = service.getBorrowableItemFromBarCodeNumber(iDto.getBarCodeNumber());
+        UserAccount a = service.getUserAccountFromFullName(aDto.getFirstName(), aDto.getLastName());
+
+	    Transaction t = service.createItemReturnTransaction(i, a);
+	    return convertToDto(t);
+    }
 
     ////////// Helper methods - convertToDTO////////
 
