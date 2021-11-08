@@ -24,6 +24,7 @@ public class LibraryServiceRestController {
 
     /**
      * This methods gets all users for the database
+     * @author Gabrielle Halpin
      * @return userDTOs
      * @throws Exception
      */
@@ -39,6 +40,7 @@ public class LibraryServiceRestController {
 
     /**
      * This methods gets all patrons for the database
+     * @author Gabrielle Halpin
      * @return patrons
      * @throws Exception
      */
