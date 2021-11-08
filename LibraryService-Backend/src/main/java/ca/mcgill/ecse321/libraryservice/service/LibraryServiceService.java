@@ -10,9 +10,11 @@ import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.FlashMapManager;
 
 import ca.mcgill.ecse321.libraryservice.dao.*;
+import ca.mcgill.ecse321.libraryservice.dto.UserAccountDTO;
 import ca.mcgill.ecse321.libraryservice.model.*;
 import ca.mcgill.ecse321.libraryservice.model.BorrowableItem.ItemState;
 import ca.mcgill.ecse321.libraryservice.model.LibraryItem.ItemType;
@@ -1599,7 +1601,7 @@ public class LibraryServiceService {
      * @return boolean 
      */
     
-    public boolean changePassword(String aPassWord, UserAccount account){
+    public UserAccount changePassword(String aPassWord, UserAccount account){
         String error = "";
         if (account == null && error.length()==0){
             error = error + "The account cannot be null";
@@ -1619,7 +1621,8 @@ public class LibraryServiceService {
             throw new IllegalArgumentException(error);
         }
 
-        return account.setPassword(aPassWord);
+        account.setPassword(aPassWord);
+        return account;
     }
 
     /**
@@ -1665,6 +1668,7 @@ public class LibraryServiceService {
         }
         return true;
     }
+
 
     /**
      * This method sets the validity of the user account which must be done by a librarian

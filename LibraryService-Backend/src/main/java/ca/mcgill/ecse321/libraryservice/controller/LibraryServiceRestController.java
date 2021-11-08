@@ -77,6 +77,20 @@ public class LibraryServiceRestController {
     public PatronDTO getPatronFromFullName(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName) throws Exception {
         return convertToDto(service.getPatronFromFullName(firstName, lastName));
     }
+    /**
+     * @author Gabrielle Halpin
+	 * Update Password
+	 * @param user  
+	 * @param password
+	 * @return
+	 */
+	@PutMapping(value = {"/updatePassword/{password}", "/updatePassword/{password}/"})
+	public UserAccountDTO updatePassword(@RequestBody UserAccount user, @PathVariable("password") String password) {
+		UserAccountDTO accountDTO = new UserAccountDTO();
+		UserAccount  account = service.changePassword(password, user);
+		accountDTO = convertToDto(account);
+		return accountDTO; 
+	}
 
     /**
      * @author Gabrielle Halpin
