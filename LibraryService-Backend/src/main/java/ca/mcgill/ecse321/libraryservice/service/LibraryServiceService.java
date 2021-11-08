@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -1520,35 +1521,11 @@ public class LibraryServiceService {
      * @param head, aFirstNAme, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aValidatedAccount, aPassword, aBalance
      * @return patron 
      * added checks -elo
+     * edited by Gabby
      * checked
      */
     @Transactional
-    public Patron deleteAPatron(UserAccount head, String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, boolean aValidatedAccount, String aPassWord, int aBalance, String aEmail) throws Exception {
-        		
-        String error = "";
-        if (aFirstName == null || aFirstName.trim().length() == 0) {
-            error = error + "First Name  cannot be empty! ";
-        }
-        if (aLastName == null || aLastName.trim().length() == 0) {
-            error = error + "Last Name  cannot be empty! ";
-        }
-        if (aLibrarySystem == null) {
-            error = error + "System doesn't exist ";
-        }
-
-        if (aAddress == null|| aAddress.trim().length() == 0) {
-            error = error + "Address cannot be empty! ";
-        }
-        if ((aPassWord == null|| aPassWord.trim().length() == 0)&& aOnlineAccount == true && error.length()==0) {
-            error = error + "Password cannot be empty! ";
-        }
-        if ((aEmail == null|| aEmail.trim().length() == 0) && aOnlineAccount == true && error.length()==0) {
-            error = error + "Email cannot be empty! ";
-        }
-        error = error.trim();
-        if (error.length() > 0) {
-            throw new IllegalArgumentException(error);
-        }
+    public Patron deleteAPatronbyUserID(UserAccount head, int userID) throws Exception {
         try {
         HeadLibrarian headLibrarian = getHeadLibrarianFromUserId(head.getUserID());
 
@@ -1556,9 +1533,18 @@ public class LibraryServiceService {
             throw new  Exception("This User does not the credentials to delete an existing patron");
         }
 
-        Patron patron=new Patron(aFirstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aValidatedAccount, aPassWord, aBalance, aEmail);
-        patronRepository.delete(patron);
-        return patron;
+        try {
+            LibrarySystem library=getLibrarySystemfrom1();
+            Set<UserAccount> allusers = library.getUserAccounts();
+            Patron patronAccount = patronRepository.findPatronByUserID(userID);
+            allusers.remove(patronAccount);
+            patronRepository.delete(patronAccount);
+            
+            return patronAccount;
+        } catch (Exception e) {
+            throw new  Exception("This user Id does not exist as a Patron");
+        }
+ 
     }
 
 

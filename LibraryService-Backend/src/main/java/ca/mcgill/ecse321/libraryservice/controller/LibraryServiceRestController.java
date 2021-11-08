@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import ca.mcgill.ecse321.libraryservice.dao.PatronRepository;
 import ca.mcgill.ecse321.libraryservice.dto.*;
 import ca.mcgill.ecse321.libraryservice.dto.LibraryItemDTO.ItemType;
 import ca.mcgill.ecse321.libraryservice.model.*;
@@ -69,6 +70,20 @@ public class LibraryServiceRestController {
             return librarians;
         
     }
+
+    /**
+     * @author Gabrielle Halpin
+	 * Delete a business information
+	 * @param userID
+     * @param headLibrarian
+	 * @return patronDTO
+	 */
+	@PutMapping(value = {"/deletePatron/{userID}","/deletePatron/{userID}/"})
+	public PatronDTO deletePatron(@PathVariable("userID") int userID, @RequestBody UserAccount headLibrarian) throws Exception{
+		Patron patron = service.deleteAPatronbyUserID(headLibrarian, userID);
+		return convertToDto(patron);
+	}
+
     /**
      * This method uses the getPatronByUserId to retrieve a Patron from the database using their unique userID
      * @author Gabrielle Halpin

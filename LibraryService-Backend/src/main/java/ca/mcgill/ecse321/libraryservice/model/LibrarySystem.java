@@ -110,8 +110,7 @@ public class LibrarySystem
   @OneToMany(cascade={CascadeType.ALL}, mappedBy = "librarySystem")
   public Set<UserAccount> getUserAccounts()
   {
-    Set<UserAccount> newUserAccounts = userAccounts;
-    return newUserAccounts;
+    return userAccounts;
   }
 
   public int numberOfUserAccounts()
