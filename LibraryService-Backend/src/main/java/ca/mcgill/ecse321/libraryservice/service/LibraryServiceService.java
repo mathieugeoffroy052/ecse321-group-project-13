@@ -928,7 +928,7 @@ public class LibraryServiceService {
           
         }
 
-    /* TimeSlot Service Methods */
+    //* TimeSlot Service Methods
     /**
      * Get all timeslots from the first and only library system.
      * @author Mathieu Geoffroy
@@ -1096,8 +1096,40 @@ public class LibraryServiceService {
         timeSlotRepository.save(timeSlot);
         return timeSlot;
     }
+    /**
+     * deletes the timeslot given the timeslot parameters
+     * @param account user account calling the method
+     * @param startDate start date of timeslot to delete
+     * @param startTime start time of timeslot to delete
+     * @param endDate end date of timeslot to delete
+     * @param endTime end time of timeslot to delete
+     * @param library current library system
+     * @return true is deleted successfully
+     * @throws Exception if invalid inputs
+     * @throws Exception if user is not the head librarian
+     * @author Mathieu Geoffroy
+     */
+    public boolean deleteTimeSlot(UserAccount account, Date startDate, Time startTime, Date endDate, Time endTime, LibrarySystem library) throws Exception {
+        String error = "";
+        if (account == null) error = error + "Invalid account. ";
+        if (startDate == null) error = error + "Invalid startDate. ";
+        if (startTime == null) error = error + "Invalid startTime. ";
+        if (endDate == null) error = error + "Invalid endDate. ";
+        if (endTime == null) error = error + "Invalid endTime. ";
+        if (library == null) error = error + "Invalid library system. ";
 
-    /* Opening Hours Service Methods */
+        error = error.trim();
+
+        if (error.length() > 0) throw new IllegalArgumentException(error);
+
+        HeadLibrarian headLibrarian = getHeadLibrarianFromUserId(account.getUserID());
+
+        TimeSlot timeSlot = new TimeSlot(startDate, startTime, endDate, endTime, library, headLibrarian);
+        timeSlotRepository.delete(timeSlot);
+        return true;
+    }
+
+    //* Opening Hours Service Methods
     /**
      * get all the opening hours in the first (and only) available library system
      * @author Mathieu Geoffroy
@@ -1195,7 +1227,39 @@ public class LibraryServiceService {
         return openingHour;
     }    
 
-    /* Holiday service methods */
+    /**
+     * deletes the opening hour based on an opening hour with the same fields
+     * @param account user account calling this method
+     * @param day day of week (MUST start with capital)
+     * @param startTime start time of opening hour
+     * @param endTime end time of openinh hour
+     * @param library current library system
+     * @return true if openinghour is successfully deleted
+     * @throws Exception if null inputs
+     * @throws Exception if unauthorized user account (not head librarian)
+     * @throws Exception if not day string is incorrect
+     * @author Mathieu Geoffroy
+     */
+    public boolean deleteOpeningHour(UserAccount account, String day, Time startTime, Time endTime, LibrarySystem library) throws Exception{
+        String error = "";
+        if (account == null) error = error + "Invalid account. ";
+        if (day == null) error = error + "Invalid day of week. ";
+        if (startTime == null) error = error + "Invalid startTime. ";
+        if (endTime == null) error = error + "Invalid endTime. ";
+        if (library == null) error = error + "Invalid library. ";
+        error = error.trim();
+
+        if (error.length() > 0) throw new IllegalArgumentException(error);
+
+        HeadLibrarian headLibrarian = getHeadLibrarianFromUserId(account.getUserID());
+        DayOfWeek dayOfWeek = DayOfWeek.valueOf(day); //case sensitive match
+        OpeningHour openingHour = new OpeningHour(dayOfWeek, startTime, endTime, library, headLibrarian);
+
+        openingHourRepository.delete(openingHour);
+        return true;
+    }
+
+    //* Holiday service methods
     /**
      * get all the holidays from the first (and only) librry system
      * @author Mathieu Geoffroy
@@ -1266,6 +1330,36 @@ public class LibraryServiceService {
         Holiday holiday = new Holiday(date, startTime, endTime, library, headLibrarian);
         holidayRepository.save(holiday);
         return holiday;
+    }
+    
+    /**
+     * deletes holiday form DB based on same input parameters
+     * @param account user account calling this method
+     * @param date date of holiday
+     * @param startTime start time of holiday
+     * @param endTime end time of holiday
+     * @param library current library system
+     * @return true if holiday successfully deleted
+     * @throws Exception if invalid inputs
+     * @throws Exception when user is not authorized (not head librarian)
+     * @author Mathieu Geoffroy
+     */
+    public boolean deleteHoliday(UserAccount account, Date date, Time startTime, Time endTime, LibrarySystem library) throws Exception {
+        String error = "";
+        if (account == null) error = error + "Invalid account. ";
+        if (date == null) error = error + "Invalid date. ";
+        if (startTime == null) error = error + "Invalid startTime. ";
+        if (endTime == null) error = error + "Invalid endTime. ";
+        if (library == null) error = error + "Invalid library. ";
+        error = error.trim();
+
+        if (error.length() > 0) throw new IllegalArgumentException(error);
+
+        HeadLibrarian headLibrarian = getHeadLibrarianFromUserId(account.getUserID());
+
+        Holiday holiday = new Holiday(date, startTime, endTime, library, headLibrarian);
+        holidayRepository.delete(holiday);
+        return true;
     }
 
 
