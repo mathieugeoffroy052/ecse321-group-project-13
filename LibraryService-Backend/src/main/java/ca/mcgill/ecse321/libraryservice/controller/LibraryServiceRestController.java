@@ -332,6 +332,41 @@ public class LibraryServiceRestController {
 	return convertToDto(patron);
 	}
 
+    @GetMapping(value = { "/books/", "/book" })
+    public List<LibraryItemDTO> getAllBooks() throws Exception {
+        ArrayList<LibraryItemDTO> books = new ArrayList<>();
+        for(LibraryItem item: service.getAllBooks()){
+            books.add(convertToDto(item));
+        }
+        return books;
+    }
+
+    @GetMapping(value = { "/movies/", "/movie" })
+    public List<LibraryItemDTO> getAllMovies() throws Exception {
+        ArrayList<LibraryItemDTO> movies = new ArrayList<>();
+        for(LibraryItem item: service.getAllMovies()){
+            movies.add(convertToDto(item));
+        }
+        return movies;
+    }
+
+    @GetMapping(value = { "/newspapers/", "/newspapers" })
+    public List<LibraryItemDTO> getAllNewspapers() throws Exception {
+        ArrayList<LibraryItemDTO> newspapers = new ArrayList<>();
+        for(LibraryItem item: service.getAllNewspapers()){
+            newspapers.add(convertToDto(item));
+        }
+        return newspapers;
+    }
+
+    @GetMapping(value = { "/music/", "/music" })
+    public List<LibraryItemDTO> getAllMusic() throws Exception {
+        ArrayList<LibraryItemDTO> music = new ArrayList<>();
+        for(LibraryItem item: service.getAllMusic()){
+            music.add(convertToDto(item));
+        }
+        return music;
+    }
 
     ////////// Helper methods - convertToDTO////////
 
