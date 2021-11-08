@@ -652,10 +652,10 @@ public class LibraryServiceService {
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
         }
-         Iterable<HeadLibrarian> headlibrarians = headLibrarianRepository.findAll();
+         List<HeadLibrarian> headlibrarians =  headLibrarianRepository.findByLastName(lastName);
        
         for (HeadLibrarian n: headlibrarians){
-            if(n.getFirstName().equals(firstName) && n.getLastName().equals(lastName)) return n;
+            if(n.getFirstName().equals(firstName) ) return n;
 
         }
         return null;

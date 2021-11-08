@@ -434,7 +434,7 @@ public class LibraryServiceRestController {
  * @return
  * @throws Exception
  */
-    @GetMapping(value={"/headLibrarian", "/headLibrarian/"})
+    @GetMapping(value={"/headLibrarian/{lastName}/", "/headLibrarian/{lastName}"})
     public HeadLibrarianDTO getHeadLibrarianFromFullNameDto(@RequestParam String firstName, 
                                                             @RequestParam String lastName) 
                                                             throws Exception  {
