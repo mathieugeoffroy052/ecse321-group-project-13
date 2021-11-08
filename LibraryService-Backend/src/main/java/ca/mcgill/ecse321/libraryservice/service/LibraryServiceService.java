@@ -116,9 +116,84 @@ public class LibraryServiceService {
         else throw new IllegalArgumentException("No user found with this name! ");
     }
 
-    
     /** 
      * @return List<LibraryItem> - all library items in library system
+     * @throws Exception
+     * @author Amani Jammoul
+     */
+    @Transactional
+    public List<LibraryItem> getAllLibraryItems() throws Exception{
+        LibrarySystem library=getLibrarySystemfrom1();
+        List<LibraryItem> allLibraryItems = libraryItemRepository.findByLibrarySystem(library);
+        return allLibraryItems;
+    }
+
+    /** 
+     * @param creeatorName
+     * @return List<LibraryItem> - library items by creator
+     * @throws Exception
+     * @author Amani Jammoul
+     */
+    @Transactional
+    public List<LibraryItem> getLibraryItemsFromCreator(String creatorName) throws Exception{
+        if (creatorName == null || creatorName.trim().length() == 0) {
+            throw new IllegalArgumentException("Creator name cannot be empty!");
+        }
+
+        List<LibraryItem> allItems = getAllLibraryItems();
+        List<LibraryItem> itemsByCreator = new ArrayList<LibraryItem>();
+        for(LibraryItem a : allItems){
+            if(a.getCreator().equals(creatorName)) itemsByCreator.add(a);
+        }
+        return itemsByCreator;
+    }
+
+    /** 
+     * @param itemTitle
+     * @return List<LibraryItem> - library items with the given title
+     * @throws Exception
+     * @author Amani Jammoul
+     */
+    @Transactional
+    public List<LibraryItem> getLibraryItemsFromTitle(String itemTitle) throws Exception{
+        if (itemTitle == null || itemTitle.trim().length() == 0) {
+            throw new IllegalArgumentException("Item title cannot be empty!");
+        }
+
+        List<LibraryItem> allItems = getAllLibraryItems();
+        List<LibraryItem> itemsByTitle = new ArrayList<LibraryItem>();
+        for(LibraryItem a : allItems){
+            if(a.getName().equals(itemTitle)) itemsByTitle.add(a);
+        }
+        return itemsByTitle;
+    }
+
+    /** 
+     * @param creatorName
+     * @param itemTitle
+     * @return LibraryItem - library items with the given title by given creator
+     * @throws Exception
+     * @author Amani Jammoul
+     */
+    @Transactional
+    public List<LibraryItem> getLibraryItemFromAuthorAndTitle(String creatorName, String itemTitle) throws Exception{
+        if (creatorName == null || creatorName.trim().length() == 0) {
+            throw new IllegalArgumentException("Creator name cannot be empty! ");
+        } else if (itemTitle == null || itemTitle.trim().length() == 0) {
+            throw new IllegalArgumentException("Item title cannot be empty! ");
+        }
+
+        List<LibraryItem> allItems = getAllLibraryItems();
+        List<LibraryItem> itemsByCreatorAndTitle = new ArrayList<LibraryItem>();
+        for(LibraryItem a : allItems){
+            if(a.getCreator().equals(creatorName) && a.getName().equals(itemTitle)) itemsByCreatorAndTitle.add(a);
+        }
+        return itemsByCreatorAndTitle;
+    }
+
+    
+    /** 
+     * @return List<LibraryItem> - all books in library system
      * @throws Exception
      * @author Amani Jammoul
      * checked
@@ -138,39 +213,65 @@ public class LibraryServiceService {
     
     /** 
      * @param authorName
-     * @return LibraryItem - book written by the author
+     * @return List<LibraryItem> - books written by an author
      * @throws Exception
      * @author Amani Jammoul
      * checked
      */
     @Transactional
-    public LibraryItem getBookFromAuthor(String authorName) throws Exception{
+    public List<LibraryItem> getBooksFromAuthor(String authorName) throws Exception{
         if (authorName == null || authorName.trim().length() == 0) {
             throw new IllegalArgumentException("Author name cannot be empty!");
         }
+
         List<LibraryItem> allBooks = getAllBooks();
+        List<LibraryItem> booksByAuthor = new ArrayList<LibraryItem>();
         for(LibraryItem a : allBooks){
-            if(a.getCreator().equals(authorName)) return a;
+            if(a.getCreator().equals(authorName)) booksByAuthor.add(a);
         }
-        return null;
+        return booksByAuthor;
     }
 
     
     /** 
      * @param bookTitle
-     * @return LibraryItem - book with the given title name
+     * @return List<LibraryItem> - books with the given title
      * @throws Exception
      * @author Amani Jammoul
      * checked
      */
     @Transactional
-    public LibraryItem getBookFromTitle(String bookTitle) throws Exception{
+    public List<LibraryItem> getBooksFromTitle(String bookTitle) throws Exception{
         if (bookTitle == null || bookTitle.trim().length() == 0) {
             throw new IllegalArgumentException("Book title cannot be empty!");
         }
+
+        List<LibraryItem> allBooks = getAllBooks();
+        List<LibraryItem> booksByTitle = new ArrayList<LibraryItem>();
+        for(LibraryItem a : allBooks){
+            if(a.getName().equals(bookTitle)) booksByTitle.add(a);
+        }
+        return booksByTitle;
+    }
+
+    /** 
+     * @param authorName
+     * @param bookTitle
+     * @return LibraryItem - book with the given title written by given author
+     * @throws Exception
+     * @author Amani Jammoul
+     */
+    @Transactional
+    public LibraryItem getBookFromAuthorAndTitle(String authorName, String bookTitle) throws Exception{
+        if (authorName == null || authorName.trim().length() == 0) {
+            throw new IllegalArgumentException("Author name cannot be empty! ");
+        } else if (bookTitle == null || bookTitle.trim().length() == 0) {
+            throw new IllegalArgumentException("Book title cannot be empty! ");
+        }
+
         List<LibraryItem> allBooks = getAllBooks();
         for(LibraryItem a : allBooks){
-            if(a.getName().equals(bookTitle)) return a;
+            if(a.getCreator().equals(authorName) && a.getName().equals(bookTitle)) return a;
         }
         return null;
     }
