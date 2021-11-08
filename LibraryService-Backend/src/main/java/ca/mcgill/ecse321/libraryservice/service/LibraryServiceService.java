@@ -346,6 +346,33 @@ public class LibraryServiceService {
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
         }
+
+        error = "";
+        // UserAccount validation
+        boolean validAccount = false;
+        if(account instanceof Librarian) validAccount = true;
+        else{
+            validAccount = ((Patron) account).getValidatedAccount(); 
+        }
+
+        if(!validAccount){
+            error = "User account is unvalidated, cannot complete item reservation transaction! ";
+        }
+
+        // Item validation
+        if(item.getLibraryItem().getType() == ItemType.NewspaperArticle){
+            error += "Newspapers cannot be reserved, only viewed ; item reservation transaction not complete! ";
+        } else if(item.getLibraryItem().getType() == ItemType.Room){
+            error += "Rooms cannot be reserved as such, please try a room reservation transaction! ";
+        }
+        else if(item.getState() != ItemState.Available){
+            error += "Item is not available for reservation, please try waitlist! ";
+        }
+
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
         
         LocalDate localDeadline = LocalDate.now().plusDays(7); // 7 day deadline for reservation?
         Date deadline = Date.valueOf(localDeadline);
@@ -378,6 +405,30 @@ public class LibraryServiceService {
         } else if (userAccountRepository.findUserAccountByUserID(account.getUserID()) == null){
             error += "User does not exist!";
         }
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
+
+        error = "";
+        // UserAccount validation
+        boolean validAccount = false;
+        if(account instanceof Librarian) validAccount = true;
+        else{
+            validAccount = ((Patron) account).getValidatedAccount(); 
+        }
+
+        if(!validAccount){
+            error = "User account is unvalidated, cannot complete item reservation transaction! ";
+        }
+
+        // Item validation
+        if(item.getLibraryItem().getType() != ItemType.Room){
+            error += "Item is not a room, cannot complete room reservation transaction! ";
+        } else if(item.getState() != ItemState.Available){
+            error += "Room is not available for reservation, please try waitlist! ";
+        }
+
         error = error.trim();
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
@@ -530,8 +581,11 @@ public class LibraryServiceService {
         }
         
         // Item validation
-        if(item.getState() != ItemState.Borrowed){
-            error = error + "This item is available for reservation or borrowing, no Waitlist necessary! ";
+        if(item.getLibraryItem().getType() == ItemType.NewspaperArticle){
+            error += "Newspapers cannot be borrowed and therefore do not have a waitlist ; waitlist transaction not complete! ";
+        }
+        else if(item.getState() != ItemState.Borrowed){
+            error += "This item is available for reservation or borrowing, no Waitlist necessary! ";
         }
 
         error = error.trim();
