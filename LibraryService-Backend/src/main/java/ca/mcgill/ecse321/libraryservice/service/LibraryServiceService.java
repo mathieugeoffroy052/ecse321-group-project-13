@@ -176,7 +176,7 @@ public class LibraryServiceService {
      * @author Amani Jammoul
      */
     @Transactional
-    public List<LibraryItem> getLibraryItemFromAuthorAndTitle(String creatorName, String itemTitle) throws Exception{
+    public List<LibraryItem> getLibraryItemFromCreatorAndTitle(String creatorName, String itemTitle) throws Exception{
         if (creatorName == null || creatorName.trim().length() == 0) {
             throw new IllegalArgumentException("Creator name cannot be empty! ");
         } else if (itemTitle == null || itemTitle.trim().length() == 0) {

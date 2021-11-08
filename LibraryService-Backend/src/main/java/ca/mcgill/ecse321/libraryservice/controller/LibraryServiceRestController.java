@@ -388,6 +388,75 @@ public class LibraryServiceRestController {
 	    return convertToDto(t);
     }
 
+    @GetMapping(value = { "/account/{firstName}/{lastName}", "/events/{firstName}/{lastName}/" })
+    public UserAccountDTO getUserAccountByFullName(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName) throws Exception {
+	    UserAccount a = service.getUserAccountFromFullName(firstName, lastName);
+        return convertToDto(a);
+    }
+
+    @GetMapping(value = { "/item/{barCodeNumber}", "/item/{barCodeNumber}/" })
+    public BorrowableItemDTO getItemByBarCode(@PathVariable("barCodeNumber") int barCodeNumber) throws Exception {
+        return convertToDto(service.getBorrowableItemFromBarCodeNumber(barCodeNumber));
+    }
+
+    @GetMapping(value = { "/items/{title}", "/items/{title}/" })
+    public List<LibraryItemDTO> getItemsByTitle(@PathVariable("title") String itemTitle) throws Exception {
+        List<LibraryItem> items = service.getLibraryItemsFromTitle(itemTitle);
+        List<LibraryItemDTO> itemDTOs = new ArrayList<LibraryItemDTO>();
+        for(LibraryItem i : items){
+            itemDTOs.add(convertToDto(i));
+        }
+        return itemDTOs;
+    }
+
+    @GetMapping(value = { "/items/{creator}", "/items/{creator}/" })
+    public List<LibraryItemDTO> getItemsByCreator(@PathVariable("title") String creatorName) throws Exception {
+        List<LibraryItem> items = service.getLibraryItemsFromCreator(creatorName);
+        List<LibraryItemDTO> itemDTOs = new ArrayList<LibraryItemDTO>();
+        for(LibraryItem i : items){
+            itemDTOs.add(convertToDto(i));
+        }
+        return itemDTOs;
+    }
+
+    @GetMapping(value = { "/items/{creator}/{title}", "/items/{creator}/{title}/", "/items/{title}/{creator}", "/items/{title}/{creator}/"})
+    public List<LibraryItemDTO> getItemsByCreatorAndTitle(@PathVariable("creator") String creatorName, @PathVariable("title") String itemTitle) throws Exception {
+        List<LibraryItem> items = service.getLibraryItemFromCreatorAndTitle(creatorName, itemTitle);
+        List<LibraryItemDTO> itemDTOs = new ArrayList<LibraryItemDTO>();
+        for(LibraryItem i : items){
+            itemDTOs.add(convertToDto(i));
+        }
+        return itemDTOs;
+    }
+
+    @GetMapping(value = { "/books/{title}", "/books/{title}/" })
+    public List<LibraryItemDTO> getBooksByTitle(@PathVariable("title") String bookTitle) throws Exception {
+        List<LibraryItem> items = service.getBooksFromTitle(bookTitle);
+        List<LibraryItemDTO> itemDTOs = new ArrayList<LibraryItemDTO>();
+        for(LibraryItem i : items){
+            itemDTOs.add(convertToDto(i));
+        }
+        return itemDTOs;
+    }
+
+    @GetMapping(value = { "/books/{author}", "/books/{author}/" })
+    public List<LibraryItemDTO> getBooksByAuthor(@PathVariable("author") String authorName) throws Exception {
+        List<LibraryItem> items = service.getBooksFromTitle(authorName);
+        List<LibraryItemDTO> itemDTOs = new ArrayList<LibraryItemDTO>();
+        for(LibraryItem i : items){
+            itemDTOs.add(convertToDto(i));
+        }
+        return itemDTOs;
+    }
+
+    @GetMapping(value = { "/items/{author}/{title}", "/items/{author}/{title}/", "/items/{title}/{author}", "/items/{title}/{author}/"})
+    public LibraryItemDTO getBooksByAuthorAndTitle(@PathVariable("author") String authorName, @PathVariable("title") String bookTitle) throws Exception {
+        LibraryItem book = service.getBookFromAuthorAndTitle(authorName, bookTitle);
+        return convertToDto(book);
+    }
+
+
+
     ////////// Helper methods - convertToDTO////////
 
     /**
