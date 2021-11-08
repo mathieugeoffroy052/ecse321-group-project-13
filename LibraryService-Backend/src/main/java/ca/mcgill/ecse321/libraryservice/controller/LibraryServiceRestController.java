@@ -21,8 +21,39 @@ public class LibraryServiceRestController {
     @Autowired
 	private LibraryServiceService service;
 
+
+    /**
+     * This methods gets all users for the database
+     * @return userDTOs
+     * @throws Exception
+     */
+    @GetMapping(value = { "/users", "/users/" })
+    public List<UserAccountDTO> getAllUsers() throws Exception{
+            List<UserAccountDTO> userDtos = new ArrayList<>();
+            for (UserAccount users : service.getAllUsers()) {
+                userDtos.add(convertToDto(users));
+            }
+            return userDtos;
+        
+    }
+
+    /**
+     * This methods gets all patrons for the database
+     * @return patrons
+     * @throws Exception
+     */
+    @GetMapping(value = { "/patrons", "/patrons/" })
+    public List<UserAccountDTO> getAllPatrons() throws Exception{
+            List<UserAccountDTO> patrons = new ArrayList<>();
+            for (UserAccount users : service.getAllPatrons()) {
+                patrons.add(convertToDto(users));
+            }
+            return patrons;
+        
+    }
     /**
      * This method uses the getPatronByUserId to retrieve a Patron from the database using their unique userID
+     * @author Gabrielle Halpin
      * @param userID
      * @return PatronDTO
      * @throws IllegalArgumentException
@@ -34,6 +65,7 @@ public class LibraryServiceRestController {
 
     /**
      * This methods gets a patron from their firstname and last name
+     * @author Gabrielle Halpin
      * @param firstName
      * @param lastName
      * @return PatronDTO
@@ -45,6 +77,7 @@ public class LibraryServiceRestController {
     }
 
     /**
+     * @author Gabrielle Halpin
      * This methods gets a userAccount from their unique userID
      * @param userID
      * @return UserAccountDTO
@@ -56,6 +89,7 @@ public class LibraryServiceRestController {
     }
 
     /**
+     * @author Gabrielle Halpin
      * This method creates a Patron in the database and return a PatronDTO object
      * @param creator
      * @param firstName
@@ -482,7 +516,7 @@ public class LibraryServiceRestController {
 
     	try {
     	librarySystem = service.getLibrarySystemfrom1();
-    	userAccounts = service.getAllUsers(librarySystem);
+    	userAccounts = service.getAllUsers();
 
         for (UserAccount acc : userAccounts) {
     		if (acc.getFirstName().equals(userAccountDTO.getFirstName()) && acc.getLastName().equals(userAccountDTO.getLastName()) && acc.getEmail().equals(userAccountDTO.getEmail())) {

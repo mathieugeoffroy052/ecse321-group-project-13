@@ -1709,15 +1709,20 @@ public class LibraryServiceService {
      * checked
      */
     @Transactional
-	public List<UserAccount> getAllUsers(LibrarySystem librarySystem) throws Exception {
-		try {
-			List<UserAccount> users = userAccountRepository.findByLibrarySystem(librarySystem);
-		
-		return users;
-		}catch (Exception e) {
-	         throw new Exception("There are no users in the database");
-		}
+	public List<UserAccount> getAllUsers() throws Exception {
+        String error = "";
+        LibrarySystem library=getLibrarySystemfrom1();
+        List<UserAccount> allusers = userAccountRepository.findByLibrarySystem(library);
+        if(allusers.size()==0 || allusers == null){
+            error = "There are no Users in the system";
+        }
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
+        return allusers;
 	}
+
 
 
     /***
