@@ -6,6 +6,7 @@ import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,8 @@ import ca.mcgill.ecse321.libraryservice.model.*;
 import ca.mcgill.ecse321.libraryservice.service.LibraryServiceService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 @CrossOrigin(origins = "*")
@@ -408,7 +411,7 @@ public class LibraryServiceRestController {
     }
     
     /**
-     * HeadLibrarian PostMapping of Services
+     * HeadLibrarian gettMapping of Services
      * 
      */
     
@@ -434,7 +437,7 @@ public class LibraryServiceRestController {
  * @return
  * @throws Exception
  */
-    @GetMapping(value={"/headLibrarian/{lastName}/", "/headLibrarian/{lastName}"})
+    @GetMapping(value={"/headLibrarians/{lastName}/", "/headLibrarians/{lastName}"})
     public HeadLibrarianDTO getHeadLibrarianFromFullName(@PathVariable("lastName") String lastName,
         @RequestParam String firstName ) throws Exception  {
          HeadLibrarian headLibrarian=service.getIfLibrarianHeadFromFullName(firstName, lastName);
@@ -444,7 +447,7 @@ public class LibraryServiceRestController {
  * @author Eloyann Roy Javanbakht
  * mapping for checking if only 1 librarian
  */
-    @GetMapping(value={"/headLibrarian", "/headLibrarian/"})
+    @GetMapping(value={"/headLibrarians", "/headLibrarians/"})
     public boolean getHeadLibrarianNumberRespected() throws Exception  {
          return service.checkOnlyOneHeadLibrarian();
          
@@ -455,7 +458,7 @@ public class LibraryServiceRestController {
  * @return
  * @throws Exception
  */
-    @GetMapping(value={"/headLibrarian/{userID}", "/headLibrarian/{userID}/"})
+    @GetMapping(value={"/headLibrarians/{userID}", "/headLibrarians/{userID}/"})
     public boolean getIFHeadLibrarianFromUserId(@PathVariable("userID") int userID) throws Exception  {
         return service.checkIfHeadLibrarianFromUserId(userID);
        
@@ -465,14 +468,14 @@ public class LibraryServiceRestController {
  * @author Eloyann Roy Javanbakht
  *get head librarian considering theres only 1 in the system
  */
-@GetMapping(value={"/headLibrarian", "/headLibrarian/"})
+@GetMapping(value={"/headLibrarians", "/headLibrarians/"})
 public boolean getHeadLibrarian() throws Exception  {
      return service.checkOnlyOneHeadLibrarian();
      
 }
 
     /**
-     * HeadLibrarian PostMapping of Services
+     * Librarian getMapping of Services
      * 
      */
 
@@ -484,7 +487,7 @@ public boolean getHeadLibrarian() throws Exception  {
  * @return
  * @throws Exception
  */
-    @GetMapping(value={"/Librarian/{lastName}/", "/Librarian/{lastName}"})
+    @GetMapping(value={"/librarians/{lastName}/", "/librarians/{lastName}"})
     public LibrarianDTO getLibrarianFromFullName(@RequestParam String firstName, 
                                                             @RequestParam String lastName) 
                                                             throws Exception  {
@@ -492,13 +495,53 @@ public boolean getHeadLibrarian() throws Exception  {
         return convertToDto(librarian);
     }  
 
-    @GetMapping(value={"/Librarian/{userID}/", "/Librarian/{userID}"})
-    public LibrarianDTO getLibrarianFromFullID(@PathVariable("lastName") String lastName, 
-    @RequestParam String firstName) throws Exception  {
-        Librarian librarian=service.getLibrarianFromFullName(firstName, lastName);
+    @GetMapping(value={"/ibrarians/{userID}", "/librarians/{userID}/"})
+    public LibrarianDTO getLibrarianFromUserId(@PathVariable("userID") int userID) throws Exception  {
+        Librarian librarian=service.getLibrarianFromUserId(userID);
         return convertToDto(librarian);
     }  
 
+/**
+ * delete Librarian
+ * 
+ */
+@DeleteMapping(value={"/librarians/{userID}/", "/librarians/{userID}"})
+public boolean deleteALibrarian(@PathVariable("userID") int userID, 
+@RequestParam int userIDHeadLibrarian) throws Exception  {
+    return service.deleteALibrarian(userID, userIDHeadLibrarian);
+  
+}  
+
+/**
+ * deleted a headLibrarian 
+ * @param userID
+ * @return
+ * @throws Exception
+ */
+@DeleteMapping(value={"/headLibrarians/{userID}/", "/headLibrarians/{userID}"})
+public boolean deleteALibrarian(@PathVariable("userID") int userID) throws Exception  {
+    return service.DeleteHeadLibrarian(userID);
+  
+}  
+
+/**
+ * create HeadLibrarian
+ */
+@PostMapping(value="path")
+public HeadLibrarianDTO postMethodName(@PathVariable("firstName") String firstName,
+@RequestParam String aLastName,
+
+@RequestParam boolean aOnlineAccount,
+@RequestParam LibrarySystem aLibrarySystem,
+@RequestParam String aAddress,
+
+@RequestParam String aPassword,
+@RequestParam int aBalance,
+@RequestParam String aEmail) throws Exception{
+    //TODO: process POST request
+    
+    return convertToDto(service.CreateANewHeadLibrarian(firstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aPassword, aBalance, aEmail));
+}
 
 
 

@@ -705,7 +705,7 @@ public class LibraryServiceService {
      */
 
 
-    public boolean CreateANewHeadLibrarian(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, String aPassword, int aBalance , String aEmail)
+    public HeadLibrarian CreateANewHeadLibrarian(String firstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, String aPassword, int aBalance , String aEmail)
     throws Exception {
 
         String error = "";
@@ -739,44 +739,18 @@ public class LibraryServiceService {
 
         librarianRepository.save(headLibrarian);
     
-        return true;
+        return headLibrarian;
         
     }
-    public boolean ReplaceHeadLibrarian(UserAccount current, String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, String aPassword, int aBalance , String aEmail)
+    public boolean DeleteHeadLibrarian(int  userID)
     throws Exception {
 
-        String error = "";
-        if ((aFirstName == null || aFirstName.trim().length() == 0)&& error.length()==0) {
-            error = error + "First Name  cannot be empty! ";
-        }
-        if ((aLastName == null || aLastName.trim().length() == 0)&& error.length()==0) {
-            error = error + "Last Name  cannot be empty! ";
-        }
-        if (aLibrarySystem == null && error.length()==0){
-            error = error + "System doesn't exist ";
-        }
-        if (current == null && error.length()==0) {
-            error = error + "User Requesting the change cannot be empty! ";
-        }
-        if ((aAddress == null|| aAddress.trim().length() == 0)&& error.length()==0) {
-            error = error + "Address cannot be empty! ";
-        }
-        if ((aPassword == null|| aPassword.trim().length() == 0)&& aOnlineAccount == true && error.length()==0) {
-            error = error + "Password cannot be empty! ";
-        }
-        if ((aEmail == null|| aEmail.trim().length() == 0)&& aOnlineAccount == true && error.length()==0) {
-            error = error + "Email cannot be empty! ";
-        }
-        error = error.trim();
-        if (error.length() > 0) {
-            throw new IllegalArgumentException(error);
-        }
        HeadLibrarian headLibrarian=getHeadLibrarian();
-       if(current.equals(headLibrarian)) 
+       HeadLibrarian thisone=getHeadLibrarianFromUserId(userID);
+       if(thisone.equals(headLibrarian)) 
       headLibrarianRepository.delete(headLibrarian);
 
-      headLibrarian=new HeadLibrarian(aFirstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aPassword, aBalance, aEmail);
-      librarianRepository.save(headLibrarian);
+      
     
         return true;
         
@@ -849,16 +823,14 @@ public class LibraryServiceService {
     }
 
         //librarian delete
-    public boolean deleteALibrarian(UserAccount creater,  Librarian librarian) throws Exception {
+    public boolean deleteALibrarian(int userID, int  userIDHeadLibrarian) throws Exception {
         
-        try {
-        getHeadLibrarianFromUserId(creater.getUserID());
-
-        } catch (Exception e) {
-            throw new  Exception("This User  does not the credentials to add a new librarian");
-        }
+      if(userIDHeadLibrarian!=getHeadLibrarian().getUserID())  
+      throw new  Exception("This User  does not the credentials to add a new librarian");
+        
 
       try {
+          Librarian librarian= getLibrarianFromUserId(userID);
         librarianRepository.delete(librarian);
       } catch (Exception e) {
 
