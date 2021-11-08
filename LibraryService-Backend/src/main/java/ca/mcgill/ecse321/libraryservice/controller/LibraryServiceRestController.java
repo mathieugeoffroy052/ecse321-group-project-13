@@ -352,7 +352,7 @@ public class LibraryServiceRestController {
 	    return convertToDto(t);
     }
 
-    @PostMapping(value = { "/borrow-item", "/borrow-item/" })
+    @PostMapping(value = { "/borrow", "/borrow/" })
     public TransactionDTO borrowAnItem(@RequestParam(name = "item") BorrowableItemDTO iDto, @RequestParam(name = "account") UserAccountDTO aDto) throws Exception {
         BorrowableItem i = service.getBorrowableItemFromBarCodeNumber(iDto.getBarCodeNumber());
         UserAccount a = service.getUserAccountFromFullName(aDto.getFirstName(), aDto.getLastName());
@@ -361,7 +361,7 @@ public class LibraryServiceRestController {
 	    return convertToDto(t);
     }
 
-    @PostMapping(value = { "/renew-item", "/renew-item/" })
+    @PostMapping(value = { "/renew", "/renew/" })
     public TransactionDTO renewAnItem(@RequestParam(name = "item") BorrowableItemDTO iDto, @RequestParam(name = "account") UserAccountDTO aDto) throws Exception {
         BorrowableItem i = service.getBorrowableItemFromBarCodeNumber(iDto.getBarCodeNumber());
         UserAccount a = service.getUserAccountFromFullName(aDto.getFirstName(), aDto.getLastName());
@@ -379,7 +379,7 @@ public class LibraryServiceRestController {
 	    return convertToDto(t);
     }
 
-    @PostMapping(value = { "/return-item", "/return-item/" })
+    @PostMapping(value = { "/return", "/return/" })
     public TransactionDTO returnAnItem(@RequestParam(name = "item") BorrowableItemDTO iDto, @RequestParam(name = "account") UserAccountDTO aDto) throws Exception {
         BorrowableItem i = service.getBorrowableItemFromBarCodeNumber(iDto.getBarCodeNumber());
         UserAccount a = service.getUserAccountFromFullName(aDto.getFirstName(), aDto.getLastName());
@@ -388,12 +388,55 @@ public class LibraryServiceRestController {
 	    return convertToDto(t);
     }
 
-    @GetMapping(value = { "/account/{firstName}/{lastName}", "/events/{firstName}/{lastName}/" })
+    @GetMapping(value = { "/account/{firstName}/{lastName}", "/account/{firstName}/{lastName}/" })
     public UserAccountDTO getUserAccountByFullName(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName) throws Exception {
 	    UserAccount a = service.getUserAccountFromFullName(firstName, lastName);
         return convertToDto(a);
     }
 
+    @GetMapping(value = { "/account/{firstName}/{lastName}/borrowed-items", "/account/{firstName}/{lastName}/borrowed-items/" })
+    public List<BorrowableItemDTO> getCheckedOutItemsByUser(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName) throws Exception {
+	    UserAccount a = service.getUserAccountFromFullName(firstName, lastName);
+        List<BorrowableItem> borrowableItems = service.getBorrowedItemsFromUser(a);
+        List<BorrowableItemDTO> borrowableItemDTOs = new ArrayList<BorrowableItemDTO>();
+        for(BorrowableItem b : borrowableItems){
+            borrowableItemDTOs.add(convertToDto(b));
+        }
+        return borrowableItemDTOs;
+    }
+
+    @GetMapping(value = { "/account/{firstName}/{lastName}/reserved-items", "/account/{firstName}/{lastName}/reserved-items/" })
+    public List<BorrowableItemDTO> getReservedItemsByUser(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName) throws Exception {
+	    UserAccount a = service.getUserAccountFromFullName(firstName, lastName);
+        List<BorrowableItem> borrowableItems = service.getReservedItemsFromUser(a);
+        List<BorrowableItemDTO> borrowableItemDTOs = new ArrayList<BorrowableItemDTO>();
+        for(BorrowableItem b : borrowableItems){
+            borrowableItemDTOs.add(convertToDto(b));
+        }
+        return borrowableItemDTOs;
+    }
+
+    @GetMapping(value = { "/account/{firstName}/{lastName}/waitlists", "/account/{firstName}/{lastName}/waitlists/" })
+    public List<BorrowableItemDTO> getWaitlistsByUser(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName) throws Exception {
+	    UserAccount a = service.getUserAccountFromFullName(firstName, lastName);
+        List<BorrowableItem> borrowableItems = service.getItemWaitlistsFromUser(a);
+        List<BorrowableItemDTO> borrowableItemDTOs = new ArrayList<BorrowableItemDTO>();
+        for(BorrowableItem b : borrowableItems){
+            borrowableItemDTOs.add(convertToDto(b));
+        }
+        return borrowableItemDTOs;
+    }
+
+    @GetMapping(value = { "/items/{isbn}", "/items/{isbn}/" })
+    public List<BorrowableItemDTO> getAllBorrowableItemsByLibraryItemIsbn(@PathVariable("isbn") int isbn) throws Exception {
+        List<BorrowableItem> borrowableItems = service.getBorrowableItemsFromItemIsbn(isbn);
+        List<BorrowableItemDTO> borrowableItemDTOs = new ArrayList<BorrowableItemDTO>();
+        for(BorrowableItem b : borrowableItems){
+            borrowableItemDTOs.add(convertToDto(b));
+        }
+        return borrowableItemDTOs;
+    }
+    
     @GetMapping(value = { "/item/{barCodeNumber}", "/item/{barCodeNumber}/" })
     public BorrowableItemDTO getItemByBarCode(@PathVariable("barCodeNumber") int barCodeNumber) throws Exception {
         return convertToDto(service.getBorrowableItemFromBarCodeNumber(barCodeNumber));
@@ -506,7 +549,6 @@ public class LibraryServiceRestController {
         LibraryItem movie = service.getMovieFromDirectorAndTitle(directorName, movieTitle);
         return convertToDto(movie);
     }
-
 
 
     ////////// Helper methods - convertToDTO////////

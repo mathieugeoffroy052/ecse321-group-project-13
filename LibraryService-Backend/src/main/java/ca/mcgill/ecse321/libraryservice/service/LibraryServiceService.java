@@ -920,6 +920,7 @@ public class LibraryServiceService {
         } else if(userAccountRepository.findUserAccountByUserID(account.getUserID()) == null){
             throw new IllegalArgumentException("User does not exist!");
         }
+
         List<Transaction> allUserTransactions = transactionRepository.findByUserAccount(account);
         List<BorrowableItem> allBorrowedItems = new ArrayList<BorrowableItem>();
         for(Transaction t : allUserTransactions){
@@ -943,6 +944,7 @@ public class LibraryServiceService {
         } else if(userAccountRepository.findUserAccountByUserID(account.getUserID()) == null){
             throw new IllegalArgumentException("User does not exist!");
         }
+
         List<Transaction> allUserTransactions = transactionRepository.findByUserAccount(account);
         List<BorrowableItem> allReservedItems = new ArrayList<BorrowableItem>();
         for(Transaction t : allUserTransactions){
@@ -951,6 +953,29 @@ public class LibraryServiceService {
             } 
         }
         return allReservedItems;
+    }
+
+    /** 
+     * @param account
+     * @return List<BorrowableItem> - list of all items user is on the waitlist for
+     * @author Amani Jammoul
+     */
+    @Transactional
+    public List<BorrowableItem> getItemWaitlistsFromUser(UserAccount account){
+        if (account == null) {
+            throw new IllegalArgumentException("Account cannot be null!");
+        } else if(userAccountRepository.findUserAccountByUserID(account.getUserID()) == null){
+            throw new IllegalArgumentException("User does not exist!");
+        }
+
+        List<Transaction> allUserTransactions = transactionRepository.findByUserAccount(account);
+        List<BorrowableItem> allItemWaitlists = new ArrayList<BorrowableItem>();
+        for(Transaction t : allUserTransactions){
+            if(t.getTransactionType().equals(TransactionType.Waitlist)){
+                allItemWaitlists.add(t.getBorrowableItem()); 
+            } 
+        }
+        return allItemWaitlists;
     }
 
     
