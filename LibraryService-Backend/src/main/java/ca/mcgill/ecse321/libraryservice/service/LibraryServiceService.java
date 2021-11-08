@@ -347,7 +347,7 @@ public class LibraryServiceService {
      * @author Amani Jammoul
      */
     @Transactional
-    public LibraryItem getMusicFromAuthorAndTitle(String artistName, String musicTitle) throws Exception{
+    public LibraryItem getMusicFromArtistAndTitle(String artistName, String musicTitle) throws Exception{
         if (artistName == null || artistName.trim().length() == 0) {
             throw new IllegalArgumentException("Artist name cannot be empty! ");
         } else if (musicTitle == null || musicTitle.trim().length() == 0) {

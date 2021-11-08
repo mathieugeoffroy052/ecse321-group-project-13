@@ -441,7 +441,7 @@ public class LibraryServiceRestController {
 
     @GetMapping(value = { "/books/{author}", "/books/{author}/" })
     public List<LibraryItemDTO> getBooksByAuthor(@PathVariable("author") String authorName) throws Exception {
-        List<LibraryItem> items = service.getBooksFromTitle(authorName);
+        List<LibraryItem> items = service.getBooksFromAuthor(authorName);
         List<LibraryItemDTO> itemDTOs = new ArrayList<LibraryItemDTO>();
         for(LibraryItem i : items){
             itemDTOs.add(convertToDto(i));
@@ -449,10 +449,62 @@ public class LibraryServiceRestController {
         return itemDTOs;
     }
 
-    @GetMapping(value = { "/items/{author}/{title}", "/items/{author}/{title}/", "/items/{title}/{author}", "/items/{title}/{author}/"})
+    @GetMapping(value = { "/books/{author}/{title}", "/books/{author}/{title}/", "/books/{title}/{author}", "/books/{title}/{author}/"})
     public LibraryItemDTO getBooksByAuthorAndTitle(@PathVariable("author") String authorName, @PathVariable("title") String bookTitle) throws Exception {
         LibraryItem book = service.getBookFromAuthorAndTitle(authorName, bookTitle);
         return convertToDto(book);
+    }
+
+    @GetMapping(value = { "/musics/{title}", "/musics/{title}/" })
+    public List<LibraryItemDTO> getMusicsByTitle(@PathVariable("title") String musicTitle) throws Exception {
+        List<LibraryItem> items = service.getMusicsFromTitle(musicTitle);
+        List<LibraryItemDTO> itemDTOs = new ArrayList<LibraryItemDTO>();
+        for(LibraryItem i : items){
+            itemDTOs.add(convertToDto(i));
+        }
+        return itemDTOs;
+    }
+
+    @GetMapping(value = { "/musics/{artist}", "/musics/{artist}/" })
+    public List<LibraryItemDTO> getMusicsByArtist(@PathVariable("artist") String artistName) throws Exception {
+        List<LibraryItem> items = service.getMusicsFromArtist(artistName);
+        List<LibraryItemDTO> itemDTOs = new ArrayList<LibraryItemDTO>();
+        for(LibraryItem i : items){
+            itemDTOs.add(convertToDto(i));
+        }
+        return itemDTOs;
+    }
+
+    @GetMapping(value = { "/musics/{artist}/{title}", "/musics/{artist}/{title}/", "/musics/{title}/{artist}", "/musics/{title}/{artist}/"})
+    public LibraryItemDTO getMusicsByArtistAndTitle(@PathVariable("artist") String artistName, @PathVariable("title") String musicTitle) throws Exception {
+        LibraryItem music = service.getMusicFromArtistAndTitle(artistName, musicTitle);
+        return convertToDto(music);
+    }
+
+    @GetMapping(value = { "/movies/{title}", "/movies/{title}/" })
+    public List<LibraryItemDTO> getMoviesByTitle(@PathVariable("title") String movieTitle) throws Exception {
+        List<LibraryItem> items = service.getMoviesFromTitle(movieTitle);
+        List<LibraryItemDTO> itemDTOs = new ArrayList<LibraryItemDTO>();
+        for(LibraryItem i : items){
+            itemDTOs.add(convertToDto(i));
+        }
+        return itemDTOs;
+    }
+
+    @GetMapping(value = { "/movies/{director}", "/movies/{director}/" })
+    public List<LibraryItemDTO> getMoviesByDirector(@PathVariable("director") String directorName) throws Exception {
+        List<LibraryItem> items = service.getMoviesFromTitle(directorName);
+        List<LibraryItemDTO> itemDTOs = new ArrayList<LibraryItemDTO>();
+        for(LibraryItem i : items){
+            itemDTOs.add(convertToDto(i));
+        }
+        return itemDTOs;
+    }
+
+    @GetMapping(value = { "/movies/{director}/{title}", "/movies/{director}/{title}/", "/movies/{title}/{director}", "/movies/{title}/{director}/"})
+    public LibraryItemDTO getMoviesByDirectorAndTitle(@PathVariable("artist") String directorName, @PathVariable("title") String movieTitle) throws Exception {
+        LibraryItem movie = service.getMovieFromDirectorAndTitle(directorName, movieTitle);
+        return convertToDto(movie);
     }
 
 
