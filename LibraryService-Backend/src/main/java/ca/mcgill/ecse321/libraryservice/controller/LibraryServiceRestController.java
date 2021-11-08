@@ -2,13 +2,16 @@ package ca.mcgill.ecse321.libraryservice.controller;
 
 import java.sql.Time;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import ca.mcgill.ecse321.libraryservice.dto.*;
 import ca.mcgill.ecse321.libraryservice.dto.LibraryItemDTO.ItemType;
@@ -20,6 +23,68 @@ import ca.mcgill.ecse321.libraryservice.service.LibraryServiceService;
 public class LibraryServiceRestController {
     @Autowired
 	private LibraryServiceService service;
+
+    /**
+     * get all holidays
+     * @return list of all holidays DTO
+     * @author Mathieu Geoffroy
+     * @throws Exception when there is no library system
+     */
+    @GetMapping(value = {"/holidays", "/holidays/"})
+    public List<HolidayDTO> getAllHolidays() throws Exception{
+        return service.getAllHolidays().stream().map(p -> convertToDto(p)).collect(Collectors.toList());
+    }
+
+    /**
+     * get all opening hours
+     * @return list of opening hours DTO
+     * @throws Exception when there is no library system
+     * @author Mathieu Geoffroy
+     */
+    @GetMapping(value = {"/openinghours", "/openinghours/"})
+    public List<OpeningHourDTO> getAllOpeningHours() throws Exception {
+        return service.getAllOpeningHours().stream().map(p -> convertToDto(p)).collect(Collectors.toList());
+    }
+
+    /**
+     * get all timeslots
+     * @return list of timeslot DTO
+     * @throws Exception when there is no library system
+     * @author Mahtieu Geoffroy
+     */
+    @GetMapping(value = {"/timeslot", "/timeslot/"})
+    public List<TimeslotDTO> getAllTimeSlots() throws Exception {
+        return service.getAllTimeSlots().stream().map(p -> convertToDto(p)).collect(Collectors.toList());
+    }
+
+    /**
+     * assign a librarian to a timeslot
+     * @param timeslotDTO
+     * @param librarianDTO
+     * @return the timeslot dto with the assigned librarian
+     * @throws Exception
+     * @author Mathieu Geoffroy
+     */
+    @PostMapping(value = {"/timeslot/assign", "/timeslot/assign/"})
+    public TimeslotDTO assignTimeSlot(@RequestBody TimeslotDTO timeslotDTO, @RequestBody LibrarianDTO librarianDTO) throws Exception {
+        Librarian librarian = convertToDomainObject(librarianDTO);
+        TimeSlot timeslot = convertToDomainObject(timeslotDTO);
+        return convertToDto(service.assignTimeSlotToLibrarian(timeslot, librarian));
+    }
+
+    /**
+     * get timeslots for a specific librarian
+     * @param librarianDTO 
+     * @return list of timeslotDTO
+     * @throws Exception when invalid inputs
+     * @author Mathieu Geoffroy
+     */
+    @GetMapping(value = {"/timeslot/{librarian}", "/timeslot/{librarian}/"})
+    public List<TimeslotDTO> getTimeSlotForLibrarian(@PathVariable("librarian") LibrarianDTO librarianDTO) throws Exception {
+        return service.getTimeSlotsFromLibrarian(convertToDomainObject(librarianDTO)).stream().map(p -> convertToDto(p)).collect(Collectors.toList());
+    }
+
+    
 
 
     ////////// Helper methods - convertToDTO////////

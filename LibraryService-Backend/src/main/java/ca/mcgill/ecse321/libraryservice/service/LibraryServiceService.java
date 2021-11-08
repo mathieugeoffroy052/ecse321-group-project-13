@@ -1547,7 +1547,7 @@ public class LibraryServiceService {
             throw new IllegalArgumentException(error);
         }
         try {
-        HeadLibrarian headLibrarian = getHeadLibrarianFromUserId(head.getUserID());
+        getHeadLibrarianFromUserId(head.getUserID());
 
         } catch (Exception e) {
             throw new  Exception("This User does not the credentials to delete an existing patron");
