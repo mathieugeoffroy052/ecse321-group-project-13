@@ -4,6 +4,8 @@ import java.sql.Time;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.databind.util.ArrayBuilders.IntBuilder;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -366,6 +368,20 @@ public class LibraryServiceRestController {
             music.add(convertToDto(item));
         }
         return music;
+    }
+
+    @GetMapping(value = { "/user/{userID}/rooms/", "user/{userID}/rooms" })
+    public List<LibraryItemDTO> getAllUserRoomReservations(@PathVariable("userId") int userID) throws Exception {
+        UserAccount user = service.getUserByUserID(userID);
+        List<BorrowableItem> borrowableItems = service.getReservedItemsFromUser(user);
+        ArrayList<LibraryItemDTO> rooms = new ArrayList<>();
+        for(BorrowableItem item: borrowableItems){
+            BorrowableItemDTO dtoItem = convertToDto(item);
+            if (dtoItem.getLibraryItem().getType() == ItemType.Room){
+                rooms.add(dtoItem.getLibraryItem());
+            }
+        }
+        return rooms;
     }
 
     ////////// Helper methods - convertToDTO////////
