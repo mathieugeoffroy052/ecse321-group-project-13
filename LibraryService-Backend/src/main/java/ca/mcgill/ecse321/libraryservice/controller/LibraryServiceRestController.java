@@ -14,6 +14,9 @@ import ca.mcgill.ecse321.libraryservice.dto.*;
 import ca.mcgill.ecse321.libraryservice.dto.LibraryItemDTO.ItemType;
 import ca.mcgill.ecse321.libraryservice.model.*;
 import ca.mcgill.ecse321.libraryservice.service.LibraryServiceService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -403,4 +406,70 @@ public class LibraryServiceRestController {
 	     return null;
     	
     }
+    
+    /**
+     * HeadLibrarian PostMapping of Services
+     * 
+     */
+    
+/**
+ * 
+ * @author Eloyann Roy Javanbakht
+ * mapping GetHead Librarian from userId
+ * @param userID
+ * @return
+ * @throws Exception
+ */
+    @GetMapping(value={"/headLibrarian/{userID}", "/headLibrarian/{userID}/"})
+    public HeadLibrarianDTO getHeadLibrarianFromUserId(@PathVariable("userID") int userID) throws Exception  {
+         HeadLibrarian headLibrarian=service.getHeadLibrarianFromUserId(userID);
+         return convertToDto(headLibrarian);
+    }
+
+/**
+ * @author Eloyann Roy Javanbakht
+ * Mapping for get headlibrarian from name
+ * @param firstName
+ * @param lastName
+ * @return
+ * @throws Exception
+ */
+    @GetMapping(value={"/headLibrarian", "/headLibrarian/"})
+    public HeadLibrarianDTO getHeadLibrarianFromFullNameDto(@RequestParam String firstName, 
+                                                            @RequestParam String lastName) 
+                                                            throws Exception  {
+         HeadLibrarian headLibrarian=service.getIfLibrarianHeadFromFullName(firstName, lastName);
+         return convertToDto(headLibrarian);
+    }
+/**
+ * @author Eloyann Roy Javanbakht
+ * mapping for checking if only 1 librarian
+ */
+    @GetMapping(value={"/headLibrarian", "/headLibrarian/"})
+    public boolean getHeadLibrarianNumberRespected() throws Exception  {
+         return service.checkOnlyOneHeadLibrarian();
+         
+    }
+/**
+ * @author Eloyann Roy Javanbakht
+ * @param userID
+ * @return
+ * @throws Exception
+ */
+    @GetMapping(value={"/headLibrarian/{userID}", "/headLibrarian/{userID}/"})
+    public boolean getIFHeadLibrarianFromUserId(@PathVariable("userID") int userID) throws Exception  {
+        return service.checkIfHeadLibrarianFromUserId(userID);
+       
+    }
+
+    /**
+ * @author Eloyann Roy Javanbakht
+ *get head librarian considering theres only 1 in the system
+ */
+@GetMapping(value={"/headLibrarian", "/headLibrarian/"})
+public boolean getHeadLibrarian() throws Exception  {
+     return service.checkOnlyOneHeadLibrarian();
+     
+}
+
 }
