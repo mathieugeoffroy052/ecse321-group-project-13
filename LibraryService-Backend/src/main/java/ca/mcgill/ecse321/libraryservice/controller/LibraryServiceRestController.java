@@ -435,9 +435,8 @@ public class LibraryServiceRestController {
  * @throws Exception
  */
     @GetMapping(value={"/headLibrarian/{lastName}/", "/headLibrarian/{lastName}"})
-    public HeadLibrarianDTO getHeadLibrarianFromFullNameDto(@RequestParam String firstName, 
-                                                            @RequestParam String lastName) 
-                                                            throws Exception  {
+    public HeadLibrarianDTO getHeadLibrarianFromFullName(@PathVariable("lastName") String lastName,
+        @RequestParam String firstName ) throws Exception  {
          HeadLibrarian headLibrarian=service.getIfLibrarianHeadFromFullName(firstName, lastName);
          return convertToDto(headLibrarian);
     }
@@ -471,5 +470,38 @@ public boolean getHeadLibrarian() throws Exception  {
      return service.checkOnlyOneHeadLibrarian();
      
 }
+
+    /**
+     * HeadLibrarian PostMapping of Services
+     * 
+     */
+
+   /**
+ * @author Eloyann Roy Javanbakht
+ * Mapping for get headlibrarian from name
+ * @param firstName
+ * @param lastName
+ * @return
+ * @throws Exception
+ */
+    @GetMapping(value={"/Librarian/{lastName}/", "/Librarian/{lastName}"})
+    public LibrarianDTO getLibrarianFromFullName(@RequestParam String firstName, 
+                                                            @RequestParam String lastName) 
+                                                            throws Exception  {
+        Librarian librarian=service.getLibrarianFromFullName(firstName, lastName);
+        return convertToDto(librarian);
+    }  
+
+    @GetMapping(value={"/Librarian/{userID}/", "/Librarian/{userID}"})
+    public LibrarianDTO getLibrarianFromFullID(@PathVariable("lastName") String lastName, 
+    @RequestParam String firstName) throws Exception  {
+        Librarian librarian=service.getLibrarianFromFullName(firstName, lastName);
+        return convertToDto(librarian);
+    }  
+
+
+
+
+
 
 }

@@ -873,12 +873,12 @@ public class LibraryServiceService {
         * 3. get all librarians
         * @author Eloyann Roy-Javanbakht
         */
-        public Librarian getLibrarianFromFullName(String aFirstName, String aLastName)throws Exception{
+        public Librarian getLibrarianFromFullName(String firstName, String lastName)throws Exception{
             String error = "";
-            if (aFirstName == null || aFirstName.trim().length() == 0) {
+            if (firstName == null || firstName.trim().length() == 0) {
                 error = error + "First Name  cannot be empty! ";
             }
-            if (aLastName == null || aLastName.trim().length() == 0) {
+            if (lastName == null || lastName.trim().length() == 0) {
                 error = error + "Last Name  cannot be empty! ";
             }
             error = error.trim();
@@ -887,15 +887,15 @@ public class LibraryServiceService {
             }
 
 
-                List<Librarian> librarians = getAllLibrarians();
+                List<Librarian> librarians = librarianRepository.findByLastName(lastName);
             
             for (Librarian n: librarians){
-                if(n.getFirstName().equals(aFirstName) && n.getLastName().equals(aLastName)) {
+                if(n.getFirstName().equals(firstName)){
                 
                 return n;
                 }
             }
-            throw new Exception("the user Id Does not correcpond to a librarian");
+            throw new Exception("the name privided does not correcpond to a librarian");
             
             
             
