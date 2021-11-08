@@ -516,9 +516,27 @@ public class LibraryServiceService {
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
         }
+
+        error = "";
+        // UserAccount validation
+        boolean validAccount = false;
+        if(account instanceof Librarian) validAccount = true;
+        else{
+            validAccount = ((Patron) account).getValidatedAccount(); 
+        }
+
+        if(!validAccount){
+            error = "User account is unvalidated, cannot complete waitlist transaction! ";
+        }
         
+        // Item validation
         if(item.getState() != ItemState.Borrowed){
-            error = error + "This item is available for reservation or borrowing, no Waitlist necessary";
+            error = error + "This item is available for reservation or borrowing, no Waitlist necessary! ";
+        }
+
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
         }
 
         Transaction itemReservation = new Transaction(item, account, TransactionType.Waitlist, null); // No deadline for waitlist
@@ -549,6 +567,29 @@ public class LibraryServiceService {
         } else if (userAccountRepository.findUserAccountByUserID(account.getUserID()) == null){
             error += "User does not exist!";
         }
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
+
+        error = "";
+        // UserAccount validation
+        boolean validAccount = false;
+        if(account instanceof Librarian) validAccount = true;
+        else{
+            validAccount = ((Patron) account).getValidatedAccount(); 
+        }
+
+        if(!validAccount){
+            error = "User account is unvalidated, cannot complete waitlist transaction! ";
+        }
+
+        // Item validation
+        int waitlistSize = getUsersOnWaitlist(item).size();
+        if(waitlistSize != 0){
+            error += "There are users on the waitlist, cannot complete renewal transaction (please return item)! ";
+        }
+
         error = error.trim();
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
