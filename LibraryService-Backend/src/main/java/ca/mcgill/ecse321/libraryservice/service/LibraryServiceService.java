@@ -16,6 +16,7 @@ import org.springframework.web.servlet.FlashMapManager;
 
 import ca.mcgill.ecse321.libraryservice.dao.*;
 import ca.mcgill.ecse321.libraryservice.dto.PatronDTO;
+import ca.mcgill.ecse321.libraryservice.dto.TimeslotDTO;
 import ca.mcgill.ecse321.libraryservice.dto.UserAccountDTO;
 import ca.mcgill.ecse321.libraryservice.model.*;
 import ca.mcgill.ecse321.libraryservice.model.BorrowableItem.ItemState;
@@ -1089,21 +1090,20 @@ public class LibraryServiceService {
      * @throws Exception if user is not the head librarian
      * @author Mathieu Geoffroy
      */
-    public boolean deleteTimeSlot(UserAccount account, Date startDate, Time startTime, Date endDate, Time endTime) throws Exception {
+
+    @Transactional
+    public boolean deleteTimeSlot(UserAccount account, int timeslotID) throws Exception {
+
         String error = "";
         if (account == null) error = error + "Invalid account. ";
-        if (startDate == null) error = error + "Invalid startDate. ";
-        if (startTime == null) error = error + "Invalid startTime. ";
-        if (endDate == null) error = error + "Invalid endDate. ";
-        if (endTime == null) error = error + "Invalid endTime. ";
-
+        if (timeslotID < 1) error = error + "Invalid timeslotID. ";
         error = error.trim();
 
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
-        HeadLibrarian headLibrarian = getHeadLibrarianFromUserId(account.getUserID());
+        getHeadLibrarianFromUserId(account.getUserID()); //will throw exception is account is not head librarian
 
-        TimeSlot timeSlot = new TimeSlot(startDate, startTime, endDate, endTime, headLibrarian);
+        TimeSlot timeSlot = timeSlotRepository.findTimeSlotByTimeSlotID(timeslotID);
         timeSlotRepository.delete(timeSlot);
         return true;
     }
@@ -1223,20 +1223,19 @@ public class LibraryServiceService {
      * @throws Exception if not day string is incorrect
      * @author Mathieu Geoffroy
      */
-    public boolean deleteOpeningHour(UserAccount account, String day, Time startTime, Time endTime) throws Exception{
+
+    @Transactional
+    public boolean deleteOpeningHour(UserAccount account, int openingHourID) throws Exception{
+
         String error = "";
         if (account == null) error = error + "Invalid account. ";
-        if (day == null) error = error + "Invalid day of week. ";
-        if (startTime == null) error = error + "Invalid startTime. ";
-        if (endTime == null) error = error + "Invalid endTime. ";
+        if (openingHourID < 1) error = error + "Invalid openinghourID. ";
         error = error.trim();
 
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
-        HeadLibrarian headLibrarian = getHeadLibrarianFromUserId(account.getUserID());
-        DayOfWeek dayOfWeek = DayOfWeek.valueOf(day); //case sensitive match
-        OpeningHour openingHour = new OpeningHour(dayOfWeek, startTime, endTime, headLibrarian);
-
+        getHeadLibrarianFromUserId(account.getUserID()); //error is account accessing is not head librarian
+        OpeningHour openingHour = openingHourRepository.findOpeningHourByHourID(openingHourID);
         openingHourRepository.delete(openingHour);
         return true;
     }
@@ -1330,19 +1329,20 @@ public class LibraryServiceService {
      * @throws Exception when user is not authorized (not head librarian)
      * @author Mathieu Geoffroy
      */
-    public boolean deleteHoliday(UserAccount account, Date date, Time startTime, Time endTime) throws Exception {
+
+    @Transactional
+    public boolean deleteHoliday(UserAccount account, int holidayID) throws Exception {
+
         String error = "";
         if (account == null) error = error + "Invalid account. ";
-        if (date == null) error = error + "Invalid date. ";
-        if (startTime == null) error = error + "Invalid startTime. ";
-        if (endTime == null) error = error + "Invalid endTime. ";
+        if (holidayID < 1) error = error + "Invalid holidayID. ";
         error = error.trim();
 
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
-        HeadLibrarian headLibrarian = getHeadLibrarianFromUserId(account.getUserID());
+        getHeadLibrarianFromUserId(account.getUserID()); //throws error is account is not head librarian
 
-        Holiday holiday = new Holiday(date, startTime, endTime, headLibrarian);
+        Holiday holiday = holidayRepository.findHolidayByHolidayID(holidayID);
         holidayRepository.delete(holiday);
         return true;
     }
@@ -1502,7 +1502,7 @@ public class LibraryServiceService {
     @Transactional
     public Patron deleteAPatronbyUserID(UserAccount head, int userID) throws Exception {
         try {
-        HeadLibrarian headLibrarian = getHeadLibrarianFromUserId(head.getUserID());
+        getHeadLibrarianFromUserId(head.getUserID());
 
         } catch (Exception e) {
             throw new  Exception("This User does not the credentials to delete an existing patron");
