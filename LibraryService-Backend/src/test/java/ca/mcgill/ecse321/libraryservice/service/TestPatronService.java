@@ -305,5 +305,41 @@ public void testCreatePatronEmptyEmail() throws Exception {
 		assertEquals("Email cannot be empty!", error);
 }
 
+@Test
+public void testCreatePatronNullCreator() throws Exception {
+	String error = null;
+	Patron patron = null;
+	UserAccount creator = null;
+	try {
+		patron = service.createPatron(creator, PATRON_FIRST_NAME, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
+	}
+	
+	catch (IllegalArgumentException e) {
+		error = e.getMessage();
+	}
+		assertNull(patron);
+		//verify error
+		assertEquals("There needs to be a creator for this method", error);
+}
+
+@Test
+public void testCreatePatronPatronAsCreator() throws Exception {
+	String error = null;
+	Patron patron = null;
+	Patron creator = new Patron();
+	boolean onlineAccount = false;
+	
+	try {
+		patron = service.createPatron(creator, PATRON_FIRST_NAME, PATRON_LAST_NAME, onlineAccount, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
+	}
+	
+	catch (IllegalArgumentException e) {
+		error = e.getMessage();
+	}
+		assertNull(patron);
+		//verify error
+		assertEquals("Only a Librarian can create an in-person account", error);
+}
+
 	
 }

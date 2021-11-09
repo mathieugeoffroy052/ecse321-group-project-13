@@ -1405,7 +1405,7 @@ public class LibraryServiceService {
             error = error + "There needs to be a creator for this method";
         }
         if (creator instanceof Patron && aOnlineAccount == false) {
-            error = error + " Only a Librarian can create an in-person account";
+            error = error + "Only a Librarian can create an in-person account";
         }
 
         // the system will set the validity of the account to false, making sure that 
