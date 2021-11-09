@@ -1399,7 +1399,7 @@ public class LibraryServiceService {
             error = error + "Password cannot be empty!";
         }
         if ((aEmail == null|| aEmail.trim().length() == 0) && aOnlineAccount == true && error.length() == 0) {
-            error = error + "Password cannot be empty!";
+            error = error + "Email cannot be empty!";
         }
         if (creator == null) {
             error = error + "There needs to be a creator for this method";

@@ -230,5 +230,80 @@ public void testCreatePatronEmptyAddress() throws Exception {
 		assertEquals("Address cannot be empty!", error);
 }
 
+@Test
+public void testCreatePatronNullPassword() throws Exception {
+	String error = null;
+	Patron patron = null;
+	String password = null;
+	try {
+		patron = service.createPatron(PATRON_CREATOR, PATRON_FIRST_NAME, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, password, PATRON_BALANCE, PATRON_EMAIL);
+		
+	}
+	catch (IllegalArgumentException e) {
+		error = e.getMessage();
+	}
+		assertNull(patron);
+		//verify error
+		assertEquals("Password cannot be empty!", error);
+	
+}
+
+@Test
+public void testCreatePatronEmptyPassword() throws Exception {
+	String error = null;
+	Patron patron = null;
+	String password = "";
+	try {
+		patron = service.createPatron(PATRON_CREATOR, PATRON_FIRST_NAME, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, password, PATRON_BALANCE, PATRON_EMAIL);
+		
+	}
+	catch (IllegalArgumentException e) {
+		error = e.getMessage();
+		
+	}
+		assertNull(patron);
+		
+		//verify error
+		assertEquals("Password cannot be empty!", error);
+}
+
+
+@Test
+public void testCreatePatronNullEmail() throws Exception {
+	String error = null;
+	Patron patron = null;
+	String email = null;
+	try {
+		patron = service.createPatron(PATRON_CREATOR, PATRON_FIRST_NAME, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, email);
+		
+	}
+	catch (IllegalArgumentException e) {
+		error = e.getMessage();
+	}
+		assertNull(patron);
+		//verify error
+		assertEquals("Email cannot be empty!", error);
+	
+}
+
+@Test
+public void testCreatePatronEmptyEmail() throws Exception {
+	String error = null;
+	Patron patron = null;
+	String email = "";
+	try {
+		patron = service.createPatron(PATRON_CREATOR, PATRON_FIRST_NAME, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, email);
+		
+	}
+	catch (IllegalArgumentException e) {
+		error = e.getMessage();
+		
+	}
+		assertNull(patron);
+		
+		//verify error
+		assertEquals("Email cannot be empty!", error);
+}
+
 	
 }
