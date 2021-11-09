@@ -34,7 +34,6 @@ public class TimeSlot
   private int timeSlotID;
 
   //TimeSlot Associations
-  private LibrarySystem librarySystem;
   private Set<Librarian> librarian;
   private HeadLibrarian headLibrarian;
 
@@ -46,7 +45,7 @@ public class TimeSlot
     timeSlotID = nextTimeSlotID++;
   }
 
-  public TimeSlot(Date aStartDate, Time aStartTime, Date aEndDate, Time aEndTime, LibrarySystem aLibrarySystem, HeadLibrarian aHeadLibrarian)
+  public TimeSlot(Date aStartDate, Time aStartTime, Date aEndDate, Time aEndTime, HeadLibrarian aHeadLibrarian)
   {
     startDate = aStartDate;
     startTime = aStartTime;
@@ -54,11 +53,6 @@ public class TimeSlot
     endTime = aEndTime;
     timeSlotID = nextTimeSlotID++;
     headLibrarian = aHeadLibrarian;
-    boolean didAddLibrarySystem = setLibrarySystem(aLibrarySystem);
-    if (!didAddLibrarySystem)
-    {
-      throw new RuntimeException("Unable to create timeSlot due to librarySystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
     boolean didAddHeadLibrarian = setHeadLibrarian(aHeadLibrarian);
     if (!didAddHeadLibrarian)
     {
@@ -158,14 +152,6 @@ public class TimeSlot
   {
     return endTime;
   }
-
-  /* Code from template association_GetOne */
-  @ManyToOne(optional=false)
-  public LibrarySystem getLibrarySystem()
-  {
-    return librarySystem;
-  }
-
   
   @ManyToMany(fetch=FetchType.EAGER)
   @OnDelete (action = OnDeleteAction.CASCADE)
@@ -191,19 +177,6 @@ public class TimeSlot
   public HeadLibrarian getHeadLibrarian()
   {
     return headLibrarian;
-  }
-
-  /* Code from template association_SetOneToMany */
-  public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
-  {
-    boolean wasSet = false;
-    if (aLibrarySystem == null)
-    {
-      return wasSet;
-    }
-    librarySystem = aLibrarySystem;
-    wasSet = true;
-    return wasSet;
   }
 
   /* Code from template association_MinimumNumberOfMethod */
@@ -233,7 +206,6 @@ public class TimeSlot
             "  " + "startTime" + "=" + (getStartTime() != null ? !getStartTime().equals(this)  ? getStartTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "endDate" + "=" + (getEndDate() != null ? !getEndDate().equals(this)  ? getEndDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "endTime" + "=" + (getEndTime() != null ? !getEndTime().equals(this)  ? getEndTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "librarySystem = "+(getLibrarySystem()!=null?Integer.toHexString(System.identityHashCode(getLibrarySystem())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "headLibrarian = "+(getHeadLibrarian()!=null?Integer.toHexString(System.identityHashCode(getHeadLibrarian())):"null");
   }
 }

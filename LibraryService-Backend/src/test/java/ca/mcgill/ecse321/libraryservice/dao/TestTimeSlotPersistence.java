@@ -15,7 +15,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import ca.mcgill.ecse321.libraryservice.model.HeadLibrarian;
 import ca.mcgill.ecse321.libraryservice.model.Librarian;
-import ca.mcgill.ecse321.libraryservice.model.LibrarySystem;
 import ca.mcgill.ecse321.libraryservice.model.TimeSlot;
 
 @ExtendWith(SpringExtension.class)
@@ -32,8 +31,6 @@ public class TestTimeSlotPersistence {
     private LibrarianRepository librarianRepository;
     @Autowired
     private LibraryItemRepository libraryItemRepository;
-    @Autowired
-    private LibrarySystemRepository librarySystemRepository;
     @Autowired
     private OpeningHourRepository openingHourRepository;
     @Autowired
@@ -59,14 +56,10 @@ public class TestTimeSlotPersistence {
         librarianRepository.deleteAll();
         libraryItemRepository.deleteAll();
         userAccountRepository.deleteAll();
-        librarySystemRepository.deleteAll();
     }
 
     @Test @SuppressWarnings("deprecation")
     public void testPersistAndLoadTimeSlot() {
-        LibrarySystem library = new LibrarySystem();
-        librarySystemRepository.save(library);
-
         //create inputs for timeslot constructor
         Date startDate = new Date(2020, 12, 25);
         Time startTime =  new Time(12, 43, 0);
@@ -83,14 +76,14 @@ public class TestTimeSlotPersistence {
         String address = "10 Road, Toronto, Canada";
 
         //create head librarian
-        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance, email);
+        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, address, password, balance, email);
         
         headLibrarianRepository.save(headLibrarian);
         librarianRepository.save(headLibrarian);
         userAccountRepository.save(headLibrarian);
 
         //create timeslot
-        TimeSlot timeSlot = new TimeSlot(startDate, startTime, endDate, endTime, library, headLibrarian);
+        TimeSlot timeSlot = new TimeSlot(startDate, startTime, endDate, endTime, headLibrarian);
 
         //get timeslotID to retreive from DB
         int timeSlotID = timeSlot.getTimeSlotID();
@@ -125,9 +118,6 @@ public class TestTimeSlotPersistence {
 
     @Test @SuppressWarnings("deprecation")
     public void testPersistAndLoadTimeSlotByReferenceByHeadLibrarian() {
-        LibrarySystem library = new LibrarySystem();
-        librarySystemRepository.save(library);
-
         //create inputs for timeslot constructor
         Date startDate = new Date(2020, 12, 25);
         Time startTime =  new Time(12, 43, 0);
@@ -144,14 +134,14 @@ public class TestTimeSlotPersistence {
         String address = "10 Road, Toronto, Canada";
 
         //create head librarian
-        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance, email);
+        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, address, password, balance, email);
         
         headLibrarianRepository.save(headLibrarian);
         librarianRepository.save(headLibrarian);
         userAccountRepository.save(headLibrarian);
 
         //create timeslot
-        TimeSlot timeSlot = new TimeSlot(startDate, startTime, endDate, endTime, library, headLibrarian);
+        TimeSlot timeSlot = new TimeSlot(startDate, startTime, endDate, endTime, headLibrarian);
 
         //save timeslot to DB
         timeSlotRepository.save(timeSlot);
@@ -183,9 +173,6 @@ public class TestTimeSlotPersistence {
 
     @Test @SuppressWarnings("deprecation")
     public void testPersistAndLoadTimeSlotByReferenceLibrarian() {
-        LibrarySystem library = new LibrarySystem();
-        librarySystemRepository.save(library);
-
          //create inputs for TimeSlot 
          Date startDate = new Date(2021, 10, 26);
          Time startTime =  new Time(9, 30, 0);
@@ -202,14 +189,14 @@ public class TestTimeSlotPersistence {
         int hLibBalance = 0;
 
         //create head libarian and persist
-        HeadLibrarian headLibrarian = new HeadLibrarian(hLibFirstName, hLibLastName, hLibOnline, library, hLibAddress, hLibPassword, hLibBalance, hLibEmail);
+        HeadLibrarian headLibrarian = new HeadLibrarian(hLibFirstName, hLibLastName, hLibOnline, hLibAddress, hLibPassword, hLibBalance, hLibEmail);
 
         headLibrarianRepository.save(headLibrarian);
         librarianRepository.save(headLibrarian);
         userAccountRepository.save(headLibrarian);
 
         //create time slot and persist
-        TimeSlot timeSlot = new TimeSlot(startDate, startTime, endDate, endTime, library, headLibrarian);
+        TimeSlot timeSlot = new TimeSlot(startDate, startTime, endDate, endTime, headLibrarian);
 
         //inputs for librarian
         String libFirstName = "Ben";
@@ -221,7 +208,7 @@ public class TestTimeSlotPersistence {
         int libBalance = 0;
 
         //create librarian, persist
-        Librarian librarian = new Librarian(libFirstName, libLastName, libOnline, library, libAddress, libPassword, libBalance, libEmail);
+        Librarian librarian = new Librarian(libFirstName, libLastName, libOnline, libAddress, libPassword, libBalance, libEmail);
         
         librarianRepository.save(librarian);
         userAccountRepository.save(librarian);
@@ -244,7 +231,6 @@ public class TestTimeSlotPersistence {
         assertEquals(startTime, timeSlot.getStartTime(), "transaction.startTime mismatch");
         assertEquals(endDate, timeSlot.getEndDate(), "transaction.endDate mismatch");
         assertEquals(endTime, timeSlot.getEndTime(), "transaction.endTime mismatch");
-        assertEquals(library.getSystemId(), timeSlot.getLibrarySystem().getSystemId(), "timeSlot.headLibrarian.librarySystem.systemID mismatch");
 
         //test persistence of head librian within transaction
         assertEquals(hLibFirstName, timeSlot.getHeadLibrarian().getFirstName(), "timeSlot.headLibrarian.firstName mismatch");
@@ -254,7 +240,6 @@ public class TestTimeSlotPersistence {
         assertEquals(hLibAddress, timeSlot.getHeadLibrarian().getAddress(), "timeSlot.headLibrarian.address mismatch");
         assertEquals(hLibBalance, timeSlot.getHeadLibrarian().getBalance(), "timeSlot.headLibrarian.balance mismatch");
         assertEquals(hLibEmail, timeSlot.getHeadLibrarian().getEmail(), "timeSlot.headLibrarian.email mismatch");
-        assertEquals(library.getSystemId(), timeSlot.getHeadLibrarian().getLibrarySystem().getSystemId(), "timeSlot.headLibrarian.librarySystem.systemID mismatch");
 
         //test persistence of librarian
         Librarian libFromTimeSlot = (Librarian) timeSlot.getLibrarian().toArray()[0];
@@ -265,52 +250,5 @@ public class TestTimeSlotPersistence {
         assertEquals(libAddress, libFromTimeSlot.getAddress(), "timeSlot.librarian[0].address mismatch");
         assertEquals(libBalance, libFromTimeSlot.getBalance(), "timeSlot.librarian[0].balance mismatch");
         assertEquals(libEmail, libFromTimeSlot.getEmail(), "timeSlot.librarian[0].email mismatch");
-        assertEquals(library.getSystemId(), libFromTimeSlot.getLibrarySystem().getSystemId(), "timeSlot.librarian[0].librarySystem.systemID mismatch");
-    }
-
-    @Test @SuppressWarnings("deprecation")
-    public void testPersistAndLoadTimeSlotByRefLibrarySystem() {
-        LibrarySystem library = new LibrarySystem();
-        librarySystemRepository.save(library);
-
-        //inputs for timeSlot
-        Date startDate = new Date(2021, 1, 20);
-        Time startTime =  new Time(10, 0, 0);
-        Date endDate = new Date(2021, 1, 20);
-        Time endTime = new Time(18, 0, 0);
-
-        //inputs headLibrarian
-        String firstName = "Samantha";
-        String lastName = "Jules";
-        boolean online = true;
-        String password = "a1b2c3d4";
-        String email = "Samantha@email.com";
-        int balance = 0;
-        String address = "10203 5th Av, New York, New York, USA";
-
-        //create head librarian and persist
-        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance, email);
-
-        //create time slot and persist
-        TimeSlot timeSlot = new TimeSlot(startDate, startTime, endDate, endTime, library, headLibrarian);
-
-        headLibrarianRepository.save(headLibrarian);
-        librarianRepository.save(headLibrarian);
-        userAccountRepository.save(headLibrarian);
-        timeSlotRepository.save(timeSlot);
-
-        
-        //clear time slot
-        timeSlot = null;
-
-        //retrieve time slot by library system from DB
-        timeSlot = timeSlotRepository.findByLibrarySystem(library).get(0);
-
-        //test functionality
-        assertNotNull(timeSlot, "No timeslot retrieved");
-        assertEquals(startDate, timeSlot.getStartDate(), "timeslot.startDate mismatch");
-        assertEquals(startTime, timeSlot.getStartTime(), "timeslot.startTime mismatch");
-        assertEquals(endDate, timeSlot.getEndDate(), "timeslot.endDate mismatch");
-        assertEquals(endTime, timeSlot.getEndTime(), "timeslot.endTime mismatch");
     }
 }

@@ -158,7 +158,6 @@ public class LibraryServiceRestController {
      * @param firstName
      * @param lastName
      * @param onlineAccount
-     * @param librarySystem
      * @param address
      * @param validatedAccount
      * @param password
@@ -169,9 +168,9 @@ public class LibraryServiceRestController {
      */
     @PostMapping(value = { "/createPatron/{firstName}/{lastName}", "/createPatron/{creator}/{firstName}/{lastName}/" })
 	public PatronDTO createPatron(@RequestParam("creator") UserAccount creator, @PathVariable("firstName") String firstName, @RequestParam("lastName") String lastName, @RequestParam("onlineAccount") boolean onlineAccount, 
-			@PathVariable("librarySystem") LibrarySystem librarySystem,@PathVariable("address") String address, @PathVariable("validatedAccount") boolean validatedAccount, @PathVariable("password") String password,
+            @PathVariable("address") String address, @PathVariable("validatedAccount") boolean validatedAccount, @PathVariable("password") String password,
             @RequestParam("balance") int balance, @RequestParam("email") String email) throws Exception{
-		Patron patron = service.createPatron( creator,  firstName,  lastName,  onlineAccount,  librarySystem,  address,  validatedAccount,  password,  balance,  email);
+		Patron patron = service.createPatron( creator,  firstName,  lastName,  onlineAccount,  address,  validatedAccount,  password,  balance,  email);
 	return convertToDto(patron);
 	}
 
@@ -573,12 +572,10 @@ public class LibraryServiceRestController {
      * @throws Exception 
      */
     private UserAccount convertToDomainObject(UserAccountDTO userAccountDTO) throws Exception{
-    	LibrarySystem librarySystem;
     	List<UserAccount> userAccounts;
         UserAccount userAccount = null;
 
     	try {
-    	librarySystem = service.getLibrarySystemfrom1();
     	userAccounts = service.getAllUsers();
 
         for (UserAccount acc : userAccounts) {

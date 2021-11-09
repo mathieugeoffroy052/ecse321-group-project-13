@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import ca.mcgill.ecse321.libraryservice.model.Librarian;
-import ca.mcgill.ecse321.libraryservice.model.LibrarySystem;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -27,8 +26,6 @@ public class TestLibrarianPersistence {
     private LibrarianRepository librarianRepository;
     @Autowired
     private LibraryItemRepository libraryItemRepository;
-    @Autowired
-    private LibrarySystemRepository librarySystemRepository;
     @Autowired
     private OpeningHourRepository openingHourRepository;
     @Autowired
@@ -54,14 +51,10 @@ public class TestLibrarianPersistence {
         librarianRepository.deleteAll();
         libraryItemRepository.deleteAll();
         userAccountRepository.deleteAll();
-        librarySystemRepository.deleteAll();
     }
 
     @Test
     public void testPersistAndLoadLibrarian() {
-        LibrarySystem library = new LibrarySystem();
-        librarySystemRepository.save(library);
-
         //create inputs for librarian constructor
         String firstName = "Jake";
         String lastName = "Morello";
@@ -72,7 +65,7 @@ public class TestLibrarianPersistence {
         String address = "100 Durocher, Montreal, Canada";
         
         //create librarian
-        Librarian librarian = new Librarian(firstName, lastName, online, library, address, password, balance, email);
+        Librarian librarian = new Librarian(firstName, lastName, online, address, password, balance, email);
 
         //get librarianID to retrieve librarian from DB
         int librarianID = librarian.getUserID();

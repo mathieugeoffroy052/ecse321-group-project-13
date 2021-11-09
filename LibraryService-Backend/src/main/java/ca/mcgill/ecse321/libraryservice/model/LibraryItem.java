@@ -32,9 +32,6 @@ public class LibraryItem
   //Autounique Attributes
   private int isbn;
 
-  //LibraryItem Associations
-  private LibrarySystem librarySystem;
-
   //------------------------
   // CONSTRUCTOR
   //------------------------
@@ -43,7 +40,7 @@ public class LibraryItem
     isbn = nextIsbn++;
   }
 
-  public LibraryItem(String aName, LibrarySystem aLibrarySystem, ItemType aItemType, Date aDate, String aCreator, boolean aIsViewable)
+  public LibraryItem(String aName, ItemType aItemType, Date aDate, String aCreator, boolean aIsViewable)
   {
     name = aName;
     isbn = nextIsbn++;
@@ -51,11 +48,6 @@ public class LibraryItem
     itemType = aItemType;
     creator = aCreator;
     isViewable = aIsViewable;
-    boolean didAddLibrarySystem = setLibrarySystem(aLibrarySystem);
-    if (!didAddLibrarySystem)
-    {
-      throw new RuntimeException("Unable to create libraryItem due to librarySystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
   }
 
   //------------------------
@@ -150,27 +142,10 @@ public class LibraryItem
     return isViewable;
   }
 
-  /* Code from template association_GetOne */
-  @ManyToOne(optional=false)
-  public LibrarySystem getLibrarySystem()
-  {
-    return librarySystem;
-  }
-
-  /* Code from template association_SetOneToMany */
-  public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
-  {
-    boolean wasSet = false;
-    this.librarySystem = aLibrarySystem;
-    wasSet = true;
-    return wasSet;
-  }
-
   public String toString()
   {
     return super.toString() + "["+
             "isbn" + ":" + getIsbn()+ "," +
-            "name" + ":" + getName()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "librarySystem = "+(getLibrarySystem()!=null?Integer.toHexString(System.identityHashCode(getLibrarySystem())):"null");
+            "name" + ":" + getName()+ "]" + System.getProperties().getProperty("line.separator");
   }
 }
