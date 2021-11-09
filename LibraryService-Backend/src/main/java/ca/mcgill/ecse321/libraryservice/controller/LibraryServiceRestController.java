@@ -8,9 +8,10 @@ import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import ca.mcgill.ecse321.libraryservice.dao.PatronRepository;
 import ca.mcgill.ecse321.libraryservice.dto.*;
 import ca.mcgill.ecse321.libraryservice.dto.LibraryItemDTO.ItemType;
 import ca.mcgill.ecse321.libraryservice.model.*;
@@ -26,6 +27,158 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class LibraryServiceRestController {
     @Autowired
 	private LibraryServiceService service;
+
+
+    /**
+     * This methods gets all users for the database
+     * @author Gabrielle Halpin
+     * @return userDTOs
+     * @throws Exception
+     */
+    @GetMapping(value = { "/users", "/users/" })
+    public List<UserAccountDTO> getAllUsers() throws Exception{
+            List<UserAccountDTO> userDtos = new ArrayList<>();
+            for (UserAccount users : service.getAllUsers()) {
+                userDtos.add(convertToDto(users));
+            }
+            return userDtos;
+        
+    }
+
+    /**
+     * This methods gets all patrons for the database
+     * @author Gabrielle Halpin
+     * @return patrons
+     * @throws Exception
+     */
+    @GetMapping(value = { "/patrons", "/patrons/" })
+    public List<UserAccountDTO> getAllPatrons() throws Exception{
+            List<UserAccountDTO> patrons = new ArrayList<>();
+            for (UserAccount users : service.getAllPatrons()) {
+                patrons.add(convertToDto(users));
+            }
+            return patrons;
+        
+    }
+
+    /**
+     * This methods gets all librarians for the database
+     * @author Gabrielle Halpin
+     * @return patrons
+     * @throws Exception
+     */
+    @GetMapping(value = { "/librarians", "/librarians/" })
+    public List<UserAccountDTO> getAllLibrarians() throws Exception{
+            List<UserAccountDTO> librarians = new ArrayList<>();
+            for (UserAccount users : service.getAllLibrarians()) {
+                librarians.add(convertToDto(users));
+            }
+            return librarians;
+        
+    }
+
+    /**
+     * @author Gabrielle Halpin
+	 * Delete a business information
+	 * @param userID
+     * @param headLibrarian
+	 * @return patronDTO
+	 */
+	@PutMapping(value = {"/deletePatron/{userID}","/deletePatron/{userID}/"})
+	public PatronDTO deletePatron(@PathVariable("userID") int userID, @RequestBody UserAccount headLibrarian) throws Exception{
+		Patron patron = service.deleteAPatronbyUserID(headLibrarian, userID);
+		return convertToDto(patron);
+	}
+
+    /**
+     * This method uses the getPatronByUserId to retrieve a Patron from the database using their unique userID
+     * @author Gabrielle Halpin
+     * @param userID
+     * @return PatronDTO
+     * @throws IllegalArgumentException
+     */
+    @GetMapping(value = { "/patron/{userID}", "/patron/{userID}/" })
+    public PatronDTO getPatronByUserId(@PathVariable("userID") int userID) throws Exception {
+        return convertToDto(service.getPatronByUserId(userID));
+    }
+
+    /**
+     * This methods gets a patron from their firstname and last name
+     * @author Gabrielle Halpin
+     * @param firstName
+     * @param lastName
+     * @return PatronDTO
+     * @throws Exception
+     */
+    @GetMapping(value = { "/patrons/{firstName}/{lastName}", "/patrons/{firstname}/{lastName}/" })
+    public PatronDTO getPatronFromFullName(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName) throws Exception {
+        return convertToDto(service.getPatronFromFullName(firstName, lastName));
+    }
+    /**
+     * @author Gabrielle Halpin
+	 * Update Password
+	 * @param user  
+	 * @param password
+	 * @return
+	 */
+	@PutMapping(value = {"/updatePassword", "/updatePassword/"})
+	public UserAccountDTO updatePassword(@RequestBody UserAccount user, @RequestParam("password") String password) {
+		UserAccountDTO accountDTO = new UserAccountDTO();
+		UserAccount  account = service.changePassword(password, user);
+		accountDTO = convertToDto(account);
+		return accountDTO; 
+	}
+
+    /**
+     * This method sets the validity of the user's online account
+     * @author Gabrielle Halpin
+	 * Update Password
+	 * @param user  
+	 * @param password
+	 * @return
+	 */
+	@PutMapping(value = {"/setAccountValidity/", "/setAccountValidity/"})
+	public UserAccountDTO setAccountValidity(@RequestBody Patron patron, @RequestParam("validatedAccount") boolean validatedAccount, @RequestBody UserAccount creator) throws Exception{
+		UserAccountDTO accountDTO = new UserAccountDTO();
+		Patron  account = service.setValidatedAccount(patron, validatedAccount, creator);
+		accountDTO = convertToDto(account);
+		return accountDTO; 
+	}
+
+    /**
+     * @author Gabrielle Halpin
+     * This methods gets a userAccount from their unique userID
+     * @param userID
+     * @return UserAccountDTO
+     * @throws Exception
+     */
+    @GetMapping(value = { "/user/{userID}", "/user/{userID}/" })
+    public UserAccountDTO getUserbyUserID(@PathVariable("userID") int userID) throws Exception {
+        return convertToDto(service.getUserbyUserId(userID));
+    }
+
+    /**
+     * @author Gabrielle Halpin
+     * This method creates a Patron in the database and return a PatronDTO object
+     * @param creator
+     * @param firstName
+     * @param lastName
+     * @param onlineAccount
+     * @param address
+     * @param validatedAccount
+     * @param password
+     * @param balance
+     * @param email
+     * @return patronDTO
+     * @throws Exception
+     */
+    @PostMapping(value = { "/createPatron/{firstName}/{lastName}", "/createPatron/{creator}/{firstName}/{lastName}/" })
+	public PatronDTO createPatron(@RequestParam("creator") UserAccount creator, @PathVariable("firstName") String firstName, @RequestParam("lastName") String lastName, @RequestParam("onlineAccount") boolean onlineAccount, 
+            @PathVariable("address") String address, @PathVariable("validatedAccount") boolean validatedAccount, @PathVariable("password") String password,
+            @RequestParam("balance") int balance, @RequestParam("email") String email) throws Exception{
+		Patron patron = service.createPatron( creator,  firstName,  lastName,  onlineAccount,  address,  validatedAccount,  password,  balance,  email);
+	return convertToDto(patron);
+	}
 
 
     ////////// Helper methods - convertToDTO////////
@@ -120,7 +273,8 @@ public class LibraryServiceRestController {
         }
         LibraryItemDTO item = convertToDto(borrowableItem.getLibraryItem());
         BorrowableItemDTO.ItemState itemState = BorrowableItemDTO.ItemState.valueOf(borrowableItem.getState().toString());
-        BorrowableItemDTO borrowableItemDTO = new BorrowableItemDTO(itemState, item);
+        int barCodeNumber = borrowableItem.getBarCodeNumber();
+        BorrowableItemDTO borrowableItemDTO = new BorrowableItemDTO(itemState, item, barCodeNumber);
         return borrowableItemDTO;
     }
 
@@ -176,8 +330,19 @@ public class LibraryServiceRestController {
     //each method need to check to make sure the individual is in the system before creating them.
 
     private BorrowableItem convertToDomainObject(BorrowableItemDTO borrowableItemDTO) {
-        return null;
-    }
+        BorrowableItem borrowableItem = null;
+	     try {
+	    	 
+	    	// borrowableItem = service.getBorrowableItemsFromItemIsbn();
+	    	//***Need to update dto class -Zoya
+	     } catch (Exception e) {
+	         throw new IllegalArgumentException("Could not get borrowable item from service!");
+	     }
+	     if (borrowableItem == null) {
+	            throw new IllegalArgumentException("There is no such borrowable item dto!");
+	        }
+	     return borrowableItem;    
+        }
 
     /**
      * Gets the corresponding regular library item from the DTO version
@@ -294,7 +459,7 @@ public class LibraryServiceRestController {
      * This method converts a openingHour DTO to a domain object opening hour.
      * @author Zoya Malhi
      * @param OpeningHourDTO
-     * @return null
+     * @return openingHour
      */
 	 private OpeningHour convertToDomainObject(OpeningHourDTO openingHourDTO){
 		 List<OpeningHour> openingHours;
@@ -305,7 +470,10 @@ public class LibraryServiceRestController {
 	        	 
 	                 if (o.getStartTime().toLocalTime().compareTo(openingHourDTO.getStartTime().toLocalTime()) == 0){
 	                     if (o.getEndTime().toLocalTime().compareTo(openingHourDTO.getEndTime().toLocalTime()) == 0){
-	                         openingHour = o;
+                             if (o.getDayOfWeek().toString().equals(openingHourDTO.getDayOfWeek().toString())) {
+                                openingHour = o;
+                                break;
+                             }
 	                     }
 	                 }
 	     }
@@ -313,7 +481,7 @@ public class LibraryServiceRestController {
 	         throw new IllegalArgumentException("Could not get opening hours from service!");
 	     }
 	     
-	     return null;
+	     return openingHour;
 	 }
     
     /** 
@@ -333,14 +501,14 @@ public class LibraryServiceRestController {
 	     if (patron == null) {
 	            throw new IllegalArgumentException("There is no such patron dto!");
 	        }
-	     return null;
+	     return patron;
     	
     }
     /**
      * This method converts a timslot DTO to a timeslot object.
      * @author Zoya Malhi
      * @param timeslotDTO
-     * @return null
+     * @return timeslot
      */
     private TimeSlot convertToDomainObject(TimeslotDTO timeslotDTO){
     	List<TimeSlot> timeslots;
@@ -350,7 +518,12 @@ public class LibraryServiceRestController {
 	         for(TimeSlot t : timeslots) {
 	        	 if (t.getStartTime().toLocalTime().compareTo(timeslotDTO.getStartTime().toLocalTime()) == 0){
                      if (t.getEndTime().toLocalTime().compareTo(timeslotDTO.getEndTime().toLocalTime()) == 0){
-                         timeslot = t;
+                         if (t.getStartDate().toLocalDate().compareTo(timeslotDTO.getStartDate().toLocalDate()) == 0) {
+                             if (t.getEndDate().toLocalDate().compareTo(timeslotDTO.getEndDate().toLocalDate()) == 0) {
+                                timeslot = t;
+                                break;
+                             }
+                         }
                      }
                  }
 	         }
@@ -359,46 +532,63 @@ public class LibraryServiceRestController {
 		         throw new IllegalArgumentException("Could not get timeslot from service!");
 		 }
 	     if (timeslot == null) {
-	            throw new IllegalArgumentException("There is no such patron dto!");
+	            throw new IllegalArgumentException("There is no such timeslot dto!");
 	     }
 	     
-    	return null;
+    	return timeslot;
     }
 
     /**
      * This method converts a transaction DTO to a transaction object.
-     * @author Zoya Malhi
+     * @author Zoya Malhi, Mathieu Geoffroy
      * @param transactionDTO
      * @return null
      */
     private Transaction convertToDomainObject(TransactionDTO transactionDTO){
     	Transaction transaction = null; 
+        List<Transaction> transactions;
     	try {
-	    	 
-	        // transaction = service.getAllUsers(null);
+	    	 transactions = service.getAllTransactions();
+             for (Transaction t : transactions) {
+                 if ((t.getDeadline().toLocalDate().isEqual(transactionDTO.getDeadline().toLocalDate()))
+                 && (t.getBorrowableItem().getBarCodeNumber() == transactionDTO.getBorrowableItem().getBarCodeNumber())
+                 && (t.getTransactionType().toString().equals(transactionDTO.getTransactionType().toString()))
+                 && (t.getUserAccount().getFirstName().equals(transactionDTO.getUserAccount().getFirstName()))
+                 && (t.getUserAccount().getLastName().equals(transactionDTO.getUserAccount().getLastName()))) {
+                    transaction = t;
+                    break;
+                 }
+
+             }
+	        
 	     
 	     } catch (Exception e) {
-	         throw new IllegalArgumentException("Could not get patrons from service!");
+	         throw new IllegalArgumentException("Could not get transactions from service!");
 	     }
     	 if (transaction == null) {
-	            throw new IllegalArgumentException("There is no such patron dto!");
+	            throw new IllegalArgumentException("There is no such transaction dto!");
 	        }
-	     return null;
+	     return transaction;
     }
     
     /**
      * @author Zoya Malhi
      * @param userAccountDTO
-     * @return null
+     * @return userAccount
      * @throws Exception 
      */
     private UserAccount convertToDomainObject(UserAccountDTO userAccountDTO) throws Exception{
-    	LibrarySystem librarySystem;
     	List<UserAccount> userAccounts;
-    	
+        UserAccount userAccount = null;
+
     	try {
-    	librarySystem = service.getLibrarySystemfrom1();
-    	userAccounts = service.getAllUsers(librarySystem);
+    	userAccounts = service.getAllUsers();
+
+        for (UserAccount acc : userAccounts) {
+    		if (acc.getFirstName().equals(userAccountDTO.getFirstName()) && acc.getLastName().equals(userAccountDTO.getLastName()) && acc.getEmail().equals(userAccountDTO.getEmail())) {
+    			userAccount = acc;
+    		}
+    	}
     
     	}catch (Exception e) {
 	         throw new IllegalArgumentException("Could not get userAccount from service!");
@@ -406,7 +596,7 @@ public class LibraryServiceRestController {
     	if (userAccounts == null) {
             throw new IllegalArgumentException("There is no such userAccount dto!");
         }
-	     return null;
+	     return userAccount;
     	
     }
     

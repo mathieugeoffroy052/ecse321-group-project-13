@@ -5,12 +5,14 @@ public class BorrowableItemDTO {
 
   private ItemState state;
   private LibraryItemDTO libraryItem;
+  private int barCodeNumber;
 
   public BorrowableItemDTO(){}
 
-  public BorrowableItemDTO(ItemState state, LibraryItemDTO item){
+  public BorrowableItemDTO(ItemState state, LibraryItemDTO item, int barCodeNumber){
       this.state = state;
       this.libraryItem = item;
+      this.barCodeNumber = barCodeNumber;
   }
 
   public ItemState getItemState(){
@@ -19,6 +21,10 @@ public class BorrowableItemDTO {
 
   public LibraryItemDTO getLibraryItem(){
       return this.libraryItem;
+  }
+
+  public int getBarCodeNumber() {
+      return this.barCodeNumber;
   }
     
 }
