@@ -115,7 +115,7 @@ public void testCreatePatronSuccessful() throws Exception {
 
 
 @Test
-public void testCreatePatronNull() throws Exception {
+public void testCreatePatronNullFirstName() throws Exception {
 	String error = null;
 	Patron patron = null;
 	String firstName = null;
@@ -137,7 +137,7 @@ public void testCreatePatronNull() throws Exception {
 
 
 @Test
-public void testCreatePatronEmpty() throws Exception {
+public void testCreatePatronEmptyFirstName() throws Exception {
 	String error = null;
 	Patron patron = null;
 	String firstName = "";
@@ -157,5 +157,67 @@ public void testCreatePatronEmpty() throws Exception {
 	
 }
 	
+@Test
+public void testCreatePatronNullLastName() throws Exception {
+	String error = null;
+	Patron patron = null;
+	String lastName = null;
+	try {
+		LibrarySystem ls = new LibrarySystem();
+		patron = service.createPatron(PATRON_CREATOR, PATRON_FIRST_NAME, lastName, PATRON_ONLINE_ACCOUNT, ls, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
+		
+	}
+	catch (IllegalArgumentException e) {
+		error = e.getMessage();
+		
+	}
+		assertNull(patron);
+		
+		//verify error
+		assertEquals("Last Name cannot be empty!", error);
+	
+}
+
+
+@Test
+public void testCreatePatronLastNameEmpty() throws Exception {
+	String error = null;
+	Patron patron = null;
+	String lastName = "";
+	try {
+		LibrarySystem ls = new LibrarySystem();
+		patron = service.createPatron(PATRON_CREATOR, PATRON_FIRST_NAME, lastName, PATRON_ONLINE_ACCOUNT, ls, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
+		
+	}
+	catch (IllegalArgumentException e) {
+		error = e.getMessage();
+		
+	}
+		assertNull(patron);
+		
+		//verify error
+		assertEquals("Last Name cannot be empty!", error);
+	
+}
+
+@Test
+public void testCreatePatronNullLibrarySystem() throws Exception {
+	String error = null;
+	Patron patron = null;
+	try {
+		LibrarySystem ls = null;
+		patron = service.createPatron(PATRON_CREATOR, PATRON_FIRST_NAME, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, ls, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
+		
+	}
+	catch (IllegalArgumentException e) {
+		error = e.getMessage();
+	}
+		assertNull(patron);
+		//verify error
+		assertEquals("System doesn't exist", error);
+	
+}
+
+
 	
 }
