@@ -38,7 +38,7 @@ ________________________________________________________________________________
 | :---------------------:|:------------------------------------------------------------------------------------------------------------------------------------:| :--------:|
 | Amani Jammoul          |                                                                                                                                      |           |
 | Eloyann Roy-Javanbakht |                                                                                                                                      |           |
-| Gabrielle Halpin       |                                                                                                                                      |           |
+| Gabrielle Halpin       |  Business methods, RESTful service methods, controller methods, issue tracking, Software Assurance plan, service endpoint documentation, continuous integration                                                                                                                                    |           |
 | Mathieu Geoffrey       |                                                                                                                                      |           |
 | Ramin Akhavan-Sarraf   |                                                                                                                                      |           |
 | Zoya Malhi             |                                                                                                                                      |           |
