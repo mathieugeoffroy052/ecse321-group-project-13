@@ -23,6 +23,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
@@ -53,12 +54,13 @@ public class TestLibraryServiceService {
 	private static final Date LIBRARY_ITEM_DATE = Date.valueOf("2009-03-15");
 	private static final boolean LIBRARY_ITEM_IS_VIEWABLE = false;
 	
-	private static final int LIBRARY_SYSTEM_ID = 1;
+	private static final int LIBRARY_SYSTEM_ID = 0;
 
 	@BeforeEach
 	public void setMockOutput() {
 		lenient().when(librarySystemDao.findBySystemId(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
 			if (invocation.getArgument(0).equals(LIBRARY_SYSTEM_ID)) {
+				System.err.println("hello");
 				LibrarySystem librarySystem = new LibrarySystem();
 				librarySystem.setSystemId(LIBRARY_SYSTEM_ID);
 				this.libSystem = librarySystem;
@@ -86,9 +88,8 @@ public class TestLibraryServiceService {
 		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
 			return invocation.getArgument(0);
 		};
-		lenient().when(librarySystemDao.save(any(LibrarySystem.class))).thenAnswer(returnParameterAsAnswer);
 		lenient().when(libraryItemDao.save(any(LibraryItem.class))).thenAnswer(returnParameterAsAnswer);
-		System.err.println(libraryItemDao.findAll());
+		lenient().when(librarySystemDao.save(any(LibrarySystem.class))).thenAnswer(returnParameterAsAnswer);
 	}
 
 	@Test
