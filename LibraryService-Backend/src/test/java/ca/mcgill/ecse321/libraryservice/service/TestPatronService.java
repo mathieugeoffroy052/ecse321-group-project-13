@@ -91,7 +91,7 @@ public void testCreatePatronNull() throws Exception {
 	Patron patron = null;
 	String firstName = null;
 	try {
-		LibrarySystem ls = service.getLibrarySystemfrom1();
+		LibrarySystem ls = new LibrarySystem();
 		patron = service.createPatron(PATRON_CREATOR, firstName, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, ls, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
 		
 	}
@@ -102,7 +102,7 @@ public void testCreatePatronNull() throws Exception {
 		assertNull(patron);
 		
 		//verify error
-		assertEquals("First Name  cannot be empty! ", error);
+		assertEquals("First Name cannot be empty!", error);
 	
 }
 
