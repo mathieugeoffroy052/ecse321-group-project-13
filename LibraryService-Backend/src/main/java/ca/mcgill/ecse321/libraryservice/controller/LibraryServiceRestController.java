@@ -25,6 +25,7 @@ public class LibraryServiceRestController {
     @Autowired
 	private LibraryServiceService service;
 
+    //* Holiday methods
     /**
      * get all holidays
      * @return list of all holidays DTO
@@ -34,6 +35,29 @@ public class LibraryServiceRestController {
     @GetMapping(value = {"/holidays", "/holidays/"})
     public List<HolidayDTO> getAllHolidays() throws Exception{
         return service.getAllHolidays().stream().map(p -> convertToDto(p)).collect(Collectors.toList());
+    }
+
+    /**
+     * view a specific holiday
+     * @param id
+     * @return holiday dto
+     * @author Mathieu Geoffroy
+     */
+    @GetMapping(value = {"/holiday/{holidayID}", "/holiday/{holidayID}/"})
+    public OpeningHourDTO getHolidayById(@PathVariable(name = "holidayID") int id) {
+        return convertToDto(service.getOpeningHourFromID(id));
+    }
+
+    /**
+     * create new holiday
+     * @param openingHourDTO
+     * @return holiday DTO
+     * @throws Exception
+     * @author Mathieu Geoffroy
+     */
+    @PostMapping(value = {"/holiday/new", "/holiday/new/"})
+    public HolidayDTO createHoliday(@RequestBody HolidayDTO holidayDTO) throws Exception {
+        return convertToDto(service.createHoliday(holidayDTO.getDate(), holidayDTO.getStartTime(), holidayDTO.getStartTime()));
     }
 
     //* Opening hour methods
