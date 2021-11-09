@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
@@ -28,13 +29,30 @@ import org.mockito.stubbing.Answer;
 
 import ca.mcgill.ecse321.libraryservice.model.*;
 import ca.mcgill.ecse321.libraryservice.dao.*;
-import ca.mcgill.ecse321.libraryservice.model.LibraryItem.ItemType;
 
 @ExtendWith(MockitoExtension.class)
 public class TestPatronService {
 
 	
-	
+@Mock 
+private PatronRepository patronDAO;
+
+@InjectMocks
+private static final int PATRON_ID = 12345;
+private static final String PATRON_KEY = "TestPatron";
+
+@BeforeEach
+public void setMockOutput() {
+    lenient().when(patronDAO.findPatronByUserID(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
+        if(invocation.getArgument(0).equals(PATRON_ID)) {
+            Patron patron = new Patron();
+            patron.setPatronID(PATRON_ID);
+            return patron;
+        } else {
+            return null;
+        }
+    });
+}
 	
 	
 	
