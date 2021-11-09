@@ -180,7 +180,7 @@ public void testCreatePatronNullLastName() throws Exception {
 
 
 @Test
-public void testCreatePatronLastNameEmpty() throws Exception {
+public void testCreatePatronEmptyLastName() throws Exception {
 	String error = null;
 	Patron patron = null;
 	String lastName = "";
@@ -201,12 +201,13 @@ public void testCreatePatronLastNameEmpty() throws Exception {
 }
 
 @Test
-public void testCreatePatronNullLibrarySystem() throws Exception {
+public void testCreatePatronNullAddress() throws Exception {
 	String error = null;
 	Patron patron = null;
+	String address = null;
 	try {
-		LibrarySystem ls = null;
-		patron = service.createPatron(PATRON_CREATOR, PATRON_FIRST_NAME, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, ls, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
+		LibrarySystem ls = new LibrarySystem();
+		patron = service.createPatron(PATRON_CREATOR, PATRON_FIRST_NAME, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, ls, address, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
 		
 	}
 	catch (IllegalArgumentException e) {
@@ -214,10 +215,29 @@ public void testCreatePatronNullLibrarySystem() throws Exception {
 	}
 		assertNull(patron);
 		//verify error
-		assertEquals("System doesn't exist", error);
+		assertEquals("Address cannot be empty!", error);
 	
 }
 
+@Test
+public void testCreatePatronEmptyAddress() throws Exception {
+	String error = null;
+	Patron patron = null;
+	String address = "";
+	try {
+		LibrarySystem ls = new LibrarySystem();
+		patron = service.createPatron(PATRON_CREATOR, PATRON_FIRST_NAME, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, ls, address, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
+		
+	}
+	catch (IllegalArgumentException e) {
+		error = e.getMessage();
+		
+	}
+		assertNull(patron);
+		
+		//verify error
+		assertEquals("Address cannot be empty!", error);
+}
 
 	
 }
