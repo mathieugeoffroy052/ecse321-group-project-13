@@ -82,9 +82,8 @@ public void setMockOutput() {
  		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
  			return invocation.getArgument(0);
  		};
- 		lenient().when(patronDAO.save(any(Patron.class))).thenAnswer(returnParameterAsAnswer);
- 		
- //UserAccount creator, String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, boolean aValidatedAccount, String aPassword, int aBalance, String aEmail
+lenient().when(patronDAO.save(any(Patron.class))).thenAnswer(returnParameterAsAnswer);
+ 	
 }
 @Test
 public void testCreatePatronNull() throws Exception {
@@ -94,16 +93,16 @@ public void testCreatePatronNull() throws Exception {
 	try {
 		LibrarySystem ls = service.getLibrarySystemfrom1();
 		patron = service.createPatron(PATRON_CREATOR, firstName, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, ls, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
-		//LibrarySystem ls = service.getLibrarySystemfrom1();
-		//assertEquals(PATRON_CREATOR, PATRON_FIRST_NAME, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, ls, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL, service.createPatron(PATRON_CREATOR, PATRON_FIRST_NAME, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, ls, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL));
-	
+		
 	}
 	catch (IllegalArgumentException e) {
+		error = e.getMessage();
+		
+	}
 		assertNull(patron);
+		
 		//verify error
 		assertEquals("First Name  cannot be empty! ", error);
-	}
-	
 	
 }
 
