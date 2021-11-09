@@ -85,6 +85,29 @@ public void setMockOutput() {
 lenient().when(patronDAO.save(any(Patron.class))).thenAnswer(returnParameterAsAnswer);
  	
 }
+
+@Test
+public void testCreatePatronSuccessful() throws Exception {
+	assertEquals(0, service.getAllPatrons().size());
+	
+	Patron patron = null;
+	
+	try {
+		LibrarySystem ls = new LibrarySystem();
+		patron = service.createPatron(PATRON_CREATOR, PATRON_FIRST_NAME, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, ls, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
+	}
+	catch (IllegalArgumentException e) {
+		fail();
+		
+	}
+		assertNull(patron);
+		//verify error
+		assertEquals(PATRON_FIRST_NAME, patron.getFirstName());
+	
+	
+}
+
+
 @Test
 public void testCreatePatronNull() throws Exception {
 	String error = null;
@@ -106,6 +129,27 @@ public void testCreatePatronNull() throws Exception {
 	
 }
 
+
+@Test
+public void testCreatePatronEmpty() throws Exception {
+	String error = null;
+	Patron patron = null;
+	String firstName = "";
+	try {
+		LibrarySystem ls = new LibrarySystem();
+		patron = service.createPatron(PATRON_CREATOR, firstName, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, ls, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
+		
+	}
+	catch (IllegalArgumentException e) {
+		error = e.getMessage();
+		
+	}
+		assertNull(patron);
+		
+		//verify error
+		assertEquals("First Name cannot be empty!", error);
+	
+}
 	
 	
 }

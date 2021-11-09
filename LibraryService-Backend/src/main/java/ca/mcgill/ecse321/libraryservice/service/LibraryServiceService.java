@@ -1410,23 +1410,23 @@ public class LibraryServiceService {
             error = error + "First Name cannot be empty!";
         }
         if ((aLastName == null || aLastName.trim().length() == 0)&& error.length() == 0) {
-            error = error + "Last Name  cannot be empty! ";
+            error = error + "Last Name cannot be empty!";
         }
         if (aLibrarySystem == null && error.length() == 0) {
-            error = error + "System doesn't exist ";
+            error = error + "System doesn't exist";
         }
 
         if (aAddress == null|| aAddress.trim().length() == 0 && error.length() == 0) {
-            error = error + "Address cannot be empty! ";
+            error = error + "Address cannot be empty!";
         }
         if ((aPassword == null|| aPassword.trim().length() == 0) && aOnlineAccount == true && error.length() == 0) {
-            error = error + "Password cannot be empty! ";
+            error = error + "Password cannot be empty!";
         }
         if ((aEmail == null|| aEmail.trim().length() == 0) && aOnlineAccount == true && error.length() == 0) {
-            error = error + "Password cannot be empty! ";
+            error = error + "Password cannot be empty!";
         }
         if (creator == null) {
-            error = error + "There needs to be a creator for this method ";
+            error = error + "There needs to be a creator for this method";
         }
         if (creator instanceof Patron && aOnlineAccount == false) {
             error = error + " Only a Librarian can create an in-person account";
