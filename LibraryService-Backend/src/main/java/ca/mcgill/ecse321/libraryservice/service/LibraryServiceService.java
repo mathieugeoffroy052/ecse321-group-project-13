@@ -1109,6 +1109,7 @@ public class LibraryServiceService {
      * @throws Exception if user is not the head librarian
      * @author Mathieu Geoffroy
      */
+    @Transactional
     public boolean deleteTimeSlot(UserAccount account, Date startDate, Time startTime, Date endDate, Time endTime, LibrarySystem library) throws Exception {
         String error = "";
         if (account == null) error = error + "Invalid account. ";
@@ -1240,6 +1241,7 @@ public class LibraryServiceService {
      * @throws Exception if not day string is incorrect
      * @author Mathieu Geoffroy
      */
+    @Transactional
     public boolean deleteOpeningHour(UserAccount account, String day, Time startTime, Time endTime, LibrarySystem library) throws Exception{
         String error = "";
         if (account == null) error = error + "Invalid account. ";
@@ -1344,6 +1346,7 @@ public class LibraryServiceService {
      * @throws Exception when user is not authorized (not head librarian)
      * @author Mathieu Geoffroy
      */
+    @Transactional
     public boolean deleteHoliday(UserAccount account, Date date, Time startTime, Time endTime, LibrarySystem library) throws Exception {
         String error = "";
         if (account == null) error = error + "Invalid account. ";
