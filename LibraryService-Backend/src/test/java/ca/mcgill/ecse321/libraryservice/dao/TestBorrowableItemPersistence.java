@@ -16,7 +16,6 @@ import ca.mcgill.ecse321.libraryservice.model.BorrowableItem.ItemState;
 import ca.mcgill.ecse321.libraryservice.model.LibraryItem.ItemType;
 import ca.mcgill.ecse321.libraryservice.model.BorrowableItem;
 import ca.mcgill.ecse321.libraryservice.model.LibraryItem;
-import ca.mcgill.ecse321.libraryservice.model.LibrarySystem;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -32,8 +31,6 @@ public class TestBorrowableItemPersistence {
     private LibrarianRepository librarianRepository;
     @Autowired
     private LibraryItemRepository libraryItemRepository;
-    @Autowired
-    private LibrarySystemRepository librarySystemRepository;
     @Autowired
     private OpeningHourRepository openingHourRepository;
     @Autowired
@@ -59,13 +56,10 @@ public class TestBorrowableItemPersistence {
         librarianRepository.deleteAll();
         libraryItemRepository.deleteAll();
         userAccountRepository.deleteAll();
-        librarySystemRepository.deleteAll();
     }
 
     @Test @SuppressWarnings("deprecation")
     public void testPersistAndLoadBorrowableItem() { 
-        LibrarySystem library = new LibrarySystem();
-        librarySystemRepository.save(library);
 
         //create inputs for BorrowableItem
         ItemState state = ItemState.Available;
@@ -78,7 +72,7 @@ public class TestBorrowableItemPersistence {
         String name = "11:11";
 
         //create library item
-        LibraryItem libraryItem = new LibraryItem(name, library, itemType, releaseDate, creator, viewable);
+        LibraryItem libraryItem = new LibraryItem(name, itemType, releaseDate, creator, viewable);
         libraryItemRepository.save(libraryItem);
         
         //create borrowable item
@@ -108,47 +102,4 @@ public class TestBorrowableItemPersistence {
         assertEquals(name, borrowableItem.getLibraryItem().getName(), "borrowableItem.libraryItem.name mismatch");
     }
 
-
-    @Test @SuppressWarnings("deprecation")
-    public void testPersistAndLoadBorrowableItemByRefLibraryItem() { 
-        LibrarySystem library = new LibrarySystem();
-        librarySystemRepository.save(library);
-
-        //inputs for borrowableItem
-        ItemState state = ItemState.Available;
-
-        //inputs for libraryItem
-        boolean viewable = true;
-        Date releaseDate = new Date(2017, 10, 20);
-        ItemType itemType = ItemType.Music;
-        String creator = "Trey Songz";
-        String name = "Tremaine the Album";
-
-        //create libary item and persist
-        LibraryItem libraryItem = new LibraryItem(name, library, itemType, releaseDate, creator, viewable);
-
-        libraryItemRepository.save(libraryItem);
-
-        //create borrowable item and persist
-        BorrowableItem borrowableItem = new BorrowableItem(state, libraryItem);
-
-        borrowableItemRepository.save(borrowableItem);
-
-        //clear borrowable item
-        borrowableItem = null;
-
-        //retrieve borrowable item by library item from DB
-        borrowableItem = borrowableItemRepository.findByLibraryItem(libraryItem).get(0);
-
-        //test functionality
-        assertNotNull(borrowableItem, "No borrowableItem retrieved");
-        assertEquals(state, borrowableItem.getState(), "borrowableItem.state mismatch");
-
-        //test library item
-        assertEquals(viewable, borrowableItem.getLibraryItem().getIsViewable(), "borrowableItem.libraryItem.isViewable mismatch");
-        assertEquals(releaseDate, borrowableItem.getLibraryItem().getDate(), "borrowableItem.libraryItem.date mismatch");
-        assertEquals(name, borrowableItem.getLibraryItem().getName(), "borrowableItem.libraryItem.state mismatch");
-        assertEquals(creator, borrowableItem.getLibraryItem().getCreator(), "borrowableitem.libraryItem.creator mismatch"); 
-        assertEquals(library.getSystemId(), borrowableItem.getLibraryItem().getLibrarySystem().getSystemId(), "borrowableitem.libraryItem.librarySystem.systemID mismatch");
-    }
 }

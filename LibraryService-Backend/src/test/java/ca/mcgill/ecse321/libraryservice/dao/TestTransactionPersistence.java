@@ -14,7 +14,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import ca.mcgill.ecse321.libraryservice.model.BorrowableItem;
 import ca.mcgill.ecse321.libraryservice.model.LibraryItem;
-import ca.mcgill.ecse321.libraryservice.model.LibrarySystem;
 import ca.mcgill.ecse321.libraryservice.model.Patron;
 import ca.mcgill.ecse321.libraryservice.model.Transaction;
 import ca.mcgill.ecse321.libraryservice.model.BorrowableItem.ItemState;
@@ -35,8 +34,6 @@ public class TestTransactionPersistence {
     private LibrarianRepository librarianRepository;
     @Autowired
     private LibraryItemRepository libraryItemRepository;
-    @Autowired
-    private LibrarySystemRepository librarySystemRepository;
     @Autowired
     private OpeningHourRepository openingHourRepository;
     @Autowired
@@ -62,14 +59,10 @@ public class TestTransactionPersistence {
         librarianRepository.deleteAll();
         libraryItemRepository.deleteAll();
         userAccountRepository.deleteAll();
-        librarySystemRepository.deleteAll();
     }
 
     @Test @SuppressWarnings("deprecation")
     public void testPersistAndLoadTransaction() {
-        LibrarySystem library = new LibrarySystem();
-        librarySystemRepository.save(library);
-
         //create inputs for transaction
         TransactionType transactionType = TransactionType.Borrowing;
         Date deadline =  new Date(2021, 5, 10);
@@ -85,7 +78,7 @@ public class TestTransactionPersistence {
         int balance = 0;
 
         //create patron
-        Patron patron = new Patron(firstName, lastName, online, library, address, validated, password, balance, email);
+        Patron patron = new Patron(firstName, lastName, online, address, validated, password, balance, email);
         
 
         //create inputs for LibraryItem
@@ -96,7 +89,7 @@ public class TestTransactionPersistence {
         String name = "Hamlet";
 
         //create library item
-        LibraryItem libraryItem = new LibraryItem(name, library, itemType, publishingDate, creator, viewable);
+        LibraryItem libraryItem = new LibraryItem(name, itemType, publishingDate, creator, viewable);
 
         //create inputs for BorrowableItem
         ItemState state = ItemState.Available;
@@ -138,7 +131,6 @@ public class TestTransactionPersistence {
         assertEquals(address, transaction.getUserAccount().getAddress(), "transaction.userAccount.address mismatch");
         assertEquals(email, transaction.getUserAccount().getEmail(), "transaction.userAccount.email mismatch");
         assertEquals(balance, transaction.getUserAccount().getBalance(), "transaction.userAccount.balance mismatch");
-        assertEquals(library.getSystemId(), transaction.getUserAccount().getLibrarySystem().getSystemId(), "transaction.userAccount.librarySystem.systemID mismatch");
 
         //test borrowable item within transaction
         assertEquals(state, transaction.getBorrowableItem().getState(), "transaction.borrowableItem.state mismatch");
@@ -148,15 +140,11 @@ public class TestTransactionPersistence {
         assertEquals(publishingDate, transaction.getBorrowableItem().getLibraryItem().getDate(), "transaction.borrowableItem.libraryItem.date mismatch");
         assertEquals(name, transaction.getBorrowableItem().getLibraryItem().getName(), "transaction.borrowableItem.libraryItem.state mismatch");
         assertEquals(creator, transaction.getBorrowableItem().getLibraryItem().getCreator(), "transaction.borrowableitem.libraryItem.creator mismatch"); 
-        assertEquals(library.getSystemId(), transaction.getBorrowableItem().getLibraryItem().getLibrarySystem().getSystemId(), "transaction.borrowableitem.libraryItem.librarySystem.systemID mismatch");
     }
 
 
     @Test @SuppressWarnings("deprecation")
     public void testPersistAndLoadTransactionByReferenceBorrowableitem() {
-        LibrarySystem library = new LibrarySystem();
-        librarySystemRepository.save(library);
-
         //create inputs for transaction
         TransactionType transactionType = TransactionType.Renewal;
         Date deadline =  new Date(2021, 5, 10);
@@ -172,7 +160,7 @@ public class TestTransactionPersistence {
         String address = "50 Rue Prince Arthur, Montreal, Canada";
 
         //create patron
-        Patron patron = new Patron(firstName, lastName, online, library, address, validated, password, balance, email);
+        Patron patron = new Patron(firstName, lastName, online, address, validated, password, balance, email);
 
         patronRepository.save(patron);
         userAccountRepository.save(patron);
@@ -185,7 +173,7 @@ public class TestTransactionPersistence {
         String name = "Hamlet";
 
         //create library item
-        LibraryItem libraryItem = new LibraryItem(name, library, itemType, publishingDate, creator, viewable);
+        LibraryItem libraryItem = new LibraryItem(name, itemType, publishingDate, creator, viewable);
         libraryItemRepository.save(libraryItem);
         
         //create inputs for BorrowableItem
@@ -221,7 +209,6 @@ public class TestTransactionPersistence {
         assertEquals(address, transaction.getUserAccount().getAddress(), "transaction.userAccount.address mismatch");
         assertEquals(email, transaction.getUserAccount().getEmail(), "transaction.userAccount.email mismatch");
         assertEquals(balance, transaction.getUserAccount().getBalance(), "transaction.userAccount.balance mismatch");
-        assertEquals(library.getSystemId(), transaction.getUserAccount().getLibrarySystem().getSystemId(), "transaction.userAccount.librarySystem.systemID mismatch");
 
         //test borrowable item within transaction
         assertEquals(state, transaction.getBorrowableItem().getState(), "transaction.borrowableItem.state mismatch");
@@ -231,15 +218,11 @@ public class TestTransactionPersistence {
         assertEquals(publishingDate, transaction.getBorrowableItem().getLibraryItem().getDate(), "transaction.borrowableItem.libraryItem.date mismatch");
         assertEquals(name, transaction.getBorrowableItem().getLibraryItem().getName(), "transaction.borrowableItem.libraryItem.state mismatch");
         assertEquals(creator, transaction.getBorrowableItem().getLibraryItem().getCreator(), "transaction.borrowableitem.libraryItem.creator mismatch"); 
-        assertEquals(library.getSystemId(), transaction.getBorrowableItem().getLibraryItem().getLibrarySystem().getSystemId(), "transaction.borrowableitem.libraryItem.librarySystem.systemID mismatch");
     }
 
 
     @Test @SuppressWarnings("deprecation")
     public void testPersistAndLoadTransactionByReferenceUserAccount() {
-        LibrarySystem library = new LibrarySystem();
-        librarySystemRepository.save(library);
-
         //create inputs for transaction
         TransactionType transactionType = TransactionType.Return;
         Date deadline =  new Date(2021, 12, 5);
@@ -255,7 +238,7 @@ public class TestTransactionPersistence {
         String address = "88 Av du Parc, Montreal, Canada";
 
         //create patron
-        Patron patron = new Patron(firstName, lastName, online, library, address, validated, password, balance, email);
+        Patron patron = new Patron(firstName, lastName, online, address, validated, password, balance, email);
 
         patronRepository.save(patron);
         userAccountRepository.save(patron);
@@ -268,7 +251,7 @@ public class TestTransactionPersistence {
         String name = "Titanic";
 
         //create library item
-        LibraryItem libraryItem = new LibraryItem(name, library, itemType, releaseDate, creator, viewable);
+        LibraryItem libraryItem = new LibraryItem(name, itemType, releaseDate, creator, viewable);
         libraryItemRepository.save(libraryItem);
         
         //create inputs for BorrowableItem
@@ -304,7 +287,6 @@ public class TestTransactionPersistence {
         assertEquals(address, transaction.getUserAccount().getAddress(), "transaction.userAccount.address mismatch");
         assertEquals(email, transaction.getUserAccount().getEmail(), "transaction.userAccount.email mismatch");
         assertEquals(balance, transaction.getUserAccount().getBalance(), "transaction.userAccount.balance mismatch");
-        assertEquals(library.getSystemId(), transaction.getUserAccount().getLibrarySystem().getSystemId(), "transaction.userAccount.librarySystem.systemID mismatch");
 
         //test borrowable item within transaction
         assertEquals(state, transaction.getBorrowableItem().getState(), "transaction.borrowableItem.state mismatch");
@@ -314,7 +296,6 @@ public class TestTransactionPersistence {
         assertEquals(releaseDate, transaction.getBorrowableItem().getLibraryItem().getDate(), "transaction.borrowableItem.libraryItem.date mismatch");
         assertEquals(name, transaction.getBorrowableItem().getLibraryItem().getName(), "transaction.borrowableItem.libraryItem.state mismatch");
         assertEquals(creator, transaction.getBorrowableItem().getLibraryItem().getCreator(), "transaction.borrowableitem.libraryItem.creator mismatch"); 
-        assertEquals(library.getSystemId(), transaction.getBorrowableItem().getLibraryItem().getLibrarySystem().getSystemId(), "transaction.borrowableitem.libraryItem.librarySystem.systemID mismatch");
     }
 
 }

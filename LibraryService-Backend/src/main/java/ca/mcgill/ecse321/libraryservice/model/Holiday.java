@@ -30,7 +30,6 @@ public class Holiday
   private int holidayID;
 
   //Holiday Associations
-  private LibrarySystem librarySystem;
   private HeadLibrarian headLibrarian;
 
   //------------------------
@@ -41,17 +40,12 @@ public class Holiday
     holidayID = nextHolidayID++;
   }
 
-  public Holiday(Date aDate, Time aStartTime, Time aEndtime, LibrarySystem aLibrarySystem, HeadLibrarian aHeadLibrarian)
+  public Holiday(Date aDate, Time aStartTime, Time aEndtime, HeadLibrarian aHeadLibrarian)
   {
     date = aDate;
     startTime = aStartTime;
     endtime = aEndtime;
     holidayID = nextHolidayID++;
-    boolean didAddLibrarySystem = setLibrarySystem(aLibrarySystem);
-    if (!didAddLibrarySystem)
-    {
-      throw new RuntimeException("Unable to create holiday due to librarySystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
     boolean didAddHeadLibrarian = setHeadLibrarian(aHeadLibrarian);
     if (!didAddHeadLibrarian)
     {
@@ -123,25 +117,9 @@ public class Holiday
 
   /* Code from template association_GetOne */
   @ManyToOne(optional=false)
-  public LibrarySystem getLibrarySystem()
-  {
-    return librarySystem;
-  }
-
-  /* Code from template association_GetOne */
-  @ManyToOne(optional=false)
   public HeadLibrarian getHeadLibrarian()
   {
     return headLibrarian;
-  }
-
-  /* Code from template association_SetOneToMany */
-  public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
-  {
-    boolean wasSet = false;
-    this.librarySystem = aLibrarySystem;
-    wasSet = true;
-    return wasSet;
   }
 
   /* Code from template association_SetOneToMany */
@@ -160,7 +138,6 @@ public class Holiday
             "  " + "date" + "=" + (getDate() != null ? !getDate().equals(this)  ? getDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "startTime" + "=" + (getStartTime() != null ? !getStartTime().equals(this)  ? getStartTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "endtime" + "=" + (getEndtime() != null ? !getEndtime().equals(this)  ? getEndtime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "librarySystem = "+(getLibrarySystem()!=null?Integer.toHexString(System.identityHashCode(getLibrarySystem())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "headLibrarian = "+(getHeadLibrarian()!=null?Integer.toHexString(System.identityHashCode(getHeadLibrarian())):"null");
   }
 }

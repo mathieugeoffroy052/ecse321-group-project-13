@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import ca.mcgill.ecse321.libraryservice.model.LibrarySystem;
 import ca.mcgill.ecse321.libraryservice.model.Patron;
 
 @ExtendWith(SpringExtension.class)
@@ -27,8 +26,6 @@ public class TestPatronPersistence {
     private LibrarianRepository librarianRepository;
     @Autowired
     private LibraryItemRepository libraryItemRepository;
-    @Autowired
-    private LibrarySystemRepository librarySystemRepository;
     @Autowired
     private OpeningHourRepository openingHourRepository;
     @Autowired
@@ -54,14 +51,10 @@ public class TestPatronPersistence {
         librarianRepository.deleteAll();
         libraryItemRepository.deleteAll();
         userAccountRepository.deleteAll();
-        librarySystemRepository.deleteAll();
     }
 
     @Test
     public void testPersistAndLoadPatron() {
-        LibrarySystem library = new LibrarySystem();
-        librarySystemRepository.save(library);
-        
         //create inputs for patron constructor
         String firstName = "John";
         String lastName = "Doe";
@@ -73,7 +66,7 @@ public class TestPatronPersistence {
         String address = "4000 McGill, Montreal, Canada";
 
         //create patron
-        Patron patron = new Patron(firstName, lastName, online, library, address, validated, password, balance, email);
+        Patron patron = new Patron(firstName, lastName, online, address, validated, password, balance, email);
 
         //get patronID to retrieve patron from DB
         int patronID = patron.getUserID();
