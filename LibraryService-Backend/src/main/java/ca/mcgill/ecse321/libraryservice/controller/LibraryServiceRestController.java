@@ -714,25 +714,23 @@ public boolean deleteALibrarian(@PathVariable("userID") int userID) throws Excep
   
 }  
 
-/**
- * create HeadLibrarian
- */
-@PostMapping(value="path")
-public HeadLibrarianDTO postMethodName(@PathVariable("firstName") String firstName,
-@RequestParam String aLastName,
+    /**
+     * create HeadLibrarian
+     */
+    @PostMapping(value="path")
+    public HeadLibrarianDTO createHeadLibrarian(@PathVariable("firstName") String firstName,
+    @RequestParam String aLastName,
 
-@RequestParam boolean aOnlineAccount,
-@RequestParam LibrarySystem aLibrarySystem,
-@RequestParam String aAddress,
+    @RequestParam boolean aOnlineAccount,
+    @RequestParam String aAddress,
 
-@RequestParam String aPassword,
-@RequestParam int aBalance,
-@RequestParam String aEmail) throws Exception{
-    //TODO: process POST request
-    
-    return convertToDto(service.CreateANewHeadLibrarian(firstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aPassword, aBalance, aEmail));
-}
-
+    @RequestParam String aPassword,
+    @RequestParam int aBalance,
+    @RequestParam String aEmail) throws Exception{
+        //TODO: process POST request
+        
+        return convertToDto(service.CreateANewHeadLibrarian(firstName, aLastName, aOnlineAccount, aAddress, aPassword, aBalance, aEmail));
+    }
 
 
 
