@@ -31,9 +31,6 @@ public abstract class UserAccount
   //Autounique Attributes
   private int userID;
 
-  //UserAccount Associations
-  private LibrarySystem librarySystem;
-
   //------------------------
   // CONSTRUCTOR
   //------------------------
@@ -42,7 +39,7 @@ public abstract class UserAccount
     userID = nextUserID++;
   }
 
-  public UserAccount(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, String aPassword, int aBalance, String aEmail)
+  public UserAccount(String aFirstName, String aLastName, boolean aOnlineAccount, String aAddress, String aPassword, int aBalance, String aEmail)
   {
     firstName = aFirstName;
     lastName = aLastName;
@@ -52,11 +49,6 @@ public abstract class UserAccount
     onlineAccount = aOnlineAccount;
     userID = nextUserID++;
     address = aAddress;
-    boolean didAddLibrarySystem = setLibrarySystem(aLibrarySystem);
-    if (!didAddLibrarySystem)
-    {
-      throw new RuntimeException("Unable to create userAccount due to librarySystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
   }
 
   //------------------------
@@ -168,29 +160,9 @@ public abstract class UserAccount
     return onlineAccount;
   }
 
-  /* Code from template association_GetOne */
-  @ManyToOne(optional=false)
-  public LibrarySystem getLibrarySystem()
-  {
-    return librarySystem;
-  }
-
   public String getAddress()
   {
     return address;
-  }
-
-  /* Code from template association_SetOneToMany */
-  public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
-  {
-    boolean wasSet = false;
-    if (aLibrarySystem == null)
-    {
-      return wasSet;
-    }
-    librarySystem = aLibrarySystem;
-    wasSet = true;
-    return wasSet;
   }
 
   public String toString()
@@ -201,7 +173,6 @@ public abstract class UserAccount
             "lastName" + ":" + getLastName()+ "," +
             "balance" + ":" + getBalance()+ ","+
             "onlineAccount" + ":" + getOnlineAccount()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "librarySystem = "+(getLibrarySystem()!=null?Integer.toHexString(System.identityHashCode(getLibrarySystem())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "address = "+(getAddress()!=null?Integer.toHexString(System.identityHashCode(getAddress())):"null");
   }
 }

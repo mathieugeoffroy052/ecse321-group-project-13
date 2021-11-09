@@ -15,7 +15,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import ca.mcgill.ecse321.libraryservice.model.HeadLibrarian;
 import ca.mcgill.ecse321.libraryservice.model.Holiday;
-import ca.mcgill.ecse321.libraryservice.model.LibrarySystem;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -31,8 +30,6 @@ public class TestHolidayPersistence {
     private LibrarianRepository librarianRepository;
     @Autowired
     private LibraryItemRepository libraryItemRepository;
-    @Autowired
-    private LibrarySystemRepository librarySystemRepository;
     @Autowired
     private OpeningHourRepository openingHourRepository;
     @Autowired
@@ -58,13 +55,10 @@ public class TestHolidayPersistence {
         librarianRepository.deleteAll();
         libraryItemRepository.deleteAll();
         userAccountRepository.deleteAll();
-        librarySystemRepository.deleteAll();
     }
 
     @Test @SuppressWarnings("deprecation")
     public void testPersistAndLoadHoliday() {
-        LibrarySystem library = new LibrarySystem();
-        librarySystemRepository.save(library);
 
         //create inputs for holiday constructor
         Date date = new Date(2020, 12, 25);
@@ -81,14 +75,14 @@ public class TestHolidayPersistence {
         String address = "10 Road, Toronto, Canada";
 
         //create head librarian
-        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance, email);
+        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, address, password, balance, email);
         
         headLibrarianRepository.save(headLibrarian);
         librarianRepository.save(headLibrarian);
         userAccountRepository.save(headLibrarian);
 
         //create holiday
-        Holiday holiday = new Holiday(date, startTime, endTime, library, headLibrarian);
+        Holiday holiday = new Holiday(date, startTime, endTime, headLibrarian);
 
         //get holidayID to retreive from DB
         int holidayID = holiday.getHolidayID();
@@ -123,9 +117,6 @@ public class TestHolidayPersistence {
 
     @Test @SuppressWarnings("deprecation")
     public void testPersistAndLoadHolidayByReference() {
-        LibrarySystem library = new LibrarySystem();
-        librarySystemRepository.save(library);
-
         //create inputs for holiday constructor
         Date date = new Date(2020, 12, 25);
         Time startTime =  new Time(12, 43, 0);
@@ -141,14 +132,14 @@ public class TestHolidayPersistence {
         String address = "10 Road, Toronto, Canada";
 
         //create head librarian
-        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance, email);
+        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, address, password, balance, email);
         
         headLibrarianRepository.save(headLibrarian);
         librarianRepository.save(headLibrarian);
         userAccountRepository.save(headLibrarian);
 
         //create holiday
-        Holiday holiday = new Holiday(date, startTime, endTime, library, headLibrarian);
+        Holiday holiday = new Holiday(date, startTime, endTime, headLibrarian);
 
         //save holiday to DB
         holidayRepository.save(holiday);
@@ -174,50 +165,6 @@ public class TestHolidayPersistence {
         assertEquals(password, holiday.getHeadLibrarian().getPassword(), "holiday.headLibrarian.password mismatch");
         assertEquals(address, holiday.getHeadLibrarian().getAddress(), "holiday.headLibrarian.address.address mismatch");
         assertEquals(email, holiday.getHeadLibrarian().getEmail(), "holiday.headLibrarian.address.email mismatch");
-    }
-
-    @Test @SuppressWarnings("deprecation")
-    public void testPersistAndLoadHolidayByRefLibrarySystem() { 
-        LibrarySystem library = new LibrarySystem();
-        librarySystemRepository.save(library);
-
-        //inputs for holiday
-        Date date = new Date(2020, 12, 25);
-        Time startTime =  new Time(7, 30, 0);
-        Time endTime = new Time(21, 30, 0);
-
-        //inputs headLibrarian
-        String firstName = "Samantha";
-        String lastName = "Jules";
-        boolean online = true;
-        String password = "a1b2c3d4";
-        String email = "Samantha@email.com";
-        int balance = 0;
-        String address = "10203 5th Av, New York, New York, USA";
-
-        //create head librarian and persist
-        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance, email);
-        
-        headLibrarianRepository.save(headLibrarian);
-        librarianRepository.save(headLibrarian);
-        userAccountRepository.save(headLibrarian);
-
-        //create holiday and persist
-        Holiday holiday = new Holiday(date, startTime, endTime, library, headLibrarian);
-
-        holidayRepository.save(holiday);
-
-        //clear holiday
-        holiday = null;
-
-        //retrieve holiday by library system from DB
-        holiday = holidayRepository.findByLibrarySystem(library).get(0);
-
-        //test functionality
-        assertNotNull(holiday, "No holiday retrieved");
-        assertEquals(date, holiday.getDate(), "holiday.date mismatch");
-        assertEquals(startTime, holiday.getStartTime(), "holiday.startTime mismatch");
-        assertEquals(endTime, holiday.getEndtime(), "holiday.endTime mismatch");
     }
 
 }

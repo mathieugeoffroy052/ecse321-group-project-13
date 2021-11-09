@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import ca.mcgill.ecse321.libraryservice.model.LibrarySystem;
 import ca.mcgill.ecse321.libraryservice.model.Patron;
 
 @ExtendWith(SpringExtension.class)
@@ -28,8 +27,6 @@ public class TestUserAccountPersistence {
     private LibrarianRepository librarianRepository;
     @Autowired
     private LibraryItemRepository libraryItemRepository;
-    @Autowired
-    private LibrarySystemRepository librarySystemRepository;
     @Autowired
     private OpeningHourRepository openingHourRepository;
     @Autowired
@@ -55,13 +52,11 @@ public class TestUserAccountPersistence {
         librarianRepository.deleteAll();
         libraryItemRepository.deleteAll();
         userAccountRepository.deleteAll();
-        librarySystemRepository.deleteAll();
     }
 
     @Test
-    public void testPersistAndLoadUserAccountByRefLibrarySystem() {
-        LibrarySystem library = new LibrarySystem();
-        librarySystemRepository.save(library);
+    public void testPersistAndLoadUserAccount() {
+
 
         //inputs for patron
         String firstName = "Jane";
@@ -74,16 +69,16 @@ public class TestUserAccountPersistence {
         String address = "4000 McGill, Montreal, Canada";
 
         //create patron and persist
-        Patron patron = new Patron(firstName, lastName, online, library, address, validated, password, balance, email);
+        Patron patron = new Patron(firstName, lastName, online, address, validated, password, balance, email);
         
         patronRepository.save(patron);
         userAccountRepository.save(patron); 
-
+        int id = patron.getUserID();
         //clear patron
         patron = null;
 
         //retrieve patron by library system from DB
-        patron = (Patron) userAccountRepository.findByLibrarySystem(library).get(0);
+        patron = (Patron) userAccountRepository.findUserAccountByUserID(id);
 
         //test functionality
         assertNotNull(patron, "No Patron retrieved");
