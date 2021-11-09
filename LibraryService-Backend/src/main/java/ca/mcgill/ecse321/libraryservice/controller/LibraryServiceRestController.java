@@ -565,7 +565,7 @@ public class LibraryServiceRestController {
      * @author Amani Jammoul
      */
     @GetMapping(value = { "/items/{creator}", "/items/{creator}/" })
-    public List<LibraryItemDTO> getItemsByCreator(@PathVariable("title") String creatorName) throws Exception {
+    public List<LibraryItemDTO> getItemsByCreator(@PathVariable("creator") String creatorName) throws Exception {
         List<LibraryItem> items = service.getLibraryItemsFromCreator(creatorName);
         List<LibraryItemDTO> itemDTOs = new ArrayList<LibraryItemDTO>();
         for(LibraryItem i : items){
@@ -734,7 +734,7 @@ public class LibraryServiceRestController {
      * @author Amani Jammoul
      */
     @GetMapping(value = { "/movies/{director}/{title}", "/movies/{director}/{title}/", "/movies/{title}/{director}", "/movies/{title}/{director}/"})
-    public LibraryItemDTO getMoviesByDirectorAndTitle(@PathVariable("artist") String directorName, @PathVariable("title") String movieTitle) throws Exception {
+    public LibraryItemDTO getMoviesByDirectorAndTitle(@PathVariable("director") String directorName, @PathVariable("title") String movieTitle) throws Exception {
         LibraryItem movie = service.getMovieFromDirectorAndTitle(directorName, movieTitle);
         return convertToDto(movie);
     }
