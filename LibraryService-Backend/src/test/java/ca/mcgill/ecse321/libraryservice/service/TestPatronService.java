@@ -39,22 +39,57 @@ private PatronRepository patronDAO;
 
 @InjectMocks
 private static final int PATRON_ID = 12345;
-private static final String PATRON_KEY = "TestPatron";
+private static final String PATRON_FIRST_NAME = "John";
+private static final String PATRON_LAST_NAME = "Smith";
+private static final String PATRON_EMAIL = "johnsmith@email.com";
+private static final int PATRON_BALANCE = 0;
+private static final String PATRON_CREATOR = "Librarian1";
+private static final boolean PATRON_ONLINE_ACCOUNT = true;
+private static final String PATRON_ADDRESS = "123 Smith Street";
+private static final boolean PATRON_VALIDATED_ACCOUNT = true;
+private static final String PATRON_PASSWORD = "patron123";
 
+
+
+//UserAccount creator, String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, boolean aValidatedAccount, String aPassword, int aBalance, String aEmail
 @BeforeEach
 public void setMockOutput() {
     lenient().when(patronDAO.findPatronByUserID(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
         if(invocation.getArgument(0).equals(PATRON_ID)) {
             Patron patron = new Patron();
+            LibrarySystem librarySystem = new LibrarySystem();
             patron.setPatronID(PATRON_ID);
+            patron.setFirstName(PATRON_FIRST_NAME);
+            patron.setLastName(PATRON_LAST_NAME); 
+            patron.setEmail(PATRON_EMAIL);
+            patron.setPassword(PATRON_PASSWORD);
+            patron.setBalance(PATRON_BALANCE);
+            patron.setOnlineAccount(PATRON_ONLINE_ACCOUNT);
+            patron.setAddress(PATRON_ADDRESS);
+            patron.setValidatedAccount(PATRON_VALIDATED_ACCOUNT);
+            patron.setLibrarySystem(librarySystem);
+            
             return patron;
         } else {
             return null;
         }
     });
+    
+ // Whenever anything is saved, just return the parameter object
+ 		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
+ 			return invocation.getArgument(0);
+ 		};
+ 		lenient().when(patronDAO.save(any(Patron.class))).thenAnswer(returnParameterAsAnswer);
+ 		
+ 
 }
+@Test
+public void testCreatePatron() {
 	
 	
+	
+}
+
 	
 	
 }
