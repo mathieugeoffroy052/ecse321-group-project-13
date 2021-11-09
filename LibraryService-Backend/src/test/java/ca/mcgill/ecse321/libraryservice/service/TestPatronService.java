@@ -48,7 +48,7 @@ private static final int PATRON_BALANCE = 0;
 private static final UserAccount PATRON_CREATOR = new Librarian();
 private static final boolean PATRON_ONLINE_ACCOUNT = true;
 private static final String PATRON_ADDRESS = "123 Smith Street";
-private static final boolean PATRON_VALIDATED_ACCOUNT = true;
+private static final boolean PATRON_VALIDATED_ACCOUNT = false;
 private static final String PATRON_PASSWORD = "patron123";
 
 
@@ -95,16 +95,22 @@ public void testCreatePatronSuccessful() throws Exception {
 	try {
 		LibrarySystem ls = new LibrarySystem();
 		patron = service.createPatron(PATRON_CREATOR, PATRON_FIRST_NAME, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, ls, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
+	
 	}
 	catch (IllegalArgumentException e) {
 		fail();
 		
 	}
-		assertNull(patron);
 		//verify error
 		assertEquals(PATRON_FIRST_NAME, patron.getFirstName());
-	
-	
+		assertEquals(PATRON_LAST_NAME, patron.getLastName());
+		assertEquals(PATRON_ADDRESS, patron.getAddress());
+		assertEquals(PATRON_ONLINE_ACCOUNT, patron.getOnlineAccount());
+		assertEquals(PATRON_VALIDATED_ACCOUNT, patron.getValidatedAccount());
+		assertEquals(PATRON_EMAIL, patron.getEmail());
+		assertEquals(PATRON_PASSWORD, patron.getPassword());
+		assertEquals(PATRON_BALANCE, patron.getBalance());
+		
 }
 
 
