@@ -400,7 +400,7 @@ public class LibraryServiceRestController {
      * @throws Exception
      * @author Ramin Akhavan-Sarraf
      */
-    @GetMapping(value = { "/user/{userID}/rooms/", "user/{userID}/rooms" })
+    @GetMapping(value = { "/account/{userID}/rooms/", "/account/{userID}/rooms" })
     public List<LibraryItemDTO> getAllUserRoomReservations(@PathVariable("userId") int userID) throws Exception {
         UserAccount user = service.getUserbyUserId(userID);
         List<BorrowableItem> borrowableItems = service.getReservedItemsFromUser(user);
