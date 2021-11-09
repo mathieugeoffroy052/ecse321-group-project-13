@@ -13,7 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import ca.mcgill.ecse321.libraryservice.model.HeadLibrarian;
-import ca.mcgill.ecse321.libraryservice.model.LibrarySystem;
 import ca.mcgill.ecse321.libraryservice.model.OpeningHour;
 import ca.mcgill.ecse321.libraryservice.model.OpeningHour.DayOfWeek;
 
@@ -31,8 +30,6 @@ public class TestOpeningHourPersistence {
     private LibrarianRepository librarianRepository;
     @Autowired
     private LibraryItemRepository libraryItemRepository;
-    @Autowired
-    private LibrarySystemRepository librarySystemRepository;
     @Autowired
     private OpeningHourRepository openingHourRepository;
     @Autowired
@@ -58,13 +55,10 @@ public class TestOpeningHourPersistence {
         librarianRepository.deleteAll();
         libraryItemRepository.deleteAll();
         userAccountRepository.deleteAll();
-        librarySystemRepository.deleteAll();
     }
 
     @Test @SuppressWarnings("deprecation")
     public void testPersistAndLoadOpeningHours() {
-        LibrarySystem library = new LibrarySystem();
-        librarySystemRepository.save(library);
 
         //create inputs for Opening hours constructor
         DayOfWeek dayOfWeek = DayOfWeek.Saturday;
@@ -81,14 +75,14 @@ public class TestOpeningHourPersistence {
         String address = "10 Road, Toronto, Canada";
 
         //create head librarian
-        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance, email);
+        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, address, password, balance, email);
        
         headLibrarianRepository.save(headLibrarian);
         librarianRepository.save(headLibrarian);
         userAccountRepository.save(headLibrarian);
 
         //create opening hour
-        OpeningHour openingHour = new OpeningHour(dayOfWeek, startTime, endTime, library, headLibrarian);
+        OpeningHour openingHour = new OpeningHour(dayOfWeek, startTime, endTime, headLibrarian);
         
 
         //get openingHourID to retreive from DB
@@ -108,7 +102,6 @@ public class TestOpeningHourPersistence {
         assertEquals(dayOfWeek, openingHour.getDayOfWeek(), "openingHour.dayOfWeek mismatch");
         assertEquals(startTime, openingHour.getStartTime(), "openingHour.startTime mismatch");
         assertEquals(endTime, openingHour.getEndTime(), "openingHour.endTime mismatch");
-        assertEquals(library.getSystemId(), openingHour.getLibrarySystem().getSystemId(), "openingHour.librarySystem.SystemID mismatch");
         
         //test persistence of head librarian within opening hour
         assertNotNull(openingHour.getHeadLibrarian(), "No head librarian retrieved");
@@ -124,9 +117,6 @@ public class TestOpeningHourPersistence {
 
     @Test @SuppressWarnings("deprecation")
     public void testPersistAndLoadOpeningHoursByReference() {
-        LibrarySystem library = new LibrarySystem();
-        librarySystemRepository.save(library);
-
         //create inputs for Opening hours constructor
         DayOfWeek dayOfWeek = DayOfWeek.Saturday;
         Time startTime =  new Time(12, 43, 0);
@@ -142,14 +132,14 @@ public class TestOpeningHourPersistence {
         String address = "10 Road, Toronto, Canada";
 
         //create head librarian
-        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance, email);
+        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, address, password, balance, email);
         
         headLibrarianRepository.save(headLibrarian);
         librarianRepository.save(headLibrarian);
         userAccountRepository.save(headLibrarian);
 
         //create opening hour
-        OpeningHour openingHour = new OpeningHour(dayOfWeek, startTime, endTime, library, headLibrarian);
+        OpeningHour openingHour = new OpeningHour(dayOfWeek, startTime, endTime, headLibrarian);
 
         //save openingHourID to DB
         openingHourRepository.save(openingHour);
@@ -165,7 +155,6 @@ public class TestOpeningHourPersistence {
         assertEquals(dayOfWeek, openingHour.getDayOfWeek(), "openingHour.dayOfWeek mismatch");
         assertEquals(startTime, openingHour.getStartTime(), "openingHour.startTime mismatch");
         assertEquals(endTime, openingHour.getEndTime(), "openingHour.endTime mismatch");
-        assertEquals(library.getSystemId(), openingHour.getLibrarySystem().getSystemId(), "openingHour.librarySystem.SystemID mismatch");
         
         //test persistence of head librarian within opening hour
         assertNotNull(openingHour.getHeadLibrarian(), "No head librarian retrieved");
@@ -175,50 +164,5 @@ public class TestOpeningHourPersistence {
         assertEquals(password, openingHour.getHeadLibrarian().getPassword(), "openingHour.headLibrarian.password mismatch");
         assertEquals(address, openingHour.getHeadLibrarian().getAddress(), "openingHour.headLibrarian.address.address mismatch");
         assertEquals(email, openingHour.getHeadLibrarian().getEmail(), "openingHour.headLibrarian.address.email mismatch");
-    }
-
-    @Test @SuppressWarnings("deprecation")
-    public void testPersistAndLoadOpeningHourByRefLibrarySystem() { 
-        LibrarySystem library = new LibrarySystem();
-        librarySystemRepository.save(library);
-
-        //inputs for openingHours
-        DayOfWeek dayOfWeek = DayOfWeek.Monday;
-        Time startTime =  new Time(7, 30, 0);
-        Time endTime = new Time(21, 30, 0);
-
-        //inputs headLibrarian
-        String firstName = "Samantha";
-        String lastName = "Jules";
-        boolean online = true;
-        String password = "a1b2c3d4";
-        String email = "Samantha@email.com";
-        int balance = 0;
-        String address = "10203 5th Av, New York, New York, USA";
-
-        //create head librarian and persist
-        HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, library, address, password, balance, email);
-        
-        headLibrarianRepository.save(headLibrarian);
-        librarianRepository.save(headLibrarian);
-        userAccountRepository.save(headLibrarian);
-
-        //create opening hours and persist
-        OpeningHour openingHour = new OpeningHour(dayOfWeek, startTime, endTime, library, headLibrarian);
-
-        openingHourRepository.save(openingHour);
-
-        //clear opening hours
-        openingHour = null;
-
-        //retrieve opening hours by library system from DB
-        openingHour = openingHourRepository.findByLibrarySystem(library).get(0);
-
-        //test functionality
-        assertNotNull(openingHour, "No openinghour retrieved");
-        assertEquals(dayOfWeek, openingHour.getDayOfWeek(), "openingHour.dayOfWeek mismatch");
-        assertEquals(startTime, openingHour.getStartTime(), "openingHour.startTime mismatch");
-        assertEquals(endTime, openingHour.getEndTime(), "openingHour.endTime mismatch");
-        assertEquals(library.getSystemId(), openingHour.getLibrarySystem().getSystemId(), "openingHour.librarySystem.SystemID mismatch");
     }
 }

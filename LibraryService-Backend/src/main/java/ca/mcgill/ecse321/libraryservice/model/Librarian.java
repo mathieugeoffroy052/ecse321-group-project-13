@@ -31,9 +31,9 @@ public class Librarian extends UserAccount
     librarianID = nextlibrarianID++;
   }
 
-  public Librarian(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, String aPassword, int aBalance, String aEmail)
+  public Librarian(String aFirstName, String aLastName, boolean aOnlineAccount, String aAddress, String aPassword, int aBalance, String aEmail)
   {
-    super(aFirstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aPassword, aBalance, aEmail);
+    super(aFirstName, aLastName, aOnlineAccount, aAddress, aPassword, aBalance, aEmail);
     librarianID = nextlibrarianID++;
   }
 

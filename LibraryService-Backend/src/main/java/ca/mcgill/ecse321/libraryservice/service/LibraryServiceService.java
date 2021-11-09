@@ -6,13 +6,17 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.FlashMapManager;
 
 import ca.mcgill.ecse321.libraryservice.dao.*;
+import ca.mcgill.ecse321.libraryservice.dto.PatronDTO;
+import ca.mcgill.ecse321.libraryservice.dto.UserAccountDTO;
 import ca.mcgill.ecse321.libraryservice.model.*;
 import ca.mcgill.ecse321.libraryservice.model.BorrowableItem.ItemState;
 import ca.mcgill.ecse321.libraryservice.model.LibraryItem.ItemType;
@@ -35,8 +39,6 @@ public class LibraryServiceService {
     @Autowired
     private LibraryItemRepository libraryItemRepository;
     @Autowired
-    private LibrarySystemRepository librarySystemRepository;
-    @Autowired
     private OpeningHourRepository openingHourRepository;
     @Autowired
     private PatronRepository patronRepository;
@@ -47,17 +49,7 @@ public class LibraryServiceService {
     @Autowired
     private UserAccountRepository userAccountRepository;
 
-    // ASSUMPTION : There exists only 1 instance of the LibraryService in the database, and that instance is used in the following business methods
-    public LibrarySystem getLibrarySystemfrom1() throws Exception{
-        LibrarySystem library;
-        try{
-            library = (LibrarySystem) librarySystemRepository.findAll().iterator().next(); // uses the first library system found in the database
-        }catch(NoSuchElementException e){
-            throw new Exception("No library system(s) exist in the database");
-        }
-        return library;
 
-    }
     /** 
      * @param isbn
      * @return List<BorrowableItem> - list of borrowable items with given isbn
@@ -80,8 +72,7 @@ public class LibraryServiceService {
      */
     @Transactional
     public List<LibraryItem> getAllBooks() throws Exception{
-        LibrarySystem library=getLibrarySystemfrom1();
-        List<LibraryItem> allLibraryItems = libraryItemRepository.findByLibrarySystem(library);
+        Iterable<LibraryItem> allLibraryItems = libraryItemRepository.findAll();
         List<LibraryItem> allBooks = new ArrayList<LibraryItem>();
         for(LibraryItem i : allLibraryItems){
             if(i.getType().equals(ItemType.Book)){
@@ -140,8 +131,7 @@ public class LibraryServiceService {
      */
     @Transactional
     public List<LibraryItem> getAllMusic() throws Exception{
-        LibrarySystem library=getLibrarySystemfrom1();
-        List<LibraryItem> allLibraryItems = libraryItemRepository.findByLibrarySystem(library);
+        Iterable<LibraryItem> allLibraryItems = libraryItemRepository.findAll();
         List<LibraryItem> allMusic = new ArrayList<LibraryItem>();
         for(LibraryItem i : allLibraryItems){
             if(i.getType().equals(ItemType.Music)){
@@ -198,8 +188,7 @@ public class LibraryServiceService {
      */
     @Transactional
     public List<LibraryItem> getAllMovies() throws Exception{
-        LibrarySystem library=getLibrarySystemfrom1();
-        List<LibraryItem> allLibraryItems = libraryItemRepository.findByLibrarySystem(library);
+        Iterable<LibraryItem> allLibraryItems = libraryItemRepository.findAll();
         List<LibraryItem> allMovies = new ArrayList<LibraryItem>();
         for(LibraryItem i : allLibraryItems){
             if(i.getType().equals(ItemType.Music)){
@@ -258,10 +247,8 @@ public class LibraryServiceService {
      */
 
     @Transactional
-    public List<LibraryItem> getAllRoomReservations() throws Exception{
-        LibrarySystem library=getLibrarySystemfrom1();
-        
-        List<LibraryItem> allLibraryItems = libraryItemRepository.findByLibrarySystem(library);
+    public List<LibraryItem> getAllRoomReservations() throws Exception{        
+        Iterable<LibraryItem> allLibraryItems = libraryItemRepository.findAll();
         List<LibraryItem> allRooms = new ArrayList<>();
         for(LibraryItem libItem : allLibraryItems){
             if (libItem.getType() == ItemType.Room){
@@ -280,8 +267,7 @@ public class LibraryServiceService {
      */
     @Transactional
     public List<LibraryItem> getAllNewspapers() throws Exception{
-        LibrarySystem library=getLibrarySystemfrom1();
-        List<LibraryItem> allLibraryItems = libraryItemRepository.findByLibrarySystem(library);
+        Iterable<LibraryItem> allLibraryItems = libraryItemRepository.findAll();
         List<LibraryItem> allNewspapers = new ArrayList<>();
         for(LibraryItem libItem : allLibraryItems){
             if (libItem.getType() == ItemType.NewspaperArticle){
@@ -719,7 +705,7 @@ public class LibraryServiceService {
      */
 
 
-    public boolean CreateANewHeadLibrarian(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, String aPassword, int aBalance , String aEmail)
+    public boolean CreateANewHeadLibrarian(String aFirstName, String aLastName, boolean aOnlineAccount, String aAddress, String aPassword, int aBalance , String aEmail)
     throws Exception {
 
         String error = "";
@@ -728,9 +714,6 @@ public class LibraryServiceService {
         }
         if ((aLastName == null || aLastName.trim().length() == 0)&& error.length()==0) {
             error = error + "Last Name  cannot be empty! ";
-        }
-        if (aLibrarySystem == null && error.length()==0) {
-            error = error + "System doesn't exist ";
         }
         if ((aAddress == null|| aAddress.trim().length() == 0)&& error.length()==0) {
             error = error + "Address cannot be empty! ";
@@ -749,14 +732,14 @@ public class LibraryServiceService {
         HeadLibrarian headLibrarian;
         if(checkOnlyOneHeadLibrarian()) throw new  Exception("This User  does not the credentials to add a new librarian");
    
-        headLibrarian=new HeadLibrarian(aFirstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aPassword, aBalance, aEmail);
+        headLibrarian=new HeadLibrarian(aFirstName, aLastName, aOnlineAccount, aAddress, aPassword, aBalance, aEmail);
 
         librarianRepository.save(headLibrarian);
     
         return true;
         
     }
-    public boolean ReplaceHeadLibrarian(UserAccount current, String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, String aPassword, int aBalance , String aEmail)
+    public boolean ReplaceHeadLibrarian(UserAccount current, String aFirstName, String aLastName, boolean aOnlineAccount, String aAddress, String aPassword, int aBalance , String aEmail)
     throws Exception {
 
         String error = "";
@@ -765,9 +748,6 @@ public class LibraryServiceService {
         }
         if ((aLastName == null || aLastName.trim().length() == 0)&& error.length()==0) {
             error = error + "Last Name  cannot be empty! ";
-        }
-        if (aLibrarySystem == null && error.length()==0){
-            error = error + "System doesn't exist ";
         }
         if (current == null && error.length()==0) {
             error = error + "User Requesting the change cannot be empty! ";
@@ -789,7 +769,7 @@ public class LibraryServiceService {
        if(current.equals(headLibrarian)) 
       headLibrarianRepository.delete(headLibrarian);
 
-      headLibrarian=new HeadLibrarian(aFirstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aPassword, aBalance, aEmail);
+      headLibrarian=new HeadLibrarian(aFirstName, aLastName, aOnlineAccount, aAddress, aPassword, aBalance, aEmail);
       librarianRepository.save(headLibrarian);
     
         return true;
@@ -810,7 +790,7 @@ public class LibraryServiceService {
      * @return
      * @throws Exception
      */
-    public Librarian createANewLibrarian(UserAccount creater, String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, String aPassword, int aBalance , String aEmail) throws Exception {
+    public Librarian createANewLibrarian(UserAccount creater, String aFirstName, String aLastName, boolean aOnlineAccount, String aAddress, String aPassword, int aBalance , String aEmail) throws Exception {
   
         String error = "";
         if ((aFirstName == null || aFirstName.trim().length() == 0)&& error.length()==0) {
@@ -818,9 +798,6 @@ public class LibraryServiceService {
         }
         if ((aLastName == null || aLastName.trim().length() == 0)&& error.length()==0) {
             error = error + "Last Name  cannot be empty! ";
-        }
-        if (aLibrarySystem == null && error.length()==0) {
-            error = error + "System doesn't exist ";
         }
         if (creater == null && error.length()==0) {
             error = error + "User Requesting the change cannot be empty! ";
@@ -852,7 +829,6 @@ public class LibraryServiceService {
 		librarian.setFirstName(aFirstName);
         librarian.setLastName(aLastName);
         librarian.setOnlineAccount(aOnlineAccount);
-        librarian.setLibrarySystem(aLibrarySystem);
         librarian.setAddress(aAddress);
         librarian.setPassword(aPassword);
         librarian.setBalance(aBalance);
@@ -938,9 +914,14 @@ public class LibraryServiceService {
      */
     @Transactional
     public List<TimeSlot> getAllTimeSlots() throws Exception {
-        LibrarySystem library=getLibrarySystemfrom1();
-        List<TimeSlot> allTimeSlots = timeSlotRepository.findByLibrarySystem(library);
-        return allTimeSlots;
+        Iterable<TimeSlot> allTimeSlots = timeSlotRepository.findAll();
+        List<TimeSlot> timeSlots = new ArrayList<TimeSlot>();
+        for(TimeSlot i : allTimeSlots){
+            if(i instanceof TimeSlot){
+                timeSlots.add(i);
+            }
+        }
+        return timeSlots;
     }
 
     /**
@@ -1055,9 +1036,8 @@ public class LibraryServiceService {
      */
     @Transactional
     public TimeSlot createTimeSlot(Date startDate, Time startTime, Date endDate, Time endTime) throws Exception {
-        LibrarySystem library=getLibrarySystemfrom1();
         HeadLibrarian headLibrarian =getHeadLibrarian();
-        TimeSlot timeSlot = new TimeSlot(startDate, startTime, endDate, endTime, library, headLibrarian);
+        TimeSlot timeSlot = new TimeSlot(startDate, startTime, endDate, endTime, headLibrarian);
         timeSlotRepository.save(timeSlot);
         return timeSlot;
     }
@@ -1109,14 +1089,13 @@ public class LibraryServiceService {
      * @throws Exception if user is not the head librarian
      * @author Mathieu Geoffroy
      */
-    public boolean deleteTimeSlot(UserAccount account, Date startDate, Time startTime, Date endDate, Time endTime, LibrarySystem library) throws Exception {
+    public boolean deleteTimeSlot(UserAccount account, Date startDate, Time startTime, Date endDate, Time endTime) throws Exception {
         String error = "";
         if (account == null) error = error + "Invalid account. ";
         if (startDate == null) error = error + "Invalid startDate. ";
         if (startTime == null) error = error + "Invalid startTime. ";
         if (endDate == null) error = error + "Invalid endDate. ";
         if (endTime == null) error = error + "Invalid endTime. ";
-        if (library == null) error = error + "Invalid library system. ";
 
         error = error.trim();
 
@@ -1124,7 +1103,7 @@ public class LibraryServiceService {
 
         HeadLibrarian headLibrarian = getHeadLibrarianFromUserId(account.getUserID());
 
-        TimeSlot timeSlot = new TimeSlot(startDate, startTime, endDate, endTime, library, headLibrarian);
+        TimeSlot timeSlot = new TimeSlot(startDate, startTime, endDate, endTime, headLibrarian);
         timeSlotRepository.delete(timeSlot);
         return true;
     }
@@ -1138,9 +1117,14 @@ public class LibraryServiceService {
      */
     @Transactional
     public List<OpeningHour> getAllOpeningHours() throws Exception {
-        LibrarySystem library=getLibrarySystemfrom1();
-        List<OpeningHour> allOpeningHours = openingHourRepository.findByLibrarySystem(library);
-        return allOpeningHours;
+        Iterable<OpeningHour> allOpeningHours = openingHourRepository.findAll();
+        List<OpeningHour> openingHours = new ArrayList<OpeningHour>();
+        for(OpeningHour i : allOpeningHours){
+            if(i instanceof OpeningHour){
+                openingHours.add(i);
+            }
+        }
+        return openingHours;
     }
     /**
      * get opening hour from its id
@@ -1220,9 +1204,8 @@ public class LibraryServiceService {
         } catch (IllegalArgumentException e) {
             throw new Exception("Invalid day");
         }
-        LibrarySystem library=getLibrarySystemfrom1();
         HeadLibrarian headLibrarian =getHeadLibrarian();
-        OpeningHour openingHour = new OpeningHour(dayOfWeek, startTime, endTime, library, headLibrarian);
+        OpeningHour openingHour = new OpeningHour(dayOfWeek, startTime, endTime, headLibrarian);
         openingHourRepository.save(openingHour);
         return openingHour;
     }    
@@ -1240,20 +1223,19 @@ public class LibraryServiceService {
      * @throws Exception if not day string is incorrect
      * @author Mathieu Geoffroy
      */
-    public boolean deleteOpeningHour(UserAccount account, String day, Time startTime, Time endTime, LibrarySystem library) throws Exception{
+    public boolean deleteOpeningHour(UserAccount account, String day, Time startTime, Time endTime) throws Exception{
         String error = "";
         if (account == null) error = error + "Invalid account. ";
         if (day == null) error = error + "Invalid day of week. ";
         if (startTime == null) error = error + "Invalid startTime. ";
         if (endTime == null) error = error + "Invalid endTime. ";
-        if (library == null) error = error + "Invalid library. ";
         error = error.trim();
 
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
         HeadLibrarian headLibrarian = getHeadLibrarianFromUserId(account.getUserID());
         DayOfWeek dayOfWeek = DayOfWeek.valueOf(day); //case sensitive match
-        OpeningHour openingHour = new OpeningHour(dayOfWeek, startTime, endTime, library, headLibrarian);
+        OpeningHour openingHour = new OpeningHour(dayOfWeek, startTime, endTime, headLibrarian);
 
         openingHourRepository.delete(openingHour);
         return true;
@@ -1269,9 +1251,14 @@ public class LibraryServiceService {
      */
     @Transactional
     public List<Holiday> getAllHolidays() throws Exception {
-        LibrarySystem library=getLibrarySystemfrom1();
-        List<Holiday> allHolidays = holidayRepository.findByLibrarySystem(library);
-        return allHolidays;
+        Iterable<Holiday> allHolidays = holidayRepository.findAll();
+        List<Holiday> holidays = new ArrayList<Holiday>();
+        for(Holiday i : allHolidays){
+            if(i instanceof Holiday){
+                holidays.add(i);
+            }
+        }
+        return holidays;
     }
 
     /**
@@ -1325,9 +1312,8 @@ public class LibraryServiceService {
      */
     @Transactional
     public Holiday createHoliday(Date date, Time startTime, Time endTime) throws Exception{
-        LibrarySystem library=getLibrarySystemfrom1();
         HeadLibrarian headLibrarian =getHeadLibrarian();
-        Holiday holiday = new Holiday(date, startTime, endTime, library, headLibrarian);
+        Holiday holiday = new Holiday(date, startTime, endTime, headLibrarian);
         holidayRepository.save(holiday);
         return holiday;
     }
@@ -1344,20 +1330,19 @@ public class LibraryServiceService {
      * @throws Exception when user is not authorized (not head librarian)
      * @author Mathieu Geoffroy
      */
-    public boolean deleteHoliday(UserAccount account, Date date, Time startTime, Time endTime, LibrarySystem library) throws Exception {
+    public boolean deleteHoliday(UserAccount account, Date date, Time startTime, Time endTime) throws Exception {
         String error = "";
         if (account == null) error = error + "Invalid account. ";
         if (date == null) error = error + "Invalid date. ";
         if (startTime == null) error = error + "Invalid startTime. ";
         if (endTime == null) error = error + "Invalid endTime. ";
-        if (library == null) error = error + "Invalid library. ";
         error = error.trim();
 
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
         HeadLibrarian headLibrarian = getHeadLibrarianFromUserId(account.getUserID());
 
-        Holiday holiday = new Holiday(date, startTime, endTime, library, headLibrarian);
+        Holiday holiday = new Holiday(date, startTime, endTime, headLibrarian);
         holidayRepository.delete(holiday);
         return true;
     }
@@ -1371,7 +1356,7 @@ public class LibraryServiceService {
      * @throws Exception 
      */
     @Transactional
-	public UserAccount getUser(int userID) throws Exception {
+	public UserAccount getUserbyUserId(int userID) throws Exception {
 
 		try {
             UserAccount person = userAccountRepository.findUserAccountByUserID(userID);
@@ -1388,7 +1373,6 @@ public class LibraryServiceService {
      * @param aFirstName
      * @param aLastName
      * @param aOnlineAccount
-     * @param aLibrarySystem
      * @param aAddress
      * @param aValidatedAccount
      * @param aPassword
@@ -1399,7 +1383,7 @@ public class LibraryServiceService {
      * checked
      */
     @Transactional
-	public Patron createPatron(UserAccount creator, String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, boolean aValidatedAccount, String aPassword, int aBalance, String aEmail) {
+	public Patron createPatron(UserAccount creator, String aFirstName, String aLastName, boolean aOnlineAccount, String aAddress, boolean aValidatedAccount, String aPassword, int aBalance, String aEmail) {
 		
         String error = "";
         if ((aFirstName == null || aFirstName.trim().length() == 0)&& error.length() == 0) {
@@ -1408,10 +1392,6 @@ public class LibraryServiceService {
         if ((aLastName == null || aLastName.trim().length() == 0)&& error.length() == 0) {
             error = error + "Last Name  cannot be empty! ";
         }
-        if (aLibrarySystem == null && error.length() == 0) {
-            error = error + "System doesn't exist ";
-        }
-
         if (aAddress == null|| aAddress.trim().length() == 0 && error.length() == 0) {
             error = error + "Address cannot be empty! ";
         }
@@ -1442,7 +1422,6 @@ public class LibraryServiceService {
 		patron.setFirstName(aFirstName);
         patron.setLastName(aLastName);
         patron.setOnlineAccount(aOnlineAccount);
-        patron.setLibrarySystem(aLibrarySystem);
         patron.setAddress(aAddress);
         patron.setPassword(aPassword);
         patron.setBalance(aBalance);
@@ -1461,7 +1440,7 @@ public class LibraryServiceService {
      * checked
      */
     @Transactional
-	public Patron getPatron(int userID) throws Exception {
+	public Patron getPatronByUserId(int userID) throws Exception {
 		try {
 			Patron person = patronRepository.findPatronByUserID(userID);
 		
@@ -1517,35 +1496,11 @@ public class LibraryServiceService {
      * @param head, aFirstNAme, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aValidatedAccount, aPassword, aBalance
      * @return patron 
      * added checks -elo
+     * edited by Gabby
      * checked
      */
     @Transactional
-    public Patron deleteAPatron(UserAccount head, String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, boolean aValidatedAccount, String aPassWord, int aBalance, String aEmail) throws Exception {
-        		
-        String error = "";
-        if (aFirstName == null || aFirstName.trim().length() == 0) {
-            error = error + "First Name  cannot be empty! ";
-        }
-        if (aLastName == null || aLastName.trim().length() == 0) {
-            error = error + "Last Name  cannot be empty! ";
-        }
-        if (aLibrarySystem == null) {
-            error = error + "System doesn't exist ";
-        }
-
-        if (aAddress == null|| aAddress.trim().length() == 0) {
-            error = error + "Address cannot be empty! ";
-        }
-        if ((aPassWord == null|| aPassWord.trim().length() == 0)&& aOnlineAccount == true && error.length()==0) {
-            error = error + "Password cannot be empty! ";
-        }
-        if ((aEmail == null|| aEmail.trim().length() == 0) && aOnlineAccount == true && error.length()==0) {
-            error = error + "Email cannot be empty! ";
-        }
-        error = error.trim();
-        if (error.length() > 0) {
-            throw new IllegalArgumentException(error);
-        }
+    public Patron deleteAPatronbyUserID(UserAccount head, int userID) throws Exception {
         try {
         HeadLibrarian headLibrarian = getHeadLibrarianFromUserId(head.getUserID());
 
@@ -1553,9 +1508,15 @@ public class LibraryServiceService {
             throw new  Exception("This User does not the credentials to delete an existing patron");
         }
 
-        Patron patron=new Patron(aFirstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aValidatedAccount, aPassWord, aBalance, aEmail);
-        patronRepository.delete(patron);
-        return patron;
+        try {
+            Patron patronAccount = patronRepository.findPatronByUserID(userID);
+            patronRepository.delete(patronAccount);
+            
+            return patronAccount;
+        } catch (Exception e) {
+            throw new  Exception("This user Id does not exist as a Patron");
+        }
+ 
     }
 
 
@@ -1599,7 +1560,7 @@ public class LibraryServiceService {
      * @return boolean 
      */
     
-    public boolean changePassword(String aPassWord, UserAccount account){
+    public UserAccount changePassword(String aPassWord, UserAccount account){
         String error = "";
         if (account == null && error.length()==0){
             error = error + "The account cannot be null";
@@ -1619,7 +1580,8 @@ public class LibraryServiceService {
             throw new IllegalArgumentException(error);
         }
 
-        return account.setPassword(aPassWord);
+        account.setPassword(aPassWord);
+        return account;
     }
 
     /**
@@ -1666,16 +1628,17 @@ public class LibraryServiceService {
         return true;
     }
 
+
     /**
      * This method sets the validity of the user account which must be done by a librarian
      * @author Gabrielle Halpin
      * @param patron
      * @param validated
      * @param creator
-     * @return boolean
+     * @return PatronDTO
      * @throws Exception
      */
-    public boolean setValidatedAccount(Patron patron, boolean validated, UserAccount creator) throws Exception{
+    public Patron setValidatedAccount(Patron patron, boolean validated, UserAccount creator) throws Exception{
         String error="";
         if (!(creator instanceof Librarian) && error.length()==0){
             error = error + "Only a Librarian can change the validity of an account";
@@ -1692,7 +1655,8 @@ public class LibraryServiceService {
         }
         try {
             Patron patronAccount =  patronRepository.findPatronByUserID(patron.getUserID());
-            return patronAccount.setValidatedAccount(validated);
+            patronAccount.setValidatedAccount(validated);
+            return patronAccount;
             
            } catch (Exception e) {
             throw new Exception("This user does not exists in the database.");
@@ -1709,15 +1673,20 @@ public class LibraryServiceService {
      * checked
      */
     @Transactional
-	public List<UserAccount> getAllUsers(LibrarySystem librarySystem) throws Exception {
-		try {
-			List<UserAccount> users = userAccountRepository.findByLibrarySystem(librarySystem);
-		
-		return users;
-		}catch (Exception e) {
-	         throw new Exception("There are no users in the database");
-		}
+	public List<UserAccount> getAllUsers() throws Exception {
+        String error = "";
+        Iterable<UserAccount> allusers = userAccountRepository.findAll();
+        ArrayList<UserAccount> users = new ArrayList<UserAccount>();
+        if(users.size()==0 || allusers == null){
+            error = "There are no Users in the system";
+        }
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
+        return users;
 	}
+
 
 
     /***

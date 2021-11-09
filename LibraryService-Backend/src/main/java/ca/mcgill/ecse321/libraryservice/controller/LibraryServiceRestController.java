@@ -7,9 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import ca.mcgill.ecse321.libraryservice.dao.PatronRepository;
 import ca.mcgill.ecse321.libraryservice.dto.*;
 import ca.mcgill.ecse321.libraryservice.dto.LibraryItemDTO.ItemType;
 import ca.mcgill.ecse321.libraryservice.model.*;
@@ -20,6 +21,158 @@ import ca.mcgill.ecse321.libraryservice.service.LibraryServiceService;
 public class LibraryServiceRestController {
     @Autowired
 	private LibraryServiceService service;
+
+
+    /**
+     * This methods gets all users for the database
+     * @author Gabrielle Halpin
+     * @return userDTOs
+     * @throws Exception
+     */
+    @GetMapping(value = { "/users", "/users/" })
+    public List<UserAccountDTO> getAllUsers() throws Exception{
+            List<UserAccountDTO> userDtos = new ArrayList<>();
+            for (UserAccount users : service.getAllUsers()) {
+                userDtos.add(convertToDto(users));
+            }
+            return userDtos;
+        
+    }
+
+    /**
+     * This methods gets all patrons for the database
+     * @author Gabrielle Halpin
+     * @return patrons
+     * @throws Exception
+     */
+    @GetMapping(value = { "/patrons", "/patrons/" })
+    public List<UserAccountDTO> getAllPatrons() throws Exception{
+            List<UserAccountDTO> patrons = new ArrayList<>();
+            for (UserAccount users : service.getAllPatrons()) {
+                patrons.add(convertToDto(users));
+            }
+            return patrons;
+        
+    }
+
+    /**
+     * This methods gets all librarians for the database
+     * @author Gabrielle Halpin
+     * @return patrons
+     * @throws Exception
+     */
+    @GetMapping(value = { "/librarians", "/librarians/" })
+    public List<UserAccountDTO> getAllLibrarians() throws Exception{
+            List<UserAccountDTO> librarians = new ArrayList<>();
+            for (UserAccount users : service.getAllLibrarians()) {
+                librarians.add(convertToDto(users));
+            }
+            return librarians;
+        
+    }
+
+    /**
+     * @author Gabrielle Halpin
+	 * Delete a business information
+	 * @param userID
+     * @param headLibrarian
+	 * @return patronDTO
+	 */
+	@PutMapping(value = {"/deletePatron/{userID}","/deletePatron/{userID}/"})
+	public PatronDTO deletePatron(@PathVariable("userID") int userID, @RequestBody UserAccount headLibrarian) throws Exception{
+		Patron patron = service.deleteAPatronbyUserID(headLibrarian, userID);
+		return convertToDto(patron);
+	}
+
+    /**
+     * This method uses the getPatronByUserId to retrieve a Patron from the database using their unique userID
+     * @author Gabrielle Halpin
+     * @param userID
+     * @return PatronDTO
+     * @throws IllegalArgumentException
+     */
+    @GetMapping(value = { "/patron/{userID}", "/patron/{userID}/" })
+    public PatronDTO getPatronByUserId(@PathVariable("userID") int userID) throws Exception {
+        return convertToDto(service.getPatronByUserId(userID));
+    }
+
+    /**
+     * This methods gets a patron from their firstname and last name
+     * @author Gabrielle Halpin
+     * @param firstName
+     * @param lastName
+     * @return PatronDTO
+     * @throws Exception
+     */
+    @GetMapping(value = { "/patrons/{firstName}/{lastName}", "/patrons/{firstname}/{lastName}/" })
+    public PatronDTO getPatronFromFullName(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName) throws Exception {
+        return convertToDto(service.getPatronFromFullName(firstName, lastName));
+    }
+    /**
+     * @author Gabrielle Halpin
+	 * Update Password
+	 * @param user  
+	 * @param password
+	 * @return
+	 */
+	@PutMapping(value = {"/updatePassword", "/updatePassword/"})
+	public UserAccountDTO updatePassword(@RequestBody UserAccount user, @RequestParam("password") String password) {
+		UserAccountDTO accountDTO = new UserAccountDTO();
+		UserAccount  account = service.changePassword(password, user);
+		accountDTO = convertToDto(account);
+		return accountDTO; 
+	}
+
+    /**
+     * This method sets the validity of the user's online account
+     * @author Gabrielle Halpin
+	 * Update Password
+	 * @param user  
+	 * @param password
+	 * @return
+	 */
+	@PutMapping(value = {"/setAccountValidity/", "/setAccountValidity/"})
+	public UserAccountDTO setAccountValidity(@RequestBody Patron patron, @RequestParam("validatedAccount") boolean validatedAccount, @RequestBody UserAccount creator) throws Exception{
+		UserAccountDTO accountDTO = new UserAccountDTO();
+		Patron  account = service.setValidatedAccount(patron, validatedAccount, creator);
+		accountDTO = convertToDto(account);
+		return accountDTO; 
+	}
+
+    /**
+     * @author Gabrielle Halpin
+     * This methods gets a userAccount from their unique userID
+     * @param userID
+     * @return UserAccountDTO
+     * @throws Exception
+     */
+    @GetMapping(value = { "/user/{userID}", "/user/{userID}/" })
+    public UserAccountDTO getUserbyUserID(@PathVariable("userID") int userID) throws Exception {
+        return convertToDto(service.getUserbyUserId(userID));
+    }
+
+    /**
+     * @author Gabrielle Halpin
+     * This method creates a Patron in the database and return a PatronDTO object
+     * @param creator
+     * @param firstName
+     * @param lastName
+     * @param onlineAccount
+     * @param address
+     * @param validatedAccount
+     * @param password
+     * @param balance
+     * @param email
+     * @return patronDTO
+     * @throws Exception
+     */
+    @PostMapping(value = { "/createPatron/{firstName}/{lastName}", "/createPatron/{creator}/{firstName}/{lastName}/" })
+	public PatronDTO createPatron(@RequestParam("creator") UserAccount creator, @PathVariable("firstName") String firstName, @RequestParam("lastName") String lastName, @RequestParam("onlineAccount") boolean onlineAccount, 
+            @PathVariable("address") String address, @PathVariable("validatedAccount") boolean validatedAccount, @PathVariable("password") String password,
+            @RequestParam("balance") int balance, @RequestParam("email") String email) throws Exception{
+		Patron patron = service.createPatron( creator,  firstName,  lastName,  onlineAccount,  address,  validatedAccount,  password,  balance,  email);
+	return convertToDto(patron);
+	}
 
 
     ////////// Helper methods - convertToDTO////////
@@ -419,13 +572,11 @@ public class LibraryServiceRestController {
      * @throws Exception 
      */
     private UserAccount convertToDomainObject(UserAccountDTO userAccountDTO) throws Exception{
-    	LibrarySystem librarySystem;
     	List<UserAccount> userAccounts;
         UserAccount userAccount = null;
 
     	try {
-    	librarySystem = service.getLibrarySystemfrom1();
-    	userAccounts = service.getAllUsers(librarySystem);
+    	userAccounts = service.getAllUsers();
 
         for (UserAccount acc : userAccounts) {
     		if (acc.getFirstName().equals(userAccountDTO.getFirstName()) && acc.getLastName().equals(userAccountDTO.getLastName()) && acc.getEmail().equals(userAccountDTO.getEmail())) {

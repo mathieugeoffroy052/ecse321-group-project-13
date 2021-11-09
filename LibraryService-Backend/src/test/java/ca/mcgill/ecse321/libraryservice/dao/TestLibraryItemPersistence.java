@@ -13,7 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import ca.mcgill.ecse321.libraryservice.model.LibraryItem;
-import ca.mcgill.ecse321.libraryservice.model.LibrarySystem;
 import ca.mcgill.ecse321.libraryservice.model.LibraryItem.ItemType;
 
 @ExtendWith(SpringExtension.class)
@@ -30,8 +29,6 @@ public class TestLibraryItemPersistence {
     private LibrarianRepository librarianRepository;
     @Autowired
     private LibraryItemRepository libraryItemRepository;
-    @Autowired
-    private LibrarySystemRepository librarySystemRepository;
     @Autowired
     private OpeningHourRepository openingHourRepository;
     @Autowired
@@ -57,14 +54,10 @@ public class TestLibraryItemPersistence {
         librarianRepository.deleteAll();
         libraryItemRepository.deleteAll();
         userAccountRepository.deleteAll();
-        librarySystemRepository.deleteAll();
     }
 
     @Test @SuppressWarnings("deprecation")
     public void testPersistAndLoadLibraryItem() { 
-        LibrarySystem library = new LibrarySystem();
-        librarySystemRepository.save(library);
-
         //inputs for libraryItem
         boolean viewable = true;
         Date releaseDate = new Date(2021, 8, 20);
@@ -73,7 +66,7 @@ public class TestLibraryItemPersistence {
         String name = "September 20, 2021";
 
         //create library item and persist
-        LibraryItem libraryItem = new LibraryItem(name, library, itemType, releaseDate, creator, viewable);
+        LibraryItem libraryItem = new LibraryItem(name, itemType, releaseDate, creator, viewable);
 
         libraryItemRepository.save(libraryItem);
 
@@ -93,39 +86,5 @@ public class TestLibraryItemPersistence {
         assertEquals(itemType, libraryItem.getType(), "libraryItem.type mismatch");
         assertEquals(creator, libraryItem.getCreator(), "libraryItem.creator mismatch");
         assertEquals(name, libraryItem.getName(), "libraryItem.name mismatch");
-        assertEquals(library.getSystemId(), libraryItem.getLibrarySystem().getSystemId(), "libraryItem.librarySystem.systemID mismatch");
-    }
-
-    @Test @SuppressWarnings("deprecation")
-    public void testPersistAndLoadLibraryItemByRefLibrarySystem() {
-        LibrarySystem library = new LibrarySystem();
-        librarySystemRepository.save(library);
-
-        //inputs for libraryItem
-        boolean viewable = true;
-        Date releaseDate = new Date(2021, 8, 20);
-        ItemType itemType = ItemType.Book;
-        String creator = "Gillian Flynn";
-        String name = "Gone Girl";
-
-        //create library item and persist
-        LibraryItem libraryItem = new LibraryItem(name, library, itemType, releaseDate, creator, viewable);
-
-        libraryItemRepository.save(libraryItem);
-
-        //clear library item
-        libraryItem = null;
-
-        //retrieve library item by library system from DB
-        libraryItem = libraryItemRepository.findByLibrarySystem(library).get(0);
-
-        //test functionality
-        assertNotNull(libraryItem, "No libraryItem retrieved");
-        assertEquals(viewable, libraryItem.getIsViewable(), "libraryItem.isViewable mismatch");
-        assertEquals(releaseDate, libraryItem.getDate(), "libraryItem.date mismatch");
-        assertEquals(itemType, libraryItem.getType(), "libraryItem.type mismatch");
-        assertEquals(creator, libraryItem.getCreator(), "libraryItem.creator mismatch");
-        assertEquals(name, libraryItem.getName(), "libraryItem.name mismatch");
-        assertEquals(library.getSystemId(), libraryItem.getLibrarySystem().getSystemId(), "libraryItem.librarySystem.systemID mismatch");
     }
 }
