@@ -758,7 +758,6 @@ public class LibraryServiceService {
      * @param aFirstName
      * @param aLastName
      * @param aOnlineAccount
-     * @param aLibrarySystem
      * @param aAddress
      * @param aPassword
      * @param aBalance
@@ -1466,7 +1465,7 @@ public class LibraryServiceService {
     /***
      * This method deletes a patron object from the database.
      * @author Zoya Malhi
-     * @param head, aFirstNAme, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aValidatedAccount, aPassword, aBalance
+     * @param head, aFirstNAme, aLastName, aOnlineAccount, aAddress, aValidatedAccount, aPassword, aBalance
      * @return patron 
      * added checks -elo
      * edited by Gabby
