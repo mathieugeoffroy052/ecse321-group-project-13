@@ -30,6 +30,7 @@ import org.mockito.stubbing.Answer;
 import ca.mcgill.ecse321.libraryservice.model.*;
 import ca.mcgill.ecse321.libraryservice.dao.*;
 
+
 @ExtendWith(MockitoExtension.class)
 public class TestPatronService {
 
@@ -38,12 +39,13 @@ public class TestPatronService {
 private PatronRepository patronDAO;
 
 @InjectMocks
+private LibraryServiceService service;
 private static final int PATRON_ID = 12345;
 private static final String PATRON_FIRST_NAME = "John";
 private static final String PATRON_LAST_NAME = "Smith";
 private static final String PATRON_EMAIL = "johnsmith@email.com";
 private static final int PATRON_BALANCE = 0;
-private static final String PATRON_CREATOR = "Librarian1";
+private static final UserAccount PATRON_CREATOR = new Librarian();
 private static final boolean PATRON_ONLINE_ACCOUNT = true;
 private static final String PATRON_ADDRESS = "123 Smith Street";
 private static final boolean PATRON_VALIDATED_ACCOUNT = true;
@@ -56,7 +58,8 @@ private static final String PATRON_PASSWORD = "patron123";
 public void setMockOutput() {
     lenient().when(patronDAO.findPatronByUserID(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
         if(invocation.getArgument(0).equals(PATRON_ID)) {
-            Patron patron = new Patron();
+           
+        	Patron patron = new Patron();
             LibrarySystem librarySystem = new LibrarySystem();
             patron.setPatronID(PATRON_ID);
             patron.setFirstName(PATRON_FIRST_NAME);
@@ -81,11 +84,25 @@ public void setMockOutput() {
  		};
  		lenient().when(patronDAO.save(any(Patron.class))).thenAnswer(returnParameterAsAnswer);
  		
- 
+ //UserAccount creator, String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, boolean aValidatedAccount, String aPassword, int aBalance, String aEmail
 }
 @Test
-public void testCreatePatron() {
+public void testCreatePatronNull() throws Exception {
+	String error = null;
+	Patron patron = null;
+	String firstName = null;
+	try {
+		LibrarySystem ls = service.getLibrarySystemfrom1();
+		patron = service.createPatron(PATRON_CREATOR, firstName, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, ls, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
+		//LibrarySystem ls = service.getLibrarySystemfrom1();
+		//assertEquals(PATRON_CREATOR, PATRON_FIRST_NAME, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, ls, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL, service.createPatron(PATRON_CREATOR, PATRON_FIRST_NAME, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, ls, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL));
 	
+	}
+	catch (IllegalArgumentException e) {
+		assertNull(patron);
+		//verify error
+		assertEquals("First Name  cannot be empty! ", error);
+	}
 	
 	
 }
