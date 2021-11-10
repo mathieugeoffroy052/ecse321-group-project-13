@@ -2,14 +2,18 @@ package ca.mcgill.ecse321.libraryservice.controller;
 
 import java.sql.Time;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import ca.mcgill.ecse321.libraryservice.dao.PatronRepository;
 import ca.mcgill.ecse321.libraryservice.dto.*;
@@ -27,6 +31,160 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class LibraryServiceRestController {
     @Autowired
 	private LibraryServiceService service;
+
+    //* Holiday methods
+    /**
+     * get all holidays
+     * @return list of all holidays DTO
+     * @author Mathieu Geoffroy
+     * @throws Exception when there is no library system
+     */
+    @GetMapping(value = {"/holidays", "/holidays/"})
+    public List<HolidayDTO> getAllHolidays() throws Exception{
+        return service.getAllHolidays().stream().map(p -> convertToDto(p)).collect(Collectors.toList());
+    }
+
+    /**
+     * view a specific holiday
+     * @param id
+     * @return holiday dto
+     * @author Mathieu Geoffroy
+     */
+    @GetMapping(value = {"/holiday/{holidayID}", "/holiday/{holidayID}/"})
+    public OpeningHourDTO getHolidayById(@PathVariable(name = "holidayID") int id) {
+        return convertToDto(service.getOpeningHourFromID(id));
+    }
+
+    /**
+     * create new holiday
+     * @param openingHourDTO
+     * @return holiday DTO
+     * @throws Exception
+     * @author Mathieu Geoffroy
+     */
+    @PostMapping(value = {"/holiday/new", "/holiday/new/"})
+    public HolidayDTO createHoliday(@RequestBody HolidayDTO holidayDTO) throws Exception {
+        return convertToDto(service.createHoliday(holidayDTO.getDate(), holidayDTO.getStartTime(), holidayDTO.getStartTime()));
+    }
+
+    //* Opening hour methods
+    /**
+     * get all opening hours
+     * @return list of opening hours DTO
+     * @throws Exception when there is no library system
+     * @author Mathieu Geoffroy
+     */
+    @GetMapping(value = {"/openinghours", "/openinghours/"})
+    public List<OpeningHourDTO> getAllOpeningHours() throws Exception {
+        return service.getAllOpeningHours().stream().map(p -> convertToDto(p)).collect(Collectors.toList());
+    }
+
+    /**
+     * view a specific opening hour
+     * @param id
+     * @return openinghourDTo
+     * @author Mathieu Geoffroy
+     */
+    @GetMapping(value = {"/openinghour/{openinghourID}", "/openinghour/{openinghourID}/"})
+    public OpeningHourDTO getOpeningHourById(@PathVariable(name = "openinghourID") int id) {
+        return convertToDto(service.getOpeningHourFromID(id));
+    }
+
+    /**
+     * view a specific opening hour for day
+     * @param dayofweek string with day of the week
+     * @return openinghourDTo
+     * @author Mathieu Geoffroy
+     */
+    @GetMapping(value = {"/openinghour/{dayofweek}", "/openinghour/{dayofweek}/"})
+    public OpeningHourDTO getOpeningHourByDay(@PathVariable(name = "dayofweek") String day) throws Exception {
+        return convertToDto(service.getOpeningHoursByDayOfWeek(day).get(0)); //should only be 1 opening hour per day
+    }
+
+    /**
+     * create new opening hour
+     * @param openingHourDTO
+     * @return openinghour DTO
+     * @throws Exception
+     * @author Mathieu Geoffroy
+     */
+    @PostMapping(value = {"/openinghour/new", "/openinghour/new/"})
+    public OpeningHourDTO createOpeningHour(@RequestBody OpeningHourDTO openingHourDTO) throws Exception {
+        return convertToDto(service.createOpeningHour(openingHourDTO.getDayOfWeek().toString(), openingHourDTO.getStartTime(), openingHourDTO.getEndTime()));
+    }
+
+
+    //* TimeSlot methods
+    /**
+     * get all timeslots
+     * @return list of timeslot DTO
+     * @throws Exception when there is no library system
+     * @author Mahtieu Geoffroy
+     */
+    @GetMapping(value = {"/timeslots", "/timeslots/"})
+    public List<TimeslotDTO> getAllTimeSlots() throws Exception {
+        return service.getAllTimeSlots().stream().map(p -> convertToDto(p)).collect(Collectors.toList());
+    }
+
+    /**
+     * assign a librarian to a timeslot
+     * @param timeslotDTO
+     * @param librarianDTO
+     * @return the timeslot dto with the assigned librarian
+     * @throws Exception
+     * @author Mathieu Geoffroy
+     */
+    @PostMapping(value = {"/timeslot/assign", "/timeslot/assign/"})
+    public TimeslotDTO assignTimeSlot(@RequestParam(name = "timeslot") TimeslotDTO timeslotDTO, 
+                                        @RequestParam(name = "librarian") LibrarianDTO librarianDTO,
+                                        @RequestParam(name = "currentUser") UserAccount account) throws Exception {
+        if (!(account instanceof HeadLibrarian)) throw new IllegalArgumentException("Only a head librarian can assign timeslots to librarians.");
+        Librarian librarian = convertToDomainObject(librarianDTO);
+        TimeSlot timeslot = convertToDomainObject(timeslotDTO);
+        return convertToDto(service.assignTimeSlotToLibrarian(timeslot, librarian));
+    }
+
+    /**
+     * get timeslots for a specific librarian
+     * @param first name of librarian
+     * @param last name of librarian
+     * @return list of timeslotDTO
+     * @throws Exception when invalid inputs, or invalid librarian id
+     * @author Mathieu Geoffroy
+     */
+    @GetMapping(value = {"/timeslot/{firstName}{lastName}", "/timeslot/{firstName}{lastName}/"})
+    public List<TimeslotDTO> getTimeSlotForLibrarian(@PathVariable(name = "firstName") String first, @PathVariable(name = "lastName") String last) throws Exception {
+        return service.getTimeSlotsFromLibrarianFirstNameAndLastName(first, last).stream().map(p -> convertToDto(p)).collect(Collectors.toList());
+    }
+
+    /**
+     * view s singular timeslot
+     * @param timeslotID
+     * @return the timeslot
+     * @author Mathieu Geoffroy
+     */
+    @GetMapping(value = {"/timeslot/{timeslotID}", "/timeslot/{timeslotID}/"})
+    public TimeslotDTO getTimeslotById(@PathVariable(name = "timeslotID") int timeslotID) {
+        return convertToDto(service.getTimeSlotsFromId(timeslotID));
+    }
+
+    /**
+     * create a new timeslot
+     * @param timeslotDto
+     * @return the timeslotdto created
+     * @throws Exception
+     * @author Mathieu Geoffroy
+     */
+    @PostMapping(value = {"/timeslot/new", "timeslot/new/"})
+    public TimeslotDTO createTimeslot(@RequestBody TimeslotDTO timeslotDto) throws Exception{
+        TimeSlot timeslot = service.createTimeSlot(timeslotDto.getStartDate(), timeslotDto.getStartTime(), timeslotDto.getEndDate(), timeslotDto.getEndTime());
+        return convertToDto(timeslot);
+    }
+
+    
+
+
+    
 
 
     /**
