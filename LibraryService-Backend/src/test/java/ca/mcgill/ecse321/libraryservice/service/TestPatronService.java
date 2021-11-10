@@ -504,6 +504,30 @@ public void testSetValidatedAccountSuccessful() throws Exception {
 	
 }
 
+@Test
+public void testSetValidatedAccountWrongCreator() throws Exception {
+	
+	String error = null;
+	Patron creator = new Patron();
+	Patron patron = null;
+	
+	try {
+		patron = service.setValidatedAccount(service.getPatronFromFullName(PATRON_FIRST_NAME, PATRON_LAST_NAME), PATRON_VALIDATED_ACCOUNT, creator);
+		
+	}
+	catch (IllegalArgumentException e) {
+		error = e.getMessage();
+		
+	}
+		//verify error
+		assertNull(patron);
+		assertEquals("Only a Librarian can change the validity of an account", error);
+		
+		
+	
+}
+
+
 
 	
 }
