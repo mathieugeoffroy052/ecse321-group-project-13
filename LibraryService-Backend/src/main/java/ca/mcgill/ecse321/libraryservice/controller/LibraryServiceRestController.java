@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,11 @@ import ca.mcgill.ecse321.libraryservice.dto.*;
 import ca.mcgill.ecse321.libraryservice.dto.LibraryItemDTO.ItemType;
 import ca.mcgill.ecse321.libraryservice.model.*;
 import ca.mcgill.ecse321.libraryservice.service.LibraryServiceService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
+
+
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -751,4 +757,140 @@ public class LibraryServiceRestController {
 	     return userAccount;
     	
     }
+    
+    /**
+     * HeadLibrarian gettMapping of Services
+     * 
+     */
+    
+// /**
+//  * 
+//  * @author Eloyann Roy Javanbakht
+//  * mapping GetHead Librarian from userId
+//  * @param userID
+//  * @return
+//  * @throws Exception
+//  */
+//     @GetMapping(value={"/headLibrarian/{userID}", "/headLibrarian/{userID}/"})
+//     public HeadLibrarianDTO getHeadLibrarianFromUserId(@PathVariable("userID") int userID) throws Exception  {
+//          HeadLibrarian headLibrarian=service.getHeadLibrarianFromUserId(userID);
+//          return convertToDto(headLibrarian);
+//     }
+
+// /**
+//  * @author Eloyann Roy Javanbakht
+//  * Mapping for get headlibrarian from name
+//  * @param firstName
+//  * @param lastName
+//  * @return
+//  * @throws Exception
+//  */
+//     @GetMapping(value={"/headLibrarians/{lastName}", "/headLibrarians/{lastName}"})
+//     public HeadLibrarianDTO getHeadLibrarianFromFullName(@PathVariable("lastName") String lastName,
+//         @RequestParam String firstName ) throws Exception  {
+//          HeadLibrarian headLibrarian=service.getIfLibrarianHeadFromFullName(firstName, lastName);
+//          return convertToDto(headLibrarian);
+//     }
+// /**
+//  * @author Eloyann Roy Javanbakht
+//  * mapping for checking if only 1 librarian
+//  */
+// @GetMapping(value={"/headLibrarians", "/headLibrarians/"})
+// public boolean getHeadLibrarianNumberRespected() throws Exception  {
+//         return service.checkOnlyOneHeadLibrarian();
+        
+// }
+// /**
+//  * @author Eloyann Roy Javanbakht
+//  * @param userID
+//  * @return
+//  * @throws Exception
+//  */
+// @GetMapping(value={"/headLibrarians/{userID}", "/headLibrarians/{userID}/"})
+// public boolean getIFHeadLibrarianFromUserId(@PathVariable("userID") int userID) throws Exception  {
+//     return service.checkIfHeadLibrarianFromUserId(userID);
+    
+// }
+
+// /**
+//  * @author Eloyann Roy Javanbakht
+//  *get head librarian considering theres only 1 in the system
+//  */
+// @GetMapping(value={"/headLibrarians", "/headLibrarians/"})
+// public boolean getHeadLibrarian() throws Exception  {
+//      return service.checkOnlyOneHeadLibrarian();
+     
+// }
+
+//     /**
+//      * Librarian getMapping of Services
+//      * 
+//      */
+
+//    /**
+//  * @author Eloyann Roy Javanbakht
+//  * Mapping for get headlibrarian from name
+//  * @param firstName
+//  * @param lastName
+//  * @return
+//  * @throws Exception
+//  */
+// @GetMapping(value={"/librarians/{lastName}", "/librarians/{lastName}/"})
+// public LibrarianDTO getLibrarianFromFullName(@RequestParam String firstName, 
+//                                                         @RequestParam String lastName) 
+//                                                         throws Exception  {
+//     Librarian librarian=service.getLibrarianFromFullName(firstName, lastName);
+//     return convertToDto(librarian);
+// }  
+
+// @GetMapping(value={"/librarians/{userID}", "/librarians/{userID}/"})
+// public LibrarianDTO getLibrarianFromUserId(@PathVariable("userID") int userID) throws Exception  {
+//     Librarian librarian=service.getLibrarianFromUserId(userID);
+//     return convertToDto(librarian);
+// }  
+
+// /**
+//  * delete Librarian
+//  * 
+//  */
+// @DeleteMapping(value={"/librarians/{userID}", "/librarians/{userID}/"})
+// public boolean deleteALibrarian(@PathVariable("userID") int userID, 
+// @RequestParam int userIDHeadLibrarian) throws Exception  {
+//     return service.deleteALibrarian(userID, userIDHeadLibrarian);
+  
+// }  
+
+// /**
+//  * deleted a headLibrarian 
+//  * @param userID
+//  * @return
+//  * @throws Exception
+//  */
+// @DeleteMapping(value={"/headLibrarians/{userID}", "/headLibrarians/{userID}/"})
+// public boolean deleteALibrarian(@PathVariable("userID") int userID) throws Exception  {
+//     return service.DeleteHeadLibrarian(userID);
+  
+// }  
+
+//     /**
+//      * create HeadLibrarian
+//      */
+//     @PostMapping(value={"/createHeadLibrarian/{firstName}/{lastName}", "/createHeadLibrarian/{firstName}/{lastName}/"})
+//     public HeadLibrarianDTO createHeadLibrarian(@PathVariable("firstName") String firstName,
+//     @PathVariable String aLastName,
+
+//     @RequestParam boolean aOnlineAccount,
+//     @RequestParam String aAddress,
+
+//     @RequestParam String aPassword,
+//     @RequestParam int aBalance,
+//     @RequestParam String aEmail) throws Exception{
+//         //TODO: process POST request
+        
+//         return convertToDto(service.CreateANewHeadLibrarian(firstName, aLastName, aOnlineAccount, aAddress, aPassword, aBalance, aEmail));
+//     }
+
+
+
+
 }

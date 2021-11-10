@@ -12,5 +12,8 @@ public interface UserAccountRepository extends CrudRepository<UserAccount, Integ
 	UserAccount findUserAccountByUserID(int userID);
 	//TODO: Add Unit test for this
 	UserAccount findByFirstNameAndLastName(String firstName, String lastName);
-	
+
+	List<UserAccount>  findByFirstName(String firstName);
+
+	List<UserAccount>  findByLastName( String lastName);
 }

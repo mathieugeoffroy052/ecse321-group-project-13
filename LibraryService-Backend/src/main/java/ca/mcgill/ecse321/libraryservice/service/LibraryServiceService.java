@@ -653,13 +653,12 @@ public class LibraryServiceService {
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
         }
-         Iterable<HeadLibrarian> headlibrarians = headLibrarianRepository.findAll();
+        UserAccount head =  userAccountRepository.findByFirstNameAndLastName(firstName, lastName);
        
-        for (HeadLibrarian n: headlibrarians){
-            if(n.getFirstName().equals(firstName) && n.getLastName().equals(lastName)) return n;
-
+        if (!(head instanceof HeadLibrarian)){
+            throw new IllegalArgumentException("This there is no head Librarian by this name.");
         }
-        return null;
+        return (HeadLibrarian)head;
 
     }
 
@@ -706,7 +705,7 @@ public class LibraryServiceService {
      */
 
 
-    public boolean CreateANewHeadLibrarian(String aFirstName, String aLastName, boolean aOnlineAccount, String aAddress, String aPassword, int aBalance , String aEmail)
+    public HeadLibrarian CreateANewHeadLibrarian(String aFirstName, String aLastName, boolean aOnlineAccount, String aAddress, String aPassword, int aBalance , String aEmail)
     throws Exception {
 
         String error = "";
@@ -733,45 +732,20 @@ public class LibraryServiceService {
         HeadLibrarian headLibrarian;
         if(checkOnlyOneHeadLibrarian()) throw new  Exception("This User  does not the credentials to add a new librarian");
    
-        headLibrarian=new HeadLibrarian(aFirstName, aLastName, aOnlineAccount, aAddress, aPassword, aBalance, aEmail);
-
+        headLibrarian = new HeadLibrarian(aFirstName, aLastName, aOnlineAccount, aAddress, aPassword, aBalance, aEmail);
         librarianRepository.save(headLibrarian);
-    
-        return true;
+        
+        return headLibrarian;
         
     }
-    public boolean ReplaceHeadLibrarian(UserAccount current, String aFirstName, String aLastName, boolean aOnlineAccount, String aAddress, String aPassword, int aBalance , String aEmail)
+
+
+    public boolean DeleteHeadLibrarian(int  userID)
     throws Exception {
-
-        String error = "";
-        if ((aFirstName == null || aFirstName.trim().length() == 0)&& error.length()==0) {
-            error = error + "First Name  cannot be empty! ";
-        }
-        if ((aLastName == null || aLastName.trim().length() == 0)&& error.length()==0) {
-            error = error + "Last Name  cannot be empty! ";
-        }
-        if (current == null && error.length()==0) {
-            error = error + "User Requesting the change cannot be empty! ";
-        }
-        if ((aAddress == null|| aAddress.trim().length() == 0)&& error.length()==0) {
-            error = error + "Address cannot be empty! ";
-        }
-        if ((aPassword == null|| aPassword.trim().length() == 0)&& aOnlineAccount == true && error.length()==0) {
-            error = error + "Password cannot be empty! ";
-        }
-        if ((aEmail == null|| aEmail.trim().length() == 0)&& aOnlineAccount == true && error.length()==0) {
-            error = error + "Email cannot be empty! ";
-        }
-        error = error.trim();
-        if (error.length() > 0) {
-            throw new IllegalArgumentException(error);
-        }
        HeadLibrarian headLibrarian=getHeadLibrarian();
-       if(current.equals(headLibrarian)) 
+       HeadLibrarian thisone=getHeadLibrarianFromUserId(userID);
+       if(thisone.equals(headLibrarian)) 
       headLibrarianRepository.delete(headLibrarian);
-
-      headLibrarian=new HeadLibrarian(aFirstName, aLastName, aOnlineAccount, aAddress, aPassword, aBalance, aEmail);
-      librarianRepository.save(headLibrarian);
     
         return true;
         
@@ -779,12 +753,11 @@ public class LibraryServiceService {
 
 
     /**
-     * @author Gabrielle Halpin ?? I wrote a method like this but I think it was changed
+     * @author Gabrielle Halpin & Eloyann 
      * @param creater
      * @param aFirstName
      * @param aLastName
      * @param aOnlineAccount
-     * @param aLibrarySystem
      * @param aAddress
      * @param aPassword
      * @param aBalance
@@ -840,16 +813,14 @@ public class LibraryServiceService {
     }
 
         //librarian delete
-    public boolean deleteALibrarian(UserAccount creater,  Librarian librarian) throws Exception {
+    public boolean deleteALibrarian(int userID, int  userIDHeadLibrarian) throws Exception {
         
-        try {
-        getHeadLibrarianFromUserId(creater.getUserID());
-
-        } catch (Exception e) {
-            throw new  Exception("This User  does not the credentials to add a new librarian");
-        }
+      if(userIDHeadLibrarian!=getHeadLibrarian().getUserID())  
+      throw new  Exception("This User  does not the credentials to add a new librarian");
+        
 
       try {
+          Librarian librarian= getLibrarianFromUserId(userID);
         librarianRepository.delete(librarian);
       } catch (Exception e) {
 
@@ -864,12 +835,12 @@ public class LibraryServiceService {
         * 3. get all librarians
         * @author Eloyann Roy-Javanbakht
         */
-        public Librarian getLibrarianFromFullName(String aFirstName, String aLastName)throws Exception{
+        public Librarian getLibrarianFromFullName(String firstName, String lastName)throws Exception{
             String error = "";
-            if (aFirstName == null || aFirstName.trim().length() == 0) {
+            if (firstName == null || firstName.trim().length() == 0) {
                 error = error + "First Name  cannot be empty! ";
             }
-            if (aLastName == null || aLastName.trim().length() == 0) {
+            if (lastName == null || lastName.trim().length() == 0) {
                 error = error + "Last Name  cannot be empty! ";
             }
             error = error.trim();
@@ -878,19 +849,13 @@ public class LibraryServiceService {
             }
 
 
-                List<Librarian> librarians = getAllLibrarians();
+                UserAccount librarian = userAccountRepository.findByFirstNameAndLastName(firstName, lastName);
             
-            for (Librarian n: librarians){
-                if(n.getFirstName().equals(aFirstName) && n.getLastName().equals(aLastName)) {
-                
-                return n;
-                }
+            if(!(librarian instanceof Librarian)){
+                throw new Exception("the name privided does not correcpond to a librarian");
             }
-            throw new Exception("the user Id Does not correcpond to a librarian");
-            
-            
-            
-    
+            return (Librarian) librarian;
+
         }
 
        public Librarian getLibrarianFromUserId(int userID) throws Exception{
@@ -1493,7 +1458,7 @@ public class LibraryServiceService {
     /***
      * This method deletes a patron object from the database.
      * @author Zoya Malhi
-     * @param head, aFirstNAme, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aValidatedAccount, aPassword, aBalance
+     * @param head, aFirstNAme, aLastName, aOnlineAccount, aAddress, aValidatedAccount, aPassword, aBalance
      * @return patron 
      * added checks -elo
      * edited by Gabby
@@ -1691,7 +1656,7 @@ public class LibraryServiceService {
 
     /***
      * This method gets all librarians in the database.
-     * @author Zoya Malhi
+     * @author Zoya Malhi & Eloyann RoyJavanbakht
      * @param none
      * @return list of librarians 
      * @throws Exception 
