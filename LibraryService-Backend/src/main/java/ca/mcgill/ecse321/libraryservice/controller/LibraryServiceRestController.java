@@ -289,6 +289,66 @@ public class LibraryServiceRestController {
 	}
 
     /**
+     * @author Gabrielle Halpin
+	 * Update Address of the user
+	 * @param user  
+	 * @param address
+	 * @return
+	 */
+	@PutMapping(value = {"/updateAddress", "/updateAddress/"})
+	public UserAccountDTO updateAddress(@RequestBody UserAccount user, @RequestParam("address") String aAddress) {
+		UserAccountDTO accountDTO = new UserAccountDTO();
+		UserAccount  account = service.changeAddress(aAddress, user);
+		accountDTO = convertToDto(account);
+		return accountDTO; 
+	}
+
+    /**
+     * @author Gabrielle Halpin
+	 * Update firstName of the user
+	 * @param user  
+	 * @param firstName
+	 * @return
+	 */
+	@PutMapping(value = {"/updateFirstName", "/updateFirstName/"})
+	public UserAccountDTO updateFirstName(@RequestBody UserAccount user, @RequestParam("firstName") String firstName) {
+		UserAccountDTO accountDTO = new UserAccountDTO();
+		UserAccount  account = service.changeFirstName(firstName, user);
+		accountDTO = convertToDto(account);
+		return accountDTO; 
+	}
+
+    /**
+     * @author Gabrielle Halpin
+	 * Update lastname of the user
+	 * @param user  
+	 * @param lastName
+	 * @return
+	 */
+	@PutMapping(value = {"/updateLastName", "/updateLastName/"})
+	public UserAccountDTO updateLastName(@RequestBody UserAccount user, @RequestParam("lastName") String lastName) {
+		UserAccountDTO accountDTO = new UserAccountDTO();
+		UserAccount  account = service.changeLastName(lastName, user);
+		accountDTO = convertToDto(account);
+		return accountDTO; 
+	}
+
+    /**
+     * @author Gabrielle Halpin
+	 * Update Email of the user
+	 * @param user  
+	 * @param email
+	 * @return
+	 */
+	@PutMapping(value = {"/updateEmail", "/updateEmail/"})
+	public UserAccountDTO updateEmail(@RequestBody UserAccount user, @RequestParam("email") String email) {
+		UserAccountDTO accountDTO = new UserAccountDTO();
+		UserAccount  account = service.changeEmail(email, user);
+		accountDTO = convertToDto(account);
+		return accountDTO; 
+	}
+
+    /**
      * This method sets the validity of the user's online account
      * @author Gabrielle Halpin
 	 * Update Password

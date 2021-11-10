@@ -65,7 +65,7 @@ private static final String USER_PASSWORD = "patron123";
             if(invocation.getArgument(0).equals(USER_ID)) {
             
                 Patron user = new Patron();
-                user.setPatronID(USER_ID);
+                user.setUserID(USER_ID);
                 user.setFirstName(USER_FIRST_NAME);
                 user.setLastName(USER_LAST_NAME); 
                 user.setEmail(USER_EMAIL);
@@ -81,7 +81,7 @@ private static final String USER_PASSWORD = "patron123";
             else if(invocation.getArgument(0).equals(USER_ID2)) {
             
                 Patron user = new Patron();
-                user.setPatronID(USER_ID2);
+                user.setUserID(USER_ID2);
                 user.setFirstName(USER_FIRST_NAME);
                 user.setLastName(USER_LAST_NAME); 
                 user.setEmail(null);
@@ -97,7 +97,34 @@ private static final String USER_PASSWORD = "patron123";
                 return null;
             }
         });
+        lenient().when(userAccountRepository.findAll()).thenAnswer((InvocationOnMock invocation) -> {
+			List<UserAccount> accounts = new ArrayList<UserAccount>();
+			Patron user1 = new Patron();
+                user1.setUserID(USER_ID);
+                user1.setFirstName(USER_FIRST_NAME);
+                user1.setLastName(USER_LAST_NAME); 
+                user1.setEmail(USER_EMAIL);
+                user1.setPassword(USER_PASSWORD);
+                user1.setBalance(USER_BALANCE);
+                user1.setOnlineAccount(USER_ONLINE_ACCOUNT);
+                user1.setAddress(USER_ADDRESS);
+                user1.setValidatedAccount(USER_VALIDATED_ACCOUNT);
+			
+                Librarian user2 = new Librarian();
+                user2.setUserID(USER_ID2);
+                user2.setFirstName(USER_FIRST_NAME);
+                user2.setLastName(USER_LAST_NAME); 
+                user2.setEmail(null);
+                user2.setPassword(null);
+                user2.setBalance(USER_BALANCE);
+                user2.setOnlineAccount(false);
+                user2.setAddress(USER_ADDRESS);
 
+			accounts.add(user1); 
+            accounts.add(user2);
+
+			return accounts;
+		});
     }
 
     /***
@@ -497,63 +524,56 @@ private static final String USER_PASSWORD = "patron123";
             
     }
 
-    // /**
-    //  * @author Gabrielle Halpin
-    //  * This test checks if all Users are successfully retrieved from the database
-    //  * @throws Exception
-    //  */
-    // @Test
-    // public void testGetAllUsers() throws Exception {
-    //     UserAccount patron1 = null;
-    //     UserAccount patron2 = null;
-        
-    //     try {
-    //         patron1 = userAccountRepository.findUserAccountByUserID(12345);
-    //         patron2 = userAccountRepository.findUserAccountByUserID(123456);
-    //     }
-    //     catch (IllegalArgumentException e) {
-    //         fail();
-    //     }
-    //     List<UserAccount>  accounts = null;
-    //     try{
-    //         accounts = service.getAllUsers();
-    //     }catch(IllegalArgumentException e){
-    //         throw new Exception("could not retrieve users");
-    //     }
-        
-    //     assertEquals(2, accounts.size());
+    /**
+     * @author Gabrielle Halpin
+     * This test checks if all Users are successfully retrieved from the database
+     * @throws Exception
+     */
+    @Test
+    public void testGetAllUsers() throws Exception {
 
-    //     patronRepository.deleteAll();
-    //     userAccountRepository.deleteAll();
+        List<UserAccount>  accounts = null;
+        try{
+            accounts = service.getAllUsers();
+        }catch(IllegalArgumentException e){
+            throw new Exception("could not retrieve users");
+        }
+        
+        assertEquals(2, accounts.size());
+
+        patronRepository.deleteAll();
+        userAccountRepository.deleteAll();
             
-    // }
+    }
 
-    //     /**
-    //  * @author Gabrielle Halpin
-    //  * This test checks if all Users are successfully retrieved from the database
-    //  * @throws Exception
-    //  */
-    // @Test
-    // public void testGetUserByID() throws Exception {
-    //     UserAccount patron1 = null;
-
-    //     try {
-    //         patron1 = userAccountRepository.findUserAccountByUserID(12345);
-    //     }
-    //     catch (IllegalArgumentException e) {
-    //         fail();
-    //     }
-    //     List<UserAccount>  accounts = null;
-    //     try{
-    //         accounts = service.getAllUsers();
-    //     }catch(IllegalArgumentException e){
-    //         throw new Exception("could not retrieve users");
-    //     }
-        
-    //     assertEquals(3, accounts.size());
-
-    //     patronRepository.deleteAll();
-    //     userAccountRepository.deleteAll();
+        /**
+     * @author Gabrielle Halpin
+     * This test checks if the user with specific valid ID can be tretrieved from the database
+     * @throws Exception
+     */
+    @Test
+    public void testGetUserByID() throws Exception {
+        assertEquals(USER_ID, service.getUserbyUserId(USER_ID).getUserID());
+        patronRepository.deleteAll();
+        userAccountRepository.deleteAll();
             
-    // }
+    }
+
+    /**
+     * @author Gabrielle Halpin
+     * This test checks if the user with specific invalid ID can be tretrieved from the database
+     * @throws Exception
+     */
+    @Test
+    public void testGetUserByIDInvalidID() throws Exception {
+        UserAccount account = null;
+        try{
+            account = service.getUserbyUserId(123);
+        }catch(IllegalArgumentException e){
+            assertEquals(e.getMessage(), "This user does not exist.");
+        }
+        patronRepository.deleteAll();
+        userAccountRepository.deleteAll();
+            
+    }
 }
