@@ -6,11 +6,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.anyInt;;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
@@ -62,6 +63,11 @@ public class TestTimeSlotService {
 			return invocation.getArgument(0);
 		};
         lenient().when(timeslotDao.save(any(TimeSlot.class))).thenAnswer(returnParameterAsAnswer);
+        try {
+            service.CreateANewHeadLibrarian("Jane", "Doe", true, "21 milton", "password", 0, "testing@gmail.com");
+        } catch (Exception e) {
+            System.out.println("Failed to create head librarian");
+        }
     }
 
     @Test
@@ -76,7 +82,7 @@ public class TestTimeSlotService {
         TimeSlot timeslot = null;
 
         try {
-            service.createTimeSlot(startDate, startTime, endDate, endTime);
+            timeslot = service.createTimeSlot(startDate, startTime, endDate, endTime);
         } catch (Exception e) {
             fail();
         }
@@ -98,7 +104,7 @@ public class TestTimeSlotService {
         TimeSlot timeslot = null;
 
         try {
-            service.createTimeSlot(startDate, startTime, endDate, endTime);
+            timeslot = service.createTimeSlot(startDate, startTime, endDate, endTime);
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -121,7 +127,7 @@ public class TestTimeSlotService {
         TimeSlot timeslot = null;
 
         try {
-            service.createTimeSlot(startDate, startTime, endDate, endTime);
+            timeslot = service.createTimeSlot(startDate, startTime, endDate, endTime);
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -144,7 +150,7 @@ public class TestTimeSlotService {
         TimeSlot timeslot = null;
 
         try {
-            service.createTimeSlot(startDate, startTime, endDate, endTime);
+            timeslot = service.createTimeSlot(startDate, startTime, endDate, endTime);
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -167,7 +173,7 @@ public class TestTimeSlotService {
         TimeSlot timeslot = null;
 
         try {
-            service.createTimeSlot(startDate, startTime, endDate, endTime);
+            timeslot = service.createTimeSlot(startDate, startTime, endDate, endTime);
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -190,7 +196,7 @@ public class TestTimeSlotService {
         TimeSlot timeslot = null;
 
         try {
-            service.createTimeSlot(startDate, startTime, endDate, endTime);
+            timeslot = service.createTimeSlot(startDate, startTime, endDate, endTime);
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -213,13 +219,121 @@ public class TestTimeSlotService {
         TimeSlot timeslot = null;
 
         try {
-            service.createTimeSlot(startDate, startTime, endDate, endTime);
+            timeslot = service.createTimeSlot(startDate, startTime, endDate, endTime);
         } catch (Exception e) {
             error = e.getMessage();
         }
 
         assertNull(timeslot);
         assertEquals("StartDate cannot be after endDate", error);
+
+    }
+
+    @Test
+    public void testAssignTimeSlot() {
+        assertEquals(0, service.getAllTimeSlots().size());
+        String error = null;
+
+        Date startDate = new Date(2021, 12, 25);
+        Date endDate = new Date(2021, 12, 28);
+        Time startTime = new Time(17, 00, 00);
+        Time endTime = new Time(19, 00, 00);
+
+        TimeSlot timeslot = null;
+
+        Librarian librarian = new Librarian();
+        librarian.setFirstName("Joy");
+        librarian.setLastName("Little");
+        try {
+            timeslot = service.createTimeSlot(startDate, startTime, endDate, endTime);
+            timeslot = service.assignTimeSlotToLibrarian(timeslot, librarian);
+        } catch (Exception e) {
+            error = e.getMessage();
+        }
+
+        assertNotNull(timeslot);
+        assertTimeSlotAttributes(timeslot, startDate, startTime, endDate, endTime, librarian);
+
+    }
+
+    @Test
+    public void testAssignNullTimeSlot() {
+        assertEquals(0, service.getAllTimeSlots().size());
+        String error = null;
+
+        Date startDate = new Date(2021, 12, 25);
+        Date endDate = new Date(2021, 12, 28);
+        Time startTime = new Time(17, 00, 00);
+        Time endTime = new Time(19, 00, 00);
+
+        TimeSlot timeslot = null;
+
+        Librarian librarian = new Librarian();
+        librarian.setFirstName("Joy");
+        librarian.setLastName("Little");
+
+        try {
+            timeslot = service.createTimeSlot(startDate, startTime, endDate, endTime);
+            timeslot = null;
+            timeslot = service.assignTimeSlotToLibrarian(timeslot, librarian);
+        } catch (Exception e) {
+            error = e.getMessage();
+        }
+
+        assertEquals("TimeSlot needs to be selected for registration!", error);
+
+    }
+
+    @Test
+    public void testAssignTimeSlotNullLibrarian() {
+        assertEquals(0, service.getAllTimeSlots().size());
+        String error = null;
+
+        Date startDate = new Date(2021, 12, 25);
+        Date endDate = new Date(2021, 12, 28);
+        Time startTime = new Time(17, 00, 00);
+        Time endTime = new Time(19, 00, 00);
+
+        TimeSlot timeslot = null;
+
+        Librarian librarian = null;
+
+        try {
+            timeslot = service.createTimeSlot(startDate, startTime, endDate, endTime);
+            timeslot = service.assignTimeSlotToLibrarian(timeslot, librarian);
+        } catch (Exception e) {
+            error = e.getMessage();
+        }
+
+        assertEquals("librarian doesn't exists", error);
+
+    }
+
+    @Test
+    public void testDeleteTimeSlot() {
+        assertEquals(0, service.getAllTimeSlots().size());
+        String error = null;
+
+        Date startDate = new Date(2021, 12, 25);
+        Date endDate = new Date(2021, 12, 28);
+        Time startTime = new Time(17, 00, 00);
+        Time endTime = new Time(19, 00, 00);
+
+        TimeSlot timeslot = null;
+        boolean test = false;
+
+        HeadLibrarian headLibrarian = new HeadLibrarian();
+        headLibrarian.setFirstName("Joy");
+        headLibrarian.setLastName("Little");
+        try {
+            test = service.deleteTimeSlot(headLibrarian, timeslot.getTimeSlotID());
+        } catch (Exception e) {
+            error = e.getMessage();
+        }
+
+        assertNotNull(timeslot);
+        assertTrue(test);
+        
 
     }
 
@@ -239,5 +353,25 @@ public class TestTimeSlotService {
         assertEquals(startTime.toString(), timeslot.getStartTime().toString());
         assertEquals(endDate.toString(), timeslot.getEndDate().toString());
         assertEquals(endTime.toString(), timeslot.getEndTime().toString());
+    }
+
+    /**
+     * Asserts all timeslot attributes and tests librarian association
+     * @param timeslot
+     * @param startDate
+     * @param startTime
+     * @param endDate
+     * @param endTime
+     * @param librarian Must only have 1 librarian in the system
+     * @author Mathieu Geoffroy
+     */
+    private void assertTimeSlotAttributes(TimeSlot timeslot, Date startDate, Time startTime, Date endDate, Time endTime, Librarian librarian) {
+        assertNotNull(timeslot);
+        assertEquals(startDate.toString(), timeslot.getStartDate().toString());
+        assertEquals(startTime.toString(), timeslot.getStartTime().toString());
+        assertEquals(endDate.toString(), timeslot.getEndDate().toString());
+        assertEquals(endTime.toString(), timeslot.getEndTime().toString());
+        assertEquals(librarian.getFirstName(), timeslot.getLibrarian().iterator().next().getFirstName());
+        assertEquals(librarian.getLastName(), timeslot.getLibrarian().iterator().next().getLastName());
     }
 }

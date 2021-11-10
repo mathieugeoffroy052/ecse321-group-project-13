@@ -1267,7 +1267,7 @@ public class LibraryServiceService {
      * cheked
      */
     @Transactional
-    public List<TimeSlot> getAllTimeSlots() throws Exception {
+    public List<TimeSlot> getAllTimeSlots() {
         Iterable<TimeSlot> allTimeSlots = timeSlotRepository.findAll();
         List<TimeSlot> timeSlots = new ArrayList<TimeSlot>();
         for(TimeSlot i : allTimeSlots){
@@ -1300,51 +1300,6 @@ public class LibraryServiceService {
         } 
        
        
-        List<TimeSlot> librarianTimeSlots = timeSlotRepository.findByLibrarian(librarian);
-        return librarianTimeSlots;
-    }
-
-    /**
-     * Get a list of timeslots that have been assigned by the (only) head librarian
-     * @author Mathieu Geoffroy
-     * @return List of timeslots
-     * added checks -elo
-     * checked
-     */
-    @Transactional
-    public List<TimeSlot> getTimeSlotsFromHeadLibrarian(HeadLibrarian headLibrarian) {
-        
-        String error="";
-        if (headLibrarian == null) {
-            error = error + "A HeadLibrarian needs to be selected";
-        } else if (!headLibrarianRepository.existsById(headLibrarian.getUserID())) {
-            error = error + "Headlibrarian doesn't exists ";
-        }
-        error = error.trim();
-
-        if (error.length() > 0) {
-            throw new IllegalArgumentException(error);
-        }
-
-
-        List<TimeSlot> timeSlots = timeSlotRepository.findByHeadLibrarian(headLibrarian);
-        return timeSlots;
-    }
-
-    /**
-     * Get timeslot list (workshits) for a specific librarian by inputing the librarian's first and last name
-     * @author Mathieu Geoffroy
-     * @param firstName - librarian's first name
-     * @param lastName - librarian's last name
-     * @return list of timeslots
-     * checked
-     * @throws Exception
-     */
-    @Transactional
-    public List<TimeSlot> getTimeSlotsFromLibrarianFirstNameAndLastName(String firstName, String lastName) throws Exception {
-        if (firstName == null || firstName.trim().length() == 0) throw new IllegalArgumentException("Invalid firstname");
-        if (lastName == null || lastName.trim().length() == 0) throw new IllegalArgumentException("Invalid lastname");
-        Librarian librarian = getLibrarianFromFullName(firstName, lastName);
         List<TimeSlot> librarianTimeSlots = timeSlotRepository.findByLibrarian(librarian);
         return librarianTimeSlots;
     }
@@ -1423,7 +1378,7 @@ public class LibraryServiceService {
             error = error + "TimeSlot needs to be selected for registration! ";
         }
         if (librarian == null) {
-            error = error + "Event needs to be selected for registration!";
+            error = error + "Librarian needs to be selected for registration!";
         } else if (!librarianRepository.existsById(librarian.getUserID())) {
             error = error + "librarian doesn't exists ";
         }

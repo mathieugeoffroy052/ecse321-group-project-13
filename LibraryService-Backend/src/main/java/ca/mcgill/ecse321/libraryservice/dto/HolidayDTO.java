@@ -24,6 +24,10 @@ public class HolidayDTO {
     this(Date.valueOf("1999-12-25"), Time.valueOf("00:00:00"), Time.valueOf("23:59:59"), headLibrarian);
   }
 
+  public HolidayDTO() {
+
+  }
+
   public HolidayDTO(Date date, Time startTime, Time endTime, HeadLibrarianDTO headLibrarian){
       this.date = date;
       this.startTime = startTime;

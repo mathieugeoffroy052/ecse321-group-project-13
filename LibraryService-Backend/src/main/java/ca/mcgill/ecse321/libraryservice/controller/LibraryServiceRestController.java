@@ -155,7 +155,15 @@ public class LibraryServiceRestController {
      */
     @GetMapping(value = {"/timeslot/{firstName}{lastName}", "/timeslot/{firstName}{lastName}/"})
     public List<TimeslotDTO> getTimeSlotForLibrarian(@PathVariable(name = "firstName") String first, @PathVariable(name = "lastName") String last) throws Exception {
-        return service.getTimeSlotsFromLibrarianFirstNameAndLastName(first, last).stream().map(p -> convertToDto(p)).collect(Collectors.toList());
+        ArrayList<TimeSlot> list = new ArrayList<TimeSlot>();
+        for (TimeSlot t : service.getAllTimeSlots()) {
+            for (Librarian l : t.getLibrarian()) {
+                if (l.getFirstName().equals(first) && l.getLastName().equals(last)) {
+                    list.add(t);
+                }
+            }
+        }
+        return list.stream().map(p -> convertToDto(p)).collect(Collectors.toList());
     }
 
     /**

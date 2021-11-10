@@ -33,6 +33,10 @@ public class TimeslotDTO {
       this.headLibrarian = headLibrarian;
   }
 
+  public TimeslotDTO() {
+
+  }
+
   public Date getStartDate(){
       return this.startDate;
   }
