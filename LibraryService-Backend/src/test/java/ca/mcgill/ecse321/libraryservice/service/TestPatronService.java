@@ -364,27 +364,106 @@ public void testGetPatronFromID() throws Exception {
 //			
 //		}
 //	}
+//
+//@Test
+//public void testDeletePatronByUserIDWrongCreator() throws Exception{
+//	String error ="";
+//	Patron patron = new Patron();
+//	try {
+//		service.deleteAPatronbyUserID(patron, PATRON_ID);
+//	
+//	}
+//	catch (IllegalArgumentException e) {
+//	//	fail();
+//		error = e.getMessage();
+//		
+//	}
+//	assertEquals("This user does not have the credentials to delete an existing patron", error);
+//}
+
+
 @Test
-public void testDeletePatronByUserIDWrongCreator() throws Exception{
-	String error ="";
-	Patron patron = new Patron();
-	try {
-		service.deleteAPatronbyUserID(patron, PATRON_ID);
+public void testGetPatronFromFullNameNullFirstName() throws Exception {
 	
+	String error = null;
+	Patron patron = null;
+	String firstName = null;
+	try {
+		patron = service.getPatronFromFullName(firstName, PATRON_LAST_NAME);
+		
 	}
 	catch (IllegalArgumentException e) {
-	//	fail();
 		error = e.getMessage();
 		
 	}
-	assertEquals("This user does not have the credentials to delete an existing patron", error);
-}
-
-
-@Test
-public void testGetPatronFromFullName() throws Exception {
-	//assertEquals(PATRON_FIRST_NAME, PATRON_LAST_NAME, service.getPatronFromFullName(PATRON_FIRST_NAME, PATRON_LAST_NAME).getFirstName(), service.getPatronFromFullName(PATRON_FIRST_NAME, PATRON_LAST_NAME).getLastName());
+		assertNull(patron);
+		
+		//verify error
+		assertEquals("First Name cannot be empty!", error);
 	
 }
+@Test
+public void testGetPatronFromFullNameEmptyFirstName() throws Exception {
+	
+	String error = null;
+	Patron patron = null;
+	String firstName = "";
+	try {
+		patron = service.getPatronFromFullName(firstName, PATRON_LAST_NAME);
+		
+	}
+	catch (IllegalArgumentException e) {
+		error = e.getMessage();
+		
+	}
+		assertNull(patron);
+		
+		//verify error
+		assertEquals("First Name cannot be empty!", error);
+	
+}
+
+@Test
+public void testGetPatronFromFullNameNullLastName() throws Exception {
+	
+	String error = null;
+	Patron patron = null;
+	String lastName = null;
+	try {
+		patron = service.getPatronFromFullName(PATRON_FIRST_NAME, lastName);
+		
+	}
+	catch (IllegalArgumentException e) {
+		error = e.getMessage();
+		
+	}
+		assertNull(patron);
+		
+		//verify error
+		assertEquals("Last Name cannot be empty!", error);
+	
+}
+
+@Test
+public void testGetPatronFromFullNameEmptyLastName() throws Exception {
+	
+	String error = null;
+	Patron patron = null;
+	String lastName = "";
+	try {
+		patron = service.getPatronFromFullName(PATRON_FIRST_NAME, lastName);
+		
+	}
+	catch (IllegalArgumentException e) {
+		error = e.getMessage();
+		
+	}
+		assertNull(patron);
+		
+		//verify error
+		assertEquals("Last Name cannot be empty!", error);
+	
+}
+
 	
 }
