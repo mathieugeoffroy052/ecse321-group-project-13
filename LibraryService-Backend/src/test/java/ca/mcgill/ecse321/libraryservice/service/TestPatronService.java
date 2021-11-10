@@ -16,6 +16,7 @@ import java.sql.Time;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -522,12 +523,82 @@ public void testSetValidatedAccountWrongCreator() throws Exception {
 		//verify error
 		assertNull(patron);
 		assertEquals("Only a Librarian can change the validity of an account", error);
-		
-		
 	
 }
 
+@Test
+public void testSetValidatedAccountNullCreator() throws Exception {
+	
+	String error = null;
+	Patron creator = null;
+	Patron patron = null;
+	
+	try {
+		patron = service.setValidatedAccount(service.getPatronFromFullName(PATRON_FIRST_NAME, PATRON_LAST_NAME), PATRON_VALIDATED_ACCOUNT, creator);
+		
+	}
+	catch (IllegalArgumentException e) {
+		error = e.getMessage();
+		
+	}
+		//verify error
+		assertNull(patron);
+		assertEquals("The creator cannot be null", error);
+	
+}
 
+@Test
+public void testSetValidatedAccountNull() throws Exception {
+	
+	String error = null;
+	Patron creator = null;
+	Patron patron = null;
+	
+	try {
+		patron = service.setValidatedAccount(null, PATRON_VALIDATED_ACCOUNT, creator);
+		
+	}
+	catch (IllegalArgumentException e) {
+		error = e.getMessage();
+		
+	}
+		//verify error
+		assertNull(patron);
+		assertEquals("The creator cannot be null", error);
+	
+}
+@Test
+public void testGetAllPatronsSuccessful() throws Exception {
+List<Patron> patrons = null;
+String error = "";
 
+	try {
+		patrons = service.getAllPatrons();
+	}
+	catch (IllegalArgumentException e) {
+		error = e.getMessage();
+		
+	}
+		
+	
+	
+}
+@Test
+public void testGetAllPatronsNull() throws Exception {
+List<Patron> patrons = null;
+String error = "";
+assertEquals(0, service.getAllPatrons().size());
+
+	try {
+		patrons = service.getAllPatrons();
+	}
+	catch (IllegalArgumentException e) {
+		error = e.getMessage();
+		
+	}
+		assertNull(patrons);
+	
+	
+}
 	
 }
