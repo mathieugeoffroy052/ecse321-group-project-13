@@ -627,7 +627,7 @@ public class LibraryServiceRestController {
 //  * @return
 //  * @throws Exception
 //  */
-//     @GetMapping(value={"/headLibrarians/{lastName}/", "/headLibrarians/{lastName}"})
+//     @GetMapping(value={"/headLibrarians/{lastName}", "/headLibrarians/{lastName}"})
 //     public HeadLibrarianDTO getHeadLibrarianFromFullName(@PathVariable("lastName") String lastName,
 //         @RequestParam String firstName ) throws Exception  {
 //          HeadLibrarian headLibrarian=service.getIfLibrarianHeadFromFullName(firstName, lastName);
@@ -677,7 +677,7 @@ public class LibraryServiceRestController {
 //  * @return
 //  * @throws Exception
 //  */
-// @GetMapping(value={"/librarians/{lastName}/", "/librarians/{lastName}"})
+// @GetMapping(value={"/librarians/{lastName}", "/librarians/{lastName}/"})
 // public LibrarianDTO getLibrarianFromFullName(@RequestParam String firstName, 
 //                                                         @RequestParam String lastName) 
 //                                                         throws Exception  {
@@ -695,7 +695,7 @@ public class LibraryServiceRestController {
 //  * delete Librarian
 //  * 
 //  */
-// @DeleteMapping(value={"/librarians/{userID}/", "/librarians/{userID}"})
+// @DeleteMapping(value={"/librarians/{userID}", "/librarians/{userID}/"})
 // public boolean deleteALibrarian(@PathVariable("userID") int userID, 
 // @RequestParam int userIDHeadLibrarian) throws Exception  {
 //     return service.deleteALibrarian(userID, userIDHeadLibrarian);
@@ -708,7 +708,7 @@ public class LibraryServiceRestController {
 //  * @return
 //  * @throws Exception
 //  */
-// @DeleteMapping(value={"/headLibrarians/{userID}/", "/headLibrarians/{userID}"})
+// @DeleteMapping(value={"/headLibrarians/{userID}", "/headLibrarians/{userID}/"})
 // public boolean deleteALibrarian(@PathVariable("userID") int userID) throws Exception  {
 //     return service.DeleteHeadLibrarian(userID);
   
