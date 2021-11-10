@@ -1922,7 +1922,7 @@ public class LibraryServiceService {
             error = error + "The account must be an online account";
         }
         if ((aPassWord == null|| aPassWord.trim().length() == 0)&& error.length()==0) {
-            error = error + "Password cannot be empty! ";
+            error = error + "Password cannot be empty!";
         }
         if ((aPassWord == account.getPassword()&& error.length()==0)){
             error = error + "This is already your password.";
@@ -1938,6 +1938,130 @@ public class LibraryServiceService {
     }
 
     /**
+     * @author Gabrielle Halpin
+     * This method allows the user to change their firstName
+     * @param aFirstName
+     * @param account
+     * @return Useraccount account
+     */
+    public UserAccount changeFirstName(String aFirstName, UserAccount account){
+        String error = "";
+        if (account == null && error.length()==0){
+            error = error + "The account cannot be null";
+        }
+        if (account.getOnlineAccount() == false && error.length()==0){
+            error = error + "The account must be an online account";
+        }
+        if ((aFirstName == null|| aFirstName.trim().length() == 0)&& error.length()==0) {
+            error = error + "firstName cannot be empty!";
+        }
+        if ((aFirstName == account.getFirstName()&& error.length()==0)){
+            error = error + "This is already your firstName.";
+        }
+
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
+
+        account.setFirstName(aFirstName);
+        return account;
+    }
+
+    /**
+     * @author Gabrielle Halpin
+     * This method allows the user to change their lastName
+     * @param aLastName
+     * @param account
+     * @return Useraccount account
+     */
+    public UserAccount changeLastName(String aLastname, UserAccount account){
+        String error = "";
+        if (account == null && error.length()==0){
+            error = error + "The account cannot be null";
+        }
+        if (account.getOnlineAccount() == false && error.length()==0){
+            error = error + "The account must be an online account";
+        }
+        if ((aLastname == null|| aLastname.trim().length() == 0)&& error.length()==0) {
+            error = error + "lastname cannot be empty!";
+        }
+        if ((aLastname == account.getLastName()&& error.length()==0)){
+            error = error + "This is already your lastname.";
+        }
+
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
+
+        account.setLastName(aLastname);
+        return account;
+    }
+
+    /**
+     * @author Gabrielle Halpin
+     * This method allows the user to change their address 
+     * @param aAddress
+     * @param account
+     * @return Useraccount account
+     */
+    public UserAccount changeAddress(String aAddress, UserAccount account){
+        String error = "";
+        if (account == null && error.length()==0){
+            error = error + "The account cannot be null";
+        }
+        if (account.getOnlineAccount() == false && error.length()==0){
+            error = error + "The account must be an online account";
+        }
+        if ((aAddress == null|| aAddress.trim().length() == 0)&& error.length()==0) {
+            error = error + "Address cannot be empty!";
+        }
+        if ((aAddress == account.getAddress()&& error.length()==0)){
+            error = error + "This is already your Address.";
+        }
+
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
+
+        account.setAddress(aAddress);
+        return account;
+    }
+
+    /**
+     * @author Gabrielle Halpin
+     * This method allows the user to change their email 
+     * @param aEmail
+     * @param account
+     * @return Useraccount account
+     */
+    public UserAccount changeEmail(String aEmail, UserAccount account){
+        String error = "";
+        if (account == null && error.length()==0){
+            error = error + "The account cannot be null";
+        }
+        if (account.getOnlineAccount() == false && error.length()==0){
+            error = error + "The account must be an online account";
+        }
+        if ((aEmail == null|| aEmail.trim().length() == 0)&& error.length()==0) {
+            error = error + "Email cannot be empty!";
+        }
+        if ((aEmail == account.getEmail()&& error.length()==0)){
+            error = error + "This is already your Email.";
+        }
+
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
+
+        account.setEmail(aEmail);
+        return account;
+    }
+
+    /**
      * This mathod is called when the Librarian set's a customer's account to an online account
      * @author Gabrielle Hapin
      * @param account
@@ -1945,9 +2069,9 @@ public class LibraryServiceService {
      * @param aPassword
      * @param aOnlineAccount
      * @param creator
-     * @return boolean
+     * @return UserAccount
      */
-    public boolean setOnlineAccount(UserAccount account, String aEmail, String aPassword, boolean aOnlineAccount, UserAccount creator){
+    public UserAccount setOnlineAccount(UserAccount account, String aEmail, String aPassword, boolean aOnlineAccount, UserAccount creator){
         String error = "";
         if (account == null && error.length()==0){
             error = error + "The account cannot be null";
@@ -1965,7 +2089,7 @@ public class LibraryServiceService {
             error = error + "Password cannot be empty! ";
         }
         if ((aEmail == null|| aEmail.trim().length() == 0) && aOnlineAccount == true && error.length()==0) {
-            error = error + "Email cannot be empty! ";
+            error = error + "Email cannot be empty!";
         }
 
         error = error.trim();
@@ -1975,10 +2099,11 @@ public class LibraryServiceService {
 
         boolean set1 = account.setEmail(aEmail);
         boolean set2 = account.setPassword(aPassword);
-        if (set1 == false || set2 == false){
-            return false;
+        boolean set3 = account.setOnlineAccount(true);
+        if (set1 == false || set2 == false || set3 == false){
+            throw new IllegalArgumentException("You cannot set this account to an online account.");
         }
-        return true;
+        return account;
     }
 
 
