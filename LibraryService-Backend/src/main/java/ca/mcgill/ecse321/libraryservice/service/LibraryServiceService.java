@@ -1922,7 +1922,7 @@ public class LibraryServiceService {
             error = error + "The account must be an online account";
         }
         if ((aPassWord == null|| aPassWord.trim().length() == 0)&& error.length()==0) {
-            error = error + "Password cannot be empty! ";
+            error = error + "Password cannot be empty!";
         }
         if ((aPassWord == account.getPassword()&& error.length()==0)){
             error = error + "This is already your password.";
@@ -1945,9 +1945,9 @@ public class LibraryServiceService {
      * @param aPassword
      * @param aOnlineAccount
      * @param creator
-     * @return boolean
+     * @return UserAccount
      */
-    public boolean setOnlineAccount(UserAccount account, String aEmail, String aPassword, boolean aOnlineAccount, UserAccount creator){
+    public UserAccount setOnlineAccount(UserAccount account, String aEmail, String aPassword, boolean aOnlineAccount, UserAccount creator){
         String error = "";
         if (account == null && error.length()==0){
             error = error + "The account cannot be null";
@@ -1975,10 +1975,11 @@ public class LibraryServiceService {
 
         boolean set1 = account.setEmail(aEmail);
         boolean set2 = account.setPassword(aPassword);
-        if (set1 == false || set2 == false){
-            return false;
+        boolean set3 = account.setOnlineAccount(true);
+        if (set1 == false || set2 == false || set3 == false){
+            throw new IllegalArgumentException("You cannot set this account to an online account.");
         }
-        return true;
+        return account;
     }
 
 
