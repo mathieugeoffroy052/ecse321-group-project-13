@@ -3,6 +3,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -95,6 +96,7 @@ public class TestLibraryItemService {
 	private static final ItemState AVAILABLE_STATE = ItemState.Available;
 	private static final ItemState BORROWED_STATE = ItemState.Borrowed;
 
+	private static final ItemState BOOK_STATE = BORROWED_STATE;
 	/* Patron attributes*/
 	private static final int VALID_PATRON_USER_ID = 8;
 	private static final int INVALID_PATRON_USER_ID = 7;
@@ -124,9 +126,24 @@ public class TestLibraryItemService {
 			room.setName(ROOM_NAME);
 			room.setType(ROOM_TYPE);
 
-			allLibraryItems.add(book); allLibraryItems.add(newspaper); allLibraryItems.add(room);
+			allLibraryItems.add(book); 
+			allLibraryItems.add(newspaper); 
+			allLibraryItems.add(room);
+			allLibraryItems.add(music);
+			allLibraryItems.add(movie);
 
 			return allLibraryItems;
+		});
+
+		lenient().when(borrowableItemDao.findAll()).thenAnswer((InvocationOnMock invocation) -> {
+			List<BorrowableItem> allBorrowableItems = new ArrayList<BorrowableItem>();
+			LibraryItem book = new LibraryItem(BOOK_NAME, BOOK_TYPE, BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
+			book.setIsbn(BOOK_ISBN);
+			BorrowableItem borrowableBook = new BorrowableItem(BOOK_STATE, book);
+
+			allBorrowableItems.add(borrowableBook); 
+
+			return allBorrowableItems;
 		});
 		// Whenever anything is saved, just return the parameter object
 		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
@@ -160,6 +177,12 @@ public class TestLibraryItemService {
 		}
 		assertNotNull(books);
 		assertEquals(1, books.size());
+		LibraryItem book = books.get(0);
+		assertEquals(book.getName(), BOOK_NAME);
+		assertEquals(book.getType(), BOOK_TYPE);
+		assertEquals(book.getCreator(), BOOK_CREATOR);
+		assertEquals(book.getIsbn(), BOOK_ISBN);
+		assertTrue(book.getDate().compareTo(BOOK_DATE) == 0);
 		
 	}
 
@@ -173,6 +196,12 @@ public class TestLibraryItemService {
 		}
 		assertNotNull(newspapers);
 		assertEquals(1, newspapers.size());
+		LibraryItem news = newspapers.get(0);
+		assertEquals(news.getName(), NEWSPAPER_NAME);
+		assertEquals(news.getType(), NEWSPAPER_TYPE);
+		assertEquals(news.getCreator(), NEWSPAPER_CREATOR);
+		assertEquals(news.getIsbn(), NEWSPAPER_ISBN);
+		assertTrue(news.getDate().compareTo(NEWSPAPER_DATE) == 0);
 		
 	}
 
@@ -186,6 +215,12 @@ public class TestLibraryItemService {
 		}
 		assertNotNull(music);
 		assertEquals(1, music.size());
+		LibraryItem song = music.get(0);
+		assertEquals(song.getName(), MUSIC_NAME);
+		assertEquals(song.getType(), MUSIC_TYPE);
+		assertEquals(song.getCreator(), MUSIC_CREATOR);
+		assertEquals(song.getIsbn(), MUSIC_ISBN);
+		assertTrue(song.getDate().compareTo(MUSIC_DATE) == 0);
 		
 	}
 
@@ -199,6 +234,12 @@ public class TestLibraryItemService {
 		}
 		assertNotNull(movies);
 		assertEquals(1, movies.size());
+		LibraryItem movie = movies.get(0);
+		assertEquals(movie.getName(), MOVIE_NAME);
+		assertEquals(movie.getType(), MOVIE_TYPE);
+		assertEquals(movie.getCreator(), MOVIE_CREATOR);
+		assertEquals(movie.getIsbn(), MOVIE_ISBN);
+		assertTrue(movie.getDate().compareTo(MOVIE_DATE) == 0);
 		
 	}
 
@@ -212,6 +253,31 @@ public class TestLibraryItemService {
 		}
 		assertNotNull(rooms);
 		assertEquals(1, rooms.size());
+		LibraryItem room = rooms.get(0);
+		assertEquals(room.getName(), ROOM_NAME);
+		assertEquals(room.getType(), ROOM_TYPE);
+		
+	}
+
+	@Test
+	public void testGetLibraryItemFromIsbn() throws Exception {
+		List<BorrowableItem> books = null;
+		try {
+			books = service.getBorrowableItemsFromItemIsbn(BOOK_ISBN);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(books);
+		assertEquals(1, books.size());
+		BorrowableItem book = books.get(0);
+		assertEquals(book.getBarCodeNumber(), BOOK_BARCODENUMBER);
+		assertEquals(book.getState(), BOOK_STATE);
+		LibraryItem book_lib_item = book.getLibraryItem();
+		assertEquals(book_lib_item.getName(), BOOK_NAME);
+		assertEquals(book_lib_item.getType(), BOOK_TYPE);
+		assertEquals(book_lib_item.getCreator(), BOOK_CREATOR);
+		assertEquals(book_lib_item.getIsbn(), BOOK_ISBN);
+		assertTrue(book_lib_item.getDate().compareTo(BOOK_DATE) == 0);
 		
 	}
 }

@@ -372,7 +372,7 @@ public class LibraryServiceService {
         Iterable<LibraryItem> allLibraryItems = libraryItemRepository.findAll();
         List<LibraryItem> allMovies = new ArrayList<LibraryItem>();
         for(LibraryItem i : allLibraryItems){
-            if(i.getType().equals(ItemType.Music)){
+            if(i.getType().equals(ItemType.Movie)){
                 allMovies.add(i);
             }
         }
