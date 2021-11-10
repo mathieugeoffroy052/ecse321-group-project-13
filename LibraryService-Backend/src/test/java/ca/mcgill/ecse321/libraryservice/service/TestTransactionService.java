@@ -17,7 +17,9 @@ import java.sql.Time;
 import java.time.LocalTime;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -143,7 +145,7 @@ public class TestTransactionService {
 		lenient().when(transactionDao.save(any(Transaction.class))).thenAnswer(returnParameterAsAnswer);
 	}
 
-/* ***************** ITEM RESERVATION TESTS ********************* */
+	/* ***************** ITEM RESERVATION TESTS ********************* */
 	/**
 	 * Success case
 	 */
