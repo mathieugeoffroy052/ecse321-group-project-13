@@ -67,6 +67,7 @@ public class TestTransactionService {
     private static final int ROOM_BARCODENUMBER = 234567;
 
 	private static final ItemState AVAILABLE_STATE = ItemState.Available;
+	private static final ItemState BORROWED_STATE = ItemState.Borrowed;
 
 	private static final int VALID_PATRON_USER_ID = 8;
 	private static final String PATRON_FIRST_NAME = "Jimmy";
@@ -121,7 +122,7 @@ public class TestTransactionService {
 	}
 
 	@Test
-	public void testCreateItemReserveTransaction() {
+	public void testCreateItemReserveTransactionSuccessful() {
 		BorrowableItem bookItem = borrowableItemDao.findBorrowableItemByBarCodeNumber(BOOK_BARCODENUMBER);
 
 		Patron pAccount = (Patron) userAccountDao.findUserAccountByUserID(VALID_PATRON_USER_ID);
@@ -138,7 +139,7 @@ public class TestTransactionService {
 	}
 
     @Test
-	public void testCreateRoomReserveTransaction() {
+	public void testCreateRoomReserveTransactionSuccessful() {
 		BorrowableItem roomItem = borrowableItemDao.findBorrowableItemByBarCodeNumber(ROOM_BARCODENUMBER);
 
 		Patron pAccount = (Patron) userAccountDao.findUserAccountByUserID(VALID_PATRON_USER_ID);
@@ -159,25 +160,73 @@ public class TestTransactionService {
 	}
 
     @Test
-	public void testCreateItemBorrowTransaction() {
-		
+	public void testCreateItemBorrowTransactionSuccessful() {
+		BorrowableItem bookItem = borrowableItemDao.findBorrowableItemByBarCodeNumber(BOOK_BARCODENUMBER);
+
+		Patron pAccount = (Patron) userAccountDao.findUserAccountByUserID(VALID_PATRON_USER_ID);
+
+		Transaction itemReserveTrans = null;
+
+		try {
+			itemReserveTrans = service.createItemBorrowTransaction(bookItem, pAccount);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(itemReserveTrans);
+		checkResultTransaction(itemReserveTrans, bookItem, pAccount);
 	}
 
     @Test
-	public void testCreateItemReturnTransaction() {
-		
+	public void testCreateItemReturnTransactionSuccessful() {
+		BorrowableItem bookItem = borrowableItemDao.findBorrowableItemByBarCodeNumber(BOOK_BARCODENUMBER);
+
+		Patron pAccount = (Patron) userAccountDao.findUserAccountByUserID(VALID_PATRON_USER_ID);
+
+		Transaction itemReserveTrans = null;
+
+		try {
+			itemReserveTrans = service.createItemReturnTransaction(bookItem, pAccount);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(itemReserveTrans);
+		checkResultTransaction(itemReserveTrans, bookItem, pAccount);
 	}
 
     @Test
-	public void testCreateItemWaitlistTransaction() {
-		
+	public void testCreateItemWaitlistTransactionSuccessful() {
+		BorrowableItem bookItem = borrowableItemDao.findBorrowableItemByBarCodeNumber(BOOK_BARCODENUMBER);
+		bookItem.setState(BORROWED_STATE);	// assumed the book is borrowed by someone else
+
+		Patron pAccount = (Patron) userAccountDao.findUserAccountByUserID(VALID_PATRON_USER_ID);
+
+		Transaction itemReserveTrans = null;
+
+		try {
+			itemReserveTrans = service.createItemWaitlistTransaction(bookItem, pAccount);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(itemReserveTrans);
+		checkResultTransaction(itemReserveTrans, bookItem, pAccount);
 	}
 
     @Test
-	public void testCreateItemRenewalTransaction() {
-		
-	}
+	public void testCreateItemRenewalTransactionSuccessful() {
+		BorrowableItem bookItem = borrowableItemDao.findBorrowableItemByBarCodeNumber(BOOK_BARCODENUMBER);
 
+		Patron pAccount = (Patron) userAccountDao.findUserAccountByUserID(VALID_PATRON_USER_ID);
+
+		Transaction itemReserveTrans = null;
+
+		try {
+			itemReserveTrans = service.createItemRenewalTransaction(bookItem, pAccount);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(itemReserveTrans);
+		checkResultTransaction(itemReserveTrans, bookItem, pAccount);
+	}
 
 	private void checkResultTransaction(Transaction transaction, BorrowableItem borrowableItem, UserAccount userAccount) {
 		assertNotNull(transaction);
