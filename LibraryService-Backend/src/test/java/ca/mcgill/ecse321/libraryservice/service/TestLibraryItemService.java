@@ -77,12 +77,12 @@ public class TestLibraryItemService {
 	private static final ItemType MUSIC_TYPE = ItemType.Music;
 	private static final Date MUSIC_DATE = Date.valueOf("2018-04-25");
 
-	private static final int MOVIE_ISBN = 125;
+	private static final int MOVIE_ISBN = 126;
 	private static final String MOVIE_CREATOR = "Denis Villeneuve";
 	private static final String MOVIE_NAME = "Dune";
 	private static final ItemType MOVIE_TYPE = ItemType.Movie;
 	private static final Date MOVIE_DATE = Date.valueOf("2021-01-24");
-
+	
 	private static final String ROOM_NAME = "Room 1";
 	private static final ItemType ROOM_TYPE = ItemType.Room;
 
@@ -104,6 +104,8 @@ public class TestLibraryItemService {
 	private static final String PATRON_LAST_NAME = "John";
 	private static final boolean PATRON_VALIDATED = true;
 	private static final boolean ONLINE = true;
+	
+	private static LibraryItem book1;
 
 
 	@BeforeEach
@@ -112,6 +114,8 @@ public class TestLibraryItemService {
 			List<LibraryItem> allLibraryItems = new ArrayList<LibraryItem>();
 			LibraryItem book = new LibraryItem(BOOK_NAME, BOOK_TYPE, BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
 			book.setIsbn(BOOK_ISBN);
+			
+			book1 = book;
 			
 			LibraryItem music = new LibraryItem(MUSIC_NAME, MUSIC_TYPE, MUSIC_DATE, MUSIC_CREATOR, LIBRARY_ITEM_VIEWABLE);
 			music.setIsbn(MUSIC_ISBN);
@@ -135,12 +139,70 @@ public class TestLibraryItemService {
 			return allLibraryItems;
 		});
 
+		lenient().when(libraryItemDao.findByIsbn(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+			if (invocation.getArgument(0).equals(BOOK_ISBN)) {
+				LibraryItem book = new LibraryItem(BOOK_NAME, BOOK_TYPE, BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
+				book.setIsbn(BOOK_ISBN);
+	
+				return book;
+			}
+			else if (invocation.getArgument(0).equals(MOVIE_ISBN)) {
+				LibraryItem movie = new LibraryItem(MOVIE_NAME, MOVIE_TYPE, MOVIE_DATE, MOVIE_CREATOR, LIBRARY_ITEM_VIEWABLE);
+				movie.setIsbn(MOVIE_ISBN);
+	
+				return movie;
+			}
+			else if (invocation.getArgument(0).equals(MUSIC_ISBN)) {
+				LibraryItem music = new LibraryItem(MUSIC_NAME, MUSIC_TYPE, MUSIC_DATE, MUSIC_CREATOR, LIBRARY_ITEM_VIEWABLE);
+				music.setIsbn(MUSIC_ISBN);
+	
+				return music;
+			}
+			else if (invocation.getArgument(0).equals(NEWSPAPER_ISBN)) {
+				LibraryItem newspaper = new LibraryItem(NEWSPAPER_NAME, NEWSPAPER_TYPE, NEWSPAPER_DATE, NEWSPAPER_CREATOR, NEWSPAPER_VIEWABLE);
+				newspaper.setIsbn(NEWSPAPER_ISBN);
+	
+				return newspaper;
+			}
+			else {
+				return null;
+			}
+		});
+		
+		lenient().when(borrowableItemDao.findByLibraryItem(any(LibraryItem.class))).thenAnswer((InvocationOnMock invocation) -> {
+			if (invocation.getArgument(0).toString().contains(BOOK_NAME)) {
+				LibraryItem book = new LibraryItem(BOOK_NAME, BOOK_TYPE, BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
+				book.setIsbn(BOOK_ISBN);
+				List<BorrowableItem> allBorrowableItems = new ArrayList<BorrowableItem>();
+				BorrowableItem borrowableBook = new BorrowableItem(BOOK_STATE, book);
+				borrowableBook.setBarCodeNumber(BOOK_BARCODENUMBER);
+				allBorrowableItems.add(borrowableBook); 
+				return allBorrowableItems;
+			}
+			else {
+				return null;
+			}
+		});
+
+		lenient().when(borrowableItemDao.findBorrowableItemByBarCodeNumber(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+			if (invocation.getArgument(0).equals(BOOK_BARCODENUMBER)) {
+				LibraryItem book = new LibraryItem(BOOK_NAME, BOOK_TYPE, BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
+				book.setIsbn(BOOK_ISBN);
+				BorrowableItem borrowableBook = new BorrowableItem(BOOK_STATE, book);
+				borrowableBook.setBarCodeNumber(BOOK_BARCODENUMBER);
+				return borrowableBook;
+			}
+			else {
+				return null;
+			}
+		});
+		
 		lenient().when(borrowableItemDao.findAll()).thenAnswer((InvocationOnMock invocation) -> {
 			List<BorrowableItem> allBorrowableItems = new ArrayList<BorrowableItem>();
 			LibraryItem book = new LibraryItem(BOOK_NAME, BOOK_TYPE, BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
 			book.setIsbn(BOOK_ISBN);
 			BorrowableItem borrowableBook = new BorrowableItem(BOOK_STATE, book);
-
+			borrowableBook.setBarCodeNumber(BOOK_BARCODENUMBER);
 			allBorrowableItems.add(borrowableBook); 
 
 			return allBorrowableItems;
@@ -260,7 +322,7 @@ public class TestLibraryItemService {
 	}
 
 	@Test
-	public void testGetLibraryItemFromIsbn() throws Exception {
+	public void testGetBorrowableItemsFromIsbn() throws Exception {
 		List<BorrowableItem> books = null;
 		try {
 			books = service.getBorrowableItemsFromItemIsbn(BOOK_ISBN);
@@ -270,6 +332,26 @@ public class TestLibraryItemService {
 		assertNotNull(books);
 		assertEquals(1, books.size());
 		BorrowableItem book = books.get(0);
+		assertEquals(book.getBarCodeNumber(), BOOK_BARCODENUMBER);
+		assertEquals(book.getState(), BOOK_STATE);
+		LibraryItem book_lib_item = book.getLibraryItem();
+		assertEquals(book_lib_item.getName(), BOOK_NAME);
+		assertEquals(book_lib_item.getType(), BOOK_TYPE);
+		assertEquals(book_lib_item.getCreator(), BOOK_CREATOR);
+		assertEquals(book_lib_item.getIsbn(), BOOK_ISBN);
+		assertTrue(book_lib_item.getDate().compareTo(BOOK_DATE) == 0);
+		
+	}
+
+	@Test
+	public void testGetBorrowableItemFromBarcode() throws Exception {
+		BorrowableItem book = null;
+		try {
+			book = service.getBorrowableItemFromBarCodeNumber(BOOK_BARCODENUMBER);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(book);
 		assertEquals(book.getBarCodeNumber(), BOOK_BARCODENUMBER);
 		assertEquals(book.getState(), BOOK_STATE);
 		LibraryItem book_lib_item = book.getLibraryItem();
