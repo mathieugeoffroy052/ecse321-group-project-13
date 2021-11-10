@@ -168,45 +168,6 @@ public class TestLibraryItemService {
 				return null;
 			}
 		});
-		
-		lenient().when(borrowableItemDao.findByLibraryItem(any(LibraryItem.class))).thenAnswer((InvocationOnMock invocation) -> {
-			if (invocation.getArgument(0).toString().contains(BOOK_NAME)) {
-				LibraryItem book = new LibraryItem(BOOK_NAME, BOOK_TYPE, BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
-				book.setIsbn(BOOK_ISBN);
-				List<BorrowableItem> allBorrowableItems = new ArrayList<BorrowableItem>();
-				BorrowableItem borrowableBook = new BorrowableItem(BOOK_STATE, book);
-				borrowableBook.setBarCodeNumber(BOOK_BARCODENUMBER);
-				allBorrowableItems.add(borrowableBook); 
-				return allBorrowableItems;
-			}
-			else {
-				return null;
-			}
-		});
-
-		lenient().when(borrowableItemDao.findBorrowableItemByBarCodeNumber(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
-			if (invocation.getArgument(0).equals(BOOK_BARCODENUMBER)) {
-				LibraryItem book = new LibraryItem(BOOK_NAME, BOOK_TYPE, BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
-				book.setIsbn(BOOK_ISBN);
-				BorrowableItem borrowableBook = new BorrowableItem(BOOK_STATE, book);
-				borrowableBook.setBarCodeNumber(BOOK_BARCODENUMBER);
-				return borrowableBook;
-			}
-			else {
-				return null;
-			}
-		});
-		
-		lenient().when(borrowableItemDao.findAll()).thenAnswer((InvocationOnMock invocation) -> {
-			List<BorrowableItem> allBorrowableItems = new ArrayList<BorrowableItem>();
-			LibraryItem book = new LibraryItem(BOOK_NAME, BOOK_TYPE, BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
-			book.setIsbn(BOOK_ISBN);
-			BorrowableItem borrowableBook = new BorrowableItem(BOOK_STATE, book);
-			borrowableBook.setBarCodeNumber(BOOK_BARCODENUMBER);
-			allBorrowableItems.add(borrowableBook); 
-
-			return allBorrowableItems;
-		});
 		// Whenever anything is saved, just return the parameter object
 		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
 			return invocation.getArgument(0);
@@ -216,7 +177,41 @@ public class TestLibraryItemService {
 		lenient().when(userAccountDao.save(any(UserAccount.class))).thenAnswer(returnParameterAsAnswer);
 		lenient().when(transactionDao.save(any(Transaction.class))).thenAnswer(returnParameterAsAnswer);
 	}
-
+	
+	public static void checkBasicLibraryItemList(LibraryItem item) {
+		if(item.getType() == ItemType.Book) {
+			assertEquals(item.getName(), BOOK_NAME);
+			assertEquals(item.getType(), BOOK_TYPE);
+			assertEquals(item.getCreator(), BOOK_CREATOR);
+			assertEquals(item.getIsbn(), BOOK_ISBN);
+			assertTrue(item.getDate().compareTo(BOOK_DATE) == 0);
+		}
+		else if (item.getType() == ItemType.Movie){
+			assertEquals(item.getName(), MOVIE_NAME);
+			assertEquals(item.getType(), MOVIE_TYPE);
+			assertEquals(item.getCreator(), MOVIE_CREATOR);
+			assertEquals(item.getIsbn(), MOVIE_ISBN);
+			assertTrue(item.getDate().compareTo(MOVIE_DATE) == 0);
+		}
+		else if (item.getType() == ItemType.Music) {
+			assertEquals(item.getName(), MUSIC_NAME);
+			assertEquals(item.getType(), MUSIC_TYPE);
+			assertEquals(item.getCreator(), MUSIC_CREATOR);
+			assertEquals(item.getIsbn(), MUSIC_ISBN);
+			assertTrue(item.getDate().compareTo(MUSIC_DATE) == 0);
+		}
+		else if (item.getType() == ItemType.NewspaperArticle){
+			assertEquals(item.getName(), NEWSPAPER_NAME);
+			assertEquals(item.getType(), NEWSPAPER_TYPE);
+			assertEquals(item.getCreator(), NEWSPAPER_CREATOR);
+			assertEquals(item.getIsbn(), NEWSPAPER_ISBN);
+			assertTrue(item.getDate().compareTo(NEWSPAPER_DATE) == 0);
+		} 
+		else {
+			assertEquals(item.getName(), ROOM_NAME);
+			assertEquals(item.getType(), ROOM_TYPE);
+		}
+	}
 	@Test
 	public void testGetBooksFromAuthor() throws Exception {
 		List<LibraryItem> books = null;
@@ -226,6 +221,7 @@ public class TestLibraryItemService {
 			fail();
 		}
 		assertNotNull(books);
+		
 		//checkResultLibraryItemList(itemReserveTrans, bookItem, pAccount);
 	}
 
@@ -240,11 +236,7 @@ public class TestLibraryItemService {
 		assertNotNull(books);
 		assertEquals(1, books.size());
 		LibraryItem book = books.get(0);
-		assertEquals(book.getName(), BOOK_NAME);
-		assertEquals(book.getType(), BOOK_TYPE);
-		assertEquals(book.getCreator(), BOOK_CREATOR);
-		assertEquals(book.getIsbn(), BOOK_ISBN);
-		assertTrue(book.getDate().compareTo(BOOK_DATE) == 0);
+		checkBasicLibraryItemList(book);
 		
 	}
 
@@ -259,11 +251,7 @@ public class TestLibraryItemService {
 		assertNotNull(newspapers);
 		assertEquals(1, newspapers.size());
 		LibraryItem news = newspapers.get(0);
-		assertEquals(news.getName(), NEWSPAPER_NAME);
-		assertEquals(news.getType(), NEWSPAPER_TYPE);
-		assertEquals(news.getCreator(), NEWSPAPER_CREATOR);
-		assertEquals(news.getIsbn(), NEWSPAPER_ISBN);
-		assertTrue(news.getDate().compareTo(NEWSPAPER_DATE) == 0);
+		checkBasicLibraryItemList(news);
 		
 	}
 
@@ -278,11 +266,7 @@ public class TestLibraryItemService {
 		assertNotNull(music);
 		assertEquals(1, music.size());
 		LibraryItem song = music.get(0);
-		assertEquals(song.getName(), MUSIC_NAME);
-		assertEquals(song.getType(), MUSIC_TYPE);
-		assertEquals(song.getCreator(), MUSIC_CREATOR);
-		assertEquals(song.getIsbn(), MUSIC_ISBN);
-		assertTrue(song.getDate().compareTo(MUSIC_DATE) == 0);
+		checkBasicLibraryItemList(song);
 		
 	}
 
@@ -297,11 +281,7 @@ public class TestLibraryItemService {
 		assertNotNull(movies);
 		assertEquals(1, movies.size());
 		LibraryItem movie = movies.get(0);
-		assertEquals(movie.getName(), MOVIE_NAME);
-		assertEquals(movie.getType(), MOVIE_TYPE);
-		assertEquals(movie.getCreator(), MOVIE_CREATOR);
-		assertEquals(movie.getIsbn(), MOVIE_ISBN);
-		assertTrue(movie.getDate().compareTo(MOVIE_DATE) == 0);
+		checkBasicLibraryItemList(movie);
 		
 	}
 
@@ -316,50 +296,37 @@ public class TestLibraryItemService {
 		assertNotNull(rooms);
 		assertEquals(1, rooms.size());
 		LibraryItem room = rooms.get(0);
-		assertEquals(room.getName(), ROOM_NAME);
-		assertEquals(room.getType(), ROOM_TYPE);
+		checkBasicLibraryItemList(room);
 		
 	}
 
 	@Test
-	public void testGetBorrowableItemsFromIsbn() throws Exception {
-		List<BorrowableItem> books = null;
+	public void testGetAllLibraryItems() throws Exception {
+		List<LibraryItem> libItems = null;
 		try {
-			books = service.getBorrowableItemsFromItemIsbn(BOOK_ISBN);
+			libItems = service.getAllLibraryItems();
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
-		assertNotNull(books);
-		assertEquals(1, books.size());
-		BorrowableItem book = books.get(0);
-		assertEquals(book.getBarCodeNumber(), BOOK_BARCODENUMBER);
-		assertEquals(book.getState(), BOOK_STATE);
-		LibraryItem book_lib_item = book.getLibraryItem();
-		assertEquals(book_lib_item.getName(), BOOK_NAME);
-		assertEquals(book_lib_item.getType(), BOOK_TYPE);
-		assertEquals(book_lib_item.getCreator(), BOOK_CREATOR);
-		assertEquals(book_lib_item.getIsbn(), BOOK_ISBN);
-		assertTrue(book_lib_item.getDate().compareTo(BOOK_DATE) == 0);
+		assertNotNull(libItems);
+		assertEquals(5, libItems.size());
+		for(LibraryItem item: libItems) {
+			checkBasicLibraryItemList(item);
+		}
 		
 	}
 
 	@Test
-	public void testGetBorrowableItemFromBarcode() throws Exception {
-		BorrowableItem book = null;
+	public void testGetLibraryItemsFromCreator() throws Exception {
+		List<LibraryItem> libItems = null;
 		try {
-			book = service.getBorrowableItemFromBarCodeNumber(BOOK_BARCODENUMBER);
+			libItems = service.getAllLibraryItems();
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
-		assertNotNull(book);
-		assertEquals(book.getBarCodeNumber(), BOOK_BARCODENUMBER);
-		assertEquals(book.getState(), BOOK_STATE);
-		LibraryItem book_lib_item = book.getLibraryItem();
-		assertEquals(book_lib_item.getName(), BOOK_NAME);
-		assertEquals(book_lib_item.getType(), BOOK_TYPE);
-		assertEquals(book_lib_item.getCreator(), BOOK_CREATOR);
-		assertEquals(book_lib_item.getIsbn(), BOOK_ISBN);
-		assertTrue(book_lib_item.getDate().compareTo(BOOK_DATE) == 0);
+		assertNotNull(libItems);
+		assertEquals(5, libItems.size());
 		
 	}
+	
 }
