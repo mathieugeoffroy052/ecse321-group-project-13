@@ -563,15 +563,17 @@ public class LibraryServiceService {
         String error = "";
         if (item == null) {
             error = error + "Item cannot be null! ";
-        } else if (borrowableItemRepository.findBorrowableItemByBarCodeNumber(item.getBarCodeNumber()) == null){
+        } 
+        /* else if (borrowableItemRepository.findBorrowableItemByBarCodeNumber(item.getBarCodeNumber()) == null){
             error += "Borrowable item does not exist!";
-        }
+        } */
 
         if (account == null) {
             error = error + "Account cannot be null! ";
-        } else if (userAccountRepository.findUserAccountByUserID(account.getUserID()) == null){
+        } 
+        /*else if (userAccountRepository.findUserAccountByUserID(account.getUserID()) == null){
             error += "User does not exist!";
-        }
+        } */
         error = error.trim();
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
@@ -629,15 +631,17 @@ public class LibraryServiceService {
         String error = "";
         if (item == null) {
             error = error + "Item cannot be null! ";
-        } else if (borrowableItemRepository.findBorrowableItemByBarCodeNumber(item.getBarCodeNumber()) == null){
+        } 
+        /*else if (borrowableItemRepository.findBorrowableItemByBarCodeNumber(item.getBarCodeNumber()) == null){
             error += "Borrowable item does not exist!";
-        }
+        } */
 
         if (account == null) {
             error = error + "Account cannot be null! ";
-        } else if (userAccountRepository.findUserAccountByUserID(account.getUserID()) == null){
-            error += "User does not exist!";
         } 
+        /*else if (userAccountRepository.findUserAccountByUserID(account.getUserID()) == null){
+            error += "User does not exist!";
+        } */
         int check = startTime.compareTo(endTime);
         if(check > 0){
             error += "Start time must be before end time! ";
@@ -672,9 +676,9 @@ public class LibraryServiceService {
             throw new IllegalArgumentException(error);
         }
 
-        Transaction itemReservation = new Transaction(item, account, TransactionType.RoomReservation, null); // No deadline for room reservation
-        transactionRepository.save(itemReservation);
-        return itemReservation;
+        Transaction roomReservation = new Transaction(item, account, TransactionType.RoomReservation, null); // No deadline for room reservation
+        transactionRepository.save(roomReservation);
+        return roomReservation;
     }
 
     
@@ -692,15 +696,17 @@ public class LibraryServiceService {
         String error = "";
         if (item == null) {
             error = error + "Item cannot be null! ";
-        } else if (borrowableItemRepository.findBorrowableItemByBarCodeNumber(item.getBarCodeNumber()) == null){
+        } 
+        /*else if (borrowableItemRepository.findBorrowableItemByBarCodeNumber(item.getBarCodeNumber()) == null){
             error += "Borrowable item does not exist!";
-        }
+        }*/
 
         if (account == null) {
             error = error + "Account cannot be null! ";
-        } else if (userAccountRepository.findUserAccountByUserID(account.getUserID()) == null){
+        } 
+        /*else if (userAccountRepository.findUserAccountByUserID(account.getUserID()) == null){
             error += "User does not exist!";
-        }
+        }*/
         error = error.trim();
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
