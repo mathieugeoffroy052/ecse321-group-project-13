@@ -50,7 +50,6 @@ public class LibraryServiceService {
     @Autowired
     private UserAccountRepository userAccountRepository;
 
-
     /** 
      * @param isbn
      * @return List<BorrowableItem> - list of borrowable items with given isbn
@@ -64,9 +63,136 @@ public class LibraryServiceService {
         return allBorrowableItems;
     }
 
-    
+    /** 
+     * @param barCodeNumber
+     * @return BorrowableItem - borrowable item of given bar code number
+     * @author Amani Jammoul
+     */
+    @Transactional
+    public BorrowableItem getBorrowableItemFromBarCodeNumber(int barCodeNumber){
+        BorrowableItem item = borrowableItemRepository.findBorrowableItemByBarCodeNumber(barCodeNumber);
+        return item;
+    }
+
+    /** 
+     * @param userID
+     * @return UserAccount - account of given ID
+     * @author Amani Jammoul
+     */
+    @Transactional
+    public UserAccount getUserAccountFromUserID(int userID){
+        UserAccount account = userAccountRepository.findUserAccountByUserID(userID);
+        return account;
+    }
+
+    /** 
+     * @param userID
+     * @return UserAccount - account for user with given full name
+     * @author Amani Jammoul
+     * @throws Exception
+     */
+    @Transactional
+    public UserAccount getUserAccountFromFullName(String firstName, String lastName) throws Exception{
+        String error = "";
+        if (firstName == null || firstName.trim().length() == 0) {
+            error += "First name cannot be empty! ";
+        } else if(lastName == null || lastName.trim().length() == 0){
+            error += "Last name cannot be empty! ";
+        }
+
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
+
+        List<UserAccount> allAccounts = (List<UserAccount>) userAccountRepository.findAll();
+        UserAccount account = null;
+        for(UserAccount a : allAccounts){
+            if(a.getFirstName().equals(firstName) && a.getLastName().equals(lastName)){
+                account = a;
+            }
+        }
+        if(account != null) return account;
+        else throw new IllegalArgumentException("No user found with this name! ");
+    }
+
     /** 
      * @return List<LibraryItem> - all library items in library system
+     * @throws Exception
+     * @author Amani Jammoul
+     */
+    @Transactional
+    public List<LibraryItem> getAllLibraryItems() throws Exception{
+        List<LibraryItem> allLibraryItems = (List<LibraryItem>) libraryItemRepository.findAll();
+        return allLibraryItems;
+    }
+
+    /** 
+     * @param creeatorName
+     * @return List<LibraryItem> - library items by creator
+     * @throws Exception
+     * @author Amani Jammoul
+     */
+    @Transactional
+    public List<LibraryItem> getLibraryItemsFromCreator(String creatorName) throws Exception{
+        if (creatorName == null || creatorName.trim().length() == 0) {
+            throw new IllegalArgumentException("Creator name cannot be empty!");
+        }
+
+        List<LibraryItem> allItems = getAllLibraryItems();
+        List<LibraryItem> itemsByCreator = new ArrayList<LibraryItem>();
+        for(LibraryItem a : allItems){
+            if(a.getCreator().equals(creatorName)) itemsByCreator.add(a);
+        }
+        return itemsByCreator;
+    }
+
+    /** 
+     * @param itemTitle
+     * @return List<LibraryItem> - library items with the given title
+     * @throws Exception
+     * @author Amani Jammoul
+     */
+    @Transactional
+    public List<LibraryItem> getLibraryItemsFromTitle(String itemTitle) throws Exception{
+        if (itemTitle == null || itemTitle.trim().length() == 0) {
+            throw new IllegalArgumentException("Item title cannot be empty!");
+        }
+
+        List<LibraryItem> allItems = getAllLibraryItems();
+        List<LibraryItem> itemsByTitle = new ArrayList<LibraryItem>();
+        for(LibraryItem a : allItems){
+            if(a.getName().equals(itemTitle)) itemsByTitle.add(a);
+        }
+        return itemsByTitle;
+    }
+
+    /** 
+     * @param creatorName
+     * @param itemTitle
+     * @return LibraryItem - library items with the given title by given creator
+     * @throws Exception
+     * @author Amani Jammoul
+     */
+    @Transactional
+    public List<LibraryItem> getLibraryItemFromCreatorAndTitle(String creatorName, String itemTitle) throws Exception{
+        if (creatorName == null || creatorName.trim().length() == 0) {
+            throw new IllegalArgumentException("Creator name cannot be empty! ");
+        } else if (itemTitle == null || itemTitle.trim().length() == 0) {
+            throw new IllegalArgumentException("Item title cannot be empty! ");
+        }
+
+        List<LibraryItem> allItems = getAllLibraryItems();
+        List<LibraryItem> itemsByCreatorAndTitle = new ArrayList<LibraryItem>();
+        for(LibraryItem a : allItems){
+            if(a.getCreator().equals(creatorName) && a.getName().equals(itemTitle)) itemsByCreatorAndTitle.add(a);
+        }
+        return itemsByCreatorAndTitle;
+    }
+
+    
+    /** 
+     * @return List<LibraryItem> - all books in library system
      * @throws Exception
      * @author Amani Jammoul
      * checked
@@ -86,39 +212,65 @@ public class LibraryServiceService {
     
     /** 
      * @param authorName
-     * @return LibraryItem - book written by the author
+     * @return List<LibraryItem> - books written by an author
      * @throws Exception
      * @author Amani Jammoul
      * checked
      */
     @Transactional
-    public LibraryItem getBookFromAuthor(String authorName) throws Exception{
+    public List<LibraryItem> getBooksFromAuthor(String authorName) throws Exception{
         if (authorName == null || authorName.trim().length() == 0) {
             throw new IllegalArgumentException("Author name cannot be empty!");
         }
+
         List<LibraryItem> allBooks = getAllBooks();
+        List<LibraryItem> booksByAuthor = new ArrayList<LibraryItem>();
         for(LibraryItem a : allBooks){
-            if(a.getCreator().equals(authorName)) return a;
+            if(a.getCreator().equals(authorName)) booksByAuthor.add(a);
         }
-        return null;
+        return booksByAuthor;
     }
 
     
     /** 
      * @param bookTitle
-     * @return LibraryItem - book with the given title name
+     * @return List<LibraryItem> - books with the given title
      * @throws Exception
      * @author Amani Jammoul
      * checked
      */
     @Transactional
-    public LibraryItem getBookFromTitle(String bookTitle) throws Exception{
+    public List<LibraryItem> getBooksFromTitle(String bookTitle) throws Exception{
         if (bookTitle == null || bookTitle.trim().length() == 0) {
             throw new IllegalArgumentException("Book title cannot be empty!");
         }
+
+        List<LibraryItem> allBooks = getAllBooks();
+        List<LibraryItem> booksByTitle = new ArrayList<LibraryItem>();
+        for(LibraryItem a : allBooks){
+            if(a.getName().equals(bookTitle)) booksByTitle.add(a);
+        }
+        return booksByTitle;
+    }
+
+    /** 
+     * @param authorName
+     * @param bookTitle
+     * @return LibraryItem - book with the given title written by given author
+     * @throws Exception
+     * @author Amani Jammoul
+     */
+    @Transactional
+    public LibraryItem getBookFromAuthorAndTitle(String authorName, String bookTitle) throws Exception{
+        if (authorName == null || authorName.trim().length() == 0) {
+            throw new IllegalArgumentException("Author name cannot be empty! ");
+        } else if (bookTitle == null || bookTitle.trim().length() == 0) {
+            throw new IllegalArgumentException("Book title cannot be empty! ");
+        }
+
         List<LibraryItem> allBooks = getAllBooks();
         for(LibraryItem a : allBooks){
-            if(a.getName().equals(bookTitle)) return a;
+            if(a.getCreator().equals(authorName) && a.getName().equals(bookTitle)) return a;
         }
         return null;
     }
@@ -144,38 +296,66 @@ public class LibraryServiceService {
 
     
     /** 
-     * @param artistName 
-     * @return LibraryItem - music item created by artist
+     * @param artistName
+     * @return List<LibraryItem> - all music by artist
      * @throws Exception
      * @author Amani Jammoul
+     * checked
      */
     @Transactional
-    public LibraryItem getMusicFromArtist(String artistName) throws Exception{
+    public List<LibraryItem> getMusicsFromArtist(String artistName) throws Exception{
         if (artistName == null || artistName.trim().length() == 0) {
             throw new IllegalArgumentException("Artist name cannot be empty!");
         }
-        List<LibraryItem> allMusic = getAllMusic();
-        for(LibraryItem a : allMusic){
-            if(a.getCreator().equals(artistName)) return a;
+
+        List<LibraryItem> allMusics = getAllMusic();
+        List<LibraryItem> musicsByArtist = new ArrayList<LibraryItem>();
+        for(LibraryItem a : allMusics){
+            if(a.getCreator().equals(artistName)) musicsByArtist.add(a);
         }
-        return null;
+        return musicsByArtist;
     }
 
     
     /** 
      * @param musicTitle
-     * @return LibraryItem - music item with given title
+     * @return List<LibraryItem> - all music with the given title
+     * @throws Exception
+     * @author Amani Jammoul
+     * checked
+     */
+    @Transactional
+    public List<LibraryItem> getMusicsFromTitle(String musicTitle) throws Exception{
+        if (musicTitle == null || musicTitle.trim().length() == 0) {
+            throw new IllegalArgumentException("Music title cannot be empty!");
+        }
+
+        List<LibraryItem> allMusics = getAllMusic();
+        List<LibraryItem> musicsByTitle = new ArrayList<LibraryItem>();
+        for(LibraryItem a : allMusics){
+            if(a.getName().equals(musicTitle)) musicsByTitle.add(a);
+        }
+        return musicsByTitle;
+    }
+
+    /** 
+     * @param artistName
+     * @param musicTitle
+     * @return LibraryItem - music with the given title by given artist
      * @throws Exception
      * @author Amani Jammoul
      */
     @Transactional
-    public LibraryItem getMusicFromTitle(String musicTitle) throws Exception{
-        if (musicTitle == null || musicTitle.trim().length() == 0) {
-            throw new IllegalArgumentException("Music title cannot be empty!");
+    public LibraryItem getMusicFromArtistAndTitle(String artistName, String musicTitle) throws Exception{
+        if (artistName == null || artistName.trim().length() == 0) {
+            throw new IllegalArgumentException("Artist name cannot be empty! ");
+        } else if (musicTitle == null || musicTitle.trim().length() == 0) {
+            throw new IllegalArgumentException("Music title cannot be empty! ");
         }
-        List<LibraryItem> allMusic = getAllMusic();
-        for(LibraryItem a : allMusic){
-            if(a.getName().equals(musicTitle)) return a;
+
+        List<LibraryItem> allMusics = getAllMusic();
+        for(LibraryItem a : allMusics){
+            if(a.getCreator().equals(artistName) && a.getName().equals(musicTitle)) return a;
         }
         return null;
     }
@@ -202,39 +382,65 @@ public class LibraryServiceService {
     
     /** 
      * @param directorName
-     * @return LibraryItem - movie item created by the director
+     * @return List<LibraryItem> - all movies by director
      * @throws Exception
      * @author Amani Jammoul
      * checked
      */
     @Transactional
-    public LibraryItem getMovieFromDirector(String directorName) throws Exception{
+    public List<LibraryItem> getMoviesFromDirector(String directorName) throws Exception{
         if (directorName == null || directorName.trim().length() == 0) {
             throw new IllegalArgumentException("Director name cannot be empty!");
         }
+
         List<LibraryItem> allMovies = getAllMovies();
+        List<LibraryItem> moviesByDirector = new ArrayList<LibraryItem>();
         for(LibraryItem a : allMovies){
-            if(a.getCreator().equals(directorName)) return a;
+            if(a.getCreator().equals(directorName)) moviesByDirector.add(a);
         }
-        return null;
+        return moviesByDirector;
     }
 
     
     /** 
      * @param movieTitle
-     * @return LibraryItem - movie item with the given title
+     * @return List<LibraryItem> - all movies with the given title
      * @throws Exception
      * @author Amani Jammoul
      * checked
      */
     @Transactional
-    public LibraryItem getMovieFromTitle(String movieTitle) throws Exception{
+    public List<LibraryItem> getMoviesFromTitle(String movieTitle) throws Exception{
         if (movieTitle == null || movieTitle.trim().length() == 0) {
             throw new IllegalArgumentException("Movie title cannot be empty!");
         }
+
+        List<LibraryItem> allMovies = getAllMovies();
+        List<LibraryItem> moviesByTitle = new ArrayList<LibraryItem>();
+        for(LibraryItem a : allMovies){
+            if(a.getName().equals(movieTitle)) moviesByTitle.add(a);
+        }
+        return moviesByTitle;
+    }
+
+    /** 
+     * @param directorName
+     * @param movieTitle
+     * @return LibraryItem - music with the given title by given artist
+     * @throws Exception
+     * @author Amani Jammoul
+     */
+    @Transactional
+    public LibraryItem getMovieFromDirectorAndTitle(String directorName, String movieTitle) throws Exception{
+        if (directorName == null || directorName.trim().length() == 0) {
+            throw new IllegalArgumentException("Director name cannot be empty! ");
+        } else if (movieTitle == null || movieTitle.trim().length() == 0) {
+            throw new IllegalArgumentException("Music title cannot be empty! ");
+        }
+
         List<LibraryItem> allMovies = getAllMovies();
         for(LibraryItem a : allMovies){
-            if(a.getName().equals(movieTitle)) return a;
+            if(a.getCreator().equals(directorName) && a.getName().equals(movieTitle)) return a;
         }
         return null;
     }
@@ -279,7 +485,7 @@ public class LibraryServiceService {
     }
 
     /**
-     * Get a newspaper based on the title of the article
+     * Get newspapers based on the title of the article
      * @param newspaper article title
      * @returns a newspaper
      * @author Ramin Akhavan-Sarraf
@@ -287,19 +493,20 @@ public class LibraryServiceService {
      * checked
      */
     @Transactional
-    public LibraryItem getNewspaperFromTitle(String newspaperTitle) throws Exception{
+    public List<LibraryItem> getNewspaperFromTitle(String newspaperTitle) throws Exception{
         if (newspaperTitle == null || newspaperTitle.trim().length() == 0) {
-            throw new IllegalArgumentException("newspaper title cannot be empty!");
+            throw new IllegalArgumentException("Newspaper title cannot be empty!");
         }
         List<LibraryItem> allNewspapers = getAllNewspapers();
+        List<LibraryItem> newspapersByTitle = new ArrayList<LibraryItem>();
         for(LibraryItem newspaper : allNewspapers){
-            if(newspaper.getName().equals(newspaperTitle)) return newspaper;
+            if(newspaper.getName().equals(newspaperTitle)) newspapersByTitle.add(newspaper);
         }
-        return null;
+        return newspapersByTitle;
     }
 
     /**
-     * Get a newspaper based on the writer of the article
+     * Get newspapers based on the writer of the article
      * @param newspaper article writer
      * @returns a newspaper
      * @author Ramin Akhavan-Sarraf
@@ -307,13 +514,36 @@ public class LibraryServiceService {
      * checked
      */
     @Transactional
-    public LibraryItem getNewspaperFromWriter(String writerName) throws Exception{
+    public List<LibraryItem> getNewspaperFromWriter(String writerName) throws Exception{
         if (writerName == null || writerName.trim().length() == 0) {
             throw new IllegalArgumentException("Writer Name  cannot be empty!");
         } 
         List<LibraryItem> allNewspapers = getAllNewspapers();
+        List<LibraryItem> newspapersByWriter = new ArrayList<LibraryItem>();
         for(LibraryItem newspaper : allNewspapers){
-            if(newspaper.getCreator().equals(writerName)) return newspaper;
+            if(newspaper.getCreator().equals(writerName)) newspapersByWriter.add(newspaper);
+        }
+        return newspapersByWriter;
+    }
+
+    /** 
+     * @param writerName
+     * @param newspaperTitle
+     * @return LibraryItem - music with the given title by given artist
+     * @throws Exception
+     * @author Amani Jammoul
+     */
+    @Transactional
+    public LibraryItem getNewspaperFromWriterAndTitle(String writerName, String newspaperTitle) throws Exception{
+        if (writerName == null || writerName.trim().length() == 0) {
+            throw new IllegalArgumentException("Writer name cannot be empty! ");
+        } else if (newspaperTitle == null || newspaperTitle.trim().length() == 0) {
+            throw new IllegalArgumentException("Newspaper title cannot be empty! ");
+        }
+
+        List<LibraryItem> allNewspapers = getAllNewspapers();
+        for(LibraryItem a : allNewspapers){
+            if(a.getCreator().equals(writerName) && a.getName().equals(newspaperTitle)) return a;
         }
         return null;
     }
@@ -346,6 +576,33 @@ public class LibraryServiceService {
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
         }
+
+        error = "";
+        // UserAccount validation
+        boolean validAccount = false;
+        if(account instanceof Librarian) validAccount = true;
+        else{
+            validAccount = ((Patron) account).getValidatedAccount(); 
+        }
+
+        if(!validAccount){
+            error = "User account is unvalidated, cannot complete item reservation transaction! ";
+        }
+
+        // Item validation
+        if(item.getLibraryItem().getType() == ItemType.NewspaperArticle){
+            error += "Newspapers cannot be reserved, only viewed ; item reservation transaction not complete! ";
+        } else if(item.getLibraryItem().getType() == ItemType.Room){
+            error += "Rooms cannot be reserved as such, please try a room reservation transaction! ";
+        }
+        else if(item.getState() != ItemState.Available){
+            error += "Item is not available for reservation, please try waitlist! ";
+        }
+
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
         
         LocalDate localDeadline = LocalDate.now().plusDays(7); // 7 day deadline for reservation?
         Date deadline = Date.valueOf(localDeadline);
@@ -359,12 +616,15 @@ public class LibraryServiceService {
      * Creates a room reservation transaction between a user account and a room (borrowable item)
      * @param item
      * @param account
+     * @param date - date of reservation
+     * @param startTime - start time of reservation
+     * @param endTime - end time of reservation
      * @return Transaction - Type : RoomReservation
      * @author Amani Jammoul
      * checked
      */
     @Transactional
-    public Transaction createRoomReserveTransaction(BorrowableItem item, UserAccount account){
+    public Transaction createRoomReserveTransaction(BorrowableItem item, UserAccount account, Date date, Time startTime, Time endTime){
         // Input validation
         String error = "";
         if (item == null) {
@@ -377,7 +637,36 @@ public class LibraryServiceService {
             error = error + "Account cannot be null! ";
         } else if (userAccountRepository.findUserAccountByUserID(account.getUserID()) == null){
             error += "User does not exist!";
+        } 
+        int check = startTime.compareTo(endTime);
+        if(check > 0){
+            error += "Start time must be before end time! ";
         }
+
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
+
+        error = "";
+        // UserAccount validation
+        boolean validAccount = false;
+        if(account instanceof Librarian) validAccount = true;
+        else{
+            validAccount = ((Patron) account).getValidatedAccount(); 
+        }
+
+        if(!validAccount){
+            error = "User account is unvalidated, cannot complete item reservation transaction! ";
+        }
+
+        // Item validation
+        if(item.getLibraryItem().getType() != ItemType.Room){
+            error += "Item is not a room, cannot complete room reservation transaction! ";
+        } else if(item.getState() != ItemState.Available){
+            error += "Room is not available for reservation, please try waitlist! ";
+        }
+
         error = error.trim();
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
@@ -412,6 +701,35 @@ public class LibraryServiceService {
         } else if (userAccountRepository.findUserAccountByUserID(account.getUserID()) == null){
             error += "User does not exist!";
         }
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
+
+        error = "";
+        // UserAccount validation
+        boolean validAccount = false;
+        if(account instanceof Librarian) validAccount = true;
+        else{
+            validAccount = ((Patron) account).getValidatedAccount(); 
+        }
+
+        if(!validAccount){
+            error = "User account is unvalidated, cannot complete borrow transaction! ";
+        }
+
+        int borrowedItems = getBorrowedItemsFromUser(account).size();
+        if(borrowedItems >= 25){
+            error += "User already has 25 borrowable items, cannot borrow any more before returning! ";
+        }
+
+        // Item validation
+        if(item.getState() != ItemState.Available){
+            error += "This item is not available and cannot be borrowed, please try waitlist! ";
+        } else if(item.getLibraryItem().getType() == ItemType.Room || item.getLibraryItem().getType() == ItemType.NewspaperArticle){
+            error += "This item cannot be borrowed! ";
+        }
+
         error = error.trim();
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
@@ -487,10 +805,32 @@ public class LibraryServiceService {
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
         }
-        
-        if(item.getState()!=ItemState.Borrowed){
-            error = error + "The item is available for reservation or borrowing no Waitlist can be created";
+
+        error = "";
+        // UserAccount validation
+        boolean validAccount = false;
+        if(account instanceof Librarian) validAccount = true;
+        else{
+            validAccount = ((Patron) account).getValidatedAccount(); 
         }
+
+        if(!validAccount){
+            error = "User account is unvalidated, cannot complete waitlist transaction! ";
+        }
+        
+        // Item validation
+        if(item.getLibraryItem().getType() == ItemType.NewspaperArticle){
+            error += "Newspapers cannot be borrowed and therefore do not have a waitlist ; waitlist transaction not complete! ";
+        }
+        else if(item.getState() != ItemState.Borrowed){
+            error += "This item is available for reservation or borrowing, no Waitlist necessary! ";
+        }
+
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
+
         Transaction itemReservation = new Transaction(item, account, TransactionType.Waitlist, null); // No deadline for waitlist
         transactionRepository.save(itemReservation);
         return itemReservation;
@@ -519,6 +859,29 @@ public class LibraryServiceService {
         } else if (userAccountRepository.findUserAccountByUserID(account.getUserID()) == null){
             error += "User does not exist!";
         }
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
+
+        error = "";
+        // UserAccount validation
+        boolean validAccount = false;
+        if(account instanceof Librarian) validAccount = true;
+        else{
+            validAccount = ((Patron) account).getValidatedAccount(); 
+        }
+
+        if(!validAccount){
+            error = "User account is unvalidated, cannot complete waitlist transaction! ";
+        }
+
+        // Item validation
+        int waitlistSize = getUsersOnWaitlist(item).size();
+        if(waitlistSize != 0){
+            error += "There are users on the waitlist, cannot complete renewal transaction (please return item)! ";
+        }
+
         error = error.trim();
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
@@ -559,6 +922,7 @@ public class LibraryServiceService {
         } else if(userAccountRepository.findUserAccountByUserID(account.getUserID()) == null){
             throw new IllegalArgumentException("User does not exist!");
         }
+
         List<Transaction> allUserTransactions = transactionRepository.findByUserAccount(account);
         List<BorrowableItem> allBorrowedItems = new ArrayList<BorrowableItem>();
         for(Transaction t : allUserTransactions){
@@ -582,6 +946,7 @@ public class LibraryServiceService {
         } else if(userAccountRepository.findUserAccountByUserID(account.getUserID()) == null){
             throw new IllegalArgumentException("User does not exist!");
         }
+
         List<Transaction> allUserTransactions = transactionRepository.findByUserAccount(account);
         List<BorrowableItem> allReservedItems = new ArrayList<BorrowableItem>();
         for(Transaction t : allUserTransactions){
@@ -590,6 +955,29 @@ public class LibraryServiceService {
             } 
         }
         return allReservedItems;
+    }
+
+    /** 
+     * @param account
+     * @return List<BorrowableItem> - list of all items user is on the waitlist for
+     * @author Amani Jammoul
+     */
+    @Transactional
+    public List<BorrowableItem> getItemWaitlistsFromUser(UserAccount account){
+        if (account == null) {
+            throw new IllegalArgumentException("Account cannot be null!");
+        } else if(userAccountRepository.findUserAccountByUserID(account.getUserID()) == null){
+            throw new IllegalArgumentException("User does not exist!");
+        }
+
+        List<Transaction> allUserTransactions = transactionRepository.findByUserAccount(account);
+        List<BorrowableItem> allItemWaitlists = new ArrayList<BorrowableItem>();
+        for(Transaction t : allUserTransactions){
+            if(t.getTransactionType().equals(TransactionType.Waitlist)){
+                allItemWaitlists.add(t.getBorrowableItem()); 
+            } 
+        }
+        return allItemWaitlists;
     }
 
     
