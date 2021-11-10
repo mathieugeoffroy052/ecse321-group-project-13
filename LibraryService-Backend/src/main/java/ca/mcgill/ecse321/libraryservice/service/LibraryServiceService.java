@@ -1342,6 +1342,8 @@ public class LibraryServiceService {
      */
     @Transactional
     public List<TimeSlot> getTimeSlotsFromLibrarianFirstNameAndLastName(String firstName, String lastName) throws Exception {
+        if (firstName == null || firstName.trim().length() == 0) throw new IllegalArgumentException("Invalid firstname");
+        if (lastName == null || lastName.trim().length() == 0) throw new IllegalArgumentException("Invalid lastname");
         Librarian librarian = getLibrarianFromFullName(firstName, lastName);
         List<TimeSlot> librarianTimeSlots = timeSlotRepository.findByLibrarian(librarian);
         return librarianTimeSlots;
@@ -1357,6 +1359,7 @@ public class LibraryServiceService {
      */
     @Transactional
     public List<TimeSlot> getTimeSlotsFromLibrarianUserID(int id) throws Exception {
+        if (id < 1) throw new IllegalArgumentException("Invalid id");
         Librarian librarian = getLibrarianFromUserId(id);
         List<TimeSlot> librarianTimeSlots = timeSlotRepository.findByLibrarian(librarian);
         return librarianTimeSlots;
@@ -1370,7 +1373,8 @@ public class LibraryServiceService {
      * checked
     */
     @Transactional
-    public TimeSlot getTimeSlotsFromId(int id) {
+    public TimeSlot getTimeSlotsFromId(int id) throws Exception{
+        if (id < 1) throw new IllegalArgumentException("Invalid id");
         TimeSlot timeSlot = timeSlotRepository.findTimeSlotByTimeSlotID(id);
         return timeSlot;
     }
@@ -1390,6 +1394,10 @@ public class LibraryServiceService {
      */
     @Transactional
     public TimeSlot createTimeSlot(Date startDate, Time startTime, Date endDate, Time endTime) throws Exception {
+        if (startDate == null) throw new IllegalArgumentException("Invalid startDate");
+        if (startTime == null) throw new IllegalArgumentException("Invalid startTime");
+        if (endDate == null) throw new IllegalArgumentException("Invalid endDate");
+        if (endTime == null) throw new IllegalArgumentException("Invalid endTime");
         HeadLibrarian headLibrarian =getHeadLibrarian();
         TimeSlot timeSlot = new TimeSlot(startDate, startTime, endDate, endTime, headLibrarian);
         timeSlotRepository.save(timeSlot);
@@ -1487,6 +1495,7 @@ public class LibraryServiceService {
      */
     @Transactional
     public OpeningHour getOpeningHourFromID(int id) {
+        if (id < 1) throw new IllegalArgumentException("Invalid id");
         OpeningHour openingHour = openingHourRepository.findOpeningHourByHourID(id);
         return openingHour;
     }

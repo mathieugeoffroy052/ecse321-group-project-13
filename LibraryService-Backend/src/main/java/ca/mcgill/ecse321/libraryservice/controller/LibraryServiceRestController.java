@@ -138,8 +138,8 @@ public class LibraryServiceRestController {
     @PostMapping(value = {"/timeslot/assign", "/timeslot/assign/"})
     public TimeslotDTO assignTimeSlot(@RequestParam(name = "timeslot") TimeslotDTO timeslotDTO, 
                                         @RequestParam(name = "librarian") LibrarianDTO librarianDTO,
-                                        @RequestParam(name = "currentUser") UserAccount account) throws Exception {
-        if (!(account instanceof HeadLibrarian)) throw new IllegalArgumentException("Only a head librarian can assign timeslots to librarians.");
+                                        @RequestParam(name = "currentUser") UserAccountDTO account) throws Exception {
+        if (!(account instanceof HeadLibrarianDTO)) throw new IllegalArgumentException("Only a head librarian can assign timeslots to librarians.");
         Librarian librarian = convertToDomainObject(librarianDTO);
         TimeSlot timeslot = convertToDomainObject(timeslotDTO);
         return convertToDto(service.assignTimeSlotToLibrarian(timeslot, librarian));
@@ -165,7 +165,7 @@ public class LibraryServiceRestController {
      * @author Mathieu Geoffroy
      */
     @GetMapping(value = {"/timeslot/{timeslotID}", "/timeslot/{timeslotID}/"})
-    public TimeslotDTO getTimeslotById(@PathVariable(name = "timeslotID") int timeslotID) {
+    public TimeslotDTO getTimeslotById(@PathVariable(name = "timeslotID") int timeslotID) throws Exception{
         return convertToDto(service.getTimeSlotsFromId(timeslotID));
     }
 
