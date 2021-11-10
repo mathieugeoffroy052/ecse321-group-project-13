@@ -1858,7 +1858,7 @@ public class LibraryServiceService {
         getHeadLibrarianFromUserId(head.getUserID());
 
         } catch (Exception e) {
-            throw new  Exception("This User does not the credentials to delete an existing patron");
+            throw new  Exception("This user does not have the credentials to delete an existing patron");
         }
 
         try {
