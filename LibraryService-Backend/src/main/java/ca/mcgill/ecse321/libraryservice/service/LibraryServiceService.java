@@ -1949,9 +1949,6 @@ public class LibraryServiceService {
         if (account == null && error.length()==0){
             error = error + "The account cannot be null";
         }
-        if (account.getOnlineAccount() == false && error.length()==0){
-            error = error + "The account must be an online account";
-        }
         if ((aFirstName == null|| aFirstName.trim().length() == 0)&& error.length()==0) {
             error = error + "firstName cannot be empty!";
         }
@@ -1980,9 +1977,6 @@ public class LibraryServiceService {
         if (account == null && error.length()==0){
             error = error + "The account cannot be null";
         }
-        if (account.getOnlineAccount() == false && error.length()==0){
-            error = error + "The account must be an online account";
-        }
         if ((aLastname == null|| aLastname.trim().length() == 0)&& error.length()==0) {
             error = error + "lastname cannot be empty!";
         }
@@ -2010,9 +2004,6 @@ public class LibraryServiceService {
         String error = "";
         if (account == null && error.length()==0){
             error = error + "The account cannot be null";
-        }
-        if (account.getOnlineAccount() == false && error.length()==0){
-            error = error + "The account must be an online account";
         }
         if ((aAddress == null|| aAddress.trim().length() == 0)&& error.length()==0) {
             error = error + "Address cannot be empty!";
