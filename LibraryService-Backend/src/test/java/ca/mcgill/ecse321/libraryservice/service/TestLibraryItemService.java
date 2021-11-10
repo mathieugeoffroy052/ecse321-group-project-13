@@ -104,8 +104,7 @@ public class TestLibraryItemService {
 	private static final String PATRON_LAST_NAME = "John";
 	private static final boolean PATRON_VALIDATED = true;
 	private static final boolean ONLINE = true;
-	
-	private static LibraryItem book1;
+
 
 
 	@BeforeEach
@@ -115,7 +114,6 @@ public class TestLibraryItemService {
 			LibraryItem book = new LibraryItem(BOOK_NAME, BOOK_TYPE, BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
 			book.setIsbn(BOOK_ISBN);
 			
-			book1 = book;
 			
 			LibraryItem music = new LibraryItem(MUSIC_NAME, MUSIC_TYPE, MUSIC_DATE, MUSIC_CREATOR, LIBRARY_ITEM_VIEWABLE);
 			music.setIsbn(MUSIC_ISBN);
@@ -221,10 +219,141 @@ public class TestLibraryItemService {
 			fail();
 		}
 		assertNotNull(books);
-		
-		//checkResultLibraryItemList(itemReserveTrans, bookItem, pAccount);
+		checkBasicLibraryItemList(books.get(0));
 	}
 
+	@Test
+	public void testGetBooksFromTitle() throws Exception {
+		List<LibraryItem> books = null;
+		try {
+			books = service.getBooksFromTitle(BOOK_NAME);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(books);
+		checkBasicLibraryItemList(books.get(0));
+	}
+
+	@Test
+	public void testGetBooksFromAuthorAndTitle() throws Exception {
+		LibraryItem book = null;
+		try {
+			book = service.getBookFromAuthorAndTitle(BOOK_CREATOR, BOOK_NAME);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(book);
+		checkBasicLibraryItemList(book);
+	}
+
+	@Test
+	public void testGetMoviesFromAuthor() throws Exception {
+		List<LibraryItem> movies = null;
+		try {
+			movies = service.getMoviesFromDirector(MOVIE_CREATOR);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(movies);
+		checkBasicLibraryItemList(movies.get(0));
+	}
+
+	@Test
+	public void testGetMoviesFromTitle() throws Exception {
+		List<LibraryItem> movies = null;
+		try {
+			movies = service.getMoviesFromTitle(MOVIE_NAME);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(movies);
+		checkBasicLibraryItemList(movies.get(0));
+	}
+
+	@Test
+	public void testGetMoviesFromDirectorAndTitle() throws Exception {
+		LibraryItem movie = null;
+		try {
+			movie = service.getMovieFromDirectorAndTitle(MOVIE_CREATOR, MOVIE_NAME);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(movie);
+		checkBasicLibraryItemList(movie);
+	}
+
+	@Test
+	public void testGetMusicsFromArtist() throws Exception {
+		List<LibraryItem> music = null;
+		try {
+			music = service.getMusicsFromArtist(MUSIC_CREATOR);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(music);
+		checkBasicLibraryItemList(music.get(0));
+	}
+
+	@Test
+	public void testGetMusicsFromTitle() throws Exception {
+		List<LibraryItem> music = null;
+		try {
+			music = service.getMusicsFromTitle(MUSIC_NAME);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(music);
+		checkBasicLibraryItemList(music.get(0));
+	}
+
+	@Test
+	public void testGetMusicFromDirectorAndTitle() throws Exception {
+		LibraryItem music = null;
+		try {
+			music = service.getMusicFromArtistAndTitle(MUSIC_CREATOR, MUSIC_NAME);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(music);
+		checkBasicLibraryItemList(music);
+	}
+	
+	@Test
+	public void testGetNewspapersFromWritor() throws Exception {
+		List<LibraryItem> newspapers = null;
+		try {
+			newspapers = service.getNewspaperFromWriter(NEWSPAPER_CREATOR);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(newspapers);
+		checkBasicLibraryItemList(newspapers.get(0));
+	}
+
+	@Test
+	public void testGetNewspapersFromTitle() throws Exception {
+		List<LibraryItem> newspapers = null;
+		try {
+			newspapers = service.getNewspaperFromTitle(NEWSPAPER_NAME);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(newspapers);
+		checkBasicLibraryItemList(newspapers.get(0));
+	}
+
+	@Test
+	public void testGetNewspaperFromWriterAndTitle() throws Exception {
+		LibraryItem newspaper = null;
+		try {
+			newspaper = service.getNewspaperFromWriterAndTitle(NEWSPAPER_CREATOR, NEWSPAPER_NAME);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(newspaper);
+		checkBasicLibraryItemList(newspaper);
+	}
+	
 	@Test
 	public void testGetAllBooks() throws Exception {
 		List<LibraryItem> books = null;
@@ -320,13 +449,27 @@ public class TestLibraryItemService {
 	public void testGetLibraryItemsFromCreator() throws Exception {
 		List<LibraryItem> libItems = null;
 		try {
-			libItems = service.getAllLibraryItems();
+			libItems = service.getLibraryItemsFromCreator(MOVIE_CREATOR);
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
 		assertNotNull(libItems);
-		assertEquals(5, libItems.size());
+		assertEquals(1, libItems.size());
+		checkBasicLibraryItemList(libItems.get(0));
 		
 	}
-	
+
+	@Test
+	public void testGetLibraryItemsFromCreatorAndTitle() throws Exception {
+		List<LibraryItem> libItems = null;
+		try {
+			libItems = service.getLibraryItemFromCreatorAndTitle(MOVIE_CREATOR, MOVIE_NAME);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(libItems);
+		assertEquals(1, libItems.size());
+		checkBasicLibraryItemList(libItems.get(0));
+		
+	}
 }
