@@ -8,5 +8,4 @@ public interface HeadLibrarianRepository extends CrudRepository<HeadLibrarian, I
 
 	HeadLibrarian findHeadLibrarianByUserID(int userID);
 	
-	List<HeadLibrarian>  findByLastName( String lastName);
 }

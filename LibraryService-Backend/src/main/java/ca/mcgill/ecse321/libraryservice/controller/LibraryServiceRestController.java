@@ -637,11 +637,11 @@ public class LibraryServiceRestController {
  * @author Eloyann Roy Javanbakht
  * mapping for checking if only 1 librarian
  */
-    @GetMapping(value={"/headLibrarians", "/headLibrarians/"})
-    public boolean getHeadLibrarianNumberRespected() throws Exception  {
-         return service.checkOnlyOneHeadLibrarian();
-         
-    }
+@GetMapping(value={"/headLibrarians", "/headLibrarians/"})
+public boolean getHeadLibrarianNumberRespected() throws Exception  {
+        return service.checkOnlyOneHeadLibrarian();
+        
+}
 /**
  * @author Eloyann Roy Javanbakht
  * @param userID
@@ -654,7 +654,7 @@ public class LibraryServiceRestController {
        
     }
 
-    /**
+/**
  * @author Eloyann Roy Javanbakht
  *get head librarian considering theres only 1 in the system
  */
@@ -677,19 +677,19 @@ public boolean getHeadLibrarian() throws Exception  {
  * @return
  * @throws Exception
  */
-    @GetMapping(value={"/librarians/{lastName}/", "/librarians/{lastName}"})
-    public LibrarianDTO getLibrarianFromFullName(@RequestParam String firstName, 
-                                                            @RequestParam String lastName) 
-                                                            throws Exception  {
-        Librarian librarian=service.getLibrarianFromFullName(firstName, lastName);
-        return convertToDto(librarian);
-    }  
+@GetMapping(value={"/librarians/{lastName}/", "/librarians/{lastName}"})
+public LibrarianDTO getLibrarianFromFullName(@RequestParam String firstName, 
+                                                        @RequestParam String lastName) 
+                                                        throws Exception  {
+    Librarian librarian=service.getLibrarianFromFullName(firstName, lastName);
+    return convertToDto(librarian);
+}  
 
-    @GetMapping(value={"/ibrarians/{userID}", "/librarians/{userID}/"})
-    public LibrarianDTO getLibrarianFromUserId(@PathVariable("userID") int userID) throws Exception  {
-        Librarian librarian=service.getLibrarianFromUserId(userID);
-        return convertToDto(librarian);
-    }  
+@GetMapping(value={"/librarians/{userID}", "/librarians/{userID}/"})
+public LibrarianDTO getLibrarianFromUserId(@PathVariable("userID") int userID) throws Exception  {
+    Librarian librarian=service.getLibrarianFromUserId(userID);
+    return convertToDto(librarian);
+}  
 
 /**
  * delete Librarian
@@ -717,9 +717,9 @@ public boolean deleteALibrarian(@PathVariable("userID") int userID) throws Excep
     /**
      * create HeadLibrarian
      */
-    @PostMapping(value="path")
+    @PostMapping(value={"/createHeadLibrarian/{firstName}/{lastName}", "/createHeadLibrarian/{firstName}/{lastName}/"})
     public HeadLibrarianDTO createHeadLibrarian(@PathVariable("firstName") String firstName,
-    @RequestParam String aLastName,
+    @PathVariable String aLastName,
 
     @RequestParam boolean aOnlineAccount,
     @RequestParam String aAddress,

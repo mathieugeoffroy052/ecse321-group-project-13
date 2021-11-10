@@ -652,13 +652,12 @@ public class LibraryServiceService {
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
         }
-         List<HeadLibrarian> headlibrarians =  headLibrarianRepository.findByLastName(lastName);
+        UserAccount head =  userAccountRepository.findByFirstNameAndLastName(firstName, lastName);
        
-        for (HeadLibrarian n: headlibrarians){
-            if(n.getFirstName().equals(firstName) ) return n;
-
+        if (!(head instanceof HeadLibrarian)){
+            throw new IllegalArgumentException("This there is no head Librarian by this name.");
         }
-        return null;
+        return (HeadLibrarian)head;
 
     }
 
@@ -849,19 +848,13 @@ public class LibraryServiceService {
             }
 
 
-                List<Librarian> librarians = librarianRepository.findByLastName(lastName);
+                UserAccount librarian = userAccountRepository.findByFirstNameAndLastName(firstName, lastName);
             
-            for (Librarian n: librarians){
-                if(n.getFirstName().equals(firstName)){
-                
-                return n;
-                }
+            if(!(librarian instanceof Librarian)){
+                throw new Exception("the name privided does not correcpond to a librarian");
             }
-            throw new Exception("the name privided does not correcpond to a librarian");
-            
-            
-            
-    
+            return (Librarian) librarian;
+
         }
 
        public Librarian getLibrarianFromUserId(int userID) throws Exception{
