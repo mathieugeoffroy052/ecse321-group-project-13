@@ -1818,10 +1818,10 @@ public class LibraryServiceService {
        		
         String error = "";
         if (firstName == null || firstName.trim().length() == 0) {
-            error = error + "First Name  cannot be empty! ";
+            error = error + "First Name cannot be empty!";
         }
         if (lastName == null || lastName.trim().length() == 0) {
-            error = error + "Last Name  cannot be empty! ";
+            error = error + "Last Name cannot be empty!";
         }
         error = error.trim();
         if (error.length() > 0) {

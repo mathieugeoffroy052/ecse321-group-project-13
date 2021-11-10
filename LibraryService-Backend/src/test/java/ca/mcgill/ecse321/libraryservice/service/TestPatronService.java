@@ -350,20 +350,21 @@ public void testGetPatronFromID() throws Exception {
 	assertEquals(PATRON_ID, service.getPatronByUserId(PATRON_ID).getPatronID());
 }
 
-//@Test 
-//public void testDeletePatronByUserIDSuccessful() throws Exception{
-//	
-//		HeadLibrarian headlibrarian = new HeadLibrarian();
-//		headlibrarian.setUserID(HEAD_ID);
-//		try {
-//			service.deleteAPatronbyUserID(headlibrarian, PATRON_ID);
-//		
-//		}
-//		catch (IllegalArgumentException e) {
-//			fail();
-//			
-//		}
-//	}
+@Test 
+public void testDeletePatronByUserIDSuccessful() throws Exception{
+	
+		HeadLibrarian headlibrarian = new HeadLibrarian();
+		headlibrarian.setUserID(HEAD_ID);
+		try {
+			service.deleteAPatronbyUserID(headlibrarian, PATRON_ID);
+		
+		}
+		catch (IllegalArgumentException e) {
+			fail();
+			
+		}
+	}
+
 @Test
 public void testDeletePatronByUserIDWrongCreator() throws Exception{
 	String error ="";
@@ -380,11 +381,153 @@ public void testDeletePatronByUserIDWrongCreator() throws Exception{
 	assertEquals("This user does not have the credentials to delete an existing patron", error);
 }
 
-
 @Test
-public void testGetPatronFromFullName() throws Exception {
-	//assertEquals(PATRON_FIRST_NAME, PATRON_LAST_NAME, service.getPatronFromFullName(PATRON_FIRST_NAME, PATRON_LAST_NAME).getFirstName(), service.getPatronFromFullName(PATRON_FIRST_NAME, PATRON_LAST_NAME).getLastName());
+public void testGetPatronFromFullNameSuccessful() throws Exception {
+	assertEquals(0, service.getAllPatrons().size());
+	
+	Patron patron = null;
+	try {
+		patron = service.getPatronFromFullName(PATRON_FIRST_NAME, PATRON_LAST_NAME);
+		
+	}
+	catch (IllegalArgumentException e) {
+		fail();
+		
+	}
+		//verify error
+		assertEquals(PATRON_FIRST_NAME, patron.getFirstName());
+		assertEquals(PATRON_LAST_NAME, patron.getLastName());
+		
+		
+}
+@Test
+public void testGetPatronFromFullNameNullFirstName() throws Exception {
+	
+	String error = null;
+	Patron patron = null;
+	String firstName = null;
+	try {
+		patron = service.getPatronFromFullName(firstName, PATRON_LAST_NAME);
+		
+	}
+	catch (IllegalArgumentException e) {
+		error = e.getMessage();
+		
+	}
+		assertNull(patron);
+		
+		//verify error
+		assertEquals("First Name cannot be empty!", error);
 	
 }
+@Test
+public void testGetPatronFromFullNameEmptyFirstName() throws Exception {
+	
+	String error = null;
+	Patron patron = null;
+	String firstName = "";
+	try {
+		patron = service.getPatronFromFullName(firstName, PATRON_LAST_NAME);
+		
+	}
+	catch (IllegalArgumentException e) {
+		error = e.getMessage();
+		
+	}
+		assertNull(patron);
+		
+		//verify error
+		assertEquals("First Name cannot be empty!", error);
+	
+}
+
+@Test
+public void testGetPatronFromFullNameNullLastName() throws Exception {
+	
+	String error = null;
+	Patron patron = null;
+	String lastName = null;
+	try {
+		patron = service.getPatronFromFullName(PATRON_FIRST_NAME, lastName);
+		
+	}
+	catch (IllegalArgumentException e) {
+		error = e.getMessage();
+		
+	}
+		assertNull(patron);
+		
+		//verify error
+		assertEquals("Last Name cannot be empty!", error);
+	
+}
+
+@Test
+public void testGetPatronFromFullNameEmptyLastName() throws Exception {
+	
+	String error = null;
+	Patron patron = null;
+	String lastName = "";
+	try {
+		patron = service.getPatronFromFullName(PATRON_FIRST_NAME, lastName);
+		
+	}
+	catch (IllegalArgumentException e) {
+		error = e.getMessage();
+		
+	}
+		assertNull(patron);
+		
+		//verify error
+		assertEquals("Last Name cannot be empty!", error);
+	
+}
+@Test
+public void testSetValidatedAccountSuccessful() throws Exception {
+	
+	String error = null;
+	Patron patron1 = null;
+	
+	
+	try {
+		patron1 = service.setValidatedAccount(service.getPatronFromFullName(PATRON_FIRST_NAME, PATRON_LAST_NAME), PATRON_VALIDATED_ACCOUNT, PATRON_CREATOR);
+		
+	}
+	catch (IllegalArgumentException e) {
+		error = e.getMessage();
+		
+	}
+		//assertNull(patron);
+		assertEquals(PATRON_VALIDATED_ACCOUNT, patron1.getValidatedAccount());
+		//verify error
+		
+	
+}
+
+@Test
+public void testSetValidatedAccountWrongCreator() throws Exception {
+	
+	String error = null;
+	Patron creator = new Patron();
+	Patron patron = null;
+	
+	try {
+		patron = service.setValidatedAccount(service.getPatronFromFullName(PATRON_FIRST_NAME, PATRON_LAST_NAME), PATRON_VALIDATED_ACCOUNT, creator);
+		
+	}
+	catch (IllegalArgumentException e) {
+		error = e.getMessage();
+		
+	}
+		//verify error
+		assertNull(patron);
+		assertEquals("Only a Librarian can change the validity of an account", error);
+		
+		
+	
+}
+
+
+
 	
 }
