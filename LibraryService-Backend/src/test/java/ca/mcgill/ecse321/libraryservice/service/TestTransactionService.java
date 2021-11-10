@@ -5,6 +5,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -34,6 +35,7 @@ import org.mockito.stubbing.Answer;
 import ca.mcgill.ecse321.libraryservice.model.*;
 import ca.mcgill.ecse321.libraryservice.model.BorrowableItem.ItemState;
 import ca.mcgill.ecse321.libraryservice.model.LibraryItem.ItemType;
+import ca.mcgill.ecse321.libraryservice.model.Transaction.TransactionType;
 import ca.mcgill.ecse321.libraryservice.dao.*;
 
 
@@ -68,7 +70,13 @@ public class TestTransactionService {
 	private static final String NEWSPAPER_NAME = "First edition";
 	private static final ItemType NEWSPAPER_TYPE = ItemType.NewspaperArticle;
 	private static final Date NEWSPAPER_DATE = Date.valueOf("1999-03-15");
-
+	
+	private static final int MUSIC_ISBN = 125;
+	private static final String MUSIC_CREATOR = "Drake";
+	private static final String MUSIC_NAME = "One Dance";
+	private static final ItemType MUSIC_TYPE = ItemType.Music;
+	private static final Date MUSIC_DATE = Date.valueOf("2018-04-25");
+	
 	private static final String ROOM_NAME = "Room 1";
 	private static final ItemType ROOM_TYPE = ItemType.Room;
 
@@ -76,6 +84,8 @@ public class TestTransactionService {
 	private static final int BOOK_BARCODENUMBER = 123456;
 	private static final int NEWSPAPER_BARCODENUMBER = 1111111;
     private static final int ROOM_BARCODENUMBER = 999999;
+	private static final int MOVIE_BARCODENUMBER = 1212121;
+    private static final int MUSIC_BARCODENUMBER = 989898;
 
 	private static final ItemState AVAILABLE_STATE = ItemState.Available;
 	private static final ItemState BORROWED_STATE = ItemState.Borrowed;
@@ -87,6 +97,15 @@ public class TestTransactionService {
 	private static final String PATRON_LAST_NAME = "John";
 	private static final boolean PATRON_VALIDATED = true;
 	private static final boolean ONLINE = true;
+
+	/* Transaction attributes*/
+	private static final int TRANSACTION_ID = 777;
+	private static final Date TRANSACTION_DATE = Date.valueOf("2022-03-15");;
+	private static final TransactionType TRANSACTION_TYPE = TransactionType.Borrowing;
+
+	private static final int TRANSACTION_ID_2 = 888;
+	private static final Date TRANSACTION_DATE_2 = Date.valueOf("2021-03-15");;
+	private static final TransactionType TRANSACTION_TYPE_2 = TransactionType.ItemReservation;
 
 
 	@BeforeEach
@@ -131,6 +150,50 @@ public class TestTransactionService {
 				pAccount.setOnlineAccount(ONLINE);
 				return pAccount;
 			} 
+			else {
+				return null;
+			}
+		});
+		lenient().when(transactionDao.findByUserAccount(any(UserAccount.class))).thenAnswer((InvocationOnMock invocation) -> {
+			if (invocation.getArgument(0).toString().contains(PATRON_FIRST_NAME)) {
+				List<Transaction> transactions = new ArrayList<>();
+				Patron pAccount = new Patron();
+				pAccount.setFirstName(PATRON_FIRST_NAME);
+				pAccount.setLastName(PATRON_LAST_NAME);
+				pAccount.setValidatedAccount(PATRON_VALIDATED);
+				pAccount.setOnlineAccount(ONLINE);
+				
+				LibraryItem book = new LibraryItem(BOOK_NAME, BOOK_TYPE, BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
+				book.setIsbn(BOOK_ISBN);
+				BorrowableItem bookItem = new BorrowableItem(AVAILABLE_STATE, book);
+				bookItem.setBarCodeNumber(BOOK_BARCODENUMBER);
+
+				LibraryItem music = new LibraryItem(MUSIC_NAME, MUSIC_TYPE, MUSIC_DATE, MUSIC_CREATOR, LIBRARY_ITEM_VIEWABLE);
+				music.setIsbn(MUSIC_ISBN);
+				BorrowableItem musicItem = new BorrowableItem(AVAILABLE_STATE, music);
+				musicItem.setBarCodeNumber(MUSIC_BARCODENUMBER);
+				
+				Transaction transaction = new Transaction();
+				transaction.setDeadline(TRANSACTION_DATE);
+				transaction.setBorrowableItem(bookItem);
+				transaction.setUserAccount(pAccount);
+				transaction.setTransactionType(TRANSACTION_TYPE);
+				transaction.setTransactionID(TRANSACTION_ID);
+				
+				transactions.add(transaction);
+
+				Transaction transaction2 = new Transaction();
+				transaction2.setDeadline(TRANSACTION_DATE_2);
+				transaction2.setBorrowableItem(musicItem);
+				transaction2.setUserAccount(pAccount);
+				transaction2.setTransactionType(TRANSACTION_TYPE_2);
+				transaction2.setTransactionID(TRANSACTION_ID_2);
+				transactions.add(transaction2);
+				
+				
+				return transactions;
+			} 
+
 			else {
 				return null;
 			}
@@ -353,6 +416,64 @@ public class TestTransactionService {
 		assertNotNull(transaction);
 		assertEquals(borrowableItem, transaction.getBorrowableItem());
 		assertEquals(userAccount, transaction.getUserAccount());
+	}
+
+	@Test
+	public void testGetBorrowedItemsFromUser() throws Exception {
+		Patron pAccount = new Patron();
+		pAccount.setFirstName(PATRON_FIRST_NAME);
+		pAccount.setLastName(PATRON_LAST_NAME);
+		pAccount.setValidatedAccount(PATRON_VALIDATED);
+		pAccount.setOnlineAccount(ONLINE);
+		
+		List<BorrowableItem> borrowedItems = null;
+		try {
+			borrowedItems = service.getBorrowedItemsFromUser(pAccount);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(borrowedItems);
+		assertEquals(1, borrowedItems.size());
+		checkUserItems(borrowedItems.get(0));
+		
+	}
+
+	@Test
+	public void testGetReservedItemsFromUser() throws Exception {
+		Patron pAccount = new Patron();
+		pAccount.setFirstName(PATRON_FIRST_NAME);
+		pAccount.setLastName(PATRON_LAST_NAME);
+		pAccount.setValidatedAccount(PATRON_VALIDATED);
+		pAccount.setOnlineAccount(ONLINE);
+		
+		List<BorrowableItem> reservedItems = null;
+		try {
+			reservedItems = service.getReservedItemsFromUser(pAccount);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(reservedItems);
+		assertEquals(1, reservedItems.size());
+		checkUserItems(reservedItems.get(0));
+		
+	}
+	
+	public void checkUserItems(BorrowableItem borrowableItem) {
+		if(borrowableItem.getLibraryItem().getType() == ItemType.Book) {
+			assertEquals(borrowableItem.getBarCodeNumber(), BOOK_BARCODENUMBER);
+		}
+		else if (borrowableItem.getLibraryItem().getType() == ItemType.Movie){
+			assertEquals(borrowableItem.getBarCodeNumber(), MOVIE_BARCODENUMBER);
+		}
+		else if (borrowableItem.getLibraryItem().getType() == ItemType.Music) {
+			assertEquals(borrowableItem.getBarCodeNumber(), MUSIC_BARCODENUMBER);
+		}
+		else if (borrowableItem.getLibraryItem().getType() == ItemType.NewspaperArticle){
+			assertEquals(borrowableItem.getBarCodeNumber(), NEWSPAPER_BARCODENUMBER);
+		} 
+		else {
+			assertEquals(borrowableItem.getBarCodeNumber(), ROOM_BARCODENUMBER);
+		}
 	}
     
 }

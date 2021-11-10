@@ -96,7 +96,7 @@ public class TestBorrowableItemService {
 	private static final ItemState AVAILABLE_STATE = ItemState.Available;
 	private static final ItemState BORROWED_STATE = ItemState.Borrowed;
 
-	private static final ItemState BOOK_STATE = BORROWED_STATE;
+	private static final ItemState BOOK_STATE = AVAILABLE_STATE;
 	/* Patron attributes*/
 	private static final int VALID_PATRON_USER_ID = 8;
 	private static final int INVALID_PATRON_USER_ID = 7;

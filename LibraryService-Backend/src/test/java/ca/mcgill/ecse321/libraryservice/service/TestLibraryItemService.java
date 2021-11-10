@@ -86,25 +86,6 @@ public class TestLibraryItemService {
 	private static final String ROOM_NAME = "Room 1";
 	private static final ItemType ROOM_TYPE = ItemType.Room;
 
-	/* Borrowable Item attributes*/
-	private static final int BOOK_BARCODENUMBER = 123456;
-	private static final int NEWSPAPER_BARCODENUMBER = 1111111;
-    private static final int ROOM_BARCODENUMBER = 999999;
-	private static final int MOVIE_BARCODENUMBER = 1212121;
-    private static final int MUSIC_BARCODENUMBER = 989898;
-
-	private static final ItemState AVAILABLE_STATE = ItemState.Available;
-	private static final ItemState BORROWED_STATE = ItemState.Borrowed;
-
-	private static final ItemState BOOK_STATE = BORROWED_STATE;
-	/* Patron attributes*/
-	private static final int VALID_PATRON_USER_ID = 8;
-	private static final int INVALID_PATRON_USER_ID = 7;
-	private static final String PATRON_FIRST_NAME = "Jimmy";
-	private static final String PATRON_LAST_NAME = "John";
-	private static final boolean PATRON_VALIDATED = true;
-	private static final boolean ONLINE = true;
-
 
 
 	@BeforeEach
@@ -450,6 +431,20 @@ public class TestLibraryItemService {
 		List<LibraryItem> libItems = null;
 		try {
 			libItems = service.getLibraryItemsFromCreator(MOVIE_CREATOR);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(libItems);
+		assertEquals(1, libItems.size());
+		checkBasicLibraryItemList(libItems.get(0));
+		
+	}
+
+	@Test
+	public void testGetLibraryItemsFromTitle() throws Exception {
+		List<LibraryItem> libItems = null;
+		try {
+			libItems = service.getLibraryItemsFromTitle(ROOM_NAME);
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
