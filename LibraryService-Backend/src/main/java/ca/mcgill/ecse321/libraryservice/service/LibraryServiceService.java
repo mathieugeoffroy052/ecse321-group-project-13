@@ -118,6 +118,7 @@ public class LibraryServiceService {
         }
         List<LibraryItem> allBooks = getAllBooks();
         for(LibraryItem a : allBooks){
+        	System.err.println("hi");
             if(a.getName().equals(bookTitle)) return a;
         }
         return null;
