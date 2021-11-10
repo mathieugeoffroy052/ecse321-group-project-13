@@ -4,6 +4,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -17,6 +18,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -55,7 +57,6 @@ private static final String PATRON_ADDRESS = "123 Smith Street";
 private static final boolean PATRON_VALIDATED_ACCOUNT = false;
 private static final String PATRON_PASSWORD = "patron123";
 private static final int HEAD_ID = 100;
-Patron patron = new Patron();
 
 @BeforeEach
 public void setMockOutput() {
@@ -74,18 +75,50 @@ public void setMockOutput() {
             patron.setValidatedAccount(PATRON_VALIDATED_ACCOUNT);
             
            
-            
+             
             return patron;
         } else {
             return null;
         }
     });
+    lenient().when(patronDAO.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
+		Patron patron = new Patron();
+		patron.setPatronID(PATRON_ID);
+        patron.setFirstName(PATRON_FIRST_NAME);
+        patron.setLastName(PATRON_LAST_NAME); 
+        patron.setEmail(PATRON_EMAIL);
+        patron.setPassword(PATRON_PASSWORD);
+        patron.setBalance(PATRON_BALANCE);
+        patron.setOnlineAccount(PATRON_ONLINE_ACCOUNT);
+        patron.setAddress(PATRON_ADDRESS);
+        patron.setValidatedAccount(PATRON_VALIDATED_ACCOUNT);
+        
+		List<Patron> patrons = new ArrayList<Patron>();
+		patrons.add(patron);
+		return patrons;
+	});
     
+//    lenient().when(patronDAO.delete(any_Patron())).thenAnswer( (InvocationOnMock invocation) -> {
+//		 	
+//    	HeadLibrarian headlibrarian = new HeadLibrarian();
+//            headlibrarian.setLibrarianID(12345);
+//            headlibrarian.setFirstName("head");
+//            headlibrarian.setLastName("lib"); 
+//            headlibrarian.setEmail("headlib@email.com");
+//            headlibrarian.setPassword("library123");
+//            headlibrarian.setBalance(0);
+//            headlibrarian.setOnlineAccount(true);
+//            headlibrarian.setAddress("100 Library Street");
+//        
+//		
+//		return headlibrarian;
+//	});
  // Whenever anything is saved, just return the parameter object
  		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
  			return invocation.getArgument(0);
  		};
 lenient().when(patronDAO.save(any(Patron.class))).thenAnswer(returnParameterAsAnswer);
+lenient().when(userAccountDAO.save(any(UserAccount.class))).thenAnswer(returnParameterAsAnswer);
 }
 
 @Test
@@ -352,16 +385,31 @@ public void testGetPatronFromID() throws Exception {
 @Test 
 public void testDeletePatronByUserIDSuccessful() throws Exception{
 	
-		HeadLibrarian headlibrarian = new HeadLibrarian();
-		headlibrarian.setUserID(HEAD_ID);
+	 HeadLibrarian headlibrarian = new HeadLibrarian();
+     headlibrarian.setLibrarianID(12345);
+     headlibrarian.setFirstName("head");
+     headlibrarian.setLastName("lib"); 
+     headlibrarian.setEmail("headlib@email.com");
+     headlibrarian.setPassword("library123");
+     headlibrarian.setBalance(0);
+     headlibrarian.setOnlineAccount(true);
+     headlibrarian.setAddress("100 Library Street");
+      
+		Patron patron = null;
 		try {
-			service.deleteAPatronbyUserID(headlibrarian, PATRON_ID);
+			patron = service.deleteAPatronbyUserID(headlibrarian, PATRON_ID);
 		
 		}
 		catch (IllegalArgumentException e) {
 			fail();
 			
 		}
+		assertEquals(PATRON_ADDRESS, patron.getAddress());
+		assertEquals(PATRON_ONLINE_ACCOUNT, patron.getOnlineAccount());
+		assertEquals(PATRON_VALIDATED_ACCOUNT, patron.getValidatedAccount());
+		assertEquals(PATRON_EMAIL, patron.getEmail());
+		assertEquals(PATRON_PASSWORD, patron.getPassword());
+		assertEquals(PATRON_BALANCE, patron.getBalance());
 		patronDAO.deleteAll();
         userAccountDAO.deleteAll();
 	}
@@ -386,7 +434,6 @@ public void testDeletePatronByUserIDWrongCreator() throws Exception{
 
 @Test
 public void testGetPatronFromFullNameSuccessful() throws Exception {
-	assertEquals(0, service.getAllPatrons().size());
 	
 	Patron patron = null;
 	try {
@@ -582,31 +629,19 @@ public void testSetValidatedAccountNullPatron() throws Exception {
 public void testGetAllPatronsSuccessful() throws Exception {
 List<Patron> patrons = null;
 String error = "";
-
+	Patron patron = null;
 	try {
 		patrons = service.getAllPatrons();
+		patron = patrons.get(0);
 	}
 	catch (IllegalArgumentException e) {
 		error = e.getMessage();
 		
 	}
-		
+	assertNotNull(patron);
+	assertEquals(PATRON_FIRST_NAME, patron.getFirstName());
+	assertEquals(PATRON_LAST_NAME, patron.getLastName());
 }
-@Test
-public void testGetAllPatronsEmpty() throws Exception {
-List<Patron> patrons = null;
-String error = "";
-assertEquals(0, service.getAllPatrons().size());
 
-	try {
-		patrons = service.getAllPatrons();
-	}
-	catch (IllegalArgumentException e) {
-		error = e.getMessage();
-		
-	}
-		assertTrue(patrons.isEmpty());
-	
-}
 	
 }
