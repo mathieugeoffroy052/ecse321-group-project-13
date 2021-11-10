@@ -56,21 +56,6 @@ private static final String USER_ADDRESS = "123 Smith Street";
 private static final boolean USER_VALIDATED_ACCOUNT = false;
 private static final String USER_PASSWORD = "patron123";
 
-    // @AfterEach
-    // public void clearDatabase() {
-    //     //delete all instances from bottom to top of model
-    //     holidayRepository.deleteAll();
-    //     openingHourRepository.deleteAll();
-    //     timeSlotRepository.deleteAll();
-    //     headLibrarianRepository.deleteAll();
-    //     librarianRepository.deleteAll();
-    //     patronRepository.deleteAll();
-    //     transactionRepository.deleteAll();
-    //     borrowableItemRepository.deleteAll();
-    //     librarianRepository.deleteAll();
-    //     libraryItemRepository.deleteAll();
-    //     userAccountRepository.deleteAll();
-    // }
 
     //UserAccount creator, String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, boolean aValidatedAccount, String aPassword, int aBalance, String aEmail
     @BeforeEach
@@ -293,8 +278,32 @@ private static final String USER_PASSWORD = "patron123";
             
     }
 
+    /**
+     * This method test the successful change of the user's address
+     * @throws Exception
+     */
+    @Test
     public void testUpdateAddressSuccessful() throws Exception {
-        
+        Patron patron = null;
+	
+        try {
+            patron = service.createPatron(USER_CREATOR, USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_VALIDATED_ACCOUNT, USER_PASSWORD, USER_BALANCE, USER_EMAIL);
+        }
+        catch (IllegalArgumentException e) {
+            fail();
+        }
+        String address = "2 Avenue bobRoss";
+        UserAccount account = service.changeAddress(address, patron);
+        assertEquals(patron.getFirstName(), USER_FIRST_NAME);
+        assertEquals(patron.getLastName(), USER_LAST_NAME);
+        assertEquals(patron.getOnlineAccount(), USER_ONLINE_ACCOUNT);
+        assertEquals(patron.getAddress(), address);
+        assertEquals(patron.getPassword(), USER_PASSWORD);
+        assertEquals(patron.getBalance(), USER_BALANCE);
+        assertEquals(patron.getEmail(), USER_EMAIL);
+
+        patronRepository.deleteAll();
+        userAccountRepository.deleteAll();
             
     }
     public void testUpdateAddresssUnsuccessful() throws Exception {
@@ -302,8 +311,33 @@ private static final String USER_PASSWORD = "patron123";
             
     }
 
+    /**
+     * @author Gabrielle Halpin
+     * This tests the successful update of teh user's email.
+     * @throws Exception
+     */
+    @Test
     public void testUpdateEmailSuccessful() throws Exception {
-        
+        Patron patron = null;
+	
+        try {
+            patron = service.createPatron(USER_CREATOR, USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_VALIDATED_ACCOUNT, USER_PASSWORD, USER_BALANCE, USER_EMAIL);
+        }
+        catch (IllegalArgumentException e) {
+            fail();
+        }
+        String email = "bob@email.com";
+        UserAccount account = service.changeEmail(email, patron);
+        assertEquals(patron.getFirstName(), USER_FIRST_NAME);
+        assertEquals(patron.getLastName(), USER_LAST_NAME);
+        assertEquals(patron.getOnlineAccount(), USER_ONLINE_ACCOUNT);
+        assertEquals(patron.getAddress(), USER_ADDRESS);
+        assertEquals(patron.getPassword(), USER_PASSWORD);
+        assertEquals(patron.getBalance(), USER_BALANCE);
+        assertEquals(patron.getEmail(), email);
+
+        patronRepository.deleteAll();
+        userAccountRepository.deleteAll();
             
     }
     public void testUpdateEmailUnsuccessful() throws Exception {

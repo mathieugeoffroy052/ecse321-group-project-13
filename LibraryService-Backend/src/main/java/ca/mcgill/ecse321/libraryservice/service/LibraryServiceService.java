@@ -2000,6 +2000,68 @@ public class LibraryServiceService {
     }
 
     /**
+     * @author Gabrielle Halpin
+     * This method allows the user to change their address 
+     * @param aAddress
+     * @param account
+     * @return Useraccount account
+     */
+    public UserAccount changeAddress(String aAddress, UserAccount account){
+        String error = "";
+        if (account == null && error.length()==0){
+            error = error + "The account cannot be null";
+        }
+        if (account.getOnlineAccount() == false && error.length()==0){
+            error = error + "The account must be an online account";
+        }
+        if ((aAddress == null|| aAddress.trim().length() == 0)&& error.length()==0) {
+            error = error + "Address cannot be empty!";
+        }
+        if ((aAddress == account.getAddress()&& error.length()==0)){
+            error = error + "This is already your Address.";
+        }
+
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
+
+        account.setAddress(aAddress);
+        return account;
+    }
+
+    /**
+     * @author Gabrielle Halpin
+     * This method allows the user to change their email 
+     * @param aEmail
+     * @param account
+     * @return Useraccount account
+     */
+    public UserAccount changeEmail(String aEmail, UserAccount account){
+        String error = "";
+        if (account == null && error.length()==0){
+            error = error + "The account cannot be null";
+        }
+        if (account.getOnlineAccount() == false && error.length()==0){
+            error = error + "The account must be an online account";
+        }
+        if ((aEmail == null|| aEmail.trim().length() == 0)&& error.length()==0) {
+            error = error + "Email cannot be empty!";
+        }
+        if ((aEmail == account.getEmail()&& error.length()==0)){
+            error = error + "This is already your Email.";
+        }
+
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
+
+        account.setEmail(aEmail);
+        return account;
+    }
+
+    /**
      * This mathod is called when the Librarian set's a customer's account to an online account
      * @author Gabrielle Hapin
      * @param account
