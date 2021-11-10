@@ -1781,6 +1781,7 @@ public class LibraryServiceService {
         patron.setEmail(aEmail);
         patron.setValidatedAccount(aValidatedAccount);
 		patronRepository.save(patron);
+        userAccountRepository.save(patron);
 		return patron;
 	}
 

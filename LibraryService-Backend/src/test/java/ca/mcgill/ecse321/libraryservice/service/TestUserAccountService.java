@@ -15,7 +15,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
+import java.util.*;
 
 import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.junit.jupiter.api.AfterEach;
@@ -46,6 +46,7 @@ private PatronRepository patronRepository;
 @InjectMocks
 private LibraryServiceService service;
 private static final int USER_ID = 12345;
+private static final int USER_ID2 = 123456;
 private static final String USER_FIRST_NAME = "John";
 private static final String USER_LAST_NAME = "Smith";
 private static final String USER_EMAIL = "johnsmith@email.com";
@@ -75,7 +76,24 @@ private static final String USER_PASSWORD = "patron123";
                 user.setValidatedAccount(USER_VALIDATED_ACCOUNT);
                 
                 return user;
-            } else {
+                
+            } 
+            else if(invocation.getArgument(0).equals(USER_ID2)) {
+            
+                Patron user = new Patron();
+                user.setPatronID(USER_ID2);
+                user.setFirstName(USER_FIRST_NAME);
+                user.setLastName(USER_LAST_NAME); 
+                user.setEmail(null);
+                user.setPassword(null);
+                user.setBalance(USER_BALANCE);
+                user.setOnlineAccount(false);
+                user.setAddress(USER_ADDRESS);
+                user.setValidatedAccount(USER_VALIDATED_ACCOUNT);
+                
+                return user;
+            }
+            else {
                 return null;
             }
         });
@@ -89,10 +107,10 @@ private static final String USER_PASSWORD = "patron123";
      */
     @Test
     public void testChangePasswordSuccessful() throws Exception {
-        Patron patron = null;
+        UserAccount patron = null;
 	
         try {
-            patron = service.createPatron(USER_CREATOR, USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_VALIDATED_ACCOUNT, USER_PASSWORD, USER_BALANCE, USER_EMAIL);
+            patron = userAccountRepository.findUserAccountByUserID(12345);
         }
         catch (IllegalArgumentException e) {
             fail();
@@ -119,11 +137,10 @@ private static final String USER_PASSWORD = "patron123";
      */
     @Test
     public void testChangePasswordUnsuccessful() throws Exception {
-        Patron patron = null;
+        UserAccount patron = null;
         
         try {
-            patron = service.createPatron(USER_CREATOR, USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_VALIDATED_ACCOUNT, USER_PASSWORD, USER_BALANCE, USER_EMAIL);
-        }
+            patron = userAccountRepository.findUserAccountByUserID(123456);        }
         catch (IllegalArgumentException e) {
             fail();
         }
@@ -133,18 +150,20 @@ private static final String USER_PASSWORD = "patron123";
         try{
             account = service.changePassword(newPassword, patron);
         }catch(IllegalArgumentException e){
-            assertEquals("java.lang.IllegalArgumentException: Password cannot be empty!", e.toString());
+            assertEquals("java.lang.IllegalArgumentException: The account must be an online account", e.toString());
         }
         
 
         assertEquals(patron.getFirstName(), USER_FIRST_NAME);
         assertEquals(patron.getLastName(), USER_LAST_NAME);
-        assertEquals(patron.getOnlineAccount(), USER_ONLINE_ACCOUNT);
+        assertEquals(patron.getOnlineAccount(), false);
         assertEquals(patron.getAddress(), USER_ADDRESS);
-        assertEquals(patron.getPassword(), USER_PASSWORD);
+        assertEquals(patron.getPassword(), null);
         assertEquals(patron.getBalance(), USER_BALANCE);
-        assertEquals(patron.getEmail(), USER_EMAIL);
-            
+        assertEquals(patron.getEmail(), null);
+        
+        patronRepository.deleteAll();
+        userAccountRepository.deleteAll();
     }
     /**
      * This test checks if an account can be set to an online account
@@ -206,6 +225,9 @@ private static final String USER_PASSWORD = "patron123";
         assertEquals(patron.getPassword(), null);
         assertEquals(patron.getBalance(), USER_BALANCE);
         assertEquals(patron.getEmail(), null);
+
+        patronRepository.deleteAll();
+        userAccountRepository.deleteAll();
             
     }
 
@@ -216,10 +238,10 @@ private static final String USER_PASSWORD = "patron123";
      */
     @Test
     public void testUpdateFirstNameSuccessful() throws Exception {
-        Patron patron = null;
+        UserAccount patron = null;
 	
         try {
-            patron = service.createPatron(USER_CREATOR, USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_VALIDATED_ACCOUNT, USER_PASSWORD, USER_BALANCE, USER_EMAIL);
+            patron = userAccountRepository.findUserAccountByUserID(12345);
         }
         catch (IllegalArgumentException e) {
             fail();
@@ -245,11 +267,10 @@ private static final String USER_PASSWORD = "patron123";
      */
     @Test
     public void testUpdateFirstNameUnsuccessful() throws Exception {
-        Patron patron = null;
+        UserAccount patron = null;
         
         try {
-            patron = service.createPatron(USER_CREATOR, USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_VALIDATED_ACCOUNT, USER_PASSWORD, USER_BALANCE, USER_EMAIL);
-        }
+            patron = userAccountRepository.findUserAccountByUserID(12345);        }
         catch (IllegalArgumentException e) {
             fail();
         }
@@ -269,6 +290,9 @@ private static final String USER_PASSWORD = "patron123";
         assertEquals(patron.getPassword(), USER_PASSWORD);
         assertEquals(patron.getBalance(), USER_BALANCE);
         assertEquals(patron.getEmail(), USER_EMAIL);
+
+        patronRepository.deleteAll();
+        userAccountRepository.deleteAll();
             
     }
 
@@ -279,10 +303,10 @@ private static final String USER_PASSWORD = "patron123";
      */
     @Test
     public void testUpdateLastNameSuccessful() throws Exception {
-        Patron patron = null;
+        UserAccount patron = null;
 	
         try {
-            patron = service.createPatron(USER_CREATOR, USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_VALIDATED_ACCOUNT, USER_PASSWORD, USER_BALANCE, USER_EMAIL);
+            patron = userAccountRepository.findUserAccountByUserID(12345);
         }
         catch (IllegalArgumentException e) {
             fail();
@@ -309,11 +333,10 @@ private static final String USER_PASSWORD = "patron123";
      */
     @Test
     public void testUpdateLastNameUnsuccessful() throws Exception {
-        Patron patron = null;
+        UserAccount patron = null;
         
         try {
-            patron = service.createPatron(USER_CREATOR, USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_VALIDATED_ACCOUNT, USER_PASSWORD, USER_BALANCE, USER_EMAIL);
-        }
+            patron = userAccountRepository.findUserAccountByUserID(12345);        }
         catch (IllegalArgumentException e) {
             fail();
         }
@@ -333,6 +356,9 @@ private static final String USER_PASSWORD = "patron123";
         assertEquals(patron.getPassword(), USER_PASSWORD);
         assertEquals(patron.getBalance(), USER_BALANCE);
         assertEquals(patron.getEmail(), USER_EMAIL);
+
+        patronRepository.deleteAll();
+        userAccountRepository.deleteAll();
             
     }
 
@@ -342,10 +368,10 @@ private static final String USER_PASSWORD = "patron123";
      */
     @Test
     public void testUpdateAddressSuccessful() throws Exception {
-        Patron patron = null;
+        UserAccount patron = null;
 	
         try {
-            patron = service.createPatron(USER_CREATOR, USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_VALIDATED_ACCOUNT, USER_PASSWORD, USER_BALANCE, USER_EMAIL);
+            patron = userAccountRepository.findUserAccountByUserID(12345);
         }
         catch (IllegalArgumentException e) {
             fail();
@@ -372,10 +398,10 @@ private static final String USER_PASSWORD = "patron123";
      */
     @Test
     public void testUpdateAddresssUnsuccessful() throws Exception {
-        Patron patron = null;
+        UserAccount patron = null;
         
         try {
-            patron = service.createPatron(USER_CREATOR, USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_VALIDATED_ACCOUNT, USER_PASSWORD, USER_BALANCE, USER_EMAIL);
+            patron = userAccountRepository.findUserAccountByUserID(12345);
         }
         catch (IllegalArgumentException e) {
             fail();
@@ -397,6 +423,9 @@ private static final String USER_PASSWORD = "patron123";
         assertEquals(patron.getPassword(), USER_PASSWORD);
         assertEquals(patron.getBalance(), USER_BALANCE);
         assertEquals(patron.getEmail(), USER_EMAIL);
+
+        patronRepository.deleteAll();
+        userAccountRepository.deleteAll();
             
     }
 
@@ -407,10 +436,10 @@ private static final String USER_PASSWORD = "patron123";
      */
     @Test
     public void testUpdateEmailSuccessful() throws Exception {
-        Patron patron = null;
+        UserAccount patron = null;
 	
         try {
-            patron = service.createPatron(USER_CREATOR, USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_VALIDATED_ACCOUNT, USER_PASSWORD, USER_BALANCE, USER_EMAIL);
+            patron = userAccountRepository.findUserAccountByUserID(12345);
         }
         catch (IllegalArgumentException e) {
             fail();
@@ -438,10 +467,10 @@ private static final String USER_PASSWORD = "patron123";
      */
     @Test
     public void testUpdateEmailUnsuccessful() throws Exception {
-        Patron patron = null;
+        UserAccount patron = null;
         
         try {
-            patron = service.createPatron(USER_CREATOR, USER_FIRST_NAME, USER_LAST_NAME, false, USER_ADDRESS, USER_VALIDATED_ACCOUNT, null, USER_BALANCE, null);
+            patron = userAccountRepository.findUserAccountByUserID(123456);
         }
         catch (IllegalArgumentException e) {
             fail();
@@ -462,6 +491,69 @@ private static final String USER_PASSWORD = "patron123";
         assertEquals(patron.getPassword(), null);
         assertEquals(patron.getBalance(), USER_BALANCE);
         assertEquals(patron.getEmail(), null);
+
+        patronRepository.deleteAll();
+        userAccountRepository.deleteAll();
             
     }
+
+    // /**
+    //  * @author Gabrielle Halpin
+    //  * This test checks if all Users are successfully retrieved from the database
+    //  * @throws Exception
+    //  */
+    // @Test
+    // public void testGetAllUsers() throws Exception {
+    //     UserAccount patron1 = null;
+    //     UserAccount patron2 = null;
+        
+    //     try {
+    //         patron1 = userAccountRepository.findUserAccountByUserID(12345);
+    //         patron2 = userAccountRepository.findUserAccountByUserID(123456);
+    //     }
+    //     catch (IllegalArgumentException e) {
+    //         fail();
+    //     }
+    //     List<UserAccount>  accounts = null;
+    //     try{
+    //         accounts = service.getAllUsers();
+    //     }catch(IllegalArgumentException e){
+    //         throw new Exception("could not retrieve users");
+    //     }
+        
+    //     assertEquals(2, accounts.size());
+
+    //     patronRepository.deleteAll();
+    //     userAccountRepository.deleteAll();
+            
+    // }
+
+    //     /**
+    //  * @author Gabrielle Halpin
+    //  * This test checks if all Users are successfully retrieved from the database
+    //  * @throws Exception
+    //  */
+    // @Test
+    // public void testGetUserByID() throws Exception {
+    //     UserAccount patron1 = null;
+
+    //     try {
+    //         patron1 = userAccountRepository.findUserAccountByUserID(12345);
+    //     }
+    //     catch (IllegalArgumentException e) {
+    //         fail();
+    //     }
+    //     List<UserAccount>  accounts = null;
+    //     try{
+    //         accounts = service.getAllUsers();
+    //     }catch(IllegalArgumentException e){
+    //         throw new Exception("could not retrieve users");
+    //     }
+        
+    //     assertEquals(3, accounts.size());
+
+    //     patronRepository.deleteAll();
+    //     userAccountRepository.deleteAll();
+            
+    // }
 }
