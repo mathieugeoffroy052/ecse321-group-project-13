@@ -339,7 +339,7 @@ public void testCreatePatronPatronAsCreator() throws Exception {
 		assertNull(patron);
 		//verify error
 		assertEquals("Only a Librarian can create an in-person account", error);
-}
+}i
 
 @Test 
 public void testGetPatronFromID() throws Exception {
