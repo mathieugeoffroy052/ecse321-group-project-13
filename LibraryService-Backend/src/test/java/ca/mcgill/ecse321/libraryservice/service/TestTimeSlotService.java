@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.booleanThat;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
@@ -19,8 +20,11 @@ import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Calendar;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,16 +41,41 @@ import ca.mcgill.ecse321.libraryservice.model.*;
 public class TestTimeSlotService {
     @Mock
     private TimeSlotRepository timeslotDao;
+    @Mock
+    private HeadLibrarianRepository headLibrarianDao;
+    @Mock
+    private LibrarianRepository librarianDao;
 
     @InjectMocks
     private LibraryServiceService service;
 
-    private static final int TIMESLOT_KEY = 1;
+    private static final int TIMESLOT_KEY = 100;
     private static final Date TIMESLOT_STARTDATE = new Date(2020, 12, 25);
     private static final Date TIMESLOT_ENDDATE = new Date(2020, 12, 28);
     private static final Time TIMESLOT_STARTTIME = new Time(10, 00, 00);
     private static final Time TIMESLOT_ENDTIME = new Time(11, 00, 00);
     private static final HeadLibrarian TIMESLOT_HEADLIBRARIAN = new HeadLibrarian();
+
+    private static final int HEADLIBRARIAN_KEY = 400;
+    private static final String HEADLIBRARIAN_FIRSTNAME = "Jane";
+    private static final String HEADLIBRARIAN_LASTNAME = "Doe";
+    private static final String HEADLIBRARIAN_ADDRESS = "40 durocher";
+    private static final String HEADLIBRARIAN_PASSWORD = "badpassword";
+    private static final String HEADLIBRARIAN_EMAIL = "jane@mail.com";
+    private static final boolean HEADLIBRARIAN_VALIDACC = true;
+    private static final int HEADLIBRARIAN_BALANCE = 0;
+
+    private static final int LIBRARIAN_KEY = 2550;
+    private static final String LIBRARIAN_FIRSTNAME = "John";
+    private static final String LIBRARIAN_LASTNAME = "Marx";
+    private static final String LIBRARIAN_ADDRESS = "150 durocher";
+    private static final String LIBRARIAN_PASSWORD = "mehpassword";
+    private static final String LIBRARIAN_EMAIL = "jaohn@mail.com";
+    private static final boolean LIBRARIAN_VALIDACC = true;
+    private static final int LIBRARIAN_BALANCE = 0;
+
+
+
 
     @BeforeEach
     public void setMockOutput() {
@@ -59,15 +88,37 @@ public class TestTimeSlotService {
                 return null;
             }
         });
+
+        lenient().when(headLibrarianDao.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
+                HeadLibrarian headLibrarian = new HeadLibrarian(HEADLIBRARIAN_FIRSTNAME, HEADLIBRARIAN_LASTNAME, HEADLIBRARIAN_VALIDACC, HEADLIBRARIAN_ADDRESS, HEADLIBRARIAN_PASSWORD, HEADLIBRARIAN_BALANCE, HEADLIBRARIAN_EMAIL);
+                headLibrarian.setUserID(HEADLIBRARIAN_KEY);
+                
+                List<HeadLibrarian> list = new ArrayList<HeadLibrarian>();
+                list.add(headLibrarian);
+                return list;
+        });
+
+        lenient().when(headLibrarianDao.findHeadLibrarianByUserID(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
+            HeadLibrarian headLibrarian = new HeadLibrarian(HEADLIBRARIAN_FIRSTNAME, HEADLIBRARIAN_LASTNAME, HEADLIBRARIAN_VALIDACC, HEADLIBRARIAN_ADDRESS, HEADLIBRARIAN_PASSWORD, HEADLIBRARIAN_BALANCE, HEADLIBRARIAN_EMAIL);
+            headLibrarian.setUserID(HEADLIBRARIAN_KEY);
+            return headLibrarian;
+    });
+
+        lenient().when(librarianDao.findLibrarianByUserID(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
+            Librarian librarian = new Librarian(LIBRARIAN_FIRSTNAME, LIBRARIAN_LASTNAME, LIBRARIAN_VALIDACC, LIBRARIAN_ADDRESS, LIBRARIAN_PASSWORD, LIBRARIAN_BALANCE, LIBRARIAN_EMAIL);
+            librarian.setUserID(LIBRARIAN_KEY);
+            return librarian;
+    });
         Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
 			return invocation.getArgument(0);
 		};
         lenient().when(timeslotDao.save(any(TimeSlot.class))).thenAnswer(returnParameterAsAnswer);
-        try {
-            service.CreateANewHeadLibrarian("Jane", "Doe", true, "21 milton", "password", 0, "testing@gmail.com");
-        } catch (Exception e) {
-            System.out.println("Failed to create head librarian");
-        }
+    }
+
+    @AfterEach
+    public void clearMockOutputs() {
+        timeslotDao.deleteAll();
+        headLibrarianDao.deleteAll();
     }
 
     @Test
@@ -190,8 +241,8 @@ public class TestTimeSlotService {
 
         Date startDate = new Date(2021, 12, 25);
         Date endDate = new Date(2021, 12, 28);
-        Time startTime = new Time(17, 00, 00);
-        Time endTime = new Time(19, 00, 00);
+        Time startTime = new Time(19, 00, 00);
+        Time endTime = new Time(17, 00, 00);
 
         TimeSlot timeslot = null;
 
@@ -232,27 +283,19 @@ public class TestTimeSlotService {
     @Test
     public void testAssignTimeSlot() {
         assertEquals(0, service.getAllTimeSlots().size());
-        String error = null;
 
-        Date startDate = new Date(2021, 12, 25);
-        Date endDate = new Date(2021, 12, 28);
-        Time startTime = new Time(17, 00, 00);
-        Time endTime = new Time(19, 00, 00);
-
-        TimeSlot timeslot = null;
-
-        Librarian librarian = new Librarian();
-        librarian.setFirstName("Joy");
-        librarian.setLastName("Little");
+        Librarian librarian = librarianDao.findLibrarianByUserID(LIBRARIAN_KEY);
+        TimeSlot timeslot = timeslotDao.findTimeSlotByTimeSlotID(TIMESLOT_KEY);
+        lenient().when(librarianDao.existsById(anyInt())).thenReturn(true);
+        lenient().when(timeslotDao.existsById(anyInt())).thenReturn(true);
         try {
-            timeslot = service.createTimeSlot(startDate, startTime, endDate, endTime);
             timeslot = service.assignTimeSlotToLibrarian(timeslot, librarian);
         } catch (Exception e) {
-            error = e.getMessage();
+            fail();
         }
 
         assertNotNull(timeslot);
-        assertTimeSlotAttributes(timeslot, startDate, startTime, endDate, endTime, librarian);
+        assertTimeSlotAttributes(timeslot, TIMESLOT_STARTDATE, TIMESLOT_STARTTIME, TIMESLOT_ENDDATE, TIMESLOT_ENDTIME, librarian);
 
     }
 
@@ -261,20 +304,10 @@ public class TestTimeSlotService {
         assertEquals(0, service.getAllTimeSlots().size());
         String error = null;
 
-        Date startDate = new Date(2021, 12, 25);
-        Date endDate = new Date(2021, 12, 28);
-        Time startTime = new Time(17, 00, 00);
-        Time endTime = new Time(19, 00, 00);
-
+        Librarian librarian = librarianDao.findLibrarianByUserID(LIBRARIAN_KEY);
+        lenient().when(librarianDao.existsById(anyInt())).thenReturn(true);
         TimeSlot timeslot = null;
-
-        Librarian librarian = new Librarian();
-        librarian.setFirstName("Joy");
-        librarian.setLastName("Little");
-
         try {
-            timeslot = service.createTimeSlot(startDate, startTime, endDate, endTime);
-            timeslot = null;
             timeslot = service.assignTimeSlotToLibrarian(timeslot, librarian);
         } catch (Exception e) {
             error = e.getMessage();
@@ -289,23 +322,19 @@ public class TestTimeSlotService {
         assertEquals(0, service.getAllTimeSlots().size());
         String error = null;
 
-        Date startDate = new Date(2021, 12, 25);
-        Date endDate = new Date(2021, 12, 28);
-        Time startTime = new Time(17, 00, 00);
-        Time endTime = new Time(19, 00, 00);
-
-        TimeSlot timeslot = null;
+        TimeSlot timeslot = timeslotDao.findTimeSlotByTimeSlotID(TIMESLOT_KEY);
+        lenient().when(timeslotDao.existsById(anyInt())).thenReturn(true);
 
         Librarian librarian = null;
 
+
         try {
-            timeslot = service.createTimeSlot(startDate, startTime, endDate, endTime);
             timeslot = service.assignTimeSlotToLibrarian(timeslot, librarian);
         } catch (Exception e) {
             error = e.getMessage();
         }
 
-        assertEquals("librarian doesn't exists", error);
+        assertEquals("Librarian needs to be selected for registration!", error);
 
     }
 
@@ -313,22 +342,16 @@ public class TestTimeSlotService {
     public void testDeleteTimeSlot() {
         assertEquals(0, service.getAllTimeSlots().size());
         String error = null;
-
-        Date startDate = new Date(2021, 12, 25);
-        Date endDate = new Date(2021, 12, 28);
-        Time startTime = new Time(17, 00, 00);
-        Time endTime = new Time(19, 00, 00);
-
-        TimeSlot timeslot = null;
         boolean test = false;
 
-        HeadLibrarian headLibrarian = new HeadLibrarian();
-        headLibrarian.setFirstName("Joy");
-        headLibrarian.setLastName("Little");
+        HeadLibrarian headLibrarian = headLibrarianDao.findHeadLibrarianByUserID(HEADLIBRARIAN_KEY);
+        TimeSlot timeslot = timeslotDao.findTimeSlotByTimeSlotID(TIMESLOT_KEY);
+        lenient().when(headLibrarianDao.existsById(anyInt())).thenReturn(true);
+        lenient().when(timeslotDao.existsById(anyInt())).thenReturn(true);
         try {
             test = service.deleteTimeSlot(headLibrarian, timeslot.getTimeSlotID());
         } catch (Exception e) {
-            error = e.getMessage();
+            fail();
         }
 
         assertNotNull(timeslot);
