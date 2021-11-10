@@ -37,6 +37,7 @@ public class TestPatronService {
 	
 @Mock 
 private PatronRepository patronDAO;
+private HeadLibrarianRepository headLibrarianDAO;
 
 @InjectMocks
 private LibraryServiceService service;
@@ -50,7 +51,7 @@ private static final boolean PATRON_ONLINE_ACCOUNT = true;
 private static final String PATRON_ADDRESS = "123 Smith Street";
 private static final boolean PATRON_VALIDATED_ACCOUNT = false;
 private static final String PATRON_PASSWORD = "patron123";
-
+private static final int HEAD_ID = 100;
 
 
 //UserAccount creator, String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, boolean aValidatedAccount, String aPassword, int aBalance, String aEmail
@@ -69,6 +70,9 @@ public void setMockOutput() {
             patron.setOnlineAccount(PATRON_ONLINE_ACCOUNT);
             patron.setAddress(PATRON_ADDRESS);
             patron.setValidatedAccount(PATRON_VALIDATED_ACCOUNT);
+            HeadLibrarian head = new HeadLibrarian();
+            head.setLibrarianID(HEAD_ID);
+            
             
             return patron;
         } else {
@@ -81,7 +85,7 @@ public void setMockOutput() {
  			return invocation.getArgument(0);
  		};
 lenient().when(patronDAO.save(any(Patron.class))).thenAnswer(returnParameterAsAnswer);
- 	
+//lenient().when(headLibrarianDAO.save(any(HeadLibrarian.class))).thenAnswer(returnParameterAsAnswer);
 }
 
 @Test
@@ -345,6 +349,37 @@ public void testCreatePatronPatronAsCreator() throws Exception {
 public void testGetPatronFromID() throws Exception {
 	assertEquals(PATRON_ID, service.getPatronByUserId(PATRON_ID).getPatronID());
 }
+
+//@Test 
+//public void testDeletePatronByUserIDSuccessful() throws Exception{
+//	
+//		HeadLibrarian headlibrarian = new HeadLibrarian();
+//		headlibrarian.setUserID(HEAD_ID);
+//		try {
+//			service.deleteAPatronbyUserID(headlibrarian, PATRON_ID);
+//		
+//		}
+//		catch (IllegalArgumentException e) {
+//			fail();
+//			
+//		}
+//	}
+@Test
+public void testDeletePatronByUserIDWrongCreator() throws Exception{
+	String error ="";
+	Patron patron = new Patron();
+	try {
+		service.deleteAPatronbyUserID(patron, PATRON_ID);
+	
+	}
+	catch (IllegalArgumentException e) {
+	//	fail();
+		error = e.getMessage();
+		
+	}
+	assertEquals("This user does not have the credentials to delete an existing patron", error);
+}
+
 
 @Test
 public void testGetPatronFromFullName() throws Exception {
