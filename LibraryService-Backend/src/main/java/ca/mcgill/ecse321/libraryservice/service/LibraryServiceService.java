@@ -1398,6 +1398,8 @@ public class LibraryServiceService {
         if (startTime == null) throw new IllegalArgumentException("Invalid startTime");
         if (endDate == null) throw new IllegalArgumentException("Invalid endDate");
         if (endTime == null) throw new IllegalArgumentException("Invalid endTime");
+        if (startDate.toLocalDate().isAfter(endDate.toLocalDate())) throw new IllegalArgumentException("StartDate cannot be after endDate");
+        if (startTime.toLocalTime().isAfter(endTime.toLocalTime())) throw new IllegalArgumentException("StartTime cannot be after endTime");
         HeadLibrarian headLibrarian =getHeadLibrarian();
         TimeSlot timeSlot = new TimeSlot(startDate, startTime, endDate, endTime, headLibrarian);
         timeSlotRepository.save(timeSlot);

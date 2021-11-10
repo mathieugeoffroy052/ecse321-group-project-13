@@ -177,6 +177,52 @@ public class TestTimeSlotService {
 
     }
 
+    @Test
+    public void testCreateTimeSlotStartTimeAfterEndTime() {
+        assertEquals(0, service.getAllTimeSlots().size());
+        String error = null;
+
+        Date startDate = new Date(2021, 12, 25);
+        Date endDate = new Date(2021, 12, 28);
+        Time startTime = new Time(17, 00, 00);
+        Time endTime = new Time(19, 00, 00);
+
+        TimeSlot timeslot = null;
+
+        try {
+            service.createTimeSlot(startDate, startTime, endDate, endTime);
+        } catch (Exception e) {
+            error = e.getMessage();
+        }
+
+        assertNull(timeslot);
+        assertEquals("StartTime cannot be after endTime", error);
+
+    }
+
+    @Test
+    public void testCreateTimeSlotStartDateAfterEndDate() {
+        assertEquals(0, service.getAllTimeSlots().size());
+        String error = null;
+
+        Date startDate = new Date(2021, 12, 28);
+        Date endDate = new Date(2021, 12, 25);
+        Time startTime = new Time(17, 00, 00);
+        Time endTime = new Time(19, 00, 00);
+
+        TimeSlot timeslot = null;
+
+        try {
+            service.createTimeSlot(startDate, startTime, endDate, endTime);
+        } catch (Exception e) {
+            error = e.getMessage();
+        }
+
+        assertNull(timeslot);
+        assertEquals("StartDate cannot be after endDate", error);
+
+    }
+
     
     /**
      * Asserts all timeslot attributes
