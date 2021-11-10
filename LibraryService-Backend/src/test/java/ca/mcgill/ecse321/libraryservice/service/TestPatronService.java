@@ -339,11 +339,17 @@ public void testCreatePatronPatronAsCreator() throws Exception {
 		assertNull(patron);
 		//verify error
 		assertEquals("Only a Librarian can create an in-person account", error);
-}i
+}
 
 @Test 
 public void testGetPatronFromID() throws Exception {
 	assertEquals(PATRON_ID, service.getPatronByUserId(PATRON_ID).getPatronID());
+}
+
+@Test
+public void testGetPatronFromFullName() throws Exception {
+	//assertEquals(PATRON_FIRST_NAME, PATRON_LAST_NAME, service.getPatronFromFullName(PATRON_FIRST_NAME, PATRON_LAST_NAME).getFirstName(), service.getPatronFromFullName(PATRON_FIRST_NAME, PATRON_LAST_NAME).getLastName());
+	
 }
 	
 }
