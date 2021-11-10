@@ -2117,7 +2117,7 @@ public class LibraryServiceService {
             error = error + "The creator cannot be null";
         }
         if (patron == null && error.length()==0){
-            error = error + "The creator cannot be null";
+            error = error + "The patron cannot be null";
         }
         error = error.trim();
         if (error.length() > 0) {

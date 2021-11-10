@@ -38,7 +38,7 @@ public class TestPatronService {
 	
 @Mock 
 private PatronRepository patronDAO;
-private HeadLibrarianRepository headLibrarianDAO;
+@Mock UserAccountRepository userAccountDAO;
 
 @InjectMocks
 private LibraryServiceService service;
@@ -55,7 +55,6 @@ private static final String PATRON_PASSWORD = "patron123";
 private static final int HEAD_ID = 100;
 
 
-//UserAccount creator, String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, boolean aValidatedAccount, String aPassword, int aBalance, String aEmail
 @BeforeEach
 public void setMockOutput() {
     lenient().when(patronDAO.findPatronByUserID(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
@@ -71,8 +70,6 @@ public void setMockOutput() {
             patron.setOnlineAccount(PATRON_ONLINE_ACCOUNT);
             patron.setAddress(PATRON_ADDRESS);
             patron.setValidatedAccount(PATRON_VALIDATED_ACCOUNT);
-            HeadLibrarian head = new HeadLibrarian();
-            head.setLibrarianID(HEAD_ID);
             
             
             return patron;
@@ -86,12 +83,10 @@ public void setMockOutput() {
  			return invocation.getArgument(0);
  		};
 lenient().when(patronDAO.save(any(Patron.class))).thenAnswer(returnParameterAsAnswer);
-//lenient().when(headLibrarianDAO.save(any(HeadLibrarian.class))).thenAnswer(returnParameterAsAnswer);
 }
 
 @Test
 public void testCreatePatronSuccessful() throws Exception {
-	assertEquals(0, service.getAllPatrons().size());
 	
 	Patron patron = null;
 	
@@ -530,7 +525,7 @@ public void testSetValidatedAccountWrongCreator() throws Exception {
 public void testSetValidatedAccountNullCreator() throws Exception {
 	
 	String error = null;
-	Patron creator = null;
+	Librarian creator = null;
 	Patron patron = null;
 	
 	try {
@@ -544,18 +539,19 @@ public void testSetValidatedAccountNullCreator() throws Exception {
 		//verify error
 		assertNull(patron);
 		assertEquals("The creator cannot be null", error);
-	
+		patronDAO.deleteAll();
+        userAccountDAO.deleteAll();
 }
 
 @Test
-public void testSetValidatedAccountNull() throws Exception {
+public void testSetValidatedAccountNullPatron() throws Exception {
 	
 	String error = null;
-	Patron creator = null;
+	Patron p = null;
 	Patron patron = null;
 	
 	try {
-		patron = service.setValidatedAccount(null, PATRON_VALIDATED_ACCOUNT, creator);
+		patron = service.setValidatedAccount(p, PATRON_VALIDATED_ACCOUNT, PATRON_CREATOR);
 		
 	}
 	catch (IllegalArgumentException e) {
@@ -564,8 +560,9 @@ public void testSetValidatedAccountNull() throws Exception {
 	}
 		//verify error
 		assertNull(patron);
-		assertEquals("The creator cannot be null", error);
-	
+		assertEquals("The patron cannot be null", error);
+		patronDAO.deleteAll();
+        userAccountDAO.deleteAll();
 }
 @Test
 public void testGetAllPatronsSuccessful() throws Exception {
@@ -580,8 +577,6 @@ String error = "";
 		
 	}
 		
-	
-	
 }
 @Test
 public void testGetAllPatronsNull() throws Exception {
