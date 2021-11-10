@@ -55,7 +55,8 @@ public class TestLibraryItemService {
 	private LibraryServiceService service;
 	
 	/* Library Item attributes */
-	private static final boolean LIBRARY_ITEM_VIEWABLE = true;
+	private static final boolean LIBRARY_ITEM_VIEWABLE = false;
+	private static final boolean NEWSPAPER_VIEWABLE = false;
 
 	private static final int BOOK_ISBN = 123;
 	private static final String BOOK_CREATOR = "Jeff Joseph";
@@ -63,11 +64,23 @@ public class TestLibraryItemService {
 	private static final ItemType BOOK_TYPE = ItemType.Book;
 	private static final Date BOOK_DATE = Date.valueOf("2009-03-15");
 
-	private static final int NEWSPAPER_ISBN = 123;
+	private static final int NEWSPAPER_ISBN = 124;
 	private static final String NEWSPAPER_CREATOR = "Times";
 	private static final String NEWSPAPER_NAME = "First edition";
 	private static final ItemType NEWSPAPER_TYPE = ItemType.NewspaperArticle;
 	private static final Date NEWSPAPER_DATE = Date.valueOf("1999-03-15");
+	
+	private static final int MUSIC_ISBN = 125;
+	private static final String MUSIC_CREATOR = "Drake";
+	private static final String MUSIC_NAME = "One Dance";
+	private static final ItemType MUSIC_TYPE = ItemType.Music;
+	private static final Date MUSIC_DATE = Date.valueOf("2018-04-25");
+
+	private static final int MOVIE_ISBN = 125;
+	private static final String MOVIE_CREATOR = "Denis Villeneuve";
+	private static final String MOVIE_NAME = "Dune";
+	private static final ItemType MOVIE_TYPE = ItemType.Movie;
+	private static final Date MOVIE_DATE = Date.valueOf("2021-01-24");
 
 	private static final String ROOM_NAME = "Room 1";
 	private static final ItemType ROOM_TYPE = ItemType.Room;
@@ -76,6 +89,8 @@ public class TestLibraryItemService {
 	private static final int BOOK_BARCODENUMBER = 123456;
 	private static final int NEWSPAPER_BARCODENUMBER = 1111111;
     private static final int ROOM_BARCODENUMBER = 999999;
+	private static final int MOVIE_BARCODENUMBER = 1212121;
+    private static final int MUSIC_BARCODENUMBER = 989898;
 
 	private static final ItemState AVAILABLE_STATE = ItemState.Available;
 	private static final ItemState BORROWED_STATE = ItemState.Borrowed;
@@ -95,8 +110,14 @@ public class TestLibraryItemService {
 			List<LibraryItem> allLibraryItems = new ArrayList<LibraryItem>();
 			LibraryItem book = new LibraryItem(BOOK_NAME, BOOK_TYPE, BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
 			book.setIsbn(BOOK_ISBN);
+			
+			LibraryItem music = new LibraryItem(MUSIC_NAME, MUSIC_TYPE, MUSIC_DATE, MUSIC_CREATOR, LIBRARY_ITEM_VIEWABLE);
+			music.setIsbn(MUSIC_ISBN);
 
-			LibraryItem newspaper = new LibraryItem(NEWSPAPER_NAME, NEWSPAPER_TYPE, NEWSPAPER_DATE, NEWSPAPER_CREATOR, LIBRARY_ITEM_VIEWABLE);
+			LibraryItem movie = new LibraryItem(MOVIE_NAME, MOVIE_TYPE, MOVIE_DATE, MOVIE_CREATOR, LIBRARY_ITEM_VIEWABLE);
+			movie.setIsbn(MOVIE_ISBN);
+
+			LibraryItem newspaper = new LibraryItem(NEWSPAPER_NAME, NEWSPAPER_TYPE, NEWSPAPER_DATE, NEWSPAPER_CREATOR, NEWSPAPER_VIEWABLE);
 			newspaper.setIsbn(NEWSPAPER_ISBN);
 
 			LibraryItem room = new LibraryItem();
@@ -127,5 +148,70 @@ public class TestLibraryItemService {
 		}
 		assertNotNull(books);
 		//checkResultLibraryItemList(itemReserveTrans, bookItem, pAccount);
+	}
+
+	@Test
+	public void testGetAllBooks() throws Exception {
+		List<LibraryItem> books = null;
+		try {
+			books = service.getAllBooks();
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(books);
+		assertEquals(1, books.size());
+		
+	}
+
+	@Test
+	public void testGetAllNewspapers() throws Exception {
+		List<LibraryItem> newspapers = null;
+		try {
+			newspapers = service.getAllNewspapers();
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(newspapers);
+		assertEquals(1, newspapers.size());
+		
+	}
+
+	@Test
+	public void testGetAllMusic() throws Exception {
+		List<LibraryItem> music = null;
+		try {
+			music = service.getAllMusic();
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(music);
+		assertEquals(1, music.size());
+		
+	}
+
+	@Test
+	public void testGetAllMovies() throws Exception {
+		List<LibraryItem> movies = null;
+		try {
+			movies = service.getAllMovies();
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(movies);
+		assertEquals(1, movies.size());
+		
+	}
+
+	@Test
+	public void testGetAllRooms() throws Exception {
+		List<LibraryItem> rooms = null;
+		try {
+			rooms = service.getAllRoomReservations();
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(rooms);
+		assertEquals(1, rooms.size());
+		
 	}
 }
