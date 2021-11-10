@@ -152,9 +152,6 @@ public class TestLibraryItemService {
 			return invocation.getArgument(0);
 		};
 		lenient().when(libraryItemDao.save(any(LibraryItem.class))).thenAnswer(returnParameterAsAnswer);
-		lenient().when(borrowableItemDao.save(any(BorrowableItem.class))).thenAnswer(returnParameterAsAnswer);
-		lenient().when(userAccountDao.save(any(UserAccount.class))).thenAnswer(returnParameterAsAnswer);
-		lenient().when(transactionDao.save(any(Transaction.class))).thenAnswer(returnParameterAsAnswer);
 	}
 	
 	public static void checkBasicLibraryItemList(LibraryItem item) {
