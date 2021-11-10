@@ -356,7 +356,7 @@ public class LibraryServiceRestController {
 	 * @param password
 	 * @return
 	 */
-	@PutMapping(value = {"/setAccountValidity/", "/setAccountValidity/"})
+	@PutMapping(value = {"/setAccountValidity", "/setAccountValidity/"})
 	public UserAccountDTO setAccountValidity(@RequestBody Patron patron, @RequestParam("validatedAccount") boolean validatedAccount, @RequestBody UserAccount creator) throws Exception{
 		UserAccountDTO accountDTO = new UserAccountDTO();
 		Patron  account = service.setValidatedAccount(patron, validatedAccount, creator);
