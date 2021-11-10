@@ -191,13 +191,67 @@ private static final String USER_PASSWORD = "patron123";
         userAccountRepository.deleteAll();
             
     }
+    /**
+     * @author Gabrielle Halpin
+     * This test give incorrect input for the online account and should through an error
+     * @throws Exception
+     */
+    @Test
     public void testUpdateOnlineUnsuccessful() throws Exception {
+        Patron patron = null;
         
+        try {
+            patron = service.createPatron(USER_CREATOR, USER_FIRST_NAME, USER_LAST_NAME, false, USER_ADDRESS, USER_VALIDATED_ACCOUNT, null, USER_BALANCE, null);
+        }
+        catch (IllegalArgumentException e) {
+            fail();
+        }
+        
+        UserAccount account = null;
+        try{
+            account = service.setOnlineAccount(patron, null, USER_PASSWORD, true, USER_CREATOR);
+        }catch(IllegalArgumentException e){
+            assertEquals("java.lang.IllegalArgumentException: Email cannot be empty!", e.toString());
+        }
+        
+
+        assertEquals(patron.getFirstName(), USER_FIRST_NAME);
+        assertEquals(patron.getLastName(), USER_LAST_NAME);
+        assertEquals(patron.getOnlineAccount(), false);
+        assertEquals(patron.getAddress(), USER_ADDRESS);
+        assertEquals(patron.getPassword(), null);
+        assertEquals(patron.getBalance(), USER_BALANCE);
+        assertEquals(patron.getEmail(), null);
             
     }
 
+    /**
+     * @author Gabrielle Halpin
+     * This tests checks a successful firstName change
+     * @throws Exception
+     */
+    @Test
     public void testUpdateFirstNameSuccessful() throws Exception {
-        
+        Patron patron = null;
+	
+        try {
+            patron = service.createPatron(USER_CREATOR, USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_VALIDATED_ACCOUNT, USER_PASSWORD, USER_BALANCE, USER_EMAIL);
+        }
+        catch (IllegalArgumentException e) {
+            fail();
+        }
+        String newName = "BOB";
+        UserAccount account = service.changeFirstName(newName, patron);
+        assertEquals(patron.getFirstName(), newName);
+        assertEquals(patron.getLastName(), USER_LAST_NAME);
+        assertEquals(patron.getOnlineAccount(), USER_ONLINE_ACCOUNT);
+        assertEquals(patron.getAddress(), USER_ADDRESS);
+        assertEquals(patron.getPassword(), USER_PASSWORD);
+        assertEquals(patron.getBalance(), USER_BALANCE);
+        assertEquals(patron.getEmail(), USER_EMAIL);
+
+        patronRepository.deleteAll();
+        userAccountRepository.deleteAll();
             
     }
     public void testUpdateFirstNameUnsuccessful() throws Exception {
@@ -205,8 +259,33 @@ private static final String USER_PASSWORD = "patron123";
             
     }
 
+    /**
+     * This methods test the users ability to cahnge their lastname, the test should be successful. 
+     * @author Gabrielle Halpin
+     * @throws Exception
+     */
+    @Test
     public void testUpdateLastNameSuccessful() throws Exception {
-        
+        Patron patron = null;
+	
+        try {
+            patron = service.createPatron(USER_CREATOR, USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_VALIDATED_ACCOUNT, USER_PASSWORD, USER_BALANCE, USER_EMAIL);
+        }
+        catch (IllegalArgumentException e) {
+            fail();
+        }
+        String newName = "BOB";
+        UserAccount account = service.changeLastName(newName, patron);
+        assertEquals(patron.getFirstName(), USER_FIRST_NAME);
+        assertEquals(patron.getLastName(), newName);
+        assertEquals(patron.getOnlineAccount(), USER_ONLINE_ACCOUNT);
+        assertEquals(patron.getAddress(), USER_ADDRESS);
+        assertEquals(patron.getPassword(), USER_PASSWORD);
+        assertEquals(patron.getBalance(), USER_BALANCE);
+        assertEquals(patron.getEmail(), USER_EMAIL);
+
+        patronRepository.deleteAll();
+        userAccountRepository.deleteAll();
             
     }
     public void testUpdateLastNameUnsuccessful() throws Exception {

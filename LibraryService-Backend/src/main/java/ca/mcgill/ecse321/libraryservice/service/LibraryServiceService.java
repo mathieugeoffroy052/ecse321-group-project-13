@@ -1938,6 +1938,68 @@ public class LibraryServiceService {
     }
 
     /**
+     * @author Gabrielle Halpin
+     * This method allows the user to change their firstName
+     * @param aFirstName
+     * @param account
+     * @return Useraccount account
+     */
+    public UserAccount changeFirstName(String aFirstName, UserAccount account){
+        String error = "";
+        if (account == null && error.length()==0){
+            error = error + "The account cannot be null";
+        }
+        if (account.getOnlineAccount() == false && error.length()==0){
+            error = error + "The account must be an online account";
+        }
+        if ((aFirstName == null|| aFirstName.trim().length() == 0)&& error.length()==0) {
+            error = error + "firstName cannot be empty!";
+        }
+        if ((aFirstName == account.getFirstName()&& error.length()==0)){
+            error = error + "This is already your firstName.";
+        }
+
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
+
+        account.setFirstName(aFirstName);
+        return account;
+    }
+
+    /**
+     * @author Gabrielle Halpin
+     * This method allows the user to change their lastName
+     * @param aLastName
+     * @param account
+     * @return Useraccount account
+     */
+    public UserAccount changeLastName(String aLastname, UserAccount account){
+        String error = "";
+        if (account == null && error.length()==0){
+            error = error + "The account cannot be null";
+        }
+        if (account.getOnlineAccount() == false && error.length()==0){
+            error = error + "The account must be an online account";
+        }
+        if ((aLastname == null|| aLastname.trim().length() == 0)&& error.length()==0) {
+            error = error + "lastname cannot be empty!";
+        }
+        if ((aLastname == account.getLastName()&& error.length()==0)){
+            error = error + "This is already your lastname.";
+        }
+
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
+
+        account.setLastName(aLastname);
+        return account;
+    }
+
+    /**
      * This mathod is called when the Librarian set's a customer's account to an online account
      * @author Gabrielle Hapin
      * @param account
@@ -1965,7 +2027,7 @@ public class LibraryServiceService {
             error = error + "Password cannot be empty! ";
         }
         if ((aEmail == null|| aEmail.trim().length() == 0) && aOnlineAccount == true && error.length()==0) {
-            error = error + "Email cannot be empty! ";
+            error = error + "Email cannot be empty!";
         }
 
         error = error.trim();
