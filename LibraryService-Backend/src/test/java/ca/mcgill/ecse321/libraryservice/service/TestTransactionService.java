@@ -65,7 +65,7 @@ public class TestTransactionService {
 	private static final ItemType BOOK_TYPE = ItemType.Book;
 	private static final Date BOOK_DATE = Date.valueOf("2009-03-15");
 
-	private static final int NEWSPAPER_ISBN = 123;
+	private static final int NEWSPAPER_ISBN = 124;
 	private static final String NEWSPAPER_CREATOR = "Times";
 	private static final String NEWSPAPER_NAME = "First edition";
 	private static final ItemType NEWSPAPER_TYPE = ItemType.NewspaperArticle;
@@ -76,6 +76,12 @@ public class TestTransactionService {
 	private static final String MUSIC_NAME = "One Dance";
 	private static final ItemType MUSIC_TYPE = ItemType.Music;
 	private static final Date MUSIC_DATE = Date.valueOf("2018-04-25");
+
+	private static final int MOVIE_ISBN = 126;
+	private static final String MOVIE_CREATOR = "Denis Villeneuve";
+	private static final String MOVIE_NAME = "Dune";
+	private static final ItemType MOVIE_TYPE = ItemType.Movie;
+	private static final Date MOVIE_DATE = Date.valueOf("2021-01-24");
 	
 	private static final String ROOM_NAME = "Room 1";
 	private static final ItemType ROOM_TYPE = ItemType.Room;
@@ -104,8 +110,12 @@ public class TestTransactionService {
 	private static final TransactionType TRANSACTION_TYPE = TransactionType.Borrowing;
 
 	private static final int TRANSACTION_ID_2 = 888;
-	private static final Date TRANSACTION_DATE_2 = Date.valueOf("2021-03-15");;
+	private static final Date TRANSACTION_DATE_2 = Date.valueOf("2021-06-17");;
 	private static final TransactionType TRANSACTION_TYPE_2 = TransactionType.ItemReservation;
+
+	private static final int TRANSACTION_ID_3 = 999;
+	private static final Date TRANSACTION_DATE_3 = Date.valueOf("2020-05-16");;
+	private static final TransactionType TRANSACTION_TYPE_3 = TransactionType.Waitlist;
 
 
 	@BeforeEach
@@ -172,6 +182,11 @@ public class TestTransactionService {
 				music.setIsbn(MUSIC_ISBN);
 				BorrowableItem musicItem = new BorrowableItem(AVAILABLE_STATE, music);
 				musicItem.setBarCodeNumber(MUSIC_BARCODENUMBER);
+
+				LibraryItem movie = new LibraryItem(MOVIE_NAME, MOVIE_TYPE, MOVIE_DATE, MOVIE_CREATOR, LIBRARY_ITEM_VIEWABLE);
+				music.setIsbn(MOVIE_ISBN);
+				BorrowableItem movieItem = new BorrowableItem(AVAILABLE_STATE, movie);
+				movieItem.setBarCodeNumber(MOVIE_BARCODENUMBER);
 				
 				Transaction transaction = new Transaction();
 				transaction.setDeadline(TRANSACTION_DATE);
@@ -179,7 +194,6 @@ public class TestTransactionService {
 				transaction.setUserAccount(pAccount);
 				transaction.setTransactionType(TRANSACTION_TYPE);
 				transaction.setTransactionID(TRANSACTION_ID);
-				
 				transactions.add(transaction);
 
 				Transaction transaction2 = new Transaction();
@@ -189,6 +203,14 @@ public class TestTransactionService {
 				transaction2.setTransactionType(TRANSACTION_TYPE_2);
 				transaction2.setTransactionID(TRANSACTION_ID_2);
 				transactions.add(transaction2);
+
+				Transaction transaction3 = new Transaction();
+				transaction3.setDeadline(TRANSACTION_DATE_3);
+				transaction3.setBorrowableItem(movieItem);
+				transaction3.setUserAccount(pAccount);
+				transaction3.setTransactionType(TRANSACTION_TYPE_3);
+				transaction3.setTransactionID(TRANSACTION_ID_3);
+				transactions.add(transaction3);
 				
 				
 				return transactions;
@@ -455,6 +477,26 @@ public class TestTransactionService {
 		assertNotNull(reservedItems);
 		assertEquals(1, reservedItems.size());
 		checkUserItems(reservedItems.get(0));
+		
+	}
+
+	@Test
+	public void testGetWaitlistItemsFromUser() throws Exception {
+		Patron pAccount = new Patron();
+		pAccount.setFirstName(PATRON_FIRST_NAME);
+		pAccount.setLastName(PATRON_LAST_NAME);
+		pAccount.setValidatedAccount(PATRON_VALIDATED);
+		pAccount.setOnlineAccount(ONLINE);
+		
+		List<BorrowableItem> waitlistItems = null;
+		try {
+			waitlistItems = service.getReservedItemsFromUser(pAccount);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(waitlistItems);
+		assertEquals(1, waitlistItems.size());
+		checkUserItems(waitlistItems.get(0));
 		
 	}
 	
