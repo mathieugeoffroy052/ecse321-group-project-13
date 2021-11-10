@@ -2,12 +2,21 @@ package ca.mcgill.ecse321.libraryservice.dto;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 
 public class HolidayDTO {
+
+// use local date and times because easier to pass as JSON for URL endpoints
+  @JsonFormat(pattern = "yyyy-MM-dd")
   private Date date;
+  @JsonFormat(pattern = "HH:mm:ss")
   private Time startTime;
-  private Time endtime;
+  @JsonFormat(pattern = "HH:mm:ss")
+  private Time endTime;
 
   private HeadLibrarianDTO headLibrarian;
 
@@ -18,7 +27,7 @@ public class HolidayDTO {
   public HolidayDTO(Date date, Time startTime, Time endTime, HeadLibrarianDTO headLibrarian){
       this.date = date;
       this.startTime = startTime;
-      this.endtime = endTime;
+      this.endTime = endTime;
       this.headLibrarian = headLibrarian;
    }
 
@@ -31,7 +40,7 @@ public class HolidayDTO {
    }
    
    public Time getEndTime(){
-       return this.endtime;
+       return this.endTime;
    }
 
    public HeadLibrarianDTO getHeadLibrarian(){
