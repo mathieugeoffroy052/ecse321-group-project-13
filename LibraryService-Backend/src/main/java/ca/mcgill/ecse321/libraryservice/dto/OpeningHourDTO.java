@@ -10,9 +10,12 @@ public class OpeningHourDTO {
 	public enum DayOfWeek { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday }
 
 	private HeadLibrarianDTO headLibrarian;
+	@JsonFormat(pattern = "HH:mm:ss")
 	private Time startTime;
+	@JsonFormat(pattern = "HH:mm:ss")
 	private Time endTime;
 	private DayOfWeek dayOfWeek;
+	private int openingHourID;
 
 	public OpeningHourDTO() {
 	}
@@ -22,6 +25,14 @@ public class OpeningHourDTO {
 		startTime = aStartTime;
 		endTime = aEndTime;
 		dayOfWeek = aDayOfWeek;
+	}
+	
+	public OpeningHourDTO(DayOfWeek aDayOfWeek, Time aStartTime, Time aEndTime, HeadLibrarianDTO aHeadLibrarian, int anOpeningHourID) {
+		headLibrarian = aHeadLibrarian;
+		startTime = aStartTime;
+		endTime = aEndTime;
+		dayOfWeek = aDayOfWeek;
+		openingHourID = anOpeningHourID;
 	}
 
 	public HeadLibrarianDTO getHeadLibrarian() {
@@ -38,6 +49,10 @@ public class OpeningHourDTO {
 
 	public DayOfWeek getDayOfWeek() {
 		return dayOfWeek;
+	}
+	
+	public int getOpeningHourID() {
+		return openingHourID;
 	}
 
 }

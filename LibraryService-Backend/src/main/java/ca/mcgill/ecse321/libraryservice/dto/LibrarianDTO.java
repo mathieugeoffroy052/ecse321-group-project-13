@@ -9,4 +9,9 @@ public class LibrarianDTO extends UserAccountDTO{
     super(aFirstName, aLastName, aOnlineAccount,aAddress, aPassword, aBalance, aEmail);
   }
 
+  public LibrarianDTO(String aFirstName, String aLastName, boolean aOnlineAccount, String aAddress, String aPassword, int aBalance, String aEmail, int aLibrarianID)
+  {
+    super(aFirstName, aLastName, aOnlineAccount,aAddress, aPassword, aBalance, aEmail, aLibrarianID);
+  }
+
 }

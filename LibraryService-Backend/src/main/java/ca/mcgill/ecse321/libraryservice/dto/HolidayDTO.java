@@ -14,8 +14,11 @@ public class HolidayDTO {
   private Date date;
   @JsonFormat(pattern = "HH:mm:ss")
   private Time startTime;
+
   @JsonFormat(pattern = "HH:mm:ss")
   private Time endTime;
+  rivate int holidayID;
+
 
   private HeadLibrarianDTO headLibrarian;
 
@@ -33,6 +36,14 @@ public class HolidayDTO {
       this.endTime = endTime;
       this.headLibrarian = headLibrarian;
    }
+ 
+  public HolidayDTO(Date date, Time startTime, Time endTime, HeadLibrarianDTO headLibrarian, int holidayID){
+      this.date = date;
+      this.startTime = startTime;
+      this.endtime = endTime;
+      this.headLibrarian = headLibrarian;
+      this.holidayID = holidayID;
+   }
 
    public Date getDate(){
        return this.date;
@@ -49,5 +60,9 @@ public class HolidayDTO {
    public HeadLibrarianDTO getHeadLibrarian(){
        return this.headLibrarian;
    }
+   
+	public int getHolidayID() {
+		return holidayID;
+	}
   
 }
