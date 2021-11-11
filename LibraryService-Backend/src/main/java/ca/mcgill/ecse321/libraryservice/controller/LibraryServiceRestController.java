@@ -1098,19 +1098,15 @@ public class LibraryServiceRestController {
      */
     private BorrowableItem convertToDomainObject(BorrowableItemDTO borrowableItemDTO) {
         BorrowableItem borrowableItem = null;
-	     try {
-	    	 
-	    	borrowableItem = service.getBorrowableItemFromBarCodeNumber(borrowableItemDTO.getBarCodeNumber());
-	     } catch (Exception e) {
-	         throw new IllegalArgumentException("Could not get borrowable item from service!");
-	     }
-	     if (borrowableItem == null) {
-	            throw new IllegalArgumentException("There is no such borrowable item dto!");
-	        }
-	     return borrowableItem;    
-
+        try {
+            borrowableItem = service.getBorrowableItemFromBarCodeNumber(borrowableItemDTO.getBarCodeNumber());
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Could not get borrowable item from service!");
         }
-        return borrowableItem;
+	    if (borrowableItem == null) {
+	            throw new IllegalArgumentException("There is no such borrowable item dto!");
+	    }
+	    return borrowableItem; 
     }
 
     /**
@@ -1313,9 +1309,8 @@ public class LibraryServiceRestController {
              for (Transaction t : transactions) {
             	 if(t.getTransactionID() == transactionDTO.getTransactionID()) {
             		 transaction = t;
-            	 }
-
-
+                }
+            }
         } catch (Exception e) {
             throw new IllegalArgumentException("Could not get transactions from service!");
         }
