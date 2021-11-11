@@ -1079,7 +1079,7 @@ public class LibraryServiceService {
      * Calls on check if 
      * @author Eloyann Roy-Javanbakht
      */
-    public HeadLibrarian CreateNewHeadLibrarian(String aFirstName, String aLastName, boolean aOnlineAccount, String aAddress, String aPassword, int aBalance , String aEmail)
+    public HeadLibrarian createNewHeadLibrarian(String aFirstName, String aLastName, boolean aOnlineAccount, String aAddress, String aPassword, int aBalance , String aEmail)
     throws Exception {
 
         String error = "";
@@ -1104,7 +1104,7 @@ public class LibraryServiceService {
         }
         
         HeadLibrarian headLibrarian;
-        if(checkOnlyOneHeadLibrarian()) throw new  Exception("This User  does not the credentials to add a new librarian");
+        if(checkOnlyOneHeadLibrarian()) throw new  Exception("There is already a HeadLibrarian AccountExisting");
    
         headLibrarian = new HeadLibrarian(aFirstName, aLastName, aOnlineAccount, aAddress, aPassword, aBalance, aEmail);
         librarianRepository.save(headLibrarian);
@@ -1118,12 +1118,13 @@ public class LibraryServiceService {
      * delete a HeadLibrarian object with user ID
      * @author Eloyann Roy-Javanbakht
      * */
-    public HeadLibrarian DeleteHeadLibrarian(int  userID)
+    public HeadLibrarian deleteHeadLibrarian(int  userID)
     throws Exception {
        HeadLibrarian headLibrarian=getHeadLibrarian();
        HeadLibrarian thisone=getHeadLibrarianFromUserId(userID);
-       if(thisone.equals(headLibrarian)) 
-      headLibrarianRepository.delete(headLibrarian);
+       if(thisone.equals(headLibrarian)==false) throw new Exception("The UserID provided does not correspond to a  Head Librarian Account"); 
+      
+       headLibrarianRepository.delete(headLibrarian);
     
         return headLibrarian;
         

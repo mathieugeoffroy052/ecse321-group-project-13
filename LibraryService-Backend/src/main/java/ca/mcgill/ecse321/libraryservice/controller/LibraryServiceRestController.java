@@ -1412,25 +1412,7 @@ public class LibraryServiceRestController {
 
     }
 
-    /**
-     * HeadLibrarian gettMapping of Services
-     * 
-     */
-
-    
-
-//  * @author Eloyann Roy Javanbakht
-//  * mapping GetHead Librarian from userId
-//  * @param userID
-//  * @return
-//  * @throws Exception
-//  */
-    /**
-     * HeadLibrarian gettMapping of Services
-     * 
-     */
-
-    
+ 
 
 //  * @author Eloyann Roy Javanbakht
 //  * mapping GetHead Librarian from userId
@@ -1471,7 +1453,7 @@ public class LibraryServiceRestController {
     //  */
     @DeleteMapping(value={"/headLibrarians/delete/{userID}", "/headLibrarians/delete/{userID}/"})
     public HeadLibrarianDTO deleteALibrarian(@PathVariable("userID") int userID) throws Exception  {
-    return convertToDto(service.DeleteHeadLibrarian(userID));
+    return convertToDto(service.deleteHeadLibrarian(userID));
 
     }  
 
@@ -1488,7 +1470,7 @@ public class LibraryServiceRestController {
         @RequestParam String aEmail) throws Exception{
         
             
-            return convertToDto(service.CreateNewHeadLibrarian(firstName, aLastName, aOnlineAccount, aAddress, aPassword, aBalance, aEmail));
+            return convertToDto(service.createNewHeadLibrarian(firstName, aLastName, aOnlineAccount, aAddress, aPassword, aBalance, aEmail));
         }
 
 
@@ -1505,8 +1487,15 @@ public class LibraryServiceRestController {
         return convertToDto(service.createANewLibrarian(convertToDomainObject(creator), firstName, aLastName, aOnlineAccount, aAddress, aPassword,
                 aBalance, aEmail));
     }
-
-
+    /**
+     * @author Eloyann
+     * create Librarian
+     */
+    @GetMapping(value = { "/librarianAccount/{firstName}/{lastName}", "/librarianAccount/{firstName}/{lastName}/" })
+    public UserAccountDTO getLibrarianAccountByFullName(@PathVariable("firstName") String firstName,
+            @PathVariable("lastName") String lastName) throws Exception {
+        return convertToDto(service.getLibrarianFromFullName(firstName, lastName));
+    }
 
 
 
