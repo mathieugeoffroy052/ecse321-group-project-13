@@ -4,6 +4,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -89,6 +90,15 @@ private static final String USER_PASSWORD = "mIMI";
             headLibrarian.setUserID(HEADLIBRARIAN_USER_ID);
             return headLibrarian;
     });
+    lenient().when(librarianDAO.findLibrarianByUserID(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
+        if(invocation.getArgument(0).equals(LIBRARIAN_USER_ID)) {
+            Librarian librarian = 
+            new Librarian(LIBRARIAN_FIRST_NAME , LIBRARIAN_LAST_NAME, LIBRARIAN_ONLINE_ACCOUNT, LIBRARIAN_ADDRESS, LIBRARIAN_PASSWORD, LIBRARIAN_BALANCE, LIBRARIAN_EMAIL);
+            return librarian ;
+        } else {
+            return null;
+        }
+    });
 
         Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
 			return invocation.getArgument(0);
@@ -97,40 +107,129 @@ private static final String USER_PASSWORD = "mIMI";
     }
 
     @Test 
-public void testgetLibrarianFromNotAssociatedId () throws Exception {
-
-
-}
+    public void testgetLibrarianFromNotAssociatedId () throws Exception {
+    int impossibleID=-5;
+    HeadLibrarian headlibrarian=null;
+    String error="";
+    try {
+        headlibrarian=service.getHeadLibrarianFromUserId(impossibleID);
+    } catch (Exception e) {
+        error=e.getMessage();
+    }
+      assertEquals(error, "actual");
+      assertNull(headlibrarian);
+     headLibrarianDAO.deleteAll();
+     librarianDAO.deleteAll();
+     userAccountDAO.deleteAll();
+    
+    }
 
 @Test
 public void testgetHeadLibrarianWithGoodID () {
-
+    
+    HeadLibrarian headlibrariantest=null;
+    String error="";
+    try {
+        headlibrariantest=service.getHeadLibrarianFromUserId(HEADLIBRARIAN_ID);
+    } catch (Exception e) {
+        error=e.getMessage();
+    }
+      assertNotNull(headlibrariantest);
+      assertEquals(headlibrariantest.getFirstName(),HEADLIBRARIAN_FIRST_NAME);
+      headLibrarianDAO.deleteAll();
+      librarianDAO.deleteAll();
+      userAccountDAO.deleteAll();
 }
 
 
 @Test
 public void testDeleteHeadLibrarian() {
-    
+    HeadLibrarian headlibrariantest=null;
+    String error="";
+    try {
+        //headlibrariantest=service.DeleteHeadLibrarian(HEADLIBRARIAN_ID);
+    } catch (Exception e) {
+        error=e.getMessage();
+    }
+
+      assertNotNull(headlibrariantest);
+      assertEquals(headlibrariantest.getFirstName(),HEADLIBRARIAN_FIRST_NAME);
+      try {
+        //headlibrariantest=service.DeleteHeadLibrarian(HEADLIBRARIAN_ID);
+    } catch (Exception e) {
+        error="yes";
+    }
+     
+     
+     assertEquals(error, "yes");
+      headLibrarianDAO.deleteAll();
+      librarianDAO.deleteAll();
+      userAccountDAO.deleteAll();
 }
 
 @Test
 public void testDeleteHeadLibrarianDoesntCorrespond () {
+
+    String error="";
+    try {
+        //headlibrariantest=service.deleteHeadLibrarian(-5);
+    } catch (Exception e) {
+        error=e.getMessage();
+    }
+
+     
+      assertNotEquals(LIBRARIAN_ID,HEADLIBRARIAN_ID);
+
+     
+     
+     assertEquals(error, "actual");
+      headLibrarianDAO.deleteAll();
+      librarianDAO.deleteAll();
+      userAccountDAO.deleteAll();
     
 }
 
 
 @Test
 public void createHeadLibrarianwithNullFields() {
-    
+    String error="";
+    try {
+        //headlibrariantest=service.createHeadLibrarian();
+    } catch (Exception e) {
+        error=e.getMessage();
+    }
+
+     
+      assertNotEquals(LIBRARIAN_ID,HEADLIBRARIAN_ID);
+
+     
+     
+     assertEquals(error, "actual");
+      headLibrarianDAO.deleteAll();
+      librarianDAO.deleteAll();
+      userAccountDAO.deleteAll(); 
 }
 
-@Test
-public void createHeadLibrarianwithoutBeingHeadLibrarian() {
-    
-}
 
 @Test
 public void createHeadLibrarian() {
-    
+    String error="";
+    HeadLibrarian created=null;
+    HeadLibrarian headlibrariantest=null;
+    try {
+        //headlibrariantest=service.createHeadLibrarian();
+    } catch (Exception e) {
+        error=e.getMessage();
+    }
+
+     
+     
+
+     assertEquals(created, headlibrariantest);
+     
+      assertEquals(error, "");
+      headLibrarianDAO.deleteAll();
+      librarianDAO.deleteAll();
+      userAccountDAO.deleteAll();    
 }
 }
