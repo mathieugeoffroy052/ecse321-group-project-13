@@ -361,7 +361,7 @@ public class LibraryServiceRestController {
      * @throws Exception
      * @author Ramin Akhavan-Sarraf
      */
-    @GetMapping(value = { "/movies/", "/movie" })
+    @GetMapping(value = { "/movies/", "/movies" })
     public List<LibraryItemDTO> getAllMovies() throws Exception {
         ArrayList<LibraryItemDTO> movies = new ArrayList<>();
         for(LibraryItem item: service.getAllMovies()){
