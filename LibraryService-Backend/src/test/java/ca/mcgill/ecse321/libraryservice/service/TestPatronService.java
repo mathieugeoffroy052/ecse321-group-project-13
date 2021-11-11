@@ -61,6 +61,14 @@ private static final boolean PATRON_VALIDATED_ACCOUNT = false;
 private static final String PATRON_PASSWORD = "patron123";
 private static final int HEAD_ID = 100;
 
+
+/**
+ * This method is used to mock the patron database methods by creating test 
+ * objects and storing them in the system so that the 
+ * service methods can execute. This is done before each of
+ * the tests.
+ * @author Zoya Malhi
+ */
 @BeforeEach
 public void setMockOutput() {
     lenient().when(patronDAO.findPatronByUserID(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
@@ -130,6 +138,13 @@ lenient().when(userAccountDAO.save(any(UserAccount.class))).thenAnswer(returnPar
 lenient().when(headLibrarianDAO.save(any(HeadLibrarian.class))).thenAnswer(returnParameterAsAnswer);
 }
 
+/**
+ * This tests verifies if a patron is created successfully in
+ * the database.
+ * 
+ * @author Zoya Malhi
+ * @throws Exception
+ */
 @Test
 public void testCreatePatronSuccessful() throws Exception {
 	
@@ -155,7 +170,13 @@ public void testCreatePatronSuccessful() throws Exception {
 		
 }
 
-
+/**
+ * This tests checks if the first name of the patron is null when 
+ * creating a patron in the system. It returns an error if the first name is null.
+ *  
+ * @author Zoya Malhi
+ * @throws Exception
+ */
 @Test
 public void testCreatePatronNullFirstName() throws Exception {
 	String error = null;
@@ -176,7 +197,13 @@ public void testCreatePatronNullFirstName() throws Exception {
 	
 }
 
-
+/**
+ * This tests checks if the first name of the patron is empty when 
+ * creating a patron in the system. It returns an error if the first name is empty.
+ *  
+ * @author Zoya Malhi
+ * @throws Exception
+ */
 @Test
 public void testCreatePatronEmptyFirstName() throws Exception {
 	String error = null;
@@ -196,7 +223,14 @@ public void testCreatePatronEmptyFirstName() throws Exception {
 		assertEquals("First Name cannot be empty!", error);
 	
 }
-	
+
+/**
+ * This tests checks if the last name of the patron is null when 
+ * creating a patron in the system. It returns an error if the last name is null.
+ *  
+ * @author Zoya Malhi
+ * @throws Exception
+ */
 @Test
 public void testCreatePatronNullLastName() throws Exception {
 	String error = null;
@@ -217,7 +251,13 @@ public void testCreatePatronNullLastName() throws Exception {
 	
 }
 
-
+/**
+ * This tests checks if the last name of the patron is empty when 
+ * creating a patron in the system. It returns an error if the last name is empty.
+ *  
+ * @author Zoya Malhi
+ * @throws Exception
+ */
 @Test
 public void testCreatePatronEmptyLastName() throws Exception {
 	String error = null;
@@ -238,6 +278,13 @@ public void testCreatePatronEmptyLastName() throws Exception {
 	
 }
 
+/**
+ * This tests checks if the address of the patron is null when 
+ * creating a patron in the system. It returns an error if the address is null.
+ *  
+ * @author Zoya Malhi
+ * @throws Exception
+ */
 @Test
 public void testCreatePatronNullAddress() throws Exception {
 	String error = null;
@@ -256,6 +303,13 @@ public void testCreatePatronNullAddress() throws Exception {
 	
 }
 
+/**
+ * This tests checks if the address of the patron is empty when 
+ * creating a patron in the system. It returns an error if the address is empty.
+ *  
+ * @author Zoya Malhi
+ * @throws Exception
+ */
 @Test
 public void testCreatePatronEmptyAddress() throws Exception {
 	String error = null;
@@ -275,6 +329,13 @@ public void testCreatePatronEmptyAddress() throws Exception {
 		assertEquals("Address cannot be empty!", error);
 }
 
+/**
+ * This tests checks if the password of the patron is null when 
+ * creating a patron in the system. It returns an error if the password is null.
+ *  
+ * @author Zoya Malhi
+ * @throws Exception
+ */
 @Test
 public void testCreatePatronNullPassword() throws Exception {
 	String error = null;
@@ -293,6 +354,13 @@ public void testCreatePatronNullPassword() throws Exception {
 	
 }
 
+/**
+ * This tests checks if the password of the patron is empty when 
+ * creating a patron in the system. It returns an error if the password is empty.
+ *  
+ * @author Zoya Malhi
+ * @throws Exception
+ */
 @Test
 public void testCreatePatronEmptyPassword() throws Exception {
 	String error = null;
