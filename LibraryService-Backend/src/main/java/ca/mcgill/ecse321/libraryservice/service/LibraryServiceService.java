@@ -1512,6 +1512,8 @@ public class LibraryServiceService {
         } catch (IllegalArgumentException e) {
             throw new Exception("Invalid day");
         }
+        if (startTime == null) throw new IllegalArgumentException("Invalid StartTime");
+        if (endTime == null) throw new IllegalArgumentException("Invalid EndTime");
         HeadLibrarian headLibrarian = getHeadLibrarian();
         OpeningHour openingHour = new OpeningHour(dayOfWeek, startTime, endTime, headLibrarian);
         openingHourRepository.save(openingHour);

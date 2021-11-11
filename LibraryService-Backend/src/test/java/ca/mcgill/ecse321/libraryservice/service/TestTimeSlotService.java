@@ -51,12 +51,6 @@ public class TestTimeSlotService {
     private static final Time TIMESLOT_ENDTIME = new Time(11, 00, 00);
     private static final HeadLibrarian TIMESLOT_HEADLIBRARIAN = new HeadLibrarian();
 
-    private static final int TIMESLOT_KEY2 = 30;
-    private static final Date TIMESLOT_STARTDATE2 = new Date(2021, 12, 25);
-    private static final Date TIMESLOT_ENDDATE2 = new Date(2021, 12, 28);
-    private static final Time TIMESLOT_STARTTIME2 = new Time(11, 00, 00);
-    private static final Time TIMESLOT_ENDTIME2 = new Time(12, 00, 00);
-
     private static final int HEADLIBRARIAN_KEY = 400;
     private static final String HEADLIBRARIAN_FIRSTNAME = "Jane";
     private static final String HEADLIBRARIAN_LASTNAME = "Doe";
@@ -90,22 +84,6 @@ public class TestTimeSlotService {
             } else {
                 return null;
             }
-        });
-
-        lenient().when(timeslotDao.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
-            
-                TimeSlot timeslot = new TimeSlot(TIMESLOT_STARTDATE, TIMESLOT_STARTTIME, TIMESLOT_ENDDATE, TIMESLOT_ENDTIME, TIMESLOT_HEADLIBRARIAN);
-                timeslot.setTimeSlotID(TIMESLOT_KEY);
-                
-                TimeSlot timeslot2 = new TimeSlot(TIMESLOT_STARTDATE2, TIMESLOT_STARTTIME2, TIMESLOT_ENDDATE2, TIMESLOT_ENDTIME2, TIMESLOT_HEADLIBRARIAN);
-                timeslot.setTimeSlotID(TIMESLOT_KEY2);
-                List<TimeSlot> list = new ArrayList<TimeSlot>();
-
-                list.add(timeslot);
-                list.add(timeslot2);
-
-                return list;
-            
         });
 
         lenient().when(timeslotDao.findByLibrarian(any(Librarian.class))).thenAnswer( (InvocationOnMock invocation) -> {
@@ -161,6 +139,7 @@ public class TestTimeSlotService {
     @AfterEach
     public void clearMockOutputs() {
         timeslotDao.deleteAll();
+        librarianDao.deleteAll();
         headLibrarianDao.deleteAll();
     }
 
@@ -552,21 +531,66 @@ public class TestTimeSlotService {
         }
     }
 
+     /**
+     * test get timeslot from null librarian
+     * @author Mathieu Geoffroy
+     */
     @Test
-    public void testGetAllTimeSlots(){
-        Iterable<TimeSlot> comparedTimeSlots = timeslotDao.findAll();
-        List<TimeSlot> timeslots = null;
+    public void testGetTimeSlotWithLibrarianNull() {
+        String error = null;
+        Librarian librarian = librarianDao.findLibrarianByUserID(LIBRARIAN_KEY);
+        lenient().when(librarianDao.existsById(anyInt())).thenReturn(true);
+        TimeSlot timeslot = timeslotDao.findTimeSlotByTimeSlotID(TIMESLOT_KEY);
+        lenient().when(timeslotDao.existsById(anyInt())).thenReturn(true);
+        
         try {
-            timeslots = service.getAllTimeSlots();
+            service.assignTimeSlotToLibrarian(timeslot, librarian);
+            librarian = null;
+            assertNull(service.getTimeSlotsFromLibrarian(librarian).get(0).getTimeSlotID());
+        } catch (Exception e) {
+            error = e.getMessage();
+        }
+        assertEquals("A Librarian needs to be selected", error);
+    }
+
+    /**
+     * test get timeslot from librarianid
+     * @author Mathieu Geoffroy
+     */
+    @Test
+    public void testGetTimeSlotWithLibrarianUserID() {
+        Librarian librarian = librarianDao.findLibrarianByUserID(LIBRARIAN_KEY);
+        TimeSlot timeslot = timeslotDao.findTimeSlotByTimeSlotID(TIMESLOT_KEY);
+        lenient().when(librarianDao.existsById(anyInt())).thenReturn(true);
+        lenient().when(timeslotDao.existsById(anyInt())).thenReturn(true);
+        
+        try {
+            service.assignTimeSlotToLibrarian(timeslot, librarian);
+            assertEquals(TIMESLOT_KEY, service.getTimeSlotsFromLibrarianUserID(LIBRARIAN_KEY).get(0).getTimeSlotID());
         } catch (Exception e) {
             fail();
         }
-        for (TimeSlot ts : timeslots) {
-            while (comparedTimeSlots.iterator().hasNext()) {
-                assertEquals(ts.getTimeSlotID(), comparedTimeSlots.iterator().next().getTimeSlotID());
-            }
+    }
+
+    /**
+     * test get timeslot from bad librarianid
+     * @author Mathieu Geoffroy
+     */
+    @Test
+    public void testGetTimeSlotWithLibrarianUserIDInvalid() {
+        String error = null;
+        Librarian librarian = librarianDao.findLibrarianByUserID(LIBRARIAN_KEY);
+        TimeSlot timeslot = timeslotDao.findTimeSlotByTimeSlotID(TIMESLOT_KEY);
+        lenient().when(librarianDao.existsById(anyInt())).thenReturn(true);
+        lenient().when(timeslotDao.existsById(anyInt())).thenReturn(true);
+        
+        try {
+            service.assignTimeSlotToLibrarian(timeslot, librarian);
+            assertNull(service.getTimeSlotsFromLibrarianUserID(-1).get(0).getTimeSlotID());
+        } catch (Exception e) {
+            error = e.getMessage();
         }
-         
+        assertEquals(error, "Invalid id");
     }
     
     /**

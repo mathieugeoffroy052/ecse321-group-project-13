@@ -6,6 +6,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -55,8 +56,7 @@ public class TestOpeningHourService {
     private static final int OPENING_HOUR_INVALID_ID = -100;
     private static final DayOfWeek OPENING_HOUR_DAYOFWEEK = DayOfWeek.Friday;
     private static final Time OPENING_HOUR_START_TIME = Time.valueOf("08:00:00");
-    private static final Time OPENING_HOUR_END_TIME = Time.valueOf("20:00:00");
-    
+    private static final Time OPENING_HOUR_END_TIME = Time.valueOf("20:00:00");    
 
     @BeforeEach
     public void setMockOutput() {
@@ -158,6 +158,69 @@ public class TestOpeningHourService {
     }
 
     /**
+     * Test create opening hour 
+     * Failure case : try to create opening hour with invalid startTime
+     * @author Mathieu Geoffroy
+     */
+    @Test
+    public void testCreateOpeningHourInvalidStartTime() {
+        try {
+            assertEquals(0, service.getAllOpeningHours().size());
+        } catch (Exception e) {
+            fail();
+        }
+        
+        String dayOfWeek = "Monday";
+        Time startTime = null;
+        Time endTime = Time.valueOf("20:00:00");
+
+        OpeningHour openingHour = null;
+
+        String error = "";
+
+        try {
+            openingHour = service.createOpeningHour(dayOfWeek, startTime, endTime);
+        } catch (Exception e) {
+            error = e.getMessage();
+        }
+
+        assertNull(openingHour);
+        assertEquals("Invalid StartTime", error);
+    }
+
+
+    /**
+     * Test create opening hour 
+     * Failure case : try to create opening hour with invalid endTime
+     * @author Mathieu Geoffroy
+     */
+    @Test
+    public void testCreateOpeningHourInvalidEndTime() {
+        try {
+            assertEquals(0, service.getAllOpeningHours().size());
+        } catch (Exception e) {
+            fail();
+        }
+        
+        String dayOfWeek = "Monday";
+        Time startTime = Time.valueOf("20:00:00");
+        Time endTime = null;
+
+        OpeningHour openingHour = null;
+
+        String error = "";
+
+        try {
+            openingHour = service.createOpeningHour(dayOfWeek, startTime, endTime);
+        } catch (Exception e) {
+            error = e.getMessage();
+        }
+
+        assertNull(openingHour);
+        assertEquals("Invalid EndTime", error);
+    }
+
+    /**
      * Test get opening hour from ID
      * Success case
      * @author Amani Jammoul
@@ -212,6 +275,39 @@ public class TestOpeningHourService {
         assertNull(openingHour);
         assertEquals("Invalid id", error);
     }
+
+    /**
+     * Test delete opening hour 
+     * Success case 
+     * @author Mathieu Geoffroy
+     */
+    @Test
+    public void testDeleteOpeningHourSuccess() {
+        boolean test = false;
+        try {
+            assertEquals(0, service.getAllOpeningHours().size());
+        } catch (Exception e) {
+            fail();
+        }
+        
+        OpeningHour openingHour = openingHourDao.findOpeningHourByHourID(OPENING_HOUR_ID);
+        lenient().when(openingHourDao.existsById(anyInt())).thenReturn(true);
+
+        try {
+            test = service.deleteOpeningHour(headLibrarian, openingHour.getHourID());
+            if (openingHourDao.findAll().iterator().hasNext()) {  //gets timeslot if there, othewise, set to null
+                openingHour = openingHourDao.findAll().iterator().next();
+            } else {
+                openingHour = null;
+            }
+        } catch (Exception e) {
+            fail();
+        }
+
+        assertNull(openingHour);
+        assertTrue(test);
+    }
+
 
     /**
      * Verifies all OpeningHour params are equivalent to those for the object given
