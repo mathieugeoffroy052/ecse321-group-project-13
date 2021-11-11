@@ -33,6 +33,7 @@ import org.mockito.stubbing.Answer;
 
 
 import ca.mcgill.ecse321.libraryservice.model.*;
+import net.bytebuddy.agent.builder.AgentBuilder.RedefinitionStrategy.BatchAllocator.Partitioning;
 import ca.mcgill.ecse321.libraryservice.dao.*;
 
 
@@ -505,7 +506,7 @@ public void testDeletePatronByUserIDSuccessful() throws Exception{
      	boolean success = false;
 		Patron patron = null;
 		try {
-			success = service.deleteAPatronbyUserID(service.getHeadLibrarian(), PATRON_ID);
+			success = service.deleteAPatronbyUserID(PATRON_CREATOR, PATRON_ID);
 		
 		}
 		catch (IllegalArgumentException e) {
@@ -542,32 +543,14 @@ public void testDeletePatronByUserIDSuccessful() throws Exception{
 @Test
 public void testDeletePatronByUserIDWrongCreator() throws Exception{
 	String error ="";
-	Patron creator = new Patron();
-	Patron patron = null;
+	Patron patron = patronDAO.findPatronByUserID(PATRON_ID);
 	boolean success = false;
 	try {
-		success = service.deleteAPatronbyUserID(creator, PATRON_ID);
-	
+		success = service.deleteAPatronbyUserID(patron, PATRON_ID);
 	}
-	catch (IllegalArgumentException e) {
-		fail();
-		//error = e.getMessage();
-		
+	catch (Exception e) {
+		assertEquals("This user does not have the credentials to delete an existing patron", e.getMessage());
 	}
-	assertTrue(success);
-//	assertNotNull(patron);
-//	Patron patron2 = service.getPatronByUserId(PATRON_ID);
-//	assertEquals(patron2.getFirstName(), patron.getFirstName());
-//	assertEquals(patron2.getLastName(), patron.getLastName());
-//	assertEquals(patron2.getAddress(), patron.getAddress());
-//	assertEquals(patron2.getOnlineAccount(), patron.getOnlineAccount());
-//	assertEquals(patron2.getValidatedAccount(), patron.getValidatedAccount());
-//	assertEquals(patron2.getEmail(), patron.getEmail());
-//	assertEquals(patron2.getPassword(), patron.getPassword());
-//	assertEquals(patron2.getBalance(), patron.getBalance());
-//	
-//	assertNotNull(patron);
-	assertEquals("This user does not have the credentials to delete an existing patron", error);
 
     headLibrarianDAO.deleteAll();
 	patronDAO.deleteAll(); 
@@ -726,10 +709,10 @@ public void testGetPatronFromFullNameEmptyLastName() throws Exception {
 public void testSetValidatedAccountSuccessful() throws Exception {
 	
 	String error = null;
-	Patron patron = null;
+	Patron patron = patronDAO.findPatronByUserID(PATRON_ID);
 	
 	try {
-		patron = service.setValidatedAccount(service.getAllPatrons().get(0), PATRON_VALIDATED_ACCOUNT, PATRON_CREATOR);
+		patron = service.setValidatedAccount(patron, PATRON_VALIDATED_ACCOUNT, PATRON_CREATOR);
 		
 	}
 	catch (IllegalArgumentException e) {

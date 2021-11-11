@@ -1054,12 +1054,11 @@ public class LibraryServiceService {
     public HeadLibrarian getHeadLibrarian() throws Exception{
     
         try {
-         Iterable<HeadLibrarian> headLibrarian;
-         headLibrarian= headLibrarianRepository.findAll();
+            Iterable<HeadLibrarian> headLibrarian;
+            headLibrarian = headLibrarianRepository.findAll();
         for(HeadLibrarian head: headLibrarian){ return head;}
-       
         } catch (Exception e) {
-         throw new Exception("There isn't any headLibrarian");
+            throw new Exception("There isn't any headLibrarian");
         }
         return null;
  
@@ -1799,10 +1798,7 @@ public class LibraryServiceService {
      */
     @Transactional
     public boolean deleteAPatronbyUserID(UserAccount head, int userID) throws Exception {
-        try {
-        getHeadLibrarianFromUserId(head.getUserID());
-
-        } catch (Exception e) {
+        if(!(head instanceof Librarian)){
             throw new  Exception("This user does not have the credentials to delete an existing patron");
         }
 
@@ -2028,9 +2024,8 @@ public class LibraryServiceService {
         }
 
         try {
-            Patron patronAccount =  patronRepository.findPatronByUserID(patron.getUserID());
-            patronAccount.setValidatedAccount(validated);
-            return patronAccount;
+            patron.setValidatedAccount(validated);
+            return patron;
             
            } catch (Exception e) {
             throw new Exception("This user does not exists in the database.");
