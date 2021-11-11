@@ -1623,6 +1623,10 @@ public class LibraryServiceService {
     @Transactional
     public Holiday createHoliday(Date date, Time startTime, Time endTime) throws Exception{
         HeadLibrarian headLibrarian = getHeadLibrarian();
+        if (date == null) throw new IllegalArgumentException("Invalid date.");
+        if (startTime == null) throw new IllegalArgumentException("Invalid startTime.");
+        if (endTime == null) throw new IllegalArgumentException("Invalid endDate.");
+        if (startTime.toLocalTime().isAfter(endTime.toLocalTime())) throw new IllegalArgumentException("StartTime must be before endTime.");
         Holiday holiday = new Holiday(date, startTime, endTime, headLibrarian);
         holidayRepository.save(holiday);
         return holiday;

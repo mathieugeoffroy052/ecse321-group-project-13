@@ -128,6 +128,126 @@ public class TestHolidayService {
     }
 
     /**
+     * Test create holiday
+     * Failure case: Invalid Date
+     * @author Mathieu Geoffroy
+     */
+    @Test
+    public void testCreateHolidayInvalidDate() {
+        String error = null;
+        try {
+            assertEquals(0, service.getAllHolidays().size());
+        } catch (Exception e) {
+            fail();
+        }
+        
+        Date date = null;
+        Time startTime = Time.valueOf("08:00:00");
+        Time endTime = Time.valueOf("20:00:00");
+
+        Holiday holiday = null;
+
+        try {
+            holiday = service.createHoliday(date, startTime, endTime);
+        } catch (Exception e) {
+            error = e.getMessage();
+        }
+
+        assertNull(holiday);
+        assertEquals("Invalid date.", error);
+    }
+
+    /**
+     * Test create holiday
+     * Failure case: Invalid startTime
+     * @author Mathieu Geoffroy
+     */
+    @Test
+    public void testCreateHolidayInvalidStartTime() {
+        String error = null;
+        try {
+            assertEquals(0, service.getAllHolidays().size());
+        } catch (Exception e) {
+            fail();
+        }
+        
+        Date date = Date.valueOf("2021-12-25");
+        Time startTime = null;
+        Time endTime = Time.valueOf("20:00:00");
+
+        Holiday holiday = null;
+
+        try {
+            holiday = service.createHoliday(date, startTime, endTime);
+        } catch (Exception e) {
+            error = e.getMessage();
+        }
+
+        assertNull(holiday);
+        assertEquals("Invalid startTime.", error);
+    }
+
+    /**
+     * Test create holiday
+     * Failure case: Invalid endTime
+     * @author Mathieu Geoffroy
+     */
+    @Test
+    public void testCreateHolidayInvalidEndTime() {
+        String error = null;
+        try {
+            assertEquals(0, service.getAllHolidays().size());
+        } catch (Exception e) {
+            fail();
+        }
+        
+        Date date = Date.valueOf("2021-12-25");
+        Time startTime = Time.valueOf("20:00:00");
+        Time endTime = null;
+
+        Holiday holiday = null;
+
+        try {
+            holiday = service.createHoliday(date, startTime, endTime);
+        } catch (Exception e) {
+            error = e.getMessage();
+        }
+
+        assertNull(holiday);
+        assertEquals("Invalid endTime.", error);
+    }
+
+    /**
+     * Test create holiday
+     * Failure case: endTime before startTime
+     * @author Mathieu Geoffroy
+     */
+    @Test
+    public void testCreateHolidayInvalidTimeArrangement() {
+        String error = null;
+        try {
+            assertEquals(0, service.getAllHolidays().size());
+        } catch (Exception e) {
+            fail();
+        }
+        
+        Date date = Date.valueOf("2021-12-25");
+        Time startTime = Time.valueOf("20:00:00");
+        Time endTime = Time.valueOf("18:00:00");
+
+        Holiday holiday = null;
+
+        try {
+            holiday = service.createHoliday(date, startTime, endTime);
+        } catch (Exception e) {
+            error = e.getMessage();
+        }
+
+        assertNull(holiday);
+        assertEquals("StartTime must be before endTime.", error);
+    }
+
+    /**
      * Test get holiday from ID
      * Success case
      * @author Amani Jammoul
@@ -153,6 +273,8 @@ public class TestHolidayService {
         assertNotNull(holiday);
         assertHolidayAttributes(holiday, date, startTime, endTime);
     }
+
+    
 
     /**
      * Test get holiday from ID
