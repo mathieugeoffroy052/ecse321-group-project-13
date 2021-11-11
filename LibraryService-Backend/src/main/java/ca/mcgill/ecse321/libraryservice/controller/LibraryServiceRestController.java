@@ -194,7 +194,7 @@ public class LibraryServiceRestController {
      * @return userDTOs
      * @throws Exception
      */
-    @GetMapping(value = { "/users", "/users/" })
+    @GetMapping(value = { "/accounts", "/accounts/" })
     public List<UserAccountDTO> getAllUsers() throws Exception{
             List<UserAccountDTO> userDtos = new ArrayList<>();
             for (UserAccount users : service.getAllUsers()) {
@@ -311,7 +311,7 @@ public class LibraryServiceRestController {
      * @return UserAccountDTO
      * @throws Exception
      */
-    @GetMapping(value = { "/user/{userID}", "/user/{userID}/" })
+    @GetMapping(value = { "/account/{userID}", "/account/{userID}/" })
     public UserAccountDTO getUserbyUserID(@PathVariable("userID") int userID) throws Exception {
         return convertToDto(service.getUserbyUserId(userID));
     }
