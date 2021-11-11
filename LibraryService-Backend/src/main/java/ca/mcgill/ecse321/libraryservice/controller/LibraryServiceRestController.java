@@ -243,10 +243,10 @@ public class LibraryServiceRestController {
      * @param headLibrarian
 	 * @return patronDTO
 	 */
-	@PutMapping(value = {"/deletePatron/{userID}","/deletePatron/{userID}/"})
-	public PatronDTO deletePatron(@PathVariable("userID") int userID, @RequestBody UserAccount headLibrarian) throws Exception{
-		Patron patron = service.deleteAPatronbyUserID(headLibrarian, userID);
-		return convertToDto(patron);
+	@DeleteMapping(value = {"/deletePatron/{userID}","/deletePatron/{userID}/"})
+	public boolean deletePatron(@PathVariable("userID") int userID, @RequestBody UserAccount headLibrarian) throws Exception{
+		return service.deleteAPatronbyUserID(headLibrarian, userID);
+	
 	}
 
     /**

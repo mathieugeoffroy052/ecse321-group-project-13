@@ -1843,7 +1843,7 @@ public class LibraryServiceService {
      * checked
      */
     @Transactional
-    public Patron deleteAPatronbyUserID(UserAccount head, int userID) throws Exception {
+    public boolean deleteAPatronbyUserID(UserAccount head, int userID) throws Exception {
         try {
         getHeadLibrarianFromUserId(head.getUserID());
 
@@ -1855,7 +1855,7 @@ public class LibraryServiceService {
             Patron patronAccount = patronRepository.findPatronByUserID(userID);
             patronRepository.delete(patronAccount);
             
-            return patronAccount;
+            return true;
         } catch (Exception e) {
             throw new  Exception("This user Id does not exist as a Patron");
         }

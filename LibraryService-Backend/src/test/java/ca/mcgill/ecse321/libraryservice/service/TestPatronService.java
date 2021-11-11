@@ -42,7 +42,10 @@ public class TestPatronService {
 	
 @Mock 
 private PatronRepository patronDAO;
-@Mock UserAccountRepository userAccountDAO;
+@Mock 
+private UserAccountRepository userAccountDAO;
+@Mock
+private HeadLibrarianRepository headLibrarianDAO;
 
 @InjectMocks
 private LibraryServiceService service;
@@ -82,7 +85,8 @@ public void setMockOutput() {
         }
     });
     lenient().when(patronDAO.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
-		Patron patron = new Patron();
+    	
+    	Patron patron = new Patron();
 		patron.setPatronID(PATRON_ID);
         patron.setFirstName(PATRON_FIRST_NAME);
         patron.setLastName(PATRON_LAST_NAME); 
@@ -96,29 +100,34 @@ public void setMockOutput() {
 		List<Patron> patrons = new ArrayList<Patron>();
 		patrons.add(patron);
 		return patrons;
+    	
 	});
     
-//    lenient().when(patronDAO.delete(any_Patron())).thenAnswer( (InvocationOnMock invocation) -> {
-//		 	
-//    	HeadLibrarian headlibrarian = new HeadLibrarian();
-//            headlibrarian.setLibrarianID(12345);
-//            headlibrarian.setFirstName("head");
-//            headlibrarian.setLastName("lib"); 
-//            headlibrarian.setEmail("headlib@email.com");
-//            headlibrarian.setPassword("library123");
-//            headlibrarian.setBalance(0);
-//            headlibrarian.setOnlineAccount(true);
-//            headlibrarian.setAddress("100 Library Street");
-//        
-//		
-//		return headlibrarian;
-//	});
+    lenient().when(headLibrarianDAO.findHeadLibrarianByUserID(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+    	if(invocation.getArgument(0).equals(HEAD_ID)) {
+    	HeadLibrarian headlibrarian = new HeadLibrarian();
+            headlibrarian.setLibrarianID(HEAD_ID);
+            headlibrarian.setFirstName("head");
+            headlibrarian.setLastName("lib"); 
+            headlibrarian.setEmail("headlib@email.com");
+            headlibrarian.setPassword("library123");
+            headlibrarian.setBalance(0);
+            headlibrarian.setOnlineAccount(true);
+            headlibrarian.setAddress("100 Library Street");
+        
+		
+		return headlibrarian;
+    	}else {
+            return null;
+        }
+	});
  // Whenever anything is saved, just return the parameter object
  		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
  			return invocation.getArgument(0);
  		};
 lenient().when(patronDAO.save(any(Patron.class))).thenAnswer(returnParameterAsAnswer);
 lenient().when(userAccountDAO.save(any(UserAccount.class))).thenAnswer(returnParameterAsAnswer);
+lenient().when(headLibrarianDAO.save(any(HeadLibrarian.class))).thenAnswer(returnParameterAsAnswer);
 }
 
 @Test
@@ -384,54 +393,68 @@ public void testGetPatronFromID() throws Exception {
 
 @Test 
 public void testDeletePatronByUserIDSuccessful() throws Exception{
-	
-	 HeadLibrarian headlibrarian = new HeadLibrarian();
-     headlibrarian.setLibrarianID(12345);
-     headlibrarian.setFirstName("head");
-     headlibrarian.setLastName("lib"); 
-     headlibrarian.setEmail("headlib@email.com");
-     headlibrarian.setPassword("library123");
-     headlibrarian.setBalance(0);
-     headlibrarian.setOnlineAccount(true);
-     headlibrarian.setAddress("100 Library Street");
-      
+     	boolean success = false;
 		Patron patron = null;
 		try {
-			patron = service.deleteAPatronbyUserID(headlibrarian, PATRON_ID);
+			success = service.deleteAPatronbyUserID(service.getHeadLibrarian(), PATRON_ID);
 		
 		}
 		catch (IllegalArgumentException e) {
 			fail();
 			
 		}
-		assertEquals(PATRON_ADDRESS, patron.getAddress());
-		assertEquals(PATRON_ONLINE_ACCOUNT, patron.getOnlineAccount());
-		assertEquals(PATRON_VALIDATED_ACCOUNT, patron.getValidatedAccount());
-		assertEquals(PATRON_EMAIL, patron.getEmail());
-		assertEquals(PATRON_PASSWORD, patron.getPassword());
-		assertEquals(PATRON_BALANCE, patron.getBalance());
+		assertTrue(success);
+//		assertNotNull(patron);
+//		Patron patron2 = service.getPatronByUserId(PATRON_ID);
+//		assertEquals(patron2.getFirstName(), patron.getFirstName());
+//		assertEquals(patron2.getLastName(), patron.getLastName());
+//		assertEquals(patron2.getAddress(), patron.getAddress());
+//		assertEquals(patron2.getOnlineAccount(), patron.getOnlineAccount());
+//		assertEquals(patron2.getValidatedAccount(), patron.getValidatedAccount());
+//		assertEquals(patron2.getEmail(), patron.getEmail());
+//		assertEquals(patron2.getPassword(), patron.getPassword());
+//		assertEquals(patron2.getBalance(), patron.getBalance());
+//		
 		patronDAO.deleteAll();
         userAccountDAO.deleteAll();
+        headLibrarianDAO.deleteAll();
 	}
 
 @Test
 public void testDeletePatronByUserIDWrongCreator() throws Exception{
 	String error ="";
 	Patron creator = new Patron();
+	Patron patron = null;
+	boolean success = false;
 	try {
-		service.deleteAPatronbyUserID(creator, PATRON_ID);
+		success = service.deleteAPatronbyUserID(creator, PATRON_ID);
 	
 	}
 	catch (IllegalArgumentException e) {
-	//	fail();
-		error = e.getMessage();
+		fail();
+		//error = e.getMessage();
 		
 	}
-	patronDAO.deleteAll();
-    userAccountDAO.deleteAll();
-	//assertEquals("This user does not have the credentials to delete an existing patron", error);
-}
+	assertTrue(success);
+//	assertNotNull(patron);
+//	Patron patron2 = service.getPatronByUserId(PATRON_ID);
+//	assertEquals(patron2.getFirstName(), patron.getFirstName());
+//	assertEquals(patron2.getLastName(), patron.getLastName());
+//	assertEquals(patron2.getAddress(), patron.getAddress());
+//	assertEquals(patron2.getOnlineAccount(), patron.getOnlineAccount());
+//	assertEquals(patron2.getValidatedAccount(), patron.getValidatedAccount());
+//	assertEquals(patron2.getEmail(), patron.getEmail());
+//	assertEquals(patron2.getPassword(), patron.getPassword());
+//	assertEquals(patron2.getBalance(), patron.getBalance());
+//	
+//	assertNotNull(patron);
+	assertEquals("This user does not have the credentials to delete an existing patron", error);
 
+    headLibrarianDAO.deleteAll();
+	patronDAO.deleteAll(); 
+    userAccountDAO.deleteAll();
+	
+}
 @Test
 public void testGetPatronFromFullNameSuccessful() throws Exception {
 	
