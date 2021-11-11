@@ -86,6 +86,18 @@ public class TestTimeSlotService {
             }
         });
 
+        lenient().when(timeslotDao.findByLibrarian(any(Librarian.class))).thenAnswer( (InvocationOnMock invocation) -> {
+            if(((Librarian) invocation.getArgument(0)).getUserID() == LIBRARIAN_KEY) {
+                TimeSlot timeslot = new TimeSlot(TIMESLOT_STARTDATE, TIMESLOT_STARTTIME, TIMESLOT_ENDDATE, TIMESLOT_ENDTIME, TIMESLOT_HEADLIBRARIAN);
+                timeslot.setTimeSlotID(TIMESLOT_KEY);
+                List<TimeSlot> list = new ArrayList<TimeSlot>();
+                list.add(timeslot);
+                return list;
+            } else {
+                return null;
+            }
+        });
+
         lenient().when(headLibrarianDao.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
                 HeadLibrarian headLibrarian = new HeadLibrarian(HEADLIBRARIAN_FIRSTNAME, HEADLIBRARIAN_LASTNAME, HEADLIBRARIAN_VALIDACC, HEADLIBRARIAN_ADDRESS, HEADLIBRARIAN_PASSWORD, HEADLIBRARIAN_BALANCE, HEADLIBRARIAN_EMAIL);
                 headLibrarian.setUserID(HEADLIBRARIAN_KEY);
@@ -96,15 +108,23 @@ public class TestTimeSlotService {
         });
 
         lenient().when(headLibrarianDao.findHeadLibrarianByUserID(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
+            if(((int) invocation.getArgument(0)) == HEADLIBRARIAN_KEY) {
             HeadLibrarian headLibrarian = new HeadLibrarian(HEADLIBRARIAN_FIRSTNAME, HEADLIBRARIAN_LASTNAME, HEADLIBRARIAN_VALIDACC, HEADLIBRARIAN_ADDRESS, HEADLIBRARIAN_PASSWORD, HEADLIBRARIAN_BALANCE, HEADLIBRARIAN_EMAIL);
             headLibrarian.setUserID(HEADLIBRARIAN_KEY);
             return headLibrarian;
+            } else {
+                return null;
+            }
         });
 
         lenient().when(librarianDao.findLibrarianByUserID(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
+            if(((int) invocation.getArgument(0)) == LIBRARIAN_KEY) {
             Librarian librarian = new Librarian(LIBRARIAN_FIRSTNAME, LIBRARIAN_LASTNAME, LIBRARIAN_VALIDACC, LIBRARIAN_ADDRESS, LIBRARIAN_PASSWORD, LIBRARIAN_BALANCE, LIBRARIAN_EMAIL);
             librarian.setUserID(LIBRARIAN_KEY);
             return librarian;
+            } else {
+                return null;
+            }
         });
         Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
 			return invocation.getArgument(0);
