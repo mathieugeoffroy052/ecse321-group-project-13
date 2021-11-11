@@ -493,6 +493,29 @@ public class TestTransactionService {
 		assertEquals(error, "User account is unvalidated, cannot complete borrow transaction!");
 	}
 
+	/**
+	 * Failure : trying to borrow a newspaper
+	 * @author Amani Jammoul
+	 */
+	@Test
+	public void testCreateItemBorrowTransactionNewspaper() {
+		BorrowableItem newspaperItem = borrowableItemDao.findBorrowableItemByBarCodeNumber(NEWSPAPER_BARCODENUMBER);
+
+		Patron pAccount = (Patron) userAccountDao.findUserAccountByUserID(VALID_PATRON_USER_ID);
+
+		Transaction itemBorrowTrans = null;
+
+		String error = null;
+
+		try {
+			itemBorrowTrans = service.createItemBorrowTransaction(newspaperItem, pAccount);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		assertNull(itemBorrowTrans);
+		assertEquals(error, "This item cannot be borrowed!");
+	}
+
 /* ***************** ITEM RETURN TESTS ********************* */
 	/**
 	 * Success case
