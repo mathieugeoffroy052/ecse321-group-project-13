@@ -238,6 +238,7 @@ public class TestTransactionService {
 	/* ***************** ITEM RESERVATION TESTS ********************* */
 	/**
 	 * Success case
+	 * @author Amani Jammoul
 	 */
 	@Test
 	public void testCreateItemReserveTransactionSuccessful() {
@@ -258,6 +259,7 @@ public class TestTransactionService {
 
 	/**
 	 * Failure : item and account objects are null
+	 * @author Amani Jammoul
 	 */
 	@Test
 	public void testCreateItemReserveTransactionNull() {
@@ -278,7 +280,8 @@ public class TestTransactionService {
 	}
 
 	/**
-	 * Failure : patron has an unvalidated accoutn
+	 * Failure : patron has an unvalidated account
+	 * @author Amani Jammoul
 	 */
 	@Test
 	public void testCreateItemReserveTransactionInvalidPatron() {
@@ -301,6 +304,7 @@ public class TestTransactionService {
 
 	/**
 	 * Failure : trying to borrow a newspaper
+	 * @author Amani Jammoul
 	 */
 	@Test
 	public void testCreateItemReserveTransactionNewspaper() {
@@ -323,6 +327,7 @@ public class TestTransactionService {
 
 	/**
 	 * Failure : trying to reverse an item that is unavailable
+	 * @author Amani Jammoul
 	 */
 	@Test
 	public void testCreateItemReserveTransactionUnavailable() {
@@ -345,6 +350,10 @@ public class TestTransactionService {
 	}
 
 /* ***************** ROOM RESERVATION TESTS ********************* */
+	/**
+	 * Success case
+	 * @author Amani Jammoul
+	 */
     @Test
 	public void testCreateRoomReserveTransactionSuccessful() {
 		BorrowableItem roomItem = borrowableItemDao.findBorrowableItemByBarCodeNumber(ROOM_BARCODENUMBER);
@@ -367,6 +376,10 @@ public class TestTransactionService {
 	}
 
 /* ***************** ITEM BORROW TESTS ********************* */
+	/**
+	 * Success case
+	 * @author Amani Jammoul
+	 */
     @Test
 	public void testCreateItemBorrowTransactionSuccessful() {
 		BorrowableItem bookItem = borrowableItemDao.findBorrowableItemByBarCodeNumber(BOOK_BARCODENUMBER);
@@ -385,6 +398,10 @@ public class TestTransactionService {
 	}
 
 /* ***************** ITEM RETURN TESTS ********************* */
+	/**
+	 * Success case
+	 * @author Amani Jammoul
+	 */
     @Test
 	public void testCreateItemReturnTransactionSuccessful() {
 		BorrowableItem bookItem = borrowableItemDao.findBorrowableItemByBarCodeNumber(BOOK_BARCODENUMBER);
@@ -403,6 +420,10 @@ public class TestTransactionService {
 	}
 
 /* ***************** ITEM WAITLIST TESTS ********************* */
+	/**
+	 * Sucess case
+	 * @author Amani Jammoul
+	 */
     @Test
 	public void testCreateItemWaitlistTransactionSuccessful() {
 		BorrowableItem bookItem = borrowableItemDao.findBorrowableItemByBarCodeNumber(BOOK_BARCODENUMBER);
@@ -422,6 +443,10 @@ public class TestTransactionService {
 	}
 
 /* ***************** ITEM RENEWAL TESTS ********************* */
+	/**
+	 * Success case
+	 * @author Amani Jammoul
+	 */
     @Test
 	public void testCreateItemRenewalTransactionSuccessful() {
 		BorrowableItem bookItem = borrowableItemDao.findBorrowableItemByBarCodeNumber(BOOK_BARCODENUMBER);
