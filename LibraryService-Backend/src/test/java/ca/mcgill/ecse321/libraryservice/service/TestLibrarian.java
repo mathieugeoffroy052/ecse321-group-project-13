@@ -6,6 +6,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -110,7 +111,7 @@ private static final String USER_PASSWORD = "mIMI";
 
         lenient().when(headLibrarianDAO.findHeadLibrarianByUserID(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
             HeadLibrarian headLibrarian =
-             new HeadLibrarian(HEADLIBRARIAN_FIRST_NAME, HEADLIBRARIAN_LAST_NAME, HEADLIBRARIAN_VALIDATED_ACCOUNT, HEADLIBRARIAN_ADDRESS, HEADLIBRARIAN_PASSWORD, HEADLIBRARIAN_BALANCE, HEADLIBRARIAN_EMAIL);
+             new HeadLibrarian(HEADLIBRARIAN_FIRST_NAME, HEADLIBRARIAN_LAST_NAME, HEADLIBRARIAN_ONLINE_ACCOUNT, HEADLIBRARIAN_ADDRESS, HEADLIBRARIAN_PASSWORD, HEADLIBRARIAN_BALANCE, HEADLIBRARIAN_EMAIL);
             headLibrarian.setUserID(HEADLIBRARIAN_USER_ID);
             return headLibrarian;
     });
@@ -161,31 +162,69 @@ public void testgetLibrarianWithGoodID () {
 
 @Test
 public void testGetLibrarianFromNullFirstName () {
-    headLibrarianDAO.deleteAll();
-    librarianDAO.deleteAll();
-    userAccountDAO.deleteAll();
+    Librarian librarian=null;
+    String error="";
+    try {
+        librarian=service.getLibrarianFromFullName(error, USER_LAST_NAME);
+    } catch (Exception e) {
+        error=e.getMessage();
+    }
+      assertEquals(error, "First Name  cannot be empty!");
+      assertNull(librarian);
+     headLibrarianDAO.deleteAll();
+     librarianDAO.deleteAll();
+     userAccountDAO.deleteAll();
 }
 
 @Test
 public void testGetLibrarianFromNullLastName () {
-    headLibrarianDAO.deleteAll();
-    librarianDAO.deleteAll();
-    userAccountDAO.deleteAll();
+    Librarian librarian=null;
+    String error="";
+    try {
+        librarian=service.getLibrarianFromFullName(USER_FIRST_NAME, error); ;
+    } catch (Exception e) {
+        error=e.getMessage();
+    }
+      assertEquals(error, "First Name  cannot be empty!");
+      assertNull(librarian);
+     headLibrarianDAO.deleteAll();
+     librarianDAO.deleteAll();
+     userAccountDAO.deleteAll();
 }
 
 
 @Test
 public void testGetLibrarianFromFullNameNotAssociatedWithLibrarianAccount () {
-    headLibrarianDAO.deleteAll();
-    librarianDAO.deleteAll();
-    userAccountDAO.deleteAll(); 
+    Librarian librarian=null;
+    String error="";
+    try {
+        librarian=service.getLibrarianFromFullName(error, USER_LAST_NAME); ;
+    } catch (Exception e) {
+        error=e.getMessage();
+    }
+      assertEquals(error, "Last Name  cannot be empty!");
+      assertNull(librarian);
+     headLibrarianDAO.deleteAll();
+     librarianDAO.deleteAll();
+     userAccountDAO.deleteAll();
 }
 
 @Test
 public void testGetLibrarianFromFullName () {
-    headLibrarianDAO.deleteAll();
-    librarianDAO.deleteAll();
-    userAccountDAO.deleteAll();  
+    Librarian librarian=null;
+    String error="";
+    try {
+        librarian=service.getLibrarianFromFullName(LIBRARIAN_FIRST_NAME, LIBRARIAN_LAST_NAME); ;
+    } catch (Exception e) {
+        error=e.getMessage();
+    } assertNotNull(librarian);
+      assertEquals(LIBRARIAN_ID, librarian.getUserID());
+      assertEquals(LIBRARIAN_FIRST_NAME, librarian.getFirstName());
+      assertEquals(LIBRARIAN_LAST_NAME, librarian.getLastName());
+ 
+     headLibrarianDAO.deleteAll();
+     librarianDAO.deleteAll();
+     userAccountDAO.deleteAll(); 
 }
 
 @Test
@@ -387,10 +426,20 @@ public void createLibrarian() {
     } catch (Exception e) {
         error=e.getMessage();
     }
-     assertNotNull(librarian);
+
+     assertEquals(LIBRARIAN_FIRST_NAME, librarian.getFirstName(), "librarian.firstName mismatch");
+     assertEquals(LIBRARIAN_LAST_NAME, librarian.getLastName(), "librarian.lastName mismatch");
+     assertEquals(LIBRARIAN_ONLINE_ACCOUNT, librarian.getOnlineAccount(), "librarian.onlineAccount mismatch");
+     assertEquals(LIBRARIAN_PASSWORD, librarian.getPassword(), "librarian.password mismatch");
+     assertEquals(LIBRARIAN_ADDRESS, librarian.getAddress(), "librarian.address mismatch");
+     assertEquals(LIBRARIAN_EMAIL, librarian.getEmail(), "librarian.email mismatch");
+     assertEquals(LIBRARIAN_ID, librarian.getUserID(), "librarian user ID mismatch");
+     //assertNotEquals(librariantest.getlibrarianID(), librarian.getlibrarianID());
 
 
-
+     headLibrarianDAO.deleteAll();
+     librarianDAO.deleteAll();
+     userAccountDAO.deleteAll(); 
 
 
 }

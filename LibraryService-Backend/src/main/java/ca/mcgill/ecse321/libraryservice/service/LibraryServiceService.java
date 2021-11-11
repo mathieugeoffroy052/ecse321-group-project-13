@@ -1173,15 +1173,8 @@ public class LibraryServiceService {
         }
         if(getLibrarianFromFullName(aFirstName, aLastName).getAddress().equals(aAddress)) throw new Exception("This User already has a librarian account");
        
-        Librarian librarian=new Librarian();
-      
-		librarian.setFirstName(aFirstName);
-        librarian.setLastName(aLastName);
-        librarian.setOnlineAccount(aOnlineAccount);
-        librarian.setAddress(aAddress);
-        librarian.setPassword(aPassword);
-        librarian.setBalance(aBalance);
-        librarian.setEmail(aEmail);
+        Librarian librarian=new Librarian(aFirstName,aLastName, aOnlineAccount, aAddress, aPassword, aBalance, aEmail);
+
         librarianRepository.save(librarian);
         return librarian;
         
