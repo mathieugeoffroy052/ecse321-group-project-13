@@ -986,7 +986,7 @@ public class LibraryServiceRestController {
      * @param movieTitle
      * @return List<LibraryItemDTO> - newspapers with given title
      * @throws Exception
-     * @author Amani Jammoul
+     * @author Ramin Akhavan-Sarraf
      */
     @GetMapping(value = { "/newspapers/{title}", "/newspapers/{title}/" })
     public List<LibraryItemDTO> getNewspapersByTitle(@RequestParam("title") String newspaperTitle) throws Exception {
