@@ -599,7 +599,7 @@ private static final String USER_PASSWORD = "patron123";
      * @throws Exception
      */
     @Test
-    public void testUpdateLastNameUnsuccessful() throws Exception {
+    public void testUpdateLastNameUnsuccessfulSameLastName() throws Exception {
         UserAccount patron = null;
         
         try {
