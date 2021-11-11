@@ -40,7 +40,7 @@ ________________________________________________________________________________
 | Eloyann Roy-Javanbakht |                                                                                                                                      |           |
 | Gabrielle Halpin       |  Business methods, RESTful service methods, controller methods, issue tracking, Software Assurance plan, service endpoint documentation, continuous integration                                                                                                                                    |           |
 | Mathieu Geoffrey       |                                                                                                                                      |           |
-| Ramin Akhavan-Sarraf   |                                                                                                                                      |           |
+| Ramin Akhavan-Sarraf   |  RESTful service method; RESTful service endpoints; Creating DTO classes; Convert to DTO and Convert to Domain Object methods; Unit testing for service methods; Integration testing (for LibraryItem mainly)    |31         |
 | Zoya Malhi             |                                                                                                                                      |           |
 _____________________________________________________________________________________________________________________________________________________________________________
 
