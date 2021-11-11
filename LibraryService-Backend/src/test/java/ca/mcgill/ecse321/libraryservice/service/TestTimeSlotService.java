@@ -51,6 +51,12 @@ public class TestTimeSlotService {
     private static final Time TIMESLOT_ENDTIME = new Time(11, 00, 00);
     private static final HeadLibrarian TIMESLOT_HEADLIBRARIAN = new HeadLibrarian();
 
+    private static final int TIMESLOT_KEY2 = 30;
+    private static final Date TIMESLOT_STARTDATE2 = new Date(2021, 12, 25);
+    private static final Date TIMESLOT_ENDDATE2 = new Date(2021, 12, 28);
+    private static final Time TIMESLOT_STARTTIME2 = new Time(11, 00, 00);
+    private static final Time TIMESLOT_ENDTIME2 = new Time(12, 00, 00);
+
     private static final int HEADLIBRARIAN_KEY = 400;
     private static final String HEADLIBRARIAN_FIRSTNAME = "Jane";
     private static final String HEADLIBRARIAN_LASTNAME = "Doe";
@@ -84,6 +90,22 @@ public class TestTimeSlotService {
             } else {
                 return null;
             }
+        });
+
+        lenient().when(timeslotDao.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
+            
+                TimeSlot timeslot = new TimeSlot(TIMESLOT_STARTDATE, TIMESLOT_STARTTIME, TIMESLOT_ENDDATE, TIMESLOT_ENDTIME, TIMESLOT_HEADLIBRARIAN);
+                timeslot.setTimeSlotID(TIMESLOT_KEY);
+                
+                TimeSlot timeslot2 = new TimeSlot(TIMESLOT_STARTDATE2, TIMESLOT_STARTTIME2, TIMESLOT_ENDDATE2, TIMESLOT_ENDTIME2, TIMESLOT_HEADLIBRARIAN);
+                timeslot.setTimeSlotID(TIMESLOT_KEY2);
+                List<TimeSlot> list = new ArrayList<TimeSlot>();
+
+                list.add(timeslot);
+                list.add(timeslot2);
+
+                return list;
+            
         });
 
         lenient().when(timeslotDao.findByLibrarian(any(Librarian.class))).thenAnswer( (InvocationOnMock invocation) -> {
@@ -528,6 +550,23 @@ public class TestTimeSlotService {
         } catch (Exception e) {
             fail();
         }
+    }
+
+    @Test
+    public void testGetAllTimeSlots(){
+        Iterable<TimeSlot> comparedTimeSlots = timeslotDao.findAll();
+        List<TimeSlot> timeslots = null;
+        try {
+            timeslots = service.getAllTimeSlots();
+        } catch (Exception e) {
+            fail();
+        }
+        for (TimeSlot ts : timeslots) {
+            while (comparedTimeSlots.iterator().hasNext()) {
+                assertEquals(ts.getTimeSlotID(), comparedTimeSlots.iterator().next().getTimeSlotID());
+            }
+        }
+         
     }
     
     /**
