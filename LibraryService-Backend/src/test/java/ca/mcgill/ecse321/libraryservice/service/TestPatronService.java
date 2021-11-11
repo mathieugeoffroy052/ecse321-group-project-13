@@ -171,7 +171,7 @@ public void testCreatePatronSuccessful() throws Exception {
 }
 
 /**
- * This tests checks if the first name of the patron is null when 
+ * This test checks if the first name of the patron is null when 
  * creating a patron in the system. It returns an error if the first name is null.
  *  
  * @author Zoya Malhi
@@ -198,7 +198,7 @@ public void testCreatePatronNullFirstName() throws Exception {
 }
 
 /**
- * This tests checks if the first name of the patron is empty when 
+ * This test checks if the first name of the patron is empty when 
  * creating a patron in the system. It returns an error if the first name is empty.
  *  
  * @author Zoya Malhi
@@ -225,7 +225,7 @@ public void testCreatePatronEmptyFirstName() throws Exception {
 }
 
 /**
- * This tests checks if the last name of the patron is null when 
+ * This test checks if the last name of the patron is null when 
  * creating a patron in the system. It returns an error if the last name is null.
  *  
  * @author Zoya Malhi
@@ -252,7 +252,7 @@ public void testCreatePatronNullLastName() throws Exception {
 }
 
 /**
- * This tests checks if the last name of the patron is empty when 
+ * This test checks if the last name of the patron is empty when 
  * creating a patron in the system. It returns an error if the last name is empty.
  *  
  * @author Zoya Malhi
@@ -279,7 +279,7 @@ public void testCreatePatronEmptyLastName() throws Exception {
 }
 
 /**
- * This tests checks if the address of the patron is null when 
+ * This test checks if the address of the patron is null when 
  * creating a patron in the system. It returns an error if the address is null.
  *  
  * @author Zoya Malhi
@@ -304,7 +304,7 @@ public void testCreatePatronNullAddress() throws Exception {
 }
 
 /**
- * This tests checks if the address of the patron is empty when 
+ * This test checks if the address of the patron is empty when 
  * creating a patron in the system. It returns an error if the address is empty.
  *  
  * @author Zoya Malhi
@@ -330,7 +330,7 @@ public void testCreatePatronEmptyAddress() throws Exception {
 }
 
 /**
- * This tests checks if the password of the patron is null when 
+ * This test checks if the password of the patron is null when 
  * creating a patron in the system. It returns an error if the password is null.
  *  
  * @author Zoya Malhi
@@ -355,7 +355,7 @@ public void testCreatePatronNullPassword() throws Exception {
 }
 
 /**
- * This tests checks if the password of the patron is empty when 
+ * This test checks if the password of the patron is empty when 
  * creating a patron in the system. It returns an error if the password is empty.
  *  
  * @author Zoya Malhi
@@ -380,7 +380,13 @@ public void testCreatePatronEmptyPassword() throws Exception {
 		assertEquals("Password cannot be empty!", error);
 }
 
-
+/**
+ * This test checks if the email of the patron is null when 
+ * creating a patron in the system. It returns an error if the email is null.
+ *  
+ * @author Zoya Malhi
+ * @throws Exception
+ */
 @Test
 public void testCreatePatronNullEmail() throws Exception {
 	String error = null;
@@ -399,6 +405,13 @@ public void testCreatePatronNullEmail() throws Exception {
 	
 }
 
+/**
+ * This test checks if the email of the patron is empty when 
+ * creating a patron in the system. It returns an error if the email is empty.
+ *  
+ * @author Zoya Malhi
+ * @throws Exception
+ */
 @Test
 public void testCreatePatronEmptyEmail() throws Exception {
 	String error = null;
@@ -418,6 +431,13 @@ public void testCreatePatronEmptyEmail() throws Exception {
 		assertEquals("Email cannot be empty!", error);
 }
 
+/**
+ * This tests checks if the creator of the patron is null when 
+ * creating a patron in the system. It returns an error if the creator is null.
+ *  
+ * @author Zoya Malhi
+ * @throws Exception
+ */
 @Test
 public void testCreatePatronNullCreator() throws Exception {
 	String error = null;
@@ -435,6 +455,13 @@ public void testCreatePatronNullCreator() throws Exception {
 		assertEquals("There needs to be a creator for this method", error);
 }
 
+/**
+ * This test checks if the creator of the patron is not a librarian when 
+ * creating a patron in the system. It returns an error if the creator is not an instance of Librarian.
+ *  
+ * @author Zoya Malhi
+ * @throws Exception
+ */
 @Test
 public void testCreatePatronPatronAsCreator() throws Exception {
 	String error = null;
@@ -454,11 +481,25 @@ public void testCreatePatronPatronAsCreator() throws Exception {
 		assertEquals("Only a Librarian can create an in-person account", error);
 }
 
+/**
+ * This test calls the getPatronByUserID method which 
+ * queries the database and returns the patron with the same ID.
+ *  
+ * @author Zoya Malhi
+ * @throws Exception
+ */
 @Test 
 public void testGetPatronFromID() throws Exception {
 	assertEquals(PATRON_ID, service.getPatronByUserId(PATRON_ID).getPatronID());
 }
 
+/**
+ * This tests deletes a patron by calling the deleteAPatronbyUserID 
+ * method which queries the database for the patron specified and deletes it from the system.
+ * 
+ * @author Zoya Malhi
+ * @throws Exception
+ */
 @Test 
 public void testDeletePatronByUserIDSuccessful() throws Exception{
      	boolean success = false;
@@ -488,6 +529,16 @@ public void testDeletePatronByUserIDSuccessful() throws Exception{
         headLibrarianDAO.deleteAll();
 	}
 
+/**
+ * This test attempts to delete a patron specified by
+ *  its userID in the system, but returns and error 
+ *  instead because the creator does not have the 
+ *  credentials to perform the operation.
+ * 
+ *  
+ * @author Zoya Malhi
+ * @throws Exception
+ */
 @Test
 public void testDeletePatronByUserIDWrongCreator() throws Exception{
 	String error ="";
@@ -523,6 +574,13 @@ public void testDeletePatronByUserIDWrongCreator() throws Exception{
     userAccountDAO.deleteAll();
 	
 }
+
+/**
+ * This test gets a patron from the system given their first and last name. No error is returned.
+ *  
+ * @author Zoya Malhi
+ * @throws Exception
+ */
 @Test
 public void testGetPatronFromFullNameSuccessful() throws Exception {
 	
@@ -542,6 +600,14 @@ public void testGetPatronFromFullNameSuccessful() throws Exception {
 		patronDAO.deleteAll();
         userAccountDAO.deleteAll();
 }
+
+/**
+ * This test gets a patron from the system given their first and last name,
+ * but where the first name is null. This returns an error since the first name is null.
+ *  
+ * @author Zoya Malhi
+ * @throws Exception
+ */
 @Test
 public void testGetPatronFromFullNameNullFirstName() throws Exception {
 	
@@ -564,6 +630,14 @@ public void testGetPatronFromFullNameNullFirstName() throws Exception {
         userAccountDAO.deleteAll();
 	
 }
+
+/**
+ * This test gets a patron from the system given their first and last name,
+ * but where the first name is empty. This returns an error since the first name is empty.
+ *  
+ * @author Zoya Malhi
+ * @throws Exception
+ */
 @Test
 public void testGetPatronFromFullNameEmptyFirstName() throws Exception {
 	
@@ -585,6 +659,13 @@ public void testGetPatronFromFullNameEmptyFirstName() throws Exception {
 	
 }
 
+/**
+ * This test gets a patron from the system given their first and last name,
+ * but where the last name is null. This returns an error since the last name is null.
+ *  
+ * @author Zoya Malhi
+ * @throws Exception
+ */
 @Test
 public void testGetPatronFromFullNameNullLastName() throws Exception {
 	
@@ -606,6 +687,13 @@ public void testGetPatronFromFullNameNullLastName() throws Exception {
 	
 }
 
+/**
+ * This test gets a patron from the system given their first and last name,
+ * but where the last name is empty. This returns an error since the last name is empty.
+ *  
+ * @author Zoya Malhi
+ * @throws Exception
+ */
 @Test
 public void testGetPatronFromFullNameEmptyLastName() throws Exception {
 	
@@ -626,6 +714,14 @@ public void testGetPatronFromFullNameEmptyLastName() throws Exception {
 		assertEquals("Last Name cannot be empty!", error);
 	
 }
+
+/**
+ * This test gets a patron from the system given their first and last name,
+ * but where the first name is null. This returns an error since the first name is null.
+ *  
+ * @author Zoya Malhi
+ * @throws Exception
+ */
 @Test
 public void testSetValidatedAccountSuccessful() throws Exception {
 	
@@ -649,6 +745,14 @@ public void testSetValidatedAccountSuccessful() throws Exception {
 	
 }
 
+
+/**
+ * This test attempts to set a patron account as validated,
+ * but given that the creator is not an instance of a librarian.An error is thrown.
+ * 
+ * @author Zoya Malhi
+ * @throws Exception
+ */
 @Test
 public void testSetValidatedAccountWrongCreator() throws Exception {
 	
@@ -672,6 +776,13 @@ public void testSetValidatedAccountWrongCreator() throws Exception {
         userAccountDAO.deleteAll();
 }
 
+/**
+ * This test attempts to set a patron account as validated,
+ * but given that the creator is null. An error is thrown.
+ * 
+ * @author Zoya Malhi
+ * @throws Exception
+ */
 @Test
 public void testSetValidatedAccountNullCreator() throws Exception {
 	
@@ -695,6 +806,13 @@ public void testSetValidatedAccountNullCreator() throws Exception {
         userAccountDAO.deleteAll();
 }
 
+/**
+ * This test attempts to set a patron account as validated,
+ * but given that the patron is null. An error is thrown.
+ * 
+ * @author Zoya Malhi
+ * @throws Exception
+ */
 @Test
 public void testSetValidatedAccountNullPatron() throws Exception {
 	
@@ -716,6 +834,14 @@ public void testSetValidatedAccountNullPatron() throws Exception {
 		patronDAO.deleteAll();
         userAccountDAO.deleteAll();
 }
+
+/**
+ * This test gets all patrons from the database by calling the getAllPatrons() method. 
+ * A list of patrons in the system is returned.
+ * 
+ * @author Zoya Malhi
+ * @throws Exception
+ */
 @Test
 public void testGetAllPatronsSuccessful() throws Exception {
 List<Patron> patrons = null;
