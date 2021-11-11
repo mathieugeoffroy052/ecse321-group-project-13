@@ -47,24 +47,51 @@ public class TestOpeningHourService {
     private static final String HEAD_LIBRARIAN_ADDRESS = "40 durocher";
     private static final String HEAD_LIBRARIAN_PASSWORD = "badpassword";
     private static final String HEAD_LIBRARIAN_EMAIL = "jane@mail.com";
-    private static final boolean HEAD_LIBRARIAN_VALIDACC = true;
     private static final int HEAD_LIBRARIAN_BALANCE = 0;
+    private static final boolean ONLINE = true;
+
+    // Single headLibrarian
+    private HeadLibrarian headLibrarian = new HeadLibrarian(HEAD_LIBRARIAN_FIRSTNAME, HEAD_LIBRARIAN_LASTNAME, ONLINE, HEAD_LIBRARIAN_ADDRESS, HEAD_LIBRARIAN_PASSWORD, HEAD_LIBRARIAN_BALANCE, HEAD_LIBRARIAN_EMAIL);
+
+    private static final int OPENING_HOUR_ID = 100;
+    private static final int OPENING_HOUR_INVALID_ID = -100;
+    private static final DayOfWeek OPENING_HOUR_DAYOFWEEK = DayOfWeek.Friday;
+    private static final Time OPENING_HOUR_START_TIME = Time.valueOf("08:00:00");
+    private static final Time OPENING_HOUR_END_TIME = Time.valueOf("20:00:00");
+    
 
     @BeforeEach
     public void setMockOutput() {
+        lenient().when(openingHourDao.findOpeningHourByHourID(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
+            if(invocation.getArgument(0).equals(OPENING_HOUR_ID)) {
+                OpeningHour openingHour = new OpeningHour(OPENING_HOUR_DAYOFWEEK, OPENING_HOUR_START_TIME, OPENING_HOUR_END_TIME, this.headLibrarian);
+                this.headLibrarian.setLibrarianID(HEAD_LIBRARIAN_ID);
+                openingHour.setHourID(OPENING_HOUR_ID);
+                return openingHour;
+            } else {
+                return null;
+            }
+        });
+
         lenient().when(headLibrarianDao.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
-                HeadLibrarian headLibrarian = new HeadLibrarian(HEAD_LIBRARIAN_FIRSTNAME, HEAD_LIBRARIAN_LASTNAME, HEAD_LIBRARIAN_VALIDACC, HEAD_LIBRARIAN_ADDRESS, HEAD_LIBRARIAN_PASSWORD, HEAD_LIBRARIAN_BALANCE, HEAD_LIBRARIAN_EMAIL);
-                headLibrarian.setUserID(HEAD_LIBRARIAN_ID);
+                // HeadLibrarian headLibrarian = new HeadLibrarian(HEAD_LIBRARIAN_FIRSTNAME, HEAD_LIBRARIAN_LASTNAME, HEAD_LIBRARIAN_VALIDACC, HEAD_LIBRARIAN_ADDRESS, HEAD_LIBRARIAN_PASSWORD, HEAD_LIBRARIAN_BALANCE, HEAD_LIBRARIAN_EMAIL);
+                // headLibrarian.setUserID(HEAD_LIBRARIAN_ID);
                 
+                // List<HeadLibrarian> list = new ArrayList<HeadLibrarian>();
+                // list.add(headLibrarian);
+                // return list;
+                this.headLibrarian.setLibrarianID(HEAD_LIBRARIAN_ID);
                 List<HeadLibrarian> list = new ArrayList<HeadLibrarian>();
-                list.add(headLibrarian);
+                list.add(this.headLibrarian);
                 return list;
         });
 
         lenient().when(headLibrarianDao.findHeadLibrarianByUserID(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
-            HeadLibrarian headLibrarian = new HeadLibrarian(HEAD_LIBRARIAN_FIRSTNAME, HEAD_LIBRARIAN_LASTNAME, HEAD_LIBRARIAN_VALIDACC, HEAD_LIBRARIAN_ADDRESS, HEAD_LIBRARIAN_PASSWORD, HEAD_LIBRARIAN_BALANCE, HEAD_LIBRARIAN_EMAIL);
-            headLibrarian.setUserID(HEAD_LIBRARIAN_ID);
-            return headLibrarian;
+            // HeadLibrarian headLibrarian = new HeadLibrarian(HEAD_LIBRARIAN_FIRSTNAME, HEAD_LIBRARIAN_LASTNAME, HEAD_LIBRARIAN_VALIDACC, HEAD_LIBRARIAN_ADDRESS, HEAD_LIBRARIAN_PASSWORD, HEAD_LIBRARIAN_BALANCE, HEAD_LIBRARIAN_EMAIL);
+            // headLibrarian.setUserID(HEAD_LIBRARIAN_ID);
+            // return headLibrarian;
+            this.headLibrarian.setLibrarianID(HEAD_LIBRARIAN_ID);
+            return this.headLibrarian;
         });
 
         Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
@@ -82,11 +109,12 @@ public class TestOpeningHourService {
     }
 
      /**
-     * test create opening hour 
+     * Test create opening hour 
+     * Success case
      * @author Amani Jammoul
      */
     @Test
-    public void testCreateOpeningHour() {
+    public void testCreateOpeningHourSuccess() {
         try {
             assertEquals(0, service.getAllOpeningHours().size());
         } catch (Exception e) {
@@ -105,16 +133,74 @@ public class TestOpeningHourService {
             fail();
         }
 
+        assertNotNull(openingHour);
         assertOpeningHourAttributes(openingHour, dayOfWeek.toString(), startTime, endTime);
     }
+
+     /**
+     * Test create opening hour 
+     * Failure case : try to create opening hour with invalid Day Of Week
+     * @author Amani Jammoul
+     */
+    @Test
+    public void testCreateOpeningHourInvalidDOW() {
+        try {
+            assertEquals(0, service.getAllOpeningHours().size());
+        } catch (Exception e) {
+            fail();
+        }
+        
+        String dayOfWeek = "January";
+        Time startTime = Time.valueOf("08:00:00");
+        Time endTime = Time.valueOf("20:00:00");
+
+        OpeningHour openingHour = null;
+
+        String error = "";
+
+        try {
+            openingHour = service.createOpeningHour(dayOfWeek, startTime, endTime);
+        } catch (Exception e) {
+            error = e.getMessage();
+        }
+
+        assertNull(openingHour);
+        assertEquals("Invalid day", error);
+    }
+
+    /**
+     * Test get opening hour from ID
+     * Success case
+     * @author Amani Jammoul
+     */
+    @Test
+    public void testGetOpeningHourFromIDSuccess() {
+        DayOfWeek dayOfWeek = DayOfWeek.Friday;
+        Time startTime = Time.valueOf("08:00:00");
+        Time endTime = Time.valueOf("20:00:00");
+
+        OpeningHour openingHour = new OpeningHour(dayOfWeek, startTime, endTime, this.headLibrarian);
+        openingHour.setHourID(OPENING_HOUR_ID);
+        openingHourDao.save(openingHour);
+
+        try {
+            openingHour = service.getOpeningHourFromID(OPENING_HOUR_ID);
+        } catch (Exception e) {
+            fail();
+        }
+
+        assertNotNull(openingHour);
+        assertOpeningHourAttributes(openingHour, dayOfWeek.toString(), startTime, endTime);
+    }
+
+
 
     private void assertOpeningHourAttributes(OpeningHour openingHour, String dayOfWeek, Time startTime, Time endTime) {
         assertNotNull(openingHour);
         assertEquals(dayOfWeek.toString(), openingHour.getDayOfWeek().toString());
         assertEquals(startTime.toString(), openingHour.getStartTime().toString());
         assertEquals(endTime.toString(), openingHour.getEndTime().toString());
-        HeadLibrarian headLibrarian = headLibrarianDao.findHeadLibrarianByUserID(HEAD_LIBRARIAN_ID);
-        //assertEquals(headLibrarian, openingHour.getHeadLibrarian());
+        assertEquals(this.headLibrarian, openingHour.getHeadLibrarian());
     }
 
 }
