@@ -11,6 +11,7 @@ public class OpeningHourDTO {
 	private Time startTime;
 	private Time endTime;
 	private DayOfWeek dayOfWeek;
+	private int openingHourID;
 
 	public OpeningHourDTO() {
 	}
@@ -20,6 +21,14 @@ public class OpeningHourDTO {
 		startTime = aStartTime;
 		endTime = aEndTime;
 		dayOfWeek = aDayOfWeek;
+	}
+	
+	public OpeningHourDTO(DayOfWeek aDayOfWeek, Time aStartTime, Time aEndTime, HeadLibrarianDTO aHeadLibrarian, int anOpeningHourID) {
+		headLibrarian = aHeadLibrarian;
+		startTime = aStartTime;
+		endTime = aEndTime;
+		dayOfWeek = aDayOfWeek;
+		openingHourID = anOpeningHourID;
 	}
 
 	public HeadLibrarianDTO getHeadLibrarian() {
@@ -36,6 +45,10 @@ public class OpeningHourDTO {
 
 	public DayOfWeek getDayOfWeek() {
 		return dayOfWeek;
+	}
+	
+	public int getOpeningHourID() {
+		return openingHourID;
 	}
 
 }

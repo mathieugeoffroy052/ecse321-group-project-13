@@ -11,6 +11,8 @@ public class TimeslotDTO {
   private Date endDate;
   private Time endTime;
   
+  private int timeslotID;
+  
   private Set<LibrarianDTO> librarian;
   private HeadLibrarianDTO headLibrarian;
 
@@ -31,6 +33,16 @@ public class TimeslotDTO {
       this.endTime = endTime;
       this.librarian = librarian;
       this.headLibrarian = headLibrarian;
+  }
+
+  public TimeslotDTO(Date startDate, Time startTime, Date endDate, Time endTime, Set<LibrarianDTO> librarian, HeadLibrarianDTO headLibrarian, int timeslotID){
+      this.startDate = startDate;
+      this.startTime = startTime;
+      this.endDate = endDate;
+      this.endTime = endTime;
+      this.librarian = librarian;
+      this.headLibrarian = headLibrarian;
+      this.timeslotID = timeslotID;
   }
 
   public Date getStartDate(){
@@ -55,6 +67,10 @@ public class TimeslotDTO {
 
   public HeadLibrarianDTO getHeadLibrarian(){
       return this.headLibrarian;
+  }
+  
+  public int getTimeSlotID() {
+	  return timeslotID;
   }
   
     
