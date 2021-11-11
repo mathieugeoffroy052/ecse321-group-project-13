@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
 
 import java.sql.Time;
@@ -66,6 +67,20 @@ public class TestOpeningHourService {
                 this.headLibrarian.setLibrarianID(HEAD_LIBRARIAN_ID);
                 openingHour.setHourID(OPENING_HOUR_ID);
                 return openingHour;
+            } else {
+                return null;
+            }
+        });
+
+        lenient().when(openingHourDao.findByDayOfWeek(any(DayOfWeek.class))).thenAnswer( (InvocationOnMock invocation) -> {
+            if(invocation.getArgument(0).equals(DayOfWeek.Friday)) {
+                OpeningHour openingHour = new OpeningHour(OPENING_HOUR_DAYOFWEEK, OPENING_HOUR_START_TIME, OPENING_HOUR_END_TIME, this.headLibrarian);
+                this.headLibrarian.setLibrarianID(HEAD_LIBRARIAN_ID);
+                openingHour.setHourID(OPENING_HOUR_ID);
+
+                List<OpeningHour> openingHours = new ArrayList<OpeningHour>();
+                openingHours.add(openingHour);
+                return openingHours;
             } else {
                 return null;
             }
@@ -308,6 +323,60 @@ public class TestOpeningHourService {
         assertTrue(test);
     }
 
+    /**
+     * Test get opening hour from day of week
+     * Success case
+     * @author Mathieu
+     */
+    @Test
+    public void testGetOpeningHourFromDayOfWeekSuccess() {
+        DayOfWeek dayOfWeek = DayOfWeek.Friday;
+        Time startTime = Time.valueOf("08:00:00");
+        Time endTime = Time.valueOf("20:00:00");
+
+        OpeningHour openingHour = new OpeningHour(dayOfWeek, startTime, endTime, this.headLibrarian);
+        openingHour.setHourID(OPENING_HOUR_ID);
+        openingHourDao.save(openingHour);
+
+        openingHour = null;
+
+        try {
+            openingHour = service.getOpeningHoursByDayOfWeek(dayOfWeek.toString()).get(0);
+        } catch (Exception e) {
+            fail();
+        }
+
+        assertNotNull(openingHour);
+        assertOpeningHourAttributes(openingHour, dayOfWeek.toString(), startTime, endTime);
+    }
+
+    /**
+     * Test get opening hour from day of week
+     * Failure case: invalid day of week
+     * @author Mathieu
+     */
+    @Test
+    public void testGetOpeningHourFromDayOfWeekInvalidDay() {
+        String error = null;
+        DayOfWeek dayOfWeek = DayOfWeek.Friday;
+        Time startTime = Time.valueOf("08:00:00");
+        Time endTime = Time.valueOf("20:00:00");
+
+        OpeningHour openingHour = new OpeningHour(dayOfWeek, startTime, endTime, this.headLibrarian);
+        openingHour.setHourID(OPENING_HOUR_ID);
+        openingHourDao.save(openingHour);
+
+        openingHour = null;
+
+        try {
+            openingHour = service.getOpeningHoursByDayOfWeek(dayOfWeek.toString() + "extra junk").get(0);
+        } catch (Exception e) {
+            error = e.getMessage();
+        }
+
+        assertNull(openingHour);
+        assertEquals("Invalid day", error);
+    }
 
     /**
      * Verifies all OpeningHour params are equivalent to those for the object given
