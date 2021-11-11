@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.util.*;
 import java.util.stream.Collectors;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -357,21 +358,114 @@ public class LibraryServiceRestController {
      * @throws Exception
      */
     @PostMapping(value = { "/createPatron/{firstName}/{lastName}", "/createPatron/{creator}/{firstName}/{lastName}/" })
-    public PatronDTO createPatron(@RequestParam("creator") UserAccount creator,
-            @PathVariable("firstName") String firstName, @RequestParam("lastName") String lastName,
-            @RequestParam("onlineAccount") boolean onlineAccount, @PathVariable("address") String address,
-            @PathVariable("validatedAccount") boolean validatedAccount, @PathVariable("password") String password,
-            @RequestParam("balance") int balance, @RequestParam("email") String email) throws Exception {
-        Patron patron = service.createPatron(creator, firstName, lastName, onlineAccount, address, validatedAccount,
-                password, balance, email);
-        return convertToDto(patron);
+
+
+	public PatronDTO createPatron(@RequestParam("creator") UserAccount creator, @PathVariable("firstName") String firstName, @RequestParam("lastName") String lastName, @RequestParam("onlineAccount") boolean onlineAccount, 
+            @PathVariable("address") String address, @PathVariable("validatedAccount") boolean validatedAccount, @PathVariable("password") String password,
+            @RequestParam("balance") int balance, @RequestParam("email") String email) throws Exception{
+		Patron patron = service.createPatron( creator,  firstName,  lastName,  onlineAccount,  address,  validatedAccount,  password,  balance,  email);
+	return convertToDto(patron);
+	}
+
+    /**
+     * Gets all the books in the system
+     * @return List of LibraryItemDTO
+     * @throws Exception
+     * @author Ramin Akhavan-Sarraf
+     */
+    @GetMapping(value = { "/books/", "/book" })
+    public List<LibraryItemDTO> getAllBooks() throws Exception {
+        ArrayList<LibraryItemDTO> books = new ArrayList<>();
+        for(LibraryItem item: service.getAllBooks()){
+            books.add(convertToDto(item));
+        }
+        return books;
     }
 
     /**
-     * Create an item reservation (transaction) between a user account and
-     * borrowable item, and convert to DTO
-     * 
-     * @param iDto - BorrowableItemDTO
+     * Gets all the movies in the system
+     * @return List of LibraryItemDTO
+     * @throws Exception
+     * @author Ramin Akhavan-Sarraf
+     */
+    @GetMapping(value = { "/movies/", "/movies" })
+    public List<LibraryItemDTO> getAllMovies() throws Exception {
+        ArrayList<LibraryItemDTO> movies = new ArrayList<>();
+        for(LibraryItem item: service.getAllMovies()){
+            movies.add(convertToDto(item));
+        }
+        return movies;
+    }
+
+    /**
+     * Gets all the newspapers in the system
+     * @return List of LibraryItemDTO
+     * @throws Exception
+     * @author Ramin Akhavan-Sarraf
+     */
+    @GetMapping(value = { "/newspapers/", "/newspapers" })
+    public List<LibraryItemDTO> getAllNewspapers() throws Exception {
+        ArrayList<LibraryItemDTO> newspapers = new ArrayList<>();
+        for(LibraryItem item: service.getAllNewspapers()){
+            newspapers.add(convertToDto(item));
+        }
+        return newspapers;
+    }
+
+    /**
+     * Gets all the music in the system
+     * @return List of LibraryItemDTO
+     * @throws Exception
+     * @author Ramin Akhavan-Sarraf
+     */
+    @GetMapping(value = { "/music/", "/music" })
+    public List<LibraryItemDTO> getAllMusic() throws Exception {
+        ArrayList<LibraryItemDTO> music = new ArrayList<>();
+        for(LibraryItem item: service.getAllMusic()){
+            music.add(convertToDto(item));
+        }
+        return music;
+    }
+
+    /**
+     * Gets all the user's room reservations
+     * @return List of LibraryItemDTO
+     * @throws Exception
+     * @author Ramin Akhavan-Sarraf
+     */
+    @GetMapping(value = { "/account/{userID}/rooms/", "/account/{userID}/rooms" })
+    public List<LibraryItemDTO> getAllUserRoomReservations(@PathVariable("userId") int userID) throws Exception {
+        UserAccount user = service.getUserbyUserId(userID);
+        List<BorrowableItem> borrowableItems = service.getReservedItemsFromUser(user);
+        ArrayList<LibraryItemDTO> rooms = new ArrayList<>();
+        for(BorrowableItem item: borrowableItems){
+            BorrowableItemDTO dtoItem = convertToDto(item);
+            if (dtoItem.getLibraryItem().getType() == ItemType.Room){
+                rooms.add(dtoItem.getLibraryItem());
+            }
+        }
+        return rooms;
+    }
+
+
+    /**
+     * Gets all the room reservations in the system
+     * @return List of LibraryItemDTO
+     * @throws Exception
+     * @author Ramin Akhavan-Sarraf
+     */
+    @GetMapping(value = { "/rooms/", "/rooms" })
+    public List<LibraryItemDTO> getAllRoomReservations() throws Exception {
+        ArrayList<LibraryItemDTO> rooms = new ArrayList<>();
+        for(LibraryItem reservation: service.getAllRoomReservations()){
+            rooms.add(convertToDto(reservation));
+        }
+        return rooms;
+    }
+  
+    /** 
+     * Create an item reservation (transaction) between a user account and borrowable item, and convert to DTO
+     * @param iDto - BorrowableItemDTO 
      * @param aDto - UserAccountDTO
      * @return TransactionDTO
      * @throws Exception
