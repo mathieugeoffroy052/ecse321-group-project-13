@@ -289,6 +289,66 @@ public class LibraryServiceRestController {
 	}
 
     /**
+     * @author Gabrielle Halpin
+	 * Update Address of the user
+	 * @param user  
+	 * @param address
+	 * @return
+	 */
+	@PutMapping(value = {"/updateAddress", "/updateAddress/"})
+	public UserAccountDTO updateAddress(@RequestBody UserAccount user, @RequestParam("address") String aAddress) {
+		UserAccountDTO accountDTO = new UserAccountDTO();
+		UserAccount  account = service.changeAddress(aAddress, user);
+		accountDTO = convertToDto(account);
+		return accountDTO; 
+	}
+
+    /**
+     * @author Gabrielle Halpin
+	 * Update firstName of the user
+	 * @param user  
+	 * @param firstName
+	 * @return
+	 */
+	@PutMapping(value = {"/updateFirstName", "/updateFirstName/"})
+	public UserAccountDTO updateFirstName(@RequestBody UserAccount user, @RequestParam("firstName") String firstName) {
+		UserAccountDTO accountDTO = new UserAccountDTO();
+		UserAccount  account = service.changeFirstName(firstName, user);
+		accountDTO = convertToDto(account);
+		return accountDTO; 
+	}
+
+    /**
+     * @author Gabrielle Halpin
+	 * Update lastname of the user
+	 * @param user  
+	 * @param lastName
+	 * @return
+	 */
+	@PutMapping(value = {"/updateLastName", "/updateLastName/"})
+	public UserAccountDTO updateLastName(@RequestBody UserAccount user, @RequestParam("lastName") String lastName) {
+		UserAccountDTO accountDTO = new UserAccountDTO();
+		UserAccount  account = service.changeLastName(lastName, user);
+		accountDTO = convertToDto(account);
+		return accountDTO; 
+	}
+
+    /**
+     * @author Gabrielle Halpin
+	 * Update Email of the user
+	 * @param user  
+	 * @param email
+	 * @return
+	 */
+	@PutMapping(value = {"/updateEmail", "/updateEmail/"})
+	public UserAccountDTO updateEmail(@RequestBody UserAccount user, @RequestParam("email") String email) {
+		UserAccountDTO accountDTO = new UserAccountDTO();
+		UserAccount  account = service.changeEmail(email, user);
+		accountDTO = convertToDto(account);
+		return accountDTO; 
+	}
+
+    /**
      * This method sets the validity of the user's online account
      * @author Gabrielle Halpin
 	 * Update Password
@@ -296,7 +356,7 @@ public class LibraryServiceRestController {
 	 * @param password
 	 * @return
 	 */
-	@PutMapping(value = {"/setAccountValidity/", "/setAccountValidity/"})
+	@PutMapping(value = {"/setAccountValidity", "/setAccountValidity/"})
 	public UserAccountDTO setAccountValidity(@RequestBody Patron patron, @RequestParam("validatedAccount") boolean validatedAccount, @RequestBody UserAccount creator) throws Exception{
 		UserAccountDTO accountDTO = new UserAccountDTO();
 		Patron  account = service.setValidatedAccount(patron, validatedAccount, creator);
@@ -332,8 +392,8 @@ public class LibraryServiceRestController {
      * @throws Exception
      */
     @PostMapping(value = { "/createPatron/{firstName}/{lastName}", "/createPatron/{creator}/{firstName}/{lastName}/" })
-	public PatronDTO createPatron(@RequestParam("creator") UserAccount creator, @PathVariable("firstName") String firstName, @RequestParam("lastName") String lastName, @RequestParam("onlineAccount") boolean onlineAccount, 
-            @PathVariable("address") String address, @PathVariable("validatedAccount") boolean validatedAccount, @PathVariable("password") String password,
+	public PatronDTO createPatron(@RequestParam("creator") UserAccount creator, @PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName, @RequestParam("onlineAccount") boolean onlineAccount, 
+            @RequestParam("address") String address, @RequestParam("validatedAccount") boolean validatedAccount, @RequestParam("password") String password,
             @RequestParam("balance") int balance, @RequestParam("email") String email) throws Exception{
 		Patron patron = service.createPatron( creator,  firstName,  lastName,  onlineAccount,  address,  validatedAccount,  password,  balance,  email);
 	return convertToDto(patron);

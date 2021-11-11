@@ -76,17 +76,6 @@ public class LibraryServiceService {
 
     /** 
      * @param userID
-     * @return UserAccount - account of given ID
-     * @author Amani Jammoul
-     */
-    @Transactional
-    public UserAccount getUserAccountFromUserID(int userID){
-        UserAccount account = userAccountRepository.findUserAccountByUserID(userID);
-        return account;
-    }
-
-    /** 
-     * @param userID
      * @return UserAccount - account for user with given full name
      * @author Amani Jammoul
      * @throws Exception
@@ -1716,7 +1705,7 @@ public class LibraryServiceService {
             return person;
 
 		}catch (NoSuchElementException e) {
-	         throw new Exception("This user does not exist.");
+	        throw new Exception("This user does not exist.");
 		}
 	}
 
@@ -2147,6 +2136,9 @@ public class LibraryServiceService {
         String error = "";
         Iterable<UserAccount> allusers = userAccountRepository.findAll();
         ArrayList<UserAccount> users = new ArrayList<UserAccount>();
+        for(UserAccount user: allusers){
+            users.add(user);
+        }
         if(users.size()==0 || allusers == null){
             error = "There are no Users in the system";
         }
