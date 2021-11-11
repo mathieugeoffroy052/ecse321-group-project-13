@@ -2,14 +2,18 @@ package ca.mcgill.ecse321.libraryservice.dto;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 
 public class TransactionDTO {
+  @JsonFormat(shape = JsonFormat.Shape.OBJECT)
   public enum TransactionType { Borrowing, ItemReservation, RoomReservation, Waitlist, Renewal, Return }
 
   private TransactionType transactionType;
   
   private int transactionID;
-
+  
+  @JsonFormat(pattern = "yyyy-MM-dd")
   private Date deadline;
 
   private BorrowableItemDTO borrowableItem;

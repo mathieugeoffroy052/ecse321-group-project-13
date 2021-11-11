@@ -5,10 +5,16 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class TimeslotDTO {
+  @JsonFormat(pattern = "yyyy-MM-dd")
   private Date startDate;
+  @JsonFormat(pattern = "HH:mm:ss")
   private Time startTime;
+  @JsonFormat(pattern = "yyyy-MM-dd")
   private Date endDate;
+  @JsonFormat(pattern = "HH:mm:ss")
   private Time endTime;
   
   private int timeslotID;
