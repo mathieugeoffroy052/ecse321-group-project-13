@@ -85,7 +85,7 @@ public void setMockOutput() {
         }
     });
     lenient().when(patronDAO.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
-    	//if(invocation.getArgument(0).equals(PATRON_ID)) {
+    	
     	Patron patron = new Patron();
 		patron.setPatronID(PATRON_ID);
         patron.setFirstName(PATRON_FIRST_NAME);
@@ -100,9 +100,6 @@ public void setMockOutput() {
 		List<Patron> patrons = new ArrayList<Patron>();
 		patrons.add(patron);
 		return patrons;
-//    	}else {
-//            return null;
-//        }
     	
 	});
     
