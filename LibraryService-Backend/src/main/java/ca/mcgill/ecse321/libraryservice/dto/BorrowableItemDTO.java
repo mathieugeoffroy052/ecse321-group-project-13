@@ -1,6 +1,10 @@
 package ca.mcgill.ecse321.libraryservice.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class BorrowableItemDTO {
+
+  @JsonFormat(shape = JsonFormat.Shape.OBJECT)
   public enum ItemState { Borrowed, Damaged, Available, Reserved, Booked }
 
   private ItemState state;

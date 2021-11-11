@@ -1,15 +1,19 @@
 package ca.mcgill.ecse321.libraryservice.dto;
 import java.util.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class LibraryItemDTO {
-
+  
+  @JsonFormat(shape = JsonFormat.Shape.OBJECT)
   public enum ItemType { Book, Room, Movie, Music, NewspaperArticle }
 
   private String name;
   private boolean isViewable;
+  @JsonFormat(pattern = "yyyy-MM-dd")
   private Date date;
   private String creator;
   private ItemType itemType;
+  private int isbn;
 
   public LibraryItemDTO() {
   }
@@ -21,6 +25,16 @@ public class LibraryItemDTO {
     itemType = aItemType;
     creator = aCreator;
     isViewable = aIsViewable;
+  }
+
+  public LibraryItemDTO(String aName, ItemType aItemType, Date aDate, String aCreator, boolean aIsViewable, int isbn)
+  {
+    name = aName;
+    date = aDate;
+    itemType = aItemType;
+    creator = aCreator;
+    isViewable = aIsViewable;
+    this.isbn = isbn;
   }
   
   public String getCreator()
@@ -47,5 +61,9 @@ public class LibraryItemDTO {
   {
     return isViewable;
   }
+ 
+	public int getIsbn() {
+		return isbn;
+	}
 
 }
