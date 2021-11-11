@@ -55,15 +55,15 @@ public class TestHolidayService {
     private static final int HOLIDAY_ID = 5;
     private static final int HOLIDAY_INVALID_ID = -5;
     private static final Date HOLIDAY_DATE = Date.valueOf("2021-12-25");
-    private static final Time OPENING_HOUR_START_TIME = Time.valueOf("08:00:00");
-    private static final Time OPENING_HOUR_END_TIME = Time.valueOf("20:00:00");
+    private static final Time HOLIDAY_START_TIME = Time.valueOf("08:00:00");
+    private static final Time HOLIDAY_END_TIME = Time.valueOf("20:00:00");
     
 
     @BeforeEach
     public void setMockOutput() {
         lenient().when(holidayDao.findHolidayByHolidayID(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
             if(invocation.getArgument(0).equals(HOLIDAY_ID)) {
-                Holiday holiday = new Holiday(HOLIDAY_DATE, OPENING_HOUR_START_TIME, OPENING_HOUR_END_TIME, this.headLibrarian);
+                Holiday holiday = new Holiday(HOLIDAY_DATE, HOLIDAY_START_TIME, HOLIDAY_END_TIME, this.headLibrarian);
                 this.headLibrarian.setLibrarianID(HEAD_LIBRARIAN_ID);
                 holiday.setHolidayID(HOLIDAY_ID);
                 return holiday;
@@ -128,12 +128,12 @@ public class TestHolidayService {
     }
 
     /**
-     * Test get opening hour from ID
+     * Test get holiday from ID
      * Success case
      * @author Amani Jammoul
      */
     @Test
-    public void testGetOpeningHourFromIDSuccess() {
+    public void testGetHolidayFromIDSuccess() {
         Date date = Date.valueOf("2021-12-25");
         Time startTime = Time.valueOf("08:00:00");
         Time endTime = Time.valueOf("20:00:00");
@@ -155,12 +155,12 @@ public class TestHolidayService {
     }
 
     /**
-     * Test get opening hour from ID
-     * Failure case : get opening hour from invalid ID
+     * Test get holiday from ID
+     * Failure case : get holiday from invalid ID
      * @author Amani Jammoul
      */
     @Test
-    public void testGetOpeningHourFromInvalidID() {
+    public void testGetHolidayFromInvalidID() {
         Date date = Date.valueOf("2021-12-25");
         Time startTime = Time.valueOf("08:00:00");
         Time endTime = Time.valueOf("20:00:00");
@@ -186,7 +186,7 @@ public class TestHolidayService {
 
     /**
      * Verifies all Holiday params are equivalent to those for the object given
-     * @param openingHour
+     * @param holiday
      * @param dayOfWeek
      * @param startTime
      * @param endTime

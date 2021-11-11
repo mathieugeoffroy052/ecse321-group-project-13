@@ -213,7 +213,14 @@ public class TestOpeningHourService {
         assertEquals("Invalid id", error);
     }
 
-
+    /**
+     * Verifies all OpeningHour params are equivalent to those for the object given
+     * @param openingHour
+     * @param dayOfWeek
+     * @param startTime
+     * @param endTime
+     * @author Amani Jammoul
+     */
     private void assertOpeningHourAttributes(OpeningHour openingHour, String dayOfWeek, Time startTime, Time endTime) {
         assertNotNull(openingHour);
         assertEquals(dayOfWeek.toString(), openingHour.getDayOfWeek().toString());
