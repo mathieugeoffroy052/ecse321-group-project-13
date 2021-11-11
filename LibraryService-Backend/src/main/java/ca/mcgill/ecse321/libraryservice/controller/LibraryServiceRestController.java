@@ -433,9 +433,9 @@ public class LibraryServiceRestController {
      * @throws Exception
      * @author Ramin Akhavan-Sarraf
      */
-    @GetMapping(value = { "/account/{userID}/rooms/", "/account/{userID}/rooms" })
-    public List<LibraryItemDTO> getAllUserRoomReservations(@PathVariable("userId") int userID) throws Exception {
-        UserAccount user = service.getUserbyUserId(userID);
+    @GetMapping(value = { "/account/{firstname}/{lastname}/rooms/", "/account/{firstname}/{lastname}/rooms" })
+    public List<LibraryItemDTO> getAllUserRoomReservations(@PathVariable("firstname") String firstName, @PathVariable("lastname") String lastName) throws Exception {
+        UserAccount user = service.getUserAccountFromFullName(firstName, lastName);
         List<BorrowableItem> borrowableItems = service.getReservedItemsFromUser(user);
         ArrayList<LibraryItemDTO> rooms = new ArrayList<>();
         for(BorrowableItem item: borrowableItems){
@@ -680,7 +680,7 @@ public class LibraryServiceRestController {
      * @throws Exception
      * @author Amani Jammoul
      */
-    @GetMapping(value = { "/items/{isbn}", "/items/{isbn}/" })
+    @GetMapping(value = { "/items/isbn", "/items/isbn/" })
     public List<BorrowableItemDTO> getAllBorrowableItemsByLibraryItemIsbn(@RequestParam("isbn") int isbn)
             throws Exception {
         List<BorrowableItem> borrowableItems = service.getBorrowableItemsFromItemIsbn(isbn);
@@ -699,7 +699,7 @@ public class LibraryServiceRestController {
      * @throws Exception
      * @author Amani Jammoul
      */
-    @GetMapping(value = { "/item/{barCodeNumber}", "/item/{barCodeNumber}/" })
+    @GetMapping(value = { "/items/barCodeNumber", "/item/barCodeNumber/" })
     public BorrowableItemDTO getItemByBarCode(@RequestParam("barCodeNumber") int barCodeNumber) throws Exception {
         return convertToDto(service.getBorrowableItemFromBarCodeNumber(barCodeNumber));
     }
@@ -712,7 +712,7 @@ public class LibraryServiceRestController {
      * @throws Exception
      * @author Amani Jammoul
      */
-    @GetMapping(value = { "/items/{title}", "/items/{title}/" })
+    @GetMapping(value = { "/items/title", "/items/title/" })
     public List<LibraryItemDTO> getItemsByTitle(@RequestParam("title") String itemTitle) throws Exception {
         List<LibraryItem> items = service.getLibraryItemsFromTitle(itemTitle);
         List<LibraryItemDTO> itemDTOs = new ArrayList<LibraryItemDTO>();
@@ -730,7 +730,7 @@ public class LibraryServiceRestController {
      * @throws Exception
      * @author Amani Jammoul
      */
-    @GetMapping(value = { "/items/{creator}", "/items/{creator}/" })
+    @GetMapping(value = { "/items/creator", "/items/creator/" })
     public List<LibraryItemDTO> getItemsByCreator(@RequestParam("creator") String creatorName) throws Exception {
         List<LibraryItem> items = service.getLibraryItemsFromCreator(creatorName);
         List<LibraryItemDTO> itemDTOs = new ArrayList<LibraryItemDTO>();
@@ -749,8 +749,8 @@ public class LibraryServiceRestController {
      * @throws Exception
      * @author Amani Jammoul
      */
-    @GetMapping(value = { "/items/{creator}/{title}", "/items/{creator}/{title}/", "/items/{title}/{creator}",
-            "/items/{title}/{creator}/" })
+    @GetMapping(value = { "/items/creator/title", "/items/creator/title/", "/items/title/creator",
+            "/items/title/creator/" })
     public List<LibraryItemDTO> getItemsByCreatorAndTitle(@RequestParam("creator") String creatorName,
             @RequestParam("title") String itemTitle) throws Exception {
         List<LibraryItem> items = service.getLibraryItemFromCreatorAndTitle(creatorName, itemTitle);
@@ -769,7 +769,7 @@ public class LibraryServiceRestController {
      * @throws Exception
      * @author Amani Jammoul
      */
-    @GetMapping(value = { "/books/{title}", "/books/{title}/" })
+    @GetMapping(value = { "/books/title", "/books/title/" })
     public List<LibraryItemDTO> getBooksByTitle(@RequestParam("title") String bookTitle) throws Exception {
         List<LibraryItem> items = service.getBooksFromTitle(bookTitle);
         List<LibraryItemDTO> itemDTOs = new ArrayList<LibraryItemDTO>();
@@ -787,7 +787,7 @@ public class LibraryServiceRestController {
      * @throws Exception
      * @author Amani Jammoul
      */
-    @GetMapping(value = { "/books/{author}", "/books/{author}/" })
+    @GetMapping(value = { "/books/author", "/books/author/" })
     public List<LibraryItemDTO> getBooksByAuthor(@RequestParam("author") String authorName) throws Exception {
         List<LibraryItem> items = service.getBooksFromAuthor(authorName);
         List<LibraryItemDTO> itemDTOs = new ArrayList<LibraryItemDTO>();
@@ -806,8 +806,8 @@ public class LibraryServiceRestController {
      * @throws Exception
      * @author Amani Jammoul
      */
-    @GetMapping(value = { "/books/{author}/{title}", "/books/{author}/{title}/", "/books/{title}/{author}",
-            "/books/{title}/{author}/" })
+    @GetMapping(value = { "/books/author/title", "/books/author/title/", "/books/title/author",
+            "/books/title/author/" })
     public LibraryItemDTO getBooksByAuthorAndTitle(@RequestParam("author") String authorName,
             @RequestParam("title") String bookTitle) throws Exception {
         LibraryItem book = service.getBookFromAuthorAndTitle(authorName, bookTitle);
@@ -822,7 +822,7 @@ public class LibraryServiceRestController {
      * @throws Exception
      * @author Amani Jammoul
      */
-    @GetMapping(value = { "/musics/{title}", "/musics/{title}/" })
+    @GetMapping(value = { "/musics/title", "/musics/title/" })
     public List<LibraryItemDTO> getMusicsByTitle(@RequestParam("title") String musicTitle) throws Exception {
         List<LibraryItem> items = service.getMusicsFromTitle(musicTitle);
         List<LibraryItemDTO> itemDTOs = new ArrayList<LibraryItemDTO>();
@@ -840,7 +840,7 @@ public class LibraryServiceRestController {
      * @throws Exception
      * @author Amani Jammoul
      */
-    @GetMapping(value = { "/musics/{artist}", "/musics/{artist}/" })
+    @GetMapping(value = { "/musics/artist", "/musics/artist/" })
     public List<LibraryItemDTO> getMusicsByArtist(@RequestParam("artist") String artistName) throws Exception {
         List<LibraryItem> items = service.getMusicsFromArtist(artistName);
         List<LibraryItemDTO> itemDTOs = new ArrayList<LibraryItemDTO>();
@@ -860,8 +860,8 @@ public class LibraryServiceRestController {
      * @throws Exception
      * @author Amani Jammoul
      */
-    @GetMapping(value = { "/musics/{artist}/{title}", "/musics/{artist}/{title}/", "/musics/{title}/{artist}",
-            "/musics/{title}/{artist}/" })
+    @GetMapping(value = { "/musics/artist/title", "/musics/artist/title/", "/musics/title/artist",
+            "/musics/title/artist/" })
     public LibraryItemDTO getMusicsByArtistAndTitle(@RequestParam("artist") String artistName,
             @RequestParam("title") String musicTitle) throws Exception {
         LibraryItem music = service.getMusicFromArtistAndTitle(artistName, musicTitle);
@@ -876,7 +876,7 @@ public class LibraryServiceRestController {
      * @throws Exception
      * @author Amani Jammoul
      */
-    @GetMapping(value = { "/movies/{title}", "/movies/{title}/" })
+    @GetMapping(value = { "/movies/title", "/movies/title/" })
     public List<LibraryItemDTO> getMoviesByTitle(@RequestParam("title") String movieTitle) throws Exception {
         List<LibraryItem> items = service.getMoviesFromTitle(movieTitle);
         List<LibraryItemDTO> itemDTOs = new ArrayList<LibraryItemDTO>();
@@ -894,7 +894,7 @@ public class LibraryServiceRestController {
      * @throws Exception
      * @author Amani Jammoul
      */
-    @GetMapping(value = { "/movies/{director}", "/movies/{director}/" })
+    @GetMapping(value = { "/movies/director", "/movies/director/" })
     public List<LibraryItemDTO> getMoviesByDirector(@RequestParam("director") String directorName) throws Exception {
         List<LibraryItem> items = service.getMoviesFromTitle(directorName);
         List<LibraryItemDTO> itemDTOs = new ArrayList<LibraryItemDTO>();
@@ -914,8 +914,8 @@ public class LibraryServiceRestController {
      * @throws Exception
      * @author Amani Jammoul
      */
-    @GetMapping(value = { "/movies/{director}/{title}", "/movies/{director}/{title}/", "/movies/{title}/{director}",
-            "/movies/{title}/{director}/" })
+    @GetMapping(value = { "/movies/director/title", "/movies/director/title/", "/movies/title/director",
+            "/movies/title/director/" })
     public LibraryItemDTO getMoviesByDirectorAndTitle(@RequestParam("director") String directorName,
             @RequestParam("title") String movieTitle) throws Exception {
         LibraryItem movie = service.getMovieFromDirectorAndTitle(directorName, movieTitle);
@@ -930,7 +930,7 @@ public class LibraryServiceRestController {
      * @throws Exception
      * @author Ramin Akhavan-Sarraf
      */
-    @GetMapping(value = { "/newspapers/{title}", "/newspapers/{title}/" })
+    @GetMapping(value = { "/newspapers/title", "/newspapers/title/" })
     public List<LibraryItemDTO> getNewspapersByTitle(@RequestParam("title") String newspaperTitle) throws Exception {
         List<LibraryItem> items = service.getMoviesFromTitle(newspaperTitle);
         List<LibraryItemDTO> itemDTOs = new ArrayList<LibraryItemDTO>();
@@ -948,7 +948,7 @@ public class LibraryServiceRestController {
      * @throws Exception
      * @author Ramin Akhavan-Sarraf
      */
-    @GetMapping(value = { "/newspapers/{writer}", "/newspapers/{writer}/" })
+    @GetMapping(value = { "/newspapers/writer", "/newspapers/writer/" })
     public List<LibraryItemDTO> getNewspapersByWriter(@RequestParam("writer") String writerName) throws Exception {
         List<LibraryItem> items = service.getNewspaperFromWriter(writerName);
         List<LibraryItemDTO> itemDTOs = new ArrayList<LibraryItemDTO>();
@@ -968,8 +968,8 @@ public class LibraryServiceRestController {
      * @throws Exception
      * @author Ramin Akhavan-Sarraf
      */
-    @GetMapping(value = { "/newspapers/{writer}/{title}", "/newspapers/{writer}/{title}/", "/newspapers/{title}/{writer}",
-            "/newspapers/{title}/{writer}/" })
+    @GetMapping(value = { "/newspapers/writer/title", "/newspapers/writer/title/", "/newspapers/title/writer",
+            "/newspapers/title/writer/" })
     public LibraryItemDTO getNewspapersByWriterAndTitle(@RequestParam("writer") String writerName,
             @RequestParam("title") String newspaperTitle) throws Exception {
         LibraryItem newspaper = service.getMovieFromDirectorAndTitle(writerName, newspaperTitle);
