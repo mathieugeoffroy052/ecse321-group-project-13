@@ -4,20 +4,13 @@ import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.servlet.FlashMapManager;
 
 import ca.mcgill.ecse321.libraryservice.dao.*;
-import ca.mcgill.ecse321.libraryservice.dto.PatronDTO;
-import ca.mcgill.ecse321.libraryservice.dto.TimeslotDTO;
-import ca.mcgill.ecse321.libraryservice.dto.UserAccountDTO;
 import ca.mcgill.ecse321.libraryservice.model.*;
 import ca.mcgill.ecse321.libraryservice.model.BorrowableItem.ItemState;
 import ca.mcgill.ecse321.libraryservice.model.LibraryItem.ItemType;
@@ -1398,11 +1391,7 @@ public class LibraryServiceService {
     /**
      * deletes the timeslot given the timeslot parameters
      * @param account user account calling the method
-     * @param startDate start date of timeslot to delete
-     * @param startTime start time of timeslot to delete
-     * @param endDate end date of timeslot to delete
-     * @param endTime end time of timeslot to delete
-     * @param library current library system
+     * @param timeslotID id of the timeslot to delete
      * @return true is deleted successfully
      * @throws Exception if invalid inputs
      * @throws Exception if user is not the head librarian
@@ -1414,12 +1403,12 @@ public class LibraryServiceService {
 
         String error = "";
         if (account == null) error = error + "Invalid account. ";
+        else if (!(account instanceof HeadLibrarian)) error = error + "This User ID does not correspond to a Head Librarian. ";
         if (timeslotID < 1) error = error + "Invalid timeslotID. ";
+        
         error = error.trim();
 
         if (error.length() > 0) throw new IllegalArgumentException(error);
-
-        getHeadLibrarianFromUserId(account.getUserID()); //will throw exception is account is not head librarian
 
         TimeSlot timeSlot = timeSlotRepository.findTimeSlotByTimeSlotID(timeslotID);
         timeSlotRepository.delete(timeSlot);

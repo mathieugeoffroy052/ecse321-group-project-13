@@ -4,34 +4,27 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.booleanThat;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.when;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Calendar;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 
 import ca.mcgill.ecse321.libraryservice.dao.*;
@@ -77,6 +70,10 @@ public class TestTimeSlotService {
 
 
 
+    /**
+     * mocks output of DB for timeslot get by id, headlibrarian find all, headlibrarian get by id, librarian get by id
+     * @author Mathieu Geoffroy
+     */
     @BeforeEach
     public void setMockOutput() {
         lenient().when(timeslotDao.findTimeSlotByTimeSlotID(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
@@ -115,12 +112,20 @@ public class TestTimeSlotService {
         lenient().when(timeslotDao.save(any(TimeSlot.class))).thenAnswer(returnParameterAsAnswer);
     }
 
+    /**
+     * Clears mock DB outputs after each test
+     * @author Mathieu Geoffroy
+     */
     @AfterEach
     public void clearMockOutputs() {
         timeslotDao.deleteAll();
         headLibrarianDao.deleteAll();
     }
 
+    /**
+     * test create timeslot 
+     * @author Mathieu Geoffroy
+     */
     @Test
     public void testCreateTimeSlot() {
         assertEquals(0, service.getAllTimeSlots().size());
@@ -142,6 +147,10 @@ public class TestTimeSlotService {
 
     }
 
+    /**
+     * test create timeslot with a null startdate input
+     * @author Mathieu Geoffroy
+     */
     @Test
     public void testCreateTimeSlotStartDateNull() {
         assertEquals(0, service.getAllTimeSlots().size());
@@ -165,6 +174,10 @@ public class TestTimeSlotService {
 
     }
 
+    /**
+     * test create timeslot with a null starttime input
+     * @author Mathieu Geoffroy
+     */
     @Test
     public void testCreateTimeSlotStartTimeNull() {
         assertEquals(0, service.getAllTimeSlots().size());
@@ -188,6 +201,10 @@ public class TestTimeSlotService {
 
     }
 
+    /**
+     * test create timeslot with a null enddate input
+     * @author Mathieu Geoffroy
+     */
     @Test
     public void testCreateTimeSlotEndDateNull() {
         assertEquals(0, service.getAllTimeSlots().size());
@@ -211,6 +228,10 @@ public class TestTimeSlotService {
 
     }
 
+    /**
+     * test create timeslot with a null endtime input
+     * @author Mathieu Geoffroy
+     */
     @Test
     public void testCreateTimeSlotEndTimeNull() {
         assertEquals(0, service.getAllTimeSlots().size());
@@ -234,6 +255,10 @@ public class TestTimeSlotService {
 
     }
 
+    /**
+     * test create timeslot with starttime after endtime
+     * @author Mathieu Geoffroy
+     */
     @Test
     public void testCreateTimeSlotStartTimeAfterEndTime() {
         assertEquals(0, service.getAllTimeSlots().size());
@@ -257,6 +282,10 @@ public class TestTimeSlotService {
 
     }
 
+    /**
+     * test create timeslot with startdate after enddate
+     * @author Mathieu Geoffroy
+     */
     @Test
     public void testCreateTimeSlotStartDateAfterEndDate() {
         assertEquals(0, service.getAllTimeSlots().size());
@@ -280,6 +309,10 @@ public class TestTimeSlotService {
 
     }
 
+    /**
+     * test assign timeslot to a librarian
+     * @author Mathieu Geoffroy
+     */
     @Test
     public void testAssignTimeSlot() {
         assertEquals(0, service.getAllTimeSlots().size());
@@ -299,6 +332,10 @@ public class TestTimeSlotService {
 
     }
 
+    /**
+     * test assign a null timeslot to a librarian
+     * @author Mathieu Geoffroy
+     */
     @Test
     public void testAssignNullTimeSlot() {
         assertEquals(0, service.getAllTimeSlots().size());
@@ -317,6 +354,10 @@ public class TestTimeSlotService {
 
     }
 
+    /**
+     * test assign timeslot to null librarian
+     * @author Mathieu Geoffroy
+     */
     @Test
     public void testAssignTimeSlotNullLibrarian() {
         assertEquals(0, service.getAllTimeSlots().size());
@@ -338,10 +379,13 @@ public class TestTimeSlotService {
 
     }
 
+    /**
+     * test delete timeslot from mock DB
+     * @author Mathieu Geoffroy
+     */
     @Test
     public void testDeleteTimeSlot() {
         assertEquals(0, service.getAllTimeSlots().size());
-        String error = null;
         boolean test = false;
 
         HeadLibrarian headLibrarian = headLibrarianDao.findHeadLibrarianByUserID(HEADLIBRARIAN_KEY);
@@ -350,16 +394,72 @@ public class TestTimeSlotService {
         lenient().when(timeslotDao.existsById(anyInt())).thenReturn(true);
         try {
             test = service.deleteTimeSlot(headLibrarian, timeslot.getTimeSlotID());
+             if (timeslotDao.findAll().iterator().hasNext()) {  //gets timeslot if there, othewise, set to null
+                 timeslot = timeslotDao.findAll().iterator().next();
+             } else {
+                 timeslot = null;
+             }
         } catch (Exception e) {
             fail();
         }
-
-        assertNotNull(timeslot);
+        assertNull(timeslot);
         assertTrue(test);
-        
-
     }
 
+    /**
+     * test delete timeslot from mock DB with an unathorized account
+     * @author Mathieu Geoffroy
+     */
+    @Test
+    public void testDeleteTimeSlotInvalidAccountCall() {
+        assertEquals(0, service.getAllTimeSlots().size());
+        boolean test = false;
+        String error = null;
+
+        Librarian librarian = librarianDao.findLibrarianByUserID(LIBRARIAN_KEY);
+        TimeSlot timeslot = timeslotDao.findTimeSlotByTimeSlotID(TIMESLOT_KEY);
+        lenient().when(librarianDao.existsById(anyInt())).thenReturn(true);
+        lenient().when(timeslotDao.existsById(anyInt())).thenReturn(true);
+        try {
+            test = service.deleteTimeSlot(librarian, timeslot.getTimeSlotID());
+             if (timeslotDao.findAll().iterator().hasNext()) {  //gets timeslot if there, othewise, set to null
+                 timeslot = timeslotDao.findAll().iterator().next();
+             } else {
+                 timeslot = null;
+             }
+        } catch (Exception e) {
+            error = e.getMessage();
+        }
+        assertEquals("This User ID does not correspond to a Head Librarian.", error);
+        assertFalse(test);
+    }
+
+    /**
+     * test delete timeslot from mock DB with an null account
+     * @author Mathieu Geoffroy
+     */
+    @Test
+    public void testDeleteTimeSlotNullAccount() {
+        assertEquals(0, service.getAllTimeSlots().size());
+        boolean test = false;
+        String error = null;
+
+        UserAccount account = null;
+        TimeSlot timeslot = timeslotDao.findTimeSlotByTimeSlotID(TIMESLOT_KEY);
+        lenient().when(timeslotDao.existsById(anyInt())).thenReturn(true);
+        try {
+            test = service.deleteTimeSlot(account, timeslot.getTimeSlotID());
+             if (timeslotDao.findAll().iterator().hasNext()) {  //gets timeslot if there, othewise, set to null
+                 timeslot = timeslotDao.findAll().iterator().next();
+             } else {
+                 timeslot = null;
+             }
+        } catch (Exception e) {
+            error = e.getMessage();
+        }
+        assertEquals("Invalid account.", error);
+        assertFalse(test);
+    }
     
     /**
      * Asserts all timeslot attributes

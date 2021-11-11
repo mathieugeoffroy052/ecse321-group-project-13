@@ -2,8 +2,7 @@ package ca.mcgill.ecse321.libraryservice.dto;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.time.LocalDate;
-import java.time.LocalTime;
+
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
