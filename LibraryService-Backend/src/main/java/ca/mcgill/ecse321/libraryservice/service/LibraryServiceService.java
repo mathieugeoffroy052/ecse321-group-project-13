@@ -665,7 +665,7 @@ public class LibraryServiceService {
         }
 
         if(!validAccount){
-            error = "User account is unvalidated, cannot complete item reservation transaction! ";
+            error = "User account is unvalidated, cannot complete room reservation transaction! ";
         }
 
         // Item validation
@@ -890,7 +890,7 @@ public class LibraryServiceService {
         }
 
         if(!validAccount){
-            error = "User account is unvalidated, cannot complete waitlist transaction! ";
+            error = "User account is unvalidated, cannot complete renewal transaction! ";
         }
 
         // Item validation
