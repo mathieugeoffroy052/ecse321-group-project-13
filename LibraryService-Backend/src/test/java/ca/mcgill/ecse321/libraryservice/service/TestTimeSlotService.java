@@ -27,7 +27,9 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import ca.mcgill.ecse321.libraryservice.dao.*;
+import ca.mcgill.ecse321.libraryservice.dao.TimeSlotRepository;
+import ca.mcgill.ecse321.libraryservice.dao.HeadLibrarianRepository;
+import ca.mcgill.ecse321.libraryservice.dao.LibrarianRepository;
 import ca.mcgill.ecse321.libraryservice.model.*;
 
 @ExtendWith(MockitoExtension.class) @SuppressWarnings("deprecation")
