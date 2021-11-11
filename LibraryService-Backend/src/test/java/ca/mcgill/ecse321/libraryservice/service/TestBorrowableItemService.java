@@ -5,37 +5,29 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.when;
 
 import java.sql.Date;
-import java.sql.Time;
-import java.time.LocalTime;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 
 import ca.mcgill.ecse321.libraryservice.model.*;
 import ca.mcgill.ecse321.libraryservice.model.BorrowableItem.ItemState;
 import ca.mcgill.ecse321.libraryservice.model.LibraryItem.ItemType;
-import ca.mcgill.ecse321.libraryservice.dao.*;
+import ca.mcgill.ecse321.libraryservice.dao.LibraryItemRepository;
+import ca.mcgill.ecse321.libraryservice.dao.BorrowableItemRepository;
+import ca.mcgill.ecse321.libraryservice.dao.UserAccountRepository;
+import ca.mcgill.ecse321.libraryservice.dao.TransactionRepository;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -88,22 +80,10 @@ public class TestBorrowableItemService {
 
 	/* Borrowable Item attributes*/
 	private static final int BOOK_BARCODENUMBER = 123456;
-	private static final int NEWSPAPER_BARCODENUMBER = 1111111;
-    private static final int ROOM_BARCODENUMBER = 999999;
-	private static final int MOVIE_BARCODENUMBER = 1212121;
-    private static final int MUSIC_BARCODENUMBER = 989898;
 
 	private static final ItemState AVAILABLE_STATE = ItemState.Available;
-	private static final ItemState BORROWED_STATE = ItemState.Borrowed;
 
 	private static final ItemState BOOK_STATE = AVAILABLE_STATE;
-	/* Patron attributes*/
-	private static final int VALID_PATRON_USER_ID = 8;
-	private static final int INVALID_PATRON_USER_ID = 7;
-	private static final String PATRON_FIRST_NAME = "Jimmy";
-	private static final String PATRON_LAST_NAME = "John";
-	private static final boolean PATRON_VALIDATED = true;
-	private static final boolean ONLINE = true;
 	
 	
 
