@@ -4,20 +4,13 @@ import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.servlet.FlashMapManager;
 
 import ca.mcgill.ecse321.libraryservice.dao.*;
-import ca.mcgill.ecse321.libraryservice.dto.PatronDTO;
-import ca.mcgill.ecse321.libraryservice.dto.TimeslotDTO;
-import ca.mcgill.ecse321.libraryservice.dto.UserAccountDTO;
 import ca.mcgill.ecse321.libraryservice.model.*;
 import ca.mcgill.ecse321.libraryservice.model.BorrowableItem.ItemState;
 import ca.mcgill.ecse321.libraryservice.model.LibraryItem.ItemType;
@@ -1256,7 +1249,7 @@ public class LibraryServiceService {
      * cheked
      */
     @Transactional
-    public List<TimeSlot> getAllTimeSlots() throws Exception {
+    public List<TimeSlot> getAllTimeSlots() {
         Iterable<TimeSlot> allTimeSlots = timeSlotRepository.findAll();
         List<TimeSlot> timeSlots = new ArrayList<TimeSlot>();
         for(TimeSlot i : allTimeSlots){
@@ -1294,49 +1287,6 @@ public class LibraryServiceService {
     }
 
     /**
-     * Get a list of timeslots that have been assigned by the (only) head librarian
-     * @author Mathieu Geoffroy
-     * @return List of timeslots
-     * added checks -elo
-     * checked
-     */
-    @Transactional
-    public List<TimeSlot> getTimeSlotsFromHeadLibrarian(HeadLibrarian headLibrarian) {
-        
-        String error="";
-        if (headLibrarian == null) {
-            error = error + "A HeadLibrarian needs to be selected";
-        } else if (!headLibrarianRepository.existsById(headLibrarian.getUserID())) {
-            error = error + "Headlibrarian doesn't exists ";
-        }
-        error = error.trim();
-
-        if (error.length() > 0) {
-            throw new IllegalArgumentException(error);
-        }
-
-
-        List<TimeSlot> timeSlots = timeSlotRepository.findByHeadLibrarian(headLibrarian);
-        return timeSlots;
-    }
-
-    /**
-     * Get timeslot list (workshits) for a specific librarian by inputing the librarian's first and last name
-     * @author Mathieu Geoffroy
-     * @param firstName - librarian's first name
-     * @param lastName - librarian's last name
-     * @return list of timeslots
-     * checked
-     * @throws Exception
-     */
-    @Transactional
-    public List<TimeSlot> getTimeSlotsFromLibrarianFirstNameAndLastName(String firstName, String lastName) throws Exception {
-        Librarian librarian = getLibrarianFromFullName(firstName, lastName);
-        List<TimeSlot> librarianTimeSlots = timeSlotRepository.findByLibrarian(librarian);
-        return librarianTimeSlots;
-    }
-
-    /**
      * Get timeslot list (workshifts) for a specific librarian by inputing the librarian,s UserId
      * @author Mathieu Geoffroy
      * @param id - Librarian's user id
@@ -1346,6 +1296,7 @@ public class LibraryServiceService {
      */
     @Transactional
     public List<TimeSlot> getTimeSlotsFromLibrarianUserID(int id) throws Exception {
+        if (id < 1) throw new IllegalArgumentException("Invalid id");
         Librarian librarian = getLibrarianFromUserId(id);
         List<TimeSlot> librarianTimeSlots = timeSlotRepository.findByLibrarian(librarian);
         return librarianTimeSlots;
@@ -1359,7 +1310,8 @@ public class LibraryServiceService {
      * checked
     */
     @Transactional
-    public TimeSlot getTimeSlotsFromId(int id) {
+    public TimeSlot getTimeSlotsFromId(int id) throws Exception{
+        if (id < 1) throw new IllegalArgumentException("Invalid id");
         TimeSlot timeSlot = timeSlotRepository.findTimeSlotByTimeSlotID(id);
         return timeSlot;
     }
@@ -1379,6 +1331,12 @@ public class LibraryServiceService {
      */
     @Transactional
     public TimeSlot createTimeSlot(Date startDate, Time startTime, Date endDate, Time endTime) throws Exception {
+        if (startDate == null) throw new IllegalArgumentException("Invalid startDate");
+        if (startTime == null) throw new IllegalArgumentException("Invalid startTime");
+        if (endDate == null) throw new IllegalArgumentException("Invalid endDate");
+        if (endTime == null) throw new IllegalArgumentException("Invalid endTime");
+        if (startDate.toLocalDate().isAfter(endDate.toLocalDate())) throw new IllegalArgumentException("StartDate cannot be after endDate");
+        if (startTime.toLocalTime().isAfter(endTime.toLocalTime())) throw new IllegalArgumentException("StartTime cannot be after endTime");
         HeadLibrarian headLibrarian =getHeadLibrarian();
         TimeSlot timeSlot = new TimeSlot(startDate, startTime, endDate, endTime, headLibrarian);
         timeSlotRepository.save(timeSlot);
@@ -1402,7 +1360,7 @@ public class LibraryServiceService {
             error = error + "TimeSlot needs to be selected for registration! ";
         }
         if (librarian == null) {
-            error = error + "Event needs to be selected for registration!";
+            error = error + "Librarian needs to be selected for registration!";
         } else if (!librarianRepository.existsById(librarian.getUserID())) {
             error = error + "librarian doesn't exists ";
         }
@@ -1422,11 +1380,7 @@ public class LibraryServiceService {
     /**
      * deletes the timeslot given the timeslot parameters
      * @param account user account calling the method
-     * @param startDate start date of timeslot to delete
-     * @param startTime start time of timeslot to delete
-     * @param endDate end date of timeslot to delete
-     * @param endTime end time of timeslot to delete
-     * @param library current library system
+     * @param timeslotID id of the timeslot to delete
      * @return true is deleted successfully
      * @throws Exception if invalid inputs
      * @throws Exception if user is not the head librarian
@@ -1438,12 +1392,12 @@ public class LibraryServiceService {
 
         String error = "";
         if (account == null) error = error + "Invalid account. ";
+        else if (!(account instanceof HeadLibrarian)) error = error + "This User ID does not correspond to a Head Librarian. ";
         if (timeslotID < 1) error = error + "Invalid timeslotID. ";
+        
         error = error.trim();
 
         if (error.length() > 0) throw new IllegalArgumentException(error);
-
-        getHeadLibrarianFromUserId(account.getUserID()); //will throw exception is account is not head librarian
 
         TimeSlot timeSlot = timeSlotRepository.findTimeSlotByTimeSlotID(timeslotID);
         timeSlotRepository.delete(timeSlot);
@@ -1476,6 +1430,7 @@ public class LibraryServiceService {
      */
     @Transactional
     public OpeningHour getOpeningHourFromID(int id) {
+        if (id < 1) throw new IllegalArgumentException("Invalid id");
         OpeningHour openingHour = openingHourRepository.findOpeningHourByHourID(id);
         return openingHour;
     }
