@@ -357,7 +357,6 @@ public class TestTransactionService {
     @Test
 	public void testCreateRoomReserveTransactionSuccessful() {
 		BorrowableItem roomItem = borrowableItemDao.findBorrowableItemByBarCodeNumber(ROOM_BARCODENUMBER);
-
 		Patron pAccount = (Patron) userAccountDao.findUserAccountByUserID(VALID_PATRON_USER_ID);
 
 		Transaction itemReserveTrans = null;
@@ -375,6 +374,32 @@ public class TestTransactionService {
 		checkResultTransaction(itemReserveTrans, roomItem, pAccount);
 	}
 
+	/**
+	 * Failure : item and account objects are null
+	 * @author Amani Jammoul
+	 */
+	@Test
+	public void testCreateRoomReserveTransactionNull() {
+		BorrowableItem roomItem = null;
+		Patron pAccount = null;
+
+		Transaction roomReserveTrans = null;
+
+		Date reservationDate = Date.valueOf("2021-12-30");
+		Time start = Time.valueOf("13:14:15");
+		Time end = Time.valueOf("14:15:16");
+
+		String error = null;
+
+		try {
+			roomReserveTrans = service.createRoomReserveTransaction(roomItem, pAccount, reservationDate, start, end);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		assertNull(roomReserveTrans);
+		assertEquals(error, "Item cannot be null! " + "Account cannot be null!");
+	}
+
 /* ***************** ITEM BORROW TESTS ********************* */
 	/**
 	 * Success case
@@ -383,7 +408,6 @@ public class TestTransactionService {
     @Test
 	public void testCreateItemBorrowTransactionSuccessful() {
 		BorrowableItem bookItem = borrowableItemDao.findBorrowableItemByBarCodeNumber(BOOK_BARCODENUMBER);
-
 		Patron pAccount = (Patron) userAccountDao.findUserAccountByUserID(VALID_PATRON_USER_ID);
 
 		Transaction itemReserveTrans = null;
@@ -397,6 +421,28 @@ public class TestTransactionService {
 		checkResultTransaction(itemReserveTrans, bookItem, pAccount);
 	}
 
+	/**
+	 * Failure : item and account objects are null
+	 * @author Amani Jammoul
+	 */
+	@Test
+	public void testCreateItemBorrowTransactionNull() {
+		BorrowableItem bookItem = null;
+		Patron pAccount = null;
+
+		Transaction itemBorrowTrans = null;
+
+		String error = null;
+
+		try {
+			itemBorrowTrans = service.createItemBorrowTransaction(bookItem, pAccount);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		assertNull(itemBorrowTrans);
+		assertEquals(error, "Item cannot be null! " + "Account cannot be null!");
+	}
+
 /* ***************** ITEM RETURN TESTS ********************* */
 	/**
 	 * Success case
@@ -405,7 +451,6 @@ public class TestTransactionService {
     @Test
 	public void testCreateItemReturnTransactionSuccessful() {
 		BorrowableItem bookItem = borrowableItemDao.findBorrowableItemByBarCodeNumber(BOOK_BARCODENUMBER);
-
 		Patron pAccount = (Patron) userAccountDao.findUserAccountByUserID(VALID_PATRON_USER_ID);
 
 		Transaction itemReserveTrans = null;
@@ -417,6 +462,28 @@ public class TestTransactionService {
 		}
 		assertNotNull(itemReserveTrans);
 		checkResultTransaction(itemReserveTrans, bookItem, pAccount);
+	}
+
+	/**
+	 * Failure : item and account objects are null
+	 * @author Amani Jammoul
+	 */
+	@Test
+	public void testCreateItemReturnTransactionNull() {
+		BorrowableItem bookItem = null;
+		Patron pAccount = null;
+
+		Transaction itemReturnTrans = null;
+
+		String error = null;
+
+		try {
+			itemReturnTrans = service.createItemReturnTransaction(bookItem, pAccount);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		assertNull(itemReturnTrans);
+		assertEquals(error, "Item cannot be null! " + "Account cannot be null!");
 	}
 
 /* ***************** ITEM WAITLIST TESTS ********************* */
@@ -442,6 +509,28 @@ public class TestTransactionService {
 		checkResultTransaction(itemReserveTrans, bookItem, pAccount);
 	}
 
+	/**
+	 * Failure : item and account objects are null
+	 * @author Amani Jammoul
+	 */
+	@Test
+	public void testCreateItemWaitlistTransactionNull() {
+		BorrowableItem bookItem = null;
+		Patron pAccount = null;
+
+		Transaction itemWaitlistTrans = null;
+
+		String error = null;
+
+		try {
+			itemWaitlistTrans = service.createItemWaitlistTransaction(bookItem, pAccount);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		assertNull(itemWaitlistTrans);
+		assertEquals(error, "Item cannot be null! " + "Account cannot be null!");
+	}
+
 /* ***************** ITEM RENEWAL TESTS ********************* */
 	/**
 	 * Success case
@@ -462,6 +551,28 @@ public class TestTransactionService {
 		}
 		assertNotNull(itemReserveTrans);
 		checkResultTransaction(itemReserveTrans, bookItem, pAccount);
+	}
+
+	/**
+	 * Failure : item and account objects are null
+	 * @author Amani Jammoul
+	 */
+	@Test
+	public void testCreateItemRenewalTransactionNull() {
+		BorrowableItem bookItem = null;
+		Patron pAccount = null;
+
+		Transaction itemRenewalTrans = null;
+
+		String error = null;
+
+		try {
+			itemRenewalTrans = service.createItemReturnTransaction(bookItem, pAccount);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		assertNull(itemRenewalTrans);
+		assertEquals(error, "Item cannot be null! " + "Account cannot be null!");
 	}
 
 	private void checkResultTransaction(Transaction transaction, BorrowableItem borrowableItem, UserAccount userAccount) {
