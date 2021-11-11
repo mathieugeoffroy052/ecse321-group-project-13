@@ -10,7 +10,7 @@ public class LibraryItemDTO {
   private Date date;
   private String creator;
   private ItemType itemType;
-  private int isbn
+  private int isbn;
 
   public LibraryItemDTO() {
   }
