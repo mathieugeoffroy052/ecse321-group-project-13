@@ -460,6 +460,55 @@ public class TestTimeSlotService {
         assertEquals("Invalid account.", error);
         assertFalse(test);
     }
+
+    /**
+     * test get timeslot with its key
+     * @author Mathieu Geoffroy
+     */
+    @Test
+    public void testGetTimeSlotWithKey() {
+        try {
+            assertEquals(TIMESLOT_KEY, service.getTimeSlotsFromId(TIMESLOT_KEY).getTimeSlotID());
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    /**
+     * test get timeslot with invalid key
+     * @author Mathieu Geoffroy
+     */
+    @Test
+    public void testGetTimeSlotWrongKey() {
+        TimeSlot timeslot = null;
+        String error = null;
+        try {
+            timeslot = service.getTimeSlotsFromId(-1);
+        } catch (Exception e) {
+            error = e.getMessage();
+        }
+        assertNull(timeslot);
+        assertEquals("Invalid id", error);
+    }
+
+    /**
+     * test get timeslot from librarian
+     * @author Mathieu Geoffroy
+     */
+    @Test
+    public void testGetTimeSlotWithLibrarian() {
+        Librarian librarian = librarianDao.findLibrarianByUserID(LIBRARIAN_KEY);
+        TimeSlot timeslot = timeslotDao.findTimeSlotByTimeSlotID(TIMESLOT_KEY);
+        lenient().when(librarianDao.existsById(anyInt())).thenReturn(true);
+        lenient().when(timeslotDao.existsById(anyInt())).thenReturn(true);
+        
+        try {
+            service.assignTimeSlotToLibrarian(timeslot, librarian);
+            assertEquals(TIMESLOT_KEY, service.getTimeSlotsFromLibrarian(librarian).get(0).getTimeSlotID());
+        } catch (Exception e) {
+            fail();
+        }
+    }
     
     /**
      * Asserts all timeslot attributes

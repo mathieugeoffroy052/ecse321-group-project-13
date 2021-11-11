@@ -25,121 +25,130 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
-
 @CrossOrigin(origins = "*")
 @RestController
 public class LibraryServiceRestController {
     @Autowired
-	private LibraryServiceService service;
+    private LibraryServiceService service;
 
-    //* Holiday methods
+    // * Holiday methods
     /**
      * get all holidays
+     * 
      * @return list of all holidays DTO
      * @author Mathieu Geoffroy
      * @throws Exception when there is no library system
      */
-    @GetMapping(value = {"/holidays", "/holidays/"})
-    public List<HolidayDTO> getAllHolidays() throws Exception{
+    @GetMapping(value = { "/holidays", "/holidays/" })
+    public List<HolidayDTO> getAllHolidays() throws Exception {
         return service.getAllHolidays().stream().map(p -> convertToDto(p)).collect(Collectors.toList());
     }
 
     /**
      * view a specific holiday
+     * 
      * @param id
      * @return holiday dto
      * @author Mathieu Geoffroy
      */
-    @GetMapping(value = {"/holiday/{holidayID}", "/holiday/{holidayID}/"})
+    @GetMapping(value = { "/holiday/{holidayID}", "/holiday/{holidayID}/" })
     public OpeningHourDTO getHolidayById(@PathVariable(name = "holidayID") int id) {
         return convertToDto(service.getOpeningHourFromID(id));
     }
 
     /**
      * create new holiday
+     * 
      * @param openingHourDTO
      * @return holiday DTO
      * @throws Exception
      * @author Mathieu Geoffroy
      */
-    @PostMapping(value = {"/holiday/new", "/holiday/new/"})
+    @PostMapping(value = { "/holiday/new", "/holiday/new/" })
     public HolidayDTO createHoliday(@RequestBody HolidayDTO holidayDTO) throws Exception {
-        return convertToDto(service.createHoliday(holidayDTO.getDate(), holidayDTO.getStartTime(), holidayDTO.getStartTime()));
+        return convertToDto(
+                service.createHoliday(holidayDTO.getDate(), holidayDTO.getStartTime(), holidayDTO.getStartTime()));
     }
 
-    //* Opening hour methods
+    // * Opening hour methods
     /**
      * get all opening hours
+     * 
      * @return list of opening hours DTO
      * @throws Exception when there is no library system
      * @author Mathieu Geoffroy
      */
-    @GetMapping(value = {"/openinghours", "/openinghours/"})
+    @GetMapping(value = { "/openinghours", "/openinghours/" })
     public List<OpeningHourDTO> getAllOpeningHours() throws Exception {
         return service.getAllOpeningHours().stream().map(p -> convertToDto(p)).collect(Collectors.toList());
     }
 
     /**
      * view a specific opening hour
+     * 
      * @param id
      * @return openinghourDTo
      * @author Mathieu Geoffroy
      */
-    @GetMapping(value = {"/openinghour/{openinghourID}", "/openinghour/{openinghourID}/"})
+    @GetMapping(value = { "/openinghour/{openinghourID}", "/openinghour/{openinghourID}/" })
     public OpeningHourDTO getOpeningHourById(@PathVariable(name = "openinghourID") int id) {
         return convertToDto(service.getOpeningHourFromID(id));
     }
 
     /**
      * view a specific opening hour for day
+     * 
      * @param dayofweek string with day of the week
      * @return openinghourDTo
      * @author Mathieu Geoffroy
      */
-    @GetMapping(value = {"/openinghour/{dayofweek}", "/openinghour/{dayofweek}/"})
+    @GetMapping(value = { "/openinghour/{dayofweek}", "/openinghour/{dayofweek}/" })
     public OpeningHourDTO getOpeningHourByDay(@PathVariable(name = "dayofweek") String day) throws Exception {
-        return convertToDto(service.getOpeningHoursByDayOfWeek(day).get(0)); //should only be 1 opening hour per day
+        return convertToDto(service.getOpeningHoursByDayOfWeek(day).get(0)); // should only be 1 opening hour per day
     }
 
     /**
      * create new opening hour
+     * 
      * @param openingHourDTO
      * @return openinghour DTO
      * @throws Exception
      * @author Mathieu Geoffroy
      */
-    @PostMapping(value = {"/openinghour/new", "/openinghour/new/"})
+    @PostMapping(value = { "/openinghour/new", "/openinghour/new/" })
     public OpeningHourDTO createOpeningHour(@RequestBody OpeningHourDTO openingHourDTO) throws Exception {
-        return convertToDto(service.createOpeningHour(openingHourDTO.getDayOfWeek().toString(), openingHourDTO.getStartTime(), openingHourDTO.getEndTime()));
+        return convertToDto(service.createOpeningHour(openingHourDTO.getDayOfWeek().toString(),
+                openingHourDTO.getStartTime(), openingHourDTO.getEndTime()));
     }
 
-
-    //* TimeSlot methods
+    // * TimeSlot methods
     /**
      * get all timeslots
+     * 
      * @return list of timeslot DTO
      * @throws Exception when there is no library system
      * @author Mahtieu Geoffroy
      */
-    @GetMapping(value = {"/timeslots", "/timeslots/"})
+    @GetMapping(value = { "/timeslots", "/timeslots/" })
     public List<TimeslotDTO> getAllTimeSlots() throws Exception {
         return service.getAllTimeSlots().stream().map(p -> convertToDto(p)).collect(Collectors.toList());
     }
 
     /**
      * assign a librarian to a timeslot
+     * 
      * @param timeslotDTO
      * @param librarianDTO
      * @return the timeslot dto with the assigned librarian
      * @throws Exception
      * @author Mathieu Geoffroy
      */
-    @PostMapping(value = {"/timeslot/assign", "/timeslot/assign/"})
-    public TimeslotDTO assignTimeSlot(@RequestParam(name = "timeslot") TimeslotDTO timeslotDTO, 
-                                        @RequestParam(name = "librarian") LibrarianDTO librarianDTO,
-                                        @RequestParam(name = "currentUser") UserAccountDTO account) throws Exception {
-        if (!(account instanceof HeadLibrarianDTO)) throw new IllegalArgumentException("Only a head librarian can assign timeslots to librarians.");
+    @PostMapping(value = { "/timeslot/assign", "/timeslot/assign/" })
+    public TimeslotDTO assignTimeSlot(@RequestParam(name = "timeslot") TimeslotDTO timeslotDTO,
+            @RequestParam(name = "librarian") LibrarianDTO librarianDTO,
+            @RequestParam(name = "currentUser") UserAccountDTO account) throws Exception {
+        if (!(account instanceof HeadLibrarianDTO))
+            throw new IllegalArgumentException("Only a head librarian can assign timeslots to librarians.");
         Librarian librarian = convertToDomainObject(librarianDTO);
         TimeSlot timeslot = convertToDomainObject(timeslotDTO);
         return convertToDto(service.assignTimeSlotToLibrarian(timeslot, librarian));
@@ -147,14 +156,16 @@ public class LibraryServiceRestController {
 
     /**
      * get timeslots for a specific librarian
+     * 
      * @param first name of librarian
-     * @param last name of librarian
+     * @param last  name of librarian
      * @return list of timeslotDTO
      * @throws Exception when invalid inputs, or invalid librarian id
      * @author Mathieu Geoffroy
      */
-    @GetMapping(value = {"/timeslot/{firstName}{lastName}", "/timeslot/{firstName}{lastName}/"})
-    public List<TimeslotDTO> getTimeSlotForLibrarian(@PathVariable(name = "firstName") String first, @PathVariable(name = "lastName") String last) throws Exception {
+    @GetMapping(value = { "/timeslot/{firstName}{lastName}", "/timeslot/{firstName}{lastName}/" })
+    public List<TimeslotDTO> getTimeSlotForLibrarian(@PathVariable(name = "firstName") String first,
+            @PathVariable(name = "lastName") String last) throws Exception {
         ArrayList<TimeSlot> list = new ArrayList<TimeSlot>();
         for (TimeSlot t : service.getAllTimeSlots()) {
             for (Librarian l : t.getLibrarian()) {
@@ -168,97 +179,99 @@ public class LibraryServiceRestController {
 
     /**
      * view s singular timeslot
+     * 
      * @param timeslotID
      * @return the timeslot
      * @author Mathieu Geoffroy
      */
-    @GetMapping(value = {"/timeslot/{timeslotID}", "/timeslot/{timeslotID}/"})
-    public TimeslotDTO getTimeslotById(@PathVariable(name = "timeslotID") int timeslotID) throws Exception{
+    @GetMapping(value = { "/timeslot/{timeslotID}", "/timeslot/{timeslotID}/" })
+    public TimeslotDTO getTimeslotById(@PathVariable(name = "timeslotID") int timeslotID) throws Exception {
         return convertToDto(service.getTimeSlotsFromId(timeslotID));
     }
 
     /**
      * create a new timeslot
+     * 
      * @param timeslotDto
      * @return the timeslotdto created
      * @throws Exception
      * @author Mathieu Geoffroy
      */
-    @PostMapping(value = {"/timeslot/new", "timeslot/new/"})
-    public TimeslotDTO createTimeslot(@RequestBody TimeslotDTO timeslotDto) throws Exception{
-        TimeSlot timeslot = service.createTimeSlot(timeslotDto.getStartDate(), timeslotDto.getStartTime(), timeslotDto.getEndDate(), timeslotDto.getEndTime());
+    @PostMapping(value = { "/timeslot/new", "timeslot/new/" })
+    public TimeslotDTO createTimeslot(@RequestBody TimeslotDTO timeslotDto) throws Exception {
+        TimeSlot timeslot = service.createTimeSlot(timeslotDto.getStartDate(), timeslotDto.getStartTime(),
+                timeslotDto.getEndDate(), timeslotDto.getEndTime());
         return convertToDto(timeslot);
     }
 
-    
-
-
-    
-
-
     /**
      * This methods gets all users for the database
+     * 
      * @author Gabrielle Halpin
      * @return userDTOs
      * @throws Exception
      */
     @GetMapping(value = { "/users", "/users/" })
-    public List<UserAccountDTO> getAllUsers() throws Exception{
-            List<UserAccountDTO> userDtos = new ArrayList<>();
-            for (UserAccount users : service.getAllUsers()) {
-                userDtos.add(convertToDto(users));
-            }
-            return userDtos;
-        
+    public List<UserAccountDTO> getAllUsers() throws Exception {
+        List<UserAccountDTO> userDtos = new ArrayList<>();
+        for (UserAccount users : service.getAllUsers()) {
+            userDtos.add(convertToDto(users));
+        }
+        return userDtos;
+
     }
 
     /**
      * This methods gets all patrons for the database
+     * 
      * @author Gabrielle Halpin
      * @return patrons
      * @throws Exception
      */
     @GetMapping(value = { "/patrons", "/patrons/" })
-    public List<UserAccountDTO> getAllPatrons() throws Exception{
-            List<UserAccountDTO> patrons = new ArrayList<>();
-            for (UserAccount users : service.getAllPatrons()) {
-                patrons.add(convertToDto(users));
-            }
-            return patrons;
-        
+    public List<UserAccountDTO> getAllPatrons() throws Exception {
+        List<UserAccountDTO> patrons = new ArrayList<>();
+        for (UserAccount users : service.getAllPatrons()) {
+            patrons.add(convertToDto(users));
+        }
+        return patrons;
+
     }
 
     /**
      * This methods gets all librarians for the database
+     * 
      * @author Gabrielle Halpin
      * @return patrons
      * @throws Exception
      */
     @GetMapping(value = { "/librarians", "/librarians/" })
-    public List<UserAccountDTO> getAllLibrarians() throws Exception{
-            List<UserAccountDTO> librarians = new ArrayList<>();
-            for (UserAccount users : service.getAllLibrarians()) {
-                librarians.add(convertToDto(users));
-            }
-            return librarians;
-        
+    public List<UserAccountDTO> getAllLibrarians() throws Exception {
+        List<UserAccountDTO> librarians = new ArrayList<>();
+        for (UserAccount users : service.getAllLibrarians()) {
+            librarians.add(convertToDto(users));
+        }
+        return librarians;
+
     }
 
     /**
-     * @author Gabrielle Halpin
-	 * Delete a business information
-	 * @param userID
+     * @author Gabrielle Halpin Delete a business information
+     * @param userID
      * @param headLibrarian
-	 * @return patronDTO
-	 */
-	@PutMapping(value = {"/deletePatron/{userID}","/deletePatron/{userID}/"})
-	public PatronDTO deletePatron(@PathVariable("userID") int userID, @RequestBody UserAccount headLibrarian) throws Exception{
-		Patron patron = service.deleteAPatronbyUserID(headLibrarian, userID);
-		return convertToDto(patron);
-	}
+     * @return patronDTO
+     */
+    @PutMapping(value = { "/deletePatron/{userID}", "/deletePatron/{userID}/" })
+    public PatronDTO deletePatron(@PathVariable("userID") int userID, @RequestBody UserAccount headLibrarian)
+            throws Exception {
+        Patron patron = service.deleteAPatronbyUserID(headLibrarian, userID);
+        return convertToDto(patron);
+    }
 
     /**
-     * This method uses the getPatronByUserId to retrieve a Patron from the database using their unique userID
+     * This method uses the getPatronByUserId to retrieve a Patron from the database
+     * using their unique userID
+     * 
      * @author Gabrielle Halpin
      * @param userID
      * @return PatronDTO
@@ -271,6 +284,7 @@ public class LibraryServiceRestController {
 
     /**
      * This methods gets a patron from their firstname and last name
+     * 
      * @author Gabrielle Halpin
      * @param firstName
      * @param lastName
@@ -278,43 +292,46 @@ public class LibraryServiceRestController {
      * @throws Exception
      */
     @GetMapping(value = { "/patrons/{firstName}/{lastName}", "/patrons/{firstname}/{lastName}/" })
-    public PatronDTO getPatronFromFullName(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName) throws Exception {
+    public PatronDTO getPatronFromFullName(@PathVariable("firstName") String firstName,
+            @PathVariable("lastName") String lastName) throws Exception {
         return convertToDto(service.getPatronFromFullName(firstName, lastName));
     }
+
     /**
-     * @author Gabrielle Halpin
-	 * Update Password
-	 * @param user  
-	 * @param password
-	 * @return
-	 */
-	@PutMapping(value = {"/updatePassword", "/updatePassword/"})
-	public UserAccountDTO updatePassword(@RequestBody UserAccount user, @RequestParam("password") String password) {
-		UserAccountDTO accountDTO = new UserAccountDTO();
-		UserAccount  account = service.changePassword(password, user);
-		accountDTO = convertToDto(account);
-		return accountDTO; 
-	}
+     * @author Gabrielle Halpin Update Password
+     * @param user
+     * @param password
+     * @return
+     */
+    @PutMapping(value = { "/updatePassword", "/updatePassword/" })
+    public UserAccountDTO updatePassword(@RequestBody UserAccount user, @RequestParam("password") String password) {
+        UserAccountDTO accountDTO = new UserAccountDTO();
+        UserAccount account = service.changePassword(password, user);
+        accountDTO = convertToDto(account);
+        return accountDTO;
+    }
 
     /**
      * This method sets the validity of the user's online account
-     * @author Gabrielle Halpin
-	 * Update Password
-	 * @param user  
-	 * @param password
-	 * @return
-	 */
-	@PutMapping(value = {"/setAccountValidity/", "/setAccountValidity/"})
-	public UserAccountDTO setAccountValidity(@RequestBody Patron patron, @RequestParam("validatedAccount") boolean validatedAccount, @RequestBody UserAccount creator) throws Exception{
-		UserAccountDTO accountDTO = new UserAccountDTO();
-		Patron  account = service.setValidatedAccount(patron, validatedAccount, creator);
-		accountDTO = convertToDto(account);
-		return accountDTO; 
-	}
+     * 
+     * @author Gabrielle Halpin Update Password
+     * @param user
+     * @param password
+     * @return
+     */
+    @PutMapping(value = { "/setAccountValidity/", "/setAccountValidity/" })
+    public UserAccountDTO setAccountValidity(@RequestBody Patron patron,
+            @RequestParam("validatedAccount") boolean validatedAccount, @RequestBody UserAccount creator)
+            throws Exception {
+        UserAccountDTO accountDTO = new UserAccountDTO();
+        Patron account = service.setValidatedAccount(patron, validatedAccount, creator);
+        accountDTO = convertToDto(account);
+        return accountDTO;
+    }
 
     /**
-     * @author Gabrielle Halpin
-     * This methods gets a userAccount from their unique userID
+     * @author Gabrielle Halpin This methods gets a userAccount from their unique
+     *         userID
      * @param userID
      * @return UserAccountDTO
      * @throws Exception
@@ -325,8 +342,8 @@ public class LibraryServiceRestController {
     }
 
     /**
-     * @author Gabrielle Halpin
-     * This method creates a Patron in the database and return a PatronDTO object
+     * @author Gabrielle Halpin This method creates a Patron in the database and
+     *         return a PatronDTO object
      * @param creator
      * @param firstName
      * @param lastName
@@ -340,52 +357,64 @@ public class LibraryServiceRestController {
      * @throws Exception
      */
     @PostMapping(value = { "/createPatron/{firstName}/{lastName}", "/createPatron/{creator}/{firstName}/{lastName}/" })
-	public PatronDTO createPatron(@RequestParam("creator") UserAccount creator, @PathVariable("firstName") String firstName, @RequestParam("lastName") String lastName, @RequestParam("onlineAccount") boolean onlineAccount, 
-            @PathVariable("address") String address, @PathVariable("validatedAccount") boolean validatedAccount, @PathVariable("password") String password,
-            @RequestParam("balance") int balance, @RequestParam("email") String email) throws Exception{
-		Patron patron = service.createPatron( creator,  firstName,  lastName,  onlineAccount,  address,  validatedAccount,  password,  balance,  email);
-	return convertToDto(patron);
-	}
+    public PatronDTO createPatron(@RequestParam("creator") UserAccount creator,
+            @PathVariable("firstName") String firstName, @RequestParam("lastName") String lastName,
+            @RequestParam("onlineAccount") boolean onlineAccount, @PathVariable("address") String address,
+            @PathVariable("validatedAccount") boolean validatedAccount, @PathVariable("password") String password,
+            @RequestParam("balance") int balance, @RequestParam("email") String email) throws Exception {
+        Patron patron = service.createPatron(creator, firstName, lastName, onlineAccount, address, validatedAccount,
+                password, balance, email);
+        return convertToDto(patron);
+    }
 
-    /** 
-     * Create an item reservation (transaction) between a user account and borrowable item, and convert to DTO
-     * @param iDto - BorrowableItemDTO 
+    /**
+     * Create an item reservation (transaction) between a user account and
+     * borrowable item, and convert to DTO
+     * 
+     * @param iDto - BorrowableItemDTO
      * @param aDto - UserAccountDTO
      * @return TransactionDTO
      * @throws Exception
      * @author Amani Jammoul
      */
     @PostMapping(value = { "/reserve-item", "/reserve-item/" })
-    public TransactionDTO reserveAnItem(@RequestParam(name = "item") BorrowableItemDTO iDto, @RequestParam(name = "account") UserAccountDTO aDto) throws Exception {
+    public TransactionDTO reserveAnItem(@RequestParam(name = "item") BorrowableItemDTO iDto,
+            @RequestParam(name = "account") UserAccountDTO aDto) throws Exception {
         BorrowableItem i = service.getBorrowableItemFromBarCodeNumber(iDto.getBarCodeNumber());
         UserAccount a = service.getUserAccountFromFullName(aDto.getFirstName(), aDto.getLastName());
 
-	    Transaction t = service.createItemReserveTransaction(i, a);
-	    return convertToDto(t);
+        Transaction t = service.createItemReserveTransaction(i, a);
+        return convertToDto(t);
     }
-  
-    /** 
-     * Create a room reservation (transaction) between a user account and a room, and convert to DTO
-     * @param iDto - BorrowableItemDto
-     * @param aDto - UserAccountDTO
-     * @param date - date of reservation
+
+    /**
+     * Create a room reservation (transaction) between a user account and a room,
+     * and convert to DTO
+     * 
+     * @param iDto      - BorrowableItemDto
+     * @param aDto      - UserAccountDTO
+     * @param date      - date of reservation
      * @param startTime - start time of reservation
-     * @param endTime - end time of reservation
+     * @param endTime   - end time of reservation
      * @return TransactionDTO
      * @author Amani Jammoul
      */
     @PostMapping(value = { "/reserve-room", "/reserve-room/" })
-    public TransactionDTO reserveARoom(@RequestParam(name = "room") BorrowableItemDTO iDto, @RequestParam(name = "account") UserAccountDTO aDto, 
-                                                @RequestParam(name = "date") Date date, @RequestParam(name = "startTime") Time startTime, @RequestParam(name = "endTime") Time endTime) throws Exception {
+    public TransactionDTO reserveARoom(@RequestParam(name = "room") BorrowableItemDTO iDto,
+            @RequestParam(name = "account") UserAccountDTO aDto, @RequestParam(name = "date") Date date,
+            @RequestParam(name = "startTime") Time startTime, @RequestParam(name = "endTime") Time endTime)
+            throws Exception {
         BorrowableItem i = service.getBorrowableItemFromBarCodeNumber(iDto.getBarCodeNumber());
         UserAccount a = service.getUserAccountFromFullName(aDto.getFirstName(), aDto.getLastName());
 
-	    Transaction t = service.createRoomReserveTransaction(i, a, date, startTime, endTime);
-	    return convertToDto(t);
+        Transaction t = service.createRoomReserveTransaction(i, a, date, startTime, endTime);
+        return convertToDto(t);
     }
-    
-    /** 
-     * Create a borrow transaction between a user account and an item, and convert to DTO
+
+    /**
+     * Create a borrow transaction between a user account and an item, and convert
+     * to DTO
+     * 
      * @param iDto - BorrowableItemDto
      * @param aDto - UserAccountDTO
      * @return TransactionDTO
@@ -393,16 +422,19 @@ public class LibraryServiceRestController {
      * @author Amani Jammoul
      */
     @PostMapping(value = { "/borrow", "/borrow/" })
-    public TransactionDTO borrowAnItem(@RequestParam(name = "item") BorrowableItemDTO iDto, @RequestParam(name = "account") UserAccountDTO aDto) throws Exception {
+    public TransactionDTO borrowAnItem(@RequestParam(name = "item") BorrowableItemDTO iDto,
+            @RequestParam(name = "account") UserAccountDTO aDto) throws Exception {
         BorrowableItem i = service.getBorrowableItemFromBarCodeNumber(iDto.getBarCodeNumber());
         UserAccount a = service.getUserAccountFromFullName(aDto.getFirstName(), aDto.getLastName());
 
-	    Transaction t = service.createItemBorrowTransaction(i, a);
-	    return convertToDto(t);
+        Transaction t = service.createItemBorrowTransaction(i, a);
+        return convertToDto(t);
     }
-    
-    /** 
-     * Create a renewal transaction between a user account and an item, and convert to DTO
+
+    /**
+     * Create a renewal transaction between a user account and an item, and convert
+     * to DTO
+     * 
      * @param iDto - BorrowableItemDto
      * @param aDto - UserAccountDTO
      * @return TransactionDTO
@@ -410,16 +442,19 @@ public class LibraryServiceRestController {
      * @author Amani Jammoul
      */
     @PostMapping(value = { "/renew", "/renew/" })
-    public TransactionDTO renewAnItem(@RequestParam(name = "item") BorrowableItemDTO iDto, @RequestParam(name = "account") UserAccountDTO aDto) throws Exception {
+    public TransactionDTO renewAnItem(@RequestParam(name = "item") BorrowableItemDTO iDto,
+            @RequestParam(name = "account") UserAccountDTO aDto) throws Exception {
         BorrowableItem i = service.getBorrowableItemFromBarCodeNumber(iDto.getBarCodeNumber());
         UserAccount a = service.getUserAccountFromFullName(aDto.getFirstName(), aDto.getLastName());
 
-	    Transaction t = service.createItemRenewalTransaction(i, a);
-	    return convertToDto(t);
+        Transaction t = service.createItemRenewalTransaction(i, a);
+        return convertToDto(t);
     }
 
-    /** 
-     * Create a waitlist transaction between a user account and an item, and convert to DTO
+    /**
+     * Create a waitlist transaction between a user account and an item, and convert
+     * to DTO
+     * 
      * @param iDto - BorrowableItemDto
      * @param aDto - UserAccountDTO
      * @return TransactionDTO
@@ -427,16 +462,19 @@ public class LibraryServiceRestController {
      * @author Amani Jammoul
      */
     @PostMapping(value = { "/join-waitlist", "/join-waitlist/" })
-    public TransactionDTO joinWaitlistForAnItem(@RequestParam(name = "item") BorrowableItemDTO iDto, @RequestParam(name = "account") UserAccountDTO aDto) throws Exception {
+    public TransactionDTO joinWaitlistForAnItem(@RequestParam(name = "item") BorrowableItemDTO iDto,
+            @RequestParam(name = "account") UserAccountDTO aDto) throws Exception {
         BorrowableItem i = service.getBorrowableItemFromBarCodeNumber(iDto.getBarCodeNumber());
         UserAccount a = service.getUserAccountFromFullName(aDto.getFirstName(), aDto.getLastName());
 
-	    Transaction t = service.createItemWaitlistTransaction(i, a);
-	    return convertToDto(t);
+        Transaction t = service.createItemWaitlistTransaction(i, a);
+        return convertToDto(t);
     }
 
-    /** 
-     * Create a return transaction between a user account and an item, and convert to DTO
+    /**
+     * Create a return transaction between a user account and an item, and convert
+     * to DTO
+     * 
      * @param iDto - BorrowableItemDto
      * @param aDto - UserAccountDTO
      * @return TransactionDTO
@@ -444,17 +482,18 @@ public class LibraryServiceRestController {
      * @author Amani Jammoul
      */
     @PostMapping(value = { "/return", "/return/" })
-    public TransactionDTO returnAnItem(@RequestParam(name = "item") BorrowableItemDTO iDto, @RequestParam(name = "account") UserAccountDTO aDto) throws Exception {
+    public TransactionDTO returnAnItem(@RequestParam(name = "item") BorrowableItemDTO iDto,
+            @RequestParam(name = "account") UserAccountDTO aDto) throws Exception {
         BorrowableItem i = service.getBorrowableItemFromBarCodeNumber(iDto.getBarCodeNumber());
         UserAccount a = service.getUserAccountFromFullName(aDto.getFirstName(), aDto.getLastName());
 
-	    Transaction t = service.createItemReturnTransaction(i, a);
-	    return convertToDto(t);
+        Transaction t = service.createItemReturnTransaction(i, a);
+        return convertToDto(t);
     }
 
-    
-    /** 
+    /**
      * Find user account by full name, and convert object to DTO
+     * 
      * @param firstName
      * @param lastName
      * @return UserAccountDTO
@@ -462,51 +501,63 @@ public class LibraryServiceRestController {
      * @author Amani Jammoul
      */
     @GetMapping(value = { "/account/{firstName}/{lastName}", "/account/{firstName}/{lastName}/" })
-    public UserAccountDTO getUserAccountByFullName(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName) throws Exception {
-	    UserAccount a = service.getUserAccountFromFullName(firstName, lastName);
+    public UserAccountDTO getUserAccountByFullName(@PathVariable("firstName") String firstName,
+            @PathVariable("lastName") String lastName) throws Exception {
+        UserAccount a = service.getUserAccountFromFullName(firstName, lastName);
         return convertToDto(a);
     }
-    
-    /** 
-     * Find user account by full name, then find all items that user has checked out and convert those borrowable item objects to DTOs
+
+    /**
+     * Find user account by full name, then find all items that user has checked out
+     * and convert those borrowable item objects to DTOs
+     * 
      * @param firstName
      * @param lastName
-     * @return List<BorrowableItemDTO> - items a user has borrowed/renewed (has in their possession)
+     * @return List<BorrowableItemDTO> - items a user has borrowed/renewed (has in
+     *         their possession)
      * @throws Exception
      * @author Amani Jammoul
      */
-    @GetMapping(value = { "/account/{firstName}/{lastName}/borrowed-items", "/account/{firstName}/{lastName}/borrowed-items/" })
-    public List<BorrowableItemDTO> getCheckedOutItemsByUser(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName) throws Exception {
-	    UserAccount a = service.getUserAccountFromFullName(firstName, lastName);
+    @GetMapping(value = { "/account/{firstName}/{lastName}/borrowed-items",
+            "/account/{firstName}/{lastName}/borrowed-items/" })
+    public List<BorrowableItemDTO> getCheckedOutItemsByUser(@PathVariable("firstName") String firstName,
+            @PathVariable("lastName") String lastName) throws Exception {
+        UserAccount a = service.getUserAccountFromFullName(firstName, lastName);
         List<BorrowableItem> borrowableItems = service.getBorrowedItemsFromUser(a);
         List<BorrowableItemDTO> borrowableItemDTOs = new ArrayList<BorrowableItemDTO>();
-        for(BorrowableItem b : borrowableItems){
+        for (BorrowableItem b : borrowableItems) {
             borrowableItemDTOs.add(convertToDto(b));
         }
         return borrowableItemDTOs;
     }
 
-    /** 
-     * Find user account by full name, then find all items that user has reserved and convert those borrowable item objects to DTOs
+    /**
+     * Find user account by full name, then find all items that user has reserved
+     * and convert those borrowable item objects to DTOs
+     * 
      * @param firstName
      * @param lastName
      * @return List<BorrowableItemDTO> - items a user has reserved
      * @throws Exception
      * @author Amani Jammoul
      */
-    @GetMapping(value = { "/account/{firstName}/{lastName}/reserved-items", "/account/{firstName}/{lastName}/reserved-items/" })
-    public List<BorrowableItemDTO> getReservedItemsByUser(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName) throws Exception {
-	    UserAccount a = service.getUserAccountFromFullName(firstName, lastName);
+    @GetMapping(value = { "/account/{firstName}/{lastName}/reserved-items",
+            "/account/{firstName}/{lastName}/reserved-items/" })
+    public List<BorrowableItemDTO> getReservedItemsByUser(@PathVariable("firstName") String firstName,
+            @PathVariable("lastName") String lastName) throws Exception {
+        UserAccount a = service.getUserAccountFromFullName(firstName, lastName);
         List<BorrowableItem> borrowableItems = service.getReservedItemsFromUser(a);
         List<BorrowableItemDTO> borrowableItemDTOs = new ArrayList<BorrowableItemDTO>();
-        for(BorrowableItem b : borrowableItems){
+        for (BorrowableItem b : borrowableItems) {
             borrowableItemDTOs.add(convertToDto(b));
         }
         return borrowableItemDTOs;
     }
-    
-    /** 
-     * Find user account by full name, then find all items that user has request to be on the waitlist for and convert those borrowable item objects to DTOs
+
+    /**
+     * Find user account by full name, then find all items that user has request to
+     * be on the waitlist for and convert those borrowable item objects to DTOs
+     * 
      * @param firstName
      * @param lastName
      * @return List<BorrowableItemDTO> - items a user is on the waitlist for
@@ -514,36 +565,41 @@ public class LibraryServiceRestController {
      * @author Amani Jammoul
      */
     @GetMapping(value = { "/account/{firstName}/{lastName}/waitlists", "/account/{firstName}/{lastName}/waitlists/" })
-    public List<BorrowableItemDTO> getWaitlistsByUser(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName) throws Exception {
-	    UserAccount a = service.getUserAccountFromFullName(firstName, lastName);
+    public List<BorrowableItemDTO> getWaitlistsByUser(@PathVariable("firstName") String firstName,
+            @PathVariable("lastName") String lastName) throws Exception {
+        UserAccount a = service.getUserAccountFromFullName(firstName, lastName);
         List<BorrowableItem> borrowableItems = service.getItemWaitlistsFromUser(a);
         List<BorrowableItemDTO> borrowableItemDTOs = new ArrayList<BorrowableItemDTO>();
-        for(BorrowableItem b : borrowableItems){
+        for (BorrowableItem b : borrowableItems) {
             borrowableItemDTOs.add(convertToDto(b));
         }
         return borrowableItemDTOs;
     }
 
-    
-    /** 
-     * Finds all borrowable items for a certain library item object (by isbn), and converts all those objects to DTOs
+    /**
+     * Finds all borrowable items for a certain library item object (by isbn), and
+     * converts all those objects to DTOs
+     * 
      * @param isbn
-     * @return List<BorrowableItemDTO> - all borrowable items of a certain library item (identified by its isbn)
+     * @return List<BorrowableItemDTO> - all borrowable items of a certain library
+     *         item (identified by its isbn)
      * @throws Exception
      * @author Amani Jammoul
      */
     @GetMapping(value = { "/items/{isbn}", "/items/{isbn}/" })
-    public List<BorrowableItemDTO> getAllBorrowableItemsByLibraryItemIsbn(@PathVariable("isbn") int isbn) throws Exception {
+    public List<BorrowableItemDTO> getAllBorrowableItemsByLibraryItemIsbn(@PathVariable("isbn") int isbn)
+            throws Exception {
         List<BorrowableItem> borrowableItems = service.getBorrowableItemsFromItemIsbn(isbn);
         List<BorrowableItemDTO> borrowableItemDTOs = new ArrayList<BorrowableItemDTO>();
-        for(BorrowableItem b : borrowableItems){
+        for (BorrowableItem b : borrowableItems) {
             borrowableItemDTOs.add(convertToDto(b));
         }
         return borrowableItemDTOs;
     }
-    
-    /** 
+
+    /**
      * Find a borrowable item by its bar code number, and convert to DTO
+     * 
      * @param barCodeNumber
      * @return BorrowableItemDTO - borrowable item with given bar code number
      * @throws Exception
@@ -553,9 +609,10 @@ public class LibraryServiceRestController {
     public BorrowableItemDTO getItemByBarCode(@PathVariable("barCodeNumber") int barCodeNumber) throws Exception {
         return convertToDto(service.getBorrowableItemFromBarCodeNumber(barCodeNumber));
     }
-  
-    /** 
+
+    /**
      * Find all items by title and convert those obejcts to DTOs
+     * 
      * @param itemTitle
      * @return List<LibraryItemDTO> - items with the given title
      * @throws Exception
@@ -565,14 +622,15 @@ public class LibraryServiceRestController {
     public List<LibraryItemDTO> getItemsByTitle(@PathVariable("title") String itemTitle) throws Exception {
         List<LibraryItem> items = service.getLibraryItemsFromTitle(itemTitle);
         List<LibraryItemDTO> itemDTOs = new ArrayList<LibraryItemDTO>();
-        for(LibraryItem i : items){
+        for (LibraryItem i : items) {
             itemDTOs.add(convertToDto(i));
         }
         return itemDTOs;
     }
 
-    /** 
+    /**
      * Find all items by creator and convert those obejcts to DTOs
+     * 
      * @param creatorName
      * @return List<LibraryItemDTO> - items with the given creator
      * @throws Exception
@@ -582,33 +640,36 @@ public class LibraryServiceRestController {
     public List<LibraryItemDTO> getItemsByCreator(@PathVariable("creator") String creatorName) throws Exception {
         List<LibraryItem> items = service.getLibraryItemsFromCreator(creatorName);
         List<LibraryItemDTO> itemDTOs = new ArrayList<LibraryItemDTO>();
-        for(LibraryItem i : items){
+        for (LibraryItem i : items) {
             itemDTOs.add(convertToDto(i));
         }
         return itemDTOs;
     }
-    
-    /** 
+
+    /**
      * Find all items by creator and title, and convert those obejcts to DTOs
+     * 
      * @param creatorName
      * @param itemTitle
      * @return List<LibraryItemDTO> - items with the given title and creator
      * @throws Exception
      * @author Amani Jammoul
      */
-    @GetMapping(value = { "/items/{creator}/{title}", "/items/{creator}/{title}/", "/items/{title}/{creator}", "/items/{title}/{creator}/"})
-    public List<LibraryItemDTO> getItemsByCreatorAndTitle(@PathVariable("creator") String creatorName, @PathVariable("title") String itemTitle) throws Exception {
+    @GetMapping(value = { "/items/{creator}/{title}", "/items/{creator}/{title}/", "/items/{title}/{creator}",
+            "/items/{title}/{creator}/" })
+    public List<LibraryItemDTO> getItemsByCreatorAndTitle(@PathVariable("creator") String creatorName,
+            @PathVariable("title") String itemTitle) throws Exception {
         List<LibraryItem> items = service.getLibraryItemFromCreatorAndTitle(creatorName, itemTitle);
         List<LibraryItemDTO> itemDTOs = new ArrayList<LibraryItemDTO>();
-        for(LibraryItem i : items){
+        for (LibraryItem i : items) {
             itemDTOs.add(convertToDto(i));
         }
         return itemDTOs;
     }
 
-    
-    /** 
+    /**
      * Find all books by title, and convert those objects to DTOs
+     * 
      * @param bookTitle
      * @return List<LibraryItemDTO> - books with given title
      * @throws Exception
@@ -618,14 +679,15 @@ public class LibraryServiceRestController {
     public List<LibraryItemDTO> getBooksByTitle(@PathVariable("title") String bookTitle) throws Exception {
         List<LibraryItem> items = service.getBooksFromTitle(bookTitle);
         List<LibraryItemDTO> itemDTOs = new ArrayList<LibraryItemDTO>();
-        for(LibraryItem i : items){
+        for (LibraryItem i : items) {
             itemDTOs.add(convertToDto(i));
         }
         return itemDTOs;
     }
 
-    /** 
+    /**
      * Find all books by author, and convert those objects to DTOs
+     * 
      * @param authorName
      * @return List<LibraryItemDTO> - books written by given author name
      * @throws Exception
@@ -635,29 +697,32 @@ public class LibraryServiceRestController {
     public List<LibraryItemDTO> getBooksByAuthor(@PathVariable("author") String authorName) throws Exception {
         List<LibraryItem> items = service.getBooksFromAuthor(authorName);
         List<LibraryItemDTO> itemDTOs = new ArrayList<LibraryItemDTO>();
-        for(LibraryItem i : items){
+        for (LibraryItem i : items) {
             itemDTOs.add(convertToDto(i));
         }
         return itemDTOs;
     }
 
-    /** 
+    /**
      * Find book by author and title, and convert to DTO
+     * 
      * @param authorName
      * @param bookTitle
-     * @return LibraryItemDTO - single book with given title written by given author 
+     * @return LibraryItemDTO - single book with given title written by given author
      * @throws Exception
      * @author Amani Jammoul
      */
-    @GetMapping(value = { "/books/{author}/{title}", "/books/{author}/{title}/", "/books/{title}/{author}", "/books/{title}/{author}/"})
-    public LibraryItemDTO getBooksByAuthorAndTitle(@PathVariable("author") String authorName, @PathVariable("title") String bookTitle) throws Exception {
+    @GetMapping(value = { "/books/{author}/{title}", "/books/{author}/{title}/", "/books/{title}/{author}",
+            "/books/{title}/{author}/" })
+    public LibraryItemDTO getBooksByAuthorAndTitle(@PathVariable("author") String authorName,
+            @PathVariable("title") String bookTitle) throws Exception {
         LibraryItem book = service.getBookFromAuthorAndTitle(authorName, bookTitle);
         return convertToDto(book);
     }
 
-    
-    /** 
+    /**
      * Find all music by title, and convert those objects to DTOs
+     * 
      * @param musicTitle
      * @return List<LibraryItemDTO> - musics with given title
      * @throws Exception
@@ -667,14 +732,15 @@ public class LibraryServiceRestController {
     public List<LibraryItemDTO> getMusicsByTitle(@PathVariable("title") String musicTitle) throws Exception {
         List<LibraryItem> items = service.getMusicsFromTitle(musicTitle);
         List<LibraryItemDTO> itemDTOs = new ArrayList<LibraryItemDTO>();
-        for(LibraryItem i : items){
+        for (LibraryItem i : items) {
             itemDTOs.add(convertToDto(i));
         }
         return itemDTOs;
     }
-  
-    /** 
+
+    /**
      * Find all music by artist, and convert those objects to DTOs
+     * 
      * @param artistName
      * @return List<LibraryItemDTO> - musics created by given artist name
      * @throws Exception
@@ -684,29 +750,33 @@ public class LibraryServiceRestController {
     public List<LibraryItemDTO> getMusicsByArtist(@PathVariable("artist") String artistName) throws Exception {
         List<LibraryItem> items = service.getMusicsFromArtist(artistName);
         List<LibraryItemDTO> itemDTOs = new ArrayList<LibraryItemDTO>();
-        for(LibraryItem i : items){
+        for (LibraryItem i : items) {
             itemDTOs.add(convertToDto(i));
         }
         return itemDTOs;
     }
-    
-    /** 
+
+    /**
      * Find music by artsits and title, and convert to DTO
+     * 
      * @param artistName
      * @param musicTitle
-     * @return LibraryItemDTO - single music with given title and created by given artist 
+     * @return LibraryItemDTO - single music with given title and created by given
+     *         artist
      * @throws Exception
      * @author Amani Jammoul
      */
-    @GetMapping(value = { "/musics/{artist}/{title}", "/musics/{artist}/{title}/", "/musics/{title}/{artist}", "/musics/{title}/{artist}/"})
-    public LibraryItemDTO getMusicsByArtistAndTitle(@PathVariable("artist") String artistName, @PathVariable("title") String musicTitle) throws Exception {
+    @GetMapping(value = { "/musics/{artist}/{title}", "/musics/{artist}/{title}/", "/musics/{title}/{artist}",
+            "/musics/{title}/{artist}/" })
+    public LibraryItemDTO getMusicsByArtistAndTitle(@PathVariable("artist") String artistName,
+            @PathVariable("title") String musicTitle) throws Exception {
         LibraryItem music = service.getMusicFromArtistAndTitle(artistName, musicTitle);
         return convertToDto(music);
     }
-  
 
-    /** 
+    /**
      * Find all movies by title, and convert those objects to DTOs
+     * 
      * @param movieTitle
      * @return List<LibraryItemDTO> - movies with given title
      * @throws Exception
@@ -716,14 +786,15 @@ public class LibraryServiceRestController {
     public List<LibraryItemDTO> getMoviesByTitle(@PathVariable("title") String movieTitle) throws Exception {
         List<LibraryItem> items = service.getMoviesFromTitle(movieTitle);
         List<LibraryItemDTO> itemDTOs = new ArrayList<LibraryItemDTO>();
-        for(LibraryItem i : items){
+        for (LibraryItem i : items) {
             itemDTOs.add(convertToDto(i));
         }
         return itemDTOs;
     }
-    
-    /** 
+
+    /**
      * Find all movies by director, and convert those objects to DTOs
+     * 
      * @param directorName
      * @return List<LibraryItemDTO> - movies directed by given director name
      * @throws Exception
@@ -733,26 +804,29 @@ public class LibraryServiceRestController {
     public List<LibraryItemDTO> getMoviesByDirector(@PathVariable("director") String directorName) throws Exception {
         List<LibraryItem> items = service.getMoviesFromTitle(directorName);
         List<LibraryItemDTO> itemDTOs = new ArrayList<LibraryItemDTO>();
-        for(LibraryItem i : items){
+        for (LibraryItem i : items) {
             itemDTOs.add(convertToDto(i));
         }
         return itemDTOs;
     }
-  
-    /** 
+
+    /**
      * Find movie by director and title, and convert to DTO
+     * 
      * @param directorName
      * @param movieTitle
-     * @return LibraryItemDTO - single movie with given title directed by given director
+     * @return LibraryItemDTO - single movie with given title directed by given
+     *         director
      * @throws Exception
      * @author Amani Jammoul
      */
-    @GetMapping(value = { "/movies/{director}/{title}", "/movies/{director}/{title}/", "/movies/{title}/{director}", "/movies/{title}/{director}/"})
-    public LibraryItemDTO getMoviesByDirectorAndTitle(@PathVariable("director") String directorName, @PathVariable("title") String movieTitle) throws Exception {
+    @GetMapping(value = { "/movies/{director}/{title}", "/movies/{director}/{title}/", "/movies/{title}/{director}",
+            "/movies/{title}/{director}/" })
+    public LibraryItemDTO getMoviesByDirectorAndTitle(@PathVariable("director") String directorName,
+            @PathVariable("title") String movieTitle) throws Exception {
         LibraryItem movie = service.getMovieFromDirectorAndTitle(directorName, movieTitle);
         return convertToDto(movie);
     }
-
 
     ////////// Helper methods - convertToDTO////////
 
@@ -765,7 +839,9 @@ public class LibraryServiceRestController {
         if (patron == null) {
             throw new IllegalArgumentException("There is no such patron!");
         }
-        PatronDTO patronDTO = new PatronDTO(patron.getFirstName(),patron.getLastName(),patron.getOnlineAccount(),patron.getAddress(), patron.getValidatedAccount(), patron.getPassword(), patron.getBalance(), patron.getEmail());
+        PatronDTO patronDTO = new PatronDTO(patron.getFirstName(), patron.getLastName(), patron.getOnlineAccount(),
+                patron.getAddress(), patron.getValidatedAccount(), patron.getPassword(), patron.getBalance(),
+                patron.getEmail());
         return patronDTO;
     }
 
@@ -778,20 +854,24 @@ public class LibraryServiceRestController {
         if (librarian == null) {
             throw new IllegalArgumentException("There is no such patron!");
         }
-        LibrarianDTO librarianDTO = new LibrarianDTO(librarian.getFirstName(),librarian.getLastName(),librarian.getOnlineAccount(),librarian.getAddress(), librarian.getPassword(), librarian.getBalance(), librarian.getEmail());
+        LibrarianDTO librarianDTO = new LibrarianDTO(librarian.getFirstName(), librarian.getLastName(),
+                librarian.getOnlineAccount(), librarian.getAddress(), librarian.getPassword(), librarian.getBalance(),
+                librarian.getEmail());
         return librarianDTO;
     }
 
     /**
      * @author Ramin Akhavan-Sarraf
-     * @param HeadLibrarian 
+     * @param HeadLibrarian
      * @return HeadLibrarianDTO
      */
     private HeadLibrarianDTO convertToDto(HeadLibrarian headLibrarian) {
-        if (headLibrarian== null) {
+        if (headLibrarian == null) {
             throw new IllegalArgumentException("There is no such head librarian!");
         }
-        HeadLibrarianDTO headLibrarianDTO = new HeadLibrarianDTO(headLibrarian.getFirstName(),headLibrarian.getLastName(),headLibrarian.getOnlineAccount(),headLibrarian.getAddress(), headLibrarian.getPassword(), headLibrarian.getBalance(), headLibrarian.getEmail());
+        HeadLibrarianDTO headLibrarianDTO = new HeadLibrarianDTO(headLibrarian.getFirstName(),
+                headLibrarian.getLastName(), headLibrarian.getOnlineAccount(), headLibrarian.getAddress(),
+                headLibrarian.getPassword(), headLibrarian.getBalance(), headLibrarian.getEmail());
         return headLibrarianDTO;
     }
 
@@ -805,8 +885,11 @@ public class LibraryServiceRestController {
             throw new IllegalArgumentException("There is no such holiday!");
         }
         HeadLibrarian headLibrarian = holiday.getHeadLibrarian();
-        HeadLibrarianDTO headLibrarianDTO = new HeadLibrarianDTO(headLibrarian.getFirstName(),headLibrarian.getLastName(),headLibrarian.getOnlineAccount(),headLibrarian.getAddress(), headLibrarian.getPassword(), headLibrarian.getBalance(), headLibrarian.getEmail());
-        HolidayDTO holidayDTO = new HolidayDTO(holiday.getDate(), holiday.getStartTime(), holiday.getEndtime(), headLibrarianDTO);
+        HeadLibrarianDTO headLibrarianDTO = new HeadLibrarianDTO(headLibrarian.getFirstName(),
+                headLibrarian.getLastName(), headLibrarian.getOnlineAccount(), headLibrarian.getAddress(),
+                headLibrarian.getPassword(), headLibrarian.getBalance(), headLibrarian.getEmail());
+        HolidayDTO holidayDTO = new HolidayDTO(holiday.getDate(), holiday.getStartTime(), holiday.getEndtime(),
+                headLibrarianDTO);
         return holidayDTO;
     }
 
@@ -820,9 +903,12 @@ public class LibraryServiceRestController {
             throw new IllegalArgumentException("There is no such opening hour!");
         }
         HeadLibrarian headLibrarian = openingHour.getHeadLibrarian();
-        HeadLibrarianDTO headLibrarianDTO = new HeadLibrarianDTO(headLibrarian.getFirstName(),headLibrarian.getLastName(),headLibrarian.getOnlineAccount(),headLibrarian.getAddress(), headLibrarian.getPassword(), headLibrarian.getBalance(), headLibrarian.getEmail());
+        HeadLibrarianDTO headLibrarianDTO = new HeadLibrarianDTO(headLibrarian.getFirstName(),
+                headLibrarian.getLastName(), headLibrarian.getOnlineAccount(), headLibrarian.getAddress(),
+                headLibrarian.getPassword(), headLibrarian.getBalance(), headLibrarian.getEmail());
         OpeningHourDTO.DayOfWeek dayOfWeek = OpeningHourDTO.DayOfWeek.valueOf(openingHour.getDayOfWeek().toString());
-        OpeningHourDTO openingHourDTO = new OpeningHourDTO(dayOfWeek, openingHour.getStartTime(), openingHour.getEndTime(), headLibrarianDTO);
+        OpeningHourDTO openingHourDTO = new OpeningHourDTO(dayOfWeek, openingHour.getStartTime(),
+                openingHour.getEndTime(), headLibrarianDTO);
         return openingHourDTO;
     }
 
@@ -832,20 +918,22 @@ public class LibraryServiceRestController {
      * @return LibraryItemDTO
      */
     private LibraryItemDTO convertToDto(LibraryItem libraryItem) {
-        if (libraryItem== null) {
+        if (libraryItem == null) {
             throw new IllegalArgumentException("There is no such library item!");
         }
         LibraryItemDTO.ItemType itemType = LibraryItemDTO.ItemType.valueOf(libraryItem.getType().toString());
-        LibraryItemDTO libraryItemDTO = new LibraryItemDTO(libraryItem.getName(), itemType, libraryItem.getDate(), libraryItem.getCreator(), libraryItem.getIsViewable());
+        LibraryItemDTO libraryItemDTO = new LibraryItemDTO(libraryItem.getName(), itemType, libraryItem.getDate(),
+                libraryItem.getCreator(), libraryItem.getIsViewable());
         return libraryItemDTO;
     }
 
     private BorrowableItemDTO convertToDto(BorrowableItem borrowableItem) {
-        if (borrowableItem== null) {
+        if (borrowableItem == null) {
             throw new IllegalArgumentException("There is no such library item!");
         }
         LibraryItemDTO item = convertToDto(borrowableItem.getLibraryItem());
-        BorrowableItemDTO.ItemState itemState = BorrowableItemDTO.ItemState.valueOf(borrowableItem.getState().toString());
+        BorrowableItemDTO.ItemState itemState = BorrowableItemDTO.ItemState
+                .valueOf(borrowableItem.getState().toString());
         int barCodeNumber = borrowableItem.getBarCodeNumber();
         BorrowableItemDTO borrowableItemDTO = new BorrowableItemDTO(itemState, item, barCodeNumber);
         return borrowableItemDTO;
@@ -862,11 +950,12 @@ public class LibraryServiceRestController {
         }
         HeadLibrarianDTO headLibrarianDTO = convertToDto(timeslot.getHeadLibrarian());
         Set<LibrarianDTO> librarianDTO = new HashSet<LibrarianDTO>();
-        for (Librarian librarian: timeslot.getLibrarian()){
+        for (Librarian librarian : timeslot.getLibrarian()) {
             LibrarianDTO lib = convertToDto(librarian);
             librarianDTO.add(lib);
         }
-        TimeslotDTO timeslotDTO= new TimeslotDTO(timeslot.getStartDate(), timeslot.getStartTime(), timeslot.getEndDate(), timeslot.getEndTime(), librarianDTO, headLibrarianDTO);
+        TimeslotDTO timeslotDTO = new TimeslotDTO(timeslot.getStartDate(), timeslot.getStartTime(),
+                timeslot.getEndDate(), timeslot.getEndTime(), librarianDTO, headLibrarianDTO);
         return timeslotDTO;
     }
 
@@ -876,12 +965,13 @@ public class LibraryServiceRestController {
      * @return
      */
     private TransactionDTO convertToDto(Transaction transaction) {
-        if (transaction== null) {
+        if (transaction == null) {
             throw new IllegalArgumentException("There is no such library item!");
         }
         BorrowableItemDTO item = convertToDto(transaction.getBorrowableItem());
         UserAccountDTO userAccountDTO = convertToDto(transaction.getUserAccount());
-        TransactionDTO.TransactionType itemType = TransactionDTO.TransactionType.valueOf(transaction.getTransactionType().toString());
+        TransactionDTO.TransactionType itemType = TransactionDTO.TransactionType
+                .valueOf(transaction.getTransactionType().toString());
         TransactionDTO transactionDTO = new TransactionDTO(itemType, transaction.getDeadline(), item, userAccountDTO);
         return transactionDTO;
     }
@@ -895,30 +985,34 @@ public class LibraryServiceRestController {
         if (userAccount == null) {
             throw new IllegalArgumentException("There is no such library item!");
         }
-        UserAccountDTO userAccountDTO = new UserAccountDTO(userAccount.getFirstName(), userAccount.getLastName(), userAccount.getOnlineAccount(), userAccount.getAddress(), userAccount.getPassword(), userAccount.getBalance(), userAccount.getEmail());
+        UserAccountDTO userAccountDTO = new UserAccountDTO(userAccount.getFirstName(), userAccount.getLastName(),
+                userAccount.getOnlineAccount(), userAccount.getAddress(), userAccount.getPassword(),
+                userAccount.getBalance(), userAccount.getEmail());
         return userAccountDTO;
     }
 
     ///////// Helper methods - convertToDomainObject//////////
-    //each method need to check to make sure the individual is in the system before creating them.
+    // each method need to check to make sure the individual is in the system before
+    ///////// creating them.
 
     private BorrowableItem convertToDomainObject(BorrowableItemDTO borrowableItemDTO) {
         BorrowableItem borrowableItem = null;
-	     try {
-	    	 
-	    	// borrowableItem = service.getBorrowableItemsFromItemIsbn();
-	    	//***Need to update dto class -Zoya
-	     } catch (Exception e) {
-	         throw new IllegalArgumentException("Could not get borrowable item from service!");
-	     }
-	     if (borrowableItem == null) {
-	            throw new IllegalArgumentException("There is no such borrowable item dto!");
-	        }
-	     return borrowableItem;    
+        try {
+
+            // borrowableItem = service.getBorrowableItemsFromItemIsbn();
+            // ***Need to update dto class -Zoya
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Could not get borrowable item from service!");
         }
+        if (borrowableItem == null) {
+            throw new IllegalArgumentException("There is no such borrowable item dto!");
+        }
+        return borrowableItem;
+    }
 
     /**
      * Gets the corresponding regular library item from the DTO version
+     * 
      * @param LibraryItemDTO
      * @returns LibraryItem
      * @author Ramin Akhavan-Sarraf
@@ -926,33 +1020,28 @@ public class LibraryServiceRestController {
     private LibraryItem convertToDomainObject(LibraryItemDTO libraryItemDTO) {
         List<LibraryItem> libraryItems;
         LibraryItem theLibraryItem = null;
-        try{
-            if(libraryItemDTO.getType() == ItemType.Book){
+        try {
+            if (libraryItemDTO.getType() == ItemType.Book) {
                 libraryItems = service.getAllBooks();
-            }
-            else if(libraryItemDTO.getType() == ItemType.Movie){
+            } else if (libraryItemDTO.getType() == ItemType.Movie) {
                 libraryItems = service.getAllMovies();
-            }
-            else if(libraryItemDTO.getType() == ItemType.Music){
+            } else if (libraryItemDTO.getType() == ItemType.Music) {
                 libraryItems = service.getAllMusic();
-            }
-            else if(libraryItemDTO.getType() == ItemType.NewspaperArticle){
+            } else if (libraryItemDTO.getType() == ItemType.NewspaperArticle) {
                 libraryItems = service.getAllNewspapers();
-            }
-            else{
+            } else {
                 libraryItems = service.getAllRoomReservations();
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             throw new IllegalArgumentException("Could not get library item from service!");
         }
-        for (LibraryItem libraryItem: libraryItems){
-            if(libraryItem.getName().equalsIgnoreCase(libraryItemDTO.getName())){
+        for (LibraryItem libraryItem : libraryItems) {
+            if (libraryItem.getName().equalsIgnoreCase(libraryItemDTO.getName())) {
                 theLibraryItem = libraryItem;
             }
         }
-        
-        if (theLibraryItem == null){
+
+        if (theLibraryItem == null) {
             throw new IllegalArgumentException("There is no such library item dto!");
         }
         return theLibraryItem;
@@ -960,6 +1049,7 @@ public class LibraryServiceRestController {
 
     /**
      * Gets the corresponding regular head librarian from the DTO version
+     * 
      * @param HeadLibrarianDTO
      * @returns HeadLibrarian
      * @author Ramin Akhavan-Sarraf
@@ -967,7 +1057,8 @@ public class LibraryServiceRestController {
     private HeadLibrarian convertToDomainObject(HeadLibrarianDTO headLibrarianDTO) {
         HeadLibrarian headLibrarian;
         try {
-            headLibrarian = service.getIfLibrarianHeadFromFullName(headLibrarianDTO.getFirstName(), headLibrarianDTO.getLastName());
+            headLibrarian = service.getIfLibrarianHeadFromFullName(headLibrarianDTO.getFirstName(),
+                    headLibrarianDTO.getLastName());
         } catch (Exception e) {
             throw new IllegalArgumentException("Could not get head librarian from service!");
         }
@@ -978,8 +1069,9 @@ public class LibraryServiceRestController {
         return headLibrarian;
     }
 
-  /***
+    /***
      * Gets the corresponding regular holiday from the DTO version
+     * 
      * @param HolidayDTO
      * @returns Holiday
      * @author Ramin Akhavan-Sarraf
@@ -992,30 +1084,30 @@ public class LibraryServiceRestController {
         } catch (Exception e) {
             throw new IllegalArgumentException("Could not get librarian from service!");
         }
-        for(Holiday holiday: holidays){
-            if(holiday.getDate().toLocalDate().isEqual(holidayDTO.getDate().toLocalDate())){
-                if (holiday.getStartTime().toLocalTime().compareTo(holidayDTO.getStartTime().toLocalTime()) == 0){
-                    if (holiday.getEndtime().toLocalTime().compareTo(holidayDTO.getEndTime().toLocalTime()) == 0){
+        for (Holiday holiday : holidays) {
+            if (holiday.getDate().toLocalDate().isEqual(holidayDTO.getDate().toLocalDate())) {
+                if (holiday.getStartTime().toLocalTime().compareTo(holidayDTO.getStartTime().toLocalTime()) == 0) {
+                    if (holiday.getEndtime().toLocalTime().compareTo(holidayDTO.getEndTime().toLocalTime()) == 0) {
                         theHoliday = holiday;
                     }
                 }
 
             }
         }
-        if(theHoliday == null){
+        if (theHoliday == null) {
             throw new IllegalArgumentException("There is no such holiday dto!");
         }
         return theHoliday;
     }
 
-
     /**
      * Gets the corresponding regular librarian from the DTO version
+     * 
      * @param LibrarianDTO
      * @returns Librarian
      * @author Ramin Akhavan-Sarraf
      */
-    private Librarian convertToDomainObject(LibrarianDTO librarianDTO){
+    private Librarian convertToDomainObject(LibrarianDTO librarianDTO) {
         Librarian librarian;
         try {
             librarian = service.getLibrarianFromFullName(librarianDTO.getFirstName(), librarianDTO.getLastName());
@@ -1030,282 +1122,283 @@ public class LibraryServiceRestController {
 
     /**
      * This method converts a openingHour DTO to a domain object opening hour.
+     * 
      * @author Zoya Malhi
      * @param OpeningHourDTO
      * @return openingHour
      */
-	 private OpeningHour convertToDomainObject(OpeningHourDTO openingHourDTO){
-		 List<OpeningHour> openingHours;
-	     OpeningHour openingHour = null;
-	     try {
-	         openingHours = service.getAllOpeningHours();
-	         for(OpeningHour o : openingHours) {
-	        	 
-	                 if (o.getStartTime().toLocalTime().compareTo(openingHourDTO.getStartTime().toLocalTime()) == 0){
-	                     if (o.getEndTime().toLocalTime().compareTo(openingHourDTO.getEndTime().toLocalTime()) == 0){
-                             if (o.getDayOfWeek().toString().equals(openingHourDTO.getDayOfWeek().toString())) {
-                                openingHour = o;
-                                break;
-                             }
-	                     }
-	                 }
-	     }
-	     } catch (Exception e) {
-	         throw new IllegalArgumentException("Could not get opening hours from service!");
-	     }
-	     
-	     return openingHour;
-	 }
-    
-    /** 
+    private OpeningHour convertToDomainObject(OpeningHourDTO openingHourDTO) {
+        List<OpeningHour> openingHours;
+        OpeningHour openingHour = null;
+        try {
+            openingHours = service.getAllOpeningHours();
+            for (OpeningHour o : openingHours) {
+
+                if (o.getStartTime().toLocalTime().compareTo(openingHourDTO.getStartTime().toLocalTime()) == 0) {
+                    if (o.getEndTime().toLocalTime().compareTo(openingHourDTO.getEndTime().toLocalTime()) == 0) {
+                        if (o.getDayOfWeek().toString().equals(openingHourDTO.getDayOfWeek().toString())) {
+                            openingHour = o;
+                            break;
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Could not get opening hours from service!");
+        }
+
+        return openingHour;
+    }
+
+    /**
      * This method converts a patron DTO to a patron object.
+     * 
      * @author Zoya Malhi
      * @param patronDTO
      * @return null
      */
-    private Patron convertToDomainObject(PatronDTO patronDTO){
-    	Patron patron;
-	     try {
-	     patron = service.getPatronFromFullName(patronDTO.getFirstName(), patronDTO.getLastName());
-	    	
-	     } catch (Exception e) {
-	         throw new IllegalArgumentException("Could not get patron from service!");
-	     }
-	     if (patron == null) {
-	            throw new IllegalArgumentException("There is no such patron dto!");
-	        }
-	     return patron;
-    	
+    private Patron convertToDomainObject(PatronDTO patronDTO) {
+        Patron patron;
+        try {
+            patron = service.getPatronFromFullName(patronDTO.getFirstName(), patronDTO.getLastName());
+
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Could not get patron from service!");
+        }
+        if (patron == null) {
+            throw new IllegalArgumentException("There is no such patron dto!");
+        }
+        return patron;
+
     }
+
     /**
      * This method converts a timslot DTO to a timeslot object.
+     * 
      * @author Zoya Malhi
      * @param timeslotDTO
      * @return timeslot
      */
-    private TimeSlot convertToDomainObject(TimeslotDTO timeslotDTO){
-    	List<TimeSlot> timeslots;
-	     TimeSlot timeslot = null;
-	     try {
-	         timeslots = service.getAllTimeSlots();
-	         for(TimeSlot t : timeslots) {
-	        	 if (t.getStartTime().toLocalTime().compareTo(timeslotDTO.getStartTime().toLocalTime()) == 0){
-                     if (t.getEndTime().toLocalTime().compareTo(timeslotDTO.getEndTime().toLocalTime()) == 0){
-                         if (t.getStartDate().toLocalDate().compareTo(timeslotDTO.getStartDate().toLocalDate()) == 0) {
-                             if (t.getEndDate().toLocalDate().compareTo(timeslotDTO.getEndDate().toLocalDate()) == 0) {
+    private TimeSlot convertToDomainObject(TimeslotDTO timeslotDTO) {
+        List<TimeSlot> timeslots;
+        TimeSlot timeslot = null;
+        try {
+            timeslots = service.getAllTimeSlots();
+            for (TimeSlot t : timeslots) {
+                if (t.getStartTime().toLocalTime().compareTo(timeslotDTO.getStartTime().toLocalTime()) == 0) {
+                    if (t.getEndTime().toLocalTime().compareTo(timeslotDTO.getEndTime().toLocalTime()) == 0) {
+                        if (t.getStartDate().toLocalDate().compareTo(timeslotDTO.getStartDate().toLocalDate()) == 0) {
+                            if (t.getEndDate().toLocalDate().compareTo(timeslotDTO.getEndDate().toLocalDate()) == 0) {
                                 timeslot = t;
                                 break;
-                             }
-                         }
-                     }
-                 }
-	         }
-	        	 
-	         }catch (Exception e) {
-		         throw new IllegalArgumentException("Could not get timeslot from service!");
-		 }
-	     if (timeslot == null) {
-	            throw new IllegalArgumentException("There is no such timeslot dto!");
-	     }
-	     
-    	return timeslot;
+                            }
+                        }
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Could not get timeslot from service!");
+        }
+        if (timeslot == null) {
+            throw new IllegalArgumentException("There is no such timeslot dto!");
+        }
+
+        return timeslot;
     }
 
     /**
      * This method converts a transaction DTO to a transaction object.
+     * 
      * @author Zoya Malhi, Mathieu Geoffroy
      * @param transactionDTO
      * @return null
      */
-    private Transaction convertToDomainObject(TransactionDTO transactionDTO){
-    	Transaction transaction = null; 
+    private Transaction convertToDomainObject(TransactionDTO transactionDTO) {
+        Transaction transaction = null;
         List<Transaction> transactions;
-    	try {
-	    	 transactions = service.getAllTransactions();
-             for (Transaction t : transactions) {
-                 if ((t.getDeadline().toLocalDate().isEqual(transactionDTO.getDeadline().toLocalDate()))
-                 && (t.getBorrowableItem().getBarCodeNumber() == transactionDTO.getBorrowableItem().getBarCodeNumber())
-                 && (t.getTransactionType().toString().equals(transactionDTO.getTransactionType().toString()))
-                 && (t.getUserAccount().getFirstName().equals(transactionDTO.getUserAccount().getFirstName()))
-                 && (t.getUserAccount().getLastName().equals(transactionDTO.getUserAccount().getLastName()))) {
+        try {
+            transactions = service.getAllTransactions();
+            for (Transaction t : transactions) {
+                if ((t.getDeadline().toLocalDate().isEqual(transactionDTO.getDeadline().toLocalDate()))
+                        && (t.getBorrowableItem().getBarCodeNumber() == transactionDTO.getBorrowableItem()
+                                .getBarCodeNumber())
+                        && (t.getTransactionType().toString().equals(transactionDTO.getTransactionType().toString()))
+                        && (t.getUserAccount().getFirstName().equals(transactionDTO.getUserAccount().getFirstName()))
+                        && (t.getUserAccount().getLastName().equals(transactionDTO.getUserAccount().getLastName()))) {
                     transaction = t;
                     break;
-                 }
+                }
 
-             }
-	        
-	     
-	     } catch (Exception e) {
-	         throw new IllegalArgumentException("Could not get transactions from service!");
-	     }
-    	 if (transaction == null) {
-	            throw new IllegalArgumentException("There is no such transaction dto!");
-	        }
-	     return transaction;
+            }
+
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Could not get transactions from service!");
+        }
+        if (transaction == null) {
+            throw new IllegalArgumentException("There is no such transaction dto!");
+        }
+        return transaction;
     }
-    
+
     /**
      * @author Zoya Malhi
      * @param userAccountDTO
      * @return userAccount
-     * @throws Exception 
+     * @throws Exception
      */
-    private UserAccount convertToDomainObject(UserAccountDTO userAccountDTO) throws Exception{
-    	List<UserAccount> userAccounts;
+    private UserAccount convertToDomainObject(UserAccountDTO userAccountDTO) throws Exception {
+        List<UserAccount> userAccounts;
         UserAccount userAccount = null;
 
-    	try {
-    	userAccounts = service.getAllUsers();
+        try {
+            userAccounts = service.getAllUsers();
 
-        for (UserAccount acc : userAccounts) {
-    		if (acc.getFirstName().equals(userAccountDTO.getFirstName()) && acc.getLastName().equals(userAccountDTO.getLastName()) && acc.getEmail().equals(userAccountDTO.getEmail())) {
-    			userAccount = acc;
-    		}
-    	}
-    
-    	}catch (Exception e) {
-	         throw new IllegalArgumentException("Could not get userAccount from service!");
-	     }
-    	if (userAccounts == null) {
+            for (UserAccount acc : userAccounts) {
+                if (acc.getFirstName().equals(userAccountDTO.getFirstName())
+                        && acc.getLastName().equals(userAccountDTO.getLastName())
+                        && acc.getEmail().equals(userAccountDTO.getEmail())) {
+                    userAccount = acc;
+                }
+            }
+
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Could not get userAccount from service!");
+        }
+        if (userAccounts == null) {
             throw new IllegalArgumentException("There is no such userAccount dto!");
         }
-	     return userAccount;
-    	
+        return userAccount;
+
     }
-    
+
     /**
      * HeadLibrarian gettMapping of Services
      * 
      */
-    
-// /**
-//  * 
-//  * @author Eloyann Roy Javanbakht
-//  * mapping GetHead Librarian from userId
-//  * @param userID
-//  * @return
-//  * @throws Exception
-//  */
-//     @GetMapping(value={"/headLibrarian/{userID}", "/headLibrarian/{userID}/"})
-//     public HeadLibrarianDTO getHeadLibrarianFromUserId(@PathVariable("userID") int userID) throws Exception  {
-//          HeadLibrarian headLibrarian=service.getHeadLibrarianFromUserId(userID);
-//          return convertToDto(headLibrarian);
-//     }
 
-// /**
-//  * @author Eloyann Roy Javanbakht
-//  * Mapping for get headlibrarian from name
-//  * @param firstName
-//  * @param lastName
-//  * @return
-//  * @throws Exception
-//  */
-//     @GetMapping(value={"/headLibrarians/{lastName}", "/headLibrarians/{lastName}"})
-//     public HeadLibrarianDTO getHeadLibrarianFromFullName(@PathVariable("lastName") String lastName,
-//         @RequestParam String firstName ) throws Exception  {
-//          HeadLibrarian headLibrarian=service.getIfLibrarianHeadFromFullName(firstName, lastName);
-//          return convertToDto(headLibrarian);
-//     }
-// /**
-//  * @author Eloyann Roy Javanbakht
-//  * mapping for checking if only 1 librarian
-//  */
-// @GetMapping(value={"/headLibrarians", "/headLibrarians/"})
-// public boolean getHeadLibrarianNumberRespected() throws Exception  {
-//         return service.checkOnlyOneHeadLibrarian();
-        
-// }
-// /**
-//  * @author Eloyann Roy Javanbakht
-//  * @param userID
-//  * @return
-//  * @throws Exception
-//  */
-// @GetMapping(value={"/headLibrarians/{userID}", "/headLibrarians/{userID}/"})
-// public boolean getIFHeadLibrarianFromUserId(@PathVariable("userID") int userID) throws Exception  {
-//     return service.checkIfHeadLibrarianFromUserId(userID);
-    
-// }
+    /**
+     * 
+     * @author Eloyann Roy Javanbakht mapping GetHead Librarian from userId
+     * @param userID
+     * @return
+     * @throws Exception
+     */
+    @GetMapping(value = { "/headLibrarian/{userID}", "/headLibrarian/{userID}/" })
+    public HeadLibrarianDTO getHeadLibrarianFromUserId(@PathVariable("userID") int userID) throws Exception {
+        HeadLibrarian headLibrarian = service.getHeadLibrarianFromUserId(userID);
+        return convertToDto(headLibrarian);
+    }
 
-// /**
-//  * @author Eloyann Roy Javanbakht
-//  *get head librarian considering theres only 1 in the system
-//  */
-// @GetMapping(value={"/headLibrarians", "/headLibrarians/"})
-// public boolean getHeadLibrarian() throws Exception  {
-//      return service.checkOnlyOneHeadLibrarian();
-     
-// }
+    /**
+     * @author Eloyann Roy Javanbakht Mapping for get headlibrarian from name
+     * @param firstName
+     * @param lastName
+     * @return
+     * @throws Exception
+     */
+    @GetMapping(value = { "/headLibrarians/{lastName}", "/headLibrarians/{lastName}" })
+    public HeadLibrarianDTO getHeadLibrarianFromFullName(@PathVariable("lastName") String lastName,
+            @RequestParam String firstName) throws Exception {
+        HeadLibrarian headLibrarian = service.getIfLibrarianHeadFromFullName(firstName, lastName);
+        return convertToDto(headLibrarian);
+    }
 
-//     /**
-//      * Librarian getMapping of Services
-//      * 
-//      */
+    /**
+     * @author Eloyann Roy Javanbakht mapping for checking if only 1 librarian
+     */
+    @GetMapping(value = { "/headLibrarians", "/headLibrarians/" })
+    public boolean getHeadLibrarianNumberRespected() throws Exception {
+        return service.checkOnlyOneHeadLibrarian();
 
-//    /**
-//  * @author Eloyann Roy Javanbakht
-//  * Mapping for get headlibrarian from name
-//  * @param firstName
-//  * @param lastName
-//  * @return
-//  * @throws Exception
-//  */
-// @GetMapping(value={"/librarians/{lastName}", "/librarians/{lastName}/"})
-// public LibrarianDTO getLibrarianFromFullName(@RequestParam String firstName, 
-//                                                         @RequestParam String lastName) 
-//                                                         throws Exception  {
-//     Librarian librarian=service.getLibrarianFromFullName(firstName, lastName);
-//     return convertToDto(librarian);
-// }  
+    }
+    // /**
+    // * @author Eloyann Roy Javanbakht
+    // * @param userID
+    // * @return
+    // * @throws Exception
+    // */
+    // @GetMapping(value={"/headLibrarians/{userID}", "/headLibrarians/{userID}/"})
+    // public boolean getIFHeadLibrarianFromUserId(@PathVariable("userID") int
+    // userID) throws Exception {
+    // return service.checkIfHeadLibrarianFromUserId(userID);
 
-// @GetMapping(value={"/librarians/{userID}", "/librarians/{userID}/"})
-// public LibrarianDTO getLibrarianFromUserId(@PathVariable("userID") int userID) throws Exception  {
-//     Librarian librarian=service.getLibrarianFromUserId(userID);
-//     return convertToDto(librarian);
-// }  
+    // }
 
-// /**
-//  * delete Librarian
-//  * 
-//  */
-// @DeleteMapping(value={"/librarians/{userID}", "/librarians/{userID}/"})
-// public boolean deleteALibrarian(@PathVariable("userID") int userID, 
-// @RequestParam int userIDHeadLibrarian) throws Exception  {
-//     return service.deleteALibrarian(userID, userIDHeadLibrarian);
-  
-// }  
+    // /**
+    // * @author Eloyann Roy Javanbakht
+    // *get head librarian considering theres only 1 in the system
+    // */
+    // @GetMapping(value={"/headLibrarians", "/headLibrarians/"})
+    // public boolean getHeadLibrarian() throws Exception {
+    // return service.checkOnlyOneHeadLibrarian();
 
-// /**
-//  * deleted a headLibrarian 
-//  * @param userID
-//  * @return
-//  * @throws Exception
-//  */
-// @DeleteMapping(value={"/headLibrarians/{userID}", "/headLibrarians/{userID}/"})
-// public boolean deleteALibrarian(@PathVariable("userID") int userID) throws Exception  {
-//     return service.DeleteHeadLibrarian(userID);
-  
-// }  
+    // }
 
-//     /**
-//      * create HeadLibrarian
-//      */
-//     @PostMapping(value={"/createHeadLibrarian/{firstName}/{lastName}", "/createHeadLibrarian/{firstName}/{lastName}/"})
-//     public HeadLibrarianDTO createHeadLibrarian(@PathVariable("firstName") String firstName,
-//     @PathVariable String aLastName,
+    /**
+     * Librarian getMapping of Services
+     * 
+     */
 
-//     @RequestParam boolean aOnlineAccount,
-//     @RequestParam String aAddress,
+    /**
+     * @author Eloyann Roy Javanbakht Mapping for get headlibrarian from name
+     * @param firstName
+     * @param lastName
+     * @return
+     * @throws Exception
+     */
+    @GetMapping(value = { "/librarians/{lastName}", "/librarians/{lastName}/" })
+    public LibrarianDTO getLibrarianFromFullName(@RequestParam String firstName, @RequestParam String lastName)
+            throws Exception {
+        Librarian librarian = service.getLibrarianFromFullName(firstName, lastName);
+        return convertToDto(librarian);
+    }
 
-//     @RequestParam String aPassword,
-//     @RequestParam int aBalance,
-//     @RequestParam String aEmail) throws Exception{
-//         //TODO: process POST request
-        
-//         return convertToDto(service.CreateANewHeadLibrarian(firstName, aLastName, aOnlineAccount, aAddress, aPassword, aBalance, aEmail));
-//     }
+    @GetMapping(value = { "/librarians/{userID}", "/librarians/{userID}/" })
+    public LibrarianDTO getLibrarianFromUserId(@PathVariable("userID") int userID) throws Exception {
+        Librarian librarian = service.getLibrarianFromUserId(userID);
+        return convertToDto(librarian);
+    }
 
+    /**
+     * delete Librarian
+     * 
+     */
+    @DeleteMapping(value = { "/librarians/{userID}", "/librarians/{userID}/" })
+    public boolean deleteALibrarian(@PathVariable("userID") int userID, @RequestParam int userIDHeadLibrarian)
+            throws Exception {
+        return service.deleteALibrarian(userID, userIDHeadLibrarian);
 
+    }
 
+    /**
+     * deleted a headLibrarian
+     * 
+     * @param userID
+     * @return
+     * @throws Exception
+     */
+    @DeleteMapping(value = { "/headLibrarians/{userID}", "/headLibrarians/{userID}/" })
+    public boolean deleteALibrarian(@PathVariable("userID") int userID) throws Exception {
+        return service.DeleteHeadLibrarian(userID);
+
+    }
+
+    /**
+     * create HeadLibrarian
+     */
+    @PostMapping(value = { "/createHeadLibrarian/{firstName}/{lastName}",
+            "/createHeadLibrarian/{firstName}/{lastName}/" })
+    public HeadLibrarianDTO createHeadLibrarian(@PathVariable("firstName") String firstName,
+            @PathVariable String aLastName,
+
+            @RequestParam boolean aOnlineAccount, @RequestParam String aAddress,
+
+            @RequestParam String aPassword, @RequestParam int aBalance, @RequestParam String aEmail) throws Exception {
+        // TODO: process POST request
+
+        return convertToDto(service.CreateANewHeadLibrarian(firstName, aLastName, aOnlineAccount, aAddress, aPassword,
+                aBalance, aEmail));
+    }
 
 }
