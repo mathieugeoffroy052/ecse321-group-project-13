@@ -281,9 +281,9 @@ public class LibraryServiceRestController {
 	 * @return
 	 */
 	@PutMapping(value = {"/updatePassword", "/updatePassword/"})
-	public UserAccountDTO updatePassword(@RequestBody UserAccount user, @RequestParam("password") String password) {
+	public UserAccountDTO updatePassword(@RequestBody UserAccountDTO user, @RequestParam("password") String password) {
 		UserAccountDTO accountDTO = new UserAccountDTO();
-		UserAccount  account = service.changePassword(password, user);
+		UserAccount  account = service.changePassword(password, convertToDomainObject(user));
 		accountDTO = convertToDto(account);
 		return accountDTO; 
 	}
@@ -296,9 +296,9 @@ public class LibraryServiceRestController {
 	 * @return
 	 */
 	@PutMapping(value = {"/updateAddress", "/updateAddress/"})
-	public UserAccountDTO updateAddress(@RequestBody UserAccount user, @RequestParam("address") String aAddress) {
+	public UserAccountDTO updateAddress(@RequestBody UserAccountDTO user, @RequestParam("address") String aAddress) {
 		UserAccountDTO accountDTO = new UserAccountDTO();
-		UserAccount  account = service.changeAddress(aAddress, user);
+		UserAccount  account = service.changeAddress(aAddress, convertToDomainObject(user));
 		accountDTO = convertToDto(account);
 		return accountDTO; 
 	}
@@ -311,9 +311,9 @@ public class LibraryServiceRestController {
 	 * @return
 	 */
 	@PutMapping(value = {"/updateFirstName", "/updateFirstName/"})
-	public UserAccountDTO updateFirstName(@RequestBody UserAccount user, @RequestParam("firstName") String firstName) {
+	public UserAccountDTO updateFirstName(@RequestBody UserAccountDTO user, @RequestParam("firstName") String firstName) {
 		UserAccountDTO accountDTO = new UserAccountDTO();
-		UserAccount  account = service.changeFirstName(firstName, user);
+		UserAccount  account = service.changeFirstName(firstName, convertToDomainObject(user));
 		accountDTO = convertToDto(account);
 		return accountDTO; 
 	}
@@ -326,9 +326,9 @@ public class LibraryServiceRestController {
 	 * @return
 	 */
 	@PutMapping(value = {"/updateLastName", "/updateLastName/"})
-	public UserAccountDTO updateLastName(@RequestBody UserAccount user, @RequestParam("lastName") String lastName) {
+	public UserAccountDTO updateLastName(@RequestBody UserAccountDTO user, @RequestParam("lastName") String lastName) {
 		UserAccountDTO accountDTO = new UserAccountDTO();
-		UserAccount  account = service.changeLastName(lastName, user);
+		UserAccount  account = service.changeLastName(lastName, convertToDomainObject(user));
 		accountDTO = convertToDto(account);
 		return accountDTO; 
 	}
@@ -341,9 +341,9 @@ public class LibraryServiceRestController {
 	 * @return
 	 */
 	@PutMapping(value = {"/updateEmail", "/updateEmail/"})
-	public UserAccountDTO updateEmail(@RequestBody UserAccount user, @RequestParam("email") String email) {
+	public UserAccountDTO updateEmail(@RequestBody UserAccountDTO user, @RequestParam("email") String email) {
 		UserAccountDTO accountDTO = new UserAccountDTO();
-		UserAccount  account = service.changeEmail(email, user);
+		UserAccount  account = service.changeEmail(email, convertToDomainObject(user));
 		accountDTO = convertToDto(account);
 		return accountDTO; 
 	}
@@ -357,9 +357,9 @@ public class LibraryServiceRestController {
 	 * @return
 	 */
 	@PutMapping(value = {"/setAccountValidity", "/setAccountValidity/"})
-	public UserAccountDTO setAccountValidity(@RequestBody Patron patron, @RequestParam("validatedAccount") boolean validatedAccount, @RequestBody UserAccount creator) throws Exception{
+	public UserAccountDTO setAccountValidity(@RequestBody PatronDTO patron, @RequestParam("validatedAccount") boolean validatedAccount, @RequestParam UserAccountDTO creator) throws Exception{
 		UserAccountDTO accountDTO = new UserAccountDTO();
-		Patron  account = service.setValidatedAccount(patron, validatedAccount, creator);
+		Patron  account = service.setValidatedAccount(convertToDomainObject(patron), validatedAccount, convertToDomainObject(creator));
 		accountDTO = convertToDto(account);
 		return accountDTO; 
 	}
@@ -1202,7 +1202,7 @@ public class LibraryServiceRestController {
      * @return userAccount
      * @throws Exception 
      */
-    private UserAccount convertToDomainObject(UserAccountDTO userAccountDTO) throws Exception{
+    private UserAccount convertToDomainObject(UserAccountDTO userAccountDTO) throws IllegalArgumentException{
     	List<UserAccount> userAccounts;
         UserAccount userAccount = null;
 
