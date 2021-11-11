@@ -36,7 +36,7 @@ ________________________________________________________________________________
 ### Overview Table for Deliverable 2 :chart_with_upwards_trend: : 
 | Team Members           | Roles                                                                                                                                |   Hours   |
 | :---------------------:|:------------------------------------------------------------------------------------------------------------------------------------:| :--------:|
-| Amani Jammoul          |  Fixing persistance tests, business methods, RESTful service methods, RESTful service endpoints, unit testing, integration testing   |30         |
+| Amani Jammoul          |  Fixing persistence tests ; RESTful service methods for BorrowableItem, LibraryItem, and Transaction ; RESTful service endpoints for BorrowableItem, LibraryItem, Transaction, and UserAccount ; unit testing for BorrowableItem, LibraryItem, and Transaction ; integration testing for BorrowableItem and Transaction   |30         |
 | Eloyann Roy-Javanbakht |                                                                                                                                      |           |
 | Gabrielle Halpin       |  Business methods, RESTful service methods, controller methods, issue tracking, Software Assurance plan, service endpoint documentation, continuous integration                                                                                                                                    |           |
 | Mathieu Geoffrey       |                                                                                                                                      |           |
