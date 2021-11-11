@@ -1440,7 +1440,7 @@ public class LibraryServiceService {
      * @return  openingHour 
      */
     @Transactional
-    public OpeningHour getOpeningHourFromID(int id) {
+    public OpeningHour getOpeningHourFromID(int id) throws IllegalArgumentException {
         if (id < 1) throw new IllegalArgumentException("Invalid id");
         OpeningHour openingHour = openingHourRepository.findOpeningHourByHourID(id);
         return openingHour;
@@ -1512,7 +1512,7 @@ public class LibraryServiceService {
         } catch (IllegalArgumentException e) {
             throw new Exception("Invalid day");
         }
-        HeadLibrarian headLibrarian =getHeadLibrarian();
+        HeadLibrarian headLibrarian = getHeadLibrarian();
         OpeningHour openingHour = new OpeningHour(dayOfWeek, startTime, endTime, headLibrarian);
         openingHourRepository.save(openingHour);
         return openingHour;

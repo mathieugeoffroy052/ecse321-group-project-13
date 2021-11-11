@@ -183,6 +183,8 @@ public class TestOpeningHourService {
         openingHour.setHourID(OPENING_HOUR_ID);
         openingHourDao.save(openingHour);
 
+        openingHour = null;
+
         try {
             openingHour = service.getOpeningHourFromID(OPENING_HOUR_ID);
         } catch (Exception e) {
@@ -193,6 +195,34 @@ public class TestOpeningHourService {
         assertOpeningHourAttributes(openingHour, dayOfWeek.toString(), startTime, endTime);
     }
 
+    /**
+     * Test get opening hour from ID
+     * Failure case : get opening hour from invalid ID
+     * @author Amani Jammoul
+     */
+    @Test
+    public void testGetOpeningHourFromInvalidID() {
+        DayOfWeek dayOfWeek = DayOfWeek.Friday;
+        Time startTime = Time.valueOf("08:00:00");
+        Time endTime = Time.valueOf("20:00:00");
+
+        OpeningHour openingHour = new OpeningHour(dayOfWeek, startTime, endTime, this.headLibrarian);
+        openingHour.setHourID(OPENING_HOUR_ID);
+        openingHourDao.save(openingHour);
+
+        openingHour = null;
+
+        String error = "";
+
+        try {
+            openingHour = service.getOpeningHourFromID(OPENING_HOUR_INVALID_ID);
+        } catch (Exception e) {
+            error = e.getMessage();
+        }
+
+        assertNull(openingHour);
+        assertEquals("Invalid id", error);
+    }
 
 
     private void assertOpeningHourAttributes(OpeningHour openingHour, String dayOfWeek, Time startTime, Time endTime) {

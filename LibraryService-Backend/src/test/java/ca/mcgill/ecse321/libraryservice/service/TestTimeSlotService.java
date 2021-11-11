@@ -68,8 +68,6 @@ public class TestTimeSlotService {
     private static final int LIBRARIAN_BALANCE = 0;
 
 
-
-
     /**
      * mocks output of DB for timeslot get by id, headlibrarian find all, headlibrarian get by id, librarian get by id
      * @author Mathieu Geoffroy
@@ -99,13 +97,13 @@ public class TestTimeSlotService {
             HeadLibrarian headLibrarian = new HeadLibrarian(HEADLIBRARIAN_FIRSTNAME, HEADLIBRARIAN_LASTNAME, HEADLIBRARIAN_VALIDACC, HEADLIBRARIAN_ADDRESS, HEADLIBRARIAN_PASSWORD, HEADLIBRARIAN_BALANCE, HEADLIBRARIAN_EMAIL);
             headLibrarian.setUserID(HEADLIBRARIAN_KEY);
             return headLibrarian;
-    });
+        });
 
         lenient().when(librarianDao.findLibrarianByUserID(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
             Librarian librarian = new Librarian(LIBRARIAN_FIRSTNAME, LIBRARIAN_LASTNAME, LIBRARIAN_VALIDACC, LIBRARIAN_ADDRESS, LIBRARIAN_PASSWORD, LIBRARIAN_BALANCE, LIBRARIAN_EMAIL);
             librarian.setUserID(LIBRARIAN_KEY);
             return librarian;
-    });
+        });
         Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
 			return invocation.getArgument(0);
 		};
