@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 
 public class OpeningHourDTO {
-	
+	@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 	public enum DayOfWeek { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday }
 
 	private HeadLibrarianDTO headLibrarian;
