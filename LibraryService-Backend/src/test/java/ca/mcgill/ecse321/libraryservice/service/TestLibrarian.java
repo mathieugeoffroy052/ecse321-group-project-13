@@ -110,65 +110,89 @@ private static final String USER_PASSWORD = "mIMI";
 
 @Test 
 public void testgetLibrarianFromNotAssociatedId () throws Exception {
-
+    headLibrarianDAO.deleteAll();
+    librarianDAO.deleteAll();
+    userAccountDAO.deleteAll();
 
 }
 
 @Test
 public void testgetLibrarianWithGoodID () {
-
+    headLibrarianDAO.deleteAll();
+    librarianDAO.deleteAll();
+    userAccountDAO.deleteAll();
 }
 
 
 @Test
 public void testGetLibrarianFromNullFirstName () {
-
+    headLibrarianDAO.deleteAll();
+    librarianDAO.deleteAll();
+    userAccountDAO.deleteAll();
 }
 
 @Test
 public void testGetLibrarianFromNullLastName () {
-    
+    headLibrarianDAO.deleteAll();
+    librarianDAO.deleteAll();
+    userAccountDAO.deleteAll();
 }
 
 
 @Test
 public void testGetLibrarianFromFullNameNotAssociatedWithLibrarianAccount () {
-    
+    headLibrarianDAO.deleteAll();
+    librarianDAO.deleteAll();
+    userAccountDAO.deleteAll(); 
 }
 
 @Test
 public void testGetLibrarianFromFullName () {
-    
+    headLibrarianDAO.deleteAll();
+    librarianDAO.deleteAll();
+    userAccountDAO.deleteAll();  
 }
 
 @Test
 public void testDeleteLibrarianWithoutBeingHeadLibrarian () {
-    
+    headLibrarianDAO.deleteAll();
+    librarianDAO.deleteAll();
+    userAccountDAO.deleteAll(); 
 }
 
 @Test
 public void testDeleteLibrarianDoesntExists () {
-    
+    headLibrarianDAO.deleteAll();
+    librarianDAO.deleteAll();
+    userAccountDAO.deleteAll();  
 }
 
 @Test
 public void testDeleteLibrarian() {
-    
+    headLibrarianDAO.deleteAll();
+    librarianDAO.deleteAll();
+    userAccountDAO.deleteAll();   
 }
 
 @Test
 public void createLibrarianwithNullFields() {
-    
+    headLibrarianDAO.deleteAll();
+    librarianDAO.deleteAll();
+    userAccountDAO.deleteAll();  
 }
 
 @Test
 public void createLibrarianwithoutBeingHeadLibrarian() {
-    
+    headLibrarianDAO.deleteAll();
+    librarianDAO.deleteAll();
+    userAccountDAO.deleteAll();  
 }
 
 @Test
 public void createLibrarian() {
-    
+    headLibrarianDAO.deleteAll();
+    librarianDAO.deleteAll();
+    userAccountDAO.deleteAll();   
 }
     
 }
