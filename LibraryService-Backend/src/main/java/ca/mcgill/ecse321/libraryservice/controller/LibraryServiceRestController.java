@@ -244,8 +244,8 @@ public class LibraryServiceRestController {
 	 * @return patronDTO
 	 */
 	@DeleteMapping(value = {"/deletePatron/{userID}","/deletePatron/{userID}/"})
-	public boolean deletePatron(@PathVariable("userID") int userID, @RequestBody UserAccount headLibrarian) throws Exception{
-		return service.deleteAPatronbyUserID(headLibrarian, userID);
+	public boolean deletePatron(@PathVariable("userID") int userID, @RequestBody LibrarianDTO headLibrarian) throws Exception{
+		return service.deleteAPatronbyUserID(convertToDomainObject(headLibrarian), userID);
 	
 	}
 
