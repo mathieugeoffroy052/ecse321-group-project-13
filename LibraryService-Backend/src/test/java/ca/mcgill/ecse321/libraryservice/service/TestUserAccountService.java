@@ -127,7 +127,12 @@ public class TestUserAccountService {
 	private static final Date TRANSACTION_DATE_3 = Date.valueOf("2020-05-16");;
 	private static final TransactionType TRANSACTION_TYPE_3 = TransactionType.Waitlist;
 
-
+	
+	/**
+	 * This method is used to mock the user account database methods so that fake
+	 * data can be used to test the service methods before each test case
+	 * @author Amani Jammoul, Gabrielle Halpin and Ramin Akhavan-Sarraf
+	 */
 	@BeforeEach
 	public void setMockOutput() {
 		lenient().when(userAccountDao.findUserAccountByUserID(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
@@ -179,7 +184,7 @@ public class TestUserAccountService {
 			
 			return patrons;
 		});
-		// Whenever anything is saved, just return the parameter object
+		
 		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
 			return invocation.getArgument(0);
 		};
@@ -199,7 +204,12 @@ public class TestUserAccountService {
 	// 	checkFullUserDetails(userAccount);
 		
 	// }
-
+	
+	/**
+	 * This test case checks to see if the appropriate user account is returned when
+	 * searching using a first name and last name, for the getUserAccountFromFullName service method
+	 * @throws Exception
+	 */
 	@Test
 	public void testGetUserAccountFromFullName() throws Exception {
 		
@@ -214,6 +224,12 @@ public class TestUserAccountService {
 		
 	}
 
+	/**
+	 * Fail test case - Checks to make sure a first name field is needed when searching
+	 * for a user of the system using their first name and last name (for the getUserAccountFromFullName 
+	 * service method)
+	 * @throws Exception
+	 */
 	@Test
 	public void testFailedGetUserAccountFromFullNameEmptyFirstNameError() throws Exception {
 		
@@ -228,6 +244,12 @@ public class TestUserAccountService {
 		
 	}
 
+	/**
+	 * Fail test case - Checks to make sure a last name field is needed when searching
+	 * for a user of the system using their first name and last name (for the getUserAccountFromFullName 
+	 * service method)
+	 * @throws Exception
+	 */
 	@Test
 	public void testFailedGetUserAccountFromFullNameEmptyLastNameError() throws Exception {
 		
@@ -241,7 +263,12 @@ public class TestUserAccountService {
 		assertEquals(error, "Last name cannot be empty!");
 		
 	}
-
+	
+	/**
+	 * Fail test case - Checks to make sure no user account is returned when the user
+	 * cannot be found in the system when using the getUserAccountFromFullName service method
+	 * @throws Exception
+	 */
 	@Test
 	public void testFailedGetUserAccountFromFullNameFakeNameError() throws Exception {
 		
@@ -256,6 +283,11 @@ public class TestUserAccountService {
 		
 	}
 	
+	/**
+	 * This helper method is called to do an extensive check of a user account's details
+	 * when a user account is found in any of the test cases
+	 * @param userAccount
+	 */
 	public void checkFullUserDetails(UserAccount userAccount) {
 		assertEquals(PATRON_ADDRESS, userAccount.getAddress());
 		assertEquals(PATRON_BALANCE, userAccount.getBalance());

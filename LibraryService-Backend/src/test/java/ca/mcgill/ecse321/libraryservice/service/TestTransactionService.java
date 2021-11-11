@@ -117,7 +117,12 @@ public class TestTransactionService {
 	private static final Date TRANSACTION_DATE_3 = Date.valueOf("2020-05-16");;
 	private static final TransactionType TRANSACTION_TYPE_3 = TransactionType.Waitlist;
 
-
+	
+	/**
+	 * This method mocks the database method return values so that we can use fake data
+	 * to test the service methods that interact with the database
+	 * @author Amani Jammoul and Ramin Akhavan-Sarraf
+	 */
 	@BeforeEach
 	public void setMockOutput() {
 		lenient().when(borrowableItemDao.findBorrowableItemByBarCodeNumber(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
@@ -220,7 +225,7 @@ public class TestTransactionService {
 				return null;
 			}
 		});
-		// Whenever anything is saved, just return the parameter object
+		
 		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
 			return invocation.getArgument(0);
 		};
@@ -439,7 +444,13 @@ public class TestTransactionService {
 		assertEquals(borrowableItem, transaction.getBorrowableItem());
 		assertEquals(userAccount, transaction.getUserAccount());
 	}
-
+	
+	/**
+	 * This test case is to see if the list of borrowed items that a user has
+	 * in their account is correct
+	 * @throws Exception
+	 * @author Ramin Akhavan-Sarraf
+	 */
 	@Test
 	public void testGetBorrowedItemsFromUser() throws Exception {
 		Patron pAccount = new Patron();
@@ -460,6 +471,12 @@ public class TestTransactionService {
 		
 	}
 
+	/**
+	 * This test case is to see if the list of reserved items that a user has
+	 * in their account is correct
+	 * @throws Exception
+	 * @author Ramin Akhavan-Sarraf
+	 */
 	@Test
 	public void testGetReservedItemsFromUser() throws Exception {
 		Patron pAccount = new Patron();
@@ -480,6 +497,12 @@ public class TestTransactionService {
 		
 	}
 
+	/**
+	 * This test case is to see if the list of waitlist items that a user has
+	 * in their account is correct
+	 * @throws Exception
+	 * @author Ramin Akhavan-Sarraf
+	 */
 	@Test
 	public void testGetWaitlistItemsFromUser() throws Exception {
 		Patron pAccount = new Patron();
@@ -500,6 +523,11 @@ public class TestTransactionService {
 		
 	}
 	
+	/**
+	 * This helper method checks to see if the correct borrowable item is in the user's
+	 * list of items, based on the unique bar code of the borrowable item
+	 * @param a borrowable item
+	 */
 	public void checkUserItems(BorrowableItem borrowableItem) {
 		if(borrowableItem.getLibraryItem().getType() == ItemType.Book) {
 			assertEquals(borrowableItem.getBarCodeNumber(), BOOK_BARCODENUMBER);

@@ -107,7 +107,12 @@ public class TestBorrowableItemService {
 	
 	
 
-
+	/**
+	 * This method is used to mock the database outputs, so that we can use
+	 * fake data to test the methods. Specifically the borrowableItem table
+	 * and library item table are mocked
+	 * @author Ramin Akhavan-Sarraf
+	 */
 	@BeforeEach
 	public void setMockOutput() {
 		lenient().when(libraryItemDao.findByIsbn(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
@@ -178,7 +183,7 @@ public class TestBorrowableItemService {
 
 			return allBorrowableItems;
 		});
-		// Whenever anything is saved, just return the parameter object
+		
 		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
 			return invocation.getArgument(0);
 		};
@@ -186,7 +191,13 @@ public class TestBorrowableItemService {
 		lenient().when(borrowableItemDao.save(any(BorrowableItem.class))).thenAnswer(returnParameterAsAnswer);
 
 	}
-
+	
+	/**
+	 * This helper method checks all parameters of the appropriate library
+	 * item based on the type of item
+	 * @param library item
+	 * @author Ramin Akhavan-Sarraf
+	 */
 	public static void checkBasicLibraryItemList(LibraryItem item) {
 		if(item.getType() == ItemType.Book) {
 			assertEquals(item.getName(), BOOK_NAME);
@@ -222,6 +233,12 @@ public class TestBorrowableItemService {
 		}
 	}
 	
+	/**
+	 * Tests the getBorrowableItemsFromIsbn service method to see if the correct 
+	 * items are returned when looking for items with the same isbn
+	 * @throws Exception
+	 * @author Ramin Akhavan-Sarraf
+	 */
 	@Test
 	public void testGetBorrowableItemsFromIsbn() throws Exception {
 		List<BorrowableItem> books = null;
@@ -240,8 +257,14 @@ public class TestBorrowableItemService {
 		
 	}
 
+	/**
+	 * Tests the getBorrowableItemsFromBarCodeNumber method to see if the correct 
+	 * item is returned when looking for a unique bar code number
+	 * @throws Exception
+	 * @author Ramin Akhavan-Sarraf
+	 */
 	@Test
-	public void testGetBorrowableItemFromBarcode() throws Exception {
+	public void testGetBorrowableItemFromBarCodeNumber() throws Exception {
 		BorrowableItem book = null;
 		try {
 			book = service.getBorrowableItemFromBarCodeNumber(BOOK_BARCODENUMBER);

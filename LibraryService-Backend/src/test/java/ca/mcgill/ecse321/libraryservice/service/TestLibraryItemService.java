@@ -87,7 +87,11 @@ public class TestLibraryItemService {
 	private static final ItemType ROOM_TYPE = ItemType.Room;
 
 
-
+	/**
+	 * This method mocks the databases before each test execution so that fake
+	 * database data can be used to test the service methods
+	 * @author Amani Jammoul and Ramin Akhavan-Sarraf
+	 */
 	@BeforeEach
 	public void setMockOutput() {
 		lenient().when(libraryItemDao.findAll()).thenAnswer((InvocationOnMock invocation) -> {
@@ -147,13 +151,19 @@ public class TestLibraryItemService {
 				return null;
 			}
 		});
-		// Whenever anything is saved, just return the parameter object
+		
 		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
 			return invocation.getArgument(0);
 		};
 		lenient().when(libraryItemDao.save(any(LibraryItem.class))).thenAnswer(returnParameterAsAnswer);
 	}
 	
+	/**
+	 * This helper methods checks if the attributes of found library items fits
+	 * what was expected depending on the type of item
+	 * @param library item
+	 * @author Ramin Akhavan-Sarraf
+	 */
 	public static void checkBasicLibraryItemList(LibraryItem item) {
 		if(item.getType() == ItemType.Book) {
 			assertEquals(item.getName(), BOOK_NAME);
@@ -188,6 +198,13 @@ public class TestLibraryItemService {
 			assertEquals(item.getType(), ROOM_TYPE);
 		}
 	}
+	
+	/**
+	 * This method tests the getBooksFromAuthor service method to see if
+	 * searching for books using the author name returns the correct list
+	 * @throws Exception
+	 * @author Ramin Akhavan-Sarraf
+	 */
 	@Test
 	public void testGetBooksFromAuthor() throws Exception {
 		List<LibraryItem> books = null;
@@ -200,6 +217,12 @@ public class TestLibraryItemService {
 		checkBasicLibraryItemList(books.get(0));
 	}
 
+	/**
+	 * This method tests the getBooksFromTitle service method to see if
+	 * searching for books using the title name returns the correct list
+	 * @throws Exception
+	 * @author Ramin Akhavan-Sarraf
+	 */
 	@Test
 	public void testGetBooksFromTitle() throws Exception {
 		List<LibraryItem> books = null;
@@ -212,6 +235,12 @@ public class TestLibraryItemService {
 		checkBasicLibraryItemList(books.get(0));
 	}
 
+	/**
+	 * This method tests the getBooksFromAuthorAndTitle service method to see if
+	 * searching for a unique book using the author name and title returns the correct book
+	 * @throws Exception
+	 * @author Ramin Akhavan-Sarraf
+	 */
 	@Test
 	public void testGetBooksFromAuthorAndTitle() throws Exception {
 		LibraryItem book = null;
@@ -224,6 +253,12 @@ public class TestLibraryItemService {
 		checkBasicLibraryItemList(book);
 	}
 
+	/**
+	 * This method tests the getMoviesFromAuthor service method to see if
+	 * searching for movies using the author name returns the correct list
+	 * @throws Exception
+	 * @author Ramin Akhavan-Sarraf
+	 */
 	@Test
 	public void testGetMoviesFromAuthor() throws Exception {
 		List<LibraryItem> movies = null;
@@ -236,6 +271,12 @@ public class TestLibraryItemService {
 		checkBasicLibraryItemList(movies.get(0));
 	}
 
+	/**
+	 * This method tests the getMoviesFromTitle service method to see if
+	 * searching for movies using the title name returns the correct list
+	 * @throws Exception
+	 * @author Ramin Akhavan-Sarraf
+	 */
 	@Test
 	public void testGetMoviesFromTitle() throws Exception {
 		List<LibraryItem> movies = null;
@@ -248,6 +289,12 @@ public class TestLibraryItemService {
 		checkBasicLibraryItemList(movies.get(0));
 	}
 
+	/**
+	 * This method tests the getMoviesFromDirectorAndTitle service method to see if
+	 * searching for a unique movie using the director name and title returns the correct movie
+	 * @throws Exception
+	 * @author Ramin Akhavan-Sarraf
+	 */
 	@Test
 	public void testGetMoviesFromDirectorAndTitle() throws Exception {
 		LibraryItem movie = null;
@@ -260,6 +307,12 @@ public class TestLibraryItemService {
 		checkBasicLibraryItemList(movie);
 	}
 
+	/**
+	 * This method tests the getMusicsFromArtist service method to see if
+	 * searching for musics using the artist name returns the correct list
+	 * @throws Exception
+	 * @author Ramin Akhavan-Sarraf
+	 */
 	@Test
 	public void testGetMusicsFromArtist() throws Exception {
 		List<LibraryItem> music = null;
@@ -272,6 +325,12 @@ public class TestLibraryItemService {
 		checkBasicLibraryItemList(music.get(0));
 	}
 
+	/**
+	 * This method tests the getMusicsFromTitle service method to see if
+	 * searching for musics using the title name returns the correct list
+	 * @throws Exception
+	 * @author Ramin Akhavan-Sarraf
+	 */
 	@Test
 	public void testGetMusicsFromTitle() throws Exception {
 		List<LibraryItem> music = null;
@@ -284,6 +343,12 @@ public class TestLibraryItemService {
 		checkBasicLibraryItemList(music.get(0));
 	}
 
+	/**
+	 * This method tests the getMusicsFromDirectorAndTitle service method to see if
+	 * searching for a unique music using the author and title name returns the correct music
+	 * @throws Exception
+	 * @author Ramin Akhavan-Sarraf
+	 */
 	@Test
 	public void testGetMusicFromDirectorAndTitle() throws Exception {
 		LibraryItem music = null;
@@ -295,9 +360,15 @@ public class TestLibraryItemService {
 		assertNotNull(music);
 		checkBasicLibraryItemList(music);
 	}
-	
+
+	/**
+	 * This method tests the getNewspapersFromWriter service method to see if
+	 * searching for newspapers using the writer name returns the correct list
+	 * @throws Exception
+	 * @author Ramin Akhavan-Sarraf
+	 */	
 	@Test
-	public void testGetNewspapersFromWritor() throws Exception {
+	public void testGetNewspapersFromWriter() throws Exception {
 		List<LibraryItem> newspapers = null;
 		try {
 			newspapers = service.getNewspaperFromWriter(NEWSPAPER_CREATOR);
@@ -308,6 +379,12 @@ public class TestLibraryItemService {
 		checkBasicLibraryItemList(newspapers.get(0));
 	}
 
+	/**
+	 * This method tests the getNewspapersFromTitle service method to see if
+	 * searching for newspapers using the title name returns the correct list
+	 * @throws Exception
+	 * @author Ramin Akhavan-Sarraf
+	 */
 	@Test
 	public void testGetNewspapersFromTitle() throws Exception {
 		List<LibraryItem> newspapers = null;
@@ -320,6 +397,12 @@ public class TestLibraryItemService {
 		checkBasicLibraryItemList(newspapers.get(0));
 	}
 
+	/**
+	 * This method tests the getNewspaperFromWriterAndTitle service method to see if
+	 * searching for a unique newspaper using the writer and title name returns the correct newspaper
+	 * @throws Exception
+	 * @author Ramin Akhavan-Sarraf
+	 */
 	@Test
 	public void testGetNewspaperFromWriterAndTitle() throws Exception {
 		LibraryItem newspaper = null;
@@ -332,6 +415,12 @@ public class TestLibraryItemService {
 		checkBasicLibraryItemList(newspaper);
 	}
 	
+	/**
+	 * This method tests the getAllBooks service method to see if
+	 * all books of the library system are correctly returned
+	 * @throws Exception
+	 * @author Ramin Akhavan-Sarraf
+	 */
 	@Test
 	public void testGetAllBooks() throws Exception {
 		List<LibraryItem> books = null;
@@ -347,6 +436,12 @@ public class TestLibraryItemService {
 		
 	}
 
+	/**
+	 * This method tests the getAllNewspapers service method to see if
+	 * all newspapers of the library system are correctly returned
+	 * @throws Exception
+	 * @author Ramin Akhavan-Sarraf
+	 */
 	@Test
 	public void testGetAllNewspapers() throws Exception {
 		List<LibraryItem> newspapers = null;
@@ -362,6 +457,12 @@ public class TestLibraryItemService {
 		
 	}
 
+	/**
+	 * This method tests the getAllMusic service method to see if
+	 * all music of the library system are correctly returned
+	 * @throws Exception
+	 * @author Ramin Akhavan-Sarraf
+	 */
 	@Test
 	public void testGetAllMusic() throws Exception {
 		List<LibraryItem> music = null;
@@ -377,6 +478,12 @@ public class TestLibraryItemService {
 		
 	}
 
+	/**
+	 * This method tests the getAllMovies service method to see if
+	 * all movies of the library system are correctly returned
+	 * @throws Exception
+	 * @author Ramin Akhavan-Sarraf
+	 */
 	@Test
 	public void testGetAllMovies() throws Exception {
 		List<LibraryItem> movies = null;
@@ -392,6 +499,12 @@ public class TestLibraryItemService {
 		
 	}
 
+	/**
+	 * This method tests the getAllRoomReservations service method to see if
+	 * all room reservations of the library system are correctly returned
+	 * @throws Exception
+	 * @author Ramin Akhavan-Sarraf
+	 */
 	@Test
 	public void testGetAllRooms() throws Exception {
 		List<LibraryItem> rooms = null;
@@ -407,6 +520,12 @@ public class TestLibraryItemService {
 		
 	}
 
+	/**
+	 * This method tests the getAllLibraryItems service method to see if
+	 * all library items of the library system are correctly returned
+	 * @throws Exception
+	 * @author Ramin Akhavan-Sarraf
+	 */
 	@Test
 	public void testGetAllLibraryItems() throws Exception {
 		List<LibraryItem> libItems = null;
@@ -423,6 +542,12 @@ public class TestLibraryItemService {
 		
 	}
 
+	/**
+	 * This method tests the getLibraryItemsFromCreator service method to see if
+	 * searching for library items using the creator name returns the correct list
+	 * @throws Exception
+	 * @author Ramin Akhavan-Sarraf
+	 */
 	@Test
 	public void testGetLibraryItemsFromCreator() throws Exception {
 		List<LibraryItem> libItems = null;
@@ -437,6 +562,12 @@ public class TestLibraryItemService {
 		
 	}
 
+	/**
+	 * This method tests the getLibraryItemsFromTitle service method to see if
+	 * searching for library items using the title name returns the correct list
+	 * @throws Exception
+	 * @author Ramin Akhavan-Sarraf
+	 */
 	@Test
 	public void testGetLibraryItemsFromTitle() throws Exception {
 		List<LibraryItem> libItems = null;
@@ -451,6 +582,12 @@ public class TestLibraryItemService {
 		
 	}
 
+	/**
+	 * This method tests the getLibraryItemsFromCreatorAndTitle service method to see if
+	 * searching for a unique library item using the creator and title name returns the correct list
+	 * @throws Exception
+	 * @author Ramin Akhavan-Sarraf
+	 */
 	@Test
 	public void testGetLibraryItemsFromCreatorAndTitle() throws Exception {
 		List<LibraryItem> libItems = null;
