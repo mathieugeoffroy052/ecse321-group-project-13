@@ -260,14 +260,14 @@ public class LibraryServiceRestController {
      * @author Gabrielle Halpin Delete a business information
      * @param userID
      * @param headLibrarian
-     * @return patronDTO
-     */
-    @PutMapping(value = { "/deletePatron/{userID}", "/deletePatron/{userID}/" })
-    public PatronDTO deletePatron(@PathVariable("userID") int userID, @RequestBody UserAccount headLibrarian)
-            throws Exception {
-        Patron patron = service.deleteAPatronbyUserID(headLibrarian, userID);
-        return convertToDto(patron);
-    }
+	 * @return patronDTO
+	 */
+	@DeleteMapping(value = {"/deletePatron/{userID}","/deletePatron/{userID}/"})
+	public boolean deletePatron(@PathVariable("userID") int userID, @RequestBody LibrarianDTO headLibrarian) throws Exception{
+		return service.deleteAPatronbyUserID(convertToDomainObject(headLibrarian), userID);
+	
+	}
+
 
     /**
      * This method uses the getPatronByUserId to retrieve a Patron from the database
@@ -299,36 +299,96 @@ public class LibraryServiceRestController {
     }
 
     /**
-     * @author Gabrielle Halpin Update Password
-     * @param user
-     * @param password
-     * @return
-     */
-    @PutMapping(value = { "/updatePassword", "/updatePassword/" })
-    public UserAccountDTO updatePassword(@RequestBody UserAccount user, @RequestParam("password") String password) {
-        UserAccountDTO accountDTO = new UserAccountDTO();
-        UserAccount account = service.changePassword(password, user);
-        accountDTO = convertToDto(account);
-        return accountDTO;
-    }
+     * @author Gabrielle Halpin
+	 * Update Password
+	 * @param user  
+	 * @param password
+	 * @return
+	 */
+	@PutMapping(value = {"/updatePassword", "/updatePassword/"})
+	public UserAccountDTO updatePassword(@RequestBody UserAccountDTO user, @RequestParam("password") String password) {
+		UserAccountDTO accountDTO = new UserAccountDTO();
+		UserAccount  account = service.changePassword(password, convertToDomainObject(user));
+		accountDTO = convertToDto(account);
+		return accountDTO; 
+	}
+
+    /**
+     * @author Gabrielle Halpin
+	 * Update Address of the user
+	 * @param user  
+	 * @param address
+	 * @return
+	 */
+	@PutMapping(value = {"/updateAddress", "/updateAddress/"})
+	public UserAccountDTO updateAddress(@RequestBody UserAccountDTO user, @RequestParam("address") String aAddress) {
+		UserAccountDTO accountDTO = new UserAccountDTO();
+		UserAccount  account = service.changeAddress(aAddress, convertToDomainObject(user));
+		accountDTO = convertToDto(account);
+		return accountDTO; 
+	}
+
+    /**
+     * @author Gabrielle Halpin
+	 * Update firstName of the user
+	 * @param user  
+	 * @param firstName
+	 * @return
+	 */
+	@PutMapping(value = {"/updateFirstName", "/updateFirstName/"})
+	public UserAccountDTO updateFirstName(@RequestBody UserAccountDTO user, @RequestParam("firstName") String firstName) {
+		UserAccountDTO accountDTO = new UserAccountDTO();
+		UserAccount  account = service.changeFirstName(firstName, convertToDomainObject(user));
+		accountDTO = convertToDto(account);
+		return accountDTO; 
+	}
+
+    /**
+     * @author Gabrielle Halpin
+	 * Update lastname of the user
+	 * @param user  
+	 * @param lastName
+	 * @return
+	 */
+	@PutMapping(value = {"/updateLastName", "/updateLastName/"})
+	public UserAccountDTO updateLastName(@RequestBody UserAccountDTO user, @RequestParam("lastName") String lastName) {
+		UserAccountDTO accountDTO = new UserAccountDTO();
+		UserAccount  account = service.changeLastName(lastName, convertToDomainObject(user));
+		accountDTO = convertToDto(account);
+		return accountDTO; 
+	}
+
+    /**
+     * @author Gabrielle Halpin
+	 * Update Email of the user
+	 * @param user  
+	 * @param email
+	 * @return
+	 */
+	@PutMapping(value = {"/updateEmail", "/updateEmail/"})
+	public UserAccountDTO updateEmail(@RequestBody UserAccountDTO user, @RequestParam("email") String email) {
+		UserAccountDTO accountDTO = new UserAccountDTO();
+		UserAccount  account = service.changeEmail(email, convertToDomainObject(user));
+		accountDTO = convertToDto(account);
+		return accountDTO; 
+	}
 
     /**
      * This method sets the validity of the user's online account
-     * 
-     * @author Gabrielle Halpin Update Password
-     * @param user
-     * @param password
-     * @return
-     */
-    @PutMapping(value = { "/setAccountValidity/", "/setAccountValidity/" })
-    public UserAccountDTO setAccountValidity(@RequestBody Patron patron,
-            @RequestParam("validatedAccount") boolean validatedAccount, @RequestBody UserAccount creator)
-            throws Exception {
-        UserAccountDTO accountDTO = new UserAccountDTO();
-        Patron account = service.setValidatedAccount(patron, validatedAccount, creator);
-        accountDTO = convertToDto(account);
-        return accountDTO;
-    }
+     * @author Gabrielle Halpin
+	 * Update Password
+	 * @param user  
+	 * @param password
+	 * @return
+	 */
+	@PutMapping(value = {"/setAccountValidity", "/setAccountValidity/"})
+	public UserAccountDTO setAccountValidity(@RequestBody PatronDTO patron, @RequestParam("validatedAccount") boolean validatedAccount, @RequestParam UserAccountDTO creator) throws Exception{
+		UserAccountDTO accountDTO = new UserAccountDTO();
+		Patron  account = service.setValidatedAccount(convertToDomainObject(patron), validatedAccount, convertToDomainObject(creator));
+		accountDTO = convertToDto(account);
+		return accountDTO; 
+	}
+
 
     /**
      * @author Gabrielle Halpin This methods gets a userAccount from their unique
@@ -358,12 +418,10 @@ public class LibraryServiceRestController {
      * @throws Exception
      */
     @PostMapping(value = { "/createPatron/{firstName}/{lastName}", "/createPatron/{creator}/{firstName}/{lastName}/" })
-
-
-	public PatronDTO createPatron(@RequestParam("creator") UserAccount creator, @PathVariable("firstName") String firstName, @RequestParam("lastName") String lastName, @RequestParam("onlineAccount") boolean onlineAccount, 
-            @PathVariable("address") String address, @PathVariable("validatedAccount") boolean validatedAccount, @PathVariable("password") String password,
+	public PatronDTO createPatron(@RequestBody LibrarianDTO creator, @PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName, @RequestParam("onlineAccount") boolean onlineAccount, 
+            @RequestParam("address") String address, @RequestParam("validatedAccount") boolean validatedAccount, @RequestParam("password") String password,
             @RequestParam("balance") int balance, @RequestParam("email") String email) throws Exception{
-		Patron patron = service.createPatron( creator,  firstName,  lastName,  onlineAccount,  address,  validatedAccount,  password,  balance,  email);
+		Patron patron = service.createPatron( convertToDomainObject(creator), firstName,  lastName,  onlineAccount,  address,  validatedAccount,  password,  balance,  email);
 	return convertToDto(patron);
 	}
 
@@ -1326,8 +1384,9 @@ public class LibraryServiceRestController {
      * @return userAccount
      * @throws Exception
      */
-    private UserAccount convertToDomainObject(UserAccountDTO userAccountDTO) throws Exception {
-        List<UserAccount> userAccounts;
+    private UserAccount convertToDomainObject(UserAccountDTO userAccountDTO) throws IllegalArgumentException{
+    	List<UserAccount> userAccounts;
+
         UserAccount userAccount = null;
 
 

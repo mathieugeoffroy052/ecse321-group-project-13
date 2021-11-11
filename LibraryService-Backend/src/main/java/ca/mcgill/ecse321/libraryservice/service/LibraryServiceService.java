@@ -69,17 +69,6 @@ public class LibraryServiceService {
 
     /** 
      * @param userID
-     * @return UserAccount - account of given ID
-     * @author Amani Jammoul
-     */
-    @Transactional
-    public UserAccount getUserAccountFromUserID(int userID){
-        UserAccount account = userAccountRepository.findUserAccountByUserID(userID);
-        return account;
-    }
-
-    /** 
-     * @param userID
      * @return UserAccount - account for user with given full name
      * @author Amani Jammoul
      * @throws Exception
@@ -1671,7 +1660,7 @@ public class LibraryServiceService {
             return person;
 
 		}catch (NoSuchElementException e) {
-	         throw new Exception("This user does not exist.");
+	        throw new Exception("This user does not exist.");
 		}
 	}
 
@@ -1695,25 +1684,25 @@ public class LibraryServiceService {
 		
         String error = "";
         if ((aFirstName == null || aFirstName.trim().length() == 0)&& error.length() == 0) {
-            error = error + "First Name  cannot be empty! ";
+            error = error + "First Name cannot be empty!";
         }
         if ((aLastName == null || aLastName.trim().length() == 0)&& error.length() == 0) {
-            error = error + "Last Name  cannot be empty! ";
+            error = error + "Last Name cannot be empty!";
         }
         if (aAddress == null|| aAddress.trim().length() == 0 && error.length() == 0) {
-            error = error + "Address cannot be empty! ";
+            error = error + "Address cannot be empty!";
         }
         if ((aPassword == null|| aPassword.trim().length() == 0) && aOnlineAccount == true && error.length() == 0) {
-            error = error + "Password cannot be empty! ";
+            error = error + "Password cannot be empty!";
         }
         if ((aEmail == null|| aEmail.trim().length() == 0) && aOnlineAccount == true && error.length() == 0) {
-            error = error + "Password cannot be empty! ";
+            error = error + "Email cannot be empty!";
         }
         if (creator == null) {
-            error = error + "There needs to be a creator for this method ";
+            error = error + "There needs to be a creator for this method";
         }
         if (creator instanceof Patron && aOnlineAccount == false) {
-            error = error + " Only a Librarian can create an in-person account";
+            error = error + "Only a Librarian can create an in-person account";
         }
 
         // the system will set the validity of the account to false, making sure that 
@@ -1736,6 +1725,7 @@ public class LibraryServiceService {
         patron.setEmail(aEmail);
         patron.setValidatedAccount(aValidatedAccount);
 		patronRepository.save(patron);
+        userAccountRepository.save(patron);
 		return patron;
 	}
 
@@ -1772,10 +1762,10 @@ public class LibraryServiceService {
        		
         String error = "";
         if (firstName == null || firstName.trim().length() == 0) {
-            error = error + "First Name  cannot be empty! ";
+            error = error + "First Name cannot be empty!";
         }
         if (lastName == null || lastName.trim().length() == 0) {
-            error = error + "Last Name  cannot be empty! ";
+            error = error + "Last Name cannot be empty!";
         }
         error = error.trim();
         if (error.length() > 0) {
@@ -1808,19 +1798,19 @@ public class LibraryServiceService {
      * checked
      */
     @Transactional
-    public Patron deleteAPatronbyUserID(UserAccount head, int userID) throws Exception {
+    public boolean deleteAPatronbyUserID(UserAccount head, int userID) throws Exception {
         try {
         getHeadLibrarianFromUserId(head.getUserID());
 
         } catch (Exception e) {
-            throw new  Exception("This User does not the credentials to delete an existing patron");
+            throw new  Exception("This user does not have the credentials to delete an existing patron");
         }
 
         try {
             Patron patronAccount = patronRepository.findPatronByUserID(userID);
             patronRepository.delete(patronAccount);
             
-            return patronAccount;
+            return true;
         } catch (Exception e) {
             throw new  Exception("This user Id does not exist as a Patron");
         }
@@ -1869,26 +1859,111 @@ public class LibraryServiceService {
      */
     
     public UserAccount changePassword(String aPassWord, UserAccount account){
-        String error = "";
-        if (account == null && error.length()==0){
-            error = error + "The account cannot be null";
+        if (account == null){
+            throw new IllegalArgumentException("The account cannot be null");
         }
-        if (account.getOnlineAccount() == false && error.length()==0){
-            error = error + "The account must be an online account";
+        if (account.getOnlineAccount() == false){
+            throw new IllegalArgumentException("The account must be an online account");
         }
-        if ((aPassWord == null|| aPassWord.trim().length() == 0)&& error.length()==0) {
-            error = error + "Password cannot be empty! ";
+        if (aPassWord == null|| aPassWord.trim().length() == 0) {
+            throw new IllegalArgumentException("Password cannot be empty!");
         }
-        if ((aPassWord == account.getPassword()&& error.length()==0)){
-            error = error + "This is already your password.";
-        }
-
-        error = error.trim();
-        if (error.length() > 0) {
-            throw new IllegalArgumentException(error);
+        if (aPassWord == account.getPassword()){
+            throw new IllegalArgumentException("This is already your password.");
         }
 
         account.setPassword(aPassWord);
+        return account;
+    }
+
+    /**
+     * @author Gabrielle Halpin
+     * This method allows the user to change their firstName
+     * @param aFirstName
+     * @param account
+     * @return Useraccount account
+     */
+    public UserAccount changeFirstName(String aFirstName, UserAccount account){
+        if (account == null){
+            throw new IllegalArgumentException("The account cannot be null"); 
+        }
+        if (aFirstName == null|| aFirstName.trim().length() == 0) {
+            throw new IllegalArgumentException("firstName cannot be empty!"); 
+        }
+        if (aFirstName == account.getFirstName()){
+            throw new IllegalArgumentException("This is already your firstName.");
+        }
+
+        account.setFirstName(aFirstName);
+        return account;
+    }
+
+    /**
+     * @author Gabrielle Halpin
+     * This method allows the user to change their lastName
+     * @param aLastName
+     * @param account
+     * @return Useraccount account
+     */
+    public UserAccount changeLastName(String aLastname, UserAccount account){
+        if (account == null){
+            throw new IllegalArgumentException("The account cannot be null");
+        }
+        if (aLastname == null|| aLastname.trim().length() == 0) {
+            throw new IllegalArgumentException("lastname cannot be empty!");
+        }
+        if (aLastname == account.getLastName()){
+            throw new IllegalArgumentException("This is already your lastname.");
+        }
+
+        account.setLastName(aLastname);
+        return account;
+    }
+
+    /**
+     * @author Gabrielle Halpin
+     * This method allows the user to change their address 
+     * @param aAddress
+     * @param account
+     * @return Useraccount account
+     */
+    public UserAccount changeAddress(String aAddress, UserAccount account){
+        if (account == null ){
+            throw new IllegalArgumentException("The account cannot be null"); 
+        }
+        if (aAddress == null|| aAddress.trim().length() == 0) {
+            throw new IllegalArgumentException("Address cannot be empty!");
+        }
+        if (aAddress == account.getAddress()){
+            throw new IllegalArgumentException("This is already your Address.");
+        }
+
+        account.setAddress(aAddress);
+        return account;
+    }
+
+    /**
+     * @author Gabrielle Halpin
+     * This method allows the user to change their email 
+     * @param aEmail
+     * @param account
+     * @return Useraccount account
+     */
+    public UserAccount changeEmail(String aEmail, UserAccount account){
+        if (account == null){
+            throw new IllegalArgumentException("The account cannot be null");
+        }
+        if (account.getOnlineAccount() == false){
+            throw new IllegalArgumentException("The account must be an online account");
+        }
+        if (aEmail == null|| aEmail.trim().length() == 0) {
+            throw new IllegalArgumentException("Email cannot be empty!");
+        }
+        if (aEmail == account.getEmail()){
+            throw new IllegalArgumentException("This is already your Email.");
+        }
+
+        account.setEmail(aEmail);
         return account;
     }
 
@@ -1900,40 +1975,35 @@ public class LibraryServiceService {
      * @param aPassword
      * @param aOnlineAccount
      * @param creator
-     * @return boolean
+     * @return UserAccount
      */
-    public boolean setOnlineAccount(UserAccount account, String aEmail, String aPassword, boolean aOnlineAccount, UserAccount creator){
-        String error = "";
-        if (account == null && error.length()==0){
-            error = error + "The account cannot be null";
+    public UserAccount setOnlineAccount(UserAccount account, String aEmail, String aPassword, boolean aOnlineAccount, UserAccount creator){
+        if (account == null ){
+            throw new IllegalArgumentException("The account cannot be null");
         }
-        if (creator == null && error.length()==0){
-            error = error + "The creator cannot be null";
+        if (creator == null ){
+            throw new IllegalArgumentException("The creator cannot be null");
         }
         if (!(creator instanceof Librarian)){
-            error = error + "The creator must be a librarian";
+            throw new IllegalArgumentException("The creator must be a librarian");
         }
-        if (account.getOnlineAccount() == true && error.length()==0){
-            error = error + "The account is already an online account.";
+        if (account.getOnlineAccount() == true ){
+            throw new IllegalArgumentException("The account is already an online account.");
         }
-        if ((aPassword == null|| aPassword.trim().length() == 0) && aOnlineAccount == true && error.length()==0) {
-            error = error + "Password cannot be empty! ";
+        if ((aPassword == null|| aPassword.trim().length() == 0) && aOnlineAccount == true ) {
+            throw new IllegalArgumentException("Password cannot be empty!");
         }
-        if ((aEmail == null|| aEmail.trim().length() == 0) && aOnlineAccount == true && error.length()==0) {
-            error = error + "Email cannot be empty! ";
-        }
-
-        error = error.trim();
-        if (error.length() > 0) {
-            throw new IllegalArgumentException(error);
+        if ((aEmail == null|| aEmail.trim().length() == 0) && aOnlineAccount == true ) {
+            throw new IllegalArgumentException("Email cannot be empty!");
         }
 
         boolean set1 = account.setEmail(aEmail);
         boolean set2 = account.setPassword(aPassword);
-        if (set1 == false || set2 == false){
-            return false;
+        boolean set3 = account.setOnlineAccount(true);
+        if (set1 == false || set2 == false || set3 == false){
+            throw new IllegalArgumentException("You cannot set this account to an online account.");
         }
-        return true;
+        return account;
     }
 
 
@@ -1947,20 +2017,16 @@ public class LibraryServiceService {
      * @throws Exception
      */
     public Patron setValidatedAccount(Patron patron, boolean validated, UserAccount creator) throws Exception{
-        String error="";
-        if (!(creator instanceof Librarian) && error.length()==0){
-            error = error + "Only a Librarian can change the validity of an account";
+        if (creator == null){
+            throw new IllegalArgumentException("The creator cannot be null");
         }
-        if (creator == null && error.length()==0){
-            error = error + "The creator cannot be null";
+        if (!(creator instanceof Librarian)){
+            throw new IllegalArgumentException("Only a Librarian can change the validity of an account");
         }
-        if (patron == null && error.length()==0){
-            error = error + "The creator cannot be null";
+        if (patron == null){
+            throw new IllegalArgumentException("The patron cannot be null");
         }
-        error = error.trim();
-        if (error.length() > 0) {
-            throw new IllegalArgumentException(error);
-        }
+
         try {
             Patron patronAccount =  patronRepository.findPatronByUserID(patron.getUserID());
             patronAccount.setValidatedAccount(validated);
@@ -1985,6 +2051,9 @@ public class LibraryServiceService {
         String error = "";
         Iterable<UserAccount> allusers = userAccountRepository.findAll();
         ArrayList<UserAccount> users = new ArrayList<UserAccount>();
+        for(UserAccount user: allusers){
+            users.add(user);
+        }
         if(users.size()==0 || allusers == null){
             error = "There are no Users in the system";
         }
