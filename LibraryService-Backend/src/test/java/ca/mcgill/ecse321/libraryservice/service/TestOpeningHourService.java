@@ -74,12 +74,6 @@ public class TestOpeningHourService {
         });
 
         lenient().when(headLibrarianDao.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
-                // HeadLibrarian headLibrarian = new HeadLibrarian(HEAD_LIBRARIAN_FIRSTNAME, HEAD_LIBRARIAN_LASTNAME, HEAD_LIBRARIAN_VALIDACC, HEAD_LIBRARIAN_ADDRESS, HEAD_LIBRARIAN_PASSWORD, HEAD_LIBRARIAN_BALANCE, HEAD_LIBRARIAN_EMAIL);
-                // headLibrarian.setUserID(HEAD_LIBRARIAN_ID);
-                
-                // List<HeadLibrarian> list = new ArrayList<HeadLibrarian>();
-                // list.add(headLibrarian);
-                // return list;
                 this.headLibrarian.setLibrarianID(HEAD_LIBRARIAN_ID);
                 List<HeadLibrarian> list = new ArrayList<HeadLibrarian>();
                 list.add(this.headLibrarian);
@@ -87,9 +81,6 @@ public class TestOpeningHourService {
         });
 
         lenient().when(headLibrarianDao.findHeadLibrarianByUserID(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
-            // HeadLibrarian headLibrarian = new HeadLibrarian(HEAD_LIBRARIAN_FIRSTNAME, HEAD_LIBRARIAN_LASTNAME, HEAD_LIBRARIAN_VALIDACC, HEAD_LIBRARIAN_ADDRESS, HEAD_LIBRARIAN_PASSWORD, HEAD_LIBRARIAN_BALANCE, HEAD_LIBRARIAN_EMAIL);
-            // headLibrarian.setUserID(HEAD_LIBRARIAN_ID);
-            // return headLibrarian;
             this.headLibrarian.setLibrarianID(HEAD_LIBRARIAN_ID);
             return this.headLibrarian;
         });

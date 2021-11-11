@@ -1577,6 +1577,7 @@ public class LibraryServiceService {
      */
     @Transactional
     public Holiday getHolidayFromId(int id) {
+        if(id < 1) throw new IllegalArgumentException("Invalid id");
         Holiday holiday = holidayRepository.findHolidayByHolidayID(id);
         return holiday;
     }
@@ -1619,7 +1620,7 @@ public class LibraryServiceService {
      */
     @Transactional
     public Holiday createHoliday(Date date, Time startTime, Time endTime) throws Exception{
-        HeadLibrarian headLibrarian =getHeadLibrarian();
+        HeadLibrarian headLibrarian = getHeadLibrarian();
         Holiday holiday = new Holiday(date, startTime, endTime, headLibrarian);
         holidayRepository.save(holiday);
         return holiday;
