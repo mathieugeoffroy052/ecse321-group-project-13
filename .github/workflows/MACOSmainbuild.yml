@@ -36,9 +36,9 @@ jobs:
         heroku_app_name: "libraryservice-backend-g13"
         heroku_email: "gabrielle.halpin@mail.mcgill.ca"
         justlogin: true
+    - name: "whoamI"
+      run: heroku auth:whoami
     - name: Install Heroku Cli
       run: curl https://cli-assets.heroku.com/install.sh | sh
     - name: "set git remote"
-      run: heroku git:remote --app libraryservice-backend-g13 --remote backend-heroku
-    - name: "Push to Heroku"
-      run: git push backend-heroku master
+      run: heroku git:remote --app libraryservice-backend-g13 --remote backend-heroku && git push backend-heroku master
