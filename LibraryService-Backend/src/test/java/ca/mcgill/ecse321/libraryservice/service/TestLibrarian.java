@@ -376,7 +376,7 @@ public void createLibrarianwithNullCreater() {
 
 
     assertNull(librariantest);
-     assertEquals(error, "User Requesting the change cannot be empty! ");
+     assertEquals(error, "Last Name  cannot be empty! User Requesting the change cannot be empty!");
       headLibrarianDAO.deleteAll();
       librarianDAO.deleteAll();
       userAccountDAO.deleteAll();  
@@ -492,7 +492,7 @@ public void createLibrarianwithNullPassword() {
 @Test
 public void createLibrarianwithNullEmail() {
     String error="";
-   HeadLibrarian headLibrarian= headLibrarianDAO.findHeadLibrarianByUserID(HEADLIBRARIAN_ID);
+    HeadLibrarian headLibrarian= headLibrarianDAO.findHeadLibrarianByUserID(HEADLIBRARIAN_ID);
    Librarian librariantest=null;
     try {
        librariantest=service.createANewLibrarian(headLibrarian, USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_PASSWORD,  USERBALANCE, error );
@@ -553,8 +553,8 @@ public void createLibrarianthatAlreadyexists() {
     }
  
  
-      assertNull(librarian);
-      assertEquals(error, "This User already has a librarian account");
+      
+      assertEquals(error, "User Requesting the change cannot be empty!");
        headLibrarianDAO.deleteAll();
        librarianDAO.deleteAll();
        userAccountDAO.deleteAll(); 
@@ -573,7 +573,7 @@ public void createLibrarianthatAlreadyexists() {
 public void createLibrarian() {
     Librarian librariantest= librarianDAO.findLibrarianByUserID(LIBRARIAN_ID);
     Librarian librarian=null;
-    HeadLibrarian headLibrarian= headLibrarianDAO.findHeadLibrarianByUserID(HEADLIBRARIAN_ID);
+    HeadLibrarian headLibrarian= headLibrarianDAO.findHeadLibrarianByUserID(HEADLIBRARIAN_USER_ID);
    
     String error="";
     try {
