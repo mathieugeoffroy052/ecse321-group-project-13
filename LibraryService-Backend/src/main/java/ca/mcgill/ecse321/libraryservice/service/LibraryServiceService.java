@@ -2032,7 +2032,7 @@ public class LibraryServiceService {
     	 Iterable<Patron> allPatrons = patronRepository.findAll();
          List<Patron> patrons = new ArrayList<Patron>();
          String error = "";
-         for(Patron patron: patrons){
+         for(Patron patron: allPatrons){
              patrons.add(patron);
          }
          if(patrons.size()==0 || patrons == null){

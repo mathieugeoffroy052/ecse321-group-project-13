@@ -846,47 +846,26 @@ public void testSetValidatedAccountNullPatron() throws Exception {
  * @author Zoya Malhi
  * @throws Exception
  */
-//@Test
-//public void testGetAllPatronsSuccessful() throws Exception {
-//List<Patron> patrons = null;
-//String error = "";
-//	Patron patron = null;
-//	
-//	try {
-//		patrons = service.getAllPatrons();
-//		patron = patrons.get(0);
-//	}
-//	catch (IllegalArgumentException e) {
-//		error = e.getMessage();
-//		
-//	}
-//	assertNotNull(patron);
-//	assertEquals(PATRON_FIRST_NAME, patron.getFirstName());
-//	assertEquals(PATRON_LAST_NAME, patron.getLastName());
-//}
-
-/**
- * This test gets all patrons from the database by calling the getAllPatrons() method. 
- * Error is returned.
- * 
- * @author Zoya Malhi
- * @throws Exception
- */
 @Test
-public void testGetAllPatronsError() throws Exception {
+public void testGetAllPatronsSuccessful() throws Exception {
 List<Patron> patrons = null;
 String error = "";
 	Patron patron = null;
+	
 	try {
 		patrons = service.getAllPatrons();
-	}
-	catch (IllegalArgumentException e) {
-		error = e.getMessage();
 		
 	}
-	assertEquals(null, patrons);
-	assertEquals("There are no patrons in the system", error);
+	catch (IllegalArgumentException e) {
+		 throw new Exception("could not retrieve patrons");
+    	 
+	}
+		assertEquals(1, patrons.size());
+	
+
+	       
 }
+
 
 	
 }
