@@ -115,7 +115,7 @@ private static final String USER_PASSWORD = "mIMI";
              new HeadLibrarian(HEADLIBRARIAN_FIRST_NAME, HEADLIBRARIAN_LAST_NAME, HEADLIBRARIAN_ONLINE_ACCOUNT, HEADLIBRARIAN_ADDRESS, HEADLIBRARIAN_PASSWORD, HEADLIBRARIAN_BALANCE, HEADLIBRARIAN_EMAIL);
             headLibrarian.setUserID(HEADLIBRARIAN_USER_ID);
             return headLibrarian;
-    });
+        });
 
         Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
 			return invocation.getArgument(0);
@@ -520,6 +520,10 @@ public void createLibrarianwithNullEmail() {
 public void createLibrarianwithoutBeingHeadLibrarian() {
     String error="";
     Librarian librariantest=null;
+    lenient().when(headLibrarianDAO.findHeadLibrarianByUserID(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
+        HeadLibrarian headLibrarian = null;
+        return headLibrarian;
+    });
     Librarian librarian= librarianDAO.findLibrarianByUserID(LIBRARIAN_USER_ID);
      try {
        librariantest=service.createANewLibrarian(librarian, USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_PASSWORD, USERBALANCE, USER_EMAIL );

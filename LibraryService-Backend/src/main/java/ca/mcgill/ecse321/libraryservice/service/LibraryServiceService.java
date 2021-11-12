@@ -1191,18 +1191,21 @@ public class LibraryServiceService {
         if ((aEmail == null|| aEmail.trim().length() == 0) && aOnlineAccount == true && error.length()==0) {
             error = error + "Email cannot be empty! ";
         }
+
+
+        try {
+            if(!(getHeadLibrarianFromUserId(creater.getUserID()) instanceof HeadLibrarian)){
+                throw new  Exception("This User  does not the credentials to add a new librarian");
+            }
+
+        } catch (Exception e) {
+            error = e.getMessage();
+        }
+
         error = error.trim();
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
         }
-
-        try {
-        getHeadLibrarianFromUserId(creater.getUserID());
-
-        } catch (Exception e) {
-            throw new  Exception("This User  does not the credentials to add a new librarian");
-        }
-
 
 
         UserAccount librarianDuplicate = userAccountRepository.findByFirstNameAndLastName(aFirstName, aLastName);
