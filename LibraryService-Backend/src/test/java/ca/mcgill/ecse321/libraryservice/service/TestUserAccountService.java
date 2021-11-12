@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.libraryservice.service;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
@@ -36,15 +37,16 @@ import ca.mcgill.ecse321.libraryservice.dao.*;
 @ExtendWith(MockitoExtension.class)
 public class TestUserAccountService {
 
-	
+	@Mock
+	private UserAccountRepository userAccountDao;
+  
 @Mock 
 private UserAccountRepository userAccountRepository;
 
 @Mock 
 private PatronRepository patronRepository;
 
-@InjectMocks
-private LibraryServiceService service;
+
 private static final int USER_ID = 12345;
 private static final int USER_ID2 = 123456;
 private static final String USER_FIRST_NAME = "John";
@@ -57,10 +59,36 @@ private static final String USER_ADDRESS = "123 Smith Street";
 private static final boolean USER_VALIDATED_ACCOUNT = false;
 private static final String USER_PASSWORD = "patron123";
 
+	@InjectMocks
+	private LibraryServiceService service;
 
-    //UserAccount creator, String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, String aAddress, boolean aValidatedAccount, String aPassword, int aBalance, String aEmail
-    @BeforeEach
-    public void setMockOutput() {
+
+	/* Patron attributes*/
+	private static final int VALID_PATRON_USER_ID = 8;
+	private static final int INVALID_PATRON_USER_ID = 7;
+	private static final String PATRON_FIRST_NAME = "Jimmy";
+	private static final String PATRON_LAST_NAME = "John";
+	private static final String PATRON_EMAIL = "jimmy123@hotmail.com";
+	private static final String PATRON_PASSWORD = "johniscool";
+	private static final int PATRON_BALANCE = 1000;
+	private static final String PATRON_ADDRESS = "11 Beverly Hills Road";
+	private static final boolean PATRON_VALIDATED = true;
+	private static final boolean ONLINE = true;
+	
+	private static final String PATRON_FAKE_FIRST_NAME = "FakeJimmy";
+	private static final String PATRON_FAKE_LAST_NAME = "FakeJohn";
+	
+	private static final String PATRON_FIRST_NAME_2 = "Hugh";
+	private static final String PATRON_LAST_NAME_2 = "Smith";
+
+	
+	/**
+	 * This method is used to mock the user account database methods so that fake
+	 * data can be used to test the service methods before each test case
+	 * @author Amani Jammoul, Gabrielle Halpin and Ramin Akhavan-Sarraf
+	 */
+	@BeforeEach
+	public void setMockOutput() {
         lenient().when(userAccountRepository.findUserAccountByUserID(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
             if(invocation.getArgument(0).equals(USER_ID)) {
             
@@ -93,6 +121,26 @@ private static final String USER_PASSWORD = "patron123";
                 
                 return user;
             }
+            else if (invocation.getArgument(0).equals(VALID_PATRON_USER_ID)) {
+				Patron pAccount = new Patron();
+				pAccount.setFirstName(PATRON_FIRST_NAME);
+				pAccount.setLastName(PATRON_LAST_NAME);
+				pAccount.setValidatedAccount(PATRON_VALIDATED);
+				pAccount.setOnlineAccount(ONLINE);
+				pAccount.setEmail(PATRON_EMAIL);
+				pAccount.setPassword(PATRON_PASSWORD);
+				pAccount.setBalance(PATRON_BALANCE);
+				pAccount.setAddress(PATRON_ADDRESS);
+				return pAccount;
+			} 
+			else if (invocation.getArgument(0).equals(INVALID_PATRON_USER_ID)) {
+				Patron pAccount = new Patron();
+				pAccount.setFirstName(PATRON_FIRST_NAME_2);
+				pAccount.setLastName(PATRON_LAST_NAME_2);
+				pAccount.setValidatedAccount(!PATRON_VALIDATED);
+				pAccount.setOnlineAccount(ONLINE);
+				return pAccount;
+			} 
             else {
                 return null;
             }
@@ -119,13 +167,145 @@ private static final String USER_PASSWORD = "patron123";
                 user2.setBalance(USER_BALANCE);
                 user2.setOnlineAccount(false);
                 user2.setAddress(USER_ADDRESS);
+    			
+                Patron pAccount = new Patron();
+    			pAccount.setFirstName(PATRON_FIRST_NAME);
+    			pAccount.setLastName(PATRON_LAST_NAME);
+    			pAccount.setValidatedAccount(PATRON_VALIDATED);
+    			pAccount.setOnlineAccount(ONLINE);
+    			pAccount.setEmail(PATRON_EMAIL);
+    			pAccount.setPassword(PATRON_PASSWORD);
+    			pAccount.setBalance(PATRON_BALANCE);
+    			pAccount.setAddress(PATRON_ADDRESS);
+    			accounts.add(pAccount);
+
+    			Patron pAccount2 = new Patron();
+    			pAccount2.setFirstName(PATRON_FIRST_NAME_2);
+    			pAccount2.setLastName(PATRON_LAST_NAME_2);
+    			pAccount2.setValidatedAccount(!PATRON_VALIDATED);
+    			pAccount2.setOnlineAccount(ONLINE);
+    			accounts.add(pAccount2);
 
 			accounts.add(user1); 
             accounts.add(user2);
 
 			return accounts;
 		});
-    }
+		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
+			return invocation.getArgument(0);
+		};
+		lenient().when(userAccountRepository.save(any(UserAccount.class))).thenAnswer(returnParameterAsAnswer);
+
+	}
+
+	// @Test
+	// public void testGetUserAccountFromUserID() throws Exception {
+		
+	// 	UserAccount userAccount = null;
+	// 	try {
+	// 		userAccount = service.getUserAccountFromUserID(VALID_PATRON_USER_ID);
+	// 	} catch (IllegalArgumentException e) {
+	// 		fail();
+	// 	}
+	// 	assertNotNull(userAccount);
+	// 	checkFullUserDetails(userAccount);
+		
+	// }
+	
+	/**
+	 * This test case checks to see if the appropriate user account is returned when
+	 * searching using a first name and last name, for the getUserAccountFromFullName service method
+	 * @throws Exception
+	 */
+	@Test
+	public void testGetUserAccountFromFullName() throws Exception {
+		
+		UserAccount userAccount = null;
+		try {
+			userAccount = service.getUserAccountFromFullName(PATRON_FIRST_NAME, PATRON_LAST_NAME);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(userAccount);
+		checkFullUserDetails(userAccount);
+		
+	}
+
+	/**
+	 * Fail test case - Checks to make sure a first name field is needed when searching
+	 * for a user of the system using their first name and last name (for the getUserAccountFromFullName 
+	 * service method)
+	 * @throws Exception
+	 */
+	@Test
+	public void testFailedGetUserAccountFromFullNameEmptyFirstNameError() throws Exception {
+		
+		UserAccount userAccount = null;
+		String error = "";
+		try {
+			userAccount = service.getUserAccountFromFullName(null, PATRON_LAST_NAME);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		assertEquals(error, "First name cannot be empty!");
+		
+	}
+
+	/**
+	 * Fail test case - Checks to make sure a last name field is needed when searching
+	 * for a user of the system using their first name and last name (for the getUserAccountFromFullName 
+	 * service method)
+	 * @throws Exception
+	 */
+	@Test
+	public void testFailedGetUserAccountFromFullNameEmptyLastNameError() throws Exception {
+		
+		UserAccount userAccount = null;
+		String error = "";
+		try {
+			userAccount = service.getUserAccountFromFullName(PATRON_FIRST_NAME, null);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		assertEquals(error, "Last name cannot be empty!");
+		
+	}
+	
+	/**
+	 * Fail test case - Checks to make sure no user account is returned when the user
+	 * cannot be found in the system when using the getUserAccountFromFullName service method
+	 * @throws Exception
+	 */
+	@Test
+	public void testFailedGetUserAccountFromFullNameFakeNameError() throws Exception {
+		
+		UserAccount userAccount = null;
+		String error = "";
+		try {
+			userAccount = service.getUserAccountFromFullName(PATRON_FAKE_FIRST_NAME, PATRON_FAKE_LAST_NAME);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		assertEquals(error, "No user found with this name! ");
+		
+	}
+	
+	/**
+	 * This helper method is called to do an extensive check of a user account's details
+	 * when a user account is found in any of the test cases
+	 * @param userAccount
+	 */
+	public void checkFullUserDetails(UserAccount userAccount) {
+		assertEquals(PATRON_ADDRESS, userAccount.getAddress());
+		assertEquals(PATRON_BALANCE, userAccount.getBalance());
+		assertEquals(PATRON_EMAIL, userAccount.getEmail());
+		assertEquals(PATRON_FIRST_NAME, userAccount.getFirstName());
+		assertEquals(PATRON_LAST_NAME, userAccount.getLastName());
+		assertEquals(ONLINE, userAccount.getOnlineAccount());
+		assertEquals(PATRON_PASSWORD, userAccount.getPassword());
+
+	}
+
 
     /***
      * @author Gabrielle Halpin
@@ -1040,7 +1220,7 @@ private static final String USER_PASSWORD = "patron123";
             throw new Exception("could not retrieve users");
         }
         
-        assertEquals(2, accounts.size());
+        assertEquals(4, accounts.size());
 
         patronRepository.deleteAll();
         userAccountRepository.deleteAll();

@@ -124,7 +124,9 @@ public class LibraryServiceService {
         List<LibraryItem> allItems = getAllLibraryItems();
         List<LibraryItem> itemsByCreator = new ArrayList<LibraryItem>();
         for(LibraryItem a : allItems){
-            if(a.getCreator().equals(creatorName)) itemsByCreator.add(a);
+        	if(a.getType() != ItemType.Room) {
+            	if(a.getCreator().equals(creatorName)) itemsByCreator.add(a);
+        	}
         }
         return itemsByCreator;
     }
@@ -167,7 +169,9 @@ public class LibraryServiceService {
         List<LibraryItem> allItems = getAllLibraryItems();
         List<LibraryItem> itemsByCreatorAndTitle = new ArrayList<LibraryItem>();
         for(LibraryItem a : allItems){
-            if(a.getCreator().equals(creatorName) && a.getName().equals(itemTitle)) itemsByCreatorAndTitle.add(a);
+        	if(a.getType() != ItemType.Room) {
+            	if(a.getCreator().equals(creatorName) && a.getName().equals(itemTitle)) itemsByCreatorAndTitle.add(a);
+        	}
         }
         return itemsByCreatorAndTitle;
     }
@@ -354,7 +358,7 @@ public class LibraryServiceService {
         Iterable<LibraryItem> allLibraryItems = libraryItemRepository.findAll();
         List<LibraryItem> allMovies = new ArrayList<LibraryItem>();
         for(LibraryItem i : allLibraryItems){
-            if(i.getType().equals(ItemType.Music)){
+            if(i.getType().equals(ItemType.Movie)){
                 allMovies.add(i);
             }
         }
@@ -545,15 +549,17 @@ public class LibraryServiceService {
         String error = "";
         if (item == null) {
             error = error + "Item cannot be null! ";
-        } else if (borrowableItemRepository.findBorrowableItemByBarCodeNumber(item.getBarCodeNumber()) == null){
+        } 
+        /* else if (borrowableItemRepository.findBorrowableItemByBarCodeNumber(item.getBarCodeNumber()) == null){
             error += "Borrowable item does not exist!";
-        }
+        } */
 
         if (account == null) {
             error = error + "Account cannot be null! ";
-        } else if (userAccountRepository.findUserAccountByUserID(account.getUserID()) == null){
+        } 
+        /*else if (userAccountRepository.findUserAccountByUserID(account.getUserID()) == null){
             error += "User does not exist!";
-        }
+        } */
         error = error.trim();
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
@@ -611,15 +617,17 @@ public class LibraryServiceService {
         String error = "";
         if (item == null) {
             error = error + "Item cannot be null! ";
-        } else if (borrowableItemRepository.findBorrowableItemByBarCodeNumber(item.getBarCodeNumber()) == null){
+        } 
+        /*else if (borrowableItemRepository.findBorrowableItemByBarCodeNumber(item.getBarCodeNumber()) == null){
             error += "Borrowable item does not exist!";
-        }
+        } */
 
         if (account == null) {
             error = error + "Account cannot be null! ";
-        } else if (userAccountRepository.findUserAccountByUserID(account.getUserID()) == null){
-            error += "User does not exist!";
         } 
+        /*else if (userAccountRepository.findUserAccountByUserID(account.getUserID()) == null){
+            error += "User does not exist!";
+        } */
         int check = startTime.compareTo(endTime);
         if(check > 0){
             error += "Start time must be before end time! ";
@@ -639,7 +647,7 @@ public class LibraryServiceService {
         }
 
         if(!validAccount){
-            error = "User account is unvalidated, cannot complete item reservation transaction! ";
+            error = "User account is unvalidated, cannot complete room reservation transaction! ";
         }
 
         // Item validation
@@ -654,9 +662,9 @@ public class LibraryServiceService {
             throw new IllegalArgumentException(error);
         }
 
-        Transaction itemReservation = new Transaction(item, account, TransactionType.RoomReservation, null); // No deadline for room reservation
-        transactionRepository.save(itemReservation);
-        return itemReservation;
+        Transaction roomReservation = new Transaction(item, account, TransactionType.RoomReservation, null); // No deadline for room reservation
+        transactionRepository.save(roomReservation);
+        return roomReservation;
     }
 
     
@@ -674,15 +682,18 @@ public class LibraryServiceService {
         String error = "";
         if (item == null) {
             error = error + "Item cannot be null! ";
-        } else if (borrowableItemRepository.findBorrowableItemByBarCodeNumber(item.getBarCodeNumber()) == null){
+        } 
+        /*else if (borrowableItemRepository.findBorrowableItemByBarCodeNumber(item.getBarCodeNumber()) == null){
             error += "Borrowable item does not exist!";
-        }
+        }*/
 
         if (account == null) {
             error = error + "Account cannot be null! ";
-        } else if (userAccountRepository.findUserAccountByUserID(account.getUserID()) == null){
+        } 
+        /*else if (userAccountRepository.findUserAccountByUserID(account.getUserID()) == null){
             error += "User does not exist!";
-        }
+        }*/
+
         error = error.trim();
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
@@ -739,15 +750,17 @@ public class LibraryServiceService {
         String error = "";
         if (item == null) {
             error = error + "Item cannot be null! ";
-        } else if (borrowableItemRepository.findBorrowableItemByBarCodeNumber(item.getBarCodeNumber()) == null){
+        } 
+        /*else if (borrowableItemRepository.findBorrowableItemByBarCodeNumber(item.getBarCodeNumber()) == null){
             error += "Borrowable item does not exist!";
-        }
+        }*/
 
         if (account == null) {
             error = error + "Account cannot be null! ";
-        } else if (userAccountRepository.findUserAccountByUserID(account.getUserID()) == null){
+        } 
+        /*else if (userAccountRepository.findUserAccountByUserID(account.getUserID()) == null){
             error += "User does not exist!";
-        }
+        }*/ 
         error = error.trim();
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
@@ -774,15 +787,17 @@ public class LibraryServiceService {
         String error = "";
         if (item == null) {
             error = error + "Item cannot be null! ";
-        } else if (borrowableItemRepository.findBorrowableItemByBarCodeNumber(item.getBarCodeNumber()) == null){
+        } 
+        /*else if (borrowableItemRepository.findBorrowableItemByBarCodeNumber(item.getBarCodeNumber()) == null){
             error += "Borrowable item does not exist!";
-        }
+        }*/
 
         if (account == null) {
             error = error + "Account cannot be null! ";
-        } else if (userAccountRepository.findUserAccountByUserID(account.getUserID()) == null){
+        } 
+        /*else if (userAccountRepository.findUserAccountByUserID(account.getUserID()) == null){
             error += "User does not exist!";
-        }
+        }*/
         error = error.trim();
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
@@ -832,15 +847,17 @@ public class LibraryServiceService {
         String error = "";
         if (item == null) {
             error = error + "Item cannot be null! ";
-        } else if (borrowableItemRepository.findBorrowableItemByBarCodeNumber(item.getBarCodeNumber()) == null){
+        } 
+        /*else if (borrowableItemRepository.findBorrowableItemByBarCodeNumber(item.getBarCodeNumber()) == null){
             error += "Borrowable item does not exist!";
-        }
+        }*/
 
         if (account == null) {
             error = error + "Account cannot be null! ";
-        } else if (userAccountRepository.findUserAccountByUserID(account.getUserID()) == null){
+        } 
+        /*else if (userAccountRepository.findUserAccountByUserID(account.getUserID()) == null){
             error += "User does not exist!";
-        }
+        }*/ 
         error = error.trim();
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
@@ -855,7 +872,7 @@ public class LibraryServiceService {
         }
 
         if(!validAccount){
-            error = "User account is unvalidated, cannot complete waitlist transaction! ";
+            error = "User account is unvalidated, cannot complete renewal transaction! ";
         }
 
         // Item validation
@@ -901,9 +918,10 @@ public class LibraryServiceService {
     public List<BorrowableItem> getBorrowedItemsFromUser(UserAccount account){
         if (account == null) {
             throw new IllegalArgumentException("Account cannot be null!");
-        } else if(userAccountRepository.findUserAccountByUserID(account.getUserID()) == null){
+        } 
+        /*else if(userAccountRepository.findUserAccountByUserID(account.getUserID()) == null){
             throw new IllegalArgumentException("User does not exist!");
-        }
+        } */
 
         List<Transaction> allUserTransactions = transactionRepository.findByUserAccount(account);
         List<BorrowableItem> allBorrowedItems = new ArrayList<BorrowableItem>();
@@ -925,9 +943,10 @@ public class LibraryServiceService {
     public List<BorrowableItem> getReservedItemsFromUser(UserAccount account){
         if (account == null) {
             throw new IllegalArgumentException("Account cannot be null!");
-        } else if(userAccountRepository.findUserAccountByUserID(account.getUserID()) == null){
+        } 
+        /*else if(userAccountRepository.findUserAccountByUserID(account.getUserID()) == null){
             throw new IllegalArgumentException("User does not exist!");
-        }
+        }*/
 
         List<Transaction> allUserTransactions = transactionRepository.findByUserAccount(account);
         List<BorrowableItem> allReservedItems = new ArrayList<BorrowableItem>();
@@ -948,9 +967,10 @@ public class LibraryServiceService {
     public List<BorrowableItem> getItemWaitlistsFromUser(UserAccount account){
         if (account == null) {
             throw new IllegalArgumentException("Account cannot be null!");
-        } else if(userAccountRepository.findUserAccountByUserID(account.getUserID()) == null){
+        } 
+        /*else if(userAccountRepository.findUserAccountByUserID(account.getUserID()) == null){
             throw new IllegalArgumentException("User does not exist!");
-        }
+        }*/
 
         List<Transaction> allUserTransactions = transactionRepository.findByUserAccount(account);
         List<BorrowableItem> allItemWaitlists = new ArrayList<BorrowableItem>();
@@ -973,9 +993,10 @@ public class LibraryServiceService {
     public List<UserAccount> getUsersOnWaitlist(BorrowableItem item){
         if (item == null) {
             throw new IllegalArgumentException("Item cannot be null!");
-        } else if (borrowableItemRepository.findBorrowableItemByBarCodeNumber(item.getBarCodeNumber()) == null){
+        } 
+        /*else if (borrowableItemRepository.findBorrowableItemByBarCodeNumber(item.getBarCodeNumber()) == null){
             throw new IllegalArgumentException("Item does not exist!");
-        }
+        } */
         List<Transaction> allItemTransactions = transactionRepository.findByBorrowableItem(item);
         List<UserAccount> allWaitlistedUsers = new ArrayList<UserAccount>();
         for(Transaction t : allItemTransactions){
@@ -1727,6 +1748,100 @@ public class LibraryServiceService {
         userAccountRepository.save(patron);
 		return patron;
 	}
+
+    /**
+     * This method creates a new borrowable item in the system
+     * @param item state
+     * @param library item
+     * @return the new borrowable item
+     * @author Ramin Akhavan-Sarraf
+     */
+    @Transactional
+	public BorrowableItem createBorrowableItem(ItemState itemState, LibraryItem libraryItem) throws Exception{
+        String error = "";
+        if (itemState == null && error.length() == 0) {
+            error = error + "Item state cannot be empty!";
+        }
+        if (libraryItem == null && error.length() == 0) {
+            error = error + "Library item cannot be empty!";
+        }
+
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
+		BorrowableItem item = new BorrowableItem(itemState, libraryItem);
+        borrowableItemRepository.save(item);
+        return item;
+	}
+
+    /**
+     * This method creates a new library item in the system
+     * @param name
+     * @param itemType
+     * @param date
+     * @param creator
+     * @param isViewable
+     * @return the new library item
+     * @author Ramin Akhavan-Sarraf
+     */
+    @Transactional
+	public LibraryItem createLibraryItem(String name, ItemType itemType, Date date, String creator, boolean isViewable) throws Exception{
+        String error = "";
+        if ((name == null || name.trim().length() == 0)&& error.length() == 0) {
+            error = error + "Name cannot be empty!";
+        }
+        if (itemType == null && error.length() == 0) {
+            error = error + "Item type cannot be empty!";
+        }
+
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
+		LibraryItem item = new LibraryItem(name, itemType, date, creator, isViewable);
+        libraryItemRepository.save(item);
+        return item;
+	}
+
+    /**
+     * This method deletes an existing borrowable item
+     * @param barCodeNumber
+     * @return boolean
+     * @throws Exception
+     */
+    @Transactional
+    public boolean deleteBorrowableItem(int barCodeNumber) throws Exception {
+        BorrowableItem borrowableItem = borrowableItemRepository.findBorrowableItemByBarCodeNumber(barCodeNumber);
+        if(borrowableItem == null) {
+        	throw new  Exception("This bar code number does not exist as a Borrowable Item");
+        }
+        else {
+        	borrowableItemRepository.delete(borrowableItem);
+        	return true;
+        }
+ 
+    }
+
+    /**
+     * This method deletes an existing library item
+     * @param isbn
+     * @return boolean
+     * @throws Exception
+     */
+    @Transactional
+    public boolean deleteLibraryItem(int isbn) throws Exception {
+    	LibraryItem libraryItem = null;
+    	libraryItem = libraryItemRepository.findByIsbn(isbn);
+        if(libraryItem == null) {
+        	throw new  Exception("This isbn does not exist as a Library Item");
+        }
+        else {
+        	libraryItemRepository.delete(libraryItem);
+        	return true;
+        }
+ 
+    }
 
     /***
      * This method gets the patron object from the database

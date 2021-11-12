@@ -208,18 +208,17 @@ public class LibraryServiceRestController {
     /**
      * This methods gets all users for the database
      * 
-     * @author Gabrielle Halpin
+     * @author Gabrielle Halpin and Amani Jammoul
      * @return userDTOs
      * @throws Exception
      */
-    @GetMapping(value = { "/users", "/users/" })
-    public List<UserAccountDTO> getAllUsers() throws Exception {
-        List<UserAccountDTO> userDtos = new ArrayList<>();
-        for (UserAccount users : service.getAllUsers()) {
-            userDtos.add(convertToDto(users));
-        }
-        return userDtos;
-
+    @GetMapping(value = { "/accounts", "/accounts/" })
+    public List<UserAccountDTO> getAllUsers() throws Exception{
+            List<UserAccountDTO> userDtos = new ArrayList<>();
+            for (UserAccount users : service.getAllUsers()) {
+                userDtos.add(convertToDto(users));
+            }
+            return userDtos;
     }
 
     /**
@@ -397,7 +396,7 @@ public class LibraryServiceRestController {
      * @return UserAccountDTO
      * @throws Exception
      */
-    @GetMapping(value = { "/user/{userID}", "/user/{userID}/" })
+    @GetMapping(value = { "/account/{userID}", "/account/{userID}/" })
     public UserAccountDTO getUserbyUserID(@PathVariable("userID") int userID) throws Exception {
         return convertToDto(service.getUserbyUserId(userID));
     }
@@ -981,6 +980,7 @@ public class LibraryServiceRestController {
     }
 
     /**
+
      * Find all newspapers by title, and convert those objects to DTOs
      * 
      * @param movieTitle
@@ -1032,6 +1032,62 @@ public class LibraryServiceRestController {
             @RequestParam("title") String newspaperTitle) throws Exception {
         LibraryItem newspaper = service.getMovieFromDirectorAndTitle(writerName, newspaperTitle);
         return convertToDto(newspaper);
+
+     * create new library item
+     * 
+     * @param LibraryItemDTO
+     * @return LibraryItemDTO
+     * @throws Exception
+     * @author Ramin Akhavan-Sarraf
+     */
+    @PostMapping(value = { "/createLibraryItem", "/createLibraryItem/" })
+    public LibraryItemDTO createLibraryItem(@RequestBody LibraryItemDTO libraryItemDTO) throws Exception {
+    	LibraryItem item = convertToDomainObject(libraryItemDTO);
+    	LibraryItem libraryItem = service.createLibraryItem(item.getName(), item.getType(), item.getDate(), item.getCreator(), item.getIsViewable());
+    	return convertToDto(libraryItem);
+    }
+ 
+    /**
+     * create new borrowable item
+     * 
+     * @param BorrowableItemDTO
+     * @return BorrowableItemDTO
+     * @throws Exception
+     * @author Ramin Akhavan-Sarraf
+     */
+    @PostMapping(value = { "/createBorrowableItem", "/createBorrowableItem/" })
+    public BorrowableItemDTO createBorrowableItem(@RequestBody BorrowableItemDTO borrowableItemDTO) throws Exception {
+    	BorrowableItem.ItemState borrowableItemState = BorrowableItem.ItemState.valueOf(borrowableItemDTO.getItemState().toString());
+    	BorrowableItem borrowableItem = service.createBorrowableItem(borrowableItemState, convertToDomainObject(borrowableItemDTO.getLibraryItem()));
+    	return convertToDto(borrowableItem);
+    }
+ 
+    /**
+     * delete library item
+     * 
+     * @param LibraryItemDTO
+     * @return LibraryItemDTO
+     * @throws Exception
+     * @author Ramin Akhavan-Sarraf
+     */
+    @PostMapping(value = { "/deleteLibraryItem", "/deleteLibraryItem/" })
+    public boolean deleteLibraryItem(@RequestParam int isbn) throws Exception {
+    	boolean delete = service.deleteLibraryItem(isbn);
+    	return delete;
+    }
+ 
+    /**
+     * delete borrowable item
+     * 
+     * @param LibraryItemDTO
+     * @return LibraryItemDTO
+     * @throws Exception
+     * @author Ramin Akhavan-Sarraf
+     */
+    @PostMapping(value = { "/deleteBorrowableItem", "/deleteBorrowableItem/" })
+    public boolean createLibraryItem(@RequestParam int barCodeNumber) throws Exception {
+    	boolean delete = service.deleteBorrowableItem(barCodeNumber);
+    	return delete;
     }
 
     ////////// Helper methods - convertToDTO////////
