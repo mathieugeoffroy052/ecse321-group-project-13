@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import ca.mcgill.ecse321.libraryservice.dao.PatronRepository;
 import ca.mcgill.ecse321.libraryservice.dto.*;
-import ca.mcgill.ecse321.libraryservice.dto.LibraryItemDTO.ItemType;
 import ca.mcgill.ecse321.libraryservice.model.*;
+import ca.mcgill.ecse321.libraryservice.model.LibraryItem.ItemType;
 import ca.mcgill.ecse321.libraryservice.service.LibraryServiceService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -497,7 +497,7 @@ public class LibraryServiceRestController {
         ArrayList<LibraryItemDTO> rooms = new ArrayList<>();
         for(BorrowableItem item: borrowableItems){
             BorrowableItemDTO dtoItem = convertToDto(item);
-            if (dtoItem.getLibraryItem().getType() == ItemType.Room){
+            if (dtoItem.getLibraryItem().getType().toString() == ItemType.Room.toString()){
                 rooms.add(dtoItem.getLibraryItem());
             }
         }
@@ -1043,9 +1043,9 @@ public class LibraryServiceRestController {
      */
     @PostMapping(value = { "/createLibraryItem", "/createLibraryItem/" })
     public LibraryItemDTO createLibraryItem(@RequestBody LibraryItemDTO libraryItemDTO) throws Exception {
-    	LibraryItem item = convertToDomainObject(libraryItemDTO);
-    	LibraryItem libraryItem = service.createLibraryItem(item.getName(), item.getType(), item.getDate(), item.getCreator(), item.getIsViewable());
-    	return convertToDto(libraryItem);
+        throw new IllegalArgumentException("hello" + libraryItemDTO.getIsbn());
+    	// LibraryItem libraryItem = service.createLibraryItem(libraryItemDTO.getName(), libraryItemDTO.getType(), libraryItemDTO.getDate(), libraryItemDTO.getCreator(), libraryItemDTO.getIsViewable());
+    	// return convertToDto(libraryItem);
     }
  
     /**
@@ -1058,7 +1058,7 @@ public class LibraryServiceRestController {
      */
     @PostMapping(value = { "/createBorrowableItem", "/createBorrowableItem/" })
     public BorrowableItemDTO createBorrowableItem(@RequestBody BorrowableItemDTO borrowableItemDTO) throws Exception {
-    	BorrowableItem.ItemState borrowableItemState = BorrowableItem.ItemState.valueOf(borrowableItemDTO.getItemState().toString());
+    	String borrowableItemState = borrowableItemDTO.getItemState();
     	BorrowableItem borrowableItem = service.createBorrowableItem(borrowableItemState, convertToDomainObject(borrowableItemDTO.getLibraryItem()));
     	return convertToDto(borrowableItem);
     }
@@ -1182,7 +1182,7 @@ public class LibraryServiceRestController {
         if (libraryItem == null) {
             throw new IllegalArgumentException("There is no such library item!");
         }
-        LibraryItemDTO.ItemType itemType = LibraryItemDTO.ItemType.valueOf(libraryItem.getType().toString());
+        String itemType = libraryItem.getType().toString();
 
         LibraryItemDTO libraryItemDTO = new LibraryItemDTO(libraryItem.getName(), itemType, libraryItem.getDate(), libraryItem.getCreator(), libraryItem.getIsViewable(), libraryItem.getIsbn());
 
@@ -1194,8 +1194,7 @@ public class LibraryServiceRestController {
             throw new IllegalArgumentException("There is no such library item!");
         }
         LibraryItemDTO item = convertToDto(borrowableItem.getLibraryItem());
-        BorrowableItemDTO.ItemState itemState = BorrowableItemDTO.ItemState
-                .valueOf(borrowableItem.getState().toString());
+        String itemState = borrowableItem.getState().toString();
         int barCodeNumber = borrowableItem.getBarCodeNumber();
         BorrowableItemDTO borrowableItemDTO = new BorrowableItemDTO(itemState, item, barCodeNumber);
         return borrowableItemDTO;
@@ -1289,13 +1288,13 @@ public class LibraryServiceRestController {
         List<LibraryItem> libraryItems;
         LibraryItem theLibraryItem = null;
         try {
-            if (libraryItemDTO.getType() == ItemType.Book) {
+            if (libraryItemDTO.getType().toString() == ItemType.Book.toString()) {
                 libraryItems = service.getAllBooks();
-            } else if (libraryItemDTO.getType() == ItemType.Movie) {
+            } else if (libraryItemDTO.getType().toString() == ItemType.Movie.toString()) {
                 libraryItems = service.getAllMovies();
-            } else if (libraryItemDTO.getType() == ItemType.Music) {
+            } else if (libraryItemDTO.getType().toString() == ItemType.Music.toString()) {
                 libraryItems = service.getAllMusic();
-            } else if (libraryItemDTO.getType() == ItemType.NewspaperArticle) {
+            } else if (libraryItemDTO.getType().toString()== ItemType.NewspaperArticle.toString()) {
                 libraryItems = service.getAllNewspapers();
             } else {
                 libraryItems = service.getAllRoomReservations();

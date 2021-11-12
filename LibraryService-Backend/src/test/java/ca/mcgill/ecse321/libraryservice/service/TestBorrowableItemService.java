@@ -274,9 +274,9 @@ public class TestBorrowableItemService {
 		LibraryItem libraryItem = null;
 		
 		try {
-			libraryItem = service.createLibraryItem(BOOK_NAME, BOOK_TYPE, BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
+			libraryItem = service.createLibraryItem(BOOK_NAME, BOOK_TYPE.toString(), BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
 			libraryItem.setIsbn(BOOK_ISBN);
-			borrowableItem = service.createBorrowableItem(BOOK_STATE, libraryItem);
+			borrowableItem = service.createBorrowableItem(BOOK_STATE.toString(), libraryItem);
 		}
 		catch (IllegalArgumentException e) {
 			fail();
@@ -298,13 +298,12 @@ public class TestBorrowableItemService {
 	public void testCreateBorrowableItemNoStateFail() throws Exception {
 		
 		String error = "";
-		BorrowableItem borrowableItem = null;
 		LibraryItem libraryItem = null;
 		
 		try {
-			libraryItem = service.createLibraryItem(BOOK_NAME, BOOK_TYPE, BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
+			libraryItem = service.createLibraryItem(BOOK_NAME, BOOK_TYPE.toString(), BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
 			libraryItem.setIsbn(BOOK_ISBN);
-			borrowableItem = service.createBorrowableItem(null, libraryItem);
+			service.createBorrowableItem(null, libraryItem);
 		}
 		catch (IllegalArgumentException e) {
 			error = e.getMessage();
@@ -324,10 +323,9 @@ public class TestBorrowableItemService {
 	public void testCreateBorrowableItemNoLibraryItemFail() throws Exception {
 		
 		String error = "";
-		BorrowableItem borrowableItem = null;
-		
+
 		try {
-			borrowableItem = service.createBorrowableItem(BOOK_STATE, null);
+			service.createBorrowableItem(BOOK_STATE.toString(), null);
 		}
 		catch (IllegalArgumentException e) {
 			error = e.getMessage();
@@ -378,6 +376,7 @@ public class TestBorrowableItemService {
 			
 		}
 		assertEquals(error, "This bar code number does not exist as a Borrowable Item");
+		assertFalse(borrowableDelete);
 			
 	}
 }

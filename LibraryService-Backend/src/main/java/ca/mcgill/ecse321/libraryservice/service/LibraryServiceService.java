@@ -1808,7 +1808,9 @@ public class LibraryServiceService {
      * @author Ramin Akhavan-Sarraf
      */
     @Transactional
-	public BorrowableItem createBorrowableItem(ItemState itemState, LibraryItem libraryItem) throws Exception{
+	public BorrowableItem createBorrowableItem(String item, LibraryItem libraryItem) throws Exception{
+        ItemState itemState = ItemState.valueOf(item);
+        
         String error = "";
         if (itemState == null && error.length() == 0) {
             error = error + "Item state cannot be empty!";
@@ -1821,9 +1823,9 @@ public class LibraryServiceService {
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
         }
-		BorrowableItem item = new BorrowableItem(itemState, libraryItem);
-        borrowableItemRepository.save(item);
-        return item;
+		BorrowableItem borrowableItem = new BorrowableItem(itemState, libraryItem);
+        borrowableItemRepository.save(borrowableItem);
+        return borrowableItem;
 	}
 
     /**
@@ -1837,7 +1839,7 @@ public class LibraryServiceService {
      * @author Ramin Akhavan-Sarraf
      */
     @Transactional
-	public LibraryItem createLibraryItem(String name, ItemType itemType, Date date, String creator, boolean isViewable) throws Exception{
+	public LibraryItem createLibraryItem(String name, String itemType, Date date, String creator, boolean isViewable) throws Exception{
         String error = "";
         if ((name == null || name.trim().length() == 0)&& error.length() == 0) {
             error = error + "Name cannot be empty!";
@@ -1850,7 +1852,7 @@ public class LibraryServiceService {
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
         }
-		LibraryItem item = new LibraryItem(name, itemType, date, creator, isViewable);
+		LibraryItem item = new LibraryItem(name, ItemType.valueOf(itemType), date, creator, isViewable);
         libraryItemRepository.save(item);
         return item;
 	}
