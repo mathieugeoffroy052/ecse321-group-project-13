@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.libraryservice.service;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
@@ -45,8 +46,7 @@ private UserAccountRepository userAccountRepository;
 @Mock 
 private PatronRepository patronRepository;
 
-@InjectMocks
-private LibraryServiceService service;
+
 private static final int USER_ID = 12345;
 private static final int USER_ID2 = 123456;
 private static final String USER_FIRST_NAME = "John";
@@ -89,55 +89,6 @@ private static final String USER_PASSWORD = "patron123";
 	 */
 	@BeforeEach
 	public void setMockOutput() {
-		lenient().when(userAccountDao.findUserAccountByUserID(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
-			if (invocation.getArgument(0).equals(VALID_PATRON_USER_ID)) {
-				Patron pAccount = new Patron();
-				pAccount.setFirstName(PATRON_FIRST_NAME);
-				pAccount.setLastName(PATRON_LAST_NAME);
-				pAccount.setValidatedAccount(PATRON_VALIDATED);
-				pAccount.setOnlineAccount(ONLINE);
-				pAccount.setEmail(PATRON_EMAIL);
-				pAccount.setPassword(PATRON_PASSWORD);
-				pAccount.setBalance(PATRON_BALANCE);
-				pAccount.setAddress(PATRON_ADDRESS);
-				return pAccount;
-			} 
-			else if (invocation.getArgument(0).equals(INVALID_PATRON_USER_ID)) {
-				Patron pAccount = new Patron();
-				pAccount.setFirstName(PATRON_FIRST_NAME_2);
-				pAccount.setLastName(PATRON_LAST_NAME_2);
-				pAccount.setValidatedAccount(!PATRON_VALIDATED);
-				pAccount.setOnlineAccount(ONLINE);
-				return pAccount;
-			} 
-			else {
-				return null;
-			}
-		});
-
-		lenient().when(userAccountDao.findAll()).thenAnswer((InvocationOnMock invocation) -> {
-			List<Patron> patrons = new ArrayList<>();
-			
-			Patron pAccount = new Patron();
-			pAccount.setFirstName(PATRON_FIRST_NAME);
-			pAccount.setLastName(PATRON_LAST_NAME);
-			pAccount.setValidatedAccount(PATRON_VALIDATED);
-			pAccount.setOnlineAccount(ONLINE);
-			pAccount.setEmail(PATRON_EMAIL);
-			pAccount.setPassword(PATRON_PASSWORD);
-			pAccount.setBalance(PATRON_BALANCE);
-			pAccount.setAddress(PATRON_ADDRESS);
-			patrons.add(pAccount);
-
-			Patron pAccount2 = new Patron();
-			pAccount2.setFirstName(PATRON_FIRST_NAME_2);
-			pAccount2.setLastName(PATRON_LAST_NAME_2);
-			pAccount2.setValidatedAccount(!PATRON_VALIDATED);
-			pAccount2.setOnlineAccount(ONLINE);
-			patrons.add(pAccount2);
-			
-			return patrons;
-		});
         lenient().when(userAccountRepository.findUserAccountByUserID(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
             if(invocation.getArgument(0).equals(USER_ID)) {
             
@@ -170,6 +121,26 @@ private static final String USER_PASSWORD = "patron123";
                 
                 return user;
             }
+            else if (invocation.getArgument(0).equals(VALID_PATRON_USER_ID)) {
+				Patron pAccount = new Patron();
+				pAccount.setFirstName(PATRON_FIRST_NAME);
+				pAccount.setLastName(PATRON_LAST_NAME);
+				pAccount.setValidatedAccount(PATRON_VALIDATED);
+				pAccount.setOnlineAccount(ONLINE);
+				pAccount.setEmail(PATRON_EMAIL);
+				pAccount.setPassword(PATRON_PASSWORD);
+				pAccount.setBalance(PATRON_BALANCE);
+				pAccount.setAddress(PATRON_ADDRESS);
+				return pAccount;
+			} 
+			else if (invocation.getArgument(0).equals(INVALID_PATRON_USER_ID)) {
+				Patron pAccount = new Patron();
+				pAccount.setFirstName(PATRON_FIRST_NAME_2);
+				pAccount.setLastName(PATRON_LAST_NAME_2);
+				pAccount.setValidatedAccount(!PATRON_VALIDATED);
+				pAccount.setOnlineAccount(ONLINE);
+				return pAccount;
+			} 
             else {
                 return null;
             }
@@ -196,6 +167,24 @@ private static final String USER_PASSWORD = "patron123";
                 user2.setBalance(USER_BALANCE);
                 user2.setOnlineAccount(false);
                 user2.setAddress(USER_ADDRESS);
+    			
+                Patron pAccount = new Patron();
+    			pAccount.setFirstName(PATRON_FIRST_NAME);
+    			pAccount.setLastName(PATRON_LAST_NAME);
+    			pAccount.setValidatedAccount(PATRON_VALIDATED);
+    			pAccount.setOnlineAccount(ONLINE);
+    			pAccount.setEmail(PATRON_EMAIL);
+    			pAccount.setPassword(PATRON_PASSWORD);
+    			pAccount.setBalance(PATRON_BALANCE);
+    			pAccount.setAddress(PATRON_ADDRESS);
+    			accounts.add(pAccount);
+
+    			Patron pAccount2 = new Patron();
+    			pAccount2.setFirstName(PATRON_FIRST_NAME_2);
+    			pAccount2.setLastName(PATRON_LAST_NAME_2);
+    			pAccount2.setValidatedAccount(!PATRON_VALIDATED);
+    			pAccount2.setOnlineAccount(ONLINE);
+    			accounts.add(pAccount2);
 
 			accounts.add(user1); 
             accounts.add(user2);
@@ -205,7 +194,8 @@ private static final String USER_PASSWORD = "patron123";
 		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
 			return invocation.getArgument(0);
 		};
-		lenient().when(userAccountDao.save(any(UserAccount.class))).thenAnswer(returnParameterAsAnswer);
+		lenient().when(userAccountRepository.save(any(UserAccount.class))).thenAnswer(returnParameterAsAnswer);
+
 	}
 
 	// @Test
@@ -1230,7 +1220,7 @@ private static final String USER_PASSWORD = "patron123";
             throw new Exception("could not retrieve users");
         }
         
-        assertEquals(2, accounts.size());
+        assertEquals(4, accounts.size());
 
         patronRepository.deleteAll();
         userAccountRepository.deleteAll();
