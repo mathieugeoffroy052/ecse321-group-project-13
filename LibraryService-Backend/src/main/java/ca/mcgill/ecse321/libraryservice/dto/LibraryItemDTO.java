@@ -3,37 +3,34 @@ import java.sql.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class LibraryItemDTO {
-  
-  @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-  public enum ItemType { Book, Room, Movie, Music, NewspaperArticle }
 
   private String name;
   private boolean isViewable;
   @JsonFormat(pattern = "yyyy-MM-dd")
   private Date date;
   private String creator;
-  private ItemType itemType;
+  private String itemType;
   private int isbn;
 
   public LibraryItemDTO() {
   }
 
-  public LibraryItemDTO(String aName, ItemType aItemType, Date aDate, String aCreator, boolean aIsViewable)
+  public LibraryItemDTO(String aName, String aItemType, Date aDate, String aCreator, boolean aIsViewable)
   {
-    name = aName;
-    date = aDate;
-    itemType = aItemType;
-    creator = aCreator;
-    isViewable = aIsViewable;
+    this.name = aName;
+    this.date = aDate;
+    this.itemType = aItemType;
+    this.creator = aCreator;
+    this.isViewable = aIsViewable;
   }
 
-  public LibraryItemDTO(String aName, ItemType aItemType, Date aDate, String aCreator, boolean aIsViewable, int isbn)
+  public LibraryItemDTO(String aName, String aItemType, Date aDate, String aCreator, boolean aIsViewable, int isbn)
   {
-    name = aName;
-    date = aDate;
-    itemType = aItemType;
-    creator = aCreator;
-    isViewable = aIsViewable;
+    this.name = aName;
+    this.date = aDate;
+    this.itemType = aItemType;
+    this.creator = aCreator;
+    this.isViewable = aIsViewable;
     this.isbn = isbn;
   }
   
@@ -52,9 +49,9 @@ public class LibraryItemDTO {
     return name;
   }
 
-  public ItemType getType()
+  public String getType()
   {
-    return itemType;
+    return this.itemType;
   }
 
   public boolean getIsViewable()
