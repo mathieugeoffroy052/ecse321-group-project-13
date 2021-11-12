@@ -1031,10 +1031,11 @@ public class LibraryServiceService {
         try {
          Iterable<HeadLibrarian> headLibrarian;
          headLibrarian= headLibrarianRepository.findAll();
+         if (headLibrarian==null) throw new Exception("There isn't any headLibrarian");
         for(HeadLibrarian head: headLibrarian){ return head;}
        
         } catch (Exception e) {
-         throw new Exception("There isn't any headLibrarian");
+            throw new Exception("There isn't any headLibrarian");
         }
         return null;
  
@@ -1206,12 +1207,10 @@ public class LibraryServiceService {
 
         UserAccount librarian=null;
   
-        try {
+
             librarian= getUserbyUserId(userID);
-        } catch (Exception e) {
-  
-          throw new  Exception("This ID is not associated to an existing account");
-        }
+            if (librarian==null) throw new  Exception("This ID is not associated to an existing account");
+
 
        if((librarian instanceof Librarian) ){
             throw new Exception("the ID privided  correcponds already to a Staff Member");
@@ -1241,6 +1240,7 @@ public class LibraryServiceService {
 
       try {
           Librarian librarian= getLibrarianFromUserId(userID);
+          if(librarian==null)throw new Exception ("This librarian does not exits");
         librarianRepository.delete(librarian);
         return librarian;
       } catch (Exception e) {
@@ -1282,14 +1282,17 @@ public class LibraryServiceService {
         * @author Eloyann Roy-Javanbakht
         */
        public Librarian getLibrarianFromUserId(int userID) throws Exception{
-        try {
-         Librarian librarian;
+        
+        
+        Librarian librarian;
+       
+       
          librarian= librarianRepository.findLibrarianByUserID(userID);
-         return librarian;
-        } catch (Exception e) {
-         throw new Exception("This User ID does not correspond to a Head Librarian");
-        }
-  
+        
+      if(librarian==null)   throw new Exception("This User ID does not correspond to a Head Librarian");
+       
+       
+        return librarian;
         }
 
     //* TimeSlot Service Methods
