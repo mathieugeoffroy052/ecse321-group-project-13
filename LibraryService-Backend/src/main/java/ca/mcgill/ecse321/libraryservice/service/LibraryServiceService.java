@@ -1294,13 +1294,15 @@ public class LibraryServiceService {
        public Librarian getLibrarianFromUserId(int userID) throws Exception{
         
         
-        Librarian librarian;
-       
-       
-         librarian= librarianRepository.findLibrarianByUserID(userID);
+            Librarian librarian;
         
-      if(librarian==null)   throw new Exception("This User ID does not correspond to a Head Librarian");
-       
+        if(userID>=1){
+                throw new Exception("This User ID does not correspond to a Librarian");
+        }
+            librarian= librarianRepository.findLibrarianByUserID(userID);
+            
+            if(librarian==null)   throw new Exception("This User ID does not correspond to a Librarian");
+        
        
         return librarian;
         }
