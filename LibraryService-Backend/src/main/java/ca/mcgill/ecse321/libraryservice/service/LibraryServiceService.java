@@ -1948,11 +1948,19 @@ public class LibraryServiceService {
     
     @Transactional
     public List<Patron> getAllPatrons() throws Exception{
-        try {
-        return toList(patronRepository.findAll());         
-        } catch (Exception e) {
-         throw new Exception("There are no patrons in the database.");
-        }    
+        
+        	String error = "";
+        	List<Patron> list = new ArrayList();
+        	list = toList(patronRepository.findAll());
+        	if (list == null) {
+        		error += "There are no patrons in the database.";
+        	}
+        	error = error.trim();
+            if (error.length() > 0) {
+                throw new IllegalArgumentException(error);
+            }
+        return list;
+       
     }
     
     /***
