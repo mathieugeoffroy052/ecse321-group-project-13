@@ -208,6 +208,14 @@ public void testDeleteHeadLibrarian() {
 public void testDeleteHeadLibrarianDoesntCorrespond () {
     HeadLibrarian headlibrariantest;
     String error="";
+    lenient().when(headLibrarianDAO.findAll()).thenAnswer((InvocationOnMock invocation) -> {
+        List<HeadLibrarian> accounts = new ArrayList<HeadLibrarian>();
+        HeadLibrarian headLibrarian =
+             new HeadLibrarian(HEADLIBRARIAN_FIRST_NAME, HEADLIBRARIAN_LAST_NAME, HEADLIBRARIAN_VALIDATED_ACCOUNT, HEADLIBRARIAN_ADDRESS, HEADLIBRARIAN_PASSWORD, HEADLIBRARIAN_BALANCE, HEADLIBRARIAN_EMAIL);
+            headLibrarian.setUserID(HEADLIBRARIAN_USER_ID);
+            accounts.add(headLibrarian);
+            return accounts;
+    });
     try {
         headlibrariantest=service.deleteHeadLibrarian(-5);
     } catch (Exception e) {
@@ -216,10 +224,8 @@ public void testDeleteHeadLibrarianDoesntCorrespond () {
 
      
       assertNotEquals(LIBRARIAN_ID,HEADLIBRARIAN_ID);
-
      
-     
-     assertEquals(error, "The UserID provided does not correspond to a  Head Librarian Account");
+     assertEquals(error, "This User ID does not correspond to a Head Librarian");
       headLibrarianDAO.deleteAll();
       librarianDAO.deleteAll();
       userAccountDAO.deleteAll();
