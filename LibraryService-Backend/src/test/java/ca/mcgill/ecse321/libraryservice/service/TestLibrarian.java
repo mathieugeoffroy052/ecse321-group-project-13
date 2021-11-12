@@ -520,7 +520,7 @@ public void createLibrarianwithNullEmail() {
 public void createLibrarianwithoutBeingHeadLibrarian() {
     String error="";
     Librarian librariantest=null;
-    Librarian librarian= librarianDAO.findLibrarianByUserID(LIBRARIAN_ID);
+    Librarian librarian= librarianDAO.findLibrarianByUserID(LIBRARIAN_USER_ID);
      try {
        librariantest=service.createANewLibrarian(librarian, USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_PASSWORD, USERBALANCE, USER_EMAIL );
      } catch (Exception e) {
@@ -533,9 +533,6 @@ public void createLibrarianwithoutBeingHeadLibrarian() {
        headLibrarianDAO.deleteAll();
        librarianDAO.deleteAll();
        userAccountDAO.deleteAll(); 
-
-
-
 }
 
 @Test
