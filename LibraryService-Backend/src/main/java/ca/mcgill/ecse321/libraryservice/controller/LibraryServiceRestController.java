@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,14 +16,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import ca.mcgill.ecse321.libraryservice.dao.PatronRepository;
 import ca.mcgill.ecse321.libraryservice.dto.*;
-import ca.mcgill.ecse321.libraryservice.dto.LibraryItemDTO.ItemType;
 import ca.mcgill.ecse321.libraryservice.model.*;
+import ca.mcgill.ecse321.libraryservice.model.LibraryItem.ItemType;
 import ca.mcgill.ecse321.libraryservice.service.LibraryServiceService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -497,7 +492,7 @@ public class LibraryServiceRestController {
         ArrayList<LibraryItemDTO> rooms = new ArrayList<>();
         for(BorrowableItem item: borrowableItems){
             BorrowableItemDTO dtoItem = convertToDto(item);
-            if (dtoItem.getLibraryItem().getType() == ItemType.Room){
+            if (dtoItem.getLibraryItem().getType().toString() == ItemType.Room.toString()){
                 rooms.add(dtoItem.getLibraryItem());
             }
         }
@@ -953,7 +948,7 @@ public class LibraryServiceRestController {
      */
     @GetMapping(value = { "/movies/director", "/movies/director/" })
     public List<LibraryItemDTO> getMoviesByDirector(@RequestParam("director") String directorName) throws Exception {
-        List<LibraryItem> items = service.getMoviesFromTitle(directorName);
+        List<LibraryItem> items = service.getMoviesFromDirector(directorName);
         List<LibraryItemDTO> itemDTOs = new ArrayList<LibraryItemDTO>();
         for (LibraryItem i : items) {
             itemDTOs.add(convertToDto(i));
@@ -990,7 +985,7 @@ public class LibraryServiceRestController {
      */
     @GetMapping(value = { "/newspapers/title", "/newspapers/title/" })
     public List<LibraryItemDTO> getNewspapersByTitle(@RequestParam("title") String newspaperTitle) throws Exception {
-        List<LibraryItem> items = service.getMoviesFromTitle(newspaperTitle);
+        List<LibraryItem> items = service.getNewspaperFromTitle(newspaperTitle);
         List<LibraryItemDTO> itemDTOs = new ArrayList<LibraryItemDTO>();
         for (LibraryItem i : items) {
             itemDTOs.add(convertToDto(i));
@@ -1030,7 +1025,7 @@ public class LibraryServiceRestController {
             "/newspapers/title/writer/" })
     public LibraryItemDTO getNewspapersByWriterAndTitle(@RequestParam("writer") String writerName,
             @RequestParam("title") String newspaperTitle) throws Exception {
-        LibraryItem newspaper = service.getMovieFromDirectorAndTitle(writerName, newspaperTitle);
+        LibraryItem newspaper = service.getNewspaperFromWriterAndTitle(writerName, newspaperTitle);
         return convertToDto(newspaper);
     }
 
@@ -1042,9 +1037,9 @@ public class LibraryServiceRestController {
      * @author Ramin Akhavan-Sarraf
      */
     @PostMapping(value = { "/createLibraryItem", "/createLibraryItem/" })
-    public LibraryItemDTO createLibraryItem(@RequestBody LibraryItemDTO libraryItemDTO) throws Exception {
-    	LibraryItem item = convertToDomainObject(libraryItemDTO);
-    	LibraryItem libraryItem = service.createLibraryItem(item.getName(), item.getType(), item.getDate(), item.getCreator(), item.getIsViewable());
+    public LibraryItemDTO createLibraryItem(@RequestParam("name") String name, @RequestParam("itemType") String itemType, @RequestParam("date") Date date, @RequestParam("creator") String creator, @RequestParam("isViewable") boolean isViewable, @RequestParam("isbn") int isbn) throws Exception {
+    	LibraryItem libraryItem = service.createLibraryItem(name, itemType, date, creator, isViewable);
+        libraryItem.setIsbn(isbn);
     	return convertToDto(libraryItem);
     }
  
@@ -1057,9 +1052,10 @@ public class LibraryServiceRestController {
      * @author Ramin Akhavan-Sarraf
      */
     @PostMapping(value = { "/createBorrowableItem", "/createBorrowableItem/" })
-    public BorrowableItemDTO createBorrowableItem(@RequestBody BorrowableItemDTO borrowableItemDTO) throws Exception {
-    	BorrowableItem.ItemState borrowableItemState = BorrowableItem.ItemState.valueOf(borrowableItemDTO.getItemState().toString());
-    	BorrowableItem borrowableItem = service.createBorrowableItem(borrowableItemState, convertToDomainObject(borrowableItemDTO.getLibraryItem()));
+    public BorrowableItemDTO createBorrowableItem(@RequestParam("creator") String creator, @RequestParam("title") String title, @RequestParam("itemState") String itemState) throws Exception {
+    	String borrowableItemState = itemState;
+        LibraryItem libraryItem = service.getLibraryItemFromCreatorAndTitle(creator, title).get(0);
+    	BorrowableItem borrowableItem = service.createBorrowableItem(borrowableItemState, libraryItem);
     	return convertToDto(borrowableItem);
     }
  
@@ -1071,7 +1067,7 @@ public class LibraryServiceRestController {
      * @throws Exception
      * @author Ramin Akhavan-Sarraf
      */
-    @PostMapping(value = { "/deleteLibraryItem", "/deleteLibraryItem/" })
+    @DeleteMapping(value = { "/deleteLibraryItem", "/deleteLibraryItem/" })
     public boolean deleteLibraryItem(@RequestParam int isbn) throws Exception {
     	boolean delete = service.deleteLibraryItem(isbn);
     	return delete;
@@ -1085,7 +1081,7 @@ public class LibraryServiceRestController {
      * @throws Exception
      * @author Ramin Akhavan-Sarraf
      */
-    @PostMapping(value = { "/deleteBorrowableItem", "/deleteBorrowableItem/" })
+    @DeleteMapping(value = { "/deleteBorrowableItem", "/deleteBorrowableItem/" })
     public boolean createLibraryItem(@RequestParam int barCodeNumber) throws Exception {
     	boolean delete = service.deleteBorrowableItem(barCodeNumber);
     	return delete;
@@ -1182,7 +1178,7 @@ public class LibraryServiceRestController {
         if (libraryItem == null) {
             throw new IllegalArgumentException("There is no such library item!");
         }
-        LibraryItemDTO.ItemType itemType = LibraryItemDTO.ItemType.valueOf(libraryItem.getType().toString());
+        String itemType = libraryItem.getType().toString();
 
         LibraryItemDTO libraryItemDTO = new LibraryItemDTO(libraryItem.getName(), itemType, libraryItem.getDate(), libraryItem.getCreator(), libraryItem.getIsViewable(), libraryItem.getIsbn());
 
@@ -1194,8 +1190,7 @@ public class LibraryServiceRestController {
             throw new IllegalArgumentException("There is no such library item!");
         }
         LibraryItemDTO item = convertToDto(borrowableItem.getLibraryItem());
-        BorrowableItemDTO.ItemState itemState = BorrowableItemDTO.ItemState
-                .valueOf(borrowableItem.getState().toString());
+        String itemState = borrowableItem.getState().toString();
         int barCodeNumber = borrowableItem.getBarCodeNumber();
         BorrowableItemDTO borrowableItemDTO = new BorrowableItemDTO(itemState, item, barCodeNumber);
         return borrowableItemDTO;
@@ -1289,13 +1284,13 @@ public class LibraryServiceRestController {
         List<LibraryItem> libraryItems;
         LibraryItem theLibraryItem = null;
         try {
-            if (libraryItemDTO.getType() == ItemType.Book) {
+            if (libraryItemDTO.getType() == ItemType.Book.toString()) {
                 libraryItems = service.getAllBooks();
-            } else if (libraryItemDTO.getType() == ItemType.Movie) {
+            } else if (libraryItemDTO.getType() == ItemType.Movie.toString()) {
                 libraryItems = service.getAllMovies();
-            } else if (libraryItemDTO.getType() == ItemType.Music) {
+            } else if (libraryItemDTO.getType() == ItemType.Music.toString()) {
                 libraryItems = service.getAllMusic();
-            } else if (libraryItemDTO.getType() == ItemType.NewspaperArticle) {
+            } else if (libraryItemDTO.getType() == ItemType.NewspaperArticle.toString()) {
                 libraryItems = service.getAllNewspapers();
             } else {
                 libraryItems = service.getAllRoomReservations();
@@ -1524,31 +1519,42 @@ public class LibraryServiceRestController {
     }
 
  
-
-//  * @author Eloyann Roy Javanbakht
-//  * mapping GetHead Librarian from userId
-//  * @param userID
-//  * @return
-//  * @throws Exception
-//  */
+    /** 
+    * @author Eloyann Roy Javanbakht
+    * mapping GetHead Librarian from userId
+    * @param userID
+    * @return
+    * @throws Exception
+    */
     @GetMapping(value={"/headLibrarian/{userID}", "/headLibrarian/{userID}/"})
     public HeadLibrarianDTO getHeadLibrarianFromUserId(@PathVariable("userID") int userID) throws Exception  {
         HeadLibrarian headLibrarian=service.getHeadLibrarianFromUserId(userID);
         return convertToDto(headLibrarian);
     }
 
-    //get librarian fromID
-
+     /**
+      *  /**
+    * delete Librarian
+    * @author Eloyann Roy Javanbakht
+    *
+    * @param userID
+    * @return
+    * @throws Exception
+    */
     @GetMapping(value={"/librarians/{userID}", "/librarians/{userID}/"})
     public LibrarianDTO getLibrarianFromUserId(@PathVariable("userID") int userID) throws Exception  {
     Librarian librarian=service.getLibrarianFromUserId(userID);
     return convertToDto(librarian);
     }  
 
-    // /**
-    //  * delete Librarian
-    //  * 
-    //  */
+    /**
+     * delete Librarian
+     * @author Eloyann Roy Javanbakht
+     * @param userID
+     * @param userIDHeadLibrarian
+     * @return
+     * @throws Exception
+     */
     @DeleteMapping(value={"/librarians/deleteAccount/{userID}", "/librarians/deleteAccount/{userID}/"})
     public LibrarianDTO deleteALibrarian(@PathVariable("userID") int userID, 
     @RequestParam(name = "headlibrarianID") int userIDHeadLibrarian) throws Exception  {
@@ -1556,21 +1562,31 @@ public class LibraryServiceRestController {
 
     }  
 
-    // /**
-    //  * deleted a headLibrarian 
-    //  * @param userID
-    //  * @return
-    //  * @throws Exception
-    //  */
+    /**
+     * deleted a headLibrarian 
+     * @param userID
+     * @return
+     * @throws Exception
+     */
     @DeleteMapping(value={"/headLibrarians/delete/{userID}", "/headLibrarians/delete/{userID}/"})
     public HeadLibrarianDTO deleteALibrarian(@PathVariable("userID") int userID) throws Exception  {
     return convertToDto(service.deleteHeadLibrarian(userID));
 
     }  
 
-    //     /**
-    //      * create HeadLibrarian
-    //      */
+    /**
+     * create HeadLibrarian
+     * @author Eloyann Roy Javanbakht
+     * @param firstName
+     * @param aLastName
+     * @param aOnlineAccount
+     * @param aAddress
+     * @param aPassword
+     * @param aBalance
+     * @param aEmail
+     * @return
+     * @throws Exception
+     */
     @PostMapping(value={"/createHeadLibrarian", "/createHeadLibrarian/"})
     public HeadLibrarianDTO createHeadLibrarian(@RequestParam(name = "firstName") String firstName,
         @RequestParam(name = "lastName") String aLastName,
@@ -1588,6 +1604,16 @@ public class LibraryServiceRestController {
     /**
      * @author Eloyann
      * create Librarian
+     * @param firstName
+     * @param aLastName
+     * @param aOnlineAccount
+     * @param aAddress
+     * @param aPassword
+     * @param aBalance
+     * @param aEmail
+     * @param creator
+     * @return
+     * @throws Exception
      */
     @PostMapping(value = { "/createLibrarian/{firstName}/{lastName}",
             "/createLibrarian/{firstName}/{lastName}/" })
@@ -1599,9 +1625,14 @@ public class LibraryServiceRestController {
         return convertToDto(service.createANewLibrarian(convertToDomainObject(creator), firstName, aLastName, aOnlineAccount, aAddress, aPassword,
                 aBalance, aEmail));
     }
+    
     /**
      * @author Eloyann
      * create Librarian
+     * @param firstName
+     * @param lastName
+     * @return
+     * @throws Exception
      */
     @GetMapping(value = { "/librarianAccount/{firstName}/{lastName}", "/librarianAccount/{firstName}/{lastName}/" })
     public UserAccountDTO getLibrarianAccountByFullName(@PathVariable("firstName") String firstName,

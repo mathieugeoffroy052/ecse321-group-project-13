@@ -608,7 +608,7 @@ public class TestLibraryItemService {
 		LibraryItem libraryItem = null;
 		
 		try {
-			libraryItem = service.createLibraryItem(BOOK_NAME, BOOK_TYPE, BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
+			libraryItem = service.createLibraryItem(BOOK_NAME, BOOK_TYPE.toString(), BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
 		}
 		catch (IllegalArgumentException e) {
 			fail();
@@ -636,7 +636,7 @@ public class TestLibraryItemService {
 		LibraryItem libraryItem = null;
 		
 		try {
-			libraryItem = service.createLibraryItem(null, BOOK_TYPE, BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
+			libraryItem = service.createLibraryItem(null, BOOK_TYPE.toString(), BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
 		}
 		catch (IllegalArgumentException e) {
 			error = e.getMessage();

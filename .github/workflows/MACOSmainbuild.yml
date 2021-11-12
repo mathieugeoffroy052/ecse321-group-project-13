@@ -35,3 +35,16 @@ jobs:
         heroku_api_key: c7d5df75-cbf0-4635-96c3-bba9306175e5
         heroku_app_name: "libraryservice-backend-g13"
         heroku_email: "gabrielle.halpin@mail.mcgill.ca"
+        justlogin: true
+    - name: Install Heroku Cli
+      run: curl https://cli-assets.heroku.com/install.sh | sh
+      env:
+        heroku_api_key: c7d5df75-cbf0-4635-96c3-bba9306175e5
+        heroku_app_name: "libraryservice-backend-g13"
+        heroku_email: "gabrielle.halpin@mail.mcgill.ca"
+    - name: "set git remote"
+      run: heroku git:remote --app libraryservice-backend-g13 --remote backend-heroku && git push backend-heroku master
+      env:
+        heroku_api_key: c7d5df75-cbf0-4635-96c3-bba9306175e5
+        heroku_app_name: "libraryservice-backend-g13"
+        heroku_email: "gabrielle.halpin@mail.mcgill.ca"
