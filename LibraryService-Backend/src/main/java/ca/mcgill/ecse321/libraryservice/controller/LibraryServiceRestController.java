@@ -1440,8 +1440,8 @@ public class LibraryServiceRestController {
     //  */
     @DeleteMapping(value={"/librarians/deleteAccount/{userID}", "/librarians/deleteAccount/{userID}/"})
     public LibrarianDTO deleteALibrarian(@PathVariable("userID") int userID, 
-    @RequestParam int userIDHeadLibrarian) throws Exception  {
-    return convertToDto(service.deleteLibrarian(userID, userIDHeadLibrarian));
+    @RequestParam(name = "headlibrarianID") int userIDHeadLibrarian) throws Exception  {
+    return convertToDto(service.deleteLibrarian(userIDHeadLibrarian, userID));
 
     }  
 
