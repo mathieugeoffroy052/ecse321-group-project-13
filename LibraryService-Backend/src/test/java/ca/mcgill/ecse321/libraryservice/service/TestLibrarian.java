@@ -369,14 +369,14 @@ public void createLibrarianwithNullCreater() {
    HeadLibrarian headLibrarian= null;
    Librarian librariantest=null;
     try {
-        librariantest=service.createANewLibrarian(headLibrarian, USER_FIRST_NAME, error, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_PASSWORD, USERBALANCE, USER_EMAIL );
+        librariantest=service.createANewLibrarian(headLibrarian, USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_PASSWORD, USERBALANCE, USER_EMAIL );
     } catch (Exception e) {
         error=e.getMessage();
     }
 
 
     assertNull(librariantest);
-     assertEquals(error, "User Requesting the change cannot be empty! ");
+     assertEquals(error, "User Requesting the change cannot be empty!");
       headLibrarianDAO.deleteAll();
       librarianDAO.deleteAll();
       userAccountDAO.deleteAll();  
@@ -495,7 +495,7 @@ public void createLibrarianwithNullEmail() {
    HeadLibrarian headLibrarian= headLibrarianDAO.findHeadLibrarianByUserID(HEADLIBRARIAN_ID);
    Librarian librariantest=null;
     try {
-       librariantest=service.createANewLibrarian(headLibrarian, USER_FIRST_NAME, USER_LAST_NAME, USER_VALIDATED_ACCOUNT, USER_ADDRESS, USER_PASSWORD,  USERBALANCE, error );
+       librariantest=service.createANewLibrarian(headLibrarian, USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_PASSWORD,  USERBALANCE, error );
     } catch (Exception e) {
         error=e.getMessage();
     }
