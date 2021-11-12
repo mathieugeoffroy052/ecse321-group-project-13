@@ -4,22 +4,19 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class BorrowableItemDTO {
 
-  @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-  public enum ItemState { Borrowed, Damaged, Available, Reserved, Booked }
-
-  private ItemState state;
+  private String state;
   private LibraryItemDTO libraryItem;
   private int barCodeNumber;
 
   public BorrowableItemDTO(){}
 
-  public BorrowableItemDTO(ItemState state, LibraryItemDTO item, int barCodeNumber){
+  public BorrowableItemDTO(String state, LibraryItemDTO item, int barCodeNumber){
       this.state = state;
       this.libraryItem = item;
       this.barCodeNumber = barCodeNumber;
   }
 
-  public ItemState getItemState(){
+  public String getItemState(){
       return this.state;
   }
 
