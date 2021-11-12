@@ -1042,10 +1042,10 @@ public class LibraryServiceRestController {
      * @author Ramin Akhavan-Sarraf
      */
     @PostMapping(value = { "/createLibraryItem", "/createLibraryItem/" })
-    public LibraryItemDTO createLibraryItem(@RequestBody LibraryItemDTO libraryItemDTO) throws Exception {
-        throw new IllegalArgumentException("hello" + libraryItemDTO.getIsbn());
-    	// LibraryItem libraryItem = service.createLibraryItem(libraryItemDTO.getName(), libraryItemDTO.getType(), libraryItemDTO.getDate(), libraryItemDTO.getCreator(), libraryItemDTO.getIsViewable());
-    	// return convertToDto(libraryItem);
+    public LibraryItemDTO createLibraryItem(@RequestParam("name") String name, @RequestParam("itemType") String itemType, @RequestParam("date") Date date, @RequestParam("creator") String creator, @RequestParam("isViewable") boolean isViewable, @RequestParam("isbn") int isbn) throws Exception {
+    	LibraryItem libraryItem = service.createLibraryItem(name, itemType, date, creator, isViewable);
+        libraryItem.setIsbn(isbn);
+    	return convertToDto(libraryItem);
     }
  
     /**
@@ -1057,9 +1057,10 @@ public class LibraryServiceRestController {
      * @author Ramin Akhavan-Sarraf
      */
     @PostMapping(value = { "/createBorrowableItem", "/createBorrowableItem/" })
-    public BorrowableItemDTO createBorrowableItem(@RequestBody BorrowableItemDTO borrowableItemDTO) throws Exception {
-    	String borrowableItemState = borrowableItemDTO.getItemState();
-    	BorrowableItem borrowableItem = service.createBorrowableItem(borrowableItemState, convertToDomainObject(borrowableItemDTO.getLibraryItem()));
+    public BorrowableItemDTO createBorrowableItem(@RequestParam("creator") String creator, @RequestParam("title") String title, @RequestParam("itemState") String itemState) throws Exception {
+    	String borrowableItemState = itemState;
+        LibraryItem libraryItem = service.getLibraryItemFromCreatorAndTitle(creator, title).get(0);
+    	BorrowableItem borrowableItem = service.createBorrowableItem(borrowableItemState, libraryItem);
     	return convertToDto(borrowableItem);
     }
  
@@ -1071,7 +1072,7 @@ public class LibraryServiceRestController {
      * @throws Exception
      * @author Ramin Akhavan-Sarraf
      */
-    @PostMapping(value = { "/deleteLibraryItem", "/deleteLibraryItem/" })
+    @DeleteMapping(value = { "/deleteLibraryItem", "/deleteLibraryItem/" })
     public boolean deleteLibraryItem(@RequestParam int isbn) throws Exception {
     	boolean delete = service.deleteLibraryItem(isbn);
     	return delete;
@@ -1085,7 +1086,7 @@ public class LibraryServiceRestController {
      * @throws Exception
      * @author Ramin Akhavan-Sarraf
      */
-    @PostMapping(value = { "/deleteBorrowableItem", "/deleteBorrowableItem/" })
+    @DeleteMapping(value = { "/deleteBorrowableItem", "/deleteBorrowableItem/" })
     public boolean createLibraryItem(@RequestParam int barCodeNumber) throws Exception {
     	boolean delete = service.deleteBorrowableItem(barCodeNumber);
     	return delete;
@@ -1288,13 +1289,13 @@ public class LibraryServiceRestController {
         List<LibraryItem> libraryItems;
         LibraryItem theLibraryItem = null;
         try {
-            if (libraryItemDTO.getType().toString() == ItemType.Book.toString()) {
+            if (libraryItemDTO.getType() == ItemType.Book.toString()) {
                 libraryItems = service.getAllBooks();
-            } else if (libraryItemDTO.getType().toString() == ItemType.Movie.toString()) {
+            } else if (libraryItemDTO.getType() == ItemType.Movie.toString()) {
                 libraryItems = service.getAllMovies();
-            } else if (libraryItemDTO.getType().toString() == ItemType.Music.toString()) {
+            } else if (libraryItemDTO.getType() == ItemType.Music.toString()) {
                 libraryItems = service.getAllMusic();
-            } else if (libraryItemDTO.getType().toString()== ItemType.NewspaperArticle.toString()) {
+            } else if (libraryItemDTO.getType() == ItemType.NewspaperArticle.toString()) {
                 libraryItems = service.getAllNewspapers();
             } else {
                 libraryItems = service.getAllRoomReservations();

@@ -51,7 +51,7 @@ public class LibraryItemDTO {
 
   public String getType()
   {
-    return itemType;
+    return this.itemType;
   }
 
   public boolean getIsViewable()
