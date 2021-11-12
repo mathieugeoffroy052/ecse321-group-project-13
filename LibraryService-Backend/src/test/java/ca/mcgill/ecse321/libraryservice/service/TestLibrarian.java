@@ -323,7 +323,7 @@ public void testDeleteLibrarianDoesntExists () {
             accounts.add(headLibrarian);
             return accounts;
     });
-    int impossibleID=-5;
+    int impossibleID=125;
     Librarian librarian=null;
     String error="";
     try {
@@ -332,7 +332,7 @@ public void testDeleteLibrarianDoesntExists () {
         error=e.getMessage();
     }
     
-    assertEquals(error, "This librarian does not exits");
+    assertEquals(error, "This User ID does not correspond to a Librarian");
       headLibrarianDAO.deleteAll();
       librarianDAO.deleteAll();
       userAccountDAO.deleteAll();
@@ -348,14 +348,7 @@ public void testDeleteLibrarianDoesntExists () {
      */
 @Test
 public void testDeleteLibrarian() {
-    lenient().when(headLibrarianDAO.findAll()).thenAnswer((InvocationOnMock invocation) -> {
-        List<HeadLibrarian> accounts = new ArrayList<HeadLibrarian>();
-        HeadLibrarian headLibrarian =
-             new HeadLibrarian(HEADLIBRARIAN_FIRST_NAME, HEADLIBRARIAN_LAST_NAME, HEADLIBRARIAN_VALIDATED_ACCOUNT, HEADLIBRARIAN_ADDRESS, HEADLIBRARIAN_PASSWORD, HEADLIBRARIAN_BALANCE, HEADLIBRARIAN_EMAIL);
-            headLibrarian.setUserID(HEADLIBRARIAN_USER_ID);
-            accounts.add(headLibrarian);
-            return accounts;
-    });
+
     Librarian librarian=null;
     lenient().when(headLibrarianDAO.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
         List<HeadLibrarian> headLibrarians = null;
@@ -363,11 +356,11 @@ public void testDeleteLibrarian() {
         new HeadLibrarian(HEADLIBRARIAN_FIRST_NAME, HEADLIBRARIAN_LAST_NAME, HEADLIBRARIAN_ONLINE_ACCOUNT, HEADLIBRARIAN_ADDRESS, HEADLIBRARIAN_PASSWORD, HEADLIBRARIAN_BALANCE, HEADLIBRARIAN_EMAIL);
         headLibrarian.setUserID(HEADLIBRARIAN_USER_ID);
         headLibrarians.add(headLibrarian);
-        return headLibrarian;
+        return headLibrarians;
     });
     String error="";
     try {
-       librarian=service.deleteLibrarian(HEADLIBRARIAN_ID, LIBRARIAN_USER_ID);
+       librarian=service.deleteLibrarian(HEADLIBRARIAN_USER_ID, LIBRARIAN_USER_ID);
     } catch (Exception e) {
         error=e.getMessage();
     }
