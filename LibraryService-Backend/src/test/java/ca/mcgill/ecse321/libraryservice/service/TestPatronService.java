@@ -465,6 +465,29 @@ public void testGetPatronFromID() throws Exception {
 }
 
 /**
+ * This test calls the getPatronByUserID method which 
+ * queries the database and returns the patron with the same ID.
+ *  
+ * @author Zoya Malhi
+ * @throws Exception
+ */
+@Test 
+public void testGetPatronFromIDError() throws Exception {
+	int falseID = 0;
+	String error = "";
+	Patron patron = null;
+	try {
+		patron = service.getPatronByUserId(falseID);
+	}
+	catch (IllegalArgumentException e) {
+		error = e.getMessage();
+	}
+	assertNull(patron);
+	assertEquals("This patron does not exist.", error);
+
+}
+
+/**
  * This tests deletes a patron by calling the deleteAPatronbyUserID 
  * method which queries the database for the patron specified and deletes it from the system.
  * 
@@ -837,5 +860,6 @@ String error = "";
 ////	assertNull(patron);
 //	assertEquals("There are no patrons in the database.", error);
 //}
+
 	
 }

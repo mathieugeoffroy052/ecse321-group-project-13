@@ -1861,14 +1861,19 @@ public class LibraryServiceService {
      */
     @Transactional
 	public Patron getPatronByUserId(int userID) throws Exception {
-		try {
-			Patron person = patronRepository.findPatronByUserID(userID);
+		String error = "";
+		Patron person = patronRepository.findPatronByUserID(userID);
 		
+
+		if (person == null) {
+			error += "This patron does not exist.";
+		}
+		
+		 error = error.trim();
+	     if (error.length() > 0) {
+	    	 throw new IllegalArgumentException(error);
+	     }
 		return person;
-		}
-		catch (Exception e) {
-	         throw new Exception("This patron does not exist.");
-		}
 	}
     
     /***
@@ -1878,9 +1883,10 @@ public class LibraryServiceService {
     * @return null 
     added checks -elo
     checked
+     * @throws Exception 
     */
     @Transactional
-    public Patron getPatronFromFullName(String firstName, String lastName){
+    public Patron getPatronFromFullName(String firstName, String lastName) throws Exception{
        		
         String error = "";
         if (firstName == null || firstName.trim().length() == 0) {
@@ -1893,19 +1899,26 @@ public class LibraryServiceService {
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
         }
-       
-        try { 
+        
        List<Patron> patron = getAllPatrons();
       
        for (Patron p: patron){
-           if(p.getFirstName().equals(firstName) && p.getLastName().equals(lastName)) return p;
-
+    	   if (p == null) {
+        	  error +=  "Could not get patron from full name!";
+           }
+           if(p.getFirstName().equals(firstName) && p.getLastName().equals(lastName)) {
+        	  
+           return p;
+           }
+       
+           
        }
-      }
-      catch (Exception e) {
-          throw new IllegalArgumentException("Could not get patron from full name!");
+           error = error.trim();
+  	     if (error.length() > 0) {
+  	    	 throw new IllegalArgumentException(error);
+  	     }
       
-      }
+      
 	return null;
 
     }
@@ -2153,14 +2166,16 @@ public class LibraryServiceService {
         if (patron == null){
             throw new IllegalArgumentException("The patron cannot be null");
         }
-
-        try {
-            patron.setValidatedAccount(validated);
+        else {
+        	patron.setValidatedAccount(validated);
+        }
             return patron;
             
-           } catch (Exception e) {
-            throw new Exception("This user does not exists in the database.");
-        }
+//        try {
+//            
+//           } catch (Exception e) {
+//            throw new Exception("This user does not exists in the database.");
+//        }
            
     }
 
