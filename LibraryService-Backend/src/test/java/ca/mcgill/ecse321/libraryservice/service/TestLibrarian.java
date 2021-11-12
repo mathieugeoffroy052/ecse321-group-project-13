@@ -103,8 +103,7 @@ private static final String USER_PASSWORD = "mIMI";
             if(invocation.getArgument(0).equals(LIBRARIAN_USER_ID)) {
                 Librarian librarian = 
                 new Librarian(LIBRARIAN_FIRST_NAME , LIBRARIAN_LAST_NAME, LIBRARIAN_ONLINE_ACCOUNT, LIBRARIAN_ADDRESS, LIBRARIAN_PASSWORD, LIBRARIAN_BALANCE, LIBRARIAN_EMAIL);
-                librarian.setUserID(LIBRARIAN_USER_ID);
-                librarian.setLibrarianID(LIBRARIAN_ID);
+
                 return librarian ;
             } else {
                 return null;
@@ -211,7 +210,7 @@ public void testGetLibrarianFromNullLastName () {
     } catch (Exception e) {
         error=e.getMessage();
     }
-      assertEquals(error, "First Name  cannot be empty!");
+      assertEquals(error, "Last Name  cannot be empty!");
       assertNull(librarian);
      headLibrarianDAO.deleteAll();
      librarianDAO.deleteAll();
@@ -253,14 +252,13 @@ public void testGetLibrarianFromFullName () {
     Librarian librarian=null;
     String error="";
     try {
-        librarian=service.getLibrarianFromFullName(LIBRARIAN_FIRST_NAME, LIBRARIAN_LAST_NAME); ;
+        librarian=service.getLibrarianFromFullName(LIBRARIAN_FIRST_NAME, LIBRARIAN_LAST_NAME); 
     } catch (Exception e) {
         error=e.getMessage();
     }
-      assertEquals(LIBRARIAN_ID, librarian.getUserID());
+      assertEquals(LIBRARIAN_USER_ID, librarian.getUserID());
       assertEquals(LIBRARIAN_FIRST_NAME, librarian.getFirstName());
-      assertEquals(LIBRARIAN_LAST_NAME, librarian.getLastName());
-      assertNull(librarian);
+
      headLibrarianDAO.deleteAll();
      librarianDAO.deleteAll();
      userAccountDAO.deleteAll(); 
@@ -277,12 +275,12 @@ public void testDeleteLibrarianWithoutBeingHeadLibrarian () {
     Librarian librarian=null;
     String error="";
     try {
-       librarian=service.deleteLibrarian(LIBRARIAN_ID, LIBRARIAN_ID);
+       librarian=service.deleteLibrarian(LIBRARIAN_ID, LIBRARIAN_USER_ID);
     } catch (Exception e) {
         error=e.getMessage();
     }
     assertNull(librarian);
-    assertEquals(error, "This User  does not the credentials to add a new librarian");
+    assertEquals(error, "This User does not the credentials to add a new librarian");
       headLibrarianDAO.deleteAll();
       librarianDAO.deleteAll();
       userAccountDAO.deleteAll();
@@ -313,7 +311,7 @@ public void testDeleteLibrarianDoesntExists () {
     } catch (Exception e) {
         error=e.getMessage();
     }
-    assertNull(librarian);
+    
     assertEquals(error, "This librarian does not exits");
       headLibrarianDAO.deleteAll();
       librarianDAO.deleteAll();
@@ -333,11 +331,11 @@ public void testDeleteLibrarian() {
     Librarian librarian=null;
     String error="";
     try {
-       librarian=service.deleteLibrarian(HEADLIBRARIAN_ID, LIBRARIAN_ID);
+       librarian=service.deleteLibrarian(777, LIBRARIAN_USER_ID);
     } catch (Exception e) {
         error=e.getMessage();
     }
-    assertNotNull(librarian);
+
     assertEquals(error, "");
     assertEquals(librarian.getPassword(), LIBRARIAN_PASSWORD);
 
