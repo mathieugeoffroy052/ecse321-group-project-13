@@ -53,8 +53,8 @@ public class LibraryServiceRestController {
      * @author Mathieu Geoffroy
      */
     @GetMapping(value = { "/holiday/{holidayID}", "/holiday/{holidayID}/" })
-    public OpeningHourDTO getHolidayById(@PathVariable(name = "holidayID") int id) {
-        return convertToDto(service.getOpeningHourFromID(id));
+    public HolidayDTO getHolidayById(@PathVariable(name = "holidayID") int id) {
+        return convertToDto(service.getHolidayFromId(id));
     }
 
     /**
