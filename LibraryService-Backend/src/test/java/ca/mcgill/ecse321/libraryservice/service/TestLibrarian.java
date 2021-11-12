@@ -390,7 +390,7 @@ public void createLibrarianwithNullFirstName() {
 
 
    assertNull(librariantest);
-     assertEquals(error, "First Name  cannot be empty! ");
+     assertEquals(error, "First Name  cannot be empty!");
       headLibrarianDAO.deleteAll();
       librarianDAO.deleteAll();
       userAccountDAO.deleteAll();  
@@ -442,7 +442,7 @@ public void createLibrarianwithNullAdress() {
 
 
     assertNull(librariantest);
-     assertEquals(error, "Address cannot be empty!  ");
+     assertEquals(error, "Address cannot be empty!");
       headLibrarianDAO.deleteAll();
       librarianDAO.deleteAll();
       userAccountDAO.deleteAll();  
@@ -465,10 +465,8 @@ public void createLibrarianwithNullPassword() {
     } catch (Exception e) {
         error=e.getMessage();
     }
-
-
     assertNull(librariantest);
-     assertEquals(error, "Password cannot be empty! ");
+     assertEquals(error, "Password cannot be empty!");
       headLibrarianDAO.deleteAll();
       librarianDAO.deleteAll();
       userAccountDAO.deleteAll();  
@@ -493,7 +491,7 @@ public void createLibrarianwithNullEmail() {
 
 
     assertNull(librariantest);
-     assertEquals(error, "Email cannot be empty! ");
+     assertEquals(error, "Email cannot be empty!");
       headLibrarianDAO.deleteAll();
       librarianDAO.deleteAll();
       userAccountDAO.deleteAll();  
