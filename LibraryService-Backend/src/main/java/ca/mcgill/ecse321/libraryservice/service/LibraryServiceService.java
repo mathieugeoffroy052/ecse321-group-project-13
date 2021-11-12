@@ -1174,22 +1174,22 @@ public class LibraryServiceService {
   
         String error = "";
         if ((aFirstName == null || aFirstName.trim().length() == 0)&& error.length()==0) {
-            error = error + "First Name  cannot be empty! ";
+            throw new  Exception("First Name  cannot be empty!");
         }
         if ((aLastName == null || aLastName.trim().length() == 0)&& error.length()==0) {
-            error = error + "Last Name  cannot be empty! ";
+            throw new  Exception("Last Name  cannot be empty!");
         }
         if (creater == null) {
-            error = error + "User Requesting the change cannot be empty! ";
+            throw new  Exception("User Requesting the change cannot be empty!");
         }
         if ((aAddress == null|| aAddress.trim().length() == 0)&& error.length()==0) {
-            error = error + "Address cannot be empty! ";
+            throw new  Exception("Address cannot be empty!");
         }
         if ((aPassword == null|| aPassword.trim().length() == 0) && aOnlineAccount == true && error.length()==0) {
-            error = error + "Password cannot be empty! ";
+            throw new  Exception("Password cannot be empty!");
         }
         if ((aEmail == null|| aEmail.trim().length() == 0) && aOnlineAccount == true && error.length()==0) {
-            error = error + "Email cannot be empty! ";
+            throw new  Exception("Email cannot be empty!");
         }
 
 
