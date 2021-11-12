@@ -1,0 +1,475 @@
+{
+	"info": {
+		"_postman_id": "3375991a-f21a-489f-a064-01b4aaa76f5a",
+		"name": "BorrowableItem",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/account/{firstName}/{lastName}/borrowed-items",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/account/:firstName/:lastName/borrowed-items",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"account",
+						":firstName",
+						":lastName",
+						"borrowed-items"
+					],
+					"variable": [
+						{
+							"key": "firstName",
+							"value": "Annie"
+						},
+						{
+							"key": "lastName",
+							"value": "May"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/account/{firstName}/{lastName}/reserved-items",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/account/:firstName/:lastName/reserved-items",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"account",
+						":firstName",
+						":lastName",
+						"reserved-items"
+					],
+					"variable": [
+						{
+							"key": "firstName",
+							"value": "Annie"
+						},
+						{
+							"key": "lastName",
+							"value": "May"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/account/{firstName}/{lastName}/waitlists",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/account/:firstName/:lastName/waitlists",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"account",
+						":firstName",
+						":lastName",
+						"waitlists"
+					],
+					"variable": [
+						{
+							"key": "firstName",
+							"value": "Annie"
+						},
+						{
+							"key": "lastName",
+							"value": "May"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/items/isbn",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/items/isbn/?isbn=8",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"items",
+						"isbn",
+						""
+					],
+					"query": [
+						{
+							"key": "isbn",
+							"value": "8"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/items/isbn",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/items/isbn/?isbn=8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"items",
+								"isbn",
+								""
+							],
+							"query": [
+								{
+									"key": "isbn",
+									"value": "8"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 12 Nov 2021 09:03:33 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"libraryItem\": {\n            \"name\": \"Titanic\",\n            \"isViewable\": true,\n            \"date\": \"2001-05-08\",\n            \"creator\": \"James Cameron\",\n            \"isbn\": 8,\n            \"type\": \"Movie\"\n        },\n        \"barCodeNumber\": 4,\n        \"itemState\": \"Available\"\n    },\n    {\n        \"libraryItem\": {\n            \"name\": \"Titanic\",\n            \"isViewable\": true,\n            \"date\": \"2001-05-08\",\n            \"creator\": \"James Cameron\",\n            \"isbn\": 8,\n            \"type\": \"Movie\"\n        },\n        \"barCodeNumber\": 9,\n        \"itemState\": \"Available\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/item/barCodeNumber",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/item/barCodeNumber/?barCodeNumber=9",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"item",
+						"barCodeNumber",
+						""
+					],
+					"query": [
+						{
+							"key": "barCodeNumber",
+							"value": "9"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/item/barCodeNumber",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/item/barCodeNumber/?barCodeNumber=9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"item",
+								"barCodeNumber",
+								""
+							],
+							"query": [
+								{
+									"key": "barCodeNumber",
+									"value": "9"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 12 Nov 2021 09:03:18 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"libraryItem\": {\n        \"name\": \"Titanic\",\n        \"isViewable\": true,\n        \"date\": \"2001-05-08\",\n        \"creator\": \"James Cameron\",\n        \"isbn\": 8,\n        \"type\": \"Movie\"\n    },\n    \"barCodeNumber\": 9,\n    \"itemState\": \"Available\"\n}"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/createBorrowableItem/",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createBorrowableItem/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createBorrowableItem",
+						""
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/createBorrowableItem/",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/createBorrowableItem/?creator=James Cameron&itemState=Available&title=Titanic",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"createBorrowableItem",
+								""
+							],
+							"query": [
+								{
+									"key": "creator",
+									"value": "James Cameron"
+								},
+								{
+									"key": "itemState",
+									"value": "Available"
+								},
+								{
+									"key": "title",
+									"value": "Titanic"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 12 Nov 2021 08:57:53 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"libraryItem\": {\n        \"name\": \"Titanic\",\n        \"isViewable\": true,\n        \"date\": \"2001-05-08\",\n        \"creator\": \"James Cameron\",\n        \"isbn\": 8,\n        \"type\": \"Movie\"\n    },\n    \"barCodeNumber\": 4,\n    \"itemState\": \"Available\"\n}"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/deleteBorrowableItem/",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/deleteBorrowableItem/?barCodeNumber=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"deleteBorrowableItem",
+						""
+					],
+					"query": [
+						{
+							"key": "barCodeNumber",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/deleteBorrowableItem/",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/deleteBorrowableItem/?barCodeNumber=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"deleteBorrowableItem",
+								""
+							],
+							"query": [
+								{
+									"key": "barCodeNumber",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 12 Nov 2021 08:55:13 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "true"
+				}
+			]
+		}
+	]
+}

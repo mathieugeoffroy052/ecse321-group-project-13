@@ -48,3 +48,19 @@ jobs:
         heroku_api_key: c7d5df75-cbf0-4635-96c3-bba9306175e5
         heroku_app_name: "libraryservice-backend-g13"
         heroku_email: "gabrielle.halpin@mail.mcgill.ca"
+integrationTests:
+
+needs:build
+runs-on: macos-latest
+steps:
+-uses: actions/checkout@v2
+-name: Run Postman tests woith Newman
+  id: run-newman
+  uses: anthonyvscode/newman-action@v1.1
+  with:
+  collection: LibraryService-Backend/src/test/integration/BorrowableItem.postman_collection.json
+  reporters: cli
+
+
+  -name: Output summary to console
+  run: echo ${{ steps.run-newman.outputs.summary }}

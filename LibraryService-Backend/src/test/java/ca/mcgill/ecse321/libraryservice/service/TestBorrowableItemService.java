@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -86,6 +87,18 @@ public class TestBorrowableItemService {
 	private static final ItemState AVAILABLE_STATE = ItemState.Available;
 
 	private static final ItemState BOOK_STATE = AVAILABLE_STATE;
+	
+	/* Patron attributes */
+	private static final int PATRON_ID = 12345;
+	private static final String PATRON_FIRST_NAME = "John";
+	private static final String PATRON_LAST_NAME = "Smith";
+	private static final String PATRON_EMAIL = "johnsmith@email.com";
+	private static final int PATRON_BALANCE = 0;
+	private static final UserAccount PATRON_CREATOR = new Librarian();
+	private static final boolean PATRON_ONLINE_ACCOUNT = true;
+	private static final String PATRON_ADDRESS = "123 Smith Street";
+	private static final boolean PATRON_VALIDATED_ACCOUNT = false;
+	private static final String PATRON_PASSWORD = "patron123";
 	
 	
 
@@ -379,4 +392,128 @@ public class TestBorrowableItemService {
 		assertFalse(borrowableDelete);
 			
 	}
+	/**
+	 * This test gets a reserved items from a user from the system given their account,
+	 *  This returns no error.
+	 *  
+	 * @author Zoya Malhi
+	 * @throws Exception
+	 */
+//	@Test
+//	public void testGetReservedItemsSuccess() throws Exception {
+//		
+//		String error = null;
+//		List<BorrowableItem> borrowableItem = null;
+//		Patron patron = new Patron();
+//		patron.setPatronID(PATRON_ID);
+//        patron.setFirstName(PATRON_FIRST_NAME);
+//        patron.setLastName(PATRON_LAST_NAME); 
+//        patron.setEmail(PATRON_EMAIL);
+//        patron.setPassword(PATRON_PASSWORD);
+//        patron.setBalance(PATRON_BALANCE);
+//        patron.setOnlineAccount(PATRON_ONLINE_ACCOUNT);
+//        patron.setAddress(PATRON_ADDRESS);
+//        patron.setValidatedAccount(PATRON_VALIDATED_ACCOUNT);
+//        borrowableItem.add(Book);
+//		List<Patron> patrons = new ArrayList<Patron>();
+//		patrons.add(patron);
+//		
+//		try {
+//			borrowableItem = service.getReservedItemsFromUser(patrons.get(0));
+//			
+//		}
+//		catch (IllegalArgumentException e) {
+//			error = e.getMessage();
+//			
+//		}
+//			assertNull(borrowableItem);
+//			
+//			//verify error
+//			assertEquals(borrowableItem.);
+//		
+//	}
+	/**
+	 * This test gets a reserved items from a user from the system given their account,
+	 *  This returns an error when the account parameter is null.
+	 *  
+	 * @author Zoya Malhi
+	 * @throws Exception
+	 */
+	@Test
+	public void testGetReservedItemsFromUserNullAccount() throws Exception {
+		
+		String error = null;
+		List<BorrowableItem> borrowableItem = null;
+		
+		try {
+			borrowableItem = service.getReservedItemsFromUser(null);
+			
+		}
+		catch (IllegalArgumentException e) {
+			error = e.getMessage();
+			
+		}
+			assertNull(borrowableItem);
+			
+			//verify error
+			assertEquals("Account cannot be null!", error);
+		
+	}
+	
+	/**
+	 * This test gets a borrowed items from a user from the system given their account,
+	 *  This returns an error when the account parameter is null.
+	 *  
+	 * @author Zoya Malhi
+	 * @throws Exception
+	 */
+	@Test
+	public void testGetBorrowedItemsFromUserNullAccount() throws Exception {
+		
+		String error = null;
+		List<BorrowableItem> borrowableItem = null;
+		
+		try {
+			borrowableItem = service.getBorrowedItemsFromUser(null);
+			
+		}
+		catch (IllegalArgumentException e) {
+			error = e.getMessage();
+			
+		}
+			assertNull(borrowableItem);
+			
+			//verify error
+			assertEquals("Account cannot be null!", error);
+		
+	}
+	/**
+	 * This test gets a borrowed items from a user from the system given their account,
+	 *  This returns an error when the account parameter is null.
+	 *  
+	 * @author Zoya Malhi
+	 * @throws Exception
+	 */
+	@Test
+	public void testGeItemWaitlistsFromUserNullAccount() throws Exception {
+		
+		String error = null;
+		List<BorrowableItem> borrowableItem = null;
+		
+		try {
+			borrowableItem = service.getItemWaitlistsFromUser(null);
+			
+		}
+		catch (IllegalArgumentException e) {
+			error = e.getMessage();
+			
+		}
+			assertNull(borrowableItem);
+			
+			//verify error
+			assertEquals("Account cannot be null!", error);
+		
+	}
+	
+	
 }
