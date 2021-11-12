@@ -112,24 +112,6 @@ public void setMockOutput() {
     	
 	});
     
-    lenient().when(headLibrarianDAO.findHeadLibrarianByUserID(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
-    	if(invocation.getArgument(0).equals(HEAD_ID)) {
-    	HeadLibrarian headlibrarian = new HeadLibrarian();
-            headlibrarian.setLibrarianID(HEAD_ID);
-            headlibrarian.setFirstName("head");
-            headlibrarian.setLastName("lib"); 
-            headlibrarian.setEmail("headlib@email.com");
-            headlibrarian.setPassword("library123");
-            headlibrarian.setBalance(0);
-            headlibrarian.setOnlineAccount(true);
-            headlibrarian.setAddress("100 Library Street");
-        
-		
-		return headlibrarian;
-    	}else {
-            return null;
-        }
-	});
  // Whenever anything is saved, just return the parameter object
  		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
  			return invocation.getArgument(0);
