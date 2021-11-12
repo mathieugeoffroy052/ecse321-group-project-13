@@ -11,7 +11,7 @@ on:
 jobs:
   build:
 
-    runs-on: macos-latest
+    runs-on: ubuntu-18.0.4
 
     steps:
     - uses: actions/checkout@v2
@@ -45,7 +45,7 @@ jobs:
   integrationTests:
 
     needs: build
-    runs-on: macos-latest
+    runs-on: ubuntu-18.0.4
     steps:
     - uses: actions/checkout@v2
     - name: Run Postman tests woith Newman
