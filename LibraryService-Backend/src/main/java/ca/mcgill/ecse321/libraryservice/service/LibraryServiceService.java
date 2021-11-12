@@ -1948,18 +1948,19 @@ public class LibraryServiceService {
        for (Patron p: patron){
     	   if (p == null) {
         	  error +=  "Could not get patron from full name!";
-           }
-           if(p.getFirstName().equals(firstName) && p.getLastName().equals(lastName)) {
+            error = error.trim();
+  	     if (error.length() > 0) {
+  	    	 throw new IllegalArgumentException(error);
+  	     }
+  	     }
+    	   else if(p.getFirstName().equals(firstName) && p.getLastName().equals(lastName)) {
         	  
            return p;
            }
        
            
        }
-         error = error.trim();
-  	     if (error.length() > 0) {
-  	    	 throw new IllegalArgumentException(error);
-  	     }
+        
       
       
 	return null;
@@ -2213,7 +2214,7 @@ public class LibraryServiceService {
             throw new IllegalArgumentException("The patron cannot be null");
         }
         else {
-        	if 
+        	
         	patron.setValidatedAccount(validated);
         }
             return patron;
@@ -2263,12 +2264,23 @@ public class LibraryServiceService {
      * checked
      */
    public List<Librarian> getAllLibrarians() throws Exception{
-       try {
-       return toList(librarianRepository.findAll());
+	   String error = "";
+	   List<Librarian> list = new ArrayList();
+	   list = toList(librarianRepository.findAll());
+	   if (list == null) {
+   		error += "There are no librarians in the database.";
+	   	}
+   	else {
+   		throw new Exception("There are no librarians is the database.");
+   	}
        
-       } catch (Exception e) {
-        throw new Exception("There are no librarians is the database.");
-       }
+       
+       error = error.trim();
+	     if (error.length() > 0) {
+	    	 throw new IllegalArgumentException(error);
+	     }
+		return list;
+    
       
     }
 

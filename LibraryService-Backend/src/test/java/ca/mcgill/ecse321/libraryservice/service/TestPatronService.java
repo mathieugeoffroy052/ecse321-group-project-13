@@ -596,8 +596,8 @@ public void testGetPatronFromFullNameSuccessful() throws Exception {
  */
 //@Test
 //public void testGetPatronFromFullNameError() throws Exception {
-//	String error = ""
-//;	Patron patron = null;
+//	String error = "";
+//	Patron patron = null;
 //	try {
 //		patron = service.getPatronFromFullName("Mary", "Adams");
 //		
@@ -605,7 +605,7 @@ public void testGetPatronFromFullNameSuccessful() throws Exception {
 //	catch (IllegalArgumentException e) {
 //		error = e.getMessage();
 //	}
-//	assertNull(patron);
+//		assertNull(patron);
 //		//verify error
 //		assertEquals("Could not get patron from full name!", error);
 //}
@@ -860,19 +860,19 @@ String error = "";
 	assertEquals(PATRON_LAST_NAME, patron.getLastName());
 }
 
-///**
-// * This test gets all patrons from the database by calling the getAllPatrons() method. 
-// * Error is returned.
-// * 
-// * @author Zoya Malhi
-// * @throws Exception
-// */
+/**
+ * This test gets all patrons from the database by calling the getAllPatrons() method. 
+ * Error is returned.
+ * 
+ * @author Zoya Malhi
+ * @throws Exception
+ */
 //@Test
 //public void testGetAllPatronsError() throws Exception {
 //List<Patron> patrons = null;
 //String error = "";
 //	Patron patron = null;
-//	service.deleteAPatronbyUserID(PATRON_CREATOR, PATRON_ID);
+//	
 //	try {
 //		patrons = service.getAllPatrons();
 //		patron = patrons.get(0);
@@ -881,7 +881,7 @@ String error = "";
 //		error = e.getMessage();
 //		
 //	}
-////	assertNull(patron);
+//	assertNull(patron);
 //	assertEquals("There are no patrons in the database.", error);
 //}
 
