@@ -511,6 +511,31 @@ public void testDeletePatronByUserIDSuccessful() throws Exception{
         userAccountDAO.deleteAll();
         headLibrarianDAO.deleteAll();
 	}
+/**
+ * This tests deletes a patron by calling the deleteAPatronbyUserID 
+ * method which queries the database for the patron specified and deletes it from the system. Error is rasied since the patron does not exist.
+ * 
+ * @author Zoya Malhi
+ * @throws Exception
+ */
+@Test 
+public void testDeletePatronByUserIDFail() throws Exception{
+     	boolean success = false;
+		Patron patron = null;
+		String error = "";
+		try {
+			success = service.deleteAPatronbyUserID(PATRON_CREATOR, 123);
+		
+		}
+		catch (IllegalArgumentException e) {
+			error = e.getMessage();
+			
+		}
+			//verify error
+			assertNull(patron);
+			assertEquals("This user Id does not exist as a Patron", error);
+			
+	}
 
 /**
  * This test attempts to delete a patron specified by
