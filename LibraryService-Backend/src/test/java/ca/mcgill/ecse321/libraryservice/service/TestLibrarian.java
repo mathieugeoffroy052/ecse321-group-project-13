@@ -495,7 +495,7 @@ public void createLibrarianwithNullEmail() {
    HeadLibrarian headLibrarian= headLibrarianDAO.findHeadLibrarianByUserID(HEADLIBRARIAN_ID);
    Librarian librariantest=null;
     try {
-       librariantest=service.createANewLibrarian(headLibrarian, USER_FIRST_NAME, USER_LAST_NAME, USER_VALIDATED_ACCOUNT, USER_ADDRESS, USER_PASSWORD,  USERBALANCE, error );
+       librariantest=service.createANewLibrarian(headLibrarian, USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_PASSWORD,  USERBALANCE, error );
     } catch (Exception e) {
         error=e.getMessage();
     }
@@ -532,11 +532,11 @@ public void createLibrarianwithoutBeingHeadLibrarian() {
      }
  
  
-     assertNull(librariantest);
-      assertEquals(error, "This User  does not the credentials to add a new librarian");
-       headLibrarianDAO.deleteAll();
-       librarianDAO.deleteAll();
-       userAccountDAO.deleteAll(); 
+    assertNull(librariantest);
+    assertEquals(error, "This User  does not the credentials to add a new librarian");
+    headLibrarianDAO.deleteAll();
+    librarianDAO.deleteAll();
+    userAccountDAO.deleteAll(); 
 }
 
 @Test
