@@ -1,5 +1,5 @@
 package ca.mcgill.ecse321.libraryservice.dto;
-import java.util.*;
+import java.sql.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class LibraryItemDTO {

@@ -979,6 +979,64 @@ public class LibraryServiceRestController {
         return convertToDto(movie);
     }
 
+    /**
+     * create new library item
+     * 
+     * @param LibraryItemDTO
+     * @return LibraryItemDTO
+     * @throws Exception
+     * @author Ramin Akhavan-Sarraf
+     */
+    @PostMapping(value = { "/createLibraryItem", "/createLibraryItem/" })
+    public LibraryItemDTO createLibraryItem(@RequestBody LibraryItemDTO libraryItemDTO) throws Exception {
+    	LibraryItem item = convertToDomainObject(libraryItemDTO);
+    	LibraryItem libraryItem = service.createLibraryItem(item.getName(), item.getType(), item.getDate(), item.getCreator(), item.getIsViewable());
+    	return convertToDto(libraryItem);
+    }
+ 
+    /**
+     * create new borrowable item
+     * 
+     * @param BorrowableItemDTO
+     * @return BorrowableItemDTO
+     * @throws Exception
+     * @author Ramin Akhavan-Sarraf
+     */
+    @PostMapping(value = { "/createBorrowableItem", "/createBorrowableItem/" })
+    public BorrowableItemDTO createBorrowableItem(@RequestBody BorrowableItemDTO borrowableItemDTO) throws Exception {
+    	BorrowableItem.ItemState borrowableItemState = BorrowableItem.ItemState.valueOf(borrowableItemDTO.getItemState().toString());
+    	BorrowableItem borrowableItem = service.createBorrowableItem(borrowableItemState, convertToDomainObject(borrowableItemDTO.getLibraryItem()));
+    	return convertToDto(borrowableItem);
+    }
+ 
+    /**
+     * delete library item
+     * 
+     * @param LibraryItemDTO
+     * @return LibraryItemDTO
+     * @throws Exception
+     * @author Ramin Akhavan-Sarraf
+     */
+    @PostMapping(value = { "/deleteLibraryItem", "/deleteLibraryItem/" })
+    public boolean deleteLibraryItem(@RequestParam int isbn) throws Exception {
+    	boolean delete = service.deleteLibraryItem(isbn);
+    	return delete;
+    }
+ 
+    /**
+     * delete borrowable item
+     * 
+     * @param LibraryItemDTO
+     * @return LibraryItemDTO
+     * @throws Exception
+     * @author Ramin Akhavan-Sarraf
+     */
+    @PostMapping(value = { "/deleteBorrowableItem", "/deleteBorrowableItem/" })
+    public boolean createLibraryItem(@RequestParam int barCodeNumber) throws Exception {
+    	boolean delete = service.deleteBorrowableItem(barCodeNumber);
+    	return delete;
+    }
+
     ////////// Helper methods - convertToDTO////////
 
     /**
