@@ -1836,10 +1836,9 @@ public class LibraryServiceService {
      */
     @Transactional
 	public BorrowableItem createBorrowableItem(String item, LibraryItem libraryItem) throws Exception{
-        ItemState itemState = ItemState.valueOf(item);
         
         String error = "";
-        if (itemState == null && error.length() == 0) {
+        if (item == null && error.length() == 0) {
             error = error + "Item state cannot be empty!";
         }
         if (libraryItem == null && error.length() == 0) {
@@ -1850,6 +1849,7 @@ public class LibraryServiceService {
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
         }
+        ItemState itemState = ItemState.valueOf(item);
 		BorrowableItem borrowableItem = new BorrowableItem(itemState, libraryItem);
         borrowableItemRepository.save(borrowableItem);
         return borrowableItem;
