@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
 
 import java.sql.Date;
@@ -543,20 +544,28 @@ public void createLibrarianthatAlreadyexists() {
 
     Librarian librarian=null;
     HeadLibrarian headLibrarian= headLibrarianDAO.findHeadLibrarianByUserID(HEADLIBRARIAN_ID);
-   
+    lenient().when(userAccountDAO.findByFirstNameAndLastName(anyString(), anyString())).thenAnswer( (InvocationOnMock invocation) -> {
+        if(invocation.getArgument(0).equals(LIBRARIAN_FIRST_NAME)&&invocation.getArgument(1).equals(LIBRARIAN_LAST_NAME)) {
+            Librarian librarian1 = 
+            new Librarian(LIBRARIAN_FIRST_NAME , LIBRARIAN_LAST_NAME, LIBRARIAN_ONLINE_ACCOUNT, LIBRARIAN_ADDRESS, LIBRARIAN_PASSWORD, LIBRARIAN_BALANCE, LIBRARIAN_EMAIL);
+
+            return librarian1 ;
+        } else {
+            return null;
+        }
+    });
     String error="";
     try {
         librarian=service.createANewLibrarian(headLibrarian, LIBRARIAN_FIRST_NAME, LIBRARIAN_LAST_NAME, LIBRARIAN_VALIDATED_ACCOUNT, LIBRARIAN_ADDRESS, LIBRARIAN_PASSWORD, LIBRARIAN_BALANCE, LIBRARIAN_EMAIL);
     } catch (Exception e) {
         error=e.getMessage();
     }
- 
- 
-      assertNull(librarian);
-      assertEquals(error, "This User already has a librarian account");
-       headLibrarianDAO.deleteAll();
-       librarianDAO.deleteAll();
-       userAccountDAO.deleteAll(); 
+
+    assertNull(librarian);
+    assertEquals(error, "This User already has a librarian account");
+    headLibrarianDAO.deleteAll();
+    librarianDAO.deleteAll();
+    userAccountDAO.deleteAll(); 
 
 
 
