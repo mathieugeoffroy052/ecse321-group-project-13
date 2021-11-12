@@ -996,6 +996,9 @@ public class LibraryServiceService {
     @Transactional
     public HeadLibrarian getHeadLibrarianFromUserId(int userID) throws Exception{
         HeadLibrarian headLibrarian=null;
+        if(userID<1){
+            throw new Exception("This User ID does not correspond to a Head Librarian");
+        }
        try {
         headLibrarian= headLibrarianRepository.findHeadLibrarianByUserID(userID);
        } catch (Exception e) {
@@ -1012,8 +1015,12 @@ public class LibraryServiceService {
      * */ 
     @Transactional
     private boolean checkOnlyOneHeadLibrarian(){
-      long counter=headLibrarianRepository.count();
-        if(counter!=1) return false;
+        Iterable<HeadLibrarian> counter=headLibrarianRepository.findAll();
+        ArrayList<HeadLibrarian> headLibrarians = new ArrayList<HeadLibrarian>();
+        for (HeadLibrarian headLibrarian : counter) {
+            headLibrarians.add(headLibrarian);
+        }
+        if(headLibrarians.size()!=1) return false;
         else return true;
 
     }
@@ -1100,9 +1107,13 @@ public class LibraryServiceService {
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
         }
-        
+        Iterable<HeadLibrarian> counter=headLibrarianRepository.findAll();
+        ArrayList<HeadLibrarian> headLibrarians = new ArrayList<HeadLibrarian>();
+        for (HeadLibrarian headLibrarian : counter) {
+            headLibrarians.add(headLibrarian);
+        }
         HeadLibrarian headLibrarian;
-        if(checkOnlyOneHeadLibrarian()) throw new  Exception("There is already a HeadLibrarian AccountExisting");
+        if(headLibrarians.size()>0) throw new  Exception("There is already a HeadLibrarian AccountExisting");
    
         headLibrarian = new HeadLibrarian(aFirstName, aLastName, aOnlineAccount, aAddress, aPassword, aBalance, aEmail);
         librarianRepository.save(headLibrarian);
@@ -1120,7 +1131,7 @@ public class LibraryServiceService {
     throws Exception {
        HeadLibrarian headLibrarian=getHeadLibrarian();
        HeadLibrarian thisone=getHeadLibrarianFromUserId(userID);
-       if(thisone.equals(headLibrarian)==false) throw new Exception("The UserID provided does not correspond to a  Head Librarian Account"); 
+       if(thisone.getUserID()==(headLibrarian.getUserID())==false) throw new Exception("The UserID provided does not correspond to a  Head Librarian Account"); 
       
        headLibrarianRepository.delete(headLibrarian);
     
