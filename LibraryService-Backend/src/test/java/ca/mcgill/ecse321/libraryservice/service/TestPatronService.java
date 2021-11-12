@@ -507,17 +507,6 @@ public void testDeletePatronByUserIDSuccessful() throws Exception{
 			
 		}
 		assertTrue(success);
-//		assertNotNull(patron);
-//		Patron patron2 = service.getPatronByUserId(PATRON_ID);
-//		assertEquals(patron2.getFirstName(), patron.getFirstName());
-//		assertEquals(patron2.getLastName(), patron.getLastName());
-//		assertEquals(patron2.getAddress(), patron.getAddress());
-//		assertEquals(patron2.getOnlineAccount(), patron.getOnlineAccount());
-//		assertEquals(patron2.getValidatedAccount(), patron.getValidatedAccount());
-//		assertEquals(patron2.getEmail(), patron.getEmail());
-//		assertEquals(patron2.getPassword(), patron.getPassword());
-//		assertEquals(patron2.getBalance(), patron.getBalance());
-//		
 		patronDAO.deleteAll();
         userAccountDAO.deleteAll();
         headLibrarianDAO.deleteAll();
@@ -576,6 +565,27 @@ public void testGetPatronFromFullNameSuccessful() throws Exception {
 		patronDAO.deleteAll();
         userAccountDAO.deleteAll();
 }
+/**
+ * This test gets a patron from the system given their first and last name. Error is returned.
+ *  
+ * @author Zoya Malhi
+ * @throws Exception
+ */
+//@Test
+//public void testGetPatronFromFullNameError() throws Exception {
+//	String error = ""
+//;	Patron patron = null;
+//	try {
+//		patron = service.getPatronFromFullName("Mary", "Adams");
+//		
+//	}
+//	catch (IllegalArgumentException e) {
+//		error = e.getMessage();
+//	}
+//	assertNull(patron);
+//		//verify error
+//		assertEquals("Could not get patron from full name!", error);
+//}
 
 /**
  * This test gets a patron from the system given their first and last name,
