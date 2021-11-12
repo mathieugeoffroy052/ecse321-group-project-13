@@ -867,23 +867,22 @@ String error = "";
  * @author Zoya Malhi
  * @throws Exception
  */
-//@Test
-//public void testGetAllPatronsError() throws Exception {
-//List<Patron> patrons = null;
-//String error = "";
-//	Patron patron = null;
-//	
-//	try {
-//		patrons = service.getAllPatrons();
-//		patron = patrons.get(0);
-//	}
-//	catch (IllegalArgumentException e) {
-//		error = e.getMessage();
-//		
-//	}
-//	assertNull(patron);
-//	assertEquals("There are no patrons in the database.", error);
-//}
+@Test
+public void testGetAllPatronsError() throws Exception {
+List<Patron> patrons = null;
+String error = "";
+	Patron patron = null;
+	service.getAllPatrons().remove(0);
+	try {
+		patrons = service.getAllPatrons();
+	}
+	catch (IllegalArgumentException e) {
+		error = e.getMessage();
+		
+	}
+	assertTrue(patrons.isEmpty());
+	assertEquals("There are no patrons in the system.", error);
+}
 
 	
 }

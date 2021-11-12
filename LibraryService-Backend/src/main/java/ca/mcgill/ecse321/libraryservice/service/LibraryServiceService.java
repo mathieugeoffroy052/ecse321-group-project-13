@@ -2003,24 +2003,23 @@ public class LibraryServiceService {
     	 Iterable<Patron> allPatrons = patronRepository.findAll();
          List<Patron> patrons = new ArrayList<Patron>();
          String error = "";
-        	
+         for(Patron patron: patrons){
+             patrons.add(patron);
+         }
+         if(patrons.size()==0 || patrons == null){
+             error = "There are no patrons in the system";
+         }
         	
         	error = error.trim();
             if (error.length() > 0) {
                 throw new IllegalArgumentException(error);
             }
-         for(Patron i : allPatrons){
-        	 if (i == null) {
-        		error += "There are no patrons in the database.";
-        	}
-        	 else {
-                 patrons.add(i);
-             }
-         }
+			return patrons;
+         
+        	
+         
         
     	
-        	
-        return patrons;
        
     }
     
