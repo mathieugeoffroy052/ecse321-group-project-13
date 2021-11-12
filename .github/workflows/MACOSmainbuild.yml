@@ -36,5 +36,7 @@ jobs:
         heroku_app_name: "libraryservice-backend-g13"
         heroku_email: "gabrielle.halpin@mail.mcgill.ca"
         justlogin: true
+    - name: "set git remote"
+      run: heroku git:remote --app libraryservice-backend-g13 --remote backend-heroku
     - name: "Push to Heroku"
       run: git push backend-heroku master
