@@ -502,17 +502,17 @@ public void testDeletePatronByUserIDSuccessful() throws Exception{
 			
 		}
 		assertTrue(success);
-//		assertNotNull(patron);
-//		Patron patron2 = service.getPatronByUserId(PATRON_ID);
-//		assertEquals(patron2.getFirstName(), patron.getFirstName());
-//		assertEquals(patron2.getLastName(), patron.getLastName());
-//		assertEquals(patron2.getAddress(), patron.getAddress());
-//		assertEquals(patron2.getOnlineAccount(), patron.getOnlineAccount());
-//		assertEquals(patron2.getValidatedAccount(), patron.getValidatedAccount());
-//		assertEquals(patron2.getEmail(), patron.getEmail());
-//		assertEquals(patron2.getPassword(), patron.getPassword());
-//		assertEquals(patron2.getBalance(), patron.getBalance());
-//		
+		assertNotNull(patron);
+		Patron patron2 = service.getPatronByUserId(PATRON_ID);
+		assertEquals(patron2.getFirstName(), patron.getFirstName());
+		assertEquals(patron2.getLastName(), patron.getLastName());
+		assertEquals(patron2.getAddress(), patron.getAddress());
+		assertEquals(patron2.getOnlineAccount(), patron.getOnlineAccount());
+		assertEquals(patron2.getValidatedAccount(), patron.getValidatedAccount());
+		assertEquals(patron2.getEmail(), patron.getEmail());
+		assertEquals(patron2.getPassword(), patron.getPassword());
+		assertEquals(patron2.getBalance(), patron.getBalance());
+	
 		patronDAO.deleteAll();
         userAccountDAO.deleteAll();
         headLibrarianDAO.deleteAll();
