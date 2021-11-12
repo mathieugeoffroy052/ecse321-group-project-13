@@ -1524,31 +1524,42 @@ public class LibraryServiceRestController {
     }
 
  
-
-//  * @author Eloyann Roy Javanbakht
-//  * mapping GetHead Librarian from userId
-//  * @param userID
-//  * @return
-//  * @throws Exception
-//  */
+    /** 
+    * @author Eloyann Roy Javanbakht
+    * mapping GetHead Librarian from userId
+    * @param userID
+    * @return
+    * @throws Exception
+    */
     @GetMapping(value={"/headLibrarian/{userID}", "/headLibrarian/{userID}/"})
     public HeadLibrarianDTO getHeadLibrarianFromUserId(@PathVariable("userID") int userID) throws Exception  {
         HeadLibrarian headLibrarian=service.getHeadLibrarianFromUserId(userID);
         return convertToDto(headLibrarian);
     }
 
-    //get librarian fromID
-
+     /**
+      *  /**
+    * delete Librarian
+    * @author Eloyann Roy Javanbakht
+    *
+    * @param userID
+    * @return
+    * @throws Exception
+    */
     @GetMapping(value={"/librarians/{userID}", "/librarians/{userID}/"})
     public LibrarianDTO getLibrarianFromUserId(@PathVariable("userID") int userID) throws Exception  {
     Librarian librarian=service.getLibrarianFromUserId(userID);
     return convertToDto(librarian);
     }  
 
-    // /**
-    //  * delete Librarian
-    //  * 
-    //  */
+    /**
+     * delete Librarian
+     * @author Eloyann Roy Javanbakht
+     * @param userID
+     * @param userIDHeadLibrarian
+     * @return
+     * @throws Exception
+     */
     @DeleteMapping(value={"/librarians/deleteAccount/{userID}", "/librarians/deleteAccount/{userID}/"})
     public LibrarianDTO deleteALibrarian(@PathVariable("userID") int userID, 
     @RequestParam(name = "headlibrarianID") int userIDHeadLibrarian) throws Exception  {
@@ -1556,21 +1567,31 @@ public class LibraryServiceRestController {
 
     }  
 
-    // /**
-    //  * deleted a headLibrarian 
-    //  * @param userID
-    //  * @return
-    //  * @throws Exception
-    //  */
+    /**
+     * deleted a headLibrarian 
+     * @param userID
+     * @return
+     * @throws Exception
+     */
     @DeleteMapping(value={"/headLibrarians/delete/{userID}", "/headLibrarians/delete/{userID}/"})
     public HeadLibrarianDTO deleteALibrarian(@PathVariable("userID") int userID) throws Exception  {
     return convertToDto(service.deleteHeadLibrarian(userID));
 
     }  
 
-    //     /**
-    //      * create HeadLibrarian
-    //      */
+    /**
+     * create HeadLibrarian
+     * @author Eloyann Roy Javanbakht
+     * @param firstName
+     * @param aLastName
+     * @param aOnlineAccount
+     * @param aAddress
+     * @param aPassword
+     * @param aBalance
+     * @param aEmail
+     * @return
+     * @throws Exception
+     */
     @PostMapping(value={"/createHeadLibrarian", "/createHeadLibrarian/"})
     public HeadLibrarianDTO createHeadLibrarian(@RequestParam(name = "firstName") String firstName,
         @RequestParam(name = "lastName") String aLastName,
@@ -1588,6 +1609,16 @@ public class LibraryServiceRestController {
     /**
      * @author Eloyann
      * create Librarian
+     * @param firstName
+     * @param aLastName
+     * @param aOnlineAccount
+     * @param aAddress
+     * @param aPassword
+     * @param aBalance
+     * @param aEmail
+     * @param creator
+     * @return
+     * @throws Exception
      */
     @PostMapping(value = { "/createLibrarian/{firstName}/{lastName}",
             "/createLibrarian/{firstName}/{lastName}/" })
@@ -1599,9 +1630,14 @@ public class LibraryServiceRestController {
         return convertToDto(service.createANewLibrarian(convertToDomainObject(creator), firstName, aLastName, aOnlineAccount, aAddress, aPassword,
                 aBalance, aEmail));
     }
+    
     /**
      * @author Eloyann
      * create Librarian
+     * @param firstName
+     * @param lastName
+     * @return
+     * @throws Exception
      */
     @GetMapping(value = { "/librarianAccount/{firstName}/{lastName}", "/librarianAccount/{firstName}/{lastName}/" })
     public UserAccountDTO getLibrarianAccountByFullName(@PathVariable("firstName") String firstName,
