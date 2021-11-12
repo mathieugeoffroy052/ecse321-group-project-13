@@ -953,7 +953,7 @@ public class LibraryServiceRestController {
      */
     @GetMapping(value = { "/movies/director", "/movies/director/" })
     public List<LibraryItemDTO> getMoviesByDirector(@RequestParam("director") String directorName) throws Exception {
-        List<LibraryItem> items = service.getMoviesFromTitle(directorName);
+        List<LibraryItem> items = service.getMoviesFromDirector(directorName);
         List<LibraryItemDTO> itemDTOs = new ArrayList<LibraryItemDTO>();
         for (LibraryItem i : items) {
             itemDTOs.add(convertToDto(i));
@@ -990,7 +990,7 @@ public class LibraryServiceRestController {
      */
     @GetMapping(value = { "/newspapers/title", "/newspapers/title/" })
     public List<LibraryItemDTO> getNewspapersByTitle(@RequestParam("title") String newspaperTitle) throws Exception {
-        List<LibraryItem> items = service.getMoviesFromTitle(newspaperTitle);
+        List<LibraryItem> items = service.getNewspaperFromTitle(newspaperTitle);
         List<LibraryItemDTO> itemDTOs = new ArrayList<LibraryItemDTO>();
         for (LibraryItem i : items) {
             itemDTOs.add(convertToDto(i));
@@ -1030,7 +1030,7 @@ public class LibraryServiceRestController {
             "/newspapers/title/writer/" })
     public LibraryItemDTO getNewspapersByWriterAndTitle(@RequestParam("writer") String writerName,
             @RequestParam("title") String newspaperTitle) throws Exception {
-        LibraryItem newspaper = service.getMovieFromDirectorAndTitle(writerName, newspaperTitle);
+        LibraryItem newspaper = service.getNewspaperFromWriterAndTitle(writerName, newspaperTitle);
         return convertToDto(newspaper);
     }
 
