@@ -513,6 +513,7 @@ public void testDeletePatronByUserIDSuccessful() throws Exception{
 			
 		}
 		assertTrue(success);
+
 	}
 /**
  * This tests deletes a patron by calling the deleteAPatronbyUserID 
@@ -538,6 +539,9 @@ public void testDeletePatronByUserIDFail() throws Exception{
 			assertNull(patron);
 			assertEquals("This user Id does not exist as a Patron", error);
 			
+		patronDAO.deleteAll();
+        userAccountDAO.deleteAll();
+        headLibrarianDAO.deleteAll();
 	}
 
 /**
