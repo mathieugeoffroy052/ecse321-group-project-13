@@ -2,33 +2,33 @@ package ca.mcgill.ecse321.libraryservice.dto;
 
 import java.sql.Time;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 
 public class OpeningHourDTO {
-	@JsonFormat(shape = JsonFormat.Shape.OBJECT)
-	public enum DayOfWeek { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday }
 
 	private HeadLibrarianDTO headLibrarian;
 	@JsonFormat(pattern = "HH:mm:ss")
 	private Time startTime;
 	@JsonFormat(pattern = "HH:mm:ss")
 	private Time endTime;
-	@JsonFormat(shape = JsonFormat.Shape.OBJECT)
-	private DayOfWeek dayOfWeek;
+	private String dayOfWeek;
 	private int openingHourID;
 
 	public OpeningHourDTO() {
 	}
 
-	public OpeningHourDTO(DayOfWeek aDayOfWeek, Time aStartTime, Time aEndTime, HeadLibrarianDTO aHeadLibrarian) {
+	public OpeningHourDTO(String aDayOfWeek, Time aStartTime, Time aEndTime, HeadLibrarianDTO aHeadLibrarian) {
 		headLibrarian = aHeadLibrarian;
 		startTime = aStartTime;
 		endTime = aEndTime;
 		dayOfWeek = aDayOfWeek;
 	}
 	
-	public OpeningHourDTO(DayOfWeek aDayOfWeek, Time aStartTime, Time aEndTime, HeadLibrarianDTO aHeadLibrarian, int anOpeningHourID) {
+	public OpeningHourDTO(String aDayOfWeek, Time aStartTime, Time aEndTime, HeadLibrarianDTO aHeadLibrarian, int anOpeningHourID) {
 		headLibrarian = aHeadLibrarian;
 		startTime = aStartTime;
 		endTime = aEndTime;
@@ -48,7 +48,7 @@ public class OpeningHourDTO {
 		return endTime;
 	}
 
-	public DayOfWeek getDayOfWeek() {
+	public String getDayOfWeek() {
 		return dayOfWeek;
 	}
 	
