@@ -1749,6 +1749,75 @@ public class LibraryServiceService {
 		return patron;
 	}
 
+    /**
+     * This method creates a new borrowable item in the system
+     * @param item state
+     * @param library item
+     * @return the new borrowable item
+     * @author Ramin Akhavan-Sarraf
+     */
+    @Transactional
+	public BorrowableItem createBorrowableItem(ItemState itemState, LibraryItem libraryItem) throws Exception{
+		BorrowableItem item = new BorrowableItem(itemState, libraryItem);
+        borrowableItemRepository.save(item);
+        return item;
+	}
+
+    /**
+     * This method creates a new library item in the system
+     * @param name
+     * @param itemType
+     * @param date
+     * @param creator
+     * @param isViewable
+     * @return the new library item
+     * @author Ramin Akhavan-Sarraf
+     */
+    @Transactional
+	public LibraryItem createLibraryItem(String name, ItemType itemType, Date date, String creator, boolean isViewable) throws Exception{
+		LibraryItem item = new LibraryItem(name, itemType, date, creator, isViewable);
+        libraryItemRepository.save(item);
+        return item;
+	}
+
+    /**
+     * This method deletes an existing borrowable item
+     * @param barCodeNumber
+     * @return boolean
+     * @throws Exception
+     */
+    @Transactional
+    public boolean deleteBorrowableItem(int barCodeNumber) throws Exception {
+        try {
+            BorrowableItem borrowableItem = borrowableItemRepository.findBorrowableItemByBarCodeNumber(barCodeNumber);
+            borrowableItemRepository.delete(borrowableItem);
+            
+            return true;
+        } catch (Exception e) {
+            throw new  Exception("This bar code number does not exist as a Borrowable Item");
+        }
+ 
+    }
+
+    /**
+     * This method deletes an existing library item
+     * @param isbn
+     * @return boolean
+     * @throws Exception
+     */
+    @Transactional
+    public boolean deleteLibraryItem(int isbn) throws Exception {
+        try {
+            LibraryItem libraryItem = libraryItemRepository.findByIsbn(isbn);
+            libraryItemRepository.delete(libraryItem);
+            
+            return true;
+        } catch (Exception e) {
+            throw new  Exception("This isbn does not exist as a Library Item");
+        }
+ 
+    }
+
     /***
      * This method gets the patron object from the database
      * @author Gabrielle halpin
