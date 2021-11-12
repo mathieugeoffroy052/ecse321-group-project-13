@@ -651,7 +651,7 @@ public class LibraryServiceRestController {
      * @throws Exception
      * @author Amani Jammoul
      */
-    @GetMapping(value = { "/account/{firstName}/{lastName}", "/account/{firstName}/{lastName}/" })
+    @GetMapping(value = { "/account/firstName/lastName", "/account/firstName/lastName/" })
     public UserAccountDTO getUserAccountByFullName(@RequestParam("firstName") String firstName,
             @RequestParam("lastName") String lastName) throws Exception {
         UserAccount a = service.getUserAccountFromFullName(firstName, lastName);
@@ -756,7 +756,7 @@ public class LibraryServiceRestController {
      * @throws Exception
      * @author Amani Jammoul
      */
-    @GetMapping(value = { "/items/barCodeNumber", "/item/barCodeNumber/" })
+    @GetMapping(value = { "/item/barCodeNumber", "/item/barCodeNumber/" })
     public BorrowableItemDTO getItemByBarCode(@RequestParam("barCodeNumber") int barCodeNumber) throws Exception {
         return convertToDto(service.getBorrowableItemFromBarCodeNumber(barCodeNumber));
     }
@@ -1032,8 +1032,9 @@ public class LibraryServiceRestController {
             @RequestParam("title") String newspaperTitle) throws Exception {
         LibraryItem newspaper = service.getMovieFromDirectorAndTitle(writerName, newspaperTitle);
         return convertToDto(newspaper);
+    }
 
-     * create new library item
+     /** create new library item
      * 
      * @param LibraryItemDTO
      * @return LibraryItemDTO
