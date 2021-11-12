@@ -272,6 +272,17 @@ public void testGetLibrarianFromFullName () {
      */
 @Test
 public void testDeleteLibrarianWithoutBeingHeadLibrarian () {
+    lenient().when(headLibrarianDAO.findAll()).thenAnswer((InvocationOnMock invocation) -> {
+        List<HeadLibrarian> accounts = new ArrayList<HeadLibrarian>();
+        HeadLibrarian headLibrarian =
+             new HeadLibrarian(HEADLIBRARIAN_FIRST_NAME, HEADLIBRARIAN_LAST_NAME, HEADLIBRARIAN_VALIDATED_ACCOUNT, HEADLIBRARIAN_ADDRESS, HEADLIBRARIAN_PASSWORD, HEADLIBRARIAN_BALANCE, HEADLIBRARIAN_EMAIL);
+            headLibrarian.setUserID(HEADLIBRARIAN_USER_ID);
+            accounts.add(headLibrarian);
+            return accounts;
+    });
+    
+    
+    
     Librarian librarian=null;
     String error="";
     try {
@@ -280,7 +291,7 @@ public void testDeleteLibrarianWithoutBeingHeadLibrarian () {
         error=e.getMessage();
     }
     assertNull(librarian);
-    assertEquals(error, "This User does not the credentials to add a new librarian");
+    assertEquals(error, "This User  does not the credentials to add a new librarian");
       headLibrarianDAO.deleteAll();
       librarianDAO.deleteAll();
       userAccountDAO.deleteAll();
