@@ -2213,6 +2213,7 @@ public class LibraryServiceService {
             throw new IllegalArgumentException("The patron cannot be null");
         }
         else {
+        	if 
         	patron.setValidatedAccount(validated);
         }
             return patron;

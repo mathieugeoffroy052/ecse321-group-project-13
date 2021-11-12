@@ -13,6 +13,7 @@ import static org.mockito.Mockito.lenient;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -109,6 +110,11 @@ lenient().when(userAccountDAO.save(any(UserAccount.class))).thenAnswer(returnPar
 lenient().when(headLibrarianDAO.save(any(HeadLibrarian.class))).thenAnswer(returnParameterAsAnswer);
 }
 
+@AfterEach
+public void clearMockOutputs() {
+patronDAO.deleteAll();
+userAccountDAO.deleteAll();
+}
 /**
  * This tests verifies if a patron is created successfully in
  * the database.
@@ -507,9 +513,6 @@ public void testDeletePatronByUserIDSuccessful() throws Exception{
 			
 		}
 		assertTrue(success);
-		patronDAO.deleteAll();
-        userAccountDAO.deleteAll();
-        headLibrarianDAO.deleteAll();
 	}
 /**
  * This tests deletes a patron by calling the deleteAPatronbyUserID 
@@ -560,9 +563,6 @@ public void testDeletePatronByUserIDWrongCreator() throws Exception{
 	}
 
     headLibrarianDAO.deleteAll();
-	patronDAO.deleteAll(); 
-    userAccountDAO.deleteAll();
-	
 }
 
 /**
@@ -587,8 +587,6 @@ public void testGetPatronFromFullNameSuccessful() throws Exception {
 		assertEquals(PATRON_FIRST_NAME, patron.getFirstName());
 		assertEquals(PATRON_LAST_NAME, patron.getLastName());
 		
-		patronDAO.deleteAll();
-        userAccountDAO.deleteAll();
 }
 /**
  * This test gets a patron from the system given their first and last name. Error is returned.
@@ -637,9 +635,7 @@ public void testGetPatronFromFullNameNullFirstName() throws Exception {
 		
 		//verify error
 		assertEquals("First Name cannot be empty!", error);
-		patronDAO.deleteAll();
-        userAccountDAO.deleteAll();
-	
+		
 }
 
 /**
@@ -749,10 +745,8 @@ public void testSetValidatedAccountSuccessful() throws Exception {
 	}
 		//assertNull(patron);
 		assertEquals(PATRON_VALIDATED_ACCOUNT, patron.getValidatedAccount());
-		//verify error
+	
 
-		patronDAO.deleteAll();
-        userAccountDAO.deleteAll();
 	
 }
 
@@ -783,8 +777,6 @@ public void testSetValidatedAccountWrongCreator() throws Exception {
 		assertNull(patron);
 		assertEquals("Only a Librarian can change the validity of an account", error);
 
-		patronDAO.deleteAll();
-        userAccountDAO.deleteAll();
 }
 
 /**
@@ -813,8 +805,6 @@ public void testSetValidatedAccountNullCreator() throws Exception {
 		assertNull(patron);
 		assertEquals("The creator cannot be null", error);
 		
-		patronDAO.deleteAll();
-        userAccountDAO.deleteAll();
 }
 
 /**
@@ -842,8 +832,7 @@ public void testSetValidatedAccountNullPatron() throws Exception {
 		//verify error
 		assertNull(patron);
 		assertEquals("The patron cannot be null", error);
-		patronDAO.deleteAll();
-        userAccountDAO.deleteAll();
+	
 }
 
 /**
