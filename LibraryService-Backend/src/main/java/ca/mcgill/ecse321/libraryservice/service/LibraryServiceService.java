@@ -999,7 +999,7 @@ public class LibraryServiceService {
        try {
         headLibrarian= headLibrarianRepository.findHeadLibrarianByUserID(userID);
        } catch (Exception e) {
-        throw new Exception("This User ID does not correspond to a Head Librarian");
+        throw new Exception("This User ID does not correspond to a Librarian");
        }
        return headLibrarian;
     }
@@ -1062,7 +1062,7 @@ public class LibraryServiceService {
         }
 
 
-            UserAccount librarian = userAccountRepository.findByFirstNameAndLastName(firstName, lastName);
+         UserAccount librarian = userAccountRepository.findByFirstNameAndLastName(firstName, lastName);
         
         if(!(librarian instanceof HeadLibrarian)){
             throw new Exception("the name privided does not correcpond to a Head librarian");
@@ -1236,17 +1236,19 @@ public class LibraryServiceService {
         
       if(userIDHeadLibrarian!=getHeadLibrarian().getUserID())  
       throw new  Exception("This User  does not the credentials to add a new librarian");
-        
+      Librarian librarian=null;
 
       try {
-          Librarian librarian= getLibrarianFromUserId(userID);
-          if(librarian==null)throw new Exception ("This librarian does not exits");
-        librarianRepository.delete(librarian);
-        return librarian;
+           librarian= getLibrarianFromUserId(userID);
+    
+
       } catch (Exception e) {
 
         throw new  Exception("This librarian does not exits");
       }
+      if(librarian==null) throw new Exception ("This librarian does not exits");
+      librarianRepository.delete(librarian);
+      return librarian;
         
         
     }
@@ -1269,10 +1271,13 @@ public class LibraryServiceService {
 
 
                 UserAccount librarian = userAccountRepository.findByFirstNameAndLastName(firstName, lastName);
-            
+                if(librarian==null) {
+                    throw new Exception("the name privided does not correcpond to a librarian");
+                }
             if(!(librarian instanceof Librarian)){
                 throw new Exception("the name privided does not correcpond to a librarian");
             }
+
             return (Librarian) librarian;
 
         }
@@ -1289,7 +1294,7 @@ public class LibraryServiceService {
        
          librarian= librarianRepository.findLibrarianByUserID(userID);
         
-      if(librarian==null)   throw new Exception("This User ID does not correspond to a Head Librarian");
+      if(librarian==null)   throw new Exception("This User ID does not correspond to a Librarian");
        
        
         return librarian;
