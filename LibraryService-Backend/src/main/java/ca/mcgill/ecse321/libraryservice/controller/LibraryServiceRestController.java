@@ -91,8 +91,8 @@ public class LibraryServiceRestController {
      * @return openinghourDTo
      * @author Mathieu Geoffroy
      */
-    @GetMapping(value = { "/openinghour/{openinghourID}", "/openinghour/{openinghourID}/" })
-    public OpeningHourDTO getOpeningHourById(@PathVariable(name = "openinghourID") int id) {
+    @GetMapping(value = { "/openinghour", "/openinghour/" })
+    public OpeningHourDTO getOpeningHourById(@RequestParam(name = "openinghourID") int id) {
         return convertToDto(service.getOpeningHourFromID(id));
     }
 
@@ -103,8 +103,8 @@ public class LibraryServiceRestController {
      * @return openinghourDTo
      * @author Mathieu Geoffroy
      */
-    @GetMapping(value = { "/openinghour/{dayofweek}", "/openinghour/{dayofweek}/" })
-    public OpeningHourDTO getOpeningHourByDay(@PathVariable(name = "dayofweek") String day) throws Exception {
+    @GetMapping(value = { "/openinghour", "/openinghour/" })
+    public OpeningHourDTO getOpeningHourByDay(@RequestParam(name = "dayofweek") String day) throws Exception {
         return convertToDto(service.getOpeningHoursByDayOfWeek(day).get(0)); // should only be 1 opening hour per day
     }
 
