@@ -1938,27 +1938,23 @@ public class LibraryServiceService {
         if (lastName == null || lastName.trim().length() == 0) {
             error = error + "Last Name cannot be empty!";
         }
-        
-        
-       List<Patron> patron = getAllPatrons();
-      
-       for (Patron p: patron){
-    	   if (p == null) {
-        	  error +=  "Could not get patron from full name!";
-            
-  	     }
-    	   else if(p.getFirstName().equals(firstName) && p.getLastName().equals(lastName)) {
-        	  
-           return p;
-           }
-       error = error.trim();
-  	     if (error.length() > 0) {
-  	    	 throw new IllegalArgumentException(error);
-  	     }
-           
-       }
-        
-	return null;
+       
+
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
+
+        List<Patron> allPatrons = (List<Patron>) patronRepository.findAll();
+        Patron patron = null;
+        for(Patron p : allPatrons){
+            if(p.getFirstName().equals(firstName) && p.getLastName().equals(lastName)){
+                patron = p;
+            }
+        }
+        if(patron != null) return patron;
+        else throw new IllegalArgumentException("No patron found with this name! ");
+       
 
     }
     
@@ -2004,17 +2000,27 @@ public class LibraryServiceService {
     @Transactional
     public List<Patron> getAllPatrons() throws Exception{
         
-        	String error = "";
-        	List<Patron> list = new ArrayList();
-        	list = toList(patronRepository.findAll());
-        	if (list == null) {
-        		error += "There are no patrons in the database.";
-        	}
+    	 Iterable<Patron> allPatrons = patronRepository.findAll();
+         List<Patron> patrons = new ArrayList<Patron>();
+         String error = "";
+        	
+        	
         	error = error.trim();
             if (error.length() > 0) {
                 throw new IllegalArgumentException(error);
             }
-        return list;
+         for(Patron i : allPatrons){
+        	 if (i == null) {
+        		error += "There are no patrons in the database.";
+        	}
+        	 else {
+                 patrons.add(i);
+             }
+         }
+        
+    	
+        	
+        return patrons;
        
     }
     

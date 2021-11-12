@@ -605,9 +605,9 @@ public void testGetPatronFromFullNameError() throws Exception {
 	catch (IllegalArgumentException e) {
 		error = e.getMessage();
 	}
-		//assertNull(patron);
+		assertNull(patron);
 		//verify error
-		assertEquals( error, "Could not get patron from full name!");
+		assertEquals( "No patron found with this name! ", error);
 }
 
 /**
