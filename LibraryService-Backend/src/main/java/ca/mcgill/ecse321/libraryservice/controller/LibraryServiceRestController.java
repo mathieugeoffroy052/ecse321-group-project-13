@@ -1460,7 +1460,7 @@ public class LibraryServiceRestController {
     //     /**
     //      * create HeadLibrarian
     //      */
-    @PostMapping(value={"/createHeadLibrarian}", "/createHeadLibrarian/"})
+    @PostMapping(value={"/createHeadLibrarian", "/createHeadLibrarian/"})
     public HeadLibrarianDTO createHeadLibrarian(@RequestParam String firstName,
         @RequestParam  String aLastName,
         @RequestParam boolean aOnlineAccount,

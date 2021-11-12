@@ -1049,7 +1049,7 @@ public class LibraryServiceService {
      * @author Eloyann Roy-Javanbakht
      * *private will be made public
      * */
-     private HeadLibrarian getHadLibrarianFromFullName(String firstName, String lastName)throws Exception{
+     private HeadLibrarian getHeadLibrarianFromFullName(String firstName, String lastName)throws Exception{
         String error = "";
         if (firstName == null || firstName.trim().length() == 0) {
             error = error + "First Name  cannot be empty! ";
@@ -1066,7 +1066,7 @@ public class LibraryServiceService {
             UserAccount librarian = userAccountRepository.findByFirstNameAndLastName(firstName, lastName);
         
         if(!(librarian instanceof HeadLibrarian)){
-            throw new Exception("the name privided does not correcpond to a librarian");
+            throw new Exception("the name privided does not correcpond to a Head librarian");
         }
         return (HeadLibrarian) librarian;
 
