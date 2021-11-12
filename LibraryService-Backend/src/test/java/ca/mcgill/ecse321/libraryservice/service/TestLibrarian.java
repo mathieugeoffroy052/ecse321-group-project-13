@@ -350,13 +350,13 @@ public void testDeleteLibrarianDoesntExists () {
 public void testDeleteLibrarian() {
 
     Librarian librarian=null;
-    lenient().when(headLibrarianDAO.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
-        List<HeadLibrarian> headLibrarians = null;
+    lenient().when(headLibrarianDAO.findAll()).thenAnswer((InvocationOnMock invocation) -> {
+        List<HeadLibrarian> accounts = new ArrayList<HeadLibrarian>();
         HeadLibrarian headLibrarian =
-        new HeadLibrarian(HEADLIBRARIAN_FIRST_NAME, HEADLIBRARIAN_LAST_NAME, HEADLIBRARIAN_ONLINE_ACCOUNT, HEADLIBRARIAN_ADDRESS, HEADLIBRARIAN_PASSWORD, HEADLIBRARIAN_BALANCE, HEADLIBRARIAN_EMAIL);
-        headLibrarian.setUserID(HEADLIBRARIAN_USER_ID);
-        headLibrarians.add(headLibrarian);
-        return headLibrarians;
+             new HeadLibrarian(HEADLIBRARIAN_FIRST_NAME, HEADLIBRARIAN_LAST_NAME, HEADLIBRARIAN_VALIDATED_ACCOUNT, HEADLIBRARIAN_ADDRESS, HEADLIBRARIAN_PASSWORD, HEADLIBRARIAN_BALANCE, HEADLIBRARIAN_EMAIL);
+            headLibrarian.setUserID(HEADLIBRARIAN_USER_ID);
+            accounts.add(headLibrarian);
+            return accounts;
     });
     String error="";
     try {
