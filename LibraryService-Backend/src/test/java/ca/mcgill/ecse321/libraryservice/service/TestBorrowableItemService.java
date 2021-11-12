@@ -3,6 +3,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -80,6 +81,7 @@ public class TestBorrowableItemService {
 
 	/* Borrowable Item attributes*/
 	private static final int BOOK_BARCODENUMBER = 123456;
+	private static final int INVALID_BOOK_BARCODENUMBER = 11111;
 
 	private static final ItemState AVAILABLE_STATE = ItemState.Available;
 
@@ -257,5 +259,76 @@ public class TestBorrowableItemService {
 		LibraryItem book_lib_item = book.getLibraryItem();
 		checkBasicLibraryItemList(book_lib_item);
 		
+	}
+	
+	/**
+	 * This tests verifies if a borrowable item is made in the database
+	 * 
+	 * @author Ramin Akhavan-Sarraf
+	 * @throws Exception
+	 */
+	@Test
+	public void testCreateBorrowableItemSuccess() throws Exception {
+		
+		BorrowableItem borrowableItem = null;
+		LibraryItem libraryItem = null;
+		
+		try {
+			libraryItem = service.createLibraryItem(BOOK_NAME, BOOK_TYPE, BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
+			libraryItem.setIsbn(BOOK_ISBN);
+			borrowableItem = service.createBorrowableItem(BOOK_STATE, libraryItem);
+		}
+		catch (IllegalArgumentException e) {
+			fail();
+			
+		}
+		assertNotNull(borrowableItem);
+		assertEquals(borrowableItem.getState(), BOOK_STATE);
+		checkBasicLibraryItemList(borrowableItem.getLibraryItem());
+			
+	}
+
+	/**
+	 * This tests verifies that a borrowable item was deleted from the database
+	 * 
+	 * @author Ramin Akhavan-Sarraf
+	 * @throws Exception
+	 */
+	@Test
+	public void testDeleteBorrowableItemSuccess() throws Exception {
+		String error = "";
+		boolean borrowableDelete = false;
+		try {
+			borrowableDelete = service.deleteBorrowableItem(BOOK_BARCODENUMBER);
+		
+		}
+		catch (IllegalArgumentException e) {
+			fail();
+			
+		}
+		assertTrue(borrowableDelete);
+			
+	}
+
+	/**
+	 * This tests verifies that a borrowable item was not deleted from the database
+	 * 
+	 * @author Ramin Akhavan-Sarraf
+	 * @throws Exception
+	 */
+	@Test
+	public void testDeleteBorrowableItemFail() throws Exception {
+		String error = "";
+		boolean borrowableDelete = false;
+		try {
+			borrowableDelete = service.deleteBorrowableItem(INVALID_BOOK_BARCODENUMBER);
+		
+		}
+		catch (Exception e) {
+			error = e.getMessage();
+			
+		}
+		assertEquals(error, "This bar code number does not exist as a Borrowable Item");
+			
 	}
 }

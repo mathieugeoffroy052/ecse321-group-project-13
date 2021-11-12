@@ -1788,13 +1788,13 @@ public class LibraryServiceService {
      */
     @Transactional
     public boolean deleteBorrowableItem(int barCodeNumber) throws Exception {
-        try {
-            BorrowableItem borrowableItem = borrowableItemRepository.findBorrowableItemByBarCodeNumber(barCodeNumber);
-            borrowableItemRepository.delete(borrowableItem);
-            
-            return true;
-        } catch (Exception e) {
-            throw new  Exception("This bar code number does not exist as a Borrowable Item");
+        BorrowableItem borrowableItem = borrowableItemRepository.findBorrowableItemByBarCodeNumber(barCodeNumber);
+        if(borrowableItem == null) {
+        	throw new  Exception("This bar code number does not exist as a Borrowable Item");
+        }
+        else {
+        	borrowableItemRepository.delete(borrowableItem);
+        	return true;
         }
  
     }
@@ -1807,16 +1807,14 @@ public class LibraryServiceService {
      */
     @Transactional
     public boolean deleteLibraryItem(int isbn) throws Exception {
-        try {
-            LibraryItem libraryItem = libraryItemRepository.findByIsbn(isbn);
-            if(libraryItem == null) {
-            	return false;
-            }
-            libraryItemRepository.delete(libraryItem);
-            
-            return true;
-        } catch (Exception e) {
-            throw new  Exception("This isbn does not exist as a Library Item");
+    	LibraryItem libraryItem = null;
+    	libraryItem = libraryItemRepository.findByIsbn(isbn);
+        if(libraryItem == null) {
+        	throw new  Exception("This isbn does not exist as a Library Item");
+        }
+        else {
+        	libraryItemRepository.delete(libraryItem);
+        	return true;
         }
  
     }

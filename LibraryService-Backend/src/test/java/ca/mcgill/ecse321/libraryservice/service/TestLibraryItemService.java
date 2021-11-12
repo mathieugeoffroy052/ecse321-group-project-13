@@ -631,16 +631,16 @@ public class TestLibraryItemService {
 	 */
 	@Test
 	public void testDeleteLibraryItemSuccess() throws Exception {
-		boolean libraryDelete = false;
+		boolean libraryItemDelete = false;
 		try {
-			libraryDelete = service.deleteLibraryItem(BOOK_ISBN);
+			libraryItemDelete = service.deleteLibraryItem(BOOK_ISBN);
 		
 		}
 		catch (IllegalArgumentException e) {
 			fail();
 			
 		}
-		assertTrue(libraryDelete);
+		assertTrue(libraryItemDelete);
 			
 	}
 
@@ -652,16 +652,17 @@ public class TestLibraryItemService {
 	 */
 	@Test
 	public void testDeleteLibraryItemFail() throws Exception {
-		boolean libraryDelete = false;
+		String error = "";
+		boolean libraryItemDelete = false;
 		try {
-			libraryDelete = service.deleteLibraryItem(INVALID_BOOK_ISBN);
+			libraryItemDelete = service.deleteLibraryItem(INVALID_BOOK_ISBN);
 		
 		}
-		catch (IllegalArgumentException e) {
-			fail();
+		catch (Exception e) {
+			error = e.getMessage();
 			
 		}
-		assertFalse(libraryDelete);
+		assertEquals(error, "This isbn does not exist as a Library Item");
 			
 	}
 }
