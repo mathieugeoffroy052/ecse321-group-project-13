@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
 
 import java.sql.Date;
@@ -340,6 +341,14 @@ public void testDeleteLibrarianDoesntExists () {
 @Test
 public void testDeleteLibrarian() {
     Librarian librarian=null;
+    lenient().when(headLibrarianDAO.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
+        List<HeadLibrarian> headLibrarians = null;
+        HeadLibrarian headLibrarian =
+        new HeadLibrarian(HEADLIBRARIAN_FIRST_NAME, HEADLIBRARIAN_LAST_NAME, HEADLIBRARIAN_ONLINE_ACCOUNT, HEADLIBRARIAN_ADDRESS, HEADLIBRARIAN_PASSWORD, HEADLIBRARIAN_BALANCE, HEADLIBRARIAN_EMAIL);
+        headLibrarian.setUserID(HEADLIBRARIAN_USER_ID);
+        headLibrarians.add(headLibrarian);
+        return headLibrarian;
+    });
     String error="";
     try {
        librarian=service.deleteLibrarian(777, LIBRARIAN_USER_ID);
@@ -541,23 +550,31 @@ public void createLibrarianwithoutBeingHeadLibrarian() {
 
 @Test
 public void createLibrarianthatAlreadyexists() {
+    lenient().when(userAccountDAO.findByFirstNameAndLastName(anyString(), anyString())).thenAnswer( (InvocationOnMock invocation) -> {
+        if(invocation.getArgument(0).equals(LIBRARIAN_FIRST_NAME) && invocation.getArgument(1).equals(LIBRARIAN_LAST_NAME)) {
+            Librarian librarian = 
+            new Librarian(LIBRARIAN_FIRST_NAME , LIBRARIAN_LAST_NAME, LIBRARIAN_ONLINE_ACCOUNT, LIBRARIAN_ADDRESS, LIBRARIAN_PASSWORD, LIBRARIAN_BALANCE, LIBRARIAN_EMAIL);
+            librarian.setUserID(LIBRARIAN_USER_ID);
+            return librarian ;
+        } else {
+            return null;
+        }
+    });
 
     Librarian librarian=null;
     HeadLibrarian headLibrarian= headLibrarianDAO.findHeadLibrarianByUserID(HEADLIBRARIAN_ID);
    
     String error="";
     try {
-        librarian=service.createANewLibrarian(headLibrarian, LIBRARIAN_FIRST_NAME, LIBRARIAN_LAST_NAME, LIBRARIAN_VALIDATED_ACCOUNT, LIBRARIAN_ADDRESS, LIBRARIAN_PASSWORD, LIBRARIAN_BALANCE, LIBRARIAN_EMAIL);
+        librarian=service.createANewLibrarian(headLibrarian, LIBRARIAN_FIRST_NAME, LIBRARIAN_LAST_NAME, LIBRARIAN_ONLINE_ACCOUNT, LIBRARIAN_ADDRESS, LIBRARIAN_PASSWORD, LIBRARIAN_BALANCE, LIBRARIAN_EMAIL);
     } catch (Exception e) {
         error=e.getMessage();
     }
- 
- 
       
-      assertEquals(error, "User Requesting the change cannot be empty!");
-       headLibrarianDAO.deleteAll();
-       librarianDAO.deleteAll();
-       userAccountDAO.deleteAll(); 
+    assertEquals(error, "This User already has a librarian account");
+    headLibrarianDAO.deleteAll();
+    librarianDAO.deleteAll();
+    userAccountDAO.deleteAll(); 
 
 
 
