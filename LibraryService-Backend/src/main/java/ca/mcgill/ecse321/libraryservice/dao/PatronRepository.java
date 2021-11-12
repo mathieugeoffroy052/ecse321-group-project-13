@@ -9,6 +9,6 @@ import ca.mcgill.ecse321.libraryservice.model.UserAccount;
 public interface PatronRepository extends CrudRepository<Patron, Integer> {
 	
 	Patron findPatronByUserID(int userID);
-	Patron findPatronByFullName(String firstName, String lastName);
+//	Patron findPatronByFullName(String firstName, String lastName);
 
 }
