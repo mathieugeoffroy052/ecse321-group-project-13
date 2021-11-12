@@ -1,7 +1,5 @@
 package ca.mcgill.ecse321.libraryservice.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 public class BorrowableItemDTO {
 
   private String state;
