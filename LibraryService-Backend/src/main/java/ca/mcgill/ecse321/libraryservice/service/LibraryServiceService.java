@@ -1273,14 +1273,9 @@ public class LibraryServiceService {
       throw new  Exception("This User  does not the credentials to add a new librarian");
       Librarian librarian=null;
 
-      try {
            librarian= getLibrarianFromUserId(userID);
     
 
-      } catch (Exception e) {
-
-        throw new  Exception("This librarian does not exits");
-      }
       if(librarian==null) throw new Exception ("This librarian does not exits");
       librarianRepository.delete(librarian);
       return librarian;
