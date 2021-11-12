@@ -1321,7 +1321,11 @@ public class LibraryServiceService {
         
             Librarian librarian;
         
+<<<<<<< HEAD
         if(userID<1){
+=======
+        if(userID<=1){
+>>>>>>> c10057489ee40163834d1a6f36f05defa2527550
                 throw new Exception("This User ID does not correspond to a Librarian");
         }
             librarian= librarianRepository.findLibrarianByUserID(userID);
