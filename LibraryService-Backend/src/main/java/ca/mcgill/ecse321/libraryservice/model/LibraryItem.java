@@ -2,12 +2,12 @@
 /*This code was generated using the UMPLE 1.29.1.4607.2d2b84eb8 modeling language!*/
 
 package ca.mcgill.ecse321.libraryservice.model;
-import java.util.*;
+import java.sql.Date;
 import javax.persistence.*;
 
 @Entity
 // line 82 "../../../../../../library.ump 15-05-01-147.ump 15-45-27-537.ump 16-05-11-860.ump"
-public abstract class LibraryItem
+public class LibraryItem
 {
 
   //------------------------
@@ -16,19 +16,21 @@ public abstract class LibraryItem
 
   private static int nextIsbn = 1;
 
+  public enum ItemType { Book, Room, Movie, Music, NewspaperArticle }
+
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //LibraryItem Attributes
   private String name;
+  private boolean isViewable;
+  private Date date;
+  private String creator;
+  private ItemType itemType;
 
   //Autounique Attributes
   private int isbn;
-
-  //LibraryItem Associations
-  private LibrarySystem librarySystem;
-  private Set<BorrowableItem> borrowableItem;
 
   //------------------------
   // CONSTRUCTOR
@@ -38,15 +40,14 @@ public abstract class LibraryItem
     isbn = nextIsbn++;
   }
 
-  public LibraryItem(String aName, LibrarySystem aLibrarySystem)
+  public LibraryItem(String aName, ItemType aItemType, Date aDate, String aCreator, boolean aIsViewable)
   {
     name = aName;
     isbn = nextIsbn++;
-    boolean didAddLibrarySystem = setLibrarySystem(aLibrarySystem);
-    if (!didAddLibrarySystem)
-    {
-      throw new RuntimeException("Unable to create libraryItem due to librarySystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
+    date = aDate;
+    itemType = aItemType;
+    creator = aCreator;
+    isViewable = aIsViewable;
   }
 
   //------------------------
@@ -80,64 +81,71 @@ public abstract class LibraryItem
     return wasSet;
   }
 
-  public boolean setBorrowableItem(Set<BorrowableItem> aItems)
+  public boolean setDate(Date aDate)
   {
     boolean wasSet = false;
-    borrowableItem = aItems;
+    date = aDate;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setType(ItemType aItemType){
+    boolean wasSet = false;
+    itemType = aItemType;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setIsViewable(boolean aIsViewable){
+    boolean wasSet = false;
+    isViewable = aIsViewable;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setIsDate(Date aDate){
+    boolean wasSet = false;
+    date = aDate;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setCreator(String aCreator){
+    boolean wasSet = false;
+    creator = aCreator;
     wasSet = true;
     return wasSet;
   }
   
+  public String getCreator()
+  {
+    return creator;
+  }
+
+  public Date getDate()
+  {
+    return date;
+  }
+
   public String getName()
   {
     return name;
   }
 
-  /* Code from template association_GetOne */
-  @ManyToOne(optional=false)
-  public LibrarySystem getLibrarySystem()
+  public ItemType getType()
   {
-    return librarySystem;
+    return itemType;
   }
 
-  @OneToMany(mappedBy = "libraryItem")
-  public Set<BorrowableItem> getBorrowableItem()
+  public boolean getIsViewable()
   {
-    return borrowableItem;
-  }
-
-  public int numberOfBorrowableItem()
-  {
-    int number = borrowableItem.size();
-    return number;
-  }
-
-  public boolean hasBorrowableItem()
-  {
-    boolean has = borrowableItem.size() > 0;
-    return has;
-  }
-
-  /* Code from template association_SetOneToMany */
-  public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
-  {
-    boolean wasSet = false;
-    this.librarySystem = aLibrarySystem;
-    wasSet = true;
-    return wasSet;
-  }
-
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfBorrowableItem()
-  {
-    return 0;
+    return isViewable;
   }
 
   public String toString()
   {
     return super.toString() + "["+
             "isbn" + ":" + getIsbn()+ "," +
-            "name" + ":" + getName()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "librarySystem = "+(getLibrarySystem()!=null?Integer.toHexString(System.identityHashCode(getLibrarySystem())):"null");
+            "name" + ":" + getName()+ "]" + System.getProperties().getProperty("line.separator");
   }
 }

@@ -17,9 +17,9 @@ public class HeadLibrarian extends Librarian
     super();
   }
 
-  public HeadLibrarian(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, Address aAddress, String aPassword, int aBalance)
+  public HeadLibrarian(String aFirstName, String aLastName, boolean aOnlineAccount, String aAddress, String aPassword, int aBalance, String aEmail)
   {
-    super(aFirstName, aLastName, aOnlineAccount, aLibrarySystem, aAddress, aPassword, aBalance);
+    super(aFirstName, aLastName, aOnlineAccount, aAddress, aPassword, aBalance, aEmail);
   }
 
   //------------------------

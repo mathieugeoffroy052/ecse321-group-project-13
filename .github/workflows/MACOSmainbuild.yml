@@ -2,9 +2,11 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ master ]
+    branches: 
+      - master
   pull_request:
-    branches: [ master ]
+    branches: 
+      - master
 
 jobs:
   build:
@@ -27,3 +29,38 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
       working-directory: LibraryService-Backend
+    - name: Deploy to Heroku
+      uses: akhileshns/heroku-deploy@v3.12.12
+      with: 
+        heroku_api_key: c7d5df75-cbf0-4635-96c3-bba9306175e5
+        heroku_app_name: "libraryservice-backend-g13"
+        heroku_email: "gabrielle.halpin@mail.mcgill.ca"
+        justlogin: true
+    - name: Install Heroku Cli
+      run: curl https://cli-assets.heroku.com/install.sh | sh
+      env:
+        heroku_api_key: c7d5df75-cbf0-4635-96c3-bba9306175e5
+        heroku_app_name: "libraryservice-backend-g13"
+        heroku_email: "gabrielle.halpin@mail.mcgill.ca"
+    - name: "set git remote"
+      run: heroku git:remote --app libraryservice-backend-g13 --remote backend-heroku && git push backend-heroku master
+      env:
+        heroku_api_key: c7d5df75-cbf0-4635-96c3-bba9306175e5
+        heroku_app_name: "libraryservice-backend-g13"
+        heroku_email: "gabrielle.halpin@mail.mcgill.ca"
+integrationTests:
+
+    needs: build
+    runs-on: macos-latest
+    steps:
+    -uses: actions/checkout@v2
+    -name: Run Postman tests woith Newman
+    id: run-newman
+    uses: anthonyvscode/newman-action@v1.1
+    with:
+        collection: LibraryService-Backend/src/test/integration/BorrowableItem.postman_collection.json
+        reporters: cli
+
+
+     -name: Output summary to console
+       run: echo ${{ steps.run-newman.outputs.summary }}

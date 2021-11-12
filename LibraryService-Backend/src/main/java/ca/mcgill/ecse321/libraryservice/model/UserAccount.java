@@ -25,13 +25,11 @@ public abstract class UserAccount
   private boolean onlineAccount;
   private String password;
   private int balance;
+  private String address;
+  private String email;
 
   //Autounique Attributes
   private int userID;
-
-  //UserAccount Associations
-  private LibrarySystem librarySystem;
-  private Address address;
 
   //------------------------
   // CONSTRUCTOR
@@ -41,23 +39,16 @@ public abstract class UserAccount
     userID = nextUserID++;
   }
 
-  public UserAccount(String aFirstName, String aLastName, boolean aOnlineAccount, LibrarySystem aLibrarySystem, Address aAddress, String aPassword, int aBalance)
+  public UserAccount(String aFirstName, String aLastName, boolean aOnlineAccount, String aAddress, String aPassword, int aBalance, String aEmail)
   {
     firstName = aFirstName;
     lastName = aLastName;
     password = aPassword;
     balance = aBalance;
+    email = aEmail;
     onlineAccount = aOnlineAccount;
     userID = nextUserID++;
-    boolean didAddLibrarySystem = setLibrarySystem(aLibrarySystem);
-    if (!didAddLibrarySystem)
-    {
-      throw new RuntimeException("Unable to create userAccount due to librarySystem. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-    if (!setAddress(aAddress))
-    {
-      throw new RuntimeException("Unable to create UserAccount due to aAddress. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
+    address = aAddress;
   }
 
   //------------------------
@@ -91,10 +82,26 @@ public abstract class UserAccount
     return wasSet;
   }
 
+  public boolean setEmail(String aEmail)
+  {
+    boolean wasSet = false;
+    email = aEmail;
+    wasSet = true;
+    return wasSet;
+  }
+
   public boolean setLastName(String aLastName)
   {
     boolean wasSet = false;
     lastName = aLastName;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setAddress(String aAddress)
+  {
+    boolean wasSet = false;
+    address = aAddress;
     wasSet = true;
     return wasSet;
   }
@@ -128,6 +135,11 @@ public abstract class UserAccount
     return firstName;
   }
 
+  public String getEmail()
+  {
+    return email;
+  }
+
   public String getLastName()
   {
     return lastName;
@@ -148,43 +160,9 @@ public abstract class UserAccount
     return onlineAccount;
   }
 
-  /* Code from template association_GetOne */
-  @ManyToOne(optional=false)
-  public LibrarySystem getLibrarySystem()
-  {
-    return librarySystem;
-  }
-
-  /* Code from template association_GetOne */
-  @ManyToOne(optional=false)
-  public Address getAddress()
+  public String getAddress()
   {
     return address;
-  }
-
-  /* Code from template association_SetOneToMany */
-  public boolean setLibrarySystem(LibrarySystem aLibrarySystem)
-  {
-    boolean wasSet = false;
-    if (aLibrarySystem == null)
-    {
-      return wasSet;
-    }
-    librarySystem = aLibrarySystem;
-    wasSet = true;
-    return wasSet;
-  }
-  
-  /* Code from template association_SetUnidirectionalOne */
-  public boolean setAddress(Address aNewAddress)
-  {
-    boolean wasSet = false;
-    if (aNewAddress != null)
-    {
-      address = aNewAddress;
-      wasSet = true;
-    }
-    return wasSet;
   }
 
   public String toString()
@@ -195,7 +173,6 @@ public abstract class UserAccount
             "lastName" + ":" + getLastName()+ "," +
             "balance" + ":" + getBalance()+ ","+
             "onlineAccount" + ":" + getOnlineAccount()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "librarySystem = "+(getLibrarySystem()!=null?Integer.toHexString(System.identityHashCode(getLibrarySystem())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "address = "+(getAddress()!=null?Integer.toHexString(System.identityHashCode(getAddress())):"null");
   }
 }
