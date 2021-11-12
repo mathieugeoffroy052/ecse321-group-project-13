@@ -1809,6 +1809,9 @@ public class LibraryServiceService {
     public boolean deleteLibraryItem(int isbn) throws Exception {
         try {
             LibraryItem libraryItem = libraryItemRepository.findByIsbn(isbn);
+            if(libraryItem == null) {
+            	return false;
+            }
             libraryItemRepository.delete(libraryItem);
             
             return true;

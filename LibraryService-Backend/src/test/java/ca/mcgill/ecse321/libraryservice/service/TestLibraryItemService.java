@@ -5,6 +5,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -55,6 +56,8 @@ public class TestLibraryItemService {
 	private static final String BOOK_NAME = "History Of Java";
 	private static final ItemType BOOK_TYPE = ItemType.Book;
 	private static final Date BOOK_DATE = Date.valueOf("2009-03-15");
+
+	private static final int INVALID_BOOK_ISBN = 8676;
 
 	private static final int NEWSPAPER_ISBN = 124;
 	private static final String NEWSPAPER_CREATOR = "Times";
@@ -591,5 +594,74 @@ public class TestLibraryItemService {
 		assertEquals(1, libItems.size());
 		checkBasicLibraryItemList(libItems.get(0));
 		
+	}
+
+	/**
+	 * This tests verifies if a library item is made in the database
+	 * 
+	 * @author Ramin Akhavan-Sarraf
+	 * @throws Exception
+	 */
+	@Test
+	public void testCreateLibraryItemSuccess() throws Exception {
+		
+		LibraryItem libraryItem = null;
+		
+		try {
+			libraryItem = service.createLibraryItem(BOOK_NAME, BOOK_TYPE, BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
+		}
+		catch (IllegalArgumentException e) {
+			fail();
+			
+		}
+		assertNotNull(libraryItem);
+		assertEquals(libraryItem.getName(), BOOK_NAME);
+		assertEquals(libraryItem.getType(), BOOK_TYPE);
+		assertEquals(libraryItem.getCreator(), BOOK_CREATOR);
+		assertEquals(libraryItem.getType(), BOOK_TYPE);
+		assertTrue(libraryItem.getDate().compareTo(BOOK_DATE) == 0);
+			
+	}
+
+	/**
+	 * This tests verifies that a library item was deleted from the database
+	 * 
+	 * @author Ramin Akhavan-Sarraf
+	 * @throws Exception
+	 */
+	@Test
+	public void testDeleteLibraryItemSuccess() throws Exception {
+		boolean libraryDelete = false;
+		try {
+			libraryDelete = service.deleteLibraryItem(BOOK_ISBN);
+		
+		}
+		catch (IllegalArgumentException e) {
+			fail();
+			
+		}
+		assertTrue(libraryDelete);
+			
+	}
+
+	/**
+	 * This tests verifies that a library item was not deleted from the database
+	 * 
+	 * @author Ramin Akhavan-Sarraf
+	 * @throws Exception
+	 */
+	@Test
+	public void testDeleteLibraryItemFail() throws Exception {
+		boolean libraryDelete = false;
+		try {
+			libraryDelete = service.deleteLibraryItem(INVALID_BOOK_ISBN);
+		
+		}
+		catch (IllegalArgumentException e) {
+			fail();
+			
+		}
+		assertFalse(libraryDelete);
+			
 	}
 }
