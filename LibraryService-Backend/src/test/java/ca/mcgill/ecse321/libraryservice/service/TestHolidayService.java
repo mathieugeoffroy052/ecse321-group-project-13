@@ -248,6 +248,62 @@ public class TestHolidayService {
     }
 
     /**
+     * Test get holiday from headLibrarian
+     * Success case
+     * @author Mathieu Geoffroy
+     */
+    @Test
+    public void testGetHolidayFromHeadLibrarian() {
+        Date date = Date.valueOf("2021-12-25");
+        Time startTime = Time.valueOf("08:00:00");
+        Time endTime = Time.valueOf("20:00:00");
+
+        Holiday holiday = new Holiday(date, startTime, endTime, this.headLibrarian);
+        holiday.setHolidayID(HOLIDAY_ID);
+        holidayDao.save(holiday);
+
+        holiday = null;
+
+        try {
+            holiday = service.getHolidaysFromHeadLibrarian(headLibrarian).get(0);
+        } catch (Exception e) {
+            fail();
+        }
+
+        assertNotNull(holiday);
+        assertHolidayAttributes(holiday, date, startTime, endTime);
+    }
+
+    /**
+     * Test get holiday from headLibrarian
+     * Failure case: null headLibrarain
+     * @author Mathieu Geoffroy
+     */
+    @Test
+    public void testGetHolidayFromHeadLibrarianNull() {
+        String error = null;
+        Date date = Date.valueOf("2021-12-25");
+        Time startTime = Time.valueOf("08:00:00");
+        Time endTime = Time.valueOf("20:00:00");
+
+        Holiday holiday = new Holiday(date, startTime, endTime, this.headLibrarian);
+        holiday.setHolidayID(HOLIDAY_ID);
+        holidayDao.save(holiday);
+
+        holiday = null;
+
+        try {
+            holiday = service.getHolidaysFromHeadLibrarian(null).get(0);
+        } catch (Exception e) {
+            error = e.getMessage();
+        }
+
+        assertNull(holiday);
+        assertEquals("A HeadLibrarian needs to be selected", error);
+    }
+
+
+    /**
      * Test get holiday from ID
      * Success case
      * @author Amani Jammoul
