@@ -48,7 +48,7 @@ public class TestLibraryItemService {
 	private LibraryServiceService service;
 	
 	/* Library Item attributes */
-	private static final boolean LIBRARY_ITEM_VIEWABLE = false;
+	private static final boolean LIBRARY_ITEM_VIEWABLE = true;
 	private static final boolean NEWSPAPER_VIEWABLE = false;
 
 	private static final int BOOK_ISBN = 123;

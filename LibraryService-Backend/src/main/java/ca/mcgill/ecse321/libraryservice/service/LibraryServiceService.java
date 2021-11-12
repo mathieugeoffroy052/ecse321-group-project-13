@@ -1449,7 +1449,7 @@ public class LibraryServiceService {
      * @return  openingHour 
      */
     @Transactional
-    public OpeningHour getOpeningHourFromID(int id) {
+    public OpeningHour getOpeningHourFromID(int id) throws IllegalArgumentException {
         if (id < 1) throw new IllegalArgumentException("Invalid id");
         OpeningHour openingHour = openingHourRepository.findOpeningHourByHourID(id);
         return openingHour;
@@ -1521,7 +1521,9 @@ public class LibraryServiceService {
         } catch (IllegalArgumentException e) {
             throw new Exception("Invalid day");
         }
-        HeadLibrarian headLibrarian =getHeadLibrarian();
+        if (startTime == null) throw new IllegalArgumentException("Invalid StartTime");
+        if (endTime == null) throw new IllegalArgumentException("Invalid EndTime");
+        HeadLibrarian headLibrarian = getHeadLibrarian();
         OpeningHour openingHour = new OpeningHour(dayOfWeek, startTime, endTime, headLibrarian);
         openingHourRepository.save(openingHour);
         return openingHour;
@@ -1586,6 +1588,7 @@ public class LibraryServiceService {
      */
     @Transactional
     public Holiday getHolidayFromId(int id) {
+        if(id < 1) throw new IllegalArgumentException("Invalid id");
         Holiday holiday = holidayRepository.findHolidayByHolidayID(id);
         return holiday;
     }
@@ -1610,7 +1613,9 @@ public class LibraryServiceService {
 
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
-        }List<Holiday> holidays = holidayRepository.findByHeadLibrarian(headLibrarian);
+        }
+        List<Holiday> holidays = holidayRepository.findByHeadLibrarian(headLibrarian);
+
         return holidays;
     }
 
@@ -1628,7 +1633,11 @@ public class LibraryServiceService {
      */
     @Transactional
     public Holiday createHoliday(Date date, Time startTime, Time endTime) throws Exception{
-        HeadLibrarian headLibrarian =getHeadLibrarian();
+        HeadLibrarian headLibrarian = getHeadLibrarian();
+        if (date == null) throw new IllegalArgumentException("Invalid date.");
+        if (startTime == null) throw new IllegalArgumentException("Invalid startTime.");
+        if (endTime == null) throw new IllegalArgumentException("Invalid endTime.");
+        if (startTime.toLocalTime().isAfter(endTime.toLocalTime())) throw new IllegalArgumentException("StartTime must be before endTime.");
         Holiday holiday = new Holiday(date, startTime, endTime, headLibrarian);
         holidayRepository.save(holiday);
         return holiday;
@@ -1659,8 +1668,7 @@ public class LibraryServiceService {
 
         getHeadLibrarianFromUserId(account.getUserID()); //throws error is account is not head librarian
 
-        Holiday holiday = holidayRepository.findHolidayByHolidayID(holidayID);
-        holidayRepository.delete(holiday);
+        holidayRepository.delete(holidayRepository.findHolidayByHolidayID(holidayID));
         return true;
     }
 
