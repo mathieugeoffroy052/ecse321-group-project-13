@@ -488,6 +488,33 @@ public class TestBorrowableItemService {
 			assertEquals("Account cannot be null!", error);
 		
 	}
+	/**
+	 * This test gets a borrowed items from a user from the system given their account,
+	 *  This returns an error when the account parameter is null.
+	 *  
+	 * @author Zoya Malhi
+	 * @throws Exception
+	 */
+	@Test
+	public void testGeItemWaitlistsFromUserNullAccount() throws Exception {
+		
+		String error = null;
+		List<BorrowableItem> borrowableItem = null;
+		
+		try {
+			borrowableItem = service.getItemWaitlistsFromUser(null);
+			
+		}
+		catch (IllegalArgumentException e) {
+			error = e.getMessage();
+			
+		}
+			assertNull(borrowableItem);
+			
+			//verify error
+			assertEquals("Account cannot be null!", error);
+		
+	}
 	
 	
 }
