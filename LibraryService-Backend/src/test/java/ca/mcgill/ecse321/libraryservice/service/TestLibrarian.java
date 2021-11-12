@@ -103,6 +103,8 @@ private static final String USER_PASSWORD = "mIMI";
             if(invocation.getArgument(0).equals(LIBRARIAN_USER_ID)) {
                 Librarian librarian = 
                 new Librarian(LIBRARIAN_FIRST_NAME , LIBRARIAN_LAST_NAME, LIBRARIAN_ONLINE_ACCOUNT, LIBRARIAN_ADDRESS, LIBRARIAN_PASSWORD, LIBRARIAN_BALANCE, LIBRARIAN_EMAIL);
+                librarian.setUserID(LIBRARIAN_USER_ID);
+                librarian.setLibrarianID(LIBRARIAN_ID);
                 return librarian ;
             } else {
                 return null;
@@ -129,8 +131,8 @@ private static final String USER_PASSWORD = "mIMI";
      * @throws Exception
      */
 @Test 
-public void testgetLibrarianFromNotAssociatedId () throws Exception {
-    int impossibleID=-5;
+public void testgetLibrarianFromNotAssociatedId () {
+    int impossibleID=999;
     Librarian librarian=null;
     String error="";
     try {
@@ -138,7 +140,8 @@ public void testgetLibrarianFromNotAssociatedId () throws Exception {
     } catch (Exception e) {
         error=e.getMessage();
     }
-      assertEquals(error, "This User ID does not correspond to a Head Librarian");
+   // if(librarian==null) error="This User ID does not correspond to a Librarian";
+      assertEquals(error, "This User ID does not correspond to a Librarian");
      
      headLibrarianDAO.deleteAll();
      librarianDAO.deleteAll();
@@ -159,12 +162,12 @@ public void testgetLibrarianWithGoodID () {
     Librarian librarian=null;
     String error="";
     try {
-        librarian=service.getLibrarianFromUserId(LIBRARIAN_ID);
+        librarian=service.getLibrarianFromUserId(LIBRARIAN_USER_ID);
     } catch (Exception e) {
         error=e.getMessage();
     }
       assertNotNull(librarian);
-      assertEquals(librarian.getFirstName(),HEADLIBRARIAN_FIRST_NAME);
+      assertEquals(librarian.getFirstName(),LIBRARIAN_FIRST_NAME);
       headLibrarianDAO.deleteAll();
       librarianDAO.deleteAll();
       userAccountDAO.deleteAll();
@@ -204,7 +207,7 @@ public void testGetLibrarianFromNullLastName () {
     Librarian librarian=null;
     String error="";
     try {
-        librarian=service.getLibrarianFromFullName(USER_FIRST_NAME, error); ;
+        librarian=service.getLibrarianFromFullName(USER_FIRST_NAME, error); 
     } catch (Exception e) {
         error=e.getMessage();
     }
