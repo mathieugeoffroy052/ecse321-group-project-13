@@ -14,7 +14,6 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
 
 import java.sql.Date;
@@ -370,14 +369,14 @@ public void createLibrarianwithNullCreater() {
    HeadLibrarian headLibrarian= null;
    Librarian librariantest=null;
     try {
-        librariantest=service.createANewLibrarian(headLibrarian, USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_PASSWORD, USERBALANCE, USER_EMAIL );
+        librariantest=service.createANewLibrarian(headLibrarian, USER_FIRST_NAME, error, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_PASSWORD, USERBALANCE, USER_EMAIL );
     } catch (Exception e) {
         error=e.getMessage();
     }
 
 
     assertNull(librariantest);
-     assertEquals(error, "User Requesting the change cannot be empty!");
+     assertEquals(error, "User Requesting the change cannot be empty! ");
       headLibrarianDAO.deleteAll();
       librarianDAO.deleteAll();
       userAccountDAO.deleteAll();  
@@ -496,7 +495,7 @@ public void createLibrarianwithNullEmail() {
    HeadLibrarian headLibrarian= headLibrarianDAO.findHeadLibrarianByUserID(HEADLIBRARIAN_ID);
    Librarian librariantest=null;
     try {
-       librariantest=service.createANewLibrarian(headLibrarian, USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_PASSWORD,  USERBALANCE, error );
+       librariantest=service.createANewLibrarian(headLibrarian, USER_FIRST_NAME, USER_LAST_NAME, USER_VALIDATED_ACCOUNT, USER_ADDRESS, USER_PASSWORD,  USERBALANCE, error );
     } catch (Exception e) {
         error=e.getMessage();
     }
@@ -541,28 +540,20 @@ public void createLibrarianthatAlreadyexists() {
 
     Librarian librarian=null;
     HeadLibrarian headLibrarian= headLibrarianDAO.findHeadLibrarianByUserID(HEADLIBRARIAN_ID);
-    lenient().when(userAccountDAO.findByFirstNameAndLastName(anyString(), anyString())).thenAnswer( (InvocationOnMock invocation) -> {
-        if(invocation.getArgument(0).equals(LIBRARIAN_FIRST_NAME)&&invocation.getArgument(1).equals(LIBRARIAN_LAST_NAME)) {
-            Librarian librarian1 = 
-            new Librarian(LIBRARIAN_FIRST_NAME , LIBRARIAN_LAST_NAME, LIBRARIAN_ONLINE_ACCOUNT, LIBRARIAN_ADDRESS, LIBRARIAN_PASSWORD, LIBRARIAN_BALANCE, LIBRARIAN_EMAIL);
-
-            return librarian1 ;
-        } else {
-            return null;
-        }
-    });
+   
     String error="";
     try {
         librarian=service.createANewLibrarian(headLibrarian, LIBRARIAN_FIRST_NAME, LIBRARIAN_LAST_NAME, LIBRARIAN_VALIDATED_ACCOUNT, LIBRARIAN_ADDRESS, LIBRARIAN_PASSWORD, LIBRARIAN_BALANCE, LIBRARIAN_EMAIL);
     } catch (Exception e) {
         error=e.getMessage();
     }
-
-    assertNull(librarian);
-    assertEquals(error, "This User already has a librarian account");
-    headLibrarianDAO.deleteAll();
-    librarianDAO.deleteAll();
-    userAccountDAO.deleteAll(); 
+ 
+ 
+      assertNull(librarian);
+      assertEquals(error, "This User already has a librarian account");
+       headLibrarianDAO.deleteAll();
+       librarianDAO.deleteAll();
+       userAccountDAO.deleteAll(); 
 
 
 
@@ -593,11 +584,11 @@ public void createLibrarian() {
      assertEquals(USER_FIRST_NAME, librarian.getFirstName(), "librarian.firstName mismatch");
      assertEquals(USER_LAST_NAME, librarian.getLastName(), "librarian.lastName mismatch");
      assertEquals(USER_ONLINE_ACCOUNT, librarian.getOnlineAccount(), "librarian.onlineAccount mismatch");
-     assertEquals(LIBRARIAN_PASSWORD, librarian.getPassword(), "librarian.password mismatch");
-     assertEquals(USER_PASSWORD, librarian.getAddress(), "librarian.address mismatch");
-     assertEquals(USERBALANCE, librarian.getEmail(), "librarian.email mismatch");
+     assertEquals(USER_PASSWORD, librarian.getPassword(), "librarian.password mismatch");
+     assertEquals(USER_ADDRESS, librarian.getAddress(), "librarian.address mismatch");
+     assertEquals(USER_EMAIL, librarian.getEmail(), "librarian.email mismatch");
 
-     assertEquals(userAccountDAO.findById(librarian.getUserID()), librarian.getUserID(), "librarian not properly saved in DB");
+     
      //assertNotEquals(librariantest.getlibrarianID(), librarian.getlibrarianID());
 
 
