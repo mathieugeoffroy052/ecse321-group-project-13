@@ -1461,13 +1461,13 @@ public class LibraryServiceRestController {
     //      * create HeadLibrarian
     //      */
     @PostMapping(value={"/createHeadLibrarian", "/createHeadLibrarian/"})
-    public HeadLibrarianDTO createHeadLibrarian(@RequestParam String firstName,
-        @RequestParam  String aLastName,
-        @RequestParam boolean aOnlineAccount,
-        @RequestParam String aAddress,
-        @RequestParam String aPassword,
-        @RequestParam int aBalance,
-        @RequestParam String aEmail) throws Exception{
+    public HeadLibrarianDTO createHeadLibrarian(@RequestParam(name = "firstName") String firstName,
+        @RequestParam(name = "lastName") String aLastName,
+        @RequestParam(name = "online") boolean aOnlineAccount,
+        @RequestParam(name = "address") String aAddress,
+        @RequestParam(name = "password") String aPassword,
+        @RequestParam(name = "balance") int aBalance,
+        @RequestParam(name = "email") String aEmail) throws Exception{
         
             
             return convertToDto(service.createNewHeadLibrarian(firstName, aLastName, aOnlineAccount, aAddress, aPassword, aBalance, aEmail));
@@ -1480,9 +1480,10 @@ public class LibraryServiceRestController {
      */
     @PostMapping(value = { "/createLibrarian/{firstName}/{lastName}",
             "/createLibrarian/{firstName}/{lastName}/" })
-    public LibrarianDTO createLibrarian(@PathVariable("firstName") String firstName,@PathVariable String aLastName,
-    @RequestParam boolean aOnlineAccount, @RequestParam String aAddress, @RequestParam String aPassword, 
-    @RequestParam int aBalance, @RequestParam String aEmail, @RequestBody HeadLibrarianDTO creator) throws Exception {
+    public LibrarianDTO createLibrarian(@PathVariable("firstName") String firstName,
+    @PathVariable("lastName") String aLastName,
+    @RequestParam(name = "online") boolean aOnlineAccount, @RequestParam(name = "address") String aAddress,
+    @RequestParam(name = "password") String aPassword, @RequestParam(name = "balance") int aBalance, @RequestParam(name = "email") String aEmail, @RequestBody HeadLibrarianDTO creator) throws Exception {
 
         return convertToDto(service.createANewLibrarian(convertToDomainObject(creator), firstName, aLastName, aOnlineAccount, aAddress, aPassword,
                 aBalance, aEmail));
