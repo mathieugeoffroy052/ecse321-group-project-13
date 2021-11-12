@@ -53,14 +53,14 @@ public class LibraryServiceRestController {
      * @author Mathieu Geoffroy
      */
     @GetMapping(value = { "/holiday/{holidayID}", "/holiday/{holidayID}/" })
-    public OpeningHourDTO getHolidayById(@PathVariable(name = "holidayID") int id) {
-        return convertToDto(service.getOpeningHourFromID(id));
+    public HolidayDTO getHolidayById(@PathVariable(name = "holidayID") int id) {
+        return convertToDto(service.getHolidayFromId(id));
     }
 
     /**
      * create new holiday
      * 
-     * @param openingHourDTO
+     * @param holidayDTO
      * @return holiday DTO
      * @throws Exception
      * @author Mathieu Geoffroy
@@ -118,7 +118,7 @@ public class LibraryServiceRestController {
      */
     @PostMapping(value = { "/openinghour/new", "/openinghour/new/" })
     public OpeningHourDTO createOpeningHour(@RequestBody OpeningHourDTO openingHourDTO) throws Exception {
-        return convertToDto(service.createOpeningHour(openingHourDTO.getDayOfWeek().toString(),
+        return convertToDto(service.createOpeningHour(openingHourDTO.getDayOfWeek(),
                 openingHourDTO.getStartTime(), openingHourDTO.getEndTime()));
     }
 
@@ -416,7 +416,7 @@ public class LibraryServiceRestController {
      * @return patronDTO
      * @throws Exception
      */
-    @PostMapping(value = { "/createPatron/{firstName}/{lastName}", "/createPatron/{creator}/{firstName}/{lastName}/" })
+    @PostMapping(value = { "/createPatron/{firstName}/{lastName}", "/createPatron/{firstName}/{lastName}/" })
 	public PatronDTO createPatron(@RequestBody LibrarianDTO creator, @PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName, @RequestParam("onlineAccount") boolean onlineAccount, 
             @RequestParam("address") String address, @RequestParam("validatedAccount") boolean validatedAccount, @RequestParam("password") String password,
             @RequestParam("balance") int balance, @RequestParam("email") String email) throws Exception{
@@ -1167,7 +1167,7 @@ public class LibraryServiceRestController {
         HeadLibrarian headLibrarian = openingHour.getHeadLibrarian();
 
         HeadLibrarianDTO headLibrarianDTO = new HeadLibrarianDTO(headLibrarian.getFirstName(),headLibrarian.getLastName(),headLibrarian.getOnlineAccount(),headLibrarian.getAddress(), headLibrarian.getPassword(), headLibrarian.getBalance(), headLibrarian.getEmail(), headLibrarian.getUserID());
-        OpeningHourDTO.DayOfWeek dayOfWeek = OpeningHourDTO.DayOfWeek.valueOf(openingHour.getDayOfWeek().toString());
+        String dayOfWeek = openingHour.getDayOfWeek().toString();
         OpeningHourDTO openingHourDTO = new OpeningHourDTO(dayOfWeek, openingHour.getStartTime(), openingHour.getEndTime(), headLibrarianDTO, openingHour.getHourID());
 
         return openingHourDTO;
@@ -1551,8 +1551,8 @@ public class LibraryServiceRestController {
     //  */
     @DeleteMapping(value={"/librarians/deleteAccount/{userID}", "/librarians/deleteAccount/{userID}/"})
     public LibrarianDTO deleteALibrarian(@PathVariable("userID") int userID, 
-    @RequestParam int userIDHeadLibrarian) throws Exception  {
-    return convertToDto(service.deleteLibrarian(userID, userIDHeadLibrarian));
+    @RequestParam(name = "headlibrarianID") int userIDHeadLibrarian) throws Exception  {
+    return convertToDto(service.deleteLibrarian(userIDHeadLibrarian, userID));
 
     }  
 
