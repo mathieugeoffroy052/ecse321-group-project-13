@@ -1956,7 +1956,7 @@ public class LibraryServiceService {
        
            
        }
-           error = error.trim();
+         error = error.trim();
   	     if (error.length() > 0) {
   	    	 throw new IllegalArgumentException(error);
   	     }
@@ -1981,15 +1981,18 @@ public class LibraryServiceService {
             throw new  Exception("This user does not have the credentials to delete an existing patron");
         }
 
-        try {
+       String error = "";
             Patron patronAccount = patronRepository.findPatronByUserID(userID);
             patronRepository.delete(patronAccount);
-            
-            return true;
-        } catch (Exception e) {
-            throw new  Exception("This user Id does not exist as a Patron");
-        }
- 
+            if (patronAccount ==null) {
+            	error += "This user Id does not exist as a Patron";
+            }
+           
+            error = error.trim();
+     	     if (error.length() > 0) {
+     	    	 throw new IllegalArgumentException(error);
+     	     }
+  return true;
     }
 
 
