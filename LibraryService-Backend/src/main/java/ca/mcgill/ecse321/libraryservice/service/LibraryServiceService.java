@@ -995,15 +995,13 @@ public class LibraryServiceService {
      * */
     @Transactional
     public HeadLibrarian getHeadLibrarianFromUserId(int userID) throws Exception{
-    
+        HeadLibrarian headLibrarian=null;
        try {
-        HeadLibrarian headLibrarian;
         headLibrarian= headLibrarianRepository.findHeadLibrarianByUserID(userID);
-        return headLibrarian;
        } catch (Exception e) {
         throw new Exception("This User ID does not correspond to a Head Librarian");
        }
-
+       return headLibrarian;
     }
 
      /**
@@ -1149,7 +1147,7 @@ public class LibraryServiceService {
         if ((aLastName == null || aLastName.trim().length() == 0)&& error.length()==0) {
             error = error + "Last Name  cannot be empty! ";
         }
-        if (creater == null && error.length()==0) {
+        if (creater == null) {
             error = error + "User Requesting the change cannot be empty! ";
         }
         if ((aAddress == null|| aAddress.trim().length() == 0)&& error.length()==0) {
@@ -1172,12 +1170,23 @@ public class LibraryServiceService {
         } catch (Exception e) {
             throw new  Exception("This User  does not the credentials to add a new librarian");
         }
-        if(getLibrarianFromFullName(aFirstName, aLastName).getAddress().equals(aAddress)) throw new Exception("This User already has a librarian account");
-       
+
+
+
+        UserAccount librarianDuplicate = userAccountRepository.findByFirstNameAndLastName(aFirstName, aLastName);
+            
+        if(librarianDuplicate!=null) {
+             throw new Exception("This User already has a librarian account");
+        }
+        
         Librarian librarian=new Librarian(aFirstName,aLastName, aOnlineAccount, aAddress, aPassword, aBalance, aEmail);
 
         librarianRepository.save(librarian);
         return librarian;
+
+        
+        
+
         
     }
      /**
