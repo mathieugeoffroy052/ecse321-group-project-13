@@ -14,6 +14,7 @@ public class OpeningHourDTO {
 	private Time startTime;
 	@JsonFormat(pattern = "HH:mm:ss")
 	private Time endTime;
+	@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 	private DayOfWeek dayOfWeek;
 	private int openingHourID;
 

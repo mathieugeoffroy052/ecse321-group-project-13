@@ -27,7 +27,9 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import ca.mcgill.ecse321.libraryservice.dao.*;
+import ca.mcgill.ecse321.libraryservice.dao.TimeSlotRepository;
+import ca.mcgill.ecse321.libraryservice.dao.HeadLibrarianRepository;
+import ca.mcgill.ecse321.libraryservice.dao.LibrarianRepository;
 import ca.mcgill.ecse321.libraryservice.model.*;
 
 @ExtendWith(MockitoExtension.class) @SuppressWarnings("deprecation")
@@ -68,8 +70,6 @@ public class TestTimeSlotService {
     private static final int LIBRARIAN_BALANCE = 0;
 
 
-
-
     /**
      * mocks output of DB for timeslot get by id, headlibrarian find all, headlibrarian get by id, librarian get by id
      * @author Mathieu Geoffroy
@@ -86,6 +86,18 @@ public class TestTimeSlotService {
             }
         });
 
+        lenient().when(timeslotDao.findByLibrarian(any(Librarian.class))).thenAnswer( (InvocationOnMock invocation) -> {
+            if(((Librarian) invocation.getArgument(0)).getUserID() == LIBRARIAN_KEY) {
+                TimeSlot timeslot = new TimeSlot(TIMESLOT_STARTDATE, TIMESLOT_STARTTIME, TIMESLOT_ENDDATE, TIMESLOT_ENDTIME, TIMESLOT_HEADLIBRARIAN);
+                timeslot.setTimeSlotID(TIMESLOT_KEY);
+                List<TimeSlot> list = new ArrayList<TimeSlot>();
+                list.add(timeslot);
+                return list;
+            } else {
+                return null;
+            }
+        });
+
         lenient().when(headLibrarianDao.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
                 HeadLibrarian headLibrarian = new HeadLibrarian(HEADLIBRARIAN_FIRSTNAME, HEADLIBRARIAN_LASTNAME, HEADLIBRARIAN_VALIDACC, HEADLIBRARIAN_ADDRESS, HEADLIBRARIAN_PASSWORD, HEADLIBRARIAN_BALANCE, HEADLIBRARIAN_EMAIL);
                 headLibrarian.setUserID(HEADLIBRARIAN_KEY);
@@ -96,16 +108,24 @@ public class TestTimeSlotService {
         });
 
         lenient().when(headLibrarianDao.findHeadLibrarianByUserID(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
+            if(((int) invocation.getArgument(0)) == HEADLIBRARIAN_KEY) {
             HeadLibrarian headLibrarian = new HeadLibrarian(HEADLIBRARIAN_FIRSTNAME, HEADLIBRARIAN_LASTNAME, HEADLIBRARIAN_VALIDACC, HEADLIBRARIAN_ADDRESS, HEADLIBRARIAN_PASSWORD, HEADLIBRARIAN_BALANCE, HEADLIBRARIAN_EMAIL);
             headLibrarian.setUserID(HEADLIBRARIAN_KEY);
             return headLibrarian;
-    });
+            } else {
+                return null;
+            }
+        });
 
         lenient().when(librarianDao.findLibrarianByUserID(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
+            if(((int) invocation.getArgument(0)) == LIBRARIAN_KEY) {
             Librarian librarian = new Librarian(LIBRARIAN_FIRSTNAME, LIBRARIAN_LASTNAME, LIBRARIAN_VALIDACC, LIBRARIAN_ADDRESS, LIBRARIAN_PASSWORD, LIBRARIAN_BALANCE, LIBRARIAN_EMAIL);
             librarian.setUserID(LIBRARIAN_KEY);
             return librarian;
-    });
+            } else {
+                return null;
+            }
+        });
         Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
 			return invocation.getArgument(0);
 		};
@@ -119,6 +139,7 @@ public class TestTimeSlotService {
     @AfterEach
     public void clearMockOutputs() {
         timeslotDao.deleteAll();
+        librarianDao.deleteAll();
         headLibrarianDao.deleteAll();
     }
 
@@ -508,6 +529,68 @@ public class TestTimeSlotService {
         } catch (Exception e) {
             fail();
         }
+    }
+
+     /**
+     * test get timeslot from null librarian
+     * @author Mathieu Geoffroy
+     */
+    @Test
+    public void testGetTimeSlotWithLibrarianNull() {
+        String error = null;
+        Librarian librarian = librarianDao.findLibrarianByUserID(LIBRARIAN_KEY);
+        lenient().when(librarianDao.existsById(anyInt())).thenReturn(true);
+        TimeSlot timeslot = timeslotDao.findTimeSlotByTimeSlotID(TIMESLOT_KEY);
+        lenient().when(timeslotDao.existsById(anyInt())).thenReturn(true);
+        
+        try {
+            service.assignTimeSlotToLibrarian(timeslot, librarian);
+            librarian = null;
+            assertNull(service.getTimeSlotsFromLibrarian(librarian).get(0).getTimeSlotID());
+        } catch (Exception e) {
+            error = e.getMessage();
+        }
+        assertEquals("A Librarian needs to be selected", error);
+    }
+
+    /**
+     * test get timeslot from librarianid
+     * @author Mathieu Geoffroy
+     */
+    @Test
+    public void testGetTimeSlotWithLibrarianUserID() {
+        Librarian librarian = librarianDao.findLibrarianByUserID(LIBRARIAN_KEY);
+        TimeSlot timeslot = timeslotDao.findTimeSlotByTimeSlotID(TIMESLOT_KEY);
+        lenient().when(librarianDao.existsById(anyInt())).thenReturn(true);
+        lenient().when(timeslotDao.existsById(anyInt())).thenReturn(true);
+        
+        try {
+            service.assignTimeSlotToLibrarian(timeslot, librarian);
+            assertEquals(TIMESLOT_KEY, service.getTimeSlotsFromLibrarianUserID(LIBRARIAN_KEY).get(0).getTimeSlotID());
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    /**
+     * test get timeslot from bad librarianid
+     * @author Mathieu Geoffroy
+     */
+    @Test
+    public void testGetTimeSlotWithLibrarianUserIDInvalid() {
+        String error = null;
+        Librarian librarian = librarianDao.findLibrarianByUserID(LIBRARIAN_KEY);
+        TimeSlot timeslot = timeslotDao.findTimeSlotByTimeSlotID(TIMESLOT_KEY);
+        lenient().when(librarianDao.existsById(anyInt())).thenReturn(true);
+        lenient().when(timeslotDao.existsById(anyInt())).thenReturn(true);
+        
+        try {
+            service.assignTimeSlotToLibrarian(timeslot, librarian);
+            assertNull(service.getTimeSlotsFromLibrarianUserID(-1).get(0).getTimeSlotID());
+        } catch (Exception e) {
+            error = e.getMessage();
+        }
+        assertEquals(error, "Invalid id");
     }
     
     /**
