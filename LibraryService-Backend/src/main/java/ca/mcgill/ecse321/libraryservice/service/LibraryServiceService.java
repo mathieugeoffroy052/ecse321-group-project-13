@@ -1006,15 +1006,11 @@ public class LibraryServiceService {
         }
         return allWaitlistedUsers;
     }
-
+//
    
     /**
      * Headlibrarian getters 
      * 1.get HeadLibrarian by ID (THROWS EXCPEPTION IF NOT EXIST)
-     * 2.get the Headlibrarian by from first & lastName
-     * 3.boolean to ensure only have 1 librarian instance at any time
-     * 4.boolean version of 1 Checing if user is a head librarian
-     * 5.get currentheadlibrarian
      * @author Eloyann Roy-Javanbakht
      * 
      * */
@@ -1031,47 +1027,28 @@ public class LibraryServiceService {
 
     }
 
-    public HeadLibrarian getIfLibrarianHeadFromFullName(String firstName, String lastName){
-    
-        String error = "";
-        if (firstName == null || lastName.trim().length() == 0) {
-            error = error + "First Name  cannot be empty! ";
-        }
-        if (firstName == null || lastName.trim().length() == 0) {
-            error = error + "Last Name  cannot be empty! ";
-        }
-        error = error.trim();
-        if (error.length() > 0) {
-            throw new IllegalArgumentException(error);
-        }
-        UserAccount head =  userAccountRepository.findByFirstNameAndLastName(firstName, lastName);
-       
-        if (!(head instanceof HeadLibrarian)){
-            throw new IllegalArgumentException("This there is no head Librarian by this name.");
-        }
-        return (HeadLibrarian)head;
-
-    }
-
+     /**
+     * Headlibrarian helper Method
+     * boolean to ensure only and always  1  head librarian instance at any time
+     * @author Eloyann Roy-Javanbakht
+     * 
+     * */ 
     @Transactional
-    public boolean checkOnlyOneHeadLibrarian(){
+    private boolean checkOnlyOneHeadLibrarian(){
       long counter=headLibrarianRepository.count();
         if(counter!=1) return false;
         else return true;
 
     }
 
-    @Transactional
-    public boolean checkIfHeadLibrarianFromUserId(int userID) throws Exception {
-        try { 
-        headLibrarianRepository.findHeadLibrarianByUserID(userID);
-        return true;
-      } catch (Exception e) {
-        throw new  Exception("This User ID does not correspond to a Head Librarian");
-      }
-      
-    }
 
+
+    /**
+     * Headlibrarian getters 
+     * get currentheadlibrarian in the system
+     * @author Eloyann Roy-Javanbakht
+     * 
+     * */
     public HeadLibrarian getHeadLibrarian() throws Exception{
     
         try {
@@ -1086,16 +1063,43 @@ public class LibraryServiceService {
  
           
      }
-    /**HeadLibrarian & Librarian Create and Replace
-     * 1. Create A Headlibrarian-- checks if has or not 
-     * 2. Replacing the current headlibrarian with a new one
-     * 3. Create Librarian--checks the user creating it is a head librarian
-     * 4. remove LIbrarian--checks the user deleting it is a head librarian
+    /**
+     * Headlibrarian getters 
+     * get headlibrarian from fullName
+     * @author Eloyann Roy-Javanbakht
+     * *private will be made public
+     * */
+     private HeadLibrarian getHeadLibrarianFromFullName(String firstName, String lastName)throws Exception{
+        String error = "";
+        if (firstName == null || firstName.trim().length() == 0) {
+            error = error + "First Name  cannot be empty! ";
+        }
+        if (lastName == null || lastName.trim().length() == 0) {
+            error = error + "Last Name  cannot be empty! ";
+        }
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
+
+
+            UserAccount librarian = userAccountRepository.findByFirstNameAndLastName(firstName, lastName);
+        
+        if(!(librarian instanceof HeadLibrarian)){
+            throw new Exception("the name privided does not correcpond to a Head librarian");
+        }
+        return (HeadLibrarian) librarian;
+
+    }
+
+     /**
+     * Create a new Librarian 
+     * Checks 1 : input validity
+     * Checks 2 : theres is 0 HeadLibrarian in the system before adding this one
+     * Calls on check if 
      * @author Eloyann Roy-Javanbakht
      */
-
-
-    public HeadLibrarian CreateANewHeadLibrarian(String aFirstName, String aLastName, boolean aOnlineAccount, String aAddress, String aPassword, int aBalance , String aEmail)
+    public HeadLibrarian createNewHeadLibrarian(String aFirstName, String aLastName, boolean aOnlineAccount, String aAddress, String aPassword, int aBalance , String aEmail)
     throws Exception {
 
         String error = "";
@@ -1120,7 +1124,7 @@ public class LibraryServiceService {
         }
         
         HeadLibrarian headLibrarian;
-        if(checkOnlyOneHeadLibrarian()) throw new  Exception("This User  does not the credentials to add a new librarian");
+        if(checkOnlyOneHeadLibrarian()) throw new  Exception("There is already a HeadLibrarian AccountExisting");
    
         headLibrarian = new HeadLibrarian(aFirstName, aLastName, aOnlineAccount, aAddress, aPassword, aBalance, aEmail);
         librarianRepository.save(headLibrarian);
@@ -1129,31 +1133,32 @@ public class LibraryServiceService {
         
     }
 
-
-    public boolean DeleteHeadLibrarian(int  userID)
+    /**
+     * Headlibrarian 
+     * delete a HeadLibrarian object with user ID
+     * @author Eloyann Roy-Javanbakht
+     * */
+    public HeadLibrarian deleteHeadLibrarian(int  userID)
     throws Exception {
        HeadLibrarian headLibrarian=getHeadLibrarian();
        HeadLibrarian thisone=getHeadLibrarianFromUserId(userID);
-       if(thisone.equals(headLibrarian)) 
-      headLibrarianRepository.delete(headLibrarian);
+       if(thisone.equals(headLibrarian)==false) throw new Exception("The UserID provided does not correspond to a  Head Librarian Account"); 
+      
+       headLibrarianRepository.delete(headLibrarian);
     
-        return true;
+        return headLibrarian;
         
     }
 
 
-    /**
-     * @author Gabrielle Halpin & Eloyann 
-     * @param creater
-     * @param aFirstName
-     * @param aLastName
-     * @param aOnlineAccount
-     * @param aAddress
-     * @param aPassword
-     * @param aBalance
-     * @return
-     * @throws Exception
-     */
+     /**
+     * Create a new Librarian 
+     * Checks 1 : input validity
+     * Checks 2 : theres creater is instance of HeadLibrarian before adding this one
+     * Checks 3: that this user does not already have an account as a librarian
+     * Calls on check if 
+     * @author Eloyann Roy-Javanbakht
+     * */
     public Librarian createANewLibrarian(UserAccount creater, String aFirstName, String aLastName, boolean aOnlineAccount, String aAddress, String aPassword, int aBalance , String aEmail) throws Exception {
   
         String error = "";
@@ -1188,22 +1193,58 @@ public class LibraryServiceService {
         }
         if(getLibrarianFromFullName(aFirstName, aLastName).getAddress().equals(aAddress)) throw new Exception("This User already has a librarian account");
        
-        Librarian librarian=new Librarian();
-      
-		librarian.setFirstName(aFirstName);
-        librarian.setLastName(aLastName);
-        librarian.setOnlineAccount(aOnlineAccount);
-        librarian.setAddress(aAddress);
-        librarian.setPassword(aPassword);
-        librarian.setBalance(aBalance);
-        librarian.setEmail(aEmail);
+        Librarian librarian=new Librarian(aFirstName,aLastName, aOnlineAccount, aAddress, aPassword, aBalance, aEmail);
+
         librarianRepository.save(librarian);
         return librarian;
         
     }
+     /**
+     * Create a new Librarian from existing Patron Account
+     * Checks 1 : input validity
+     * Checks 2 : theres creater is instance of HeadLibrarian before adding this one
+     * Checks 3: that this user does not already have an account as a librarian
+     * Calls on check if 
+     * @author Eloyann Roy-Javanbakht
+     * not yet implemented currently put private
+     * */
+    private Librarian upgradePatronAccountToLibrarian(int  userIDHeadLibrarian, int userID) throws Exception {
+        //checks credentials
 
-        //librarian delete
-    public boolean deleteALibrarian(int userID, int  userIDHeadLibrarian) throws Exception {
+        if(userIDHeadLibrarian!=getHeadLibrarian().getUserID())  
+        throw new  Exception("This User  does not the credentials to add a new librarian");
+          
+
+        UserAccount librarian=null;
+  
+        try {
+            librarian= getUserbyUserId(userID);
+        } catch (Exception e) {
+  
+          throw new  Exception("This ID is not associated to an existing account");
+        }
+
+       if((librarian instanceof Librarian) ){
+            throw new Exception("the ID privided  correcponds already to a Staff Member");
+        }
+         
+        if(!(librarian instanceof Patron) ){
+            throw new Exception("the ID privided  does not correcponds to a Patron");
+        }
+        deleteAPatronbyUserID(getHeadLibrarian(), userID);
+        
+       
+        librarianRepository.save((Librarian)librarian);
+         return (Librarian) librarian; 
+      }
+
+    
+        /**Delete an instance of Librarian 
+        * checks if user has credentials 
+        *checks if it exists as a librarian
+        * @author Eloyann Roy-Javanbakht
+        */
+    public Librarian deleteLibrarian(int  userIDHeadLibrarian, int userID) throws Exception {
         
       if(userIDHeadLibrarian!=getHeadLibrarian().getUserID())  
       throw new  Exception("This User  does not the credentials to add a new librarian");
@@ -1212,17 +1253,16 @@ public class LibraryServiceService {
       try {
           Librarian librarian= getLibrarianFromUserId(userID);
         librarianRepository.delete(librarian);
+        return librarian;
       } catch (Exception e) {
 
         throw new  Exception("This librarian does not exits");
       }
         
-        return true;
+        
     }
         /**Librarian getters
-        * 1. get librarian from name
-        * 2. get librarian from ID
-        * 3. get all librarians
+        * 1. get librarian from full name
         * @author Eloyann Roy-Javanbakht
         */
         public Librarian getLibrarianFromFullName(String firstName, String lastName)throws Exception{
@@ -1248,6 +1288,10 @@ public class LibraryServiceService {
 
         }
 
+        /**Librarian getters
+        * 1. get librarian from userID name
+        * @author Eloyann Roy-Javanbakht
+        */
        public Librarian getLibrarianFromUserId(int userID) throws Exception{
         try {
          Librarian librarian;
@@ -1256,8 +1300,7 @@ public class LibraryServiceService {
         } catch (Exception e) {
          throw new Exception("This User ID does not correspond to a Head Librarian");
         }
-    
-          
+  
         }
 
     //* TimeSlot Service Methods
