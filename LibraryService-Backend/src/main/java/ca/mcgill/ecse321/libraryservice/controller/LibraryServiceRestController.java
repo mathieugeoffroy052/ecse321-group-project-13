@@ -1213,7 +1213,7 @@ public class LibraryServiceRestController {
      * @returns HeadLibrarian
      * @author Ramin Akhavan-Sarraf
      */
-    /** 
+    
     private HeadLibrarian convertToDomainObject(HeadLibrarianDTO headLibrarianDTO) {
         HeadLibrarian headLibrarian;
         try {
@@ -1229,7 +1229,7 @@ public class LibraryServiceRestController {
         }
         return headLibrarian;
     }
-    */
+    
 
     /***
      * Gets the corresponding regular holiday from the DTO version
@@ -1482,7 +1482,7 @@ public class LibraryServiceRestController {
             "/createLibrarian/{firstName}/{lastName}/" })
     public LibrarianDTO createLibrarian(@PathVariable("firstName") String firstName,@PathVariable String aLastName,
     @RequestParam boolean aOnlineAccount, @RequestParam String aAddress, @RequestParam String aPassword, 
-    @RequestParam int aBalance, @RequestParam String aEmail, @RequestBody LibrarianDTO creator) throws Exception {
+    @RequestParam int aBalance, @RequestParam String aEmail, @RequestBody HeadLibrarianDTO creator) throws Exception {
 
         return convertToDto(service.createANewLibrarian(convertToDomainObject(creator), firstName, aLastName, aOnlineAccount, aAddress, aPassword,
                 aBalance, aEmail));
