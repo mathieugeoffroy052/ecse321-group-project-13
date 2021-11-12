@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -380,4 +381,34 @@ public class TestBorrowableItemService {
 		assertEquals(error, "This bar code number does not exist as a Borrowable Item");
 			
 	}
+	
+	/**
+	 * This test gets a reserved items from a user from the system given their account,
+	 *  This returns an error when the account parameter is null.
+	 *  
+	 * @author Zoya Malhi
+	 * @throws Exception
+	 */
+	@Test
+	public void testGetReservedItemsFromUser() throws Exception {
+		
+		String error = null;
+		List<BorrowableItem> borrowableItem = null;
+		
+		try {
+			borrowableItem = service.getReservedItemsFromUser(null);
+			
+		}
+		catch (IllegalArgumentException e) {
+			error = e.getMessage();
+			
+		}
+			assertNull(borrowableItem);
+			
+			//verify error
+			assertEquals("Account cannot be null!", error);
+		
+	}
+	
+	
 }

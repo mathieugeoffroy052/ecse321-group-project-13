@@ -594,21 +594,21 @@ public void testGetPatronFromFullNameSuccessful() throws Exception {
  * @author Zoya Malhi
  * @throws Exception
  */
-//@Test
-//public void testGetPatronFromFullNameError() throws Exception {
-//	String error = "";
-//	Patron patron = null;
-//	try {
-//		patron = service.getPatronFromFullName("Mary", "Adams");
-//		
-//	}
-//	catch (IllegalArgumentException e) {
-//		error = e.getMessage();
-//	}
-//		assertNull(patron);
-//		//verify error
-//		assertEquals("Could not get patron from full name!", error);
-//}
+@Test
+public void testGetPatronFromFullNameError() throws Exception {
+	String error = "";
+	Patron patron = null;
+	try {
+		patron = service.getPatronFromFullName("Mary", "Adams");
+		
+	}
+	catch (IllegalArgumentException e) {
+		error = e.getMessage();
+	}
+		//assertNull(patron);
+		//verify error
+		assertEquals( error, "Could not get patron from full name!");
+}
 
 /**
  * This test gets a patron from the system given their first and last name,

@@ -1938,31 +1938,26 @@ public class LibraryServiceService {
         if (lastName == null || lastName.trim().length() == 0) {
             error = error + "Last Name cannot be empty!";
         }
-        error = error.trim();
-        if (error.length() > 0) {
-            throw new IllegalArgumentException(error);
-        }
+        
         
        List<Patron> patron = getAllPatrons();
       
        for (Patron p: patron){
     	   if (p == null) {
         	  error +=  "Could not get patron from full name!";
-            error = error.trim();
-  	     if (error.length() > 0) {
-  	    	 throw new IllegalArgumentException(error);
-  	     }
+            
   	     }
     	   else if(p.getFirstName().equals(firstName) && p.getLastName().equals(lastName)) {
         	  
            return p;
            }
-       
+       error = error.trim();
+  	     if (error.length() > 0) {
+  	    	 throw new IllegalArgumentException(error);
+  	     }
            
        }
         
-      
-      
 	return null;
 
     }
