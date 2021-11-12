@@ -1758,6 +1758,18 @@ public class LibraryServiceService {
      */
     @Transactional
 	public BorrowableItem createBorrowableItem(ItemState itemState, LibraryItem libraryItem) throws Exception{
+        String error = "";
+        if (itemState == null && error.length() == 0) {
+            error = error + "Item state cannot be empty!";
+        }
+        if (libraryItem == null && error.length() == 0) {
+            error = error + "Library item cannot be empty!";
+        }
+
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
 		BorrowableItem item = new BorrowableItem(itemState, libraryItem);
         borrowableItemRepository.save(item);
         return item;
@@ -1775,6 +1787,18 @@ public class LibraryServiceService {
      */
     @Transactional
 	public LibraryItem createLibraryItem(String name, ItemType itemType, Date date, String creator, boolean isViewable) throws Exception{
+        String error = "";
+        if ((name == null || name.trim().length() == 0)&& error.length() == 0) {
+            error = error + "Name cannot be empty!";
+        }
+        if (itemType == null && error.length() == 0) {
+            error = error + "Item type cannot be empty!";
+        }
+
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
 		LibraryItem item = new LibraryItem(name, itemType, date, creator, isViewable);
         libraryItemRepository.save(item);
         return item;

@@ -289,6 +289,56 @@ public class TestBorrowableItemService {
 	}
 
 	/**
+	 * This tests verifies if a borrowable item is made in the database
+	 * 
+	 * @author Ramin Akhavan-Sarraf
+	 * @throws Exception
+	 */
+	@Test
+	public void testCreateBorrowableItemNoStateFail() throws Exception {
+		
+		String error = "";
+		BorrowableItem borrowableItem = null;
+		LibraryItem libraryItem = null;
+		
+		try {
+			libraryItem = service.createLibraryItem(BOOK_NAME, BOOK_TYPE, BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
+			libraryItem.setIsbn(BOOK_ISBN);
+			borrowableItem = service.createBorrowableItem(null, libraryItem);
+		}
+		catch (IllegalArgumentException e) {
+			error = e.getMessage();
+			
+		}
+		assertEquals(error, "Item state cannot be empty!");
+			
+	}
+
+	/**
+	 * This tests verifies if a borrowable item is made in the database
+	 * 
+	 * @author Ramin Akhavan-Sarraf
+	 * @throws Exception
+	 */
+	@Test
+	public void testCreateBorrowableItemNoLibraryItemFail() throws Exception {
+		
+		String error = "";
+		BorrowableItem borrowableItem = null;
+		
+		try {
+			borrowableItem = service.createBorrowableItem(BOOK_STATE, null);
+		}
+		catch (IllegalArgumentException e) {
+			error = e.getMessage();
+			
+		}
+		assertEquals(error, "Library item cannot be empty!");
+			
+	}
+
+
+	/**
 	 * This tests verifies that a borrowable item was deleted from the database
 	 * 
 	 * @author Ramin Akhavan-Sarraf
@@ -296,7 +346,6 @@ public class TestBorrowableItemService {
 	 */
 	@Test
 	public void testDeleteBorrowableItemSuccess() throws Exception {
-		String error = "";
 		boolean borrowableDelete = false;
 		try {
 			borrowableDelete = service.deleteBorrowableItem(BOOK_BARCODENUMBER);

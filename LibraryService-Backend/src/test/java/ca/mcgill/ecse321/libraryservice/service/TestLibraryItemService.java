@@ -624,6 +624,52 @@ public class TestLibraryItemService {
 	}
 
 	/**
+	 * This tests verifies that a library item is not made in the database due to
+	 * an empty name field
+	 * 
+	 * @author Ramin Akhavan-Sarraf
+	 * @throws Exception
+	 */
+	@Test
+	public void testCreateLibraryItemNoNameFail() throws Exception {
+		String error = "";
+		LibraryItem libraryItem = null;
+		
+		try {
+			libraryItem = service.createLibraryItem(null, BOOK_TYPE, BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
+		}
+		catch (IllegalArgumentException e) {
+			error = e.getMessage();
+			
+		}
+		assertEquals(error, "Name cannot be empty!");
+			
+	}
+
+	/**
+	 * This tests verifies that a library item is not made in the database due to
+	 * an empty type field
+	 * 
+	 * @author Ramin Akhavan-Sarraf
+	 * @throws Exception
+	 */
+	@Test
+	public void testCreateLibraryItemNoTypeFail() throws Exception {
+		String error = "";
+		LibraryItem libraryItem = null;
+		
+		try {
+			libraryItem = service.createLibraryItem(BOOK_NAME, null, BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
+		}
+		catch (IllegalArgumentException e) {
+			error = e.getMessage();
+			
+		}
+		assertEquals(error, "Item type cannot be empty!");
+			
+	}
+
+	/**
 	 * This tests verifies that a library item was deleted from the database
 	 * 
 	 * @author Ramin Akhavan-Sarraf
