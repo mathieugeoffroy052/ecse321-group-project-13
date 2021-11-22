@@ -524,13 +524,13 @@ public class LibraryServiceRestController {
      * @author Amani Jammoul
      */
     @PostMapping(value = { "/reserve-item", "/reserve-item/" })
-    public TransactionDTO reserveAnItem(@RequestParam(name = "item") BorrowableItemDTO iDto,
-            @RequestParam(name = "account") UserAccountDTO aDto) throws Exception {
-        BorrowableItem i = service.getBorrowableItemFromBarCodeNumber(iDto.getBarCodeNumber());
-        UserAccount a = service.getUserAccountFromFullName(aDto.getFirstName(), aDto.getLastName());
+    public TransactionDTO reserveAnItem(@RequestParam(name = "barCodeNumber") int barCodeNumber,
+            @RequestParam(name = "userID") int userID) throws Exception {
+        BorrowableItem i = service.getBorrowableItemFromBarCodeNumber(barCodeNumber);
+        UserAccount a = service.getUserAccountByUserID(userID);
 
         Transaction t = service.createItemReserveTransaction(i, a);
-        return convertToDto(t);
+        return convertToDto(t); 
     }
 
     /**
