@@ -1621,9 +1621,10 @@ public class LibraryServiceRestController {
     public LibrarianDTO createLibrarian(@PathVariable("firstName") String firstName,
     @PathVariable("lastName") String aLastName,
     @RequestParam(name = "online") boolean aOnlineAccount, @RequestParam(name = "address") String aAddress,
-    @RequestParam(name = "password") String aPassword, @RequestParam(name = "balance") int aBalance, @RequestParam(name = "email") String aEmail, @RequestBody HeadLibrarianDTO creator) throws Exception {
+    @RequestParam(name = "password") String aPassword, @RequestParam(name = "balance") int aBalance, 
+    @RequestParam(name = "email") String aEmail, @RequestParam(name = "userID") int aUserID ) throws Exception {
 
-        return convertToDto(service.createANewLibrarian(convertToDomainObject(creator), firstName, aLastName, aOnlineAccount, aAddress, aPassword,
+        return convertToDto(service.createANewLibrarian(aUserID, firstName, aLastName, aOnlineAccount, aAddress, aPassword,
                 aBalance, aEmail));
     }
     

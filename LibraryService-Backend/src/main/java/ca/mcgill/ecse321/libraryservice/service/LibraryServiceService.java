@@ -1169,8 +1169,10 @@ public class LibraryServiceService {
      * Checks 3: that this user does not already have an account as a librarian
      * Calls on check if 
      * @author Eloyann Roy-Javanbakht
+     * 
+     * CHANGING TO STRING INPUT 
      * */
-    public Librarian createANewLibrarian(UserAccount creater, String aFirstName, String aLastName, boolean aOnlineAccount, String aAddress, String aPassword, int aBalance , String aEmail) throws Exception {
+    public Librarian createANewLibrarian(int createrID, String aFirstName, String aLastName, boolean aOnlineAccount, String aAddress, String aPassword, int aBalance , String aEmail) throws Exception {
   
         String error = "";
         if ((aFirstName == null || aFirstName.trim().length() == 0)&& error.length()==0) {
@@ -1178,9 +1180,6 @@ public class LibraryServiceService {
         }
         if ((aLastName == null || aLastName.trim().length() == 0)&& error.length()==0) {
             throw new  Exception("Last Name  cannot be empty!");
-        }
-        if (creater == null) {
-            throw new  Exception("User Requesting the change cannot be empty!");
         }
         if ((aAddress == null|| aAddress.trim().length() == 0)&& error.length()==0) {
             throw new  Exception("Address cannot be empty!");
@@ -1194,7 +1193,7 @@ public class LibraryServiceService {
 
 
         try {
-            if(!(getHeadLibrarianFromUserId(creater.getUserID()) instanceof HeadLibrarian)){
+            if(!(getHeadLibrarianFromUserId(createrID) instanceof HeadLibrarian)){
                 throw new  Exception("This User  does not the credentials to add a new librarian");
             }
 
