@@ -27,6 +27,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import ca.mcgill.ecse321.libraryservice.dao.HolidayRepository;
+import ca.mcgill.ecse321.libraryservice.dao.UserAccountRepository;
 import ca.mcgill.ecse321.libraryservice.dto.HolidayDTO;
 import ca.mcgill.ecse321.libraryservice.dto.LibrarianDTO;
 import ca.mcgill.ecse321.libraryservice.dto.TimeslotDTO;
@@ -40,6 +41,8 @@ public class TestHolidayService {
     private HolidayRepository holidayDao;
     @Mock
     private HeadLibrarianRepository headLibrarianDao;
+    @Mock
+    private UserAccountRepository userAccountDao;
 
     @InjectMocks
     private LibraryServiceService service;
@@ -103,6 +106,16 @@ public class TestHolidayService {
         lenient().when(headLibrarianDao.findHeadLibrarianByUserID(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
             this.headLibrarian.setLibrarianID(HEAD_LIBRARIAN_ID);
             return this.headLibrarian;
+        });
+
+        lenient().when(userAccountDao.findUserAccountByUserID(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
+            if(((int) invocation.getArgument(0)) > 0) {
+                this.headLibrarian.setLibrarianID(HEAD_LIBRARIAN_ID);
+                return this.headLibrarian;
+            } else {
+                return null;
+            }
+            
         });
 
         Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
@@ -264,7 +277,7 @@ public class TestHolidayService {
         lenient().when(headLibrarianDao.existsById(anyInt())).thenReturn(true);
 
         try {
-            holidays = service.getHolidaysFromHeadLibrarian(headLibrarianDao.findHeadLibrarianByUserID(HEAD_LIBRARIAN_ID));
+            holidays = service.getHolidaysFromHeadLibrarian(HEAD_LIBRARIAN_ID);
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -291,13 +304,13 @@ public class TestHolidayService {
         holiday = null;
 
         try {
-            holiday = service.getHolidaysFromHeadLibrarian(null).get(0);
+            holiday = service.getHolidaysFromHeadLibrarian(-1).get(0); //invalid id
         } catch (Exception e) {
             error = e.getMessage();
         }
 
         assertNull(holiday);
-        assertEquals("A HeadLibrarian needs to be selected", error);
+        assertEquals("Headlibrarian doesn't exists", error);
     }
 
 
@@ -392,7 +405,7 @@ public class TestHolidayService {
         
         int endLength = 0;
         try {
-            test = service.deleteHoliday(headLibrarian, holiday.getHolidayID());
+            test = service.deleteHoliday(headLibrarian.getUserID(), holiday.getHolidayID());
             Iterable<Holiday> allHolidays = holidayDao.findAll();
             ArrayList<Holiday> listHolidaysAfter = new ArrayList<Holiday>();
             for(Holiday h: allHolidays){
@@ -403,7 +416,7 @@ public class TestHolidayService {
             fail();
         }
 
-        assertEquals((0), endLength);
+        assertEquals(0, endLength);
         assertTrue(test);
     }
 
@@ -420,7 +433,7 @@ public class TestHolidayService {
         lenient().when(holidayDao.existsById(anyInt())).thenReturn(true);
 
         try {
-            service.deleteHoliday(headLibrarian, HOLIDAY_INVALID_ID);
+            service.deleteHoliday(headLibrarian.getUserID(), HOLIDAY_INVALID_ID);
             if (holidayDao.findAll().iterator().hasNext()) {  //gets timeslot if there, othewise, set to null
                 holiday = holidayDao.findAll().iterator().next();
             } else {
@@ -445,7 +458,7 @@ public class TestHolidayService {
         lenient().when(holidayDao.existsById(anyInt())).thenReturn(true);
 
         try {
-            service.deleteHoliday(null, holiday.getHolidayID());
+            service.deleteHoliday(-1, holiday.getHolidayID()); //invalid id
             if (holidayDao.findAll().iterator().hasNext()) {  //gets timeslot if there, othewise, set to null
                 holiday = holidayDao.findAll().iterator().next();
             } else {
