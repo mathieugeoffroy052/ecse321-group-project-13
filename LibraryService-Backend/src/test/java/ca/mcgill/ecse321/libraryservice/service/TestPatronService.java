@@ -13,6 +13,7 @@ import static org.mockito.Mockito.lenient;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -100,24 +101,6 @@ public void setMockOutput() {
     	
 	});
     
-    lenient().when(headLibrarianDAO.findHeadLibrarianByUserID(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
-    	if(invocation.getArgument(0).equals(HEAD_ID)) {
-    	HeadLibrarian headlibrarian = new HeadLibrarian();
-            headlibrarian.setLibrarianID(HEAD_ID);
-            headlibrarian.setFirstName("head");
-            headlibrarian.setLastName("lib"); 
-            headlibrarian.setEmail("headlib@email.com");
-            headlibrarian.setPassword("library123");
-            headlibrarian.setBalance(0);
-            headlibrarian.setOnlineAccount(true);
-            headlibrarian.setAddress("100 Library Street");
-        
-		
-		return headlibrarian;
-    	}else {
-            return null;
-        }
-	});
  // Whenever anything is saved, just return the parameter object
  		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
  			return invocation.getArgument(0);
@@ -127,6 +110,11 @@ lenient().when(userAccountDAO.save(any(UserAccount.class))).thenAnswer(returnPar
 lenient().when(headLibrarianDAO.save(any(HeadLibrarian.class))).thenAnswer(returnParameterAsAnswer);
 }
 
+@AfterEach
+public void clearMockOutputs() {
+patronDAO.deleteAll();
+userAccountDAO.deleteAll();
+}
 /**
  * This tests verifies if a patron is created successfully in
  * the database.
@@ -483,6 +471,29 @@ public void testGetPatronFromID() throws Exception {
 }
 
 /**
+ * This test calls the getPatronByUserID method which 
+ * queries the database and returns the patron with the same ID.
+ *  
+ * @author Zoya Malhi
+ * @throws Exception
+ */
+@Test 
+public void testGetPatronFromIDError() throws Exception {
+	int falseID = 0;
+	String error = "";
+	Patron patron = null;
+	try {
+		patron = service.getPatronByUserId(falseID);
+	}
+	catch (IllegalArgumentException e) {
+		error = e.getMessage();
+	}
+	assertNull(patron);
+	assertEquals("This patron does not exist.", error);
+
+}
+
+/**
  * This tests deletes a patron by calling the deleteAPatronbyUserID 
  * method which queries the database for the patron specified and deletes it from the system.
  * 
@@ -502,9 +513,32 @@ public void testDeletePatronByUserIDSuccessful() throws Exception{
 			
 		}
 		assertTrue(success);
-		assertNull(patron);
 
-	
+	}
+/**
+ * This tests deletes a patron by calling the deleteAPatronbyUserID 
+ * method which queries the database for the patron specified and deletes it from the system. Error is rasied since the patron does not exist.
+ * 
+ * @author Zoya Malhi
+ * @throws Exception
+ */
+@Test 
+public void testDeletePatronByUserIDFail() throws Exception{
+     	boolean success = false;
+		Patron patron = null;
+		String error = "";
+		try {
+			success = service.deleteAPatronbyUserID(PATRON_CREATOR, 123);
+		
+		}
+		catch (IllegalArgumentException e) {
+			error = e.getMessage();
+			
+		}
+			//verify error
+			assertNull(patron);
+			assertEquals("This user Id does not exist as a Patron", error);
+			
 		patronDAO.deleteAll();
         userAccountDAO.deleteAll();
         headLibrarianDAO.deleteAll();
@@ -533,9 +567,6 @@ public void testDeletePatronByUserIDWrongCreator() throws Exception{
 	}
 
     headLibrarianDAO.deleteAll();
-	patronDAO.deleteAll(); 
-    userAccountDAO.deleteAll();
-	
 }
 
 /**
@@ -560,8 +591,27 @@ public void testGetPatronFromFullNameSuccessful() throws Exception {
 		assertEquals(PATRON_FIRST_NAME, patron.getFirstName());
 		assertEquals(PATRON_LAST_NAME, patron.getLastName());
 		
-		patronDAO.deleteAll();
-        userAccountDAO.deleteAll();
+}
+/**
+ * This test gets a patron from the system given their first and last name. Error is returned.
+ *  
+ * @author Zoya Malhi
+ * @throws Exception
+ */
+@Test
+public void testGetPatronFromFullNameError() throws Exception {
+	String error = "";
+	Patron patron = null;
+	try {
+		patron = service.getPatronFromFullName("Mary", "Adams");
+		
+	}
+	catch (IllegalArgumentException e) {
+		error = e.getMessage();
+	}
+		assertNull(patron);
+		//verify error
+		assertEquals( "No patron found with this name! ", error);
 }
 
 /**
@@ -589,9 +639,7 @@ public void testGetPatronFromFullNameNullFirstName() throws Exception {
 		
 		//verify error
 		assertEquals("First Name cannot be empty!", error);
-		patronDAO.deleteAll();
-        userAccountDAO.deleteAll();
-	
+		
 }
 
 /**
@@ -701,10 +749,8 @@ public void testSetValidatedAccountSuccessful() throws Exception {
 	}
 		//assertNull(patron);
 		assertEquals(PATRON_VALIDATED_ACCOUNT, patron.getValidatedAccount());
-		//verify error
+	
 
-		patronDAO.deleteAll();
-        userAccountDAO.deleteAll();
 	
 }
 
@@ -735,8 +781,6 @@ public void testSetValidatedAccountWrongCreator() throws Exception {
 		assertNull(patron);
 		assertEquals("Only a Librarian can change the validity of an account", error);
 
-		patronDAO.deleteAll();
-        userAccountDAO.deleteAll();
 }
 
 /**
@@ -765,8 +809,6 @@ public void testSetValidatedAccountNullCreator() throws Exception {
 		assertNull(patron);
 		assertEquals("The creator cannot be null", error);
 		
-		patronDAO.deleteAll();
-        userAccountDAO.deleteAll();
 }
 
 /**
@@ -794,8 +836,7 @@ public void testSetValidatedAccountNullPatron() throws Exception {
 		//verify error
 		assertNull(patron);
 		assertEquals("The patron cannot be null", error);
-		patronDAO.deleteAll();
-        userAccountDAO.deleteAll();
+	
 }
 
 /**
@@ -810,18 +851,21 @@ public void testGetAllPatronsSuccessful() throws Exception {
 List<Patron> patrons = null;
 String error = "";
 	Patron patron = null;
+	
 	try {
 		patrons = service.getAllPatrons();
-		patron = patrons.get(0);
-	}
-	catch (IllegalArgumentException e) {
-		error = e.getMessage();
 		
 	}
-	assertNotNull(patron);
-	assertEquals(PATRON_FIRST_NAME, patron.getFirstName());
-	assertEquals(PATRON_LAST_NAME, patron.getLastName());
+	catch (IllegalArgumentException e) {
+		 throw new Exception("could not retrieve patrons");
+    	 
+	}
+		assertEquals(1, patrons.size());
+	
+
+	       
 }
+
 
 	
 }
