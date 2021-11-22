@@ -26,6 +26,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import ca.mcgill.ecse321.libraryservice.dao.OpeningHourRepository;
+import ca.mcgill.ecse321.libraryservice.dao.UserAccountRepository;
 import ca.mcgill.ecse321.libraryservice.dao.HeadLibrarianRepository;
 import ca.mcgill.ecse321.libraryservice.model.*;
 import ca.mcgill.ecse321.libraryservice.model.OpeningHour.DayOfWeek;
@@ -36,6 +37,8 @@ public class TestOpeningHourService {
     private OpeningHourRepository openingHourDao;
     @Mock
     private HeadLibrarianRepository headLibrarianDao;
+    @Mock
+    private UserAccountRepository userAccountDao;
 
     @InjectMocks
     private LibraryServiceService service;
@@ -95,6 +98,16 @@ public class TestOpeningHourService {
         lenient().when(headLibrarianDao.findHeadLibrarianByUserID(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
             this.headLibrarian.setLibrarianID(HEAD_LIBRARIAN_ID);
             return this.headLibrarian;
+        });
+
+        lenient().when(userAccountDao.findUserAccountByUserID(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
+            if(((int) invocation.getArgument(0)) > 0) {
+                this.headLibrarian.setLibrarianID(HEAD_LIBRARIAN_ID);
+                return this.headLibrarian;
+            } else {
+                return null;
+            }
+            
         });
 
         Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
@@ -308,7 +321,7 @@ public class TestOpeningHourService {
         lenient().when(openingHourDao.existsById(anyInt())).thenReturn(true);
 
         try {
-            test = service.deleteOpeningHour(headLibrarian, openingHour.getHourID());
+            test = service.deleteOpeningHour(headLibrarian.getUserID(), openingHour.getHourID());
             if (openingHourDao.findAll().iterator().hasNext()) {  //gets timeslot if there, othewise, set to null
                 openingHour = openingHourDao.findAll().iterator().next();
             } else {
