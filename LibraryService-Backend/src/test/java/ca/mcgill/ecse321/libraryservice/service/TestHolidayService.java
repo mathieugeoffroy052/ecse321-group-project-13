@@ -429,16 +429,10 @@ public class TestHolidayService {
     public void testDeleteHolidayInvalidId() {
         String error = null;
         
-        Holiday holiday = holidayDao.findHolidayByHolidayID(HOLIDAY_ID);
         lenient().when(holidayDao.existsById(anyInt())).thenReturn(true);
 
         try {
             service.deleteHoliday(headLibrarian.getUserID(), HOLIDAY_INVALID_ID);
-            if (holidayDao.findAll().iterator().hasNext()) {  //gets timeslot if there, othewise, set to null
-                holiday = holidayDao.findAll().iterator().next();
-            } else {
-                holiday = null;
-            }
         } catch (Exception e) {
             error = e.getMessage();
         }
