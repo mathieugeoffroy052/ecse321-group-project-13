@@ -50,6 +50,16 @@ private static final String PATRON_ADDRESS = "123 Smith Street";
 private static final boolean PATRON_VALIDATED_ACCOUNT = false;
 private static final String PATRON_PASSWORD = "patron123";
 private static final int HEAD_ID = 100;
+// private static final int CREATOR_ID = 123;
+// private static final String CREATOR_FIRST_NAME = "John";
+// private static final String CREATOR_LAST_NAME = "Smith";
+// private static final String CREATOR_EMAIL = "johnsmith@email.com";
+// private static final int CREATOR_BALANCE = 0;
+// private static final UserAccount CREATOR_CREATOR = new Librarian();
+// private static final boolean PATRON_ONLINE_ACCOUNT = true;
+// private static final String PATRON_ADDRESS = "123 Smith Street";
+// private static final boolean PATRON_VALIDATED_ACCOUNT = false;
+// private static final String PATRON_PASSWORD = "patron123";
 
 
 /**
@@ -128,7 +138,7 @@ public void testCreatePatronSuccessful() throws Exception {
 	Patron patron = null;
 	
 	try {
-		patron = service.createPatron(PATRON_CREATOR, PATRON_FIRST_NAME, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
+		patron = service.createPatron(PATRON_CREATOR.getUserID(), PATRON_FIRST_NAME, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
 	
 	}
 	catch (IllegalArgumentException e) {
@@ -160,7 +170,7 @@ public void testCreatePatronNullFirstName() throws Exception {
 	Patron patron = null;
 	String firstName = null;
 	try {
-		patron = service.createPatron(PATRON_CREATOR, firstName, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
+		patron = service.createPatron(PATRON_CREATOR.getUserID(), firstName, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
 		
 	}
 	catch (IllegalArgumentException e) {
@@ -187,7 +197,7 @@ public void testCreatePatronEmptyFirstName() throws Exception {
 	Patron patron = null;
 	String firstName = "";
 	try {
-		patron = service.createPatron(PATRON_CREATOR, firstName, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
+		patron = service.createPatron(PATRON_CREATOR.getUserID(), firstName, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
 		
 	}
 	catch (IllegalArgumentException e) {
@@ -214,7 +224,7 @@ public void testCreatePatronNullLastName() throws Exception {
 	Patron patron = null;
 	String lastName = null;
 	try {
-		patron = service.createPatron(PATRON_CREATOR, PATRON_FIRST_NAME, lastName, PATRON_ONLINE_ACCOUNT, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
+		patron = service.createPatron(PATRON_CREATOR.getUserID(), PATRON_FIRST_NAME, lastName, PATRON_ONLINE_ACCOUNT, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
 		
 	}
 	catch (IllegalArgumentException e) {
@@ -241,7 +251,7 @@ public void testCreatePatronEmptyLastName() throws Exception {
 	Patron patron = null;
 	String lastName = "";
 	try {
-		patron = service.createPatron(PATRON_CREATOR, PATRON_FIRST_NAME, lastName, PATRON_ONLINE_ACCOUNT,  PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
+		patron = service.createPatron(PATRON_CREATOR.getUserID(), PATRON_FIRST_NAME, lastName, PATRON_ONLINE_ACCOUNT,  PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
 		
 	}
 	catch (IllegalArgumentException e) {
@@ -268,7 +278,7 @@ public void testCreatePatronNullAddress() throws Exception {
 	Patron patron = null;
 	String address = null;
 	try {
-		patron = service.createPatron(PATRON_CREATOR, PATRON_FIRST_NAME, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, address, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
+		patron = service.createPatron(PATRON_CREATOR.getUserID(), PATRON_FIRST_NAME, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, address, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
 		
 	}
 	catch (IllegalArgumentException e) {
@@ -293,7 +303,7 @@ public void testCreatePatronEmptyAddress() throws Exception {
 	Patron patron = null;
 	String address = "";
 	try {
-		patron = service.createPatron(PATRON_CREATOR, PATRON_FIRST_NAME, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, address, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
+		patron = service.createPatron(PATRON_CREATOR.getUserID(), PATRON_FIRST_NAME, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, address, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
 		
 	}
 	catch (IllegalArgumentException e) {
@@ -319,7 +329,7 @@ public void testCreatePatronNullPassword() throws Exception {
 	Patron patron = null;
 	String password = null;
 	try {
-		patron = service.createPatron(PATRON_CREATOR, PATRON_FIRST_NAME, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, password, PATRON_BALANCE, PATRON_EMAIL);
+		patron = service.createPatron(PATRON_CREATOR.getUserID(), PATRON_FIRST_NAME, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, password, PATRON_BALANCE, PATRON_EMAIL);
 		
 	}
 	catch (IllegalArgumentException e) {
@@ -344,7 +354,7 @@ public void testCreatePatronEmptyPassword() throws Exception {
 	Patron patron = null;
 	String password = "";
 	try {
-		patron = service.createPatron(PATRON_CREATOR, PATRON_FIRST_NAME, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, password, PATRON_BALANCE, PATRON_EMAIL);
+		patron = service.createPatron(PATRON_CREATOR.getUserID(), PATRON_FIRST_NAME, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, password, PATRON_BALANCE, PATRON_EMAIL);
 		
 	}
 	catch (IllegalArgumentException e) {
@@ -370,7 +380,7 @@ public void testCreatePatronNullEmail() throws Exception {
 	Patron patron = null;
 	String email = null;
 	try {
-		patron = service.createPatron(PATRON_CREATOR, PATRON_FIRST_NAME, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, email);
+		patron = service.createPatron(PATRON_CREATOR.getUserID(), PATRON_FIRST_NAME, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, email);
 		
 	}
 	catch (IllegalArgumentException e) {
@@ -395,7 +405,7 @@ public void testCreatePatronEmptyEmail() throws Exception {
 	Patron patron = null;
 	String email = "";
 	try {
-		patron = service.createPatron(PATRON_CREATOR, PATRON_FIRST_NAME, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, email);
+		patron = service.createPatron(PATRON_CREATOR.getUserID(), PATRON_FIRST_NAME, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, email);
 		
 	}
 	catch (IllegalArgumentException e) {
@@ -421,7 +431,7 @@ public void testCreatePatronNullCreator() throws Exception {
 	Patron patron = null;
 	UserAccount creator = null;
 	try {
-		patron = service.createPatron(creator, PATRON_FIRST_NAME, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
+		patron = service.createPatron(creator.getUserID(), PATRON_FIRST_NAME, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
 	}
 	
 	catch (IllegalArgumentException e) {
@@ -443,11 +453,10 @@ public void testCreatePatronNullCreator() throws Exception {
 public void testCreatePatronPatronAsCreator() throws Exception {
 	String error = null;
 	Patron patron = null;
-	Patron creator = new Patron();
 	boolean onlineAccount = false;
 	
 	try {
-		patron = service.createPatron(creator, PATRON_FIRST_NAME, PATRON_LAST_NAME, onlineAccount, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
+		patron = service.createPatron(PATRON_ID, PATRON_FIRST_NAME, PATRON_LAST_NAME, onlineAccount, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
 	}
 	
 	catch (IllegalArgumentException e) {
@@ -740,7 +749,7 @@ public void testSetValidatedAccountSuccessful() throws Exception {
 	Patron patron = patronDAO.findPatronByUserID(PATRON_ID);
 	
 	try {
-		patron = service.setValidatedAccount(patron, PATRON_VALIDATED_ACCOUNT, PATRON_CREATOR);
+		patron = service.setValidatedAccount(patron.getUserID(), PATRON_VALIDATED_ACCOUNT, PATRON_CREATOR.getUserID());
 		
 	}
 	catch (IllegalArgumentException e) {
@@ -766,11 +775,10 @@ public void testSetValidatedAccountSuccessful() throws Exception {
 public void testSetValidatedAccountWrongCreator() throws Exception {
 	
 	String error = null;
-	Patron creator = new Patron();
 	Patron patron = null;
-	
+	Patron creator = service.getPatronFromFullName(PATRON_FIRST_NAME, PATRON_LAST_NAME);
 	try {
-		patron = service.setValidatedAccount(service.getPatronFromFullName(PATRON_FIRST_NAME, PATRON_LAST_NAME), PATRON_VALIDATED_ACCOUNT, creator);
+		patron = service.setValidatedAccount(creator.getUserID(), PATRON_VALIDATED_ACCOUNT, creator.getUserID());
 		
 	}
 	catch (IllegalArgumentException e) {
@@ -796,9 +804,9 @@ public void testSetValidatedAccountNullCreator() throws Exception {
 	String error = null;
 	
 	Patron patron = null;
-	Librarian creator = null;
+
 	try {
-		patron = service.setValidatedAccount(service.getPatronFromFullName(PATRON_FIRST_NAME, PATRON_LAST_NAME), PATRON_VALIDATED_ACCOUNT, creator);
+		patron = service.setValidatedAccount(PATRON_ID, PATRON_VALIDATED_ACCOUNT, 0);
 		
 	}
 	catch (IllegalArgumentException e) {
@@ -807,7 +815,7 @@ public void testSetValidatedAccountNullCreator() throws Exception {
 	}
 		//verify error
 		assertNull(patron);
-		assertEquals("The creator cannot be null", error);
+		assertEquals("The creator does not exist", error);
 		
 }
 
@@ -822,11 +830,10 @@ public void testSetValidatedAccountNullCreator() throws Exception {
 public void testSetValidatedAccountNullPatron() throws Exception {
 	
 	String error = null;
-	Patron p = null;
 	Patron patron = null;
 	
 	try {
-		patron = service.setValidatedAccount(p, PATRON_VALIDATED_ACCOUNT, PATRON_CREATOR);
+		patron = service.setValidatedAccount(0, PATRON_VALIDATED_ACCOUNT, PATRON_CREATOR.getUserID());
 		
 	}
 	catch (IllegalArgumentException e) {
@@ -835,7 +842,7 @@ public void testSetValidatedAccountNullPatron() throws Exception {
 	}
 		//verify error
 		assertNull(patron);
-		assertEquals("The patron cannot be null", error);
+		assertEquals("The patron does not exist", error);
 	
 }
 

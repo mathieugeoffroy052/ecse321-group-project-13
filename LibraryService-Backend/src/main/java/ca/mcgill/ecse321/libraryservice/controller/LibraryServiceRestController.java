@@ -295,14 +295,14 @@ public class LibraryServiceRestController {
     /**
      * @author Gabrielle Halpin
 	 * Update Password
-	 * @param user  
+	 * @param userID  
 	 * @param password
 	 * @return
 	 */
 	@PutMapping(value = {"/updatePassword", "/updatePassword/"})
-	public UserAccountDTO updatePassword(@RequestBody UserAccountDTO user, @RequestParam("password") String password) {
+	public UserAccountDTO updatePassword(@RequestParam int userID, @RequestParam("password") String password) {
 		UserAccountDTO accountDTO = new UserAccountDTO();
-		UserAccount  account = service.changePassword(password, convertToDomainObject(user));
+		UserAccount  account = service.changePassword(password, userID);
 		accountDTO = convertToDto(account);
 		return accountDTO; 
 	}
@@ -310,14 +310,14 @@ public class LibraryServiceRestController {
     /**
      * @author Gabrielle Halpin
 	 * Update Address of the user
-	 * @param user  
+	 * @param userID  
 	 * @param address
 	 * @return
 	 */
 	@PutMapping(value = {"/updateAddress", "/updateAddress/"})
-	public UserAccountDTO updateAddress(@RequestBody UserAccountDTO user, @RequestParam("address") String aAddress) {
+	public UserAccountDTO updateAddress(@RequestParam int userID, @RequestParam("address") String aAddress) {
 		UserAccountDTO accountDTO = new UserAccountDTO();
-		UserAccount  account = service.changeAddress(aAddress, convertToDomainObject(user));
+		UserAccount  account = service.changeAddress(aAddress, userID);
 		accountDTO = convertToDto(account);
 		return accountDTO; 
 	}
@@ -325,14 +325,14 @@ public class LibraryServiceRestController {
     /**
      * @author Gabrielle Halpin
 	 * Update firstName of the user
-	 * @param user  
+	 * @param userID  
 	 * @param firstName
 	 * @return
 	 */
 	@PutMapping(value = {"/updateFirstName", "/updateFirstName/"})
-	public UserAccountDTO updateFirstName(@RequestBody UserAccountDTO user, @RequestParam("firstName") String firstName) {
+	public UserAccountDTO updateFirstName(@RequestParam int userID, @RequestParam("firstName") String firstName) {
 		UserAccountDTO accountDTO = new UserAccountDTO();
-		UserAccount  account = service.changeFirstName(firstName, convertToDomainObject(user));
+		UserAccount  account = service.changeFirstName(firstName, userID);
 		accountDTO = convertToDto(account);
 		return accountDTO; 
 	}
@@ -340,14 +340,14 @@ public class LibraryServiceRestController {
     /**
      * @author Gabrielle Halpin
 	 * Update lastname of the user
-	 * @param user  
+	 * @param userID  
 	 * @param lastName
 	 * @return
 	 */
 	@PutMapping(value = {"/updateLastName", "/updateLastName/"})
-	public UserAccountDTO updateLastName(@RequestBody UserAccountDTO user, @RequestParam("lastName") String lastName) {
+	public UserAccountDTO updateLastName(@RequestParam int userID, @RequestParam("lastName") String lastName) {
 		UserAccountDTO accountDTO = new UserAccountDTO();
-		UserAccount  account = service.changeLastName(lastName, convertToDomainObject(user));
+		UserAccount  account = service.changeLastName(lastName, userID);
 		accountDTO = convertToDto(account);
 		return accountDTO; 
 	}
@@ -355,14 +355,14 @@ public class LibraryServiceRestController {
     /**
      * @author Gabrielle Halpin
 	 * Update Email of the user
-	 * @param user  
+	 * @param userID  
 	 * @param email
 	 * @return
 	 */
 	@PutMapping(value = {"/updateEmail", "/updateEmail/"})
-	public UserAccountDTO updateEmail(@RequestBody UserAccountDTO user, @RequestParam("email") String email) {
+	public UserAccountDTO updateEmail(@RequestParam int userID, @RequestParam("email") String email) {
 		UserAccountDTO accountDTO = new UserAccountDTO();
-		UserAccount  account = service.changeEmail(email, convertToDomainObject(user));
+		UserAccount  account = service.changeEmail(email, userID);
 		accountDTO = convertToDto(account);
 		return accountDTO; 
 	}
@@ -371,14 +371,15 @@ public class LibraryServiceRestController {
      * This method sets the validity of the user's online account
      * @author Gabrielle Halpin
 	 * Update Password
-	 * @param user  
+	 * @param userID  
 	 * @param password
+     * @param creatorID
 	 * @return
 	 */
 	@PutMapping(value = {"/setAccountValidity", "/setAccountValidity/"})
-	public UserAccountDTO setAccountValidity(@RequestBody PatronDTO patron, @RequestParam("validatedAccount") boolean validatedAccount, @RequestParam UserAccountDTO creator) throws Exception{
+	public UserAccountDTO setAccountValidity(@RequestParam int patronID, @RequestParam("validatedAccount") boolean validatedAccount, @RequestParam int creatorID) throws Exception{
 		UserAccountDTO accountDTO = new UserAccountDTO();
-		Patron  account = service.setValidatedAccount(convertToDomainObject(patron), validatedAccount, convertToDomainObject(creator));
+		Patron  account = service.setValidatedAccount(patronID, validatedAccount, creatorID);
 		accountDTO = convertToDto(account);
 		return accountDTO; 
 	}
@@ -412,10 +413,10 @@ public class LibraryServiceRestController {
      * @throws Exception
      */
     @PostMapping(value = { "/createPatron/{firstName}/{lastName}", "/createPatron/{firstName}/{lastName}/" })
-	public PatronDTO createPatron(@RequestBody LibrarianDTO creator, @PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName, @RequestParam("onlineAccount") boolean onlineAccount, 
+	public PatronDTO createPatron(@RequestParam int creatorID, @PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName, @RequestParam("onlineAccount") boolean onlineAccount, 
             @RequestParam("address") String address, @RequestParam("validatedAccount") boolean validatedAccount, @RequestParam("password") String password,
             @RequestParam("balance") int balance, @RequestParam("email") String email) throws Exception{
-		Patron patron = service.createPatron( convertToDomainObject(creator), firstName,  lastName,  onlineAccount,  address,  validatedAccount,  password,  balance,  email);
+		Patron patron = service.createPatron( creatorID, firstName,  lastName,  onlineAccount,  address,  validatedAccount,  password,  balance,  email);
 	return convertToDto(patron);
 	}
 
