@@ -47,17 +47,29 @@ private UserAccountRepository userAccountRepository;
 private PatronRepository patronRepository;
 
 
+
+private static final int CREATOR_ID = 123;
+private static final String CREATOR_FIRST_NAME = "Tristan";
+private static final String CREATOR_LAST_NAME = "Golden";
+private static final String CREATOR_EMAIL = "creator@email.com";
+private static final int CREATOR_BALANCE = 0;
+private static final boolean CREATOR_ONLINE_ACCOUNT = true;
+private static final String CREATOR_ADDRESS = "1234 ave jack";
+private static final boolean CREATOR_VALIDATED_ACCOUNT = true;
+private static final String CREATOR_PASSWORD = "creator123";
+
 private static final int USER_ID = 12345;
 private static final int USER_ID2 = 123456;
 private static final String USER_FIRST_NAME = "John";
 private static final String USER_LAST_NAME = "Smith";
 private static final String USER_EMAIL = "johnsmith@email.com";
 private static final int USER_BALANCE = 0;
-private static final UserAccount USER_CREATOR = new Librarian();
+private static final int USER_CREATOR_ID = CREATOR_ID;
 private static final boolean USER_ONLINE_ACCOUNT = true;
 private static final String USER_ADDRESS = "123 Smith Street";
 private static final boolean USER_VALIDATED_ACCOUNT = false;
 private static final String USER_PASSWORD = "patron123";
+
 
 	@InjectMocks
 	private LibraryServiceService service;
@@ -118,6 +130,20 @@ private static final String USER_PASSWORD = "patron123";
                 user.setOnlineAccount(false);
                 user.setAddress(USER_ADDRESS);
                 user.setValidatedAccount(USER_VALIDATED_ACCOUNT);
+                
+                return user;
+            }
+            else if(invocation.getArgument(0).equals(CREATOR_ID)) {
+            
+                Librarian user = new Librarian();
+                user.setUserID(CREATOR_ID);
+                user.setFirstName(CREATOR_FIRST_NAME);
+                user.setLastName(CREATOR_LAST_NAME); 
+                user.setEmail(CREATOR_EMAIL);
+                user.setPassword(CREATOR_PASSWORD);
+                user.setBalance(CREATOR_BALANCE);
+                user.setOnlineAccount(CREATOR_ONLINE_ACCOUNT);
+                user.setAddress(CREATOR_ADDRESS);
                 
                 return user;
             }
@@ -324,7 +350,7 @@ private static final String USER_PASSWORD = "patron123";
         }
 
         String newPassword = "helloWorld";
-        UserAccount account = service.changePassword(newPassword, patron);
+        UserAccount account = service.changePassword(newPassword, patron.getUserID());
 
         assertEquals(account.getFirstName(), USER_FIRST_NAME);
         assertEquals(account.getLastName(), USER_LAST_NAME);
@@ -355,7 +381,7 @@ private static final String USER_PASSWORD = "patron123";
         String newPassword = null;
         UserAccount account = null;
         try{
-            account = service.changePassword(newPassword, patron);
+            account = service.changePassword(newPassword, patron.getUserID());
         }catch(IllegalArgumentException e){
             assertEquals("The account must be an online account", e.getMessage());
         }
@@ -390,7 +416,7 @@ private static final String USER_PASSWORD = "patron123";
         String newPassword = null;
         UserAccount account = null;
         try{
-            account = service.changePassword(newPassword, patron);
+            account = service.changePassword(newPassword, patron.getUserID());
         }catch(IllegalArgumentException e){
             assertEquals("Password cannot be empty!", e.getMessage());
         }
@@ -419,9 +445,9 @@ private static final String USER_PASSWORD = "patron123";
         String newPassword = "Hello";
         UserAccount account = null;
         try{
-            account = service.changePassword(newPassword, account);
+            account = service.changePassword(newPassword, 1435);
         }catch(IllegalArgumentException e){
-            assertEquals("The account cannot be null", e.getMessage());
+            assertEquals("The patron does not exist", e.getMessage());
         }
 
         patronRepository.deleteAll();
@@ -444,14 +470,14 @@ private static final String USER_PASSWORD = "patron123";
         }
 
         
-        UserAccount account = service.setOnlineAccount(patron, USER_EMAIL, USER_PASSWORD, true, USER_CREATOR);
-        assertEquals(account.getFirstName(), USER_FIRST_NAME);
-        assertEquals(account.getLastName(), USER_LAST_NAME);
-        assertEquals(account.getOnlineAccount(), USER_ONLINE_ACCOUNT);
-        assertEquals(account.getAddress(), USER_ADDRESS);
-        assertEquals(account.getPassword(), USER_PASSWORD);
-        assertEquals(account.getBalance(), USER_BALANCE);
-        assertEquals(account.getEmail(), USER_EMAIL);
+        patron = service.setOnlineAccount(patron.getUserID(), USER_EMAIL, USER_PASSWORD, true, CREATOR_ID);
+        assertEquals(patron.getFirstName(), USER_FIRST_NAME);
+        assertEquals(patron.getLastName(), USER_LAST_NAME);
+        assertEquals(patron.getOnlineAccount(), USER_ONLINE_ACCOUNT);
+        assertEquals(patron.getAddress(), USER_ADDRESS);
+        assertEquals(patron.getPassword(), USER_PASSWORD);
+        assertEquals(patron.getBalance(), USER_BALANCE);
+        assertEquals(patron.getEmail(), USER_EMAIL);
 
         patronRepository.deleteAll();
         userAccountRepository.deleteAll();
@@ -475,7 +501,7 @@ private static final String USER_PASSWORD = "patron123";
         
         UserAccount account = null;
         try{
-            account = service.setOnlineAccount(patron, null, USER_PASSWORD, true, USER_CREATOR);
+            account = service.setOnlineAccount(patron.getUserID(), null, USER_PASSWORD, true, CREATOR_ID);
         }catch(IllegalArgumentException e){
             assertEquals( "Email cannot be empty!", e.getMessage());
         }
@@ -512,7 +538,7 @@ private static final String USER_PASSWORD = "patron123";
         
         UserAccount account = null;
         try{
-            account = service.setOnlineAccount(patron, USER_EMAIL, null, true, USER_CREATOR);
+            account = service.setOnlineAccount(patron.getUserID(), USER_EMAIL, null, true, CREATOR_ID);
         }catch(IllegalArgumentException e){
             assertEquals( "Password cannot be empty!", e.getMessage());
         }
@@ -549,9 +575,9 @@ private static final String USER_PASSWORD = "patron123";
         
         UserAccount account = null;
         try{
-            account = service.setOnlineAccount(patron, USER_EMAIL, USER_PASSWORD, true, null);
+            account = service.setOnlineAccount(patron.getUserID(), USER_EMAIL, USER_PASSWORD, true, 6797);
         }catch(IllegalArgumentException e){
-            assertEquals( "The creator cannot be null", e.getMessage());
+            assertEquals( "The creator does not exist", e.getMessage());
         }
         
 
@@ -586,9 +612,9 @@ private static final String USER_PASSWORD = "patron123";
         
         UserAccount account = null;
         try{
-            account = service.setOnlineAccount(null, USER_EMAIL, USER_PASSWORD, true, USER_CREATOR);
+            account = service.setOnlineAccount(6879, USER_EMAIL, USER_PASSWORD, true, CREATOR_ID);
         }catch(IllegalArgumentException e){
-            assertEquals( "The account cannot be null", e.getMessage());
+            assertEquals( "The patron does not exist", e.getMessage());
         }
         
 
@@ -621,7 +647,7 @@ private static final String USER_PASSWORD = "patron123";
             fail();
         }
         String newName = "BOB";
-        UserAccount account = service.changeFirstName(newName, patron);
+        patron = service.changeFirstName(newName, patron.getUserID());
         assertEquals(patron.getFirstName(), newName);
         assertEquals(patron.getLastName(), USER_LAST_NAME);
         assertEquals(patron.getOnlineAccount(), USER_ONLINE_ACCOUNT);
@@ -651,7 +677,7 @@ private static final String USER_PASSWORD = "patron123";
   
         UserAccount account = null;
         try{
-            account = service.changeFirstName(USER_FIRST_NAME, patron);
+            account = service.changeFirstName(USER_FIRST_NAME, patron.getUserID());
         }catch(IllegalArgumentException e){
             assertEquals("This is already your firstName.", e.getMessage());
         }
@@ -688,7 +714,7 @@ private static final String USER_PASSWORD = "patron123";
   
         UserAccount account = null;
         try{
-            account = service.changeFirstName("", patron);
+            account = service.changeFirstName("", patron.getUserID());
         }catch(IllegalArgumentException e){
             assertEquals("firstName cannot be empty!", e.getMessage());
         }
@@ -724,9 +750,9 @@ private static final String USER_PASSWORD = "patron123";
   
         UserAccount account = null;
         try{
-            account = service.changeFirstName("BOB", null);
+            account = service.changeFirstName("BOB", 1754);
         }catch(IllegalArgumentException e){
-            assertEquals("The account cannot be null", e.getMessage());
+            assertEquals("The patron does not exist", e.getMessage());
         }
         
 
@@ -759,7 +785,7 @@ private static final String USER_PASSWORD = "patron123";
             fail();
         }
         String newName = "BOB";
-        UserAccount account = service.changeLastName(newName, patron);
+        patron = service.changeLastName(newName, patron.getUserID());
         assertEquals(patron.getFirstName(), USER_FIRST_NAME);
         assertEquals(patron.getLastName(), newName);
         assertEquals(patron.getOnlineAccount(), USER_ONLINE_ACCOUNT);
@@ -790,7 +816,7 @@ private static final String USER_PASSWORD = "patron123";
   
         UserAccount account = null;
         try{
-            account = service.changeLastName(USER_LAST_NAME, patron);
+            account = service.changeLastName(USER_LAST_NAME, patron.getUserID());
         }catch(IllegalArgumentException e){
             assertEquals("This is already your lastname.", e.getMessage());
         }
@@ -827,7 +853,7 @@ private static final String USER_PASSWORD = "patron123";
   
         UserAccount account = null;
         try{
-            account = service.changeLastName("", patron);
+            account = service.changeLastName("", patron.getUserID());
         }catch(IllegalArgumentException e){
             assertEquals("lastname cannot be empty!", e.getMessage());
         }
@@ -863,9 +889,9 @@ private static final String USER_PASSWORD = "patron123";
   
         UserAccount account = null;
         try{
-            account = service.changeLastName("BOB", null);
+            account = service.changeLastName("BOB", 23563);
         }catch(IllegalArgumentException e){
-            assertEquals("The account cannot be null", e.getMessage());
+            assertEquals("The patron does not exist", e.getMessage());
         }
         
 
@@ -897,7 +923,7 @@ private static final String USER_PASSWORD = "patron123";
             fail();
         }
         String address = "2 Avenue bobRoss";
-        UserAccount account = service.changeAddress(address, patron);
+        patron = service.changeAddress(address, patron.getUserID());
         assertEquals(patron.getFirstName(), USER_FIRST_NAME);
         assertEquals(patron.getLastName(), USER_LAST_NAME);
         assertEquals(patron.getOnlineAccount(), USER_ONLINE_ACCOUNT);
@@ -930,7 +956,7 @@ private static final String USER_PASSWORD = "patron123";
         UserAccount account = null;
         String newAddress = null;
         try{
-            account = service.changeAddress(newAddress, patron);
+            account = service.changeAddress(newAddress, patron.getUserID());
         }catch(IllegalArgumentException e){
             assertEquals("Address cannot be empty!", e.getMessage());
         }
@@ -969,9 +995,9 @@ private static final String USER_PASSWORD = "patron123";
         UserAccount account = null;
         String newAddress = "2 avenue what";
         try{
-            account = service.changeAddress(newAddress, null);
+            account = service.changeAddress(newAddress, 15545);
         }catch(IllegalArgumentException e){
-            assertEquals("The account cannot be null", e.getMessage());
+            assertEquals("The patron does not exist", e.getMessage());
         }
         
 
@@ -1006,7 +1032,7 @@ private static final String USER_PASSWORD = "patron123";
   
         UserAccount account = null;
         try{
-            account = service.changeAddress(USER_ADDRESS, patron);
+            account = service.changeAddress(USER_ADDRESS, patron.getUserID());
         }catch(IllegalArgumentException e){
             assertEquals("This is already your Address.", e.getMessage());
         }
@@ -1041,7 +1067,7 @@ private static final String USER_PASSWORD = "patron123";
             fail();
         }
         String email = "bob@email.com";
-        UserAccount account = service.changeEmail(email, patron);
+        patron = service.changeEmail(email, patron.getUserID());
         assertEquals(patron.getFirstName(), USER_FIRST_NAME);
         assertEquals(patron.getLastName(), USER_LAST_NAME);
         assertEquals(patron.getOnlineAccount(), USER_ONLINE_ACCOUNT);
@@ -1074,7 +1100,7 @@ private static final String USER_PASSWORD = "patron123";
   
         String newEmail = "eamil@email.com";
         try{
-            UserAccount account = service.changeEmail(newEmail, patron);
+            UserAccount account = service.changeEmail(newEmail, patron.getUserID());
         }catch(IllegalArgumentException e){
             assertEquals("The account must be an online account", e.getMessage());
         }
@@ -1112,9 +1138,9 @@ private static final String USER_PASSWORD = "patron123";
   
         String newEmail = "eamil@email.com";
         try{
-            UserAccount account = service.changeEmail(newEmail, null);
+            UserAccount account = service.changeEmail(newEmail, 1663);
         }catch(IllegalArgumentException e){
-            assertEquals("The account cannot be null", e.getMessage());
+            assertEquals("The patron does not exist", e.getMessage());
         }
         
 
@@ -1149,7 +1175,7 @@ private static final String USER_PASSWORD = "patron123";
         }
   
         try{
-            UserAccount account = service.changeEmail(null, patron);
+            UserAccount account = service.changeEmail(null, patron.getUserID());
         }catch(IllegalArgumentException e){
             assertEquals("Email cannot be empty!", e.getMessage());
         }
@@ -1186,7 +1212,7 @@ private static final String USER_PASSWORD = "patron123";
         }
   
         try{
-            UserAccount account = service.changeEmail(USER_EMAIL, patron);
+            UserAccount account = service.changeEmail(USER_EMAIL, patron.getUserID());
         }catch(IllegalArgumentException e){
             assertEquals("This is already your Email.", e.getMessage());
         }
