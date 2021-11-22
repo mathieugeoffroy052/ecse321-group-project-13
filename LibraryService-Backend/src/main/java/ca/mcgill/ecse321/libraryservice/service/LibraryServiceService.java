@@ -2045,11 +2045,15 @@ public class LibraryServiceService {
      * This field allows the user to change their password for an online account
      * @author Gabrielle Halpin
      * @param aPassWord
-     * @param account
+     * @param userID
      * @return boolean 
      */
     
-    public UserAccount changePassword(String aPassWord, UserAccount account){
+    public UserAccount changePassword(String aPassWord, int userID){
+        if (userID <= 0){
+            throw new IllegalArgumentException("The ID cannot be 0");
+        }
+        UserAccount account = userAccountRepository.findUserAccountByUserID(userID);
         if (account == null){
             throw new IllegalArgumentException("The account cannot be null");
         }
@@ -2071,10 +2075,14 @@ public class LibraryServiceService {
      * @author Gabrielle Halpin
      * This method allows the user to change their firstName
      * @param aFirstName
-     * @param account
+     * @param userID
      * @return Useraccount account
      */
-    public UserAccount changeFirstName(String aFirstName, UserAccount account){
+    public UserAccount changeFirstName(String aFirstName, int userID){
+        if (userID <= 0){
+            throw new IllegalArgumentException("The ID cannot be 0");
+        }
+        UserAccount account = userAccountRepository.findUserAccountByUserID(userID);
         if (account == null){
             throw new IllegalArgumentException("The account cannot be null"); 
         }
@@ -2093,10 +2101,14 @@ public class LibraryServiceService {
      * @author Gabrielle Halpin
      * This method allows the user to change their lastName
      * @param aLastName
-     * @param account
+     * @param userID
      * @return Useraccount account
      */
-    public UserAccount changeLastName(String aLastname, UserAccount account){
+    public UserAccount changeLastName(String aLastname, int userID){
+        if (userID <= 0){
+            throw new IllegalArgumentException("The ID cannot be 0");
+        }
+        UserAccount account = userAccountRepository.findUserAccountByUserID(userID);
         if (account == null){
             throw new IllegalArgumentException("The account cannot be null");
         }
@@ -2115,10 +2127,14 @@ public class LibraryServiceService {
      * @author Gabrielle Halpin
      * This method allows the user to change their address 
      * @param aAddress
-     * @param account
+     * @param userID
      * @return Useraccount account
      */
-    public UserAccount changeAddress(String aAddress, UserAccount account){
+    public UserAccount changeAddress(String aAddress, int userID){
+        if (userID <= 0){
+            throw new IllegalArgumentException("The ID cannot be 0");
+        }
+        UserAccount account = userAccountRepository.findUserAccountByUserID(userID);
         if (account == null ){
             throw new IllegalArgumentException("The account cannot be null"); 
         }
@@ -2137,10 +2153,14 @@ public class LibraryServiceService {
      * @author Gabrielle Halpin
      * This method allows the user to change their email 
      * @param aEmail
-     * @param account
+     * @param userID
      * @return Useraccount account
      */
-    public UserAccount changeEmail(String aEmail, UserAccount account){
+    public UserAccount changeEmail(String aEmail, int userID){
+        if (userID <= 0){
+            throw new IllegalArgumentException("The ID cannot be 0");
+        }
+        UserAccount account = userAccountRepository.findUserAccountByUserID(userID);
         if (account == null){
             throw new IllegalArgumentException("The account cannot be null");
         }
@@ -2161,14 +2181,22 @@ public class LibraryServiceService {
     /**
      * This mathod is called when the Librarian set's a customer's account to an online account
      * @author Gabrielle Hapin
-     * @param account
+     * @param userID
      * @param aEmail
      * @param aPassword
      * @param aOnlineAccount
-     * @param creator
+     * @param creatorID
      * @return UserAccount
      */
-    public UserAccount setOnlineAccount(UserAccount account, String aEmail, String aPassword, boolean aOnlineAccount, UserAccount creator){
+    public UserAccount setOnlineAccount(int userID, String aEmail, String aPassword, boolean aOnlineAccount, int creatorID){
+        if (userID <= 0){
+            throw new IllegalArgumentException("The ID cannot be 0");
+        }
+        UserAccount account = userAccountRepository.findUserAccountByUserID(userID);
+        if (creatorID <= 0){
+            throw new IllegalArgumentException("The ID cannot be 0");
+        }
+        UserAccount creator = userAccountRepository.findUserAccountByUserID(creatorID);
         if (account == null ){
             throw new IllegalArgumentException("The account cannot be null");
         }
@@ -2201,13 +2229,21 @@ public class LibraryServiceService {
     /**
      * This method sets the validity of the user account which must be done by a librarian
      * @author Gabrielle Halpin
-     * @param patron
+     * @param patronID
      * @param validated
-     * @param creator
+     * @param creatorID
      * @return PatronDTO
      * @throws Exception
      */
-    public Patron setValidatedAccount(Patron patron, boolean validated, UserAccount creator) throws Exception{
+    public Patron setValidatedAccount(int patronID, boolean validated, int creatorID) throws Exception{
+        if (patronID <= 0){
+            throw new IllegalArgumentException("The ID cannot be 0");
+        }
+        Patron patron = patronRepository.findPatronByUserID(patronID);
+        if (creatorID <= 0){
+            throw new IllegalArgumentException("The ID cannot be 0");
+        }
+        UserAccount creator = userAccountRepository.findUserAccountByUserID(creatorID);
         if (creator == null){
             throw new IllegalArgumentException("The creator cannot be null");
         }
