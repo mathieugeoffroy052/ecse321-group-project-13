@@ -1933,14 +1933,19 @@ public class LibraryServiceService {
      */
     @Transactional
 	public Patron getPatronByUserId(int userID) throws Exception {
-		try {
-			Patron person = patronRepository.findPatronByUserID(userID);
+		String error = "";
+		Patron person = patronRepository.findPatronByUserID(userID);
 		
+
+		if (person == null) {
+			error += "This patron does not exist.";
+		}
+		
+		 error = error.trim();
+	     if (error.length() > 0) {
+	    	 throw new IllegalArgumentException(error);
+	     }
 		return person;
-		}
-		catch (Exception e) {
-	         throw new Exception("This patron does not exist.");
-		}
 	}
     
     /***
@@ -1950,9 +1955,10 @@ public class LibraryServiceService {
     * @return null 
     added checks -elo
     checked
+     * @throws Exception 
     */
     @Transactional
-    public Patron getPatronFromFullName(String firstName, String lastName){
+    public Patron getPatronFromFullName(String firstName, String lastName) throws Exception{
        		
         String error = "";
         if (firstName == null || firstName.trim().length() == 0) {
@@ -1961,24 +1967,23 @@ public class LibraryServiceService {
         if (lastName == null || lastName.trim().length() == 0) {
             error = error + "Last Name cannot be empty!";
         }
+       
+
         error = error.trim();
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
         }
-       
-        try { 
-       List<Patron> patron = getAllPatrons();
-      
-       for (Patron p: patron){
-           if(p.getFirstName().equals(firstName) && p.getLastName().equals(lastName)) return p;
 
-       }
-      }
-      catch (Exception e) {
-          throw new IllegalArgumentException("Could not get patron from full name!");
-      
-      }
-	return null;
+        List<Patron> allPatrons = (List<Patron>) patronRepository.findAll();
+        Patron patron = null;
+        for(Patron p : allPatrons){
+            if(p.getFirstName().equals(firstName) && p.getLastName().equals(lastName)){
+                patron = p;
+            }
+        }
+        if(patron != null) return patron;
+        else throw new IllegalArgumentException("No patron found with this name! ");
+       
 
     }
     
@@ -1997,15 +2002,18 @@ public class LibraryServiceService {
             throw new  Exception("This user does not have the credentials to delete an existing patron");
         }
 
-        try {
+       String error = "";
             Patron patronAccount = patronRepository.findPatronByUserID(userID);
             patronRepository.delete(patronAccount);
-            
-            return true;
-        } catch (Exception e) {
-            throw new  Exception("This user Id does not exist as a Patron");
-        }
- 
+            if (patronAccount ==null) {
+            	error += "This user Id does not exist as a Patron";
+            }
+           
+            error = error.trim();
+     	     if (error.length() > 0) {
+     	    	 throw new IllegalArgumentException(error);
+     	     }
+  return true;
     }
 
 
@@ -2020,11 +2028,28 @@ public class LibraryServiceService {
     
     @Transactional
     public List<Patron> getAllPatrons() throws Exception{
-        try {
-        return toList(patronRepository.findAll());         
-        } catch (Exception e) {
-         throw new Exception("There are no patrons in the database.");
-        }    
+        
+    	 Iterable<Patron> allPatrons = patronRepository.findAll();
+         List<Patron> patrons = new ArrayList<Patron>();
+         String error = "";
+         for(Patron patron: allPatrons){
+             patrons.add(patron);
+         }
+         if(patrons.size()==0 || patrons == null){
+             error = "There are no patrons in the system";
+         }
+        	
+        	error = error.trim();
+            if (error.length() > 0) {
+                throw new IllegalArgumentException(error);
+            }
+			return patrons;
+         
+        	
+         
+        
+    	
+       
     }
     
     /***
@@ -2217,14 +2242,17 @@ public class LibraryServiceService {
         if (patron == null){
             throw new IllegalArgumentException("The patron cannot be null");
         }
-
-        try {
-            patron.setValidatedAccount(validated);
+        else {
+        	
+        	patron.setValidatedAccount(validated);
+        }
             return patron;
             
-           } catch (Exception e) {
-            throw new Exception("This user does not exists in the database.");
-        }
+//        try {
+//            
+//           } catch (Exception e) {
+//            throw new Exception("This user does not exists in the database.");
+//        }
            
     }
 
@@ -2265,12 +2293,23 @@ public class LibraryServiceService {
      * checked
      */
    public List<Librarian> getAllLibrarians() throws Exception{
-       try {
-       return toList(librarianRepository.findAll());
+	   String error = "";
+	   List<Librarian> list = new ArrayList();
+	   list = toList(librarianRepository.findAll());
+	   if (list == null) {
+   		error += "There are no librarians in the database.";
+	   	}
+   	else {
+   		throw new Exception("There are no librarians is the database.");
+   	}
        
-       } catch (Exception e) {
-        throw new Exception("There are no librarians is the database.");
-       }
+       
+       error = error.trim();
+	     if (error.length() > 0) {
+	    	 throw new IllegalArgumentException(error);
+	     }
+		return list;
+    
       
     }
 
