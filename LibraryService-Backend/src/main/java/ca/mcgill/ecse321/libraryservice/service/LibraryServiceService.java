@@ -1380,7 +1380,8 @@ public class LibraryServiceService {
      * checked
      */
     @Transactional
-    public List<TimeSlot> getTimeSlotsFromLibrarian(Librarian librarian) {
+    public List<TimeSlot> getTimeSlotsFromLibrarian(int librarianUserID) {
+        Librarian librarian = librarianRepository.findLibrarianByUserID(librarianUserID);
         String error="";
         if (librarian == null) {
             error = error + "A Librarian needs to be selected";
@@ -1442,7 +1443,10 @@ public class LibraryServiceService {
      * checked
      */
     @Transactional
-    public TimeSlot createTimeSlot(Date startDate, Time startTime, Date endDate, Time endTime) throws Exception {
+    public TimeSlot createTimeSlot(int accountID, Date startDate, Time startTime, Date endDate, Time endTime) throws Exception {
+        UserAccount account = userAccountRepository.findUserAccountByUserID(accountID);
+        if (account == null) throw new IllegalArgumentException("Invalid account");
+        if (!(account instanceof HeadLibrarian)) throw new IllegalArgumentException("Only a Head Librarian can create a new timeslot.");
         if (startDate == null) throw new IllegalArgumentException("Invalid startDate");
         if (startTime == null) throw new IllegalArgumentException("Invalid startTime");
         if (endDate == null) throw new IllegalArgumentException("Invalid endDate");
@@ -1465,9 +1469,16 @@ public class LibraryServiceService {
      * checked
      */
     @Transactional
-    public TimeSlot assignTimeSlotToLibrarian(TimeSlot ts, Librarian librarian) {
-        
+    public TimeSlot assignTimeSlotToLibrarian(int accountId, int timeSlotID, int librarianUserId) {
+        TimeSlot ts = timeSlotRepository.findTimeSlotByTimeSlotID(timeSlotID);
+        Librarian librarian = librarianRepository.findLibrarianByUserID(librarianUserId);
+        UserAccount account = userAccountRepository.findUserAccountByUserID(accountId);
         String error="";
+
+        if (account == null) error = error + "Invalid account. ";
+        else if (!(account instanceof HeadLibrarian)) error = error + "This User ID does not correspond to a Head Librarian. ";
+
+        if (error.length() > 0) throw new IllegalArgumentException(error);
         if (ts == null) {
             error = error + "TimeSlot needs to be selected for registration! ";
         }
@@ -1500,8 +1511,8 @@ public class LibraryServiceService {
      */
 
     @Transactional
-    public boolean deleteTimeSlot(UserAccount account, int timeslotID) throws Exception {
-
+    public boolean deleteTimeSlot(int accountId, int timeslotID) throws Exception {
+        UserAccount account = userAccountRepository.findUserAccountByUserID(accountId);
         String error = "";
         if (account == null) error = error + "Invalid account. ";
         else if (!(account instanceof HeadLibrarian)) error = error + "This User ID does not correspond to a Head Librarian. ";
@@ -1576,7 +1587,8 @@ public class LibraryServiceService {
      * checked
      */
     @Transactional
-    public List<OpeningHour> getOpeningHoursFromHeadLibrarian(HeadLibrarian headLibrarian) {
+    public List<OpeningHour> getOpeningHoursFromHeadLibrarian(int headLibrarianUserId) {
+        HeadLibrarian headLibrarian = headLibrarianRepository.findHeadLibrarianByUserID(headLibrarianUserId);
         String error="";
         if (headLibrarian == null) {
             error = error + "A HeadLibrarian needs to be selected";
@@ -1636,8 +1648,8 @@ public class LibraryServiceService {
      */
 
     @Transactional
-    public boolean deleteOpeningHour(UserAccount account, int openingHourID) throws Exception{
-
+    public boolean deleteOpeningHour(int accountId, int openingHourID) throws Exception{
+        UserAccount account = userAccountRepository.findUserAccountByUserID(accountId);
         String error = "";
         if (account == null) error = error + "Invalid account. ";
         if (openingHourID < 1) error = error + "Invalid openinghourID. ";
@@ -1693,8 +1705,8 @@ public class LibraryServiceService {
      * checked
      */
     @Transactional
-    public List<Holiday> getHolidaysFromHeadLibrarian(HeadLibrarian headLibrarian) {
-        
+    public List<Holiday> getHolidaysFromHeadLibrarian(int headLibrarianUserId) {
+        HeadLibrarian headLibrarian = headLibrarianRepository.findHeadLibrarianByUserID(headLibrarianUserId);
         String error="";
         if (headLibrarian == null) {
             error = error + "A HeadLibrarian needs to be selected";
@@ -1749,8 +1761,8 @@ public class LibraryServiceService {
      */
 
     @Transactional
-    public boolean deleteHoliday(UserAccount account, int holidayID) throws Exception {
-
+    public boolean deleteHoliday(int accountId, int holidayID) throws Exception {
+        UserAccount account = userAccountRepository.findUserAccountByUserID(accountId);
         String error = "";
         if (account == null) error = error + "Invalid account. ";
         if (holidayID < 1) error = error + "Invalid holidayID. ";

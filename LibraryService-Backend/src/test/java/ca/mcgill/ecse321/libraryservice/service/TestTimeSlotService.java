@@ -28,6 +28,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import ca.mcgill.ecse321.libraryservice.dao.TimeSlotRepository;
+import ca.mcgill.ecse321.libraryservice.dao.UserAccountRepository;
 import ca.mcgill.ecse321.libraryservice.dao.HeadLibrarianRepository;
 import ca.mcgill.ecse321.libraryservice.dao.LibrarianRepository;
 import ca.mcgill.ecse321.libraryservice.model.*;
@@ -40,6 +41,8 @@ public class TestTimeSlotService {
     private HeadLibrarianRepository headLibrarianDao;
     @Mock
     private LibrarianRepository librarianDao;
+    @Mock
+    private UserAccountRepository userAccountDao;
 
     @InjectMocks
     private LibraryServiceService service;
@@ -60,6 +63,8 @@ public class TestTimeSlotService {
     private static final boolean HEADLIBRARIAN_VALIDACC = true;
     private static final int HEADLIBRARIAN_BALANCE = 0;
 
+
+    
     private static final int LIBRARIAN_KEY = 2550;
     private static final String LIBRARIAN_FIRSTNAME = "John";
     private static final String LIBRARIAN_LASTNAME = "Marx";
@@ -96,6 +101,21 @@ public class TestTimeSlotService {
             } else {
                 return null;
             }
+        });
+
+        lenient().when(userAccountDao.findUserAccountByUserID(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
+            if(((int) invocation.getArgument(0)) == HEADLIBRARIAN_KEY) {
+                UserAccount headLibrarian = new HeadLibrarian(HEADLIBRARIAN_FIRSTNAME, HEADLIBRARIAN_LASTNAME, HEADLIBRARIAN_VALIDACC, HEADLIBRARIAN_ADDRESS, HEADLIBRARIAN_PASSWORD, HEADLIBRARIAN_BALANCE, HEADLIBRARIAN_EMAIL);
+                ((HeadLibrarian) headLibrarian).setLibrarianID(HEADLIBRARIAN_KEY);
+                return headLibrarian;
+            } else if (((int) invocation.getArgument(0)) == LIBRARIAN_KEY) {
+                Librarian librarian = new Librarian(LIBRARIAN_FIRSTNAME, LIBRARIAN_LASTNAME, LIBRARIAN_VALIDACC, LIBRARIAN_ADDRESS, LIBRARIAN_PASSWORD, LIBRARIAN_BALANCE, LIBRARIAN_EMAIL);
+                librarian.setUserID(LIBRARIAN_KEY);
+                return librarian;
+            } else {
+                return null;
+            }
+            
         });
 
         lenient().when(headLibrarianDao.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
@@ -159,7 +179,7 @@ public class TestTimeSlotService {
         TimeSlot timeslot = null;
 
         try {
-            timeslot = service.createTimeSlot(startDate, startTime, endDate, endTime);
+            timeslot = service.createTimeSlot(HEADLIBRARIAN_KEY, startDate, startTime, endDate, endTime);
         } catch (Exception e) {
             fail();
         }
@@ -185,7 +205,7 @@ public class TestTimeSlotService {
         TimeSlot timeslot = null;
 
         try {
-            timeslot = service.createTimeSlot(startDate, startTime, endDate, endTime);
+            timeslot = service.createTimeSlot(HEADLIBRARIAN_KEY, startDate, startTime, endDate, endTime);
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -212,7 +232,7 @@ public class TestTimeSlotService {
         TimeSlot timeslot = null;
 
         try {
-            timeslot = service.createTimeSlot(startDate, startTime, endDate, endTime);
+            timeslot = service.createTimeSlot(HEADLIBRARIAN_KEY, startDate, startTime, endDate, endTime);
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -239,7 +259,7 @@ public class TestTimeSlotService {
         TimeSlot timeslot = null;
 
         try {
-            timeslot = service.createTimeSlot(startDate, startTime, endDate, endTime);
+            timeslot = service.createTimeSlot(HEADLIBRARIAN_KEY, startDate, startTime, endDate, endTime);
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -266,7 +286,7 @@ public class TestTimeSlotService {
         TimeSlot timeslot = null;
 
         try {
-            timeslot = service.createTimeSlot(startDate, startTime, endDate, endTime);
+            timeslot = service.createTimeSlot(HEADLIBRARIAN_KEY, startDate, startTime, endDate, endTime);
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -293,7 +313,7 @@ public class TestTimeSlotService {
         TimeSlot timeslot = null;
 
         try {
-            timeslot = service.createTimeSlot(startDate, startTime, endDate, endTime);
+            timeslot = service.createTimeSlot(HEADLIBRARIAN_KEY, startDate, startTime, endDate, endTime);
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -320,7 +340,7 @@ public class TestTimeSlotService {
         TimeSlot timeslot = null;
 
         try {
-            timeslot = service.createTimeSlot(startDate, startTime, endDate, endTime);
+            timeslot = service.createTimeSlot(HEADLIBRARIAN_KEY, startDate, startTime, endDate, endTime);
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -343,7 +363,7 @@ public class TestTimeSlotService {
         lenient().when(librarianDao.existsById(anyInt())).thenReturn(true);
         lenient().when(timeslotDao.existsById(anyInt())).thenReturn(true);
         try {
-            timeslot = service.assignTimeSlotToLibrarian(timeslot, librarian);
+            timeslot = service.assignTimeSlotToLibrarian(HEADLIBRARIAN_KEY,TIMESLOT_KEY, LIBRARIAN_KEY);
         } catch (Exception e) {
             fail();
         }
@@ -362,11 +382,9 @@ public class TestTimeSlotService {
         assertEquals(0, service.getAllTimeSlots().size());
         String error = null;
 
-        Librarian librarian = librarianDao.findLibrarianByUserID(LIBRARIAN_KEY);
         lenient().when(librarianDao.existsById(anyInt())).thenReturn(true);
-        TimeSlot timeslot = null;
         try {
-            timeslot = service.assignTimeSlotToLibrarian(timeslot, librarian);
+           service.assignTimeSlotToLibrarian(HEADLIBRARIAN_KEY, -1, LIBRARIAN_KEY); //invalid key
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -384,14 +402,10 @@ public class TestTimeSlotService {
         assertEquals(0, service.getAllTimeSlots().size());
         String error = null;
 
-        TimeSlot timeslot = timeslotDao.findTimeSlotByTimeSlotID(TIMESLOT_KEY);
         lenient().when(timeslotDao.existsById(anyInt())).thenReturn(true);
 
-        Librarian librarian = null;
-
-
         try {
-            timeslot = service.assignTimeSlotToLibrarian(timeslot, librarian);
+            service.assignTimeSlotToLibrarian(HEADLIBRARIAN_KEY,TIMESLOT_KEY, -1);
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -414,7 +428,7 @@ public class TestTimeSlotService {
         lenient().when(headLibrarianDao.existsById(anyInt())).thenReturn(true);
         lenient().when(timeslotDao.existsById(anyInt())).thenReturn(true);
         try {
-            test = service.deleteTimeSlot(headLibrarian, timeslot.getTimeSlotID());
+            test = service.deleteTimeSlot(headLibrarian.getUserID(), timeslot.getTimeSlotID());
              if (timeslotDao.findAll().iterator().hasNext()) {  //gets timeslot if there, othewise, set to null
                  timeslot = timeslotDao.findAll().iterator().next();
              } else {
@@ -442,7 +456,7 @@ public class TestTimeSlotService {
         lenient().when(librarianDao.existsById(anyInt())).thenReturn(true);
         lenient().when(timeslotDao.existsById(anyInt())).thenReturn(true);
         try {
-            test = service.deleteTimeSlot(librarian, timeslot.getTimeSlotID());
+            test = service.deleteTimeSlot(librarian.getUserID(), timeslot.getTimeSlotID());
              if (timeslotDao.findAll().iterator().hasNext()) {  //gets timeslot if there, othewise, set to null
                  timeslot = timeslotDao.findAll().iterator().next();
              } else {
@@ -465,11 +479,10 @@ public class TestTimeSlotService {
         boolean test = false;
         String error = null;
 
-        UserAccount account = null;
         TimeSlot timeslot = timeslotDao.findTimeSlotByTimeSlotID(TIMESLOT_KEY);
         lenient().when(timeslotDao.existsById(anyInt())).thenReturn(true);
         try {
-            test = service.deleteTimeSlot(account, timeslot.getTimeSlotID());
+            test = service.deleteTimeSlot(-1, timeslot.getTimeSlotID()); //invalid key
              if (timeslotDao.findAll().iterator().hasNext()) {  //gets timeslot if there, othewise, set to null
                  timeslot = timeslotDao.findAll().iterator().next();
              } else {
@@ -518,14 +531,12 @@ public class TestTimeSlotService {
      */
     @Test
     public void testGetTimeSlotWithLibrarian() {
-        Librarian librarian = librarianDao.findLibrarianByUserID(LIBRARIAN_KEY);
-        TimeSlot timeslot = timeslotDao.findTimeSlotByTimeSlotID(TIMESLOT_KEY);
         lenient().when(librarianDao.existsById(anyInt())).thenReturn(true);
         lenient().when(timeslotDao.existsById(anyInt())).thenReturn(true);
         
         try {
-            service.assignTimeSlotToLibrarian(timeslot, librarian);
-            assertEquals(TIMESLOT_KEY, service.getTimeSlotsFromLibrarian(librarian).get(0).getTimeSlotID());
+            service.assignTimeSlotToLibrarian(HEADLIBRARIAN_KEY, TIMESLOT_KEY, LIBRARIAN_KEY);
+            assertEquals(TIMESLOT_KEY, service.getTimeSlotsFromLibrarian(LIBRARIAN_KEY).get(0).getTimeSlotID());
         } catch (Exception e) {
             fail();
         }
@@ -538,19 +549,16 @@ public class TestTimeSlotService {
     @Test
     public void testGetTimeSlotWithLibrarianNull() {
         String error = null;
-        Librarian librarian = librarianDao.findLibrarianByUserID(LIBRARIAN_KEY);
         lenient().when(librarianDao.existsById(anyInt())).thenReturn(true);
-        TimeSlot timeslot = timeslotDao.findTimeSlotByTimeSlotID(TIMESLOT_KEY);
         lenient().when(timeslotDao.existsById(anyInt())).thenReturn(true);
         
         try {
-            service.assignTimeSlotToLibrarian(timeslot, librarian);
-            librarian = null;
-            assertNull(service.getTimeSlotsFromLibrarian(librarian).get(0).getTimeSlotID());
+            service.assignTimeSlotToLibrarian(HEADLIBRARIAN_KEY, TIMESLOT_KEY, -1); //invalid librarian id
+            assertNull(service.getTimeSlotsFromLibrarian(LIBRARIAN_KEY).get(0).getTimeSlotID());
         } catch (Exception e) {
             error = e.getMessage();
         }
-        assertEquals("A Librarian needs to be selected", error);
+        assertEquals("Librarian needs to be selected for registration!", error);
     }
 
     /**
@@ -559,13 +567,11 @@ public class TestTimeSlotService {
      */
     @Test
     public void testGetTimeSlotWithLibrarianUserID() {
-        Librarian librarian = librarianDao.findLibrarianByUserID(LIBRARIAN_KEY);
-        TimeSlot timeslot = timeslotDao.findTimeSlotByTimeSlotID(TIMESLOT_KEY);
         lenient().when(librarianDao.existsById(anyInt())).thenReturn(true);
         lenient().when(timeslotDao.existsById(anyInt())).thenReturn(true);
         
         try {
-            service.assignTimeSlotToLibrarian(timeslot, librarian);
+            service.assignTimeSlotToLibrarian(HEADLIBRARIAN_KEY, TIMESLOT_KEY, LIBRARIAN_KEY);
             assertEquals(TIMESLOT_KEY, service.getTimeSlotsFromLibrarianUserID(LIBRARIAN_KEY).get(0).getTimeSlotID());
         } catch (Exception e) {
             fail();
@@ -579,13 +585,11 @@ public class TestTimeSlotService {
     @Test
     public void testGetTimeSlotWithLibrarianUserIDInvalid() {
         String error = null;
-        Librarian librarian = librarianDao.findLibrarianByUserID(LIBRARIAN_KEY);
-        TimeSlot timeslot = timeslotDao.findTimeSlotByTimeSlotID(TIMESLOT_KEY);
         lenient().when(librarianDao.existsById(anyInt())).thenReturn(true);
         lenient().when(timeslotDao.existsById(anyInt())).thenReturn(true);
         
         try {
-            service.assignTimeSlotToLibrarian(timeslot, librarian);
+            service.assignTimeSlotToLibrarian(HEADLIBRARIAN_KEY, TIMESLOT_KEY, LIBRARIAN_KEY);
             assertNull(service.getTimeSlotsFromLibrarianUserID(-1).get(0).getTimeSlotID());
         } catch (Exception e) {
             error = e.getMessage();
