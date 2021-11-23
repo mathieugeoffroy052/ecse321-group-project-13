@@ -1,12 +1,15 @@
 package ca.mcgill.ecse321.libraryservice.controller;
 
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.sql.Date;
 import java.util.*;
 import java.util.stream.Collectors;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -61,9 +64,9 @@ public class LibraryServiceRestController {
      * @author Mathieu Geoffroy
      */
     @PostMapping(value = { "/holiday/new", "/holiday/new/" })
-    public HolidayDTO createHoliday(@RequestParam int currentUserID, @RequestParam Date date, @RequestParam Time startTime, @RequestParam Time endTime) throws Exception {
+    public HolidayDTO createHoliday(@RequestParam int currentUserID, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern="yyyy-MM-dd") LocalDate date, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern="HH:mm") LocalTime startTime, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern="HH:mm") LocalTime endTime) throws Exception {
         return convertToDto(
-                service.createHoliday(currentUserID, date, startTime, endTime));
+                service.createHoliday(currentUserID, Date.valueOf(date), Time.valueOf(startTime), Time.valueOf(endTime)));
     }
 
     /**
