@@ -973,6 +973,9 @@ public class LibraryServiceService {
             if(t.getTransactionType().equals(TransactionType.ItemReservation)){
                 allReservedItems.add(t.getBorrowableItem()); 
             } 
+            if(t.getTransactionType().equals(TransactionType.RoomReservation)){
+                allReservedItems.add(t.getBorrowableItem()); 
+            }
         }
         return allReservedItems;
     }

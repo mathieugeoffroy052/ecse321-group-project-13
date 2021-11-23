@@ -581,13 +581,13 @@ public class LibraryServiceRestController {
      */
     @PostMapping(value = { "/reserve-room", "/reserve-room/" })
     public TransactionDTO reserveARoom(@RequestParam(name = "barCodeNumber") int barCodeNumber,
-    @RequestParam(name = "userID") int userID, @RequestParam(name = "date") Date date,
-            @RequestParam(name = "startTime") Time startTime, @RequestParam(name = "endTime") Time endTime)
+    @RequestParam(name = "userID") int userID, @RequestParam(name = "date") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE, pattern="yyyy-MM-dd") LocalDate date,
+            @RequestParam(name = "startTime") @DateTimeFormat(iso=DateTimeFormat.ISO.TIME, pattern="HH:mm") LocalTime startTime, @RequestParam(name = "endTime") @DateTimeFormat(iso=DateTimeFormat.ISO.TIME, pattern="HH:mm") LocalTime endTime)
             throws Exception {
         BorrowableItem i = service.getBorrowableItemFromBarCodeNumber(barCodeNumber);
         UserAccount a = service.getUserAccountByUserID(userID);
 
-        Transaction t = service.createRoomReserveTransaction(i, a, date, startTime, endTime);
+        Transaction t = service.createRoomReserveTransaction(i, a, Date.valueOf(date), Time.valueOf(startTime), Time.valueOf(endTime));
         return convertToDto(t);
     }
 
