@@ -1322,7 +1322,7 @@ public class LibraryServiceService {
             }
 
 
-                UserAccount librarian = userAccountRepository.findByFirstNameAndLastName(firstName, lastName);
+            UserAccount librarian = userAccountRepository.findByFirstNameAndLastName(firstName, lastName);
  
             if(!(librarian instanceof Librarian)){
                 throw new Exception("the name privided does not correcpond to a librarian");
