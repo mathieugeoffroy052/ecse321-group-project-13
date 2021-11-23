@@ -2130,6 +2130,16 @@ public class LibraryServiceService {
         }
 
         account.setPassword(aPassWord);
+        userAccountRepository.save(account);
+        if(account instanceof Librarian){
+            librarianRepository.save((Librarian)account);
+            if(account instanceof HeadLibrarian){
+                headLibrarianRepository.save((HeadLibrarian)account);
+            }
+        }
+        else{
+            patronRepository.save((Patron)account);
+        }
         return account;
     }
 
@@ -2156,6 +2166,16 @@ public class LibraryServiceService {
         }
 
         account.setFirstName(aFirstName);
+        userAccountRepository.save(account);
+        if(account instanceof Librarian){
+            librarianRepository.save((Librarian)account);
+            if(account instanceof HeadLibrarian){
+                headLibrarianRepository.save((HeadLibrarian)account);
+            }
+        }
+        else{
+            patronRepository.save((Patron)account);
+        }
         return account;
     }
 
@@ -2182,6 +2202,16 @@ public class LibraryServiceService {
         }
 
         account.setLastName(aLastname);
+        userAccountRepository.save(account);
+        if(account instanceof Librarian){
+            librarianRepository.save((Librarian)account);
+            if(account instanceof HeadLibrarian){
+                headLibrarianRepository.save((HeadLibrarian)account);
+            }
+        }
+        else{
+            patronRepository.save((Patron)account);
+        }
         return account;
     }
 
@@ -2208,6 +2238,16 @@ public class LibraryServiceService {
         }
 
         account.setAddress(aAddress);
+        userAccountRepository.save(account);
+        if(account instanceof Librarian){
+            librarianRepository.save((Librarian)account);
+            if(account instanceof HeadLibrarian){
+                headLibrarianRepository.save((HeadLibrarian)account);
+            }
+        }
+        else{
+            patronRepository.save((Patron)account);
+        }
         return account;
     }
 
@@ -2237,6 +2277,16 @@ public class LibraryServiceService {
         }
 
         account.setEmail(aEmail);
+        userAccountRepository.save(account);
+        if(account instanceof Librarian){
+            librarianRepository.save((Librarian)account);
+            if(account instanceof HeadLibrarian){
+                headLibrarianRepository.save((HeadLibrarian)account);
+            }
+        }
+        else{
+            patronRepository.save((Patron)account);
+        }
         return account;
     }
 
@@ -2319,6 +2369,8 @@ public class LibraryServiceService {
         	
         	patron.setValidatedAccount(validated);
         }
+        userAccountRepository.save(patron);
+        patronRepository.save(patron);
             return patron;
             
 //        try {
