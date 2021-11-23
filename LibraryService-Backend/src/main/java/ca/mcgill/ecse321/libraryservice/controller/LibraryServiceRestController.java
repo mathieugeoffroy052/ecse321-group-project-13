@@ -35,7 +35,7 @@ public class LibraryServiceRestController {
      * @author Mathieu Geoffroy
      * @throws Exception when there is no library system
      */
-    @GetMapping(value = { "/holidays", "/holidays/" })
+    @GetMapping(value = { "/holiday/viewall", "/holiday/viewall/" })
     public List<HolidayDTO> getAllHolidays() throws Exception {
         return service.getAllHolidays().stream().map(p -> convertToDto(p)).collect(Collectors.toList());
     }
@@ -47,7 +47,7 @@ public class LibraryServiceRestController {
      * @return holiday dto
      * @author Mathieu Geoffroy
      */
-    @GetMapping(value = { "/holiday/{holidayID}", "/holiday/{holidayID}/" })
+    @GetMapping(value = { "/holiday/view/{holidayID}", "/holiday/view/{holidayID}/" })
     public HolidayDTO getHolidayById(@PathVariable(name = "holidayID") int id) {
         return convertToDto(service.getHolidayFromId(id));
     }
@@ -61,9 +61,21 @@ public class LibraryServiceRestController {
      * @author Mathieu Geoffroy
      */
     @PostMapping(value = { "/holiday/new", "/holiday/new/" })
-    public HolidayDTO createHoliday(@RequestBody HolidayDTO holidayDTO) throws Exception {
+    public HolidayDTO createHoliday(@RequestParam Date date, @RequestParam Time startTime, @RequestParam Time endTime) throws Exception {
         return convertToDto(
-                service.createHoliday(holidayDTO.getDate(), holidayDTO.getStartTime(), holidayDTO.getStartTime()));
+                service.createHoliday(date, startTime, endTime));
+    }
+
+    /**
+     * delete holiday based on current account
+     * @param holidayID
+     * @param accountID
+     * @return true when deleted successfully
+     * @throws Exception
+     */
+    @DeleteMapping(value = {"/holiday/delete", "/holiday/delete/"})
+    public boolean deleteHoliday(@RequestParam (name = "holidayID") int holidayID, @RequestParam (name = "accountID") int accountID) throws Exception {
+        return service.deleteHoliday(accountID, holidayID);
     }
 
     // * Opening hour methods
@@ -74,7 +86,7 @@ public class LibraryServiceRestController {
      * @throws Exception when there is no library system
      * @author Mathieu Geoffroy
      */
-    @GetMapping(value = { "/openinghours", "/openinghours/" })
+    @GetMapping(value = { "/openinghour/viewall", "/openinghour/viewall/" })
     public List<OpeningHourDTO> getAllOpeningHours() throws Exception {
         return service.getAllOpeningHours().stream().map(p -> convertToDto(p)).collect(Collectors.toList());
     }
@@ -86,8 +98,8 @@ public class LibraryServiceRestController {
      * @return openinghourDTo
      * @author Mathieu Geoffroy
      */
-    @GetMapping(value = { "/openinghour/id", "/openinghour/id/" })
-    public OpeningHourDTO getOpeningHourById(@RequestParam(name = "openinghourID") int id) {
+    @GetMapping(value = { "/openinghour/view/{openinghourID}", "/openinghour/view/{openinghourID}" })
+    public OpeningHourDTO getOpeningHourById(@PathVariable(name = "openinghourID") int id) {
         return convertToDto(service.getOpeningHourFromID(id));
     }
 
@@ -98,8 +110,8 @@ public class LibraryServiceRestController {
      * @return openinghourDTo
      * @author Mathieu Geoffroy
      */
-    @GetMapping(value = { "/openinghour/day", "/openinghour/day/" })
-    public OpeningHourDTO getOpeningHourByDay(@RequestParam(name = "dayofweek") String day) throws Exception {
+    @GetMapping(value = { "/openinghour/view/{day}", "/openinghour/view/{day}/" })
+    public OpeningHourDTO getOpeningHourByDay(@PathVariable(name = "dayofweek") String day) throws Exception {
         return convertToDto(service.getOpeningHoursByDayOfWeek(day).get(0)); // should only be 1 opening hour per day
     }
 
@@ -112,9 +124,20 @@ public class LibraryServiceRestController {
      * @author Mathieu Geoffroy
      */
     @PostMapping(value = { "/openinghour/new", "/openinghour/new/" })
-    public OpeningHourDTO createOpeningHour(@RequestBody OpeningHourDTO openingHourDTO) throws Exception {
-        return convertToDto(service.createOpeningHour(openingHourDTO.getDayOfWeek(),
-                openingHourDTO.getStartTime(), openingHourDTO.getEndTime()));
+    public OpeningHourDTO createOpeningHour(@RequestParam (name = "day") String day, @RequestParam (name = "startTime") Time startTime, @RequestParam (name = "endTime") Time endTime) throws Exception {
+        return convertToDto(service.createOpeningHour(day, startTime, endTime));
+    }
+
+    /**
+     * delete openinghour based on current account
+     * @param holidayID
+     * @param accountID
+     * @return true when deleted successfully
+     * @throws Exception
+     */
+    @DeleteMapping(value = {"/openinghour/delete", "/openinghour/delete/"})
+    public boolean deleteOpeningHour(@RequestParam (name = "openinghourID") int openinghourID, @RequestParam (name = "accountID") int accountID) throws Exception {
+        return service.deleteOpeningHour(accountID, openinghourID);
     }
 
     // * TimeSlot methods
@@ -125,7 +148,7 @@ public class LibraryServiceRestController {
      * @throws Exception when there is no library system
      * @author Mahtieu Geoffroy
      */
-    @GetMapping(value = { "/timeslots", "/timeslots/" })
+    @GetMapping(value = { "/timeslot/viewall", "/timeslot/viewall/" })
     public List<TimeslotDTO> getAllTimeSlots() throws Exception {
         return service.getAllTimeSlots().stream().map(p -> convertToDto(p)).collect(Collectors.toList());
     }
@@ -140,14 +163,10 @@ public class LibraryServiceRestController {
      * @author Mathieu Geoffroy
      */
     @PostMapping(value = { "/timeslot/assign", "/timeslot/assign/" })
-    public TimeslotDTO assignTimeSlot(@RequestParam(name = "timeslot") TimeslotDTO timeslotDTO,
-            @RequestParam(name = "librarian") LibrarianDTO librarianDTO,
-            @RequestParam(name = "currentUser") UserAccountDTO account) throws Exception {
-        if (!(account instanceof HeadLibrarianDTO))
-            throw new IllegalArgumentException("Only a head librarian can assign timeslots to librarians.");
-        Librarian librarian = convertToDomainObject(librarianDTO);
-        TimeSlot timeslot = convertToDomainObject(timeslotDTO);
-        return convertToDto(service.assignTimeSlotToLibrarian(timeslot, librarian));
+    public TimeslotDTO assignTimeSlot(@RequestParam(name = "timeslotID") int timeslotID,
+            @RequestParam(name = "librarianID") int librarianID,
+            @RequestParam(name = "currentUserID") int accountID) throws Exception {
+        return convertToDto(service.assignTimeSlotToLibrarian(accountID, timeslotID, librarianID));
     }
 
     /**
@@ -159,7 +178,7 @@ public class LibraryServiceRestController {
      * @throws Exception when invalid inputs, or invalid librarian id
      * @author Mathieu Geoffroy
      */
-    @GetMapping(value = { "/timeslot/{firstName}{lastName}", "/timeslot/{firstName}{lastName}/" })
+    @GetMapping(value = { "/timeslot/view/{firstName}/{lastName}", "/timeslot/view/{firstName}/{lastName}/" })
     public List<TimeslotDTO> getTimeSlotForLibrarian(@PathVariable(name = "firstName") String first,
             @PathVariable(name = "lastName") String last) throws Exception {
         ArrayList<TimeSlot> list = new ArrayList<TimeSlot>();
@@ -180,7 +199,7 @@ public class LibraryServiceRestController {
      * @return the timeslot
      * @author Mathieu Geoffroy
      */
-    @GetMapping(value = { "/timeslot/{timeslotID}", "/timeslot/{timeslotID}/" })
+    @GetMapping(value = { "/timeslot/view/{timeslotID}", "/timeslot/view/{timeslotID}/" })
     public TimeslotDTO getTimeslotById(@PathVariable(name = "timeslotID") int timeslotID) throws Exception {
         return convertToDto(service.getTimeSlotsFromId(timeslotID));
     }
@@ -194,10 +213,21 @@ public class LibraryServiceRestController {
      * @author Mathieu Geoffroy
      */
     @PostMapping(value = { "/timeslot/new", "timeslot/new/" })
-    public TimeslotDTO createTimeslot(@RequestBody TimeslotDTO timeslotDto) throws Exception {
-        TimeSlot timeslot = service.createTimeSlot(timeslotDto.getStartDate(), timeslotDto.getStartTime(),
-                timeslotDto.getEndDate(), timeslotDto.getEndTime());
+    public TimeslotDTO createTimeslot(@RequestParam (name = "currentUserID") int accountID, @RequestParam (name = "startDate") Date startDate, @RequestParam (name = "startTime") Time startTime, @RequestParam (name = "endDate") Date endDate, @RequestParam (name = "endTime") Time endTime) throws Exception {
+        TimeSlot timeslot = service.createTimeSlot(accountID, startDate, startTime, endDate, endTime);
         return convertToDto(timeslot);
+    }
+
+    /**
+     * delete timeslot based on current account
+     * @param timeslotID
+     * @param accountID
+     * @return true when deleted successfully
+     * @throws Exception
+     */
+    @DeleteMapping(value = {"/timeslot/delete", "/timeslot/delete/"})
+    public boolean deleteTimeSlot(@RequestParam (name = "timeslotID") int timeslotID, @RequestParam (name = "accountID") int accountID) throws Exception {
+        return service.deleteTimeSlot(accountID, timeslotID);
     }
 
     /**
