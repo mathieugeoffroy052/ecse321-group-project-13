@@ -563,6 +563,33 @@ public void createLibrarianthatAlreadyexists() {
 
 
 }
+
+    /**
+      * @author Eloyann Roy Javanbakht
+      * this method tests create a Librarian method with the creater and Librarian attributes
+      * this tests  case-> method called with a invalid input -> creater=NULL  
+      * Expect -> error
+      * @throws Exception
+      */
+      @Test
+      public void createLibrarianwithNullCreater() {
+          String error="";
+         HeadLibrarian headLibrarian= null;
+         Librarian librariantest=null;
+          try {
+              librariantest=service.createANewLibrarian(-1, USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_PASSWORD, USERBALANCE, USER_EMAIL );
+          } catch (Exception e) {
+              error=e.getMessage();
+          }
+     
+     
+          assertNull(librariantest);
+           assertEquals(error, "This User ID does not correspond to a Head Librarian");
+            headLibrarianDAO.deleteAll();
+            librarianDAO.deleteAll();
+            userAccountDAO.deleteAll();  
+      }
+
     /**
      * @author Eloyann Roy Javanbakht
      * this method tests create a Librarian method with the creater and Librarian attributes
