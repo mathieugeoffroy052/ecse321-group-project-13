@@ -814,7 +814,7 @@ public class LibraryServiceRestController {
      * @author Amani Jammoul
      */
     @GetMapping(value = { "/items/creator", "/items/creator/" })
-    public List<LibraryItemDTO> getItemsByCreator(@RequestParam("creator") String creatorName) throws Exception {
+    public List<LibraryItemDTO> getItemsByCreator(@RequestParam(name = "creator") String creatorName) throws Exception {
         List<LibraryItem> items = service.getLibraryItemsFromCreator(creatorName);
         List<LibraryItemDTO> itemDTOs = new ArrayList<LibraryItemDTO>();
         for (LibraryItem i : items) {

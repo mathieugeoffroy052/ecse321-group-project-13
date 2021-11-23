@@ -147,9 +147,7 @@ public class LibraryServiceService {
         List<LibraryItem> allItems = getAllLibraryItems();
         List<LibraryItem> itemsByCreator = new ArrayList<LibraryItem>();
         for(LibraryItem a : allItems){
-        	if(a.getType() != ItemType.Room) {
-            	if(a.getCreator().equals(creatorName)) itemsByCreator.add(a);
-        	}
+            if(a.getCreator().equals(creatorName)) itemsByCreator.add(a);
         }
         return itemsByCreator;
     }
