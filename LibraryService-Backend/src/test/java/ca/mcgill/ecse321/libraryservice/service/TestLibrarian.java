@@ -377,31 +377,6 @@ public void testDeleteLibrarian() {
     /**
      * @author Eloyann Roy Javanbakht
      * this method tests create a Librarian method with the creater and Librarian attributes
-     * this tests  case-> method called with a invalid input -> creater=NULL  
-     * Expect -> error
-     * @throws Exception
-     */
-@Test
-public void createLibrarianwithNullCreater() {
-    String error="";
-   HeadLibrarian headLibrarian= null;
-   Librarian librariantest=null;
-    try {
-        librariantest=service.createANewLibrarian(headLibrarian, USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_PASSWORD, USERBALANCE, USER_EMAIL );
-    } catch (Exception e) {
-        error=e.getMessage();
-    }
-
-
-    assertNull(librariantest);
-     assertEquals(error, "User Requesting the change cannot be empty!");
-      headLibrarianDAO.deleteAll();
-      librarianDAO.deleteAll();
-      userAccountDAO.deleteAll();  
-}
-    /**
-     * @author Eloyann Roy Javanbakht
-     * this method tests create a Librarian method with the creater and Librarian attributes
      * this tests  case-> method called with a invalid input -> first name is null
      * Expect -> error
      * @throws Exception
@@ -412,7 +387,7 @@ public void createLibrarianwithNullFirstName() {
     Librarian librariantest=null;
    HeadLibrarian headLibrarian= headLibrarianDAO.findHeadLibrarianByUserID(HEADLIBRARIAN_ID);
     try {
-        librariantest=service.createANewLibrarian(headLibrarian, error, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_PASSWORD, USERBALANCE, USER_EMAIL );
+        librariantest=service.createANewLibrarian(headLibrarian.getUserID(), error, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_PASSWORD, USERBALANCE, USER_EMAIL );
     } catch (Exception e) {
         error=e.getMessage();
     }
@@ -437,7 +412,7 @@ public void createLibrarianwithNullLastName() {
     Librarian librariantest=null;
    HeadLibrarian headLibrarian= headLibrarianDAO.findHeadLibrarianByUserID(HEADLIBRARIAN_ID);
     try {
-        librariantest=service.createANewLibrarian(headLibrarian, USER_FIRST_NAME, error, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_PASSWORD, USERBALANCE, USER_EMAIL );
+        librariantest=service.createANewLibrarian(headLibrarian.getUserID(), USER_FIRST_NAME, error, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_PASSWORD, USERBALANCE, USER_EMAIL );
     } catch (Exception e) {
         error=e.getMessage();
     }
@@ -464,7 +439,7 @@ public void createLibrarianwithNullAdress() {
    HeadLibrarian headLibrarian= headLibrarianDAO.findHeadLibrarianByUserID(HEADLIBRARIAN_ID);
    Librarian librariantest=null;
     try {
-      librariantest=service.createANewLibrarian(headLibrarian, USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, error, USER_PASSWORD, USERBALANCE, USER_EMAIL );
+      librariantest=service.createANewLibrarian(HEADLIBRARIAN_USER_ID, USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, error, USER_PASSWORD, USERBALANCE, USER_EMAIL );
     } catch (Exception e) {
         error=e.getMessage();
     }
@@ -490,7 +465,7 @@ public void createLibrarianwithNullPassword() {
    HeadLibrarian headLibrarian= headLibrarianDAO.findHeadLibrarianByUserID(HEADLIBRARIAN_ID);
    Librarian librariantest=null;
     try {
-       librariantest=service.createANewLibrarian(headLibrarian, USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, error, USERBALANCE, USER_EMAIL );
+       librariantest=service.createANewLibrarian(HEADLIBRARIAN_USER_ID, USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, error, USERBALANCE, USER_EMAIL );
     } catch (Exception e) {
         error=e.getMessage();
     }
@@ -513,7 +488,7 @@ public void createLibrarianwithNullEmail() {
     HeadLibrarian headLibrarian= headLibrarianDAO.findHeadLibrarianByUserID(HEADLIBRARIAN_ID);
    Librarian librariantest=null;
     try {
-       librariantest=service.createANewLibrarian(headLibrarian, USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_PASSWORD,  USERBALANCE, error );
+       librariantest=service.createANewLibrarian(HEADLIBRARIAN_USER_ID, USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_PASSWORD,  USERBALANCE, error );
     } catch (Exception e) {
         error=e.getMessage();
     }
@@ -544,7 +519,7 @@ public void createLibrarianwithoutBeingHeadLibrarian() {
     });
     Librarian librarian= librarianDAO.findLibrarianByUserID(LIBRARIAN_USER_ID);
      try {
-       librariantest=service.createANewLibrarian(librarian, USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_PASSWORD, USERBALANCE, USER_EMAIL );
+       librariantest=service.createANewLibrarian(librarian.getUserID(), USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_PASSWORD, USERBALANCE, USER_EMAIL );
      } catch (Exception e) {
          error=e.getMessage();
      }
@@ -575,7 +550,7 @@ public void createLibrarianthatAlreadyexists() {
    
     String error="";
     try {
-        librarian=service.createANewLibrarian(headLibrarian, LIBRARIAN_FIRST_NAME, LIBRARIAN_LAST_NAME, LIBRARIAN_ONLINE_ACCOUNT, LIBRARIAN_ADDRESS, LIBRARIAN_PASSWORD, LIBRARIAN_BALANCE, LIBRARIAN_EMAIL);
+        librarian=service.createANewLibrarian(headLibrarian.getUserID(), LIBRARIAN_FIRST_NAME, LIBRARIAN_LAST_NAME, LIBRARIAN_ONLINE_ACCOUNT, LIBRARIAN_ADDRESS, LIBRARIAN_PASSWORD, LIBRARIAN_BALANCE, LIBRARIAN_EMAIL);
     } catch (Exception e) {
         error=e.getMessage();
     }
@@ -588,6 +563,33 @@ public void createLibrarianthatAlreadyexists() {
 
 
 }
+
+    /**
+      * @author Eloyann Roy Javanbakht
+      * this method tests create a Librarian method with the creater and Librarian attributes
+      * this tests  case-> method called with a invalid input -> creater=NULL  
+      * Expect -> error
+      * @throws Exception
+      */
+      @Test
+      public void createLibrarianwithNullCreater() {
+          String error="";
+         HeadLibrarian headLibrarian= null;
+         Librarian librariantest=null;
+          try {
+              librariantest=service.createANewLibrarian(-1, USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_PASSWORD, USERBALANCE, USER_EMAIL );
+          } catch (Exception e) {
+              error=e.getMessage();
+          }
+     
+     
+          assertNull(librariantest);
+           assertEquals(error, "This User ID does not correspond to a Head Librarian");
+            headLibrarianDAO.deleteAll();
+            librarianDAO.deleteAll();
+            userAccountDAO.deleteAll();  
+      }
+
     /**
      * @author Eloyann Roy Javanbakht
      * this method tests create a Librarian method with the creater and Librarian attributes
@@ -603,7 +605,7 @@ public void createLibrarian() {
    
     String error="";
     try {
-        librarian=service.createANewLibrarian(headLibrarian, USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_PASSWORD, USERBALANCE, USER_EMAIL);
+        librarian=service.createANewLibrarian(headLibrarian.getUserID(), USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_PASSWORD, USERBALANCE, USER_EMAIL);
     } catch (Exception e) {
         error=e.getMessage();
     }

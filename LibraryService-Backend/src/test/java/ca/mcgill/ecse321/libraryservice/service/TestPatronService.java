@@ -39,17 +39,31 @@ private HeadLibrarianRepository headLibrarianDAO;
 
 @InjectMocks
 private LibraryServiceService service;
+
+private static final int CREATOR_ID = 123;
+private static final String CREATOR_FIRST_NAME = "Tristan";
+private static final String CREATOR_LAST_NAME = "Golden";
+private static final String CREATOR_EMAIL = "creator@email.com";
+private static final int CREATOR_BALANCE = 0;
+private static final boolean CREATOR_ONLINE_ACCOUNT = true;
+private static final String CREATOR_ADDRESS = "1234 ave jack";
+private static final boolean CREATOR_VALIDATED_ACCOUNT = true;
+private static final String CREATOR_PASSWORD = "creator123";
+
+
 private static final int PATRON_ID = 12345;
 private static final String PATRON_FIRST_NAME = "John";
 private static final String PATRON_LAST_NAME = "Smith";
 private static final String PATRON_EMAIL = "johnsmith@email.com";
 private static final int PATRON_BALANCE = 0;
-private static final UserAccount PATRON_CREATOR = new Librarian();
+private static final int PATRON_CREATOR = CREATOR_ID;
+
 private static final boolean PATRON_ONLINE_ACCOUNT = true;
 private static final String PATRON_ADDRESS = "123 Smith Street";
 private static final boolean PATRON_VALIDATED_ACCOUNT = false;
 private static final String PATRON_PASSWORD = "patron123";
 private static final int HEAD_ID = 100;
+
 
 
 /**
@@ -78,10 +92,49 @@ public void setMockOutput() {
            
              
             return patron;
-        } else {
+        } 
+        else {
             return null;
         }
     });
+    lenient().when(userAccountDAO.findUserAccountByUserID(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
+        if(invocation.getArgument(0).equals(PATRON_ID)) {
+        
+        	Patron patron = new Patron();
+            patron.setPatronID(PATRON_ID);
+            patron.setFirstName(PATRON_FIRST_NAME);
+            patron.setLastName(PATRON_LAST_NAME); 
+            patron.setEmail(PATRON_EMAIL);
+            patron.setPassword(PATRON_PASSWORD);
+            patron.setBalance(PATRON_BALANCE);
+            patron.setOnlineAccount(PATRON_ONLINE_ACCOUNT);
+            patron.setAddress(PATRON_ADDRESS);
+            patron.setValidatedAccount(PATRON_VALIDATED_ACCOUNT);
+            
+           
+             
+            return patron;
+        }
+            else if(invocation.getArgument(0).equals(CREATOR_ID)) {
+                
+                Librarian user = new Librarian();
+                user.setUserID(CREATOR_ID);
+                user.setFirstName(CREATOR_FIRST_NAME);
+                user.setLastName(CREATOR_LAST_NAME); 
+                user.setEmail(CREATOR_EMAIL);
+                user.setPassword(CREATOR_PASSWORD);
+                user.setBalance(CREATOR_BALANCE);
+                user.setOnlineAccount(CREATOR_ONLINE_ACCOUNT);
+                user.setAddress(CREATOR_ADDRESS);
+                
+                return user;
+            }
+            else {
+                return null;
+            }
+            
+    });
+
     lenient().when(patronDAO.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
     	
     	Patron patron = new Patron();
@@ -421,7 +474,7 @@ public void testCreatePatronNullCreator() throws Exception {
 	Patron patron = null;
 	UserAccount creator = null;
 	try {
-		patron = service.createPatron(creator, PATRON_FIRST_NAME, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
+		patron = service.createPatron(126647, PATRON_FIRST_NAME, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
 	}
 	
 	catch (IllegalArgumentException e) {
@@ -429,7 +482,7 @@ public void testCreatePatronNullCreator() throws Exception {
 	}
 		assertNull(patron);
 		//verify error
-		assertEquals("There needs to be a creator for this method", error);
+		assertEquals("The creator does not exist", error);
 }
 
 /**
@@ -443,11 +496,10 @@ public void testCreatePatronNullCreator() throws Exception {
 public void testCreatePatronPatronAsCreator() throws Exception {
 	String error = null;
 	Patron patron = null;
-	Patron creator = new Patron();
 	boolean onlineAccount = false;
 	
 	try {
-		patron = service.createPatron(creator, PATRON_FIRST_NAME, PATRON_LAST_NAME, onlineAccount, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
+		patron = service.createPatron(PATRON_ID, PATRON_FIRST_NAME, PATRON_LAST_NAME, onlineAccount, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
 	}
 	
 	catch (IllegalArgumentException e) {
@@ -508,7 +560,7 @@ public void testDeletePatronByUserIDSuccessful() throws Exception{
 			success = service.deleteAPatronbyUserID(PATRON_CREATOR, PATRON_ID);
 		
 		}
-		catch (IllegalArgumentException e) {
+		catch (Exception e) {
 			fail();
 			
 		}
@@ -528,10 +580,10 @@ public void testDeletePatronByUserIDFail() throws Exception{
 		Patron patron = null;
 		String error = "";
 		try {
-			success = service.deleteAPatronbyUserID(PATRON_CREATOR, 123);
+			success = service.deleteAPatronbyUserID(PATRON_CREATOR, 15845);
 		
 		}
-		catch (IllegalArgumentException e) {
+		catch (Exception e) {
 			error = e.getMessage();
 			
 		}
@@ -560,7 +612,7 @@ public void testDeletePatronByUserIDWrongCreator() throws Exception{
 	Patron patron = patronDAO.findPatronByUserID(PATRON_ID);
 	boolean success = false;
 	try {
-		success = service.deleteAPatronbyUserID(patron, PATRON_ID);
+		success = service.deleteAPatronbyUserID(PATRON_ID, PATRON_ID);
 	}
 	catch (Exception e) {
 		assertEquals("This user does not have the credentials to delete an existing patron", e.getMessage());
@@ -740,7 +792,7 @@ public void testSetValidatedAccountSuccessful() throws Exception {
 	Patron patron = patronDAO.findPatronByUserID(PATRON_ID);
 	
 	try {
-		patron = service.setValidatedAccount(patron, PATRON_VALIDATED_ACCOUNT, PATRON_CREATOR);
+		patron = service.setValidatedAccount(patron.getUserID(), PATRON_VALIDATED_ACCOUNT, PATRON_CREATOR);
 		
 	}
 	catch (IllegalArgumentException e) {
@@ -766,11 +818,10 @@ public void testSetValidatedAccountSuccessful() throws Exception {
 public void testSetValidatedAccountWrongCreator() throws Exception {
 	
 	String error = null;
-	Patron creator = new Patron();
 	Patron patron = null;
 	
 	try {
-		patron = service.setValidatedAccount(service.getPatronFromFullName(PATRON_FIRST_NAME, PATRON_LAST_NAME), PATRON_VALIDATED_ACCOUNT, creator);
+		patron = service.setValidatedAccount(PATRON_ID, PATRON_VALIDATED_ACCOUNT, PATRON_ID);
 		
 	}
 	catch (IllegalArgumentException e) {
@@ -796,9 +847,9 @@ public void testSetValidatedAccountNullCreator() throws Exception {
 	String error = null;
 	
 	Patron patron = null;
-	Librarian creator = null;
+
 	try {
-		patron = service.setValidatedAccount(service.getPatronFromFullName(PATRON_FIRST_NAME, PATRON_LAST_NAME), PATRON_VALIDATED_ACCOUNT, creator);
+		patron = service.setValidatedAccount(PATRON_ID, PATRON_VALIDATED_ACCOUNT, 47365);
 		
 	}
 	catch (IllegalArgumentException e) {
@@ -807,7 +858,7 @@ public void testSetValidatedAccountNullCreator() throws Exception {
 	}
 		//verify error
 		assertNull(patron);
-		assertEquals("The creator cannot be null", error);
+		assertEquals("The creator does not exist", error);
 		
 }
 
@@ -822,11 +873,10 @@ public void testSetValidatedAccountNullCreator() throws Exception {
 public void testSetValidatedAccountNullPatron() throws Exception {
 	
 	String error = null;
-	Patron p = null;
 	Patron patron = null;
 	
 	try {
-		patron = service.setValidatedAccount(p, PATRON_VALIDATED_ACCOUNT, PATRON_CREATOR);
+		patron = service.setValidatedAccount(3465, PATRON_VALIDATED_ACCOUNT, PATRON_CREATOR);
 		
 	}
 	catch (IllegalArgumentException e) {
@@ -835,7 +885,7 @@ public void testSetValidatedAccountNullPatron() throws Exception {
 	}
 		//verify error
 		assertNull(patron);
-		assertEquals("The patron cannot be null", error);
+		assertEquals("The patron does not exist", error);
 	
 }
 
