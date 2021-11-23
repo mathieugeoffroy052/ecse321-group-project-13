@@ -165,7 +165,7 @@ public class LibraryServiceRestController {
      * @throws Exception
      * @author Mathieu Geoffroy
      */
-    @PostMapping(value = { "/timeslot/assign", "/timeslot/assign/" })
+    @PutMapping(value = { "/timeslot/assign", "/timeslot/assign/" })
     public TimeslotDTO assignTimeSlot(@RequestParam(name = "timeslotID") int timeslotID,
             @RequestParam(name = "librarianID") int librarianID,
             @RequestParam(name = "currentUserID") int accountID) throws Exception {
@@ -202,8 +202,8 @@ public class LibraryServiceRestController {
      * @return the timeslot
      * @author Mathieu Geoffroy
      */
-    @GetMapping(value = { "/timeslot/view/{timeslotID}", "/timeslot/view/{timeslotID}/" })
-    public TimeslotDTO getTimeslotById(@PathVariable(name = "timeslotID") int timeslotID) throws Exception {
+    @GetMapping(value = { "/timeslot/view/id", "/timeslot/view/id/" })
+    public TimeslotDTO getTimeslotById(@RequestParam(name = "timeslotID") int timeslotID) throws Exception {
         return convertToDto(service.getTimeSlotsFromId(timeslotID));
     }
 
@@ -216,8 +216,8 @@ public class LibraryServiceRestController {
      * @author Mathieu Geoffroy
      */
     @PostMapping(value = { "/timeslot/new", "timeslot/new/" })
-    public TimeslotDTO createTimeslot(@RequestParam (name = "currentUserID") int accountID, @RequestParam (name = "startDate") Date startDate, @RequestParam (name = "startTime") Time startTime, @RequestParam (name = "endDate") Date endDate, @RequestParam (name = "endTime") Time endTime) throws Exception {
-        TimeSlot timeslot = service.createTimeSlot(accountID, startDate, startTime, endDate, endTime);
+    public TimeslotDTO createTimeslot(@RequestParam (name = "currentUserID") int accountID, @RequestParam (name = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern="yyyy-MM-dd") LocalDate startDate, @RequestParam (name = "startTime") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern="HH:mm") LocalTime startTime, @RequestParam (name = "endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern="yyyy-MM-dd") LocalDate endDate, @RequestParam (name = "endTime") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern="HH:mm") LocalTime endTime) throws Exception {
+        TimeSlot timeslot = service.createTimeSlot(accountID, Date.valueOf(startDate), Time.valueOf(startTime), Date.valueOf(endDate), Time.valueOf(endTime));
         return convertToDto(timeslot);
     }
 
@@ -1241,13 +1241,16 @@ public class LibraryServiceRestController {
         }
         HeadLibrarianDTO headLibrarianDTO = convertToDto(timeslot.getHeadLibrarian());
         Set<LibrarianDTO> librarianDTO = new HashSet<LibrarianDTO>();
-        for (Librarian librarian : timeslot.getLibrarian()) {
-            LibrarianDTO lib = convertToDto(librarian);
-            librarianDTO.add(lib);
+        TimeslotDTO timeslotDTO;
+        if (timeslot.getLibrarian() != null) {
+            for (Librarian librarian : timeslot.getLibrarian()) {
+                LibrarianDTO lib = convertToDto(librarian);
+                librarianDTO.add(lib);
+            }
+            timeslotDTO= new TimeslotDTO(timeslot.getStartDate(), timeslot.getStartTime(), timeslot.getEndDate(), timeslot.getEndTime(), librarianDTO, headLibrarianDTO, timeslot.getTimeSlotID());
+        } else {
+            timeslotDTO= new TimeslotDTO(timeslot.getStartDate(), timeslot.getStartTime(), timeslot.getEndDate(), timeslot.getEndTime(), null, headLibrarianDTO, timeslot.getTimeSlotID());
         }
-
-        TimeslotDTO timeslotDTO= new TimeslotDTO(timeslot.getStartDate(), timeslot.getStartTime(), timeslot.getEndDate(), timeslot.getEndTime(), librarianDTO, headLibrarianDTO, timeslot.getTimeSlotID());
-
         return timeslotDTO;
     }
 
@@ -1590,9 +1593,9 @@ public class LibraryServiceRestController {
      * @throws Exception
      */
     @DeleteMapping(value={"/librarians/deleteAccount/{userID}", "/librarians/deleteAccount/{userID}/"})
-    public LibrarianDTO deleteALibrarian(@PathVariable("userID") int userID, 
+    public boolean deleteALibrarian(@PathVariable("userID") int userID, 
     @RequestParam(name = "headlibrarianID") int userIDHeadLibrarian) throws Exception  {
-    return convertToDto(service.deleteLibrarian(userIDHeadLibrarian, userID));
+    return service.deleteLibrarian(userIDHeadLibrarian, userID).getUserID() == userID;
 
     }  
 
@@ -1603,8 +1606,8 @@ public class LibraryServiceRestController {
      * @throws Exception
      */
     @DeleteMapping(value={"/headLibrarians/delete/{userID}", "/headLibrarians/delete/{userID}/"})
-    public HeadLibrarianDTO deleteALibrarian(@PathVariable("userID") int userID) throws Exception  {
-    return convertToDto(service.deleteHeadLibrarian(userID));
+    public boolean deleteALibrarian(@PathVariable("userID") int userID) throws Exception  {
+    return (service.deleteHeadLibrarian(userID).getUserID() == userID);
 
     }  
 
