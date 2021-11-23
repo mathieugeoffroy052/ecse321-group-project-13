@@ -751,6 +751,8 @@ public class LibraryServiceService {
         Date deadline = Date.valueOf(localDeadline);
         Transaction itemReservation = new Transaction(item, account, TransactionType.Borrowing, deadline); 
         transactionRepository.save(itemReservation);
+        item.setState(ItemState.Borrowed);
+        borrowableItemRepository.save(item);
         return itemReservation;
     }
 
@@ -787,6 +789,8 @@ public class LibraryServiceService {
 
         Transaction itemReservation = new Transaction(item, account, TransactionType.Return, null); // No deadline for return
         transactionRepository.save(itemReservation);
+        item.setState(ItemState.Available);
+        borrowableItemRepository.save(item);
         return itemReservation;
     }
 
