@@ -798,7 +798,7 @@ public class LibraryServiceService {
             throw new IllegalArgumentException(error);
         }
 
-        Transaction itemReservation = new Transaction(item, account, TransactionType.Return, null); // No deadline for return
+        Transaction itemReservation = new Transaction(item, account, TransactionType.Return, Date.valueOf(LocalDate.now())); // No deadline for return
         transactionRepository.save(itemReservation);
         item.setState(ItemState.Available);
         borrowableItemRepository.save(item);
@@ -853,9 +853,11 @@ public class LibraryServiceService {
         if(item.getLibraryItem().getType() == ItemType.NewspaperArticle){
             error += "Newspapers cannot be borrowed and therefore do not have a waitlist ; waitlist transaction not complete! ";
         }
-        else if(item.getState() != ItemState.Borrowed){
+        else if(item.getLibraryItem().getType() == ItemType.Room){
+            error += "There is no waitlist for rooms";
+        } else if(item.getState() != ItemState.Borrowed){
             error += "This item is available for reservation or borrowing, no Waitlist necessary! ";
-        }
+        } 
 
         error = error.trim();
         if (error.length() > 0) {
@@ -907,6 +909,10 @@ public class LibraryServiceService {
 
         if(!validAccount){
             error = "User account is unvalidated, cannot complete renewal transaction! ";
+        }
+
+        if (item.getLibraryItem().getType() == ItemType.Room) {
+            throw new IllegalArgumentException("You cannot renew a room");
         }
 
         // Item validation
