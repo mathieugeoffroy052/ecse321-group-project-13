@@ -190,9 +190,7 @@ public class LibraryServiceService {
         List<LibraryItem> allItems = getAllLibraryItems();
         List<LibraryItem> itemsByCreatorAndTitle = new ArrayList<LibraryItem>();
         for(LibraryItem a : allItems){
-        	if(a.getType() != ItemType.Room) {
-            	if(a.getCreator().equals(creatorName) && a.getName().equals(itemTitle)) itemsByCreatorAndTitle.add(a);
-        	}
+            if(a.getCreator().equals(creatorName) && a.getName().equals(itemTitle)) itemsByCreatorAndTitle.add(a);
         }
         return itemsByCreatorAndTitle;
     }
