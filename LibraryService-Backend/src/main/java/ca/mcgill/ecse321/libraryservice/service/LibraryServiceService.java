@@ -1342,7 +1342,7 @@ public class LibraryServiceService {
         
             Librarian librarian;
         
-        if(userID<=1){
+        if(userID<1){
                 throw new Exception("This User ID does not correspond to a Librarian");
         }
             librarian= librarianRepository.findLibrarianByUserID(userID);
@@ -2356,21 +2356,14 @@ public class LibraryServiceService {
 	   String error = "";
 	   List<Librarian> list = new ArrayList();
 	   list = toList(librarianRepository.findAll());
-	   if (list == null) {
+	   if (list == null && list.size() == 0) {
    		error += "There are no librarians in the database.";
 	   	}
-   	else {
-   		throw new Exception("There are no librarians is the database.");
-   	}
-       
-       
        error = error.trim();
 	     if (error.length() > 0) {
 	    	 throw new IllegalArgumentException(error);
 	     }
 		return list;
-    
-      
     }
 
 }
