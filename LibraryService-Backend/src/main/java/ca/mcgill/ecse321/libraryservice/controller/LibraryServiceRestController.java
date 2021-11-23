@@ -525,13 +525,13 @@ public class LibraryServiceRestController {
      * @author Amani Jammoul
      */
     @PostMapping(value = { "/reserve-item", "/reserve-item/" })
-    public TransactionDTO reserveAnItem(@RequestParam(name = "item") BorrowableItemDTO iDto,
-            @RequestParam(name = "account") UserAccountDTO aDto) throws Exception {
-        BorrowableItem i = service.getBorrowableItemFromBarCodeNumber(iDto.getBarCodeNumber());
-        UserAccount a = service.getUserAccountFromFullName(aDto.getFirstName(), aDto.getLastName());
+    public TransactionDTO reserveAnItem(@RequestParam(name = "barCodeNumber") int barCodeNumber,
+            @RequestParam(name = "userID") int userID) throws Exception {
+        BorrowableItem i = service.getBorrowableItemFromBarCodeNumber(barCodeNumber);
+        UserAccount a = service.getUserAccountByUserID(userID);
 
         Transaction t = service.createItemReserveTransaction(i, a);
-        return convertToDto(t);
+        return convertToDto(t); 
     }
 
     /**
@@ -547,12 +547,12 @@ public class LibraryServiceRestController {
      * @author Amani Jammoul
      */
     @PostMapping(value = { "/reserve-room", "/reserve-room/" })
-    public TransactionDTO reserveARoom(@RequestParam(name = "room") BorrowableItemDTO iDto,
-            @RequestParam(name = "account") UserAccountDTO aDto, @RequestParam(name = "date") Date date,
+    public TransactionDTO reserveARoom(@RequestParam(name = "barCodeNumber") int barCodeNumber,
+    @RequestParam(name = "userID") int userID, @RequestParam(name = "date") Date date,
             @RequestParam(name = "startTime") Time startTime, @RequestParam(name = "endTime") Time endTime)
             throws Exception {
-        BorrowableItem i = service.getBorrowableItemFromBarCodeNumber(iDto.getBarCodeNumber());
-        UserAccount a = service.getUserAccountFromFullName(aDto.getFirstName(), aDto.getLastName());
+        BorrowableItem i = service.getBorrowableItemFromBarCodeNumber(barCodeNumber);
+        UserAccount a = service.getUserAccountByUserID(userID);
 
         Transaction t = service.createRoomReserveTransaction(i, a, date, startTime, endTime);
         return convertToDto(t);
@@ -569,10 +569,10 @@ public class LibraryServiceRestController {
      * @author Amani Jammoul
      */
     @PostMapping(value = { "/borrow", "/borrow/" })
-    public TransactionDTO borrowAnItem(@RequestParam(name = "item") BorrowableItemDTO iDto,
-            @RequestParam(name = "account") UserAccountDTO aDto) throws Exception {
-        BorrowableItem i = service.getBorrowableItemFromBarCodeNumber(iDto.getBarCodeNumber());
-        UserAccount a = service.getUserAccountFromFullName(aDto.getFirstName(), aDto.getLastName());
+    public TransactionDTO borrowAnItem(@RequestParam(name = "barCodeNumber") int barCodeNumber,
+    @RequestParam(name = "userID") int userID) throws Exception {
+        BorrowableItem i = service.getBorrowableItemFromBarCodeNumber(barCodeNumber);
+        UserAccount a = service.getUserAccountByUserID(userID);
 
         Transaction t = service.createItemBorrowTransaction(i, a);
         return convertToDto(t);
@@ -589,10 +589,10 @@ public class LibraryServiceRestController {
      * @author Amani Jammoul
      */
     @PostMapping(value = { "/renew", "/renew/" })
-    public TransactionDTO renewAnItem(@RequestParam(name = "item") BorrowableItemDTO iDto,
-            @RequestParam(name = "account") UserAccountDTO aDto) throws Exception {
-        BorrowableItem i = service.getBorrowableItemFromBarCodeNumber(iDto.getBarCodeNumber());
-        UserAccount a = service.getUserAccountFromFullName(aDto.getFirstName(), aDto.getLastName());
+    public TransactionDTO renewAnItem(@RequestParam(name = "barCodeNumber") int barCodeNumber,
+    @RequestParam(name = "userID") int userID) throws Exception {
+        BorrowableItem i = service.getBorrowableItemFromBarCodeNumber(barCodeNumber);
+        UserAccount a = service.getUserAccountByUserID(userID);
 
         Transaction t = service.createItemRenewalTransaction(i, a);
         return convertToDto(t);
@@ -609,10 +609,10 @@ public class LibraryServiceRestController {
      * @author Amani Jammoul
      */
     @PostMapping(value = { "/join-waitlist", "/join-waitlist/" })
-    public TransactionDTO joinWaitlistForAnItem(@RequestParam(name = "item") BorrowableItemDTO iDto,
-            @RequestParam(name = "account") UserAccountDTO aDto) throws Exception {
-        BorrowableItem i = service.getBorrowableItemFromBarCodeNumber(iDto.getBarCodeNumber());
-        UserAccount a = service.getUserAccountFromFullName(aDto.getFirstName(), aDto.getLastName());
+    public TransactionDTO joinWaitlistForAnItem(@RequestParam(name = "barCodeNumber") int barCodeNumber,
+    @RequestParam(name = "userID") int userID) throws Exception {
+        BorrowableItem i = service.getBorrowableItemFromBarCodeNumber(barCodeNumber);
+        UserAccount a = service.getUserAccountByUserID(userID);
 
         Transaction t = service.createItemWaitlistTransaction(i, a);
         return convertToDto(t);
@@ -629,10 +629,10 @@ public class LibraryServiceRestController {
      * @author Amani Jammoul
      */
     @PostMapping(value = { "/return", "/return/" })
-    public TransactionDTO returnAnItem(@RequestParam(name = "item") BorrowableItemDTO iDto,
-            @RequestParam(name = "account") UserAccountDTO aDto) throws Exception {
-        BorrowableItem i = service.getBorrowableItemFromBarCodeNumber(iDto.getBarCodeNumber());
-        UserAccount a = service.getUserAccountFromFullName(aDto.getFirstName(), aDto.getLastName());
+    public TransactionDTO returnAnItem(@RequestParam(name = "barCodeNumber") int barCodeNumber,
+    @RequestParam(name = "userID") int userID) throws Exception {
+        BorrowableItem i = service.getBorrowableItemFromBarCodeNumber(barCodeNumber);
+        UserAccount a = service.getUserAccountByUserID(userID);
 
         Transaction t = service.createItemReturnTransaction(i, a);
         return convertToDto(t);

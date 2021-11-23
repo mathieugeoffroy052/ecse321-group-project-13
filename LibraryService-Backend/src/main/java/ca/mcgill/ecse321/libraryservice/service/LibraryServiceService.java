@@ -99,6 +99,29 @@ public class LibraryServiceService {
     }
 
     /** 
+     * @param userID
+     * @return UserAccount - account for user with given full name
+     * @author Amani Jammoul
+     * @throws Exception
+     */
+    @Transactional
+    public UserAccount getUserAccountByUserID(int userID) throws Exception{
+        String error = "";
+        if (userID < 1) {
+            error += "ID cannot be 0 or negative ";
+        }
+
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
+
+        UserAccount account = userAccountRepository.findUserAccountByUserID(userID);
+        if(account != null) return account;
+        else throw new IllegalArgumentException("No user found with this name! ");
+    }
+
+    /** 
      * @return List<LibraryItem> - all library items in library system
      * @throws Exception
      * @author Amani Jammoul
