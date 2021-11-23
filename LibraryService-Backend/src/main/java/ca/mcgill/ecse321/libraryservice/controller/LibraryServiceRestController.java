@@ -101,8 +101,8 @@ public class LibraryServiceRestController {
      * @return openinghourDTo
      * @author Mathieu Geoffroy
      */
-    @GetMapping(value = { "/openinghour/view/{openinghourID}", "/openinghour/view/{openinghourID}" })
-    public OpeningHourDTO getOpeningHourById(@PathVariable(name = "openinghourID") int id) {
+    @GetMapping(value = { "/openinghour/view/id", "/openinghour/view/{openinghourID}" })
+    public OpeningHourDTO getOpeningHourById(@RequestParam(name = "openinghourID") int id) {
         return convertToDto(service.getOpeningHourFromID(id));
     }
 
@@ -113,8 +113,8 @@ public class LibraryServiceRestController {
      * @return openinghourDTo
      * @author Mathieu Geoffroy
      */
-    @GetMapping(value = { "/openinghour/view/{day}", "/openinghour/view/{day}/" })
-    public OpeningHourDTO getOpeningHourByDay(@PathVariable(name = "dayofweek") String day) throws Exception {
+    @GetMapping(value = { "/openinghour/view/day", "/openinghour/view/day/" })
+    public OpeningHourDTO getOpeningHourByDay(@RequestParam(name = "dayofweek") String day) throws Exception {
         return convertToDto(service.getOpeningHoursByDayOfWeek(day).get(0)); // should only be 1 opening hour per day
     }
 
@@ -127,8 +127,8 @@ public class LibraryServiceRestController {
      * @author Mathieu Geoffroy
      */
     @PostMapping(value = { "/openinghour/new", "/openinghour/new/" })
-    public OpeningHourDTO createOpeningHour(@RequestParam (name = "day") String day, @RequestParam (name = "startTime") Time startTime, @RequestParam (name = "endTime") Time endTime) throws Exception {
-        return convertToDto(service.createOpeningHour(day, startTime, endTime));
+    public OpeningHourDTO createOpeningHour(@RequestParam (name = "day") String day, @RequestParam (name = "startTime") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern="HH:mm") LocalTime startTime, @RequestParam (name = "endTime") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern="HH:mm") LocalTime endTime) throws Exception {
+        return convertToDto(service.createOpeningHour(day, Time.valueOf(startTime), Time.valueOf(endTime)));
     }
 
     /**
