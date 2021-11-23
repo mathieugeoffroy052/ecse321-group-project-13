@@ -676,12 +676,23 @@ public class LibraryServiceService {
             error += "Room is not available for reservation, please try waitlist! ";
         }
 
+        if (date.toLocalDate().isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("Cannot book a room in the past");
+        }
+
+        Iterable<Transaction> transactions = transactionRepository.findAll();
+        for (Transaction t : transactions) {
+            if (t.getDeadline().toLocalDate().compareTo(date.toLocalDate()) == 0) {
+                throw new IllegalArgumentException("Room already booked on that date, please try another or the watilist.");
+            }
+        }
+
         error = error.trim();
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
         }
 
-        Transaction roomReservation = new Transaction(item, account, TransactionType.RoomReservation, null); // No deadline for room reservation
+        Transaction roomReservation = new Transaction(item, account, TransactionType.RoomReservation, date); // No deadline for room reservation
         transactionRepository.save(roomReservation);
         return roomReservation;
     }
