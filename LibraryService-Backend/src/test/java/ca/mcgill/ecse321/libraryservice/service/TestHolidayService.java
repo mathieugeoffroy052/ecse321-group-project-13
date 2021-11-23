@@ -28,9 +28,6 @@ import org.mockito.stubbing.Answer;
 
 import ca.mcgill.ecse321.libraryservice.dao.HolidayRepository;
 import ca.mcgill.ecse321.libraryservice.dao.UserAccountRepository;
-import ca.mcgill.ecse321.libraryservice.dto.HolidayDTO;
-import ca.mcgill.ecse321.libraryservice.dto.LibrarianDTO;
-import ca.mcgill.ecse321.libraryservice.dto.TimeslotDTO;
 import ca.mcgill.ecse321.libraryservice.dao.HeadLibrarianRepository;
 import ca.mcgill.ecse321.libraryservice.model.*;
 
@@ -263,7 +260,6 @@ public class TestHolidayService {
      */
     @Test
     public void testGetHolidayFromHeadLibrarian() {
-        String error = null;
         Date date = Date.valueOf("2021-12-25");
         Time startTime = Time.valueOf("08:00:00");
         Time endTime = Time.valueOf("20:00:00");
@@ -272,14 +268,12 @@ public class TestHolidayService {
         holiday.setHolidayID(HOLIDAY_ID);
         holidayDao.save(holiday);
 
-        List<Holiday> holidays = null;
-
         lenient().when(headLibrarianDao.existsById(anyInt())).thenReturn(true);
 
         try {
-            holidays = service.getHolidaysFromHeadLibrarian(HEAD_LIBRARIAN_ID);
+            service.getHolidaysFromHeadLibrarian(HEAD_LIBRARIAN_ID);
         } catch (Exception e) {
-            error = e.getMessage();
+            fail();
         }
         assertNotNull(holiday);
         assertHolidayAttributes(holiday, date, startTime, endTime);

@@ -363,7 +363,7 @@ public class TestTimeSlotService {
         lenient().when(librarianDao.existsById(anyInt())).thenReturn(true);
         lenient().when(timeslotDao.existsById(anyInt())).thenReturn(true);
         try {
-            timeslot = service.assignTimeSlotToLibrarian(TIMESLOT_KEY, LIBRARIAN_KEY);
+            timeslot = service.assignTimeSlotToLibrarian(HEADLIBRARIAN_KEY,TIMESLOT_KEY, LIBRARIAN_KEY);
         } catch (Exception e) {
             fail();
         }
@@ -384,7 +384,7 @@ public class TestTimeSlotService {
 
         lenient().when(librarianDao.existsById(anyInt())).thenReturn(true);
         try {
-           service.assignTimeSlotToLibrarian(-1, LIBRARIAN_KEY); //invalid key
+           service.assignTimeSlotToLibrarian(HEADLIBRARIAN_KEY, -1, LIBRARIAN_KEY); //invalid key
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -405,7 +405,7 @@ public class TestTimeSlotService {
         lenient().when(timeslotDao.existsById(anyInt())).thenReturn(true);
 
         try {
-            service.assignTimeSlotToLibrarian(TIMESLOT_KEY, -1);
+            service.assignTimeSlotToLibrarian(HEADLIBRARIAN_KEY,TIMESLOT_KEY, -1);
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -535,7 +535,7 @@ public class TestTimeSlotService {
         lenient().when(timeslotDao.existsById(anyInt())).thenReturn(true);
         
         try {
-            service.assignTimeSlotToLibrarian(TIMESLOT_KEY, LIBRARIAN_KEY);
+            service.assignTimeSlotToLibrarian(HEADLIBRARIAN_KEY, TIMESLOT_KEY, LIBRARIAN_KEY);
             assertEquals(TIMESLOT_KEY, service.getTimeSlotsFromLibrarian(LIBRARIAN_KEY).get(0).getTimeSlotID());
         } catch (Exception e) {
             fail();
@@ -553,7 +553,7 @@ public class TestTimeSlotService {
         lenient().when(timeslotDao.existsById(anyInt())).thenReturn(true);
         
         try {
-            service.assignTimeSlotToLibrarian(TIMESLOT_KEY, -1); //invalid librarian id
+            service.assignTimeSlotToLibrarian(HEADLIBRARIAN_KEY, TIMESLOT_KEY, -1); //invalid librarian id
             assertNull(service.getTimeSlotsFromLibrarian(LIBRARIAN_KEY).get(0).getTimeSlotID());
         } catch (Exception e) {
             error = e.getMessage();
@@ -571,7 +571,7 @@ public class TestTimeSlotService {
         lenient().when(timeslotDao.existsById(anyInt())).thenReturn(true);
         
         try {
-            service.assignTimeSlotToLibrarian(TIMESLOT_KEY, LIBRARIAN_KEY);
+            service.assignTimeSlotToLibrarian(HEADLIBRARIAN_KEY, TIMESLOT_KEY, LIBRARIAN_KEY);
             assertEquals(TIMESLOT_KEY, service.getTimeSlotsFromLibrarianUserID(LIBRARIAN_KEY).get(0).getTimeSlotID());
         } catch (Exception e) {
             fail();
@@ -589,7 +589,7 @@ public class TestTimeSlotService {
         lenient().when(timeslotDao.existsById(anyInt())).thenReturn(true);
         
         try {
-            service.assignTimeSlotToLibrarian(TIMESLOT_KEY, LIBRARIAN_KEY);
+            service.assignTimeSlotToLibrarian(HEADLIBRARIAN_KEY, TIMESLOT_KEY, LIBRARIAN_KEY);
             assertNull(service.getTimeSlotsFromLibrarianUserID(-1).get(0).getTimeSlotID());
         } catch (Exception e) {
             error = e.getMessage();

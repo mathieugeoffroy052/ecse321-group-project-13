@@ -1444,10 +1444,16 @@ public class LibraryServiceService {
      * checked
      */
     @Transactional
-    public TimeSlot assignTimeSlotToLibrarian(int timeSlotID, int librarianUserId) {
+    public TimeSlot assignTimeSlotToLibrarian(int accountId, int timeSlotID, int librarianUserId) {
         TimeSlot ts = timeSlotRepository.findTimeSlotByTimeSlotID(timeSlotID);
         Librarian librarian = librarianRepository.findLibrarianByUserID(librarianUserId);
+        UserAccount account = userAccountRepository.findUserAccountByUserID(accountId);
         String error="";
+
+        if (account == null) error = error + "Invalid account. ";
+        else if (!(account instanceof HeadLibrarian)) error = error + "This User ID does not correspond to a Head Librarian. ";
+
+        if (error.length() > 0) throw new IllegalArgumentException(error);
         if (ts == null) {
             error = error + "TimeSlot needs to be selected for registration! ";
         }
