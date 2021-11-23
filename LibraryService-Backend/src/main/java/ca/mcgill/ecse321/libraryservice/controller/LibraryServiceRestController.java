@@ -66,6 +66,18 @@ public class LibraryServiceRestController {
                 service.createHoliday(date, startTime, endTime));
     }
 
+    /**
+     * delete holiday based on current account
+     * @param holidayID
+     * @param accountID
+     * @return true when deleted successfully
+     * @throws Exception
+     */
+    @DeleteMapping(value = {"/holiday/delete", "/holiday/delete/"})
+    public boolean deleteHoliday(@RequestParam (name = "holidayID") int holidayID, @RequestParam (name = "accountID") int accountID) throws Exception {
+        return service.deleteHoliday(accountID, holidayID);
+    }
+
     // * Opening hour methods
     /**
      * get all opening hours
@@ -114,6 +126,18 @@ public class LibraryServiceRestController {
     @PostMapping(value = { "/openinghour/new", "/openinghour/new/" })
     public OpeningHourDTO createOpeningHour(@RequestParam (name = "day") String day, @RequestParam (name = "startTime") Time startTime, @RequestParam (name = "endTime") Time endTime) throws Exception {
         return convertToDto(service.createOpeningHour(day, startTime, endTime));
+    }
+
+    /**
+     * delete openinghour based on current account
+     * @param holidayID
+     * @param accountID
+     * @return true when deleted successfully
+     * @throws Exception
+     */
+    @DeleteMapping(value = {"/openinghour/delete", "/openinghour/delete/"})
+    public boolean deleteOpeningHour(@RequestParam (name = "openinghourID") int openinghourID, @RequestParam (name = "accountID") int accountID) throws Exception {
+        return service.deleteOpeningHour(accountID, openinghourID);
     }
 
     // * TimeSlot methods
@@ -189,10 +213,21 @@ public class LibraryServiceRestController {
      * @author Mathieu Geoffroy
      */
     @PostMapping(value = { "/timeslot/new", "timeslot/new/" })
-    public TimeslotDTO createTimeslot(@RequestBody TimeslotDTO timeslotDto) throws Exception {
-        TimeSlot timeslot = service.createTimeSlot(timeslotDto.getStartDate(), timeslotDto.getStartTime(),
-                timeslotDto.getEndDate(), timeslotDto.getEndTime());
+    public TimeslotDTO createTimeslot(@RequestParam (name = "currentUserID") int accountID, @RequestParam (name = "startDate") Date startDate, @RequestParam (name = "startTime") Time startTime, @RequestParam (name = "endDate") Date endDate, @RequestParam (name = "endTime") Time endTime) throws Exception {
+        TimeSlot timeslot = service.createTimeSlot(accountID, startDate, startTime, endDate, endTime);
         return convertToDto(timeslot);
+    }
+
+    /**
+     * delete timeslot based on current account
+     * @param timeslotID
+     * @param accountID
+     * @return true when deleted successfully
+     * @throws Exception
+     */
+    @DeleteMapping(value = {"/timeslot/delete", "/timeslot/delete/"})
+    public boolean deleteTimeSlot(@RequestParam (name = "timeslotID") int timeslotID, @RequestParam (name = "accountID") int accountID) throws Exception {
+        return service.deleteTimeSlot(accountID, timeslotID);
     }
 
     /**

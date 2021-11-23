@@ -179,7 +179,7 @@ public class TestTimeSlotService {
         TimeSlot timeslot = null;
 
         try {
-            timeslot = service.createTimeSlot(startDate, startTime, endDate, endTime);
+            timeslot = service.createTimeSlot(HEADLIBRARIAN_KEY, startDate, startTime, endDate, endTime);
         } catch (Exception e) {
             fail();
         }
@@ -205,7 +205,7 @@ public class TestTimeSlotService {
         TimeSlot timeslot = null;
 
         try {
-            timeslot = service.createTimeSlot(startDate, startTime, endDate, endTime);
+            timeslot = service.createTimeSlot(HEADLIBRARIAN_KEY, startDate, startTime, endDate, endTime);
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -232,7 +232,7 @@ public class TestTimeSlotService {
         TimeSlot timeslot = null;
 
         try {
-            timeslot = service.createTimeSlot(startDate, startTime, endDate, endTime);
+            timeslot = service.createTimeSlot(HEADLIBRARIAN_KEY, startDate, startTime, endDate, endTime);
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -259,7 +259,7 @@ public class TestTimeSlotService {
         TimeSlot timeslot = null;
 
         try {
-            timeslot = service.createTimeSlot(startDate, startTime, endDate, endTime);
+            timeslot = service.createTimeSlot(HEADLIBRARIAN_KEY, startDate, startTime, endDate, endTime);
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -286,7 +286,7 @@ public class TestTimeSlotService {
         TimeSlot timeslot = null;
 
         try {
-            timeslot = service.createTimeSlot(startDate, startTime, endDate, endTime);
+            timeslot = service.createTimeSlot(HEADLIBRARIAN_KEY, startDate, startTime, endDate, endTime);
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -313,7 +313,7 @@ public class TestTimeSlotService {
         TimeSlot timeslot = null;
 
         try {
-            timeslot = service.createTimeSlot(startDate, startTime, endDate, endTime);
+            timeslot = service.createTimeSlot(HEADLIBRARIAN_KEY, startDate, startTime, endDate, endTime);
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -340,7 +340,7 @@ public class TestTimeSlotService {
         TimeSlot timeslot = null;
 
         try {
-            timeslot = service.createTimeSlot(startDate, startTime, endDate, endTime);
+            timeslot = service.createTimeSlot(HEADLIBRARIAN_KEY, startDate, startTime, endDate, endTime);
         } catch (Exception e) {
             error = e.getMessage();
         }

@@ -1421,7 +1421,10 @@ public class LibraryServiceService {
      * checked
      */
     @Transactional
-    public TimeSlot createTimeSlot(Date startDate, Time startTime, Date endDate, Time endTime) throws Exception {
+    public TimeSlot createTimeSlot(int accountID, Date startDate, Time startTime, Date endDate, Time endTime) throws Exception {
+        UserAccount account = userAccountRepository.findUserAccountByUserID(accountID);
+        if (account == null) throw new IllegalArgumentException("Invalid account");
+        if (!(account instanceof HeadLibrarian)) throw new IllegalArgumentException("Only a Head Librarian can create a new timeslot.");
         if (startDate == null) throw new IllegalArgumentException("Invalid startDate");
         if (startTime == null) throw new IllegalArgumentException("Invalid startTime");
         if (endDate == null) throw new IllegalArgumentException("Invalid endDate");
