@@ -587,8 +587,9 @@ public class LibraryServiceRestController {
         BorrowableItem i = service.getBorrowableItemFromBarCodeNumber(barCodeNumber);
         UserAccount a = service.getUserAccountByUserID(userID);
 
-        Transaction t = service.createRoomReserveTransaction(i, a, Date.valueOf(date), Time.valueOf(startTime), Time.valueOf(endTime));
-        return convertToDto(t);
+        Transaction t = service.createRoomReserveTransaction(i, a, Date.valueOf(date), Time.valueOf(startTime), Time.valueOf(endTime)); 
+        TransactionDTO transaction = convertToDto(t);
+        return transaction;
     }
 
     /**
