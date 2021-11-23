@@ -144,7 +144,7 @@ public class TestHolidayService {
         Holiday holiday = null;
 
         try {
-            holiday = service.createHoliday(date, startTime, endTime);
+            holiday = service.createHoliday(HEAD_LIBRARIAN_ID, date, startTime, endTime);
         } catch (Exception e) {
             fail();
         }
@@ -169,7 +169,7 @@ public class TestHolidayService {
         Holiday holiday = null;
 
         try {
-            holiday = service.createHoliday(date, startTime, endTime);
+            holiday = service.createHoliday(HEAD_LIBRARIAN_ID, date, startTime, endTime);
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -194,7 +194,7 @@ public class TestHolidayService {
         Holiday holiday = null;
 
         try {
-            holiday = service.createHoliday(date, startTime, endTime);
+            holiday = service.createHoliday(HEAD_LIBRARIAN_ID, date, startTime, endTime);
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -219,7 +219,7 @@ public class TestHolidayService {
         Holiday holiday = null;
 
         try {
-            holiday = service.createHoliday(date, startTime, endTime);
+            holiday = service.createHoliday(HEAD_LIBRARIAN_ID, date, startTime, endTime);
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -244,7 +244,7 @@ public class TestHolidayService {
         Holiday holiday = null;
 
         try {
-            holiday = service.createHoliday(date, startTime, endTime);
+            holiday = service.createHoliday(HEAD_LIBRARIAN_ID, date, startTime, endTime);
         } catch (Exception e) {
             error = e.getMessage();
         }

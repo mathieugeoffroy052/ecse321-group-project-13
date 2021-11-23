@@ -61,9 +61,9 @@ public class LibraryServiceRestController {
      * @author Mathieu Geoffroy
      */
     @PostMapping(value = { "/holiday/new", "/holiday/new/" })
-    public HolidayDTO createHoliday(@RequestParam Date date, @RequestParam Time startTime, @RequestParam Time endTime) throws Exception {
+    public HolidayDTO createHoliday(@RequestParam int currentUserID, @RequestParam Date date, @RequestParam Time startTime, @RequestParam Time endTime) throws Exception {
         return convertToDto(
-                service.createHoliday(date, startTime, endTime));
+                service.createHoliday(currentUserID, date, startTime, endTime));
     }
 
     /**

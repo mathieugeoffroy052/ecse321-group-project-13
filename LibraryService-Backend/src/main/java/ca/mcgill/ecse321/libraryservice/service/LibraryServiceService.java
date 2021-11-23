@@ -1736,13 +1736,15 @@ public class LibraryServiceService {
      * checked
      */
     @Transactional
-    public Holiday createHoliday(Date date, Time startTime, Time endTime) throws Exception{
-        HeadLibrarian headLibrarian = getHeadLibrarian();
+    public Holiday createHoliday(int accountId, Date date, Time startTime, Time endTime) throws Exception{
+        if (accountId < 1) throw new IllegalArgumentException("Invalid account id.");
+        UserAccount account = userAccountRepository.findUserAccountByUserID(accountId);
+        if (!(account instanceof HeadLibrarian)) throw new IllegalArgumentException("Account creating the holiday must be a head librarian.");
         if (date == null) throw new IllegalArgumentException("Invalid date.");
         if (startTime == null) throw new IllegalArgumentException("Invalid startTime.");
         if (endTime == null) throw new IllegalArgumentException("Invalid endTime.");
         if (startTime.toLocalTime().isAfter(endTime.toLocalTime())) throw new IllegalArgumentException("StartTime must be before endTime.");
-        Holiday holiday = new Holiday(date, startTime, endTime, headLibrarian);
+        Holiday holiday = new Holiday(date, startTime, endTime, (HeadLibrarian) account);
         holidayRepository.save(holiday);
         return holiday;
     }
