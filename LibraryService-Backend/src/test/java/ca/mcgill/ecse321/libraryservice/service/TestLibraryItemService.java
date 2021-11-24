@@ -1,4 +1,5 @@
 package ca.mcgill.ecse321.libraryservice.service;
+
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -28,7 +29,6 @@ import ca.mcgill.ecse321.libraryservice.dao.BorrowableItemRepository;
 import ca.mcgill.ecse321.libraryservice.dao.UserAccountRepository;
 import ca.mcgill.ecse321.libraryservice.dao.TransactionRepository;
 
-
 @ExtendWith(MockitoExtension.class)
 public class TestLibraryItemService {
 	@Mock
@@ -45,7 +45,7 @@ public class TestLibraryItemService {
 
 	@InjectMocks
 	private LibraryServiceService service;
-	
+
 	/* Library Item attributes */
 	private static final boolean LIBRARY_ITEM_VIEWABLE = true;
 	private static final boolean NEWSPAPER_VIEWABLE = false;
@@ -63,7 +63,7 @@ public class TestLibraryItemService {
 	private static final String NEWSPAPER_NAME = "First edition";
 	private static final ItemType NEWSPAPER_TYPE = ItemType.NewspaperArticle;
 	private static final Date NEWSPAPER_DATE = Date.valueOf("1999-03-15");
-	
+
 	private static final int MUSIC_ISBN = 125;
 	private static final String MUSIC_CREATOR = "Drake";
 	private static final String MUSIC_NAME = "One Dance";
@@ -75,7 +75,7 @@ public class TestLibraryItemService {
 	private static final String MOVIE_NAME = "Dune";
 	private static final ItemType MOVIE_TYPE = ItemType.Movie;
 	private static final Date MOVIE_DATE = Date.valueOf("2021-01-24");
-	
+
 	private static final String ROOM_NAME = "Room 1";
 	private static final int ROOM_ISBN = 500;
 	private static final String ROOM_CREATOR = "Librarian";
@@ -83,10 +83,10 @@ public class TestLibraryItemService {
 	private static final Date ROOM_DATE = Date.valueOf("2020-01-01");
 	private static final boolean ROOM_VIEWABLE = false;
 
-
 	/**
 	 * This method mocks the databases before each test execution so that fake
 	 * database data can be used to test the service methods
+	 * 
 	 * @author Amani Jammoul and Ramin Akhavan-Sarraf
 	 */
 	@BeforeEach
@@ -95,8 +95,7 @@ public class TestLibraryItemService {
 			List<LibraryItem> allLibraryItems = new ArrayList<LibraryItem>();
 			LibraryItem book = new LibraryItem(BOOK_NAME, BOOK_TYPE, BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
 			book.setIsbn(BOOK_ISBN);
-			
-			
+
 			LibraryItem music = new LibraryItem(MUSIC_NAME, MUSIC_TYPE, MUSIC_DATE, MUSIC_CREATOR, LIBRARY_ITEM_VIEWABLE);
 			music.setIsbn(MUSIC_ISBN);
 
@@ -109,8 +108,8 @@ public class TestLibraryItemService {
 			LibraryItem room = new LibraryItem(ROOM_NAME, ROOM_TYPE, ROOM_DATE, ROOM_CREATOR, ROOM_VIEWABLE);
 			room.setIsbn(ROOM_ISBN);
 
-			allLibraryItems.add(book); 
-			allLibraryItems.add(newspaper); 
+			allLibraryItems.add(book);
+			allLibraryItems.add(newspaper);
 			allLibraryItems.add(room);
 			allLibraryItems.add(music);
 			allLibraryItems.add(movie);
@@ -122,82 +121,76 @@ public class TestLibraryItemService {
 			if (invocation.getArgument(0).equals(BOOK_ISBN)) {
 				LibraryItem book = new LibraryItem(BOOK_NAME, BOOK_TYPE, BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
 				book.setIsbn(BOOK_ISBN);
-	
+
 				return book;
-			}
-			else if (invocation.getArgument(0).equals(MOVIE_ISBN)) {
+			} else if (invocation.getArgument(0).equals(MOVIE_ISBN)) {
 				LibraryItem movie = new LibraryItem(MOVIE_NAME, MOVIE_TYPE, MOVIE_DATE, MOVIE_CREATOR, LIBRARY_ITEM_VIEWABLE);
 				movie.setIsbn(MOVIE_ISBN);
-	
+
 				return movie;
-			}
-			else if (invocation.getArgument(0).equals(MUSIC_ISBN)) {
+			} else if (invocation.getArgument(0).equals(MUSIC_ISBN)) {
 				LibraryItem music = new LibraryItem(MUSIC_NAME, MUSIC_TYPE, MUSIC_DATE, MUSIC_CREATOR, LIBRARY_ITEM_VIEWABLE);
 				music.setIsbn(MUSIC_ISBN);
-	
+
 				return music;
-			}
-			else if (invocation.getArgument(0).equals(NEWSPAPER_ISBN)) {
+			} else if (invocation.getArgument(0).equals(NEWSPAPER_ISBN)) {
 				LibraryItem newspaper = new LibraryItem(NEWSPAPER_NAME, NEWSPAPER_TYPE, NEWSPAPER_DATE, NEWSPAPER_CREATOR, NEWSPAPER_VIEWABLE);
 				newspaper.setIsbn(NEWSPAPER_ISBN);
-	
+
 				return newspaper;
-			}
-			else {
+			} else {
 				return null;
 			}
 		});
-		
+
 		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
 			return invocation.getArgument(0);
 		};
 		lenient().when(libraryItemDao.save(any(LibraryItem.class))).thenAnswer(returnParameterAsAnswer);
 	}
-	
+
 	/**
-	 * This helper methods checks if the attributes of found library items fits
-	 * what was expected depending on the type of item
+	 * This helper methods checks if the attributes of found library items fits what
+	 * was expected depending on the type of item
+	 * 
 	 * @param library item
 	 * @author Ramin Akhavan-Sarraf
 	 */
 	public static void checkBasicLibraryItemList(LibraryItem item) {
-		if(item.getType() == ItemType.Book) {
+		if (item.getType() == ItemType.Book) {
 			assertEquals(item.getName(), BOOK_NAME);
 			assertEquals(item.getType(), BOOK_TYPE);
 			assertEquals(item.getCreator(), BOOK_CREATOR);
 			assertEquals(item.getIsbn(), BOOK_ISBN);
 			assertTrue(item.getDate().compareTo(BOOK_DATE) == 0);
-		}
-		else if (item.getType() == ItemType.Movie){
+		} else if (item.getType() == ItemType.Movie) {
 			assertEquals(item.getName(), MOVIE_NAME);
 			assertEquals(item.getType(), MOVIE_TYPE);
 			assertEquals(item.getCreator(), MOVIE_CREATOR);
 			assertEquals(item.getIsbn(), MOVIE_ISBN);
 			assertTrue(item.getDate().compareTo(MOVIE_DATE) == 0);
-		}
-		else if (item.getType() == ItemType.Music) {
+		} else if (item.getType() == ItemType.Music) {
 			assertEquals(item.getName(), MUSIC_NAME);
 			assertEquals(item.getType(), MUSIC_TYPE);
 			assertEquals(item.getCreator(), MUSIC_CREATOR);
 			assertEquals(item.getIsbn(), MUSIC_ISBN);
 			assertTrue(item.getDate().compareTo(MUSIC_DATE) == 0);
-		}
-		else if (item.getType() == ItemType.NewspaperArticle){
+		} else if (item.getType() == ItemType.NewspaperArticle) {
 			assertEquals(item.getName(), NEWSPAPER_NAME);
 			assertEquals(item.getType(), NEWSPAPER_TYPE);
 			assertEquals(item.getCreator(), NEWSPAPER_CREATOR);
 			assertEquals(item.getIsbn(), NEWSPAPER_ISBN);
 			assertTrue(item.getDate().compareTo(NEWSPAPER_DATE) == 0);
-		} 
-		else {
+		} else {
 			assertEquals(item.getName(), ROOM_NAME);
 			assertEquals(item.getType(), ROOM_TYPE);
 		}
 	}
-	
+
 	/**
-	 * This method tests the getBooksFromAuthor service method to see if
-	 * searching for books using the author name returns the correct list
+	 * This method tests the getBooksFromAuthor service method to see if searching
+	 * for books using the author name returns the correct list
+	 * 
 	 * @throws Exception
 	 * @author Ramin Akhavan-Sarraf
 	 */
@@ -214,8 +207,9 @@ public class TestLibraryItemService {
 	}
 
 	/**
-	 * This method tests the getBooksFromTitle service method to see if
-	 * searching for books using the title name returns the correct list
+	 * This method tests the getBooksFromTitle service method to see if searching
+	 * for books using the title name returns the correct list
+	 * 
 	 * @throws Exception
 	 * @author Ramin Akhavan-Sarraf
 	 */
@@ -233,7 +227,9 @@ public class TestLibraryItemService {
 
 	/**
 	 * This method tests the getBooksFromAuthorAndTitle service method to see if
-	 * searching for a unique book using the author name and title returns the correct book
+	 * searching for a unique book using the author name and title returns the
+	 * correct book
+	 * 
 	 * @throws Exception
 	 * @author Ramin Akhavan-Sarraf
 	 */
@@ -250,8 +246,9 @@ public class TestLibraryItemService {
 	}
 
 	/**
-	 * This method tests the getMoviesFromAuthor service method to see if
-	 * searching for movies using the author name returns the correct list
+	 * This method tests the getMoviesFromAuthor service method to see if searching
+	 * for movies using the author name returns the correct list
+	 * 
 	 * @throws Exception
 	 * @author Ramin Akhavan-Sarraf
 	 */
@@ -268,8 +265,9 @@ public class TestLibraryItemService {
 	}
 
 	/**
-	 * This method tests the getMoviesFromTitle service method to see if
-	 * searching for movies using the title name returns the correct list
+	 * This method tests the getMoviesFromTitle service method to see if searching
+	 * for movies using the title name returns the correct list
+	 * 
 	 * @throws Exception
 	 * @author Ramin Akhavan-Sarraf
 	 */
@@ -287,7 +285,9 @@ public class TestLibraryItemService {
 
 	/**
 	 * This method tests the getMoviesFromDirectorAndTitle service method to see if
-	 * searching for a unique movie using the director name and title returns the correct movie
+	 * searching for a unique movie using the director name and title returns the
+	 * correct movie
+	 * 
 	 * @throws Exception
 	 * @author Ramin Akhavan-Sarraf
 	 */
@@ -304,8 +304,9 @@ public class TestLibraryItemService {
 	}
 
 	/**
-	 * This method tests the getMusicsFromArtist service method to see if
-	 * searching for musics using the artist name returns the correct list
+	 * This method tests the getMusicsFromArtist service method to see if searching
+	 * for musics using the artist name returns the correct list
+	 * 
 	 * @throws Exception
 	 * @author Ramin Akhavan-Sarraf
 	 */
@@ -322,8 +323,9 @@ public class TestLibraryItemService {
 	}
 
 	/**
-	 * This method tests the getMusicsFromTitle service method to see if
-	 * searching for musics using the title name returns the correct list
+	 * This method tests the getMusicsFromTitle service method to see if searching
+	 * for musics using the title name returns the correct list
+	 * 
 	 * @throws Exception
 	 * @author Ramin Akhavan-Sarraf
 	 */
@@ -341,7 +343,9 @@ public class TestLibraryItemService {
 
 	/**
 	 * This method tests the getMusicsFromDirectorAndTitle service method to see if
-	 * searching for a unique music using the author and title name returns the correct music
+	 * searching for a unique music using the author and title name returns the
+	 * correct music
+	 * 
 	 * @throws Exception
 	 * @author Ramin Akhavan-Sarraf
 	 */
@@ -360,9 +364,10 @@ public class TestLibraryItemService {
 	/**
 	 * This method tests the getNewspapersFromWriter service method to see if
 	 * searching for newspapers using the writer name returns the correct list
+	 * 
 	 * @throws Exception
 	 * @author Ramin Akhavan-Sarraf
-	 */	
+	 */
 	@Test
 	public void testGetNewspapersFromWriter() throws Exception {
 		List<LibraryItem> newspapers = null;
@@ -378,6 +383,7 @@ public class TestLibraryItemService {
 	/**
 	 * This method tests the getNewspapersFromTitle service method to see if
 	 * searching for newspapers using the title name returns the correct list
+	 * 
 	 * @throws Exception
 	 * @author Ramin Akhavan-Sarraf
 	 */
@@ -395,7 +401,9 @@ public class TestLibraryItemService {
 
 	/**
 	 * This method tests the getNewspaperFromWriterAndTitle service method to see if
-	 * searching for a unique newspaper using the writer and title name returns the correct newspaper
+	 * searching for a unique newspaper using the writer and title name returns the
+	 * correct newspaper
+	 * 
 	 * @throws Exception
 	 * @author Ramin Akhavan-Sarraf
 	 */
@@ -410,10 +418,11 @@ public class TestLibraryItemService {
 		assertNotNull(newspaper);
 		checkBasicLibraryItemList(newspaper);
 	}
-	
+
 	/**
-	 * This method tests the getAllBooks service method to see if
-	 * all books of the library system are correctly returned
+	 * This method tests the getAllBooks service method to see if all books of the
+	 * library system are correctly returned
+	 * 
 	 * @throws Exception
 	 * @author Ramin Akhavan-Sarraf
 	 */
@@ -429,12 +438,13 @@ public class TestLibraryItemService {
 		assertEquals(1, books.size());
 		LibraryItem book = books.get(0);
 		checkBasicLibraryItemList(book);
-		
+
 	}
 
 	/**
-	 * This method tests the getAllNewspapers service method to see if
-	 * all newspapers of the library system are correctly returned
+	 * This method tests the getAllNewspapers service method to see if all
+	 * newspapers of the library system are correctly returned
+	 * 
 	 * @throws Exception
 	 * @author Ramin Akhavan-Sarraf
 	 */
@@ -450,12 +460,13 @@ public class TestLibraryItemService {
 		assertEquals(1, newspapers.size());
 		LibraryItem news = newspapers.get(0);
 		checkBasicLibraryItemList(news);
-		
+
 	}
 
 	/**
-	 * This method tests the getAllMusic service method to see if
-	 * all music of the library system are correctly returned
+	 * This method tests the getAllMusic service method to see if all music of the
+	 * library system are correctly returned
+	 * 
 	 * @throws Exception
 	 * @author Ramin Akhavan-Sarraf
 	 */
@@ -471,12 +482,13 @@ public class TestLibraryItemService {
 		assertEquals(1, music.size());
 		LibraryItem song = music.get(0);
 		checkBasicLibraryItemList(song);
-		
+
 	}
 
 	/**
-	 * This method tests the getAllMovies service method to see if
-	 * all movies of the library system are correctly returned
+	 * This method tests the getAllMovies service method to see if all movies of the
+	 * library system are correctly returned
+	 * 
 	 * @throws Exception
 	 * @author Ramin Akhavan-Sarraf
 	 */
@@ -492,12 +504,13 @@ public class TestLibraryItemService {
 		assertEquals(1, movies.size());
 		LibraryItem movie = movies.get(0);
 		checkBasicLibraryItemList(movie);
-		
+
 	}
 
 	/**
-	 * This method tests the getAllRoomReservations service method to see if
-	 * all room reservations of the library system are correctly returned
+	 * This method tests the getAllRoomReservations service method to see if all
+	 * room reservations of the library system are correctly returned
+	 * 
 	 * @throws Exception
 	 * @author Ramin Akhavan-Sarraf
 	 */
@@ -513,12 +526,13 @@ public class TestLibraryItemService {
 		assertEquals(1, rooms.size());
 		LibraryItem room = rooms.get(0);
 		checkBasicLibraryItemList(room);
-		
+
 	}
 
 	/**
-	 * This method tests the getAllLibraryItems service method to see if
-	 * all library items of the library system are correctly returned
+	 * This method tests the getAllLibraryItems service method to see if all library
+	 * items of the library system are correctly returned
+	 * 
 	 * @throws Exception
 	 * @author Ramin Akhavan-Sarraf
 	 */
@@ -532,15 +546,16 @@ public class TestLibraryItemService {
 		}
 		assertNotNull(libItems);
 		assertEquals(5, libItems.size());
-		for(LibraryItem item: libItems) {
+		for (LibraryItem item : libItems) {
 			checkBasicLibraryItemList(item);
 		}
-		
+
 	}
 
 	/**
 	 * This method tests the getLibraryItemsFromCreator service method to see if
 	 * searching for library items using the creator name returns the correct list
+	 * 
 	 * @throws Exception
 	 * @author Ramin Akhavan-Sarraf
 	 */
@@ -555,12 +570,13 @@ public class TestLibraryItemService {
 		assertNotNull(libItems);
 		assertEquals(1, libItems.size());
 		checkBasicLibraryItemList(libItems.get(0));
-		
+
 	}
 
 	/**
 	 * This method tests the getLibraryItemsFromTitle service method to see if
 	 * searching for library items using the title name returns the correct list
+	 * 
 	 * @throws Exception
 	 * @author Ramin Akhavan-Sarraf
 	 */
@@ -575,12 +591,14 @@ public class TestLibraryItemService {
 		assertNotNull(libItems);
 		assertEquals(1, libItems.size());
 		checkBasicLibraryItemList(libItems.get(0));
-		
+
 	}
 
 	/**
-	 * This method tests the getLibraryItemsFromCreatorAndTitle service method to see if
-	 * searching for a unique library item using the creator and title name returns the correct list
+	 * This method tests the getLibraryItemsFromCreatorAndTitle service method to
+	 * see if searching for a unique library item using the creator and title name
+	 * returns the correct list
+	 * 
 	 * @throws Exception
 	 * @author Ramin Akhavan-Sarraf
 	 */
@@ -595,7 +613,7 @@ public class TestLibraryItemService {
 		assertNotNull(libItems);
 		assertEquals(1, libItems.size());
 		checkBasicLibraryItemList(libItems.get(0));
-		
+
 	}
 
 	/**
@@ -606,15 +624,14 @@ public class TestLibraryItemService {
 	 */
 	@Test
 	public void testCreateLibraryItemSuccess() throws Exception {
-		
+
 		LibraryItem libraryItem = null;
-		
+
 		try {
 			libraryItem = service.createLibraryItem(BOOK_NAME, BOOK_TYPE.toString(), BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
-		}
-		catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException e) {
 			fail();
-			
+
 		}
 		assertNotNull(libraryItem);
 		assertEquals(libraryItem.getName(), BOOK_NAME);
@@ -622,12 +639,12 @@ public class TestLibraryItemService {
 		assertEquals(libraryItem.getCreator(), BOOK_CREATOR);
 		assertEquals(libraryItem.getType(), BOOK_TYPE);
 		assertTrue(libraryItem.getDate().compareTo(BOOK_DATE) == 0);
-			
+
 	}
 
 	/**
-	 * This tests verifies that a library item is not made in the database due to
-	 * an empty name field
+	 * This tests verifies that a library item is not made in the database due to an
+	 * empty name field
 	 * 
 	 * @author Ramin Akhavan-Sarraf
 	 * @throws Exception
@@ -635,21 +652,20 @@ public class TestLibraryItemService {
 	@Test
 	public void testCreateLibraryItemNoNameFail() throws Exception {
 		String error = "";
-		
+
 		try {
 			service.createLibraryItem(null, BOOK_TYPE.toString(), BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
-		}
-		catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
-			
+
 		}
 		assertEquals(error, "Name cannot be empty!");
-			
+
 	}
 
 	/**
-	 * This tests verifies that a library item is not made in the database due to
-	 * an empty type field
+	 * This tests verifies that a library item is not made in the database due to an
+	 * empty type field
 	 * 
 	 * @author Ramin Akhavan-Sarraf
 	 * @throws Exception
@@ -657,16 +673,15 @@ public class TestLibraryItemService {
 	@Test
 	public void testCreateLibraryItemNoTypeFail() throws Exception {
 		String error = "";
-		
+
 		try {
 			service.createLibraryItem(BOOK_NAME, null, BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
-		}
-		catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
-			
+
 		}
 		assertEquals(error, "Item type cannot be empty!");
-			
+
 	}
 
 	/**
@@ -680,14 +695,13 @@ public class TestLibraryItemService {
 		boolean libraryItemDelete = false;
 		try {
 			libraryItemDelete = service.deleteLibraryItem(BOOK_ISBN);
-		
-		}
-		catch (IllegalArgumentException e) {
+
+		} catch (IllegalArgumentException e) {
 			fail();
-			
+
 		}
 		assertTrue(libraryItemDelete);
-			
+
 	}
 
 	/**
@@ -701,13 +715,12 @@ public class TestLibraryItemService {
 		String error = "";
 		try {
 			service.deleteLibraryItem(INVALID_BOOK_ISBN);
-		
-		}
-		catch (Exception e) {
+
+		} catch (Exception e) {
 			error = e.getMessage();
-			
+
 		}
 		assertEquals(error, "This isbn does not exist as a Library Item");
-			
+
 	}
 }

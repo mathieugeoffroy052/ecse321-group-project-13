@@ -1,4 +1,5 @@
 package ca.mcgill.ecse321.libraryservice.service;
+
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -31,7 +32,6 @@ import ca.mcgill.ecse321.libraryservice.dao.BorrowableItemRepository;
 import ca.mcgill.ecse321.libraryservice.dao.UserAccountRepository;
 import ca.mcgill.ecse321.libraryservice.dao.TransactionRepository;
 
-
 @ExtendWith(MockitoExtension.class)
 public class TestBorrowableItemService {
 	@Mock
@@ -48,7 +48,7 @@ public class TestBorrowableItemService {
 
 	@InjectMocks
 	private LibraryServiceService service;
-	
+
 	/* Library Item attributes */
 	private static final boolean LIBRARY_ITEM_VIEWABLE = true;
 	private static final boolean NEWSPAPER_VIEWABLE = false;
@@ -64,7 +64,7 @@ public class TestBorrowableItemService {
 	private static final String NEWSPAPER_NAME = "First edition";
 	private static final ItemType NEWSPAPER_TYPE = ItemType.NewspaperArticle;
 	private static final Date NEWSPAPER_DATE = Date.valueOf("1999-03-15");
-	
+
 	private static final int MUSIC_ISBN = 125;
 	private static final String MUSIC_CREATOR = "Drake";
 	private static final String MUSIC_NAME = "One Dance";
@@ -76,22 +76,23 @@ public class TestBorrowableItemService {
 	private static final String MOVIE_NAME = "Dune";
 	private static final ItemType MOVIE_TYPE = ItemType.Movie;
 	private static final Date MOVIE_DATE = Date.valueOf("2021-01-24");
-	
+
 	private static final String ROOM_NAME = "Room 1";
 	private static final ItemType ROOM_TYPE = ItemType.Room;
 
-	/* Borrowable Item attributes*/
+	/* Borrowable Item attributes */
 	private static final int BOOK_BARCODENUMBER = 123456;
 	private static final int INVALID_BOOK_BARCODENUMBER = 11111;
 
 	private static final ItemState AVAILABLE_STATE = ItemState.Available;
 
 	private static final ItemState BOOK_STATE = AVAILABLE_STATE;
-	
+
 	/**
-	 * This method is used to mock the database outputs, so that we can use
-	 * fake data to test the methods. Specifically the borrowableItem table
-	 * and library item table are mocked
+	 * This method is used to mock the database outputs, so that we can use fake
+	 * data to test the methods. Specifically the borrowableItem table and library
+	 * item table are mocked
+	 * 
 	 * @author Ramin Akhavan-Sarraf
 	 */
 	@BeforeEach
@@ -100,71 +101,67 @@ public class TestBorrowableItemService {
 			if (invocation.getArgument(0).equals(BOOK_ISBN)) {
 				LibraryItem book = new LibraryItem(BOOK_NAME, BOOK_TYPE, BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
 				book.setIsbn(BOOK_ISBN);
-	
+
 				return book;
-			}
-			else if (invocation.getArgument(0).equals(MOVIE_ISBN)) {
+			} else if (invocation.getArgument(0).equals(MOVIE_ISBN)) {
 				LibraryItem movie = new LibraryItem(MOVIE_NAME, MOVIE_TYPE, MOVIE_DATE, MOVIE_CREATOR, LIBRARY_ITEM_VIEWABLE);
 				movie.setIsbn(MOVIE_ISBN);
-	
+
 				return movie;
-			}
-			else if (invocation.getArgument(0).equals(MUSIC_ISBN)) {
+			} else if (invocation.getArgument(0).equals(MUSIC_ISBN)) {
 				LibraryItem music = new LibraryItem(MUSIC_NAME, MUSIC_TYPE, MUSIC_DATE, MUSIC_CREATOR, LIBRARY_ITEM_VIEWABLE);
 				music.setIsbn(MUSIC_ISBN);
-	
+
 				return music;
-			}
-			else if (invocation.getArgument(0).equals(NEWSPAPER_ISBN)) {
+			} else if (invocation.getArgument(0).equals(NEWSPAPER_ISBN)) {
 				LibraryItem newspaper = new LibraryItem(NEWSPAPER_NAME, NEWSPAPER_TYPE, NEWSPAPER_DATE, NEWSPAPER_CREATOR, NEWSPAPER_VIEWABLE);
 				newspaper.setIsbn(NEWSPAPER_ISBN);
-	
+
 				return newspaper;
-			}
-			else {
-				return null;
-			}
-		});
-		
-		lenient().when(borrowableItemDao.findByLibraryItem(any(LibraryItem.class))).thenAnswer((InvocationOnMock invocation) -> {
-			if (invocation.getArgument(0).toString().contains(BOOK_NAME)) {
-				LibraryItem book = new LibraryItem(BOOK_NAME, BOOK_TYPE, BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
-				book.setIsbn(BOOK_ISBN);
-				List<BorrowableItem> allBorrowableItems = new ArrayList<BorrowableItem>();
-				BorrowableItem borrowableBook = new BorrowableItem(BOOK_STATE, book);
-				borrowableBook.setBarCodeNumber(BOOK_BARCODENUMBER);
-				allBorrowableItems.add(borrowableBook); 
-				return allBorrowableItems;
-			}
-			else {
+			} else {
 				return null;
 			}
 		});
 
-		lenient().when(borrowableItemDao.findBorrowableItemByBarCodeNumber(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
-			if (invocation.getArgument(0).equals(BOOK_BARCODENUMBER)) {
-				LibraryItem book = new LibraryItem(BOOK_NAME, BOOK_TYPE, BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
-				book.setIsbn(BOOK_ISBN);
-				BorrowableItem borrowableBook = new BorrowableItem(BOOK_STATE, book);
-				borrowableBook.setBarCodeNumber(BOOK_BARCODENUMBER);
-				return borrowableBook;
-			}
-			else {
-				return null;
-			}
-		});
-		
+		lenient().when(borrowableItemDao.findByLibraryItem(any(LibraryItem.class)))
+				.thenAnswer((InvocationOnMock invocation) -> {
+					if (invocation.getArgument(0).toString().contains(BOOK_NAME)) {
+						LibraryItem book = new LibraryItem(BOOK_NAME, BOOK_TYPE, BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
+						book.setIsbn(BOOK_ISBN);
+						List<BorrowableItem> allBorrowableItems = new ArrayList<BorrowableItem>();
+						BorrowableItem borrowableBook = new BorrowableItem(BOOK_STATE, book);
+						borrowableBook.setBarCodeNumber(BOOK_BARCODENUMBER);
+						allBorrowableItems.add(borrowableBook);
+						return allBorrowableItems;
+					} else {
+						return null;
+					}
+				});
+
+		lenient().when(borrowableItemDao.findBorrowableItemByBarCodeNumber(anyInt()))
+				.thenAnswer((InvocationOnMock invocation) -> {
+					if (invocation.getArgument(0).equals(BOOK_BARCODENUMBER)) {
+						LibraryItem book = new LibraryItem(BOOK_NAME, BOOK_TYPE, BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
+						book.setIsbn(BOOK_ISBN);
+						BorrowableItem borrowableBook = new BorrowableItem(BOOK_STATE, book);
+						borrowableBook.setBarCodeNumber(BOOK_BARCODENUMBER);
+						return borrowableBook;
+					} else {
+						return null;
+					}
+				});
+
 		lenient().when(borrowableItemDao.findAll()).thenAnswer((InvocationOnMock invocation) -> {
 			List<BorrowableItem> allBorrowableItems = new ArrayList<BorrowableItem>();
 			LibraryItem book = new LibraryItem(BOOK_NAME, BOOK_TYPE, BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
 			book.setIsbn(BOOK_ISBN);
 			BorrowableItem borrowableBook = new BorrowableItem(BOOK_STATE, book);
 			borrowableBook.setBarCodeNumber(BOOK_BARCODENUMBER);
-			allBorrowableItems.add(borrowableBook); 
+			allBorrowableItems.add(borrowableBook);
 
 			return allBorrowableItems;
 		});
-		
+
 		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
 			return invocation.getArgument(0);
 		};
@@ -172,51 +169,49 @@ public class TestBorrowableItemService {
 		lenient().when(borrowableItemDao.save(any(BorrowableItem.class))).thenAnswer(returnParameterAsAnswer);
 
 	}
-	
+
 	/**
-	 * This helper method checks all parameters of the appropriate library
-	 * item based on the type of item
+	 * This helper method checks all parameters of the appropriate library item
+	 * based on the type of item
+	 * 
 	 * @param library item
 	 * @author Ramin Akhavan-Sarraf
 	 */
 	public static void checkBasicLibraryItemList(LibraryItem item) {
-		if(item.getType() == ItemType.Book) {
+		if (item.getType() == ItemType.Book) {
 			assertEquals(item.getName(), BOOK_NAME);
 			assertEquals(item.getType(), BOOK_TYPE);
 			assertEquals(item.getCreator(), BOOK_CREATOR);
 			assertEquals(item.getIsbn(), BOOK_ISBN);
 			assertTrue(item.getDate().compareTo(BOOK_DATE) == 0);
-		}
-		else if (item.getType() == ItemType.Movie){
+		} else if (item.getType() == ItemType.Movie) {
 			assertEquals(item.getName(), MOVIE_NAME);
 			assertEquals(item.getType(), MOVIE_TYPE);
 			assertEquals(item.getCreator(), MOVIE_CREATOR);
 			assertEquals(item.getIsbn(), MOVIE_ISBN);
 			assertTrue(item.getDate().compareTo(MOVIE_DATE) == 0);
-		}
-		else if (item.getType() == ItemType.Music) {
+		} else if (item.getType() == ItemType.Music) {
 			assertEquals(item.getName(), MUSIC_NAME);
 			assertEquals(item.getType(), MUSIC_TYPE);
 			assertEquals(item.getCreator(), MUSIC_CREATOR);
 			assertEquals(item.getIsbn(), MUSIC_ISBN);
 			assertTrue(item.getDate().compareTo(MUSIC_DATE) == 0);
-		}
-		else if (item.getType() == ItemType.NewspaperArticle){
+		} else if (item.getType() == ItemType.NewspaperArticle) {
 			assertEquals(item.getName(), NEWSPAPER_NAME);
 			assertEquals(item.getType(), NEWSPAPER_TYPE);
 			assertEquals(item.getCreator(), NEWSPAPER_CREATOR);
 			assertEquals(item.getIsbn(), NEWSPAPER_ISBN);
 			assertTrue(item.getDate().compareTo(NEWSPAPER_DATE) == 0);
-		} 
-		else {
+		} else {
 			assertEquals(item.getName(), ROOM_NAME);
 			assertEquals(item.getType(), ROOM_TYPE);
 		}
 	}
-	
+
 	/**
-	 * Tests the getBorrowableItemsFromIsbn service method to see if the correct 
+	 * Tests the getBorrowableItemsFromIsbn service method to see if the correct
 	 * items are returned when looking for items with the same isbn
+	 * 
 	 * @throws Exception
 	 * @author Ramin Akhavan-Sarraf
 	 */
@@ -235,12 +230,13 @@ public class TestBorrowableItemService {
 		assertEquals(book.getState(), BOOK_STATE);
 		LibraryItem book_lib_item = book.getLibraryItem();
 		checkBasicLibraryItemList(book_lib_item);
-		
+
 	}
 
 	/**
-	 * Tests the getBorrowableItemsFromBarCodeNumber method to see if the correct 
+	 * Tests the getBorrowableItemsFromBarCodeNumber method to see if the correct
 	 * item is returned when looking for a unique bar code number
+	 * 
 	 * @throws Exception
 	 * @author Ramin Akhavan-Sarraf
 	 */
@@ -257,9 +253,9 @@ public class TestBorrowableItemService {
 		assertEquals(book.getState(), BOOK_STATE);
 		LibraryItem book_lib_item = book.getLibraryItem();
 		checkBasicLibraryItemList(book_lib_item);
-		
+
 	}
-	
+
 	/**
 	 * This tests verifies if a borrowable item is made in the database
 	 * 
@@ -268,23 +264,22 @@ public class TestBorrowableItemService {
 	 */
 	@Test
 	public void testCreateBorrowableItemSuccess() throws Exception {
-		
+
 		BorrowableItem borrowableItem = null;
 		LibraryItem libraryItem = null;
-		
+
 		try {
 			libraryItem = service.createLibraryItem(BOOK_NAME, BOOK_TYPE.toString(), BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
 			libraryItem.setIsbn(BOOK_ISBN);
 			borrowableItem = service.createBorrowableItem(BOOK_STATE.toString(), libraryItem);
-		}
-		catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException e) {
 			fail();
-			
+
 		}
 		assertNotNull(borrowableItem);
 		assertEquals(borrowableItem.getState(), BOOK_STATE);
 		checkBasicLibraryItemList(borrowableItem.getLibraryItem());
-			
+
 	}
 
 	/**
@@ -295,21 +290,21 @@ public class TestBorrowableItemService {
 	 */
 	@Test
 	public void testCreateBorrowableItemNoStateFail() throws Exception {
-		
+
 		String error = "";
 		LibraryItem libraryItem = null;
-		
+
 		try {
-			libraryItem = service.createLibraryItem(BOOK_NAME, BOOK_TYPE.toString(), BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
+			libraryItem = service.createLibraryItem(BOOK_NAME, BOOK_TYPE.toString(), BOOK_DATE, BOOK_CREATOR,
+					LIBRARY_ITEM_VIEWABLE);
 			libraryItem.setIsbn(BOOK_ISBN);
 			service.createBorrowableItem(null, libraryItem);
-		}
-		catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
-			
+
 		}
 		assertEquals(error, "Item state cannot be empty!");
-			
+
 	}
 
 	/**
@@ -320,20 +315,18 @@ public class TestBorrowableItemService {
 	 */
 	@Test
 	public void testCreateBorrowableItemNoLibraryItemFail() throws Exception {
-		
+
 		String error = "";
 
 		try {
 			service.createBorrowableItem(BOOK_STATE.toString(), null);
-		}
-		catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
-			
+
 		}
 		assertEquals(error, "Library item cannot be empty!");
-			
-	}
 
+	}
 
 	/**
 	 * This tests verifies that a borrowable item was deleted from the database
@@ -346,14 +339,13 @@ public class TestBorrowableItemService {
 		boolean borrowableDelete = false;
 		try {
 			borrowableDelete = service.deleteBorrowableItem(BOOK_BARCODENUMBER);
-		
-		}
-		catch (IllegalArgumentException e) {
+
+		} catch (IllegalArgumentException e) {
 			fail();
-			
+
 		}
 		assertTrue(borrowableDelete);
-			
+
 	}
 
 	/**
@@ -368,138 +360,95 @@ public class TestBorrowableItemService {
 		boolean borrowableDelete = false;
 		try {
 			borrowableDelete = service.deleteBorrowableItem(INVALID_BOOK_BARCODENUMBER);
-		
-		}
-		catch (Exception e) {
+
+		} catch (Exception e) {
 			error = e.getMessage();
-			
+
 		}
 		assertEquals(error, "This bar code number does not exist as a Borrowable Item");
 		assertFalse(borrowableDelete);
-			
+
 	}
+
 	/**
-	 * This test gets a reserved items from a user from the system given their account,
-	 *  This returns no error.
-	 *  
-	 * @author Zoya Malhi
-	 * @throws Exception
-	 */
-//	@Test
-//	public void testGetReservedItemsSuccess() throws Exception {
-//		
-//		String error = null;
-//		List<BorrowableItem> borrowableItem = null;
-//		Patron patron = new Patron();
-//		patron.setPatronID(PATRON_ID);
-//        patron.setFirstName(PATRON_FIRST_NAME);
-//        patron.setLastName(PATRON_LAST_NAME); 
-//        patron.setEmail(PATRON_EMAIL);
-//        patron.setPassword(PATRON_PASSWORD);
-//        patron.setBalance(PATRON_BALANCE);
-//        patron.setOnlineAccount(PATRON_ONLINE_ACCOUNT);
-//        patron.setAddress(PATRON_ADDRESS);
-//        patron.setValidatedAccount(PATRON_VALIDATED_ACCOUNT);
-//        borrowableItem.add(Book);
-//		List<Patron> patrons = new ArrayList<Patron>();
-//		patrons.add(patron);
-//		
-//		try {
-//			borrowableItem = service.getReservedItemsFromUser(patrons.get(0));
-//			
-//		}
-//		catch (IllegalArgumentException e) {
-//			error = e.getMessage();
-//			
-//		}
-//			assertNull(borrowableItem);
-//			
-//			//verify error
-//			assertEquals(borrowableItem.);
-//		
-//	}
-	/**
-	 * This test gets a reserved items from a user from the system given their account,
-	 *  This returns an error when the account parameter is null.
-	 *  
+	 * This test gets a reserved items from a user from the system given their
+	 * account, This returns an error when the account parameter is null.
+	 * 
 	 * @author Zoya Malhi
 	 * @throws Exception
 	 */
 	@Test
 	public void testGetReservedItemsFromUserNullAccount() throws Exception {
-		
+
 		String error = null;
 		List<BorrowableItem> borrowableItem = null;
-		
+
 		try {
 			borrowableItem = service.getReservedItemsFromUser(null);
-			
-		}
-		catch (IllegalArgumentException e) {
+
+		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
-			
+
 		}
-			assertNull(borrowableItem);
-			
-			//verify error
-			assertEquals("Account cannot be null!", error);
-		
+		assertNull(borrowableItem);
+
+		// verify error
+		assertEquals("Account cannot be null!", error);
+
 	}
-	
+
 	/**
-	 * This test gets a borrowed items from a user from the system given their account,
-	 *  This returns an error when the account parameter is null.
-	 *  
+	 * This test gets a borrowed items from a user from the system given their
+	 * account, This returns an error when the account parameter is null.
+	 * 
 	 * @author Zoya Malhi
 	 * @throws Exception
 	 */
 	@Test
 	public void testGetBorrowedItemsFromUserNullAccount() throws Exception {
-		
+
 		String error = null;
 		List<BorrowableItem> borrowableItem = null;
-		
+
 		try {
 			borrowableItem = service.getBorrowedItemsFromUser(null);
-			
-		}
-		catch (IllegalArgumentException e) {
+
+		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
-			
+
 		}
-			assertNull(borrowableItem);
-			
-			//verify error
-			assertEquals("Account cannot be null!", error);
-		
+		assertNull(borrowableItem);
+
+		// verify error
+		assertEquals("Account cannot be null!", error);
+
 	}
+
 	/**
-	 * This test gets a borrowed items from a user from the system given their account,
-	 *  This returns an error when the account parameter is null.
-	 *  
+	 * This test gets a borrowed items from a user from the system given their
+	 * account, This returns an error when the account parameter is null.
+	 * 
 	 * @author Zoya Malhi
 	 * @throws Exception
 	 */
 	@Test
 	public void testGeItemWaitlistsFromUserNullAccount() throws Exception {
-		
+
 		String error = null;
 		List<BorrowableItem> borrowableItem = null;
-		
+
 		try {
 			borrowableItem = service.getItemWaitlistsFromUser(null);
-			
-		}
-		catch (IllegalArgumentException e) {
+
+		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
-			
+
 		}
-			assertNull(borrowableItem);
-			
-			//verify error
-			assertEquals("Account cannot be null!", error);
-		
+		assertNull(borrowableItem);
+
+		// verify error
+		assertEquals("Account cannot be null!", error);
+
 	}
-	
-	
+
 }

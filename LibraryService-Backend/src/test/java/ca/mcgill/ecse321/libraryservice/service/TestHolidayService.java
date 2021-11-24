@@ -31,9 +31,8 @@ import ca.mcgill.ecse321.libraryservice.dao.UserAccountRepository;
 import ca.mcgill.ecse321.libraryservice.dao.HeadLibrarianRepository;
 import ca.mcgill.ecse321.libraryservice.model.*;
 
-
 @ExtendWith(MockitoExtension.class)
-public class TestHolidayService { 
+public class TestHolidayService {
     @Mock
     private HolidayRepository holidayDao;
     @Mock
@@ -54,7 +53,8 @@ public class TestHolidayService {
     private static final boolean ONLINE = true;
 
     // Single headLibrarian
-    private HeadLibrarian headLibrarian = new HeadLibrarian(HEAD_LIBRARIAN_FIRSTNAME, HEAD_LIBRARIAN_LASTNAME, ONLINE, HEAD_LIBRARIAN_ADDRESS, HEAD_LIBRARIAN_PASSWORD, HEAD_LIBRARIAN_BALANCE, HEAD_LIBRARIAN_EMAIL);
+    private HeadLibrarian headLibrarian = new HeadLibrarian(HEAD_LIBRARIAN_FIRSTNAME, HEAD_LIBRARIAN_LASTNAME, ONLINE,
+            HEAD_LIBRARIAN_ADDRESS, HEAD_LIBRARIAN_PASSWORD, HEAD_LIBRARIAN_BALANCE, HEAD_LIBRARIAN_EMAIL);
 
     private static final int HOLIDAY_ID = 5;
     private static final int HOLIDAY_INVALID_ID = -5;
@@ -66,12 +66,11 @@ public class TestHolidayService {
     private static final Date HOLIDAY_DATE2 = Date.valueOf("2020-12-25");
     private static final Time HOLIDAY_START_TIME2 = Time.valueOf("06:00:00");
     private static final Time HOLIDAY_END_TIME2 = Time.valueOf("23:00:00");
-    
 
     @BeforeEach
     public void setMockOutput() {
-        lenient().when(holidayDao.findHolidayByHolidayID(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
-            if(invocation.getArgument(0).equals(HOLIDAY_ID)) {
+        lenient().when(holidayDao.findHolidayByHolidayID(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+            if (invocation.getArgument(0).equals(HOLIDAY_ID)) {
                 Holiday holiday = new Holiday(HOLIDAY_DATE, HOLIDAY_START_TIME, HOLIDAY_END_TIME, this.headLibrarian);
                 this.headLibrarian.setLibrarianID(HEAD_LIBRARIAN_ID);
                 holiday.setHolidayID(HOLIDAY_ID);
@@ -81,43 +80,44 @@ public class TestHolidayService {
             }
         });
 
-        lenient().when(holidayDao.findByHeadLibrarian(any(HeadLibrarian.class))).thenAnswer( (InvocationOnMock invocation) -> {
-            if(((HeadLibrarian) invocation.getArgument(0)).getUserID() == (HEAD_LIBRARIAN_ID)) {
-                Holiday holiday = new Holiday(HOLIDAY_DATE, HOLIDAY_START_TIME, HOLIDAY_END_TIME, this.headLibrarian);
-                this.headLibrarian.setLibrarianID(HEAD_LIBRARIAN_ID);
-                holiday.setHolidayID(HOLIDAY_ID);
-                return holiday;
-            } else {
-                return null;
-            }
-        });
+        lenient().when(holidayDao.findByHeadLibrarian(any(HeadLibrarian.class)))
+                .thenAnswer((InvocationOnMock invocation) -> {
+                    if (((HeadLibrarian) invocation.getArgument(0)).getUserID() == (HEAD_LIBRARIAN_ID)) {
+                        Holiday holiday = new Holiday(HOLIDAY_DATE, HOLIDAY_START_TIME, HOLIDAY_END_TIME, this.headLibrarian);
+                        this.headLibrarian.setLibrarianID(HEAD_LIBRARIAN_ID);
+                        holiday.setHolidayID(HOLIDAY_ID);
+                        return holiday;
+                    } else {
+                        return null;
+                    }
+                });
 
-
-        lenient().when(headLibrarianDao.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
+        lenient().when(headLibrarianDao.findAll()).thenAnswer((InvocationOnMock invocation) -> {
             this.headLibrarian.setLibrarianID(HEAD_LIBRARIAN_ID);
             List<HeadLibrarian> list = new ArrayList<HeadLibrarian>();
             list.add(this.headLibrarian);
             return list;
         });
 
-        lenient().when(headLibrarianDao.findHeadLibrarianByUserID(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
-            this.headLibrarian.setLibrarianID(HEAD_LIBRARIAN_ID);
-            return this.headLibrarian;
-        });
+        lenient().when(headLibrarianDao.findHeadLibrarianByUserID(anyInt()))
+                .thenAnswer((InvocationOnMock invocation) -> {
+                    this.headLibrarian.setLibrarianID(HEAD_LIBRARIAN_ID);
+                    return this.headLibrarian;
+                });
 
-        lenient().when(userAccountDao.findUserAccountByUserID(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
-            if(((int) invocation.getArgument(0)) > 0) {
+        lenient().when(userAccountDao.findUserAccountByUserID(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+            if (((int) invocation.getArgument(0)) > 0) {
                 this.headLibrarian.setLibrarianID(HEAD_LIBRARIAN_ID);
                 return this.headLibrarian;
             } else {
                 return null;
             }
-            
+
         });
 
         Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
-			return invocation.getArgument(0);
-		};
+            return invocation.getArgument(0);
+        };
         lenient().when(holidayDao.save(any(Holiday.class))).thenAnswer(returnParameterAsAnswer);
         lenient().when(headLibrarianDao.save(any(HeadLibrarian.class))).thenAnswer(returnParameterAsAnswer);
 
@@ -129,14 +129,14 @@ public class TestHolidayService {
         headLibrarianDao.deleteAll();
     }
 
-     /**
-     * Test create holiday
-     * Success case
+    /**
+     * Test create holiday Success case
+     * 
      * @author Amani Jammoul
      */
     @Test
     public void testCreateHolidaySuccess() {
-        
+
         Date date = Date.valueOf("2021-12-25");
         Time startTime = Time.valueOf("08:00:00");
         Time endTime = Time.valueOf("20:00:00");
@@ -154,14 +154,14 @@ public class TestHolidayService {
     }
 
     /**
-     * Test create holiday
-     * Failure case: Invalid Date
+     * Test create holiday Failure case: Invalid Date
+     * 
      * @author Mathieu Geoffroy
      */
     @Test
     public void testCreateHolidayInvalidDate() {
         String error = null;
-        
+
         Date date = null;
         Time startTime = Time.valueOf("08:00:00");
         Time endTime = Time.valueOf("20:00:00");
@@ -179,14 +179,14 @@ public class TestHolidayService {
     }
 
     /**
-     * Test create holiday
-     * Failure case: Invalid startTime
+     * Test create holiday Failure case: Invalid startTime
+     * 
      * @author Mathieu Geoffroy
      */
     @Test
     public void testCreateHolidayInvalidStartTime() {
         String error = null;
-        
+
         Date date = Date.valueOf("2021-12-25");
         Time startTime = null;
         Time endTime = Time.valueOf("20:00:00");
@@ -204,14 +204,14 @@ public class TestHolidayService {
     }
 
     /**
-     * Test create holiday
-     * Failure case: Invalid endTime
+     * Test create holiday Failure case: Invalid endTime
+     * 
      * @author Mathieu Geoffroy
      */
     @Test
     public void testCreateHolidayInvalidEndTime() {
         String error = null;
-        
+
         Date date = Date.valueOf("2021-12-25");
         Time startTime = Time.valueOf("20:00:00");
         Time endTime = null;
@@ -229,14 +229,14 @@ public class TestHolidayService {
     }
 
     /**
-     * Test create holiday
-     * Failure case: endTime before startTime
+     * Test create holiday Failure case: endTime before startTime
+     * 
      * @author Mathieu Geoffroy
      */
     @Test
     public void testCreateHolidayInvalidTimeArrangement() {
         String error = null;
-        
+
         Date date = Date.valueOf("2021-12-25");
         Time startTime = Time.valueOf("20:00:00");
         Time endTime = Time.valueOf("18:00:00");
@@ -254,8 +254,8 @@ public class TestHolidayService {
     }
 
     /**
-     * Test get holiday from headLibrarian
-     * Success case
+     * Test get holiday from headLibrarian Success case
+     * 
      * @author Mathieu Geoffroy
      */
     @Test
@@ -280,8 +280,8 @@ public class TestHolidayService {
     }
 
     /**
-     * Test get holiday from headLibrarian
-     * Failure case: null headLibrarain
+     * Test get holiday from headLibrarian Failure case: null headLibrarain
+     * 
      * @author Mathieu Geoffroy
      */
     @Test
@@ -298,7 +298,7 @@ public class TestHolidayService {
         holiday = null;
 
         try {
-            holiday = service.getHolidaysFromHeadLibrarian(-1).get(0); //invalid id
+            holiday = service.getHolidaysFromHeadLibrarian(-1).get(0); // invalid id
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -307,10 +307,9 @@ public class TestHolidayService {
         assertEquals("Headlibrarian doesn't exists", error);
     }
 
-
     /**
-     * Test get holiday from ID
-     * Success case
+     * Test get holiday from ID Success case
+     * 
      * @author Amani Jammoul
      */
     @Test
@@ -337,7 +336,7 @@ public class TestHolidayService {
 
     @Test
     public void testGetAllHolidays() throws Exception {
-        lenient().when(holidayDao.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
+        lenient().when(holidayDao.findAll()).thenAnswer((InvocationOnMock invocation) -> {
             Holiday holiday1 = new Holiday(HOLIDAY_DATE, HOLIDAY_START_TIME, HOLIDAY_END_TIME, headLibrarian);
             holiday1.setHolidayID(HOLIDAY_ID);
             Holiday holiday2 = new Holiday(HOLIDAY_DATE2, HOLIDAY_START_TIME2, HOLIDAY_END_TIME2, headLibrarian);
@@ -347,19 +346,19 @@ public class TestHolidayService {
             list.add(holiday2);
             return list;
         });
-        List<Holiday>  holidays = null;
-        try{
+        List<Holiday> holidays = null;
+        try {
             holidays = service.getAllHolidays();
-        }catch(IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             throw new Exception("could not retrieve users");
         }
-        
+
         assertEquals(2, holidays.size());
     }
 
     /**
-     * Test get holiday from ID
-     * Failure case : get holiday from invalid ID
+     * Test get holiday from ID Failure case : get holiday from invalid ID
+     * 
      * @author Amani Jammoul
      */
     @Test
@@ -387,8 +386,8 @@ public class TestHolidayService {
     }
 
     /**
-     * Test delete opening hour 
-     * Success case 
+     * Test delete opening hour Success case
+     * 
      * @author Mathieu Geoffroy
      */
     @Test
@@ -396,13 +395,13 @@ public class TestHolidayService {
         boolean test = false;
         Holiday holiday = holidayDao.findHolidayByHolidayID(HOLIDAY_ID);
         lenient().when(holidayDao.existsById(anyInt())).thenReturn(true);
-        
+
         int endLength = 0;
         try {
             test = service.deleteHoliday(headLibrarian.getUserID(), holiday.getHolidayID());
             Iterable<Holiday> allHolidays = holidayDao.findAll();
             ArrayList<Holiday> listHolidaysAfter = new ArrayList<Holiday>();
-            for(Holiday h: allHolidays){
+            for (Holiday h : allHolidays) {
                 listHolidaysAfter.add(h);
             }
             endLength = listHolidaysAfter.size();
@@ -415,14 +414,14 @@ public class TestHolidayService {
     }
 
     /**
-     * Test delete opening hour 
-     * Failure case : invalid ID
+     * Test delete opening hour Failure case : invalid ID
+     * 
      * @author Mathieu Geoffroy
      */
     @Test
     public void testDeleteHolidayInvalidId() {
         String error = null;
-        
+
         lenient().when(holidayDao.existsById(anyInt())).thenReturn(true);
 
         try {
@@ -435,8 +434,8 @@ public class TestHolidayService {
     }
 
     /**
-     * Test delete opening hour 
-     * Failure case : null account
+     * Test delete opening hour Failure case : null account
+     * 
      * @author Mathieu Geoffroy
      */
     @Test
@@ -446,8 +445,8 @@ public class TestHolidayService {
         lenient().when(holidayDao.existsById(anyInt())).thenReturn(true);
 
         try {
-            service.deleteHoliday(-1, holiday.getHolidayID()); //invalid id
-            if (holidayDao.findAll().iterator().hasNext()) {  //gets timeslot if there, othewise, set to null
+            service.deleteHoliday(-1, holiday.getHolidayID()); // invalid id
+            if (holidayDao.findAll().iterator().hasNext()) { // gets timeslot if there, othewise, set to null
                 holiday = holidayDao.findAll().iterator().next();
             } else {
                 holiday = null;
@@ -459,9 +458,9 @@ public class TestHolidayService {
         assertEquals("Invalid account.", error);
     }
 
-
     /**
      * Verifies all Holiday params are equivalent to those for the object given
+     * 
      * @param holiday
      * @param dayOfWeek
      * @param startTime
@@ -475,5 +474,5 @@ public class TestHolidayService {
         assertEquals(endTime.toString(), holiday.getEndtime().toString());
         assertEquals(this.headLibrarian, holiday.getHeadLibrarian());
     }
-    
+
 }

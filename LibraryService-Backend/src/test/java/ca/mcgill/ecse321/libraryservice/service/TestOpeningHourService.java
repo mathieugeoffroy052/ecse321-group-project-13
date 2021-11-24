@@ -53,19 +53,21 @@ public class TestOpeningHourService {
     private static final boolean ONLINE = true;
 
     // Single headLibrarian
-    private HeadLibrarian headLibrarian = new HeadLibrarian(HEAD_LIBRARIAN_FIRSTNAME, HEAD_LIBRARIAN_LASTNAME, ONLINE, HEAD_LIBRARIAN_ADDRESS, HEAD_LIBRARIAN_PASSWORD, HEAD_LIBRARIAN_BALANCE, HEAD_LIBRARIAN_EMAIL);
+    private HeadLibrarian headLibrarian = new HeadLibrarian(HEAD_LIBRARIAN_FIRSTNAME, HEAD_LIBRARIAN_LASTNAME, ONLINE,
+            HEAD_LIBRARIAN_ADDRESS, HEAD_LIBRARIAN_PASSWORD, HEAD_LIBRARIAN_BALANCE, HEAD_LIBRARIAN_EMAIL);
 
     private static final int OPENING_HOUR_ID = 100;
     private static final int OPENING_HOUR_INVALID_ID = -100;
     private static final DayOfWeek OPENING_HOUR_DAYOFWEEK = DayOfWeek.Friday;
     private static final Time OPENING_HOUR_START_TIME = Time.valueOf("08:00:00");
-    private static final Time OPENING_HOUR_END_TIME = Time.valueOf("20:00:00");    
+    private static final Time OPENING_HOUR_END_TIME = Time.valueOf("20:00:00");
 
     @BeforeEach
     public void setMockOutput() {
-        lenient().when(openingHourDao.findOpeningHourByHourID(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
-            if(invocation.getArgument(0).equals(OPENING_HOUR_ID)) {
-                OpeningHour openingHour = new OpeningHour(OPENING_HOUR_DAYOFWEEK, OPENING_HOUR_START_TIME, OPENING_HOUR_END_TIME, this.headLibrarian);
+        lenient().when(openingHourDao.findOpeningHourByHourID(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+            if (invocation.getArgument(0).equals(OPENING_HOUR_ID)) {
+                OpeningHour openingHour = new OpeningHour(OPENING_HOUR_DAYOFWEEK, OPENING_HOUR_START_TIME,
+                        OPENING_HOUR_END_TIME, this.headLibrarian);
                 this.headLibrarian.setLibrarianID(HEAD_LIBRARIAN_ID);
                 openingHour.setHourID(OPENING_HOUR_ID);
                 return openingHour;
@@ -74,45 +76,48 @@ public class TestOpeningHourService {
             }
         });
 
-        lenient().when(openingHourDao.findByDayOfWeek(any(DayOfWeek.class))).thenAnswer( (InvocationOnMock invocation) -> {
-            if(invocation.getArgument(0).equals(DayOfWeek.Friday)) {
-                OpeningHour openingHour = new OpeningHour(OPENING_HOUR_DAYOFWEEK, OPENING_HOUR_START_TIME, OPENING_HOUR_END_TIME, this.headLibrarian);
-                this.headLibrarian.setLibrarianID(HEAD_LIBRARIAN_ID);
-                openingHour.setHourID(OPENING_HOUR_ID);
+        lenient().when(openingHourDao.findByDayOfWeek(any(DayOfWeek.class)))
+                .thenAnswer((InvocationOnMock invocation) -> {
+                    if (invocation.getArgument(0).equals(DayOfWeek.Friday)) {
+                        OpeningHour openingHour = new OpeningHour(OPENING_HOUR_DAYOFWEEK, OPENING_HOUR_START_TIME,
+                                OPENING_HOUR_END_TIME, this.headLibrarian);
+                        this.headLibrarian.setLibrarianID(HEAD_LIBRARIAN_ID);
+                        openingHour.setHourID(OPENING_HOUR_ID);
 
-                List<OpeningHour> openingHours = new ArrayList<OpeningHour>();
-                openingHours.add(openingHour);
-                return openingHours;
-            } else {
-                return null;
-            }
-        });
+                        List<OpeningHour> openingHours = new ArrayList<OpeningHour>();
+                        openingHours.add(openingHour);
+                        return openingHours;
+                    } else {
+                        return null;
+                    }
+                });
 
-        lenient().when(headLibrarianDao.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
-                this.headLibrarian.setLibrarianID(HEAD_LIBRARIAN_ID);
-                List<HeadLibrarian> list = new ArrayList<HeadLibrarian>();
-                list.add(this.headLibrarian);
-                return list;
-        });
-
-        lenient().when(headLibrarianDao.findHeadLibrarianByUserID(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
+        lenient().when(headLibrarianDao.findAll()).thenAnswer((InvocationOnMock invocation) -> {
             this.headLibrarian.setLibrarianID(HEAD_LIBRARIAN_ID);
-            return this.headLibrarian;
+            List<HeadLibrarian> list = new ArrayList<HeadLibrarian>();
+            list.add(this.headLibrarian);
+            return list;
         });
 
-        lenient().when(userAccountDao.findUserAccountByUserID(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
-            if(((int) invocation.getArgument(0)) > 0) {
+        lenient().when(headLibrarianDao.findHeadLibrarianByUserID(anyInt()))
+                .thenAnswer((InvocationOnMock invocation) -> {
+                    this.headLibrarian.setLibrarianID(HEAD_LIBRARIAN_ID);
+                    return this.headLibrarian;
+                });
+
+        lenient().when(userAccountDao.findUserAccountByUserID(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+            if (((int) invocation.getArgument(0)) > 0) {
                 this.headLibrarian.setLibrarianID(HEAD_LIBRARIAN_ID);
                 return this.headLibrarian;
             } else {
                 return null;
             }
-            
+
         });
 
         Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
-			return invocation.getArgument(0);
-		};
+            return invocation.getArgument(0);
+        };
         lenient().when(openingHourDao.save(any(OpeningHour.class))).thenAnswer(returnParameterAsAnswer);
         lenient().when(headLibrarianDao.save(any(HeadLibrarian.class))).thenAnswer(returnParameterAsAnswer);
 
@@ -124,9 +129,9 @@ public class TestOpeningHourService {
         headLibrarianDao.deleteAll();
     }
 
-     /**
-     * Test create opening hour 
-     * Success case
+    /**
+     * Test create opening hour Success case
+     * 
      * @author Amani Jammoul
      */
     @Test
@@ -136,7 +141,7 @@ public class TestOpeningHourService {
         } catch (Exception e) {
             fail();
         }
-        
+
         DayOfWeek dayOfWeek = DayOfWeek.Friday;
         Time startTime = Time.valueOf("08:00:00");
         Time endTime = Time.valueOf("20:00:00");
@@ -153,9 +158,10 @@ public class TestOpeningHourService {
         assertOpeningHourAttributes(openingHour, dayOfWeek.toString(), startTime, endTime);
     }
 
-     /**
-     * Test create opening hour 
-     * Failure case : try to create opening hour with invalid Day Of Week
+    /**
+     * Test create opening hour Failure case : try to create opening hour with
+     * invalid Day Of Week
+     * 
      * @author Amani Jammoul
      */
     @Test
@@ -165,7 +171,7 @@ public class TestOpeningHourService {
         } catch (Exception e) {
             fail();
         }
-        
+
         String dayOfWeek = "January";
         Time startTime = Time.valueOf("08:00:00");
         Time endTime = Time.valueOf("20:00:00");
@@ -185,8 +191,9 @@ public class TestOpeningHourService {
     }
 
     /**
-     * Test create opening hour 
-     * Failure case : try to create opening hour with invalid startTime
+     * Test create opening hour Failure case : try to create opening hour with
+     * invalid startTime
+     * 
      * @author Mathieu Geoffroy
      */
     @Test
@@ -196,7 +203,7 @@ public class TestOpeningHourService {
         } catch (Exception e) {
             fail();
         }
-        
+
         String dayOfWeek = "Monday";
         Time startTime = null;
         Time endTime = Time.valueOf("20:00:00");
@@ -215,10 +222,10 @@ public class TestOpeningHourService {
         assertEquals("Invalid StartTime", error);
     }
 
-
     /**
-     * Test create opening hour 
-     * Failure case : try to create opening hour with invalid endTime
+     * Test create opening hour Failure case : try to create opening hour with
+     * invalid endTime
+     * 
      * @author Mathieu Geoffroy
      */
     @Test
@@ -228,7 +235,7 @@ public class TestOpeningHourService {
         } catch (Exception e) {
             fail();
         }
-        
+
         String dayOfWeek = "Monday";
         Time startTime = Time.valueOf("20:00:00");
         Time endTime = null;
@@ -248,8 +255,8 @@ public class TestOpeningHourService {
     }
 
     /**
-     * Test get opening hour from ID
-     * Success case
+     * Test get opening hour from ID Success case
+     * 
      * @author Amani Jammoul
      */
     @Test
@@ -275,8 +282,8 @@ public class TestOpeningHourService {
     }
 
     /**
-     * Test get opening hour from ID
-     * Failure case : get opening hour from invalid ID
+     * Test get opening hour from ID Failure case : get opening hour from invalid ID
+     * 
      * @author Amani Jammoul
      */
     @Test
@@ -304,8 +311,8 @@ public class TestOpeningHourService {
     }
 
     /**
-     * Test delete opening hour 
-     * Success case 
+     * Test delete opening hour Success case
+     * 
      * @author Mathieu Geoffroy
      */
     @Test
@@ -316,13 +323,13 @@ public class TestOpeningHourService {
         } catch (Exception e) {
             fail();
         }
-        
+
         OpeningHour openingHour = openingHourDao.findOpeningHourByHourID(OPENING_HOUR_ID);
         lenient().when(openingHourDao.existsById(anyInt())).thenReturn(true);
 
         try {
             test = service.deleteOpeningHour(headLibrarian.getUserID(), openingHour.getHourID());
-            if (openingHourDao.findAll().iterator().hasNext()) {  //gets timeslot if there, othewise, set to null
+            if (openingHourDao.findAll().iterator().hasNext()) { // gets timeslot if there, othewise, set to null
                 openingHour = openingHourDao.findAll().iterator().next();
             } else {
                 openingHour = null;
@@ -336,8 +343,8 @@ public class TestOpeningHourService {
     }
 
     /**
-     * Test get opening hour from day of week
-     * Success case
+     * Test get opening hour from day of week Success case
+     * 
      * @author Mathieu
      */
     @Test
@@ -363,8 +370,8 @@ public class TestOpeningHourService {
     }
 
     /**
-     * Test get opening hour from day of week
-     * Failure case: invalid day of week
+     * Test get opening hour from day of week Failure case: invalid day of week
+     * 
      * @author Mathieu
      */
     @Test
@@ -392,6 +399,7 @@ public class TestOpeningHourService {
 
     /**
      * Verifies all OpeningHour params are equivalent to those for the object given
+     * 
      * @param openingHour
      * @param dayOfWeek
      * @param startTime
