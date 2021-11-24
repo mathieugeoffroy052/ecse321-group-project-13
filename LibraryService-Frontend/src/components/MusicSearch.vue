@@ -14,7 +14,7 @@
     </div>
     
     <div id="" style="overflow:scroll; height:100px;">
-        <v-row justify="center" v-for="libItem in libraryItems">
+        <v-row justify="center" v-for="libItem in libraryItems" :key="libItem.name">
             <p>{{ libItem.name }}</p>
         </v-row>
     </div>
