@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.libraryservice.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import ca.mcgill.ecse321.libraryservice.model.Librarian;
+import ca.mcgill.ecse321.libraryservice.model.UserAccount;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -101,7 +103,7 @@ public class TestLibrarianPersistence {
  * step 1 : asserting not null of UserAccount if true assert equals with librarian instance
  * step 2 : asserting not null of UserAccount if true assert equals with librarian instance
  * @Eloyann 
- 
+ */
 
 
 
@@ -143,7 +145,7 @@ public class TestLibrarianPersistence {
 
 
 
-        assertTrue(librarian instanceof Librarian, "the name privided does not correcpond to a librarian");
+        assertTrue(librarianpossible instanceof Librarian, "the name privided does not correcpond to a librarian");
      
         librarian= (Librarian) librarianpossible;
         //get librarian from DB
@@ -173,7 +175,7 @@ public class TestLibrarianPersistence {
 
 
     }
-    */
+    
 
 
 
