@@ -23,10 +23,7 @@ module.exports = {
   },
   dev: {
     env: require('./dev.env'),
-<<<<<<< HEAD
-=======
     //port: 8080,
->>>>>>> 1cb44019f57a992614607832efc1f5bacd257006
     host: '127.0.0.1',
     port: 8087,
     backendHost: '127.0.0.1',
