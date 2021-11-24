@@ -88,20 +88,6 @@ public class TestBorrowableItemService {
 
 	private static final ItemState BOOK_STATE = AVAILABLE_STATE;
 	
-	/* Patron attributes */
-	private static final int PATRON_ID = 12345;
-	private static final String PATRON_FIRST_NAME = "John";
-	private static final String PATRON_LAST_NAME = "Smith";
-	private static final String PATRON_EMAIL = "johnsmith@email.com";
-	private static final int PATRON_BALANCE = 0;
-	private static final UserAccount PATRON_CREATOR = new Librarian();
-	private static final boolean PATRON_ONLINE_ACCOUNT = true;
-	private static final String PATRON_ADDRESS = "123 Smith Street";
-	private static final boolean PATRON_VALIDATED_ACCOUNT = false;
-	private static final String PATRON_PASSWORD = "patron123";
-	
-	
-
 	/**
 	 * This method is used to mock the database outputs, so that we can use
 	 * fake data to test the methods. Specifically the borrowableItem table

@@ -2101,12 +2101,6 @@ public class LibraryServiceService {
                 throw new IllegalArgumentException(error);
             }
 			return patrons;
-         
-        	
-         
-        
-    	
-       
     }
     
     /***
@@ -2392,13 +2386,6 @@ public class LibraryServiceService {
         userAccountRepository.save(patron);
         patronRepository.save(patron);
             return patron;
-            
-//        try {
-//            
-//           } catch (Exception e) {
-//            throw new Exception("This user does not exists in the database.");
-//        }
-           
     }
 
     /***
@@ -2439,9 +2426,9 @@ public class LibraryServiceService {
      */
    public List<Librarian> getAllLibrarians() throws Exception{
 	   String error = "";
-	   List<Librarian> list = new ArrayList();
+	   List<Librarian> list = new ArrayList<Librarian>();
 	   list = toList(librarianRepository.findAll());
-	   if (list == null && list.size() == 0) {
+	   if (list == null || list.size() == 0) {
    		error += "There are no librarians in the database.";
 	   	}
        error = error.trim();

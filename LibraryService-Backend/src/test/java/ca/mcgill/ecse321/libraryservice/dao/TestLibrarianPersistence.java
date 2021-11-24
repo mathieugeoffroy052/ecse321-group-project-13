@@ -2,7 +2,6 @@ package ca.mcgill.ecse321.libraryservice.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import ca.mcgill.ecse321.libraryservice.model.Librarian;
-import ca.mcgill.ecse321.libraryservice.model.UserAccount;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest

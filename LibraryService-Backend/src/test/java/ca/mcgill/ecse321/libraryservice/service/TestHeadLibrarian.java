@@ -3,23 +3,17 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.lenient;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -28,11 +22,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import ca.mcgill.ecse321.libraryservice.dao.*;
-import ca.mcgill.ecse321.libraryservice.dto.UserAccountDTO;
 import ca.mcgill.ecse321.libraryservice.model.*;
-
-
-
 @ExtendWith(MockitoExtension.class)
 public class TestHeadLibrarian {
  @Mock 
@@ -49,10 +39,8 @@ private static final String LIBRARIAN_FIRST_NAME = "Maya";
 private static final String LIBRARIAN_LAST_NAME = "Menia";
 private static final String LIBRARIAN_EMAIL = "mayamenia@email.com";
 private static final int LIBRARIAN_BALANCE = 0;
-private static final UserAccount LIBRARIAN_CREATOR = new Librarian();
 private static final boolean LIBRARIAN_ONLINE_ACCOUNT = true;
 private static final String LIBRARIAN_ADDRESS = "7 villeneuve Street";
-private static final boolean LIBRARIAN_VALIDATED_ACCOUNT = true;
 private static final String LIBRARIAN_PASSWORD = "jado";
 private static final int LIBRARIAN_ID = 100;
 
@@ -61,16 +49,12 @@ private static final String HEADLIBRARIAN_FIRST_NAME = "Haytham";
 private static final String HEADLIBRARIAN_LAST_NAME = "Yallah";
 private static final String HEADLIBRARIAN_EMAIL = "yallahyallah@email.com";
 private static final int HEADLIBRARIAN_BALANCE = 0;
-private static final UserAccount HEADLIBRARIAN_CREATOR = new HeadLibrarian();
 private static final boolean HEADLIBRARIAN_ONLINE_ACCOUNT = true;
 private static final String HEADLIBRARIAN_ADDRESS = "7 jj street";
 private static final boolean HEADLIBRARIAN_VALIDATED_ACCOUNT = false;
 private static final String HEADLIBRARIAN_PASSWORD = "moha";
 private static final int HEADLIBRARIAN_ID = 798;
 
-
-
-private static final int USER_ID = 444;
 private static final String USER_FIRST_NAME = "hamid";
 private static final String USER_LAST_NAME = "Yallah";
 private static final String USER_EMAIL = "hamidi@email.com";
@@ -142,11 +126,10 @@ private static final String USER_PASSWORD = "mIMI";
 public void testgetHeadLibrarianWithGoodID () {
     
     HeadLibrarian headlibrariantest=null;
-    String error="";
     try {
         headlibrariantest=service.getHeadLibrarianFromUserId(HEADLIBRARIAN_ID);
     } catch (Exception e) {
-        error=e.getMessage();
+        fail();
     }
       assertNotNull(headlibrariantest);
       assertEquals(headlibrariantest.getFirstName(),HEADLIBRARIAN_FIRST_NAME);
@@ -206,7 +189,6 @@ public void testDeleteHeadLibrarian() {
  */
 @Test
 public void testDeleteHeadLibrarianDoesntCorrespond () {
-    HeadLibrarian headlibrariantest;
     String error="";
     lenient().when(headLibrarianDAO.findAll()).thenAnswer((InvocationOnMock invocation) -> {
         List<HeadLibrarian> accounts = new ArrayList<HeadLibrarian>();
@@ -217,12 +199,10 @@ public void testDeleteHeadLibrarianDoesntCorrespond () {
             return accounts;
     });
     try {
-        headlibrariantest=service.deleteHeadLibrarian(-5);
+        service.deleteHeadLibrarian(-5);
     } catch (Exception e) {
         error=e.getMessage();
     }
-
-     
       assertNotEquals(LIBRARIAN_ID,HEADLIBRARIAN_ID);
      
      assertEquals(error, "This User ID does not correspond to a Head Librarian");
@@ -241,13 +221,10 @@ public void testDeleteHeadLibrarianDoesntCorrespond () {
 public void createHeadLibrarianwithNullFieldFirstName() {
     String error="";
     try {
-        HeadLibrarian headlibrariantest=service.createNewHeadLibrarian(error, USER_LAST_NAME, USER_VALIDATED_ACCOUNT, USER_ADDRESS, USER_PASSWORD, USERBALANCE, USER_EMAIL );
+        service.createNewHeadLibrarian(error, USER_LAST_NAME, USER_VALIDATED_ACCOUNT, USER_ADDRESS, USER_PASSWORD, USERBALANCE, USER_EMAIL );
     } catch (Exception e) {
         error=e.getMessage();
-    }
-
-
-     
+    }     
      assertEquals(error, "First Name  cannot be empty!");
       headLibrarianDAO.deleteAll();
       librarianDAO.deleteAll();
@@ -262,13 +239,10 @@ public void createHeadLibrarianwithNullFieldFirstName() {
 public void createHeadLibrarianwithNullFieldlasttName() {
     String error="";
     try {
-        HeadLibrarian headlibrariantest=service.createNewHeadLibrarian(USER_FIRST_NAME, error, USER_VALIDATED_ACCOUNT, USER_ADDRESS, USER_PASSWORD, USERBALANCE, USER_EMAIL );
+        service.createNewHeadLibrarian(USER_FIRST_NAME, error, USER_VALIDATED_ACCOUNT, USER_ADDRESS, USER_PASSWORD, USERBALANCE, USER_EMAIL );
     } catch (Exception e) {
         error=e.getMessage();
     }
-
-
-     
      assertEquals(error, "Last Name  cannot be empty!");
       headLibrarianDAO.deleteAll();
       librarianDAO.deleteAll();
@@ -283,13 +257,10 @@ public void createHeadLibrarianwithNullFieldlasttName() {
 public void createHeadLibrarianwithNullAdress() {
     String error="";
     try {
-        HeadLibrarian headlibrariantest=service.createNewHeadLibrarian(USER_FIRST_NAME, USER_LAST_NAME, USER_VALIDATED_ACCOUNT, error, USER_PASSWORD, USERBALANCE, USER_EMAIL );
+        service.createNewHeadLibrarian(USER_FIRST_NAME, USER_LAST_NAME, USER_VALIDATED_ACCOUNT, error, USER_PASSWORD, USERBALANCE, USER_EMAIL );
     } catch (Exception e) {
         error=e.getMessage();
     }
-
-
-     
      assertEquals(error, "Address cannot be empty!");
       headLibrarianDAO.deleteAll();
       librarianDAO.deleteAll();
@@ -304,13 +275,10 @@ public void createHeadLibrarianwithNullAdress() {
 public void createHeadLibrarianwithNullPassword() {
     String error="";
     try {
-        HeadLibrarian headlibrariantest=service.createNewHeadLibrarian(USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, error, USERBALANCE, USER_EMAIL );
+        service.createNewHeadLibrarian(USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, error, USERBALANCE, USER_EMAIL );
     } catch (Exception e) {
         error=e.getMessage();
     }
-
-
-     
      assertEquals(error, "Password cannot be empty!");
       headLibrarianDAO.deleteAll();
       librarianDAO.deleteAll();
@@ -325,11 +293,10 @@ public void createHeadLibrarianwithNullPassword() {
 public void createHeadLibrarianwithNullEmail() {
     String error="";
     try {
-        HeadLibrarian headlibrariantest=service.createNewHeadLibrarian(USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_PASSWORD, USERBALANCE, error );
+        service.createNewHeadLibrarian(USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_PASSWORD, USERBALANCE, error );
     } catch (Exception e) {
         error=e.getMessage();
     }
-     
      assertEquals(error, "Email cannot be empty!");
       headLibrarianDAO.deleteAll();
       librarianDAO.deleteAll();
@@ -354,11 +321,10 @@ public void createHeadLibrarianwithoutBeingHeadLibrarian() {
             return accounts;
     });
     try {
-        HeadLibrarian headlibrariantest=service.createNewHeadLibrarian(USER_FIRST_NAME, USER_LAST_NAME, USER_VALIDATED_ACCOUNT, USER_ADDRESS, USER_PASSWORD, USERBALANCE, USER_EMAIL );
+        service.createNewHeadLibrarian(USER_FIRST_NAME, USER_LAST_NAME, USER_VALIDATED_ACCOUNT, USER_ADDRESS, USER_PASSWORD, USERBALANCE, USER_EMAIL );
     } catch (Exception e) {
         error=e.getMessage();
     }
-     
       assertEquals(error, "There is already a HeadLibrarian AccountExisting");
       headLibrarianDAO.deleteAll();
       librarianDAO.deleteAll();
@@ -367,8 +333,6 @@ public void createHeadLibrarianwithoutBeingHeadLibrarian() {
 
 @Test
 public void createHeadLibrarian() {
-    String error="";
-    HeadLibrarian created=null;
     HeadLibrarian headlibrariantest=null;
     lenient().when(headLibrarianDAO.findAll()).thenAnswer((InvocationOnMock invocation) -> {
         List<HeadLibrarian> accounts = new ArrayList<HeadLibrarian>();
@@ -380,7 +344,7 @@ public void createHeadLibrarian() {
     try {
         headlibrariantest=service.createNewHeadLibrarian(HEADLIBRARIAN_FIRST_NAME, HEADLIBRARIAN_LAST_NAME, HEADLIBRARIAN_ONLINE_ACCOUNT, HEADLIBRARIAN_ADDRESS, HEADLIBRARIAN_PASSWORD, HEADLIBRARIAN_BALANCE, HEADLIBRARIAN_EMAIL);
     } catch (Exception e) {
-        error=e.getMessage();
+        fail();
     }
      
     assertNotNull(headlibrariantest);
@@ -392,8 +356,6 @@ public void createHeadLibrarian() {
     assertEquals(headlibrariantest.getAddress(), headlibrariantest.getAddress());
     assertEquals(headlibrariantest.getOnlineAccount(), headlibrariantest.getOnlineAccount());
     
-     
-      
       headLibrarianDAO.deleteAll();
       librarianDAO.deleteAll();
       userAccountDAO.deleteAll();    

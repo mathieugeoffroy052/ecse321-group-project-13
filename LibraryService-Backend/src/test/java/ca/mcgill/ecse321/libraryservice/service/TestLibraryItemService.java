@@ -5,7 +5,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -633,10 +632,9 @@ public class TestLibraryItemService {
 	@Test
 	public void testCreateLibraryItemNoNameFail() throws Exception {
 		String error = "";
-		LibraryItem libraryItem = null;
 		
 		try {
-			libraryItem = service.createLibraryItem(null, BOOK_TYPE.toString(), BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
+			service.createLibraryItem(null, BOOK_TYPE.toString(), BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
 		}
 		catch (IllegalArgumentException e) {
 			error = e.getMessage();
@@ -656,10 +654,9 @@ public class TestLibraryItemService {
 	@Test
 	public void testCreateLibraryItemNoTypeFail() throws Exception {
 		String error = "";
-		LibraryItem libraryItem = null;
 		
 		try {
-			libraryItem = service.createLibraryItem(BOOK_NAME, null, BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
+			service.createLibraryItem(BOOK_NAME, null, BOOK_DATE, BOOK_CREATOR, LIBRARY_ITEM_VIEWABLE);
 		}
 		catch (IllegalArgumentException e) {
 			error = e.getMessage();
@@ -699,9 +696,8 @@ public class TestLibraryItemService {
 	@Test
 	public void testDeleteLibraryItemFail() throws Exception {
 		String error = "";
-		boolean libraryItemDelete = false;
 		try {
-			libraryItemDelete = service.deleteLibraryItem(INVALID_BOOK_ISBN);
+			service.deleteLibraryItem(INVALID_BOOK_ISBN);
 		
 		}
 		catch (Exception e) {

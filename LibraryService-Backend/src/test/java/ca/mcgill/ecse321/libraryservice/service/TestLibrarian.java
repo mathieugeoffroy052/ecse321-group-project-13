@@ -5,11 +5,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -17,12 +14,9 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -31,11 +25,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import ca.mcgill.ecse321.libraryservice.dao.*;
-import ca.mcgill.ecse321.libraryservice.dto.UserAccountDTO;
 import ca.mcgill.ecse321.libraryservice.model.*;
-
-
-
 @ExtendWith(MockitoExtension.class)
 public class TestLibrarian {
  @Mock 
@@ -52,10 +42,8 @@ private static final String LIBRARIAN_FIRST_NAME = "Maya";
 private static final String LIBRARIAN_LAST_NAME = "Menia";
 private static final String LIBRARIAN_EMAIL = "mayamenia@email.com";
 private static final int LIBRARIAN_BALANCE = 0;
-private static final UserAccount LIBRARIAN_CREATOR = new Librarian();
 private static final boolean LIBRARIAN_ONLINE_ACCOUNT = true;
 private static final String LIBRARIAN_ADDRESS = "7 villeneuve Street";
-private static final boolean LIBRARIAN_VALIDATED_ACCOUNT = false;
 private static final String LIBRARIAN_PASSWORD = "jado";
 private static final int LIBRARIAN_ID = 100;
 
@@ -64,7 +52,6 @@ private static final String HEADLIBRARIAN_FIRST_NAME = "Haytham";
 private static final String HEADLIBRARIAN_LAST_NAME = "Yallah";
 private static final String HEADLIBRARIAN_EMAIL = "yallahyallah@email.com";
 private static final int HEADLIBRARIAN_BALANCE = 0;
-private static final UserAccount HEADLIBRARIAN_CREATOR = new HeadLibrarian();
 private static final boolean HEADLIBRARIAN_ONLINE_ACCOUNT = true;
 private static final String HEADLIBRARIAN_ADDRESS = "7 jj street";
 private static final boolean HEADLIBRARIAN_VALIDATED_ACCOUNT = false;
@@ -73,7 +60,6 @@ private static final int HEADLIBRARIAN_ID = 798;
 
 
 //variables for tests so I don't have to redefine 
-private static final int USER_ID = 444;
 private static final String USER_FIRST_NAME = "hamid";
 private static final String USER_LAST_NAME = "Yallah";
 private static final String USER_EMAIL = "hamidi@email.com";
@@ -81,22 +67,7 @@ private static final int USERBALANCE = 0;
 
 private static final boolean USER_ONLINE_ACCOUNT = true;
 private static final String USER_ADDRESS = "7 jj street";
-private static final boolean USER_VALIDATED_ACCOUNT = false;
 private static final String USER_PASSWORD = "mIMI";
-
-
-/** 
-private static final int USER_ID = 444;
-private static final String USER_FIRST_NAME = "hamid";
-private static final String USER_LAST_NAME = "Yallah";
-private static final String USER_EMAIL = "hamidi@email.com";
-private static final int USERBALANCE = 0;
-private static final UserAccount USER_CREATOR = new UserAccount(); 
-private static final boolean USER_ONLINE_ACCOUNT = true;
-private static final String USER_ADDRESS = "7 jj street";
-private static final boolean USER_VALIDATED_ACCOUNT = false;
-private static final String USER_PASSWORD = "mIMI";
-*/
 
 @BeforeEach
     public void setMockOutput() {
@@ -141,10 +112,9 @@ private static final String USER_PASSWORD = "mIMI";
 @Test 
 public void testgetLibrarianFromNotAssociatedId () {
     int impossibleID=999;
-    Librarian librarian=null;
     String error="";
     try {
-        librarian=service.getLibrarianFromUserId(impossibleID);
+        service.getLibrarianFromUserId(impossibleID);
     } catch (Exception e) {
         error=e.getMessage();
     }
@@ -168,11 +138,10 @@ public void testgetLibrarianFromNotAssociatedId () {
 @Test
 public void testgetLibrarianWithGoodID () {
     Librarian librarian=null;
-    String error="";
     try {
         librarian=service.getLibrarianFromUserId(LIBRARIAN_USER_ID);
     } catch (Exception e) {
-        error=e.getMessage();
+        fail();
     }
       assertNotNull(librarian);
       assertEquals(librarian.getFirstName(),LIBRARIAN_FIRST_NAME);
@@ -259,11 +228,10 @@ public void testGetLibrarianFromFullNameNotAssociatedWithLibrarianAccount () {
 @Test
 public void testGetLibrarianFromFullName () {
     Librarian librarian=null;
-    String error="";
     try {
         librarian=service.getLibrarianFromFullName(LIBRARIAN_FIRST_NAME, LIBRARIAN_LAST_NAME); 
     } catch (Exception e) {
-        error=e.getMessage();
+        fail();
     }
       assertEquals(LIBRARIAN_USER_ID, librarian.getUserID());
       assertEquals(LIBRARIAN_FIRST_NAME, librarian.getFirstName());
@@ -324,10 +292,9 @@ public void testDeleteLibrarianDoesntExists () {
             return accounts;
     });
     int impossibleID=125;
-    Librarian librarian=null;
     String error="";
     try {
-       librarian=service.deleteLibrarian(HEADLIBRARIAN_USER_ID, impossibleID);
+       service.deleteLibrarian(HEADLIBRARIAN_USER_ID, impossibleID);
     } catch (Exception e) {
         error=e.getMessage();
     }
@@ -436,7 +403,6 @@ public void createLibrarianwithNullLastName() {
 @Test
 public void createLibrarianwithNullAdress() {
     String error="";
-   HeadLibrarian headLibrarian= headLibrarianDAO.findHeadLibrarianByUserID(HEADLIBRARIAN_ID);
    Librarian librariantest=null;
     try {
       librariantest=service.createANewLibrarian(HEADLIBRARIAN_USER_ID, USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, error, USER_PASSWORD, USERBALANCE, USER_EMAIL );
@@ -462,7 +428,6 @@ public void createLibrarianwithNullAdress() {
 @Test
 public void createLibrarianwithNullPassword() {
     String error="";
-   HeadLibrarian headLibrarian= headLibrarianDAO.findHeadLibrarianByUserID(HEADLIBRARIAN_ID);
    Librarian librariantest=null;
     try {
        librariantest=service.createANewLibrarian(HEADLIBRARIAN_USER_ID, USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, error, USERBALANCE, USER_EMAIL );
@@ -485,7 +450,6 @@ public void createLibrarianwithNullPassword() {
 @Test
 public void createLibrarianwithNullEmail() {
     String error="";
-    HeadLibrarian headLibrarian= headLibrarianDAO.findHeadLibrarianByUserID(HEADLIBRARIAN_ID);
    Librarian librariantest=null;
     try {
        librariantest=service.createANewLibrarian(HEADLIBRARIAN_USER_ID, USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_PASSWORD,  USERBALANCE, error );
@@ -545,12 +509,11 @@ public void createLibrarianthatAlreadyexists() {
         }
     });
 
-    Librarian librarian=null;
     HeadLibrarian headLibrarian= headLibrarianDAO.findHeadLibrarianByUserID(HEADLIBRARIAN_ID);
    
     String error="";
     try {
-        librarian=service.createANewLibrarian(headLibrarian.getUserID(), LIBRARIAN_FIRST_NAME, LIBRARIAN_LAST_NAME, LIBRARIAN_ONLINE_ACCOUNT, LIBRARIAN_ADDRESS, LIBRARIAN_PASSWORD, LIBRARIAN_BALANCE, LIBRARIAN_EMAIL);
+        service.createANewLibrarian(headLibrarian.getUserID(), LIBRARIAN_FIRST_NAME, LIBRARIAN_LAST_NAME, LIBRARIAN_ONLINE_ACCOUNT, LIBRARIAN_ADDRESS, LIBRARIAN_PASSWORD, LIBRARIAN_BALANCE, LIBRARIAN_EMAIL);
     } catch (Exception e) {
         error=e.getMessage();
     }
@@ -574,8 +537,7 @@ public void createLibrarianthatAlreadyexists() {
       @Test
       public void createLibrarianwithNullCreater() {
           String error="";
-         HeadLibrarian headLibrarian= null;
-         Librarian librariantest=null;
+        Librarian librariantest=null;
           try {
               librariantest=service.createANewLibrarian(-1, USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_PASSWORD, USERBALANCE, USER_EMAIL );
           } catch (Exception e) {
@@ -599,15 +561,13 @@ public void createLibrarianthatAlreadyexists() {
      */
 @Test
 public void createLibrarian() {
-    Librarian librariantest= librarianDAO.findLibrarianByUserID(LIBRARIAN_ID);
     Librarian librarian=null;
     HeadLibrarian headLibrarian= headLibrarianDAO.findHeadLibrarianByUserID(HEADLIBRARIAN_USER_ID);
    
-    String error="";
     try {
         librarian=service.createANewLibrarian(headLibrarian.getUserID(), USER_FIRST_NAME, USER_LAST_NAME, USER_ONLINE_ACCOUNT, USER_ADDRESS, USER_PASSWORD, USERBALANCE, USER_EMAIL);
     } catch (Exception e) {
-        error=e.getMessage();
+        fail();
     }
 
     assertNotNull(userAccountDAO.findById(librarian.getUserID()));

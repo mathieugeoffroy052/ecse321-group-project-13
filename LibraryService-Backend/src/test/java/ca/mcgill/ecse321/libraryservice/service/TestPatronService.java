@@ -3,7 +3,6 @@ package ca.mcgill.ecse321.libraryservice.service;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -47,7 +46,6 @@ private static final String CREATOR_EMAIL = "creator@email.com";
 private static final int CREATOR_BALANCE = 0;
 private static final boolean CREATOR_ONLINE_ACCOUNT = true;
 private static final String CREATOR_ADDRESS = "1234 ave jack";
-private static final boolean CREATOR_VALIDATED_ACCOUNT = true;
 private static final String CREATOR_PASSWORD = "creator123";
 
 
@@ -62,7 +60,6 @@ private static final boolean PATRON_ONLINE_ACCOUNT = true;
 private static final String PATRON_ADDRESS = "123 Smith Street";
 private static final boolean PATRON_VALIDATED_ACCOUNT = false;
 private static final String PATRON_PASSWORD = "patron123";
-private static final int HEAD_ID = 100;
 
 
 
@@ -472,7 +469,6 @@ public void testCreatePatronEmptyEmail() throws Exception {
 public void testCreatePatronNullCreator() throws Exception {
 	String error = null;
 	Patron patron = null;
-	UserAccount creator = null;
 	try {
 		patron = service.createPatron(126647, PATRON_FIRST_NAME, PATRON_LAST_NAME, PATRON_ONLINE_ACCOUNT, PATRON_ADDRESS, PATRON_VALIDATED_ACCOUNT, PATRON_PASSWORD, PATRON_BALANCE, PATRON_EMAIL);
 	}
@@ -555,7 +551,6 @@ public void testGetPatronFromIDError() throws Exception {
 @Test 
 public void testDeletePatronByUserIDSuccessful() throws Exception{
      	boolean success = false;
-		Patron patron = null;
 		try {
 			success = service.deleteAPatronbyUserID(PATRON_CREATOR, PATRON_ID);
 		
@@ -576,11 +571,10 @@ public void testDeletePatronByUserIDSuccessful() throws Exception{
  */
 @Test 
 public void testDeletePatronByUserIDFail() throws Exception{
-     	boolean success = false;
 		Patron patron = null;
 		String error = "";
 		try {
-			success = service.deleteAPatronbyUserID(PATRON_CREATOR, 15845);
+			service.deleteAPatronbyUserID(PATRON_CREATOR, 15845);
 		
 		}
 		catch (Exception e) {
@@ -608,11 +602,8 @@ public void testDeletePatronByUserIDFail() throws Exception{
  */
 @Test
 public void testDeletePatronByUserIDWrongCreator() throws Exception{
-	String error ="";
-	Patron patron = patronDAO.findPatronByUserID(PATRON_ID);
-	boolean success = false;
 	try {
-		success = service.deleteAPatronbyUserID(PATRON_ID, PATRON_ID);
+		service.deleteAPatronbyUserID(PATRON_ID, PATRON_ID);
 	}
 	catch (Exception e) {
 		assertEquals("This user does not have the credentials to delete an existing patron", e.getMessage());
@@ -788,7 +779,6 @@ public void testGetPatronFromFullNameEmptyLastName() throws Exception {
 @Test
 public void testSetValidatedAccountSuccessful() throws Exception {
 	
-	String error = null;
 	Patron patron = patronDAO.findPatronByUserID(PATRON_ID);
 	
 	try {
@@ -796,7 +786,7 @@ public void testSetValidatedAccountSuccessful() throws Exception {
 		
 	}
 	catch (IllegalArgumentException e) {
-		error = e.getMessage();
+		fail();
 		
 	}
 		//assertNull(patron);
@@ -899,8 +889,7 @@ public void testSetValidatedAccountNullPatron() throws Exception {
 @Test
 public void testGetAllPatronsSuccessful() throws Exception {
 List<Patron> patrons = null;
-String error = "";
-	Patron patron = null;
+
 	
 	try {
 		patrons = service.getAllPatrons();
