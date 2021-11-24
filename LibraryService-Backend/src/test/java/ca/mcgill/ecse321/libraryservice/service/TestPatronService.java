@@ -76,7 +76,7 @@ public void setMockOutput() {
         if(invocation.getArgument(0).equals(PATRON_ID)) {
            
         	Patron patron = new Patron();
-            patron.setPatronID(PATRON_ID);
+            patron.setUserID(PATRON_ID);
             patron.setFirstName(PATRON_FIRST_NAME);
             patron.setLastName(PATRON_LAST_NAME); 
             patron.setEmail(PATRON_EMAIL);
@@ -98,7 +98,7 @@ public void setMockOutput() {
         if(invocation.getArgument(0).equals(PATRON_ID)) {
         
         	Patron patron = new Patron();
-            patron.setPatronID(PATRON_ID);
+            patron.setUserID(PATRON_ID);
             patron.setFirstName(PATRON_FIRST_NAME);
             patron.setLastName(PATRON_LAST_NAME); 
             patron.setEmail(PATRON_EMAIL);
@@ -135,7 +135,7 @@ public void setMockOutput() {
     lenient().when(patronDAO.findAll()).thenAnswer( (InvocationOnMock invocation) -> {
     	
     	Patron patron = new Patron();
-		patron.setPatronID(PATRON_ID);
+		patron.setUserID(PATRON_ID);
         patron.setFirstName(PATRON_FIRST_NAME);
         patron.setLastName(PATRON_LAST_NAME); 
         patron.setEmail(PATRON_EMAIL);
@@ -515,7 +515,7 @@ public void testCreatePatronPatronAsCreator() throws Exception {
  */
 @Test 
 public void testGetPatronFromID() throws Exception {
-	assertEquals(PATRON_ID, service.getPatronByUserId(PATRON_ID).getPatronID());
+	assertEquals(PATRON_ID, service.getPatronByUserId(PATRON_ID).getUserID());
 }
 
 /**
@@ -778,19 +778,14 @@ public void testGetPatronFromFullNameEmptyLastName() throws Exception {
  */
 @Test
 public void testSetValidatedAccountSuccessful() throws Exception {
-	
 	Patron patron = patronDAO.findPatronByUserID(PATRON_ID);
-	
 	try {
 		patron = service.setValidatedAccount(patron.getUserID(), PATRON_VALIDATED_ACCOUNT, PATRON_CREATOR);
-		
 	}
 	catch (IllegalArgumentException e) {
 		fail();
-		
 	}
-		//assertNull(patron);
-		assertEquals(PATRON_VALIDATED_ACCOUNT, patron.getValidatedAccount());
+	assertEquals(PATRON_VALIDATED_ACCOUNT, patron.getValidatedAccount());
 	
 
 	
