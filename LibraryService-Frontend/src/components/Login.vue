@@ -1,14 +1,14 @@
 <template>
-  <div id="eventregistration">
-    <h2>People</h2>
+  <div id="librarySystem">
+    <h2>Login</h2>
     <table>
       <tr>
-          <td>John</td>
+          <td>UserId</td>
           <td>Event to attend</td>
       </tr>
       <tr>
           <td>
-              <input type="text" placeholder="Person Name">
+              <input type="text" placeholder="Enter UserID">
           </td>
           <td>
               <button>Create</button>
