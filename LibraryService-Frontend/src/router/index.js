@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Hello from '@/components/Hello'
+import ItemTypeToBrowse from '@/components/ItemTypeToBrowse'
 
 Vue.use(Router)
 
@@ -10,6 +11,11 @@ export default new Router({
       path: '/',
       name: 'Hello',
       component: Hello
+    },
+    {
+      path: '/item-select',
+      name: 'ItemTypeToBrowse',
+      component: ItemTypeToBrowse
     }
   ]
 })
