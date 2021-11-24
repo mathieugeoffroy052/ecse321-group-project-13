@@ -14,6 +14,9 @@
     </div>
     
     <div id="" style="overflow:scroll; height:100px;">
+        <v-row justify="center" v-for="libItem in libraryItems">
+            <p>{{ libItem.name }}</p>
+        </v-row>
     </div>
     <p>
       <span style="color:red">Error: Message text comes here</span>
@@ -21,7 +24,7 @@
   </div>
 </template>
 
-<script>
+<script src="./musicsearching.js">
 </script>
 
 <style>
