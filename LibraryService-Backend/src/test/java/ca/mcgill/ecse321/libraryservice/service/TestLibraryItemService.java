@@ -77,7 +77,11 @@ public class TestLibraryItemService {
 	private static final Date MOVIE_DATE = Date.valueOf("2021-01-24");
 	
 	private static final String ROOM_NAME = "Room 1";
+	private static final int ROOM_ISBN = 500;
+	private static final String ROOM_CREATOR = "Librarian";
 	private static final ItemType ROOM_TYPE = ItemType.Room;
+	private static final Date ROOM_DATE = Date.valueOf("2020-01-01");
+	private static final boolean ROOM_VIEWABLE = false;
 
 
 	/**
@@ -102,9 +106,8 @@ public class TestLibraryItemService {
 			LibraryItem newspaper = new LibraryItem(NEWSPAPER_NAME, NEWSPAPER_TYPE, NEWSPAPER_DATE, NEWSPAPER_CREATOR, NEWSPAPER_VIEWABLE);
 			newspaper.setIsbn(NEWSPAPER_ISBN);
 
-			LibraryItem room = new LibraryItem();
-			room.setName(ROOM_NAME);
-			room.setType(ROOM_TYPE);
+			LibraryItem room = new LibraryItem(ROOM_NAME, ROOM_TYPE, ROOM_DATE, ROOM_CREATOR, ROOM_VIEWABLE);
+			room.setIsbn(ROOM_ISBN);
 
 			allLibraryItems.add(book); 
 			allLibraryItems.add(newspaper); 
