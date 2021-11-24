@@ -13,6 +13,11 @@
           </td>
           <td>
               <button>Login</button>
+              <button>Create an Account</button> {
+                  position: absolute;
+                  top: 0px;
+                  right: 0px;
+              }
           </td>
       </tr>
     </table>

@@ -13,6 +13,11 @@
           </td>
           <td>
               <button>Login</button>
+               
+                <div style="position:absolute; right:0px; top:0px;">
+                  <button>Create an Account</button>
+                </div>
+
           </td>
       </tr>
     </table>
@@ -23,9 +28,10 @@
 </template>
 
 <style>
-  #eventregistration {
+  #librarySystem {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     color: #2c3e50;
     background: #f2ece8;
   }
+   
 </style>
