@@ -3,15 +3,16 @@
     <h2>Login</h2>
     <table>
       <tr>
-          <td>UserId</td>
-          <td>Event to attend</td>
+          <!-- <td>UserId</td>
+          <td>Login</td> -->
       </tr>
       <tr>
           <td>
               <input type="text" placeholder="Enter UserID">
+              <input type="text" placeholder="Enter Password">
           </td>
           <td>
-              <button>Create</button>
+              <button>Login</button>
           </td>
       </tr>
     </table>

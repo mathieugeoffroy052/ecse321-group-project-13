@@ -1,17 +1,18 @@
 <template>
-  <div id="eventregistration">
-    <h2>People</h2>
+  <div id="librarySystem">
+    <h2>Login</h2>
     <table>
       <tr>
-          <td>John</td>
-          <td>Event to attend</td>
+          <!-- <td>UserId</td>
+          <td>Login</td> -->
       </tr>
       <tr>
           <td>
-              <input type="text" placeholder="Person Name">
+              <input type="text" placeholder="Enter UserID">
+              <input type="text" placeholder="Enter Password">
           </td>
           <td>
-              <button>Create</button>
+              <button>Login</button>
           </td>
       </tr>
     </table>
