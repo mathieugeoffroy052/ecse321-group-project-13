@@ -34,7 +34,7 @@ function BorrowableItemDTO(state, item, barCodeNumber){
   this.barCodeNumber = barCodeNumber;
 }
 
-function UserAccountDTO(firstName, lastName, onlineAccount, address, password, balance, email, userID){
+function UserAccountDTO(firstName, lastName, onlineAccount, address, validatedAccount, password, balance, email, patronID){
     this.firstName = firstName;
     this.lastName = lastName;
     this.password = password;
@@ -42,7 +42,8 @@ function UserAccountDTO(firstName, lastName, onlineAccount, address, password, b
     this.email = email;
     this.onlineAccount = onlineAccount;
     this.address = address;
-    this.userID = userID;
+    this.validatedAccount = validatedAccount;
+    this.patronID = patronID;
 }
 
 
@@ -53,6 +54,12 @@ export default {
         libraryItems: [],
         newLibraryItem: '',
         errorLibraryItem: '',
+        borrowableItems: [],
+        newBorrowableItem: '',
+        errorBorrowableItem: '',
+        patrons: [],
+        newPatron: '',
+        errorPatron: '',
         response: []
       }
     },
@@ -64,6 +71,13 @@ export default {
         })
         .catch(e => {
             this.errorLibraryItem = e
+        })
+        AXIOS.get('/patrons/')
+        .then(response => {
+            this.patrons = response.data
+        })
+        .catch(e => {
+            this.errorPatron = e
         })
       },
 
