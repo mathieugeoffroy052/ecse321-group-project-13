@@ -1,0 +1,870 @@
+{
+	"info": {
+		"_postman_id": "5f293421-ac29-4774-88eb-6ee55835e4df",
+		"name": "UserAcount",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/accounts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/accounts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"accounts"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/accounts",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/accounts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"accounts"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 23 Nov 2021 04:35:02 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"firstName\": \"mathieu\",\n        \"lastName\": \"geoffroy\",\n        \"onlineAccount\": false,\n        \"password\": \"testerpass\",\n        \"balance\": 10,\n        \"address\": \"11 goodtimes\",\n        \"email\": \"mathieu@mail.com\",\n        \"userID\": 1\n    },\n    {\n        \"firstName\": \"Gabby\",\n        \"lastName\": \"Ybbag\",\n        \"onlineAccount\": true,\n        \"password\": \"horriblepassword\",\n        \"balance\": 0,\n        \"address\": \"123 milton\",\n        \"email\": \"email@mail.com\",\n        \"userID\": 6\n    },\n    {\n        \"firstName\": \"joe\",\n        \"lastName\": \"bob\",\n        \"onlineAccount\": true,\n        \"password\": \"bob2123\",\n        \"balance\": 0,\n        \"address\": \"2  avenue bob\",\n        \"email\": \"joe@email.com\",\n        \"userID\": 15\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/updatePassword",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updatePassword?password=junglegym&userID=6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updatePassword"
+					],
+					"query": [
+						{
+							"key": "password",
+							"value": "junglegym"
+						},
+						{
+							"key": "userID",
+							"value": "6"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/updatePassword",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/updatePassword?password=junglegym&userID=6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"updatePassword"
+							],
+							"query": [
+								{
+									"key": "password",
+									"value": "junglegym"
+								},
+								{
+									"key": "userID",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 23 Nov 2021 04:36:15 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"firstName\": \"Gabby\",\n    \"lastName\": \"Ybbag\",\n    \"onlineAccount\": true,\n    \"password\": \"junglegym\",\n    \"balance\": 0,\n    \"address\": \"123 milton\",\n    \"email\": \"email@mail.com\",\n    \"userID\": 6\n}"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/updateAddress?address",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateAddress?address=456 milton&userID=6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateAddress"
+					],
+					"query": [
+						{
+							"key": "address",
+							"value": "456 milton"
+						},
+						{
+							"key": "userID",
+							"value": "6"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/updateAddress?address",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/updateAddress?address=456 milton&userID=6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"updateAddress"
+							],
+							"query": [
+								{
+									"key": "address",
+									"value": "456 milton"
+								},
+								{
+									"key": "userID",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 23 Nov 2021 04:45:46 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"firstName\": \"Ginger\",\n    \"lastName\": \"Ybbag\",\n    \"onlineAccount\": true,\n    \"password\": \"junglegym\",\n    \"balance\": 0,\n    \"address\": \"456 milton\",\n    \"email\": \"email@mail.com\",\n    \"userID\": 6\n}"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/updateFirstName?firstName",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateFirstName?firstName=Ginger&userID=6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateFirstName"
+					],
+					"query": [
+						{
+							"key": "firstName",
+							"value": "Ginger"
+						},
+						{
+							"key": "userID",
+							"value": "6"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/updateFirstName?firstName",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/updateFirstName?firstName=Ginger&userID=6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"updateFirstName"
+							],
+							"query": [
+								{
+									"key": "firstName",
+									"value": "Ginger"
+								},
+								{
+									"key": "userID",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 23 Nov 2021 04:45:58 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"firstName\": \"Ginger\",\n    \"lastName\": \"Ybbag\",\n    \"onlineAccount\": true,\n    \"password\": \"junglegym\",\n    \"balance\": 0,\n    \"address\": \"456 milton\",\n    \"email\": \"email@mail.com\",\n    \"userID\": 6\n}"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/updateLastName?lastName",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateLastName?lastName=Muffin&userID=6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateLastName"
+					],
+					"query": [
+						{
+							"key": "lastName",
+							"value": "Muffin"
+						},
+						{
+							"key": "userID",
+							"value": "6"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/updateLastName?lastName",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/updateLastName?lastName=Muffin&userID=6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"updateLastName"
+							],
+							"query": [
+								{
+									"key": "lastName",
+									"value": "Muffin"
+								},
+								{
+									"key": "userID",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 23 Nov 2021 04:46:21 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"firstName\": \"Ginger\",\n    \"lastName\": \"Muffin\",\n    \"onlineAccount\": true,\n    \"password\": \"junglegym\",\n    \"balance\": 0,\n    \"address\": \"456 milton\",\n    \"email\": \"email@mail.com\",\n    \"userID\": 6\n}"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/updateEmail?updateEmail",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/updateEmail?email=ginger@muffin.com&userID=6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateEmail"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "ginger@muffin.com"
+						},
+						{
+							"key": "userID",
+							"value": "6"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/updateEmail?updateEmail",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/updateEmail?email=ginger@muffin.com&userID=6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"updateEmail"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "ginger@muffin.com"
+								},
+								{
+									"key": "userID",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 23 Nov 2021 04:48:10 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"firstName\": \"Ginger\",\n    \"lastName\": \"Muffin\",\n    \"onlineAccount\": true,\n    \"password\": \"junglegym\",\n    \"balance\": 0,\n    \"address\": \"456 milton\",\n    \"email\": \"ginger@muffin.com\",\n    \"userID\": 6\n}"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/setAccountValidity",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/setAccountValidity?validatedAccount=true&creatorID=1&patronID=4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"setAccountValidity"
+					],
+					"query": [
+						{
+							"key": "validatedAccount",
+							"value": "true"
+						},
+						{
+							"key": "creatorID",
+							"value": "1"
+						},
+						{
+							"key": "patronID",
+							"value": "4"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/setAccountValidity",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/setAccountValidity?validatedAccount=true&creatorID=1&patronID=15",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"setAccountValidity"
+							],
+							"query": [
+								{
+									"key": "validatedAccount",
+									"value": "true"
+								},
+								{
+									"key": "creatorID",
+									"value": "1"
+								},
+								{
+									"key": "patronID",
+									"value": "15"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 23 Nov 2021 04:47:15 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"firstName\": \"joe\",\n    \"lastName\": \"bob\",\n    \"onlineAccount\": true,\n    \"password\": \"bob2123\",\n    \"balance\": 0,\n    \"address\": \"2  avenue bob\",\n    \"email\": \"joe@email.com\",\n    \"userID\": 15,\n    \"validatedAccount\": true\n}"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/account/{userID}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/account/:userID/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"account",
+						":userID",
+						""
+					],
+					"variable": [
+						{
+							"key": "userID",
+							"value": "6"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/account/{userID}",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/account/:userID/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"account",
+								":userID",
+								""
+							],
+							"variable": [
+								{
+									"key": "userID",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 23 Nov 2021 04:35:10 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"firstName\": \"mathieu\",\n    \"lastName\": \"geoffroy\",\n    \"onlineAccount\": false,\n    \"password\": \"testerpass\",\n    \"balance\": 10,\n    \"address\": \"11 goodtimes\",\n    \"email\": \"mathieu@mail.com\",\n    \"userID\": 1\n}"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/account/{firstName}/{lastName}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/account/firstName/lastName?firstName=mathieu&lastName=geoffroy",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"account",
+						"firstName",
+						"lastName"
+					],
+					"query": [
+						{
+							"key": "firstName",
+							"value": "mathieu"
+						},
+						{
+							"key": "lastName",
+							"value": "geoffroy"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/account/{firstName}/{lastName}",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/account/firstName/lastName?firstName=mathieu&lastName=geoffroy",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"account",
+								"firstName",
+								"lastName"
+							],
+							"query": [
+								{
+									"key": "firstName",
+									"value": "mathieu"
+								},
+								{
+									"key": "lastName",
+									"value": "geoffroy"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 23 Nov 2021 04:35:17 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"firstName\": \"mathieu\",\n    \"lastName\": \"geoffroy\",\n    \"onlineAccount\": false,\n    \"password\": \"testerpass\",\n    \"balance\": 10,\n    \"address\": \"11 goodtimes\",\n    \"email\": \"mathieu@mail.com\",\n    \"userID\": 1\n}"
+				}
+			]
+		}
+	]
+}
