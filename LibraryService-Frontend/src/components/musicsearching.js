@@ -19,6 +19,32 @@ function LibraryItemDTO(name, itemType, date, creator, isViewable, isbn)
   this.isbn = isbn;
 }
 
+function TransactionDTO(type, deadline, borrowableItem, userAccount, transactionID)
+{
+  this.transactionType = type;
+  this.deadline = deadline;
+  this.borrowableItem = borrowableItem;
+  this.userAccount = userAccount;
+  this.transactionID = transactionID;
+}
+
+function BorrowableItemDTO(state, item, barCodeNumber){
+  this.state = state;
+  this.libraryItem = item;
+  this.barCodeNumber = barCodeNumber;
+}
+
+function UserAccountDTO(firstName, lastName, onlineAccount, address, password, balance, email, userID){
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.password = password;
+    this.balance = balance;
+    this.email = email;
+    this.onlineAccount = onlineAccount;
+    this.address = address;
+    this.userID = userID;
+}
+
 
 export default {
     name: 'musicsearch',
@@ -39,5 +65,15 @@ export default {
         .catch(e => {
             this.errorLibraryItem = e
         })
+      },
+
+    methods: {
+      createReserveTransaction: function (personName) {
+        // Create a new person and add it to the list of people
+        var p = new PersonDto(personName)
+        this.persons.push(p)
+        // Reset the name field for new people
+        this.newPerson = ''
       }
+    }
   }

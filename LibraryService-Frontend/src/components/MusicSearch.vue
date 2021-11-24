@@ -16,12 +16,12 @@
     <div>
       <div id="" style="overflow:scroll; height:100px;">
         <v-row justify="center" v-for="libItem in libraryItems" :key="libItem.name">
-            <input type="radio">{{ libItem.name }}<br>
+            <input type="radio">{{ " " + libItem.name }}<br> {{ libItem.creator + ", " + libItem.date + ". " + "isbn " + libItem.isbn }} <br>
         </v-row>
       </div>
       <button type="reserve">Reserve Item</button>
     </div>
-    
+
     <p>
       <span style="color:red">Error: Message text comes here</span>
     </p>
