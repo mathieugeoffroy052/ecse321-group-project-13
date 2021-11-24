@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Hello from '@/components/Hello'
 import ItemTypeToBrowse from '@/components/ItemTypeToBrowse'
+import MusicSearch from '@/components/MusicSearch'
 
 Vue.use(Router)
 
@@ -16,6 +17,11 @@ export default new Router({
       path: '/item-select',
       name: 'ItemTypeToBrowse',
       component: ItemTypeToBrowse
+    },
+    {
+      path: '/music',
+      name: 'MusicSearch',
+      component: MusicSearch
     }
   ]
 })
