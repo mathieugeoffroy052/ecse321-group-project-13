@@ -9,7 +9,7 @@
       <tr>
           <td>
               <input type="text" placeholder="Enter UserID"> 
-                {text-align: center;}
+               
               <input type="text" placeholder="Enter Password">
                 
           </td>
