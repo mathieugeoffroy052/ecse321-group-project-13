@@ -22,8 +22,7 @@
       <button type="reserve" @click="createReserveTransaction(7)">Reserve Item</button>
     </div>
 
-    <p>
-      <span style="color:red">Error: Message text comes here</span>
+    <p id="transaction">
     </p>
   </div>
 </template>

@@ -95,41 +95,51 @@ export default {
 
     methods: {
       createReserveTransaction: function (aPatronID) {
-        var anIsbn = document.querySelector('input[type="radio"]:checked').value;
+        var anIsbn = undefined
+        if(document.querySelector('input[type="radio"]:checked') != null){
+          anIsbn = document.querySelector('input[type="radio"]:checked').value;
+        }
         if(anIsbn != undefined){
           var params = {
             isbn: anIsbn
           }
           AXIOS.get('/items/isbn/', {params})
           .then(response => {
-              console.log(response.data)
               this.existingBorrowableItems = response.data
-              console.log(this.existingBorrowableItems)
           })
           .catch(e => {
               this.errorLibraryItem = e
           })
-          console.log(this.existingBorrowableItems)
-          if(this.existingBorrowableItems != undefined){
-            console.log(this.existingBorrowableItems)
-            var aBarCodeNumber = this.existingBorrowableItems[0]["barCodeNumber"]
-            console.log(aPatronID)
-            var params = {
-              barCodeNumber: aBarCodeNumber,
-              userID: aPatronID
+          if(this.existingBorrowableItems != []){
+            var aBarCodeNumber = undefined
+            for (let i = 0; i < this.existingBorrowableItems.length; i++) {
+              if(this.existingBorrowableItems[i]["itemState"] == "Available"){
+                  aBarCodeNumber = this.existingBorrowableItems[i]["barCodeNumber"]
+              }
             }
-            AXIOS.post('/reserve-item', {}, {params})
-            .then(response => {
-                console.log('hello')
-                this.transactions.push(response.data)
-                this.errorTransaction = ''
-                this.newTransaction = ''
-              })
-              .catch(e => {
-                var errorMessage = e.response.data.message
-                console.log(errorMessage)
-                this.errorTransaction = errorMessage
-              })
+            if(aBarCodeNumber != undefined){
+              var params = {
+                barCodeNumber: aBarCodeNumber,
+                userID: aPatronID
+              }
+              AXIOS.post('/reserve-item', {}, {params})
+              .then(response => {
+                  console.log("yooooo")
+                  this.transactions.push(response.data)
+                  this.errorTransaction = ''
+                  this.newTransaction = ''
+                  document.getElementById("transaction").innerHTML = "Transaction Complete!"
+                  //alert("Transaction complete!")
+                })
+                .catch(e => {
+                  var errorMessage = e.response.data.message
+                  console.log(errorMessage)
+                  this.errorTransaction = errorMessage
+                })
+            }
+            else{
+              alert("No available item found")
+            }
           }
           // Reset the name field for new people
           this.existingBorrowableItems = []
