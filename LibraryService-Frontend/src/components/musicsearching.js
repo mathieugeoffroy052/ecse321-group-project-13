@@ -28,13 +28,17 @@ function TransactionDTO(type, deadline, borrowableItem, userAccount, transaction
   this.transactionID = transactionID;
 }
 
+function TransactionDTO(type, borrowableItem, userAccount){
+  this(type, Date.parse("2001-01-01"), borrowableItem, userAccount);
+}
+
 function BorrowableItemDTO(state, item, barCodeNumber){
   this.state = state;
   this.libraryItem = item;
   this.barCodeNumber = barCodeNumber;
 }
 
-function UserAccountDTO(firstName, lastName, onlineAccount, address, validatedAccount, password, balance, email, patronID){
+function PatronDTO(firstName, lastName, onlineAccount, address, validatedAccount, password, balance, email, patronID){
     this.firstName = firstName;
     this.lastName = lastName;
     this.password = password;
@@ -53,12 +57,20 @@ export default {
       return {
         libraryItems: [],
         newLibraryItem: '',
+        existingLibraryItem: '',
         errorLibraryItem: '',
+        transactions: [],
+        newTransaction: '',
+        existingTransaction: '',
+        errorTransaction: '',
         borrowableItems: [],
         newBorrowableItem: '',
+        existingBorrowableItems: [],
+        existingBorrowableItem: '',
         errorBorrowableItem: '',
         patrons: [],
         newPatron: '',
+        existingPatron: '',
         errorPatron: '',
         response: []
       }
@@ -82,12 +94,26 @@ export default {
       },
 
     methods: {
-      createReserveTransaction: function (personName) {
-        // Create a new person and add it to the list of people
-        var p = new PersonDto(personName)
-        this.persons.push(p)
+      createReserveTransaction: function (aBarCodeNumber, aPatronID) {
+        var params = {
+          barCodeNumber: aBarCodeNumber,
+          userID: aPatronID
+        }
+        AXIOS.post('reserve-item', {}, {params})
+        .then(response => {
+            this.transactions.push(response.data)
+            this.errorTransaction = ''
+            this.newTransaction = ''
+          })
+          .catch(e => {
+            var errorMessage = e.response.data.message
+            console.log(errorMessage)
+            this.errorTransaction = errorMessage
+          })
         // Reset the name field for new people
-        this.newPerson = ''
+        this.existingBorrowableItems = []
+        this.existingPatron = ''
+        this.existingBorrowableItem = ''
       }
     }
   }
