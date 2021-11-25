@@ -94,26 +94,48 @@ export default {
       },
 
     methods: {
-      createReserveTransaction: function (aBarCodeNumber, aPatronID) {
-        var params = {
-          barCodeNumber: aBarCodeNumber,
-          userID: aPatronID
-        }
-        AXIOS.post('reserve-item', {}, {params})
-        .then(response => {
-            this.transactions.push(response.data)
-            this.errorTransaction = ''
-            this.newTransaction = ''
+      createReserveTransaction: function (aPatronID) {
+        var anIsbn = document.querySelector('input[type="radio"]:checked').value;
+        if(anIsbn != undefined){
+          var params = {
+            isbn: anIsbn
+          }
+          AXIOS.get('/items/isbn/', {params})
+          .then(response => {
+              console.log(response.data)
+              this.existingBorrowableItems = response.data
+              console.log(this.existingBorrowableItems)
           })
           .catch(e => {
-            var errorMessage = e.response.data.message
-            console.log(errorMessage)
-            this.errorTransaction = errorMessage
+              this.errorLibraryItem = e
           })
-        // Reset the name field for new people
-        this.existingBorrowableItems = []
-        this.existingPatron = ''
-        this.existingBorrowableItem = ''
+          console.log(this.existingBorrowableItems)
+          if(this.existingBorrowableItems != undefined){
+            console.log(this.existingBorrowableItems)
+            var aBarCodeNumber = this.existingBorrowableItems[0]["barCodeNumber"]
+            console.log(aPatronID)
+            var params = {
+              barCodeNumber: aBarCodeNumber,
+              userID: aPatronID
+            }
+            AXIOS.post('/reserve-item', {}, {params})
+            .then(response => {
+                console.log('hello')
+                this.transactions.push(response.data)
+                this.errorTransaction = ''
+                this.newTransaction = ''
+              })
+              .catch(e => {
+                var errorMessage = e.response.data.message
+                console.log(errorMessage)
+                this.errorTransaction = errorMessage
+              })
+          }
+          // Reset the name field for new people
+          this.existingBorrowableItems = []
+          this.existingPatron = ''
+          this.existingBorrowableItem = ''
+        }
       }
     }
   }

@@ -16,10 +16,10 @@
     <div>
       <div id="" style="overflow:scroll; height:100px;">
         <v-row justify="center" v-for="libItem in libraryItems" :key="libItem.name">
-            <input type="radio">{{ " " + libItem.name }}<br> {{ libItem.creator + ", " + libItem.date + ". " + "isbn " + libItem.isbn }} <br>
+            <input type="radio" name="item" :value="libItem.isbn">{{ " " + libItem.name }}<br> {{ libItem.creator + ", " + libItem.date + ". " + "isbn " + libItem.isbn }} <br>
         </v-row>
       </div>
-      <button type="reserve" @click="createReserveTransaction(1, 1)">Reserve Item</button>
+      <button type="reserve" @click="createReserveTransaction(177)">Reserve Item</button>
     </div>
 
     <p>
