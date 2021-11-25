@@ -120,7 +120,7 @@ public class LibraryServiceService {
         if (account != null)
             return account;
         else
-            throw new IllegalArgumentException("No user found with this name! ");
+            throw new IllegalArgumentException("No user found with this ID! ");
     }
 
     /**

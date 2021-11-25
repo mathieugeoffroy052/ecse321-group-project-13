@@ -19,7 +19,7 @@
             <input type="radio" name="item" :value="libItem.isbn">{{ " " + libItem.name }}<br> {{ libItem.creator + ", " + libItem.date + ". " + "isbn " + libItem.isbn }} <br>
         </v-row>
       </div>
-      <button type="reserve" @click="createReserveTransaction(177)">Reserve Item</button>
+      <button type="reserve" @click="createReserveTransaction(7)">Reserve Item</button>
     </div>
 
     <p>
