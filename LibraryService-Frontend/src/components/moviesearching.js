@@ -147,10 +147,14 @@ export default {
           this.existingBorrowableItem = ''
         }
       },
-      searchFilteredByTitle : function(){
+      runSearch : function(){
         var requestedTitle = document.getElementById("requestedTitle").value
-        //console.log("inputted title : " + requestedTitle)
-        if(requestedTitle != ""){
+        var requestedDirector = document.getElementById("requestedDirector").value
+        if(requestedTitle == "" && requestedDirector == "") { // both title and director field are empty
+          alert("No input")
+        } 
+        else if(requestedTitle != "" && requestedDirector == "") { // title field is not empty, but director field is
+          console.log("title not empty, director empty")
           this.errorLibraryItem = null
           var params = {
             title: requestedTitle
@@ -163,18 +167,12 @@ export default {
             this.errorLibraryItem = e
           })
           if(this.errorLibraryItem != null){ // GET request gave an error
-            his.libraryItems = []
+            this.libraryItems = []
             alert("No items found with this title");
           } 
         } 
-        else { //input is undefined
-          alert("No input")
-        }
-      },
-      searchFilteredByDirector : function(){
-        var requestedDirector = document.getElementById("requestedDirector").value
-        //console.log("inputted title : " + requestedTitle)
-        if(requestedTitle != ""){
+        else if(requestedTitle == ""){ // director field is not empty, but title field is
+          console.log("title empty, director not empty")
           this.errorLibraryItem = null
           var params = {
             director: requestedDirector
@@ -187,12 +185,29 @@ export default {
             this.errorLibraryItem = e
           })
           if(this.errorLibraryItem != null){ // GET request gave an error
-            his.libraryItems = []
-            alert("No items found with this director");
+            this.libraryItems = []
+            alert(e);
           } 
         } 
-        else { //input is undefined
-          alert("No input")
+        else{ // both title and director field have input in them
+          console.log("title and director not empty")
+          this.errorLibraryItem = null
+          var params = {
+            title : requestedTitle,
+            director: requestedDirector
+          }
+          AXIOS.get('/movies/title/director/', {params})
+          .then(response => {            
+            this.libraryItems = []
+            this.libraryItems[0] = response.data
+          })
+          .catch(e => {
+            this.errorLibraryItem = e
+          })
+          if(this.errorLibraryItem != null){ // GET request gave an error
+            this.libraryItems = []
+            alert("No items found with this title and director");
+          } 
         }
       }
     }
