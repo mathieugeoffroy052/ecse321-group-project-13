@@ -1,16 +1,16 @@
 <template>
-  <div id="musicsearch">
-    <h2>Music Albums</h2>
+  <div id="booksearch">
+    <h2>Books</h2>
     <div class="title-search">
         <label for="title">Search by title: </label>
         <input type="text" id="requestedTitle" name="title">
         <button type="title-submit" @click="searchFilteredByTitle()">Submit</button>
     </div>
     
-    <div class="artist-search">
-        <label for="artist">Search by artist: </label>
-        <input type="text" id="requestedArtist" name="artist">
-        <button type="artist-submit" @click="searchFilteredByArtist()">Submit</button>
+    <div class="author-search">
+        <label for="author">Search by author: </label>
+        <input type="text" id="requestedAuthor" name="author">
+        <button type="author-submit" @click="searchFilteredByAuthor()">Submit</button>
     </div>
     
     <div>
@@ -19,7 +19,7 @@
             <input type="radio" name="item" :value="libItem.isbn">{{ " " + libItem.name }}<br> {{ libItem.creator + ", " + libItem.date + ". " + "isbn " + libItem.isbn }} <br>
         </v-row>
       </div>
-      <button type="reserve" @click="createReserveTransaction(72)">Reserve Item</button>
+      <button type="reserve" @click="createReserveTransaction(7)">Reserve Item</button>
     </div>
 
     <p id="transaction">
@@ -27,11 +27,11 @@
   </div>
 </template>
 
-<script src="./musicsearching.js">
+<script src="./booksearching.js">
 </script>
 
 <style>
-  #musicsearch {
+  #booksearch {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     color: #2c3e50;
     background: #97C3F9;
