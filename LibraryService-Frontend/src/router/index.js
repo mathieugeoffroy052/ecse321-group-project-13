@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Hello from '@/components/Hello'
 import ItemTypeToBrowse from '@/components/ItemTypeToBrowse'
 import MusicSearch from '@/components/MusicSearch'
+import NewspaperSearch from '@/components/NewspaperSearch'
 import BookSearch from '@/components/BookSearch'
 import MovieSearch from '@/components/MovieSearch'
 
@@ -24,6 +25,11 @@ export default new Router({
       path: '/music',
       name: 'MusicSearch',
       component: MusicSearch
+    },
+    {
+      path: '/newspaper',
+      name: 'NewspaperSearch',
+      component: NewspaperSearch
     },
     {
       path: '/book',
