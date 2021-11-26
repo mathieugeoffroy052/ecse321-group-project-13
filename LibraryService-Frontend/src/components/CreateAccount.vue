@@ -1,30 +1,29 @@
 <template>
-  <div id="Login">
-    <div style="position:absolute; right:0px; left:0px; top:0px;">
-        <h2>Login</h2>
+  <div id="CreateAccount">
+    <div style="position:absolute; left:0px; top:0px;">
+        <h2>CreateAccount</h2>
       </div>
     
     <table>
       
       <tr>
-          <td style="position:absolute; right:0px; left:0px;">
-              <input type="text" placeholder="Enter UserID"> 
-               
-              <input type="text" placeholder="Enter Password">
+          <td>
+              
+              <input type="text" placeholder="First Name"> 
+              <input type="text" placeholder="Last Name">
+              
                 
           </td>
           <td>
-            <div style="position:absolute; right:0px; left:0px; top:350px">
-              <b-button>Login</b-button>
-              </div>
+              <button>Login</button>
               <div style="position:absolute; right:0px; top:0px;">
-                  <b-button href="http://localhost:8080/#/CreateAccount">Create Account</b-button>
+                  <button>Create an Account</button>
                 </div>
           </td>
       </tr>
     </table>
-    <p style="position:absolute; top:300px; left:0px; right:0px;">
-      <span style="color:red;">Error: Message text comes here</span>
+    <p>
+      <span style="color:red">Error: Message text comes here</span>
     </p>
   </div>
 </template>
@@ -87,3 +86,4 @@
       transform: rotate(0.48deg);
     }
   </style>
+  
