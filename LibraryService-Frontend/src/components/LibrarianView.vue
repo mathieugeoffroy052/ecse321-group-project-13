@@ -16,10 +16,10 @@
                     required
                   ></b-form-input>
                 </b-form-group>
-                <p>Name:</p>
-                <p>Email:</p>
-                <p>Address: <b-button id="tempButtons" variant="danger">Validate</b-button> </p>
-                <p>Balance: <b-button id="tempButtons" variant="danger">Payed</b-button> </p>
+                <p class="my-3">Name:</p>
+                <p class="my-3">Email:</p>
+                <p class="my-3">Address: <b-button style="height:24px;width:83px" class="float-right py-0" id="tempButtons" variant="danger">Validate</b-button> </p>
+                <p class="my-3">Balance: <b-button style="height:24px;width:83px" class="float-right py-0" id="tempButtons" variant="danger">Payed</b-button> </p>
               </b-col>
               <b-col class="shadow p-3 m-3 bg-white rounded"> 
                 <h5>Transaction</h5>
@@ -32,9 +32,9 @@
                     required
                   ></b-form-input>
                 </b-form-group>
-                <p class="mb-4">Type: Name</p>
-                <p class="mb-4">Author: Name</p>
-                <p class="mb-4">Return by: </p>
+                <p class="my-3">Type: Name</p>
+                <p class="my-3">Author: Name</p>
+                <p class="my-3">Return by: </p>
               </b-col>
             </b-row>
             <b-row class="shadow p-3 my-3 mx-1 bg-white rounded">
