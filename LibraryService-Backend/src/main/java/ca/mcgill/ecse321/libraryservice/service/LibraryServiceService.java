@@ -120,7 +120,7 @@ public class LibraryServiceService {
         if (account != null)
             return account;
         else
-            throw new IllegalArgumentException("No user found with this name! ");
+            throw new IllegalArgumentException("No user found with this ID! ");
     }
 
     /**
@@ -615,6 +615,10 @@ public class LibraryServiceService {
         Date deadline = Date.valueOf(localDeadline);
         Transaction itemReservation = new Transaction(item, account, TransactionType.ItemReservation, deadline);
         transactionRepository.save(itemReservation);
+
+        item.setState(ItemState.Reserved);
+        borrowableItemRepository.save(item);
+
         return itemReservation;
     }
 
@@ -702,6 +706,10 @@ public class LibraryServiceService {
                                                                                                              // for room
                                                                                                              // reservation
         transactionRepository.save(roomReservation);
+
+        item.setState(ItemState.Reserved);
+        borrowableItemRepository.save(item);
+
         return roomReservation;
     }
 
@@ -774,8 +782,10 @@ public class LibraryServiceService {
         Date deadline = Date.valueOf(localDeadline);
         Transaction itemReservation = new Transaction(item, account, TransactionType.Borrowing, deadline);
         transactionRepository.save(itemReservation);
+
         item.setState(ItemState.Borrowed);
         borrowableItemRepository.save(item);
+
         return itemReservation;
     }
 
@@ -815,8 +825,10 @@ public class LibraryServiceService {
         Transaction itemReservation = new Transaction(item, account, TransactionType.Return,
                 Date.valueOf(LocalDate.now())); // No deadline for return
         transactionRepository.save(itemReservation);
+
         item.setState(ItemState.Available);
         borrowableItemRepository.save(item);
+        
         return itemReservation;
     }
 

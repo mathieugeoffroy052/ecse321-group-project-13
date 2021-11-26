@@ -1,4 +1,4 @@
-# eventregistration-frontend
+# libraryservice-frontend
 
 > A Vue.js frontend for Library Service App
 
