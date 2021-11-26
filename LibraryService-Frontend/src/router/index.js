@@ -4,6 +4,7 @@ import Hello from '@/components/Hello'
 import ItemTypeToBrowse from '@/components/ItemTypeToBrowse'
 import MusicSearch from '@/components/MusicSearch'
 import BookSearch from '@/components/BookSearch'
+import MovieSearch from '@/components/MovieSearch'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/book',
       name: 'BookSearch',
       component: BookSearch
+    },
+    {
+      path: '/movie',
+      name: 'MovieSearch',
+      component: MovieSearch
     }
   ]
 })
