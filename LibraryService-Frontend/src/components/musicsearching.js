@@ -166,7 +166,6 @@ export default {
           AXIOS.get('/musics/title/', {params})
           .then(response => {
             this.libraryItems = response.data
-            //console.log("length: " + response.data.length)
             if(response.data.length == 0){
               document.getElementById("noItemFound").innerHTML = "No music albums found with this title"
             }

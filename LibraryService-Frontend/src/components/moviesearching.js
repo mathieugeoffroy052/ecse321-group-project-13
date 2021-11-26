@@ -151,7 +151,8 @@ export default {
         var requestedTitle = document.getElementById("requestedTitle").value
         var requestedDirector = document.getElementById("requestedDirector").value
         if(requestedTitle == "" && requestedDirector == "") { // both title and director field are empty
-          alert("No input")
+          //alert("No input")
+          document.getElementById("errorMessage").innerHTML = "Please enter a title or artist"
         } 
         else if(requestedTitle != "" && requestedDirector == "") { // title field is not empty, but director field is
           console.log("title not empty, director empty")
@@ -162,13 +163,16 @@ export default {
           AXIOS.get('/movies/title/', {params})
           .then(response => {
             this.libraryItems = response.data
+            if(response.data.length == 0){
+              document.getElementById("noItemFound").innerHTML = "No movies found with this title"
+            }
           })
           .catch(e => {
             this.errorLibraryItem = e
           })
           if(this.errorLibraryItem != null){ // GET request gave an error
             this.libraryItems = []
-            alert("No items found with this title");
+            alert("ERROR");
           } 
         } 
         else if(requestedTitle == ""){ // director field is not empty, but title field is
@@ -180,13 +184,15 @@ export default {
           AXIOS.get('/movies/director/', {params})
           .then(response => {
             this.libraryItems = response.data
+            if(response.data.length == 0){
+              document.getElementById("noItemFound").innerHTML = "No movies found by this director"
+            }
           })
           .catch(e => {
             this.errorLibraryItem = e
           })
           if(this.errorLibraryItem != null){ // GET request gave an error
-            this.libraryItems = []
-            alert(e);
+            alert("ERROR");
           } 
         } 
         else{ // both title and director field have input in them
@@ -199,16 +205,21 @@ export default {
           AXIOS.get('/movies/title/director/', {params})
           .then(response => {            
             this.libraryItems = []
-            this.libraryItems[0] = response.data
+            if(response.data.length == 0) document.getElementById("noItemFound").innerHTML = "No movies found with this title and director"
+            else this.libraryItems[0] = response.data
           })
           .catch(e => {
             this.errorLibraryItem = e
           })
           if(this.errorLibraryItem != null){ // GET request gave an error
-            this.libraryItems = []
-            alert("No items found with this title and director");
+            alert("ERROR");
           } 
         }
+      },
+      resetMessages : function(){
+        document.getElementById("errorMessage").innerHTML = ""
+        document.getElementById("noItemFound").innerHTML = ""
+        document.getElementById("transaction").innerHTML = ""
       }
     }
   }

@@ -52,7 +52,7 @@
   }
   #noItemFound {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    font-size: 35px;
+    font-size: 30px;
     font-style: italic;
     color: #000000;
     background: #97C3F9;
