@@ -172,7 +172,28 @@ export default {
         }
       },
       searchFilteredByArtist : function(){
-
+        var requestedArtist = document.getElementById("requestedArtist").value
+        //console.log("inputted title : " + requestedTitle)
+        if(requestedTitle != ""){
+          this.errorLibraryItem = null
+          var params = {
+            artist: requestedArtist
+          }
+          AXIOS.get('/musics/artist/', {params})
+          .then(response => {
+            this.libraryItems = response.data
+          })
+          .catch(e => {
+            this.errorLibraryItem = e
+          })
+          if(this.errorLibraryItem != null){ // GET request gave an error
+            his.libraryItems = []
+            alert("No items found with this artist");
+          } 
+        } 
+        else { //input is undefined
+          alert("No input")
+        }
       }
     }
   }

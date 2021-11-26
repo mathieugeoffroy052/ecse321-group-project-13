@@ -10,7 +10,7 @@
     <div class="artist-search">
         <label for="artist">Search by artist: </label>
         <input type="text" id="requestedArtist" name="artist">
-        <button type="artist-submit" @click="searchFilteredByArtist(getElementById(requestedArtist).value)">Submit</button>
+        <button type="artist-submit" @click="searchFilteredByArtist()">Submit</button>
     </div>
     
     <div>
