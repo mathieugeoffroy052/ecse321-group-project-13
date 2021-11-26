@@ -146,6 +146,33 @@ export default {
           this.existingPatron = ''
           this.existingBorrowableItem = ''
         }
+      },
+      searchFilteredByTitle : function(){
+        var requestedTitle = document.getElementById("requestedTitle").value
+        //console.log("inputted title : " + requestedTitle)
+        if(requestedTitle != ""){
+          this.errorLibraryItem = null
+          var params = {
+            title: requestedTitle
+          }
+          AXIOS.get('/musics/title/', {params})
+          .then(response => {
+            this.libraryItems = response.data
+          })
+          .catch(e => {
+            this.errorLibraryItem = e
+          })
+          if(this.errorLibraryItem != null){ // GET request gave an error
+            his.libraryItems = []
+            alert("No items found with this title");
+          } 
+        } 
+        else { //input is undefined
+          alert("No input")
+        }
+      },
+      searchFilteredByArtist : function(){
+
       }
     }
   }

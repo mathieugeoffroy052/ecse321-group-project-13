@@ -3,14 +3,14 @@
     <h2>Music Albums</h2>
     <div class="title-search">
         <label for="title">Search by title: </label>
-        <input type="text" id="title" name="title">
-        <button type="title-submit">Submit</button>
+        <input type="text" id="requestedTitle" name="title">
+        <button type="title-submit" @click="searchFilteredByTitle()">Submit</button>
     </div>
     
     <div class="artist-search">
         <label for="artist">Search by artist: </label>
-        <input type="text" id="artist" name="artist">
-        <button type="artist-submit">Submit</button>
+        <input type="text" id="requestedArtist" name="artist">
+        <button type="artist-submit" @click="searchFilteredByArtist(getElementById(requestedArtist).value)">Submit</button>
     </div>
     
     <div>
