@@ -4,13 +4,12 @@
     <div class="title-search">
         <label for="title">Search by title: </label>
         <input type="text" id="requestedTitle" name="title">
-        <button type="title-submit" @click="searchFilteredByTitle()">Submit</button>
     </div>
     
     <div class="author-search">
         <label for="author">Search by author: </label>
         <input type="text" id="requestedAuthor" name="author">
-        <button type="author-submit" @click="searchFilteredByAuthor()">Submit</button>
+        <button type="author-submit" @click="runSearch()">Submit</button>
     </div>
     
     <div>

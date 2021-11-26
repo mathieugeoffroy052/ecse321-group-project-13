@@ -147,10 +147,14 @@ export default {
           this.existingBorrowableItem = ''
         }
       },
-      searchFilteredByTitle : function(){
+      runSearch : function(){
         var requestedTitle = document.getElementById("requestedTitle").value
-        //console.log("inputted title : " + requestedTitle)
-        if(requestedTitle != ""){
+        var requestedAuthor = document.getElementById("requestedAuthor").value
+        if(requestedTitle == "" && requestedAuthor == "") { // both title and author field are empty
+          alert("No input")
+        } 
+        else if(requestedTitle != "" && requestedAuthor== "") { // title field is not empty, but author field is
+          console.log("title not empty, author empty")
           this.errorLibraryItem = null
           var params = {
             title: requestedTitle
@@ -163,18 +167,12 @@ export default {
             this.errorLibraryItem = e
           })
           if(this.errorLibraryItem != null){ // GET request gave an error
-            his.libraryItems = []
+            this.libraryItems = []
             alert("No items found with this title");
           } 
         } 
-        else { //input is undefined
-          alert("No input")
-        }
-      },
-      searchFilteredByAuthor : function(){
-        var requestedAuthor = document.getElementById("requestedAuthor").value
-        //console.log("inputted title : " + requestedTitle)
-        if(requestedTitle != ""){
+        else if(requestedTitle == ""){ // author field is not empty, but title field is
+          console.log("title empty, author not empty")
           this.errorLibraryItem = null
           var params = {
             author: requestedAuthor
@@ -187,12 +185,29 @@ export default {
             this.errorLibraryItem = e
           })
           if(this.errorLibraryItem != null){ // GET request gave an error
-            his.libraryItems = []
+            this.libraryItems = []
             alert("No items found with this author");
           } 
         } 
-        else { //input is undefined
-          alert("No input")
+        else{ // both title and author field have input in them
+          console.log("title and author not empty")
+          this.errorLibraryItem = null
+          var params = {
+            title : requestedTitle,
+            author: requestedAuthor
+          }
+          AXIOS.get('/books/title/author/', {params})
+          .then(response => {            
+            this.libraryItems = []
+            this.libraryItems[0] = response.data
+          })
+          .catch(e => {
+            this.errorLibraryItem = e
+          })
+          if(this.errorLibraryItem != null){ // GET request gave an error
+            this.libraryItems = []
+            alert("No items found with this title and author");
+          } 
         }
       }
     }

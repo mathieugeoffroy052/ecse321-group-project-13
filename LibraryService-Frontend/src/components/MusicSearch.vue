@@ -17,6 +17,8 @@
         <v-row justify="center" v-for="libItem in libraryItems" :key="libItem.name">
             <input type="radio" name="item" :value="libItem.isbn">{{ " " + libItem.name }}<br> {{ libItem.creator + ", " + libItem.date + ". " + "isbn " + libItem.isbn }} <br>
         </v-row>
+        <p id="noItemFound">
+    </p>
       </div>
       <button type="reserve" @click="createReserveTransaction(72)">Reserve Item</button>
     </div>
@@ -38,6 +40,12 @@
   #transaction {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     font-size: 30px;
+    color: #2c3e50;
+    background: #97C3F9;
+  }
+  #noItemFound {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    font-size: 35px;
     color: #2c3e50;
     background: #97C3F9;
   }

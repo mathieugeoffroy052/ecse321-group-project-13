@@ -165,13 +165,16 @@ export default {
           AXIOS.get('/musics/title/', {params})
           .then(response => {
             this.libraryItems = response.data
+            //console.log("length: " + response.data.length)
+            if(response.data.length == 0){
+              document.getElementById("noItemFound").innerHTML = "No music albums found with this title"
+            }
           })
           .catch(e => {
             this.errorLibraryItem = e
           })
           if(this.errorLibraryItem != null){ // GET request gave an error
-            this.libraryItems = []
-            alert("No items found with this title");
+            alert("ERROR");           
           } 
         } 
         else if(requestedTitle == ""){ // artist field is not empty, but title field is
@@ -183,13 +186,15 @@ export default {
           AXIOS.get('/musics/artist/', {params})
           .then(response => {
             this.libraryItems = response.data
+            if(response.data.length == 0){
+              document.getElementById("noItemFound").innerHTML = "No music albums found by this artist"
+            }
           })
           .catch(e => {
             this.errorLibraryItem = e
           })
           if(this.errorLibraryItem != null){ // GET request gave an error
-            this.libraryItems = []
-            alert(e);
+            alert("ERROR");
           } 
         } 
         else{ // both title and artist field have input in them
@@ -201,64 +206,17 @@ export default {
           }
           AXIOS.get('/musics/title/artist/', {params})
           .then(response => {
-            this.libraryItems = response.data
+            this.libraryItems = []
+            if(response.data.length == 0) document.getElementById("noItemFound").innerHTML = "No music albums found with this title and artist"
+            else this.libraryItems[0] = response.data
           })
           .catch(e => {
             this.errorLibraryItem = e
           })
           if(this.errorLibraryItem != null){ // GET request gave an error
-            this.libraryItems = []
-            alert("No items found with this title and artist");
+            alert("ERROR");
           } 
         }
       }
-      // searchFilteredByTitle : function(){
-      //   var requestedTitle = document.getElementById("requestedTitle").value
-      //   //console.log("inputted title : " + requestedTitle)
-      //   if(requestedTitle != ""){
-      //     this.errorLibraryItem = null
-      //     var params = {
-      //       title: requestedTitle
-      //     }
-      //     AXIOS.get('/musics/title/', {params})
-      //     .then(response => {
-      //       this.libraryItems = response.data
-      //     })
-      //     .catch(e => {
-      //       this.errorLibraryItem = e
-      //     })
-      //     if(this.errorLibraryItem != null){ // GET request gave an error
-      //       this.libraryItems = []
-      //       alert("No items found with this title");
-      //     } 
-      //   } 
-      //   else { //input is undefined
-      //     alert("No input")
-      //   }
-      // },
-      // searchFilteredByArtist : function(){
-      //   var requestedArtist = document.getElementById("requestedArtist").value
-      //   //console.log("inputted title : " + requestedTitle)
-      //   if(requestedTitle != ""){
-      //     this.errorLibraryItem = null
-      //     var params = {
-      //       artist: requestedArtist
-      //     }
-      //     AXIOS.get('/musics/artist/', {params})
-      //     .then(response => {
-      //       this.libraryItems = response.data
-      //     })
-      //     .catch(e => {
-      //       this.errorLibraryItem = e
-      //     })
-      //     if(this.errorLibraryItem != null){ // GET request gave an error
-      //       this.libraryItems = []
-      //       alert("No items found with this artist");
-      //     } 
-      //   } 
-      //   else { //input is undefined
-      //     alert("No input")
-      //   }
-      // }
     }
   }
