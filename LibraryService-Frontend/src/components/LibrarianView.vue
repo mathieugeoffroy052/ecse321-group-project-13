@@ -11,7 +11,7 @@
 </div>
 </template>
 
-<script src="librarianview.js">
+<script src="librarianviewing.js">
 </script>
 
 <style>
