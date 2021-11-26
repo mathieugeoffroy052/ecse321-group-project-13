@@ -5,8 +5,8 @@
     <b-tabs content-class="mt-3" fill>
       <b-tab title="Patron Account" active><p>I'm the first tab</p></b-tab>
       <b-tab title="Add User">
+        <div>
             <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-
               <b-form-group id="input-group-1" label="First Name:" label-for="input-1">
                 <b-form-input
                   id="input-1"
@@ -57,9 +57,7 @@
               <b-button type="Create" variant="primary">Submit</b-button>
               <b-button type="reset" variant="danger">Reset</b-button>
             </b-form>
-            <b-card class="mt-3" header="Form Data Result">
-              <pre class="m-0">{{ form }}</pre>
-            </b-card>
+        </div>
       </b-tab>
       <b-tab title="Workshifts"><p>I'm a disabled tab!</p></b-tab>
     </b-tabs>
