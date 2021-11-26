@@ -154,7 +154,8 @@ export default {
         var requestedTitle = document.getElementById("requestedTitle").value
         var requestedArtist = document.getElementById("requestedArtist").value
         if(requestedTitle == "" && requestedArtist == "") { // both title and artist field are empty
-          alert("No input")
+          //alert("No input")
+          document.getElementById("errorMessage").innerHTML = "Please enter a title or artist"
         } 
         else if(requestedTitle != "" && requestedArtist == "") { // title field is not empty, but artist field is
           console.log("title not empty, artist empty")
@@ -217,6 +218,11 @@ export default {
             alert("ERROR");
           } 
         }
+      },
+      resetMessages : function(){
+        document.getElementById("errorMessage").innerHTML = ""
+        document.getElementById("noItemFound").innerHTML = ""
+        document.getElementById("transaction").innerHTML = ""
       }
     }
   }
