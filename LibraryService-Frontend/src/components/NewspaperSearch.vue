@@ -4,13 +4,12 @@
     <div class="title-search">
         <label for="title">Search by title: </label>
         <input type="text" id="requestedTitle" name="title">
-        <button type="title-submit" @click="searchFilteredByTitle()">Submit</button>
     </div>
     
     <div class="writer-search">
         <label for="writer">Search by writer: </label>
         <input type="text" id="requestedWriter" name="writer">
-        <button type="writer-submit" @click="searchFilteredByWriter()">Submit</button>
+        <button type="writer-submit" @click="runSearch()">Submit</button>
     </div>
     
     <div>
@@ -19,7 +18,6 @@
             <input type="radio" name="item" :value="libItem.isbn">{{ " " + libItem.name }}<br> {{ libItem.creator + ", " + libItem.date + ". " + "isbn " + libItem.isbn }} <br>
         </v-row>
       </div>
-      <button type="reserve" @click="createReserveTransaction(72)">Reserve Item</button>
     </div>
 
     <p id="transaction">
