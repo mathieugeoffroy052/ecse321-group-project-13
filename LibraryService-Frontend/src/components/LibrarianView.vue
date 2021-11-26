@@ -43,6 +43,20 @@
               ></b-form-select>
             </b-form-group>
 
+            <div>
+              <b-form-checkbox
+                id="checkbox-1"
+                v-model="status"
+                name="checkbox-1"
+                value="accepted"
+                unchecked-value="not_accepted"
+              >
+                Validated Account
+              </b-form-checkbox>
+
+              <!-- <div>State: <strong>{{ status }}</strong></div> -->
+            </div>
+
             <b-button type="Create" variant="primary">Submit</b-button>
             <b-button type="reset" variant="danger">Reset</b-button>
           </b-form>
