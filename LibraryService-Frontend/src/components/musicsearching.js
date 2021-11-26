@@ -165,9 +165,9 @@ export default {
           AXIOS.get('/musics/title/', {params})
           .then(response => {
             this.libraryItems = response.data
-            console.log("length: " + response.data.length)
+            //console.log("length: " + response.data.length)
             if(response.data.length == 0){
-              document.getElementById("noItemFound").innerHTML = "No music albums found with this title!"
+              document.getElementById("noItemFound").innerHTML = "No music albums found with this title"
             }
           })
           .catch(e => {
@@ -186,7 +186,9 @@ export default {
           AXIOS.get('/musics/artist/', {params})
           .then(response => {
             this.libraryItems = response.data
-            if(response.data.length == 0) alert("No music albums found with this artist")
+            if(response.data.length == 0){
+              document.getElementById("noItemFound").innerHTML = "No music albums found by this artist"
+            }
           })
           .catch(e => {
             this.errorLibraryItem = e
@@ -205,7 +207,7 @@ export default {
           AXIOS.get('/musics/title/artist/', {params})
           .then(response => {
             this.libraryItems = []
-            if(response.data.length == 0) alert("No music albums found with this title and artist")
+            if(response.data.length == 0) document.getElementById("noItemFound").innerHTML = "No music albums found with this title and artist"
             else this.libraryItems[0] = response.data
           })
           .catch(e => {

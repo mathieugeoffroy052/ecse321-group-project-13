@@ -43,4 +43,10 @@
     color: #2c3e50;
     background: #97C3F9;
   }
+  #noItemFound {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    font-size: 35px;
+    color: #2c3e50;
+    background: #97C3F9;
+  }
 </style>
