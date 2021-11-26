@@ -44,6 +44,12 @@ export default {
     name: 'librarianview',
     data () {
         return {
+            form: {
+                firstName: '',
+                // name: '',
+                // food: null,
+                // checked: []
+            },
             libraryItems: [],
             newLibraryItem: '',
             existingLibraryItem: '',
@@ -64,7 +70,25 @@ export default {
             response: []
         }
     },
-
+    methods: {
+        onSubmit(event) {
+          event.preventDefault()
+          alert(JSON.stringify(this.form))
+        },
+        onReset(event) {
+          event.preventDefault()
+          // Reset our form values
+          this.form.firstName = ''
+        //   this.form.name = ''
+        //   this.form.food = null
+        //   this.form.checked = []
+        //   // Trick to reset/clear native browser form validation state
+        //   this.show = false
+        //   this.$nextTick(() => {
+        //     this.show = true
+        //   })
+        }
+    },
     getPatron: function(patronUserID) {
         AXIOS.get('/patron/'.concat(patronUserID)).then (response => {
             this.currentPatron = response.data
