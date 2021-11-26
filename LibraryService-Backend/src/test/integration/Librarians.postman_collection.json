@@ -6,12 +6,12 @@
 	},
 	"item": [
 		{
-			"name": "http://localhost:8080/librarians",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/librarians",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/librarians",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/librarians",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -24,12 +24,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/librarians",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/librarians",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/librarians",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/librarians",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -83,7 +83,7 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/createLibrarian/:firstName/:lastName/",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/createLibrarian/:firstName/:lastName/",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -97,7 +97,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/createLibrarian/:firstName/:lastName/?online=true&address=123 milton&password=horriblepassword&balance=0&email=email@mail.com&userID=1",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/createLibrarian/:firstName/:lastName/?online=true&address=123 milton&password=horriblepassword&balance=0&email=email@mail.com&userID=1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -149,7 +149,7 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/createLibrarian/:firstName/:lastName/",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/createLibrarian/:firstName/:lastName/",
 					"originalRequest": {
 						"method": "POST",
 						"header": [],
@@ -163,7 +163,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/createLibrarian/:firstName/:lastName/?online=true&address=123 milton&password=horriblepassword&balance=0&email=email@mail.com&userID=1",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/createLibrarian/:firstName/:lastName/?online=true&address=123 milton&password=horriblepassword&balance=0&email=email@mail.com&userID=1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -256,12 +256,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/librarians/:userID",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/librarians/:userID",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/librarians/:userID",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/librarians/:userID",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -281,12 +281,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/librarians/:userID",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/librarians/:userID",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/librarians/:userID",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/librarians/:userID",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -347,12 +347,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/librarians/deleteAccount",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/librarians/deleteAccount",
 			"request": {
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/librarians/deleteAccount/:userID?headlibrarianID=1",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/librarians/deleteAccount/:userID?headlibrarianID=1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -379,12 +379,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/librarians/deleteAccount",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/librarians/deleteAccount",
 					"originalRequest": {
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/librarians/deleteAccount/:userID?headlibrarianID=1",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/librarians/deleteAccount/:userID?headlibrarianID=1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -452,12 +452,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/librarianAccount/firstName/lastName",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/librarianAccount/firstName/lastName",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/librarianAccount/:firstName/:lastName/",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/librarianAccount/:firstName/:lastName/",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -483,12 +483,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/librarianAccount/firstName/lastName",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/librarianAccount/firstName/lastName",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/librarianAccount/:firstName/:lastName/",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/librarianAccount/:firstName/:lastName/",
 							"protocol": "http",
 							"host": [
 								"localhost"

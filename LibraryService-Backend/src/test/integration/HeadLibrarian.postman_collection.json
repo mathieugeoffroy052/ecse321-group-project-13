@@ -6,12 +6,12 @@
 	},
 	"item": [
 		{
-			"name": "http://localhost:8080/createHeadLibrarian",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/createHeadLibrarian",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/createHeadLibrarian?firstName=mathieu&lastName=geoffroy&address=11 goodtimes&online=false&balance=10&email=mathieu@mail.com&password=testerpass",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/createHeadLibrarian?firstName=mathieu&lastName=geoffroy&address=11 goodtimes&online=false&balance=10&email=mathieu@mail.com&password=testerpass",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -54,12 +54,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/createHeadLibrarian",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/createHeadLibrarian",
 					"originalRequest": {
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/createHeadLibrarian?firstName=mathieu&lastName=geoffroy&address=11 goodtimes&online=true&balance=10&email=mathieu@mail.com&password=testerpass",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/createHeadLibrarian?firstName=mathieu&lastName=geoffroy&address=11 goodtimes&online=true&balance=10&email=mathieu@mail.com&password=testerpass",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -143,12 +143,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/headLibrarians/delete/userID",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/headLibrarians/delete/userID",
 			"request": {
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/headLibrarians/delete/:userID",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/headLibrarians/delete/:userID",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -169,12 +169,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/headLibrarians/delete/userID",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/headLibrarians/delete/userID",
 					"originalRequest": {
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/headLibrarians/delete/:userID",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/headLibrarians/delete/:userID",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -236,12 +236,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/headLibrarian/userID",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/headLibrarian/userID",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/headLibrarian/:userID",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/headLibrarian/:userID",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -261,12 +261,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/headLibrarian/userID",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/headLibrarian/userID",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/headLibrarian/:userID",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/headLibrarian/:userID",
 							"protocol": "http",
 							"host": [
 								"localhost"
