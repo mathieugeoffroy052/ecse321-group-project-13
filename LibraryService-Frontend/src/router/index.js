@@ -6,6 +6,7 @@ import MusicSearch from '@/components/MusicSearch'
 import NewspaperSearch from '@/components/NewspaperSearch'
 import BookSearch from '@/components/BookSearch'
 import MovieSearch from '@/components/MovieSearch'
+import LibrarianView from '@/components/LibrarianView'
 
 Vue.use(Router)
 
