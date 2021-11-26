@@ -154,7 +154,7 @@ export default {
         var requestedTitle = document.getElementById("requestedTitle").value
         var requestedWriter = document.getElementById("requestedWriter").value
         if(requestedTitle == "" && requestedWriter == "") { // both title and writer field are empty
-          alert("No input")
+          document.getElementById("invalidInput").innerHTML = "Please enter a title or artist"
         } 
         else if(requestedTitle != "" && requestedWriter == "") { // title field is not empty, but writer field is
           console.log("title not empty, writer empty")
@@ -165,13 +165,15 @@ export default {
           AXIOS.get('/newspapers/title/', {params})
           .then(response => {
             this.libraryItems = response.data
+            if(response.data.length == 0){
+              document.getElementById("invalidInput").innerHTML = "No newspaper articles found with this title"
+            }
           })
           .catch(e => {
             this.errorLibraryItem = e
           })
           if(this.errorLibraryItem != null){ // GET request gave an error
-            this.libraryItems = []
-            alert("No items found with this title");
+            alert("ERROR");
           } 
         }
         else if(requestedTitle == ""){ // writer field is not empty, but title field is
@@ -180,16 +182,18 @@ export default {
           var params = {
             writer: requestedWriter
           }
-          AXIOS.get('/newspaper/writer/', {params})
+          AXIOS.get('/newspapers/writer/', {params})
           .then(response => {
             this.libraryItems = response.data
+            if(response.data.length == 0){
+              document.getElementById("invalidInput").innerHTML = "No articles found by this newspaper"
+            }
           })
           .catch(e => {
             this.errorLibraryItem = e
           })
           if(this.errorLibraryItem != null){ // GET request gave an error
-            this.libraryItems = []
-            alert(e);
+            alert("ERROR");
           } 
         } 
         else{ // both title and writer field have input in them
@@ -199,19 +203,23 @@ export default {
             title : requestedTitle,
             writer: requestedWriter
           }
-          AXIOS.get('/newspaper/title/writer/', {params})
+          AXIOS.get('/newspapers/title/writer/', {params})
           .then(response => {
             this.libraryItems = []
-            this.libraryItems[0] = response.data
+            if(response.data.length == 0) document.getElementById("invalidInput").innerHTML = "No articles found with this title and newspaper"
+            else this.libraryItems[0] = response.data
           })
           .catch(e => {
             this.errorLibraryItem = e
           })
           if(this.errorLibraryItem != null){ // GET request gave an error
-            this.libraryItems = []
-            alert("No items found with this title and writer");
+            alert("ERROR");
           } 
         }
+      },
+      resetMessages : function(){
+        document.getElementById("invalidInput").innerHTML = ""
+        document.getElementById("transaction").innerHTML = ""
       }
     }
   }

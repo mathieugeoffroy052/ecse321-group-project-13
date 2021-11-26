@@ -7,10 +7,12 @@
     </div>
     
     <div class="writer-search">
-        <label for="writer">Search by writer: </label>
+        <label for="writer">Search by newspaper: </label>
         <input type="text" id="requestedWriter" name="writer">
-        <button type="writer-submit" @click="runSearch()">Submit</button>
+        <button type="writer-submit" @click="resetMessages(); runSearch()">Submit</button>
     </div>
+
+    <p id="invalidInput"></p>
     
     <div>
       <div id="" style="overflow:scroll; height:300px;">
@@ -32,6 +34,13 @@
   #newspapersearch {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     color: #2c3e50;
+    background: #97C3F9;
+  }
+  #invalidInput {
+    font-family: 'Avenir', Helvetica, Arial, serif;
+    font-size: 24px;
+    font-style: italic;
+    color: #0E0E47;
     background: #97C3F9;
   }
   #transaction {

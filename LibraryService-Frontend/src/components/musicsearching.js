@@ -154,7 +154,6 @@ export default {
         var requestedTitle = document.getElementById("requestedTitle").value
         var requestedArtist = document.getElementById("requestedArtist").value
         if(requestedTitle == "" && requestedArtist == "") { // both title and artist field are empty
-          //alert("No input")
           document.getElementById("invalidInput").innerHTML = "Please enter a title or artist"
         } 
         else if(requestedTitle != "" && requestedArtist == "") { // title field is not empty, but artist field is

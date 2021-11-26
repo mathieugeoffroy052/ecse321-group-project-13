@@ -151,7 +151,6 @@ export default {
         var requestedTitle = document.getElementById("requestedTitle").value
         var requestedAuthor = document.getElementById("requestedAuthor").value
         if(requestedTitle == "" && requestedAuthor == "") { // both title and author field are empty
-          //alert("No input")
           document.getElementById("invalidInput").innerHTML = "Please enter a title or author"
         } 
         else if(requestedTitle != "" && requestedAuthor== "") { // title field is not empty, but author field is

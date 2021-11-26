@@ -151,7 +151,6 @@ export default {
         var requestedTitle = document.getElementById("requestedTitle").value
         var requestedDirector = document.getElementById("requestedDirector").value
         if(requestedTitle == "" && requestedDirector == "") { // both title and director field are empty
-          //alert("No input")
           document.getElementById("invalidInput").innerHTML = "Please enter a title or director"
         } 
         else if(requestedTitle != "" && requestedDirector == "") { // title field is not empty, but director field is
