@@ -1,12 +1,12 @@
 <template>
   <div id="libraryservices">
-    <h2>Library</h2>
+    <h2>Library Services</h2>
     <div>
       <b-tabs content-class="mt-3" fill>
         <b-tab title="Patron Account" active>
           <b-container id="patronAccountLayout">
             <b-row>
-              <b-col>
+              <b-col id="panne" class="shadow p-3 m-3 bg-white rounded">
                 <h5>User Information</h5>
                 <b-form-group>
                   <b-form-input
@@ -21,9 +21,9 @@
                 <p>Address: <b-button id="tempButtons" variant="danger">Validate</b-button> </p>
                 <p>Balance: <b-button id="tempButtons" variant="danger">Payed</b-button> </p>
               </b-col>
-              <b-col> 
+              <b-col class="shadow p-3 m-3 bg-white rounded"> 
                 <h5>Transaction</h5>
-                <b-form-select v-model="selected" :options="optionsTransactionType"></b-form-select>
+                <b-form-select class="mb-2" v-model="selected" :options="optionsTransactionType"></b-form-select>
                 <b-form-group>
                   <b-form-input
                     id="input-isbn"
@@ -32,12 +32,12 @@
                     required
                   ></b-form-input>
                 </b-form-group>
-                <p>Type: Name</p>
-                <p>Author: Name</p>
-                <p>Return by: </p>
+                <p class="mb-4">Type: Name</p>
+                <p class="mb-4">Author: Name</p>
+                <p class="mb-4">Return by: </p>
               </b-col>
             </b-row>
-            <b-row>
+            <b-row class="shadow p-3 my-3 mx-1 bg-white rounded">
               <h5>Previous Transactions</h5>
               <b-table hover :items="currentPatronTransactions"></b-table>
             </b-row>
@@ -155,5 +155,8 @@
   color: #2c3e50;
   background: #ffffff;
   text-align: left;
+}
+#panne {
+  background: #dbdbdb;
 }
 </style>
