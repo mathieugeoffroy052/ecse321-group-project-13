@@ -52,7 +52,7 @@ function PatronDTO(firstName, lastName, onlineAccount, address, validatedAccount
 
 
 export default {
-    name: 'musicsearch',
+    name: 'newspapersearch',
     data () {
       return {
         libraryItems: [],
@@ -77,7 +77,7 @@ export default {
     },
 
     created: function () {
-        AXIOS.get('/music/')
+        AXIOS.get('/newspapers/')
         .then(response => {
             this.libraryItems = response.data
         })
@@ -158,7 +158,7 @@ export default {
           var params = {
             title: requestedTitle
           }
-          AXIOS.get('/musics/title/', {params})
+          AXIOS.get('/newspapers/title/', {params})
           .then(response => {
             this.libraryItems = response.data
           })
@@ -174,15 +174,15 @@ export default {
           alert("No input")
         }
       },
-      searchFilteredByArtist : function(){
-        var requestedArtist = document.getElementById("requestedArtist").value
+      searchFilteredByWriter : function(){
+        var requestedWriter = document.getElementById("requestedWriter").value
         //console.log("inputted title : " + requestedTitle)
         if(requestedTitle != ""){
           this.errorLibraryItem = null
           var params = {
-            artist: requestedArtist
+            writer: requestedWriter
           }
-          AXIOS.get('/musics/artist/', {params})
+          AXIOS.get('/newspapers/writer/', {params})
           .then(response => {
             this.libraryItems = response.data
           })
@@ -191,7 +191,7 @@ export default {
           })
           if(this.errorLibraryItem != null){ // GET request gave an error
             his.libraryItems = []
-            alert("No items found with this artist");
+            alert("No items found with this writer");
           } 
         } 
         else { //input is undefined
