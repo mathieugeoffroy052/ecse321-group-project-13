@@ -15,7 +15,7 @@ import ca.mcgill.ecse321.libraryservice.model.HeadLibrarian;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class TestHeadLibrarianPersistence {
-    //adding all CRUD interface instances
+    // adding all CRUD interface instances
     @Autowired
     private BorrowableItemRepository borrowableItemRepository;
     @Autowired
@@ -39,7 +39,7 @@ public class TestHeadLibrarianPersistence {
 
     @AfterEach
     public void clearDatabase() {
-        //delete all instances from bottom to top of model
+        // delete all instances from bottom to top of model
         holidayRepository.deleteAll();
         openingHourRepository.deleteAll();
         timeSlotRepository.deleteAll();
@@ -56,7 +56,7 @@ public class TestHeadLibrarianPersistence {
     @Test
     public void testPersistAndLoadHeadLibrarian() {
 
-        //create inputs for head librarian constructor
+        // create inputs for head librarian constructor
         String firstName = "Laura";
         String lastName = "Porto";
         boolean online = true;
@@ -65,24 +65,24 @@ public class TestHeadLibrarianPersistence {
         int balance = 0;
         String address = "500 Sherbrooke, Montreal, Canada";
 
-        //create head librarian
+        // create head librarian
         HeadLibrarian headLibrarian = new HeadLibrarian(firstName, lastName, online, address, password, balance, email);
 
-        //get headLibrarianID to retrieve head librarian from DB
+        // get headLibrarianID to retrieve head librarian from DB
         int headLibrarianID = headLibrarian.getUserID();
 
-        //save head librarian in DB
+        // save head librarian in DB
         headLibrarianRepository.save(headLibrarian);
         librarianRepository.save(headLibrarian);
         userAccountRepository.save(headLibrarian);
 
-        //clear head librarian
+        // clear head librarian
         headLibrarian = null;
 
-        //get head librarian from DB
+        // get head librarian from DB
         headLibrarian = headLibrarianRepository.findHeadLibrarianByUserID(headLibrarianID);
 
-        //test functionnality
+        // test functionnality
         assertNotNull(headLibrarian, "No headlibrarian retrieved");
         assertEquals(firstName, headLibrarian.getFirstName(), "headLibrarian.firstName mismatch");
         assertEquals(lastName, headLibrarian.getLastName(), "headLibrarian.lastName mismatch");

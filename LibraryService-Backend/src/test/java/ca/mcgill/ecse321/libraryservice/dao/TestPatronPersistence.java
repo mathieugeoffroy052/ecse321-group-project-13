@@ -15,7 +15,7 @@ import ca.mcgill.ecse321.libraryservice.model.Patron;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class TestPatronPersistence {
-    //adding all CRUD interface instances
+    // adding all CRUD interface instances
     @Autowired
     private BorrowableItemRepository borrowableItemRepository;
     @Autowired
@@ -39,7 +39,7 @@ public class TestPatronPersistence {
 
     @AfterEach
     public void clearDatabase() {
-        //delete all instances from bottom to top of model
+        // delete all instances from bottom to top of model
         holidayRepository.deleteAll();
         openingHourRepository.deleteAll();
         timeSlotRepository.deleteAll();
@@ -55,7 +55,7 @@ public class TestPatronPersistence {
 
     @Test
     public void testPersistAndLoadPatron() {
-        //create inputs for patron constructor
+        // create inputs for patron constructor
         String firstName = "John";
         String lastName = "Doe";
         boolean online = true;
@@ -65,23 +65,23 @@ public class TestPatronPersistence {
         int balance = 0;
         String address = "4000 McGill, Montreal, Canada";
 
-        //create patron
+        // create patron
         Patron patron = new Patron(firstName, lastName, online, address, validated, password, balance, email);
 
-        //get patronID to retrieve patron from DB
+        // get patronID to retrieve patron from DB
         int patronID = patron.getUserID();
 
-        //save patron in DB
+        // save patron in DB
         patronRepository.save(patron);
-        userAccountRepository.save(patron);     
+        userAccountRepository.save(patron);
 
-        //clear patron
+        // clear patron
         patron = null;
 
-        //get patron from DB
+        // get patron from DB
         patron = patronRepository.findPatronByUserID(patronID);
 
-        //test functionnality
+        // test functionnality
         assertNotNull(patron, "No Patron retrieved");
         assertEquals(firstName, patron.getFirstName(), "patron.firstName mismatch");
         assertEquals(lastName, patron.getLastName(), "patron.lastName mismatch");

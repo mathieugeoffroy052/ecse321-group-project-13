@@ -103,7 +103,7 @@ public class TestLibrarianPersistence {
  * step 1 : asserting not null of UserAccount if true assert equals with librarian instance
  * step 2 : asserting not null of UserAccount if true assert equals with librarian instance
  * @Eloyann 
- 
+ */
 
 
 
@@ -145,7 +145,7 @@ public class TestLibrarianPersistence {
 
 
 
-        assertTrue(librarian instanceof Librarian, "the name privided does not correcpond to a librarian");
+        assertTrue(librarianpossible instanceof Librarian, "the name privided does not correcpond to a librarian");
      
         librarian= (Librarian) librarianpossible;
         //get librarian from DB
@@ -175,7 +175,7 @@ public class TestLibrarianPersistence {
 
 
     }
-    */
+    
 
 
 

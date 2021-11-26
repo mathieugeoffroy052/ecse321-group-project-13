@@ -26,16 +26,87 @@
 					"variable": [
 						{
 							"key": "firstName",
-							"value": "Annie"
+							"value": "joe"
 						},
 						{
 							"key": "lastName",
-							"value": "May"
+							"value": "bob"
 						}
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "http://localhost:8080/account/{firstName}/{lastName}/borrowed-items",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/account/:firstName/:lastName/borrowed-items",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"account",
+								":firstName",
+								":lastName",
+								"borrowed-items"
+							],
+							"variable": [
+								{
+									"key": "firstName",
+									"value": "joe"
+								},
+								{
+									"key": "lastName",
+									"value": "bob"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 24 Nov 2021 00:54:32 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"libraryItem\": {\n            \"name\": \"Harry Potter\",\n            \"isViewable\": true,\n            \"date\": \"2001-05-09\",\n            \"creator\": \"JK Rowling\",\n            \"isbn\": 13,\n            \"type\": \"Book\"\n        },\n        \"barCodeNumber\": 3,\n        \"itemState\": \"Borrowed\"\n    },\n    {\n        \"libraryItem\": {\n            \"name\": \"Harry Potter\",\n            \"isViewable\": true,\n            \"date\": \"2001-05-09\",\n            \"creator\": \"JK Rowling\",\n            \"isbn\": 13,\n            \"type\": \"Book\"\n        },\n        \"barCodeNumber\": 3,\n        \"itemState\": \"Borrowed\"\n    }\n]"
+				}
+			]
 		},
 		{
 			"name": "http://localhost:8080/account/{firstName}/{lastName}/reserved-items",
@@ -58,16 +129,87 @@
 					"variable": [
 						{
 							"key": "firstName",
-							"value": "Annie"
+							"value": "Gabby"
 						},
 						{
 							"key": "lastName",
-							"value": "May"
+							"value": "Ybbag"
 						}
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "http://localhost:8080/account/{firstName}/{lastName}/reserved-items",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/account/:firstName/:lastName/reserved-items",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"account",
+								":firstName",
+								":lastName",
+								"reserved-items"
+							],
+							"variable": [
+								{
+									"key": "firstName",
+									"value": "Gabby"
+								},
+								{
+									"key": "lastName",
+									"value": "Ybbag"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 23 Nov 2021 19:01:49 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"libraryItem\": {\n            \"name\": \"Room456\",\n            \"isViewable\": true,\n            \"date\": \"2001-05-09\",\n            \"creator\": \"librarian\",\n            \"isbn\": 1,\n            \"type\": \"Room\"\n        },\n        \"barCodeNumber\": 1,\n        \"itemState\": \"Available\"\n    },\n    {\n        \"libraryItem\": {\n            \"name\": \"Room456\",\n            \"isViewable\": true,\n            \"date\": \"2001-05-09\",\n            \"creator\": \"librarian\",\n            \"isbn\": 1,\n            \"type\": \"Room\"\n        },\n        \"barCodeNumber\": 1,\n        \"itemState\": \"Available\"\n    },\n    {\n        \"libraryItem\": {\n            \"name\": \"Room456\",\n            \"isViewable\": true,\n            \"date\": \"2001-05-09\",\n            \"creator\": \"librarian\",\n            \"isbn\": 1,\n            \"type\": \"Room\"\n        },\n        \"barCodeNumber\": 1,\n        \"itemState\": \"Available\"\n    },\n    {\n        \"libraryItem\": {\n            \"name\": \"Room456\",\n            \"isViewable\": true,\n            \"date\": \"2001-05-09\",\n            \"creator\": \"librarian\",\n            \"isbn\": 1,\n            \"type\": \"Room\"\n        },\n        \"barCodeNumber\": 1,\n        \"itemState\": \"Available\"\n    },\n    {\n        \"libraryItem\": {\n            \"name\": \"Room456\",\n            \"isViewable\": true,\n            \"date\": \"2001-05-09\",\n            \"creator\": \"librarian\",\n            \"isbn\": 1,\n            \"type\": \"Room\"\n        },\n        \"barCodeNumber\": 1,\n        \"itemState\": \"Available\"\n    },\n    {\n        \"libraryItem\": {\n            \"name\": \"Room456\",\n            \"isViewable\": true,\n            \"date\": \"2001-05-09\",\n            \"creator\": \"librarian\",\n            \"isbn\": 1,\n            \"type\": \"Room\"\n        },\n        \"barCodeNumber\": 1,\n        \"itemState\": \"Available\"\n    },\n    {\n        \"libraryItem\": {\n            \"name\": \"Room456\",\n            \"isViewable\": true,\n            \"date\": \"2001-05-09\",\n            \"creator\": \"librarian\",\n            \"isbn\": 1,\n            \"type\": \"Room\"\n        },\n        \"barCodeNumber\": 1,\n        \"itemState\": \"Available\"\n    },\n    {\n        \"libraryItem\": {\n            \"name\": \"Room456\",\n            \"isViewable\": true,\n            \"date\": \"2001-05-09\",\n            \"creator\": \"librarian\",\n            \"isbn\": 1,\n            \"type\": \"Room\"\n        },\n        \"barCodeNumber\": 1,\n        \"itemState\": \"Available\"\n    },\n    {\n        \"libraryItem\": {\n            \"name\": \"Room456\",\n            \"isViewable\": true,\n            \"date\": \"2001-05-09\",\n            \"creator\": \"librarian\",\n            \"isbn\": 1,\n            \"type\": \"Room\"\n        },\n        \"barCodeNumber\": 1,\n        \"itemState\": \"Available\"\n    },\n    {\n        \"libraryItem\": {\n            \"name\": \"Room456\",\n            \"isViewable\": true,\n            \"date\": \"2001-05-09\",\n            \"creator\": \"librarian\",\n            \"isbn\": 1,\n            \"type\": \"Room\"\n        },\n        \"barCodeNumber\": 1,\n        \"itemState\": \"Available\"\n    },\n    {\n        \"libraryItem\": {\n            \"name\": \"Room456\",\n            \"isViewable\": true,\n            \"date\": \"2001-05-09\",\n            \"creator\": \"librarian\",\n            \"isbn\": 1,\n            \"type\": \"Room\"\n        },\n        \"barCodeNumber\": 1,\n        \"itemState\": \"Available\"\n    },\n    {\n        \"libraryItem\": {\n            \"name\": \"Room456\",\n            \"isViewable\": true,\n            \"date\": \"2001-05-09\",\n            \"creator\": \"librarian\",\n            \"isbn\": 1,\n            \"type\": \"Room\"\n        },\n        \"barCodeNumber\": 1,\n        \"itemState\": \"Available\"\n    },\n    {\n        \"libraryItem\": {\n            \"name\": \"Room456\",\n            \"isViewable\": true,\n            \"date\": \"2001-05-09\",\n            \"creator\": \"librarian\",\n            \"isbn\": 1,\n            \"type\": \"Room\"\n        },\n        \"barCodeNumber\": 1,\n        \"itemState\": \"Available\"\n    },\n    {\n        \"libraryItem\": {\n            \"name\": \"Room456\",\n            \"isViewable\": true,\n            \"date\": \"2001-05-09\",\n            \"creator\": \"librarian\",\n            \"isbn\": 1,\n            \"type\": \"Room\"\n        },\n        \"barCodeNumber\": 1,\n        \"itemState\": \"Available\"\n    }\n]"
+				}
+			]
 		},
 		{
 			"name": "http://localhost:8080/account/{firstName}/{lastName}/waitlists",
@@ -90,16 +232,87 @@
 					"variable": [
 						{
 							"key": "firstName",
-							"value": "Annie"
+							"value": "joe"
 						},
 						{
 							"key": "lastName",
-							"value": "May"
+							"value": "bob"
 						}
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "http://localhost:8080/account/{firstName}/{lastName}/waitlists",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/account/:firstName/:lastName/waitlists",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"account",
+								":firstName",
+								":lastName",
+								"waitlists"
+							],
+							"variable": [
+								{
+									"key": "firstName",
+									"value": "joe"
+								},
+								{
+									"key": "lastName",
+									"value": "bob"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 24 Nov 2021 00:54:11 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"libraryItem\": {\n            \"name\": \"Harry Potter\",\n            \"isViewable\": true,\n            \"date\": \"2001-05-09\",\n            \"creator\": \"JK Rowling\",\n            \"isbn\": 13,\n            \"type\": \"Book\"\n        },\n        \"barCodeNumber\": 3,\n        \"itemState\": \"Borrowed\"\n    }\n]"
+				}
+			]
 		},
 		{
 			"name": "http://localhost:8080/items/isbn",
@@ -107,7 +320,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/items/isbn/?isbn=8",
+					"raw": "http://localhost:8080/items/isbn/?isbn=1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -121,7 +334,7 @@
 					"query": [
 						{
 							"key": "isbn",
-							"value": "8"
+							"value": "1"
 						}
 					]
 				}
@@ -133,7 +346,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/items/isbn/?isbn=8",
+							"raw": "http://localhost:8080/items/isbn/?isbn=1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -147,7 +360,7 @@
 							"query": [
 								{
 									"key": "isbn",
-									"value": "8"
+									"value": "1"
 								}
 							]
 						}
@@ -178,7 +391,7 @@
 						},
 						{
 							"key": "Date",
-							"value": "Fri, 12 Nov 2021 09:03:33 GMT"
+							"value": "Tue, 23 Nov 2021 19:02:48 GMT"
 						},
 						{
 							"key": "Keep-Alive",
@@ -190,7 +403,7 @@
 						}
 					],
 					"cookie": [],
-					"body": "[\n    {\n        \"libraryItem\": {\n            \"name\": \"Titanic\",\n            \"isViewable\": true,\n            \"date\": \"2001-05-08\",\n            \"creator\": \"James Cameron\",\n            \"isbn\": 8,\n            \"type\": \"Movie\"\n        },\n        \"barCodeNumber\": 4,\n        \"itemState\": \"Available\"\n    },\n    {\n        \"libraryItem\": {\n            \"name\": \"Titanic\",\n            \"isViewable\": true,\n            \"date\": \"2001-05-08\",\n            \"creator\": \"James Cameron\",\n            \"isbn\": 8,\n            \"type\": \"Movie\"\n        },\n        \"barCodeNumber\": 9,\n        \"itemState\": \"Available\"\n    }\n]"
+					"body": "[\n    {\n        \"libraryItem\": {\n            \"name\": \"Harry Potter\",\n            \"isViewable\": false,\n            \"date\": \"2001-05-09\",\n            \"creator\": \"JK Rowling\",\n            \"isbn\": 1,\n            \"type\": \"Book\"\n        },\n        \"barCodeNumber\": 1,\n        \"itemState\": \"Available\"\n    }\n]"
 				}
 			]
 		},
@@ -200,7 +413,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/item/barCodeNumber/?barCodeNumber=9",
+					"raw": "http://localhost:8080/item/barCodeNumber/?barCodeNumber=1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -214,7 +427,7 @@
 					"query": [
 						{
 							"key": "barCodeNumber",
-							"value": "9"
+							"value": "1"
 						}
 					]
 				}
@@ -226,7 +439,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/item/barCodeNumber/?barCodeNumber=9",
+							"raw": "http://localhost:8080/item/barCodeNumber/?barCodeNumber=1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -235,190 +448,6 @@
 							"path": [
 								"item",
 								"barCodeNumber",
-								""
-							],
-							"query": [
-								{
-									"key": "barCodeNumber",
-									"value": "9"
-								}
-							]
-						}
-					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "Vary",
-							"value": "Origin"
-						},
-						{
-							"key": "Vary",
-							"value": "Access-Control-Request-Method"
-						},
-						{
-							"key": "Vary",
-							"value": "Access-Control-Request-Headers"
-						},
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						},
-						{
-							"key": "Transfer-Encoding",
-							"value": "chunked"
-						},
-						{
-							"key": "Date",
-							"value": "Fri, 12 Nov 2021 09:03:18 GMT"
-						},
-						{
-							"key": "Keep-Alive",
-							"value": "timeout=60"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"libraryItem\": {\n        \"name\": \"Titanic\",\n        \"isViewable\": true,\n        \"date\": \"2001-05-08\",\n        \"creator\": \"James Cameron\",\n        \"isbn\": 8,\n        \"type\": \"Movie\"\n    },\n    \"barCodeNumber\": 9,\n    \"itemState\": \"Available\"\n}"
-				}
-			]
-		},
-		{
-			"name": "http://localhost:8080/createBorrowableItem/",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/createBorrowableItem/",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"createBorrowableItem",
-						""
-					]
-				}
-			},
-			"response": [
-				{
-					"name": "http://localhost:8080/createBorrowableItem/",
-					"originalRequest": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/createBorrowableItem/?creator=James Cameron&itemState=Available&title=Titanic",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"createBorrowableItem",
-								""
-							],
-							"query": [
-								{
-									"key": "creator",
-									"value": "James Cameron"
-								},
-								{
-									"key": "itemState",
-									"value": "Available"
-								},
-								{
-									"key": "title",
-									"value": "Titanic"
-								}
-							]
-						}
-					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "Vary",
-							"value": "Origin"
-						},
-						{
-							"key": "Vary",
-							"value": "Access-Control-Request-Method"
-						},
-						{
-							"key": "Vary",
-							"value": "Access-Control-Request-Headers"
-						},
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						},
-						{
-							"key": "Transfer-Encoding",
-							"value": "chunked"
-						},
-						{
-							"key": "Date",
-							"value": "Fri, 12 Nov 2021 08:57:53 GMT"
-						},
-						{
-							"key": "Keep-Alive",
-							"value": "timeout=60"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"libraryItem\": {\n        \"name\": \"Titanic\",\n        \"isViewable\": true,\n        \"date\": \"2001-05-08\",\n        \"creator\": \"James Cameron\",\n        \"isbn\": 8,\n        \"type\": \"Movie\"\n    },\n    \"barCodeNumber\": 4,\n    \"itemState\": \"Available\"\n}"
-				}
-			]
-		},
-		{
-			"name": "http://localhost:8080/deleteBorrowableItem/",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/deleteBorrowableItem/?barCodeNumber=1",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"deleteBorrowableItem",
-						""
-					],
-					"query": [
-						{
-							"key": "barCodeNumber",
-							"value": "1"
-						}
-					]
-				}
-			},
-			"response": [
-				{
-					"name": "http://localhost:8080/deleteBorrowableItem/",
-					"originalRequest": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/deleteBorrowableItem/?barCodeNumber=1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"deleteBorrowableItem",
 								""
 							],
 							"query": [
@@ -455,7 +484,277 @@
 						},
 						{
 							"key": "Date",
-							"value": "Fri, 12 Nov 2021 08:55:13 GMT"
+							"value": "Tue, 23 Nov 2021 19:03:42 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"libraryItem\": {\n        \"name\": \"Harry Potter\",\n        \"isViewable\": false,\n        \"date\": \"2001-05-09\",\n        \"creator\": \"JK Rowling\",\n        \"isbn\": 1,\n        \"type\": \"Book\"\n    },\n    \"barCodeNumber\": 1,\n    \"itemState\": \"Available\"\n}"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/createBorrowableItem/",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createBorrowableItem/?itemState=Available&title=Room456&creator=librarian",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createBorrowableItem",
+						""
+					],
+					"query": [
+						{
+							"key": "itemState",
+							"value": "Available"
+						},
+						{
+							"key": "title",
+							"value": "Room456"
+						},
+						{
+							"key": "creator",
+							"value": "librarian"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/createBorrowableItem/",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/createBorrowableItem/?itemState=Available&title=Room456&creator=librarian",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"createBorrowableItem",
+								""
+							],
+							"query": [
+								{
+									"key": "itemState",
+									"value": "Available"
+								},
+								{
+									"key": "title",
+									"value": "Room456"
+								},
+								{
+									"key": "creator",
+									"value": "librarian"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 23 Nov 2021 05:38:58 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"libraryItem\": {\n        \"name\": \"Room456\",\n        \"isViewable\": true,\n        \"date\": \"2001-05-09\",\n        \"creator\": \"librarian\",\n        \"isbn\": 9,\n        \"type\": \"Room\"\n    },\n    \"barCodeNumber\": 1,\n    \"itemState\": \"Available\"\n}"
+				},
+				{
+					"name": "http://localhost:8080/createBorrowableItem/",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/createBorrowableItem/?itemState=Available&title=Harry Potter&creator=JK Rowling",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"createBorrowableItem",
+								""
+							],
+							"query": [
+								{
+									"key": "itemState",
+									"value": "Available"
+								},
+								{
+									"key": "title",
+									"value": "Harry Potter"
+								},
+								{
+									"key": "creator",
+									"value": "JK Rowling"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 23 Nov 2021 19:02:44 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"libraryItem\": {\n        \"name\": \"Harry Potter\",\n        \"isViewable\": false,\n        \"date\": \"2001-05-09\",\n        \"creator\": \"JK Rowling\",\n        \"isbn\": 1,\n        \"type\": \"Book\"\n    },\n    \"barCodeNumber\": 1,\n    \"itemState\": \"Available\"\n}"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/deleteBorrowableItem/",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/deleteBorrowableItem/?barCodeNumber=3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"deleteBorrowableItem",
+						""
+					],
+					"query": [
+						{
+							"key": "barCodeNumber",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/deleteBorrowableItem/",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/deleteBorrowableItem/?barCodeNumber=3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"deleteBorrowableItem",
+								""
+							],
+							"query": [
+								{
+									"key": "barCodeNumber",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 24 Nov 2021 00:54:55 GMT"
 						},
 						{
 							"key": "Keep-Alive",

@@ -14,6 +14,5 @@ public interface OpeningHourRepository extends CrudRepository<OpeningHour, Integ
 	
 	List<OpeningHour> findByHeadLibrarian(HeadLibrarian headLibrarian);
 	
-	//TODO: Add unit test for this
 	List<OpeningHour> findByDayOfWeek(DayOfWeek dayOfWeek);
 }

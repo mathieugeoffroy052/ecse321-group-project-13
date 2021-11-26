@@ -1,0 +1,516 @@
+{
+	"info": {
+		"_postman_id": "dfbd2563-45c3-4a26-8493-57f27be7c77d",
+		"name": "OpeningHour",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/openinghour/viewall",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/openinghour/viewall",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"openinghour",
+						"viewall"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/openinghour/viewall",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/openinghour/viewall",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"openinghour",
+								"viewall"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 23 Nov 2021 05:18:22 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"headLibrarian\": {\n            \"firstName\": \"mathieu\",\n            \"lastName\": \"geoffroy\",\n            \"onlineAccount\": false,\n            \"password\": \"testerpass\",\n            \"balance\": 10,\n            \"address\": \"11 goodtimes\",\n            \"email\": \"mathieu@mail.com\",\n            \"userID\": 11\n        },\n        \"startTime\": \"08:00:00\",\n        \"endTime\": \"22:00:00\",\n        \"dayOfWeek\": \"Monday\",\n        \"openingHourID\": 1\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/openinghour/view/dayofweek",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/openinghour/view/day?dayofweek=Monday",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"openinghour",
+						"view",
+						"day"
+					],
+					"query": [
+						{
+							"key": "dayofweek",
+							"value": "Monday"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/openinghour/view/dayofweek",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/openinghour/view/day?dayofweek=Monday",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"openinghour",
+								"view",
+								"day"
+							],
+							"query": [
+								{
+									"key": "dayofweek",
+									"value": "Monday"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 23 Nov 2021 05:18:11 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"headLibrarian\": {\n        \"firstName\": \"mathieu\",\n        \"lastName\": \"geoffroy\",\n        \"onlineAccount\": false,\n        \"password\": \"testerpass\",\n        \"balance\": 10,\n        \"address\": \"11 goodtimes\",\n        \"email\": \"mathieu@mail.com\",\n        \"userID\": 11\n    },\n    \"startTime\": \"08:00:00\",\n    \"endTime\": \"22:00:00\",\n    \"dayOfWeek\": \"Monday\",\n    \"openingHourID\": 1\n}"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/openinghour/view/id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/openinghour/view/id?openinghourID=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"openinghour",
+						"view",
+						"id"
+					],
+					"query": [
+						{
+							"key": "openinghourID",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/openinghour/view/id",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/openinghour/view/id?openinghourID=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"openinghour",
+								"view",
+								"id"
+							],
+							"query": [
+								{
+									"key": "openinghourID",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 23 Nov 2021 05:17:51 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"headLibrarian\": {\n        \"firstName\": \"mathieu\",\n        \"lastName\": \"geoffroy\",\n        \"onlineAccount\": false,\n        \"password\": \"testerpass\",\n        \"balance\": 10,\n        \"address\": \"11 goodtimes\",\n        \"email\": \"mathieu@mail.com\",\n        \"userID\": 11\n    },\n    \"startTime\": \"08:00:00\",\n    \"endTime\": \"22:00:00\",\n    \"dayOfWeek\": \"Monday\",\n    \"openingHourID\": 1\n}"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/openinghour/new",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/openinghour/new?day=Monday&startTime=08:00&endTime=22:00",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"openinghour",
+						"new"
+					],
+					"query": [
+						{
+							"key": "day",
+							"value": "Monday"
+						},
+						{
+							"key": "startTime",
+							"value": "08:00"
+						},
+						{
+							"key": "endTime",
+							"value": "22:00"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/openinghour/new",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/openinghour/new?day=Monday&startTime=08:00&endTime=22:00",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"openinghour",
+								"new"
+							],
+							"query": [
+								{
+									"key": "day",
+									"value": "Monday"
+								},
+								{
+									"key": "startTime",
+									"value": "08:00"
+								},
+								{
+									"key": "endTime",
+									"value": "22:00"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 23 Nov 2021 05:15:09 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"headLibrarian\": {\n        \"firstName\": \"mathieu\",\n        \"lastName\": \"geoffroy\",\n        \"onlineAccount\": false,\n        \"password\": \"testerpass\",\n        \"balance\": 10,\n        \"address\": \"11 goodtimes\",\n        \"email\": \"mathieu@mail.com\",\n        \"userID\": 11\n    },\n    \"startTime\": \"08:00:00\",\n    \"endTime\": \"22:00:00\",\n    \"dayOfWeek\": \"Monday\",\n    \"openingHourID\": 1\n}"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/openinghour/delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"mathieu\",\n    \"lastName\": \"geoffroy\",\n    \"onlineAccount\": false,\n    \"password\": \"testerpass\",\n    \"balance\": 10,\n    \"address\": \"11 goodtimes\",\n    \"email\": \"mathieu@mail.com\",\n    \"userID\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/openinghour/delete?openinghourID=1&accountID=11",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"openinghour",
+						"delete"
+					],
+					"query": [
+						{
+							"key": "openinghourID",
+							"value": "1"
+						},
+						{
+							"key": "accountID",
+							"value": "11"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/openinghour/delete",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"mathieu\",\n    \"lastName\": \"geoffroy\",\n    \"onlineAccount\": false,\n    \"password\": \"testerpass\",\n    \"balance\": 10,\n    \"address\": \"11 goodtimes\",\n    \"email\": \"mathieu@mail.com\",\n    \"userID\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/openinghour/delete?openinghourID=1&accountID=11",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"openinghour",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "openinghourID",
+									"value": "1"
+								},
+								{
+									"key": "accountID",
+									"value": "11"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 23 Nov 2021 05:18:46 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "true"
+				}
+			]
+		}
+	]
+}

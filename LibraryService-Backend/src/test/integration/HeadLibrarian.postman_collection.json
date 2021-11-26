@@ -1,0 +1,330 @@
+{
+	"info": {
+		"_postman_id": "83550daf-76e1-40d2-be89-fb3df4b8b732",
+		"name": "HeadLibrarian",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/createHeadLibrarian",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/createHeadLibrarian?firstName=mathieu&lastName=geoffroy&address=11 goodtimes&online=false&balance=10&email=mathieu@mail.com&password=testerpass",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createHeadLibrarian"
+					],
+					"query": [
+						{
+							"key": "firstName",
+							"value": "mathieu"
+						},
+						{
+							"key": "lastName",
+							"value": "geoffroy"
+						},
+						{
+							"key": "address",
+							"value": "11 goodtimes"
+						},
+						{
+							"key": "online",
+							"value": "false"
+						},
+						{
+							"key": "balance",
+							"value": "10"
+						},
+						{
+							"key": "email",
+							"value": "mathieu@mail.com"
+						},
+						{
+							"key": "password",
+							"value": "testerpass"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/createHeadLibrarian",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/createHeadLibrarian?firstName=mathieu&lastName=geoffroy&address=11 goodtimes&online=true&balance=10&email=mathieu@mail.com&password=testerpass",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"createHeadLibrarian"
+							],
+							"query": [
+								{
+									"key": "firstName",
+									"value": "mathieu"
+								},
+								{
+									"key": "lastName",
+									"value": "geoffroy"
+								},
+								{
+									"key": "address",
+									"value": "11 goodtimes"
+								},
+								{
+									"key": "online",
+									"value": "true"
+								},
+								{
+									"key": "balance",
+									"value": "10"
+								},
+								{
+									"key": "email",
+									"value": "mathieu@mail.com"
+								},
+								{
+									"key": "password",
+									"value": "testerpass"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 24 Nov 2021 15:06:11 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"firstName\": \"mathieu\",\n    \"lastName\": \"geoffroy\",\n    \"onlineAccount\": true,\n    \"password\": \"testerpass\",\n    \"balance\": 10,\n    \"address\": \"11 goodtimes\",\n    \"email\": \"mathieu@mail.com\",\n    \"userID\": 1\n}"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/headLibrarians/delete/userID",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/headLibrarians/delete/:userID",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"headLibrarians",
+						"delete",
+						":userID"
+					],
+					"variable": [
+						{
+							"key": "userID",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/headLibrarians/delete/userID",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/headLibrarians/delete/:userID",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"headLibrarians",
+								"delete",
+								":userID"
+							],
+							"variable": [
+								{
+									"key": "userID",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 24 Nov 2021 00:55:47 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "true"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/headLibrarian/userID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/headLibrarian/:userID",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"headLibrarian",
+						":userID"
+					],
+					"variable": [
+						{
+							"key": "userID",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/headLibrarian/userID",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/headLibrarian/:userID",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"headLibrarian",
+								":userID"
+							],
+							"variable": [
+								{
+									"key": "userID",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 24 Nov 2021 15:06:30 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"firstName\": \"mathieu\",\n    \"lastName\": \"geoffroy\",\n    \"onlineAccount\": true,\n    \"password\": \"testerpass\",\n    \"balance\": 10,\n    \"address\": \"11 goodtimes\",\n    \"email\": \"mathieu@mail.com\",\n    \"userID\": 1\n}"
+				}
+			]
+		}
+	]
+}
