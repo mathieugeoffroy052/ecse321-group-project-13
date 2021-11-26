@@ -40,6 +40,11 @@ export default new Router({
       path: '/movie',
       name: 'MovieSearch',
       component: MovieSearch
+    },
+    {
+      path: '/libraryservices',
+      name: 'LibrarianView',
+      component: LibrarianView
     }
   ]
 })
