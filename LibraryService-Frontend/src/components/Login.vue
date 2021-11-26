@@ -5,10 +5,7 @@
       </div>
     
     <table>
-      <tr>
-          <!-- <td>UserId</td>
-          <td>Login</td> -->
-      </tr>
+      
       <tr>
           <td>
               <input type="text" placeholder="Enter UserID"> 
@@ -18,7 +15,7 @@
           </td>
           <td>
               <button>Login</button>
-              <div style="position:absolute; right:200px; top:-70px;">
+              <div style="position:absolute; right:0px; top:0px;">
                   <button>Create an Account</button>
                 </div>
           </td>
