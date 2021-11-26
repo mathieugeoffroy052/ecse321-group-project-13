@@ -155,7 +155,7 @@ export default {
         var requestedArtist = document.getElementById("requestedArtist").value
         if(requestedTitle == "" && requestedArtist == "") { // both title and artist field are empty
           //alert("No input")
-          document.getElementById("errorMessage").innerHTML = "Please enter a title or artist"
+          document.getElementById("invalidInput").innerHTML = "Please enter a title or artist"
         } 
         else if(requestedTitle != "" && requestedArtist == "") { // title field is not empty, but artist field is
           console.log("title not empty, artist empty")
@@ -167,7 +167,7 @@ export default {
           .then(response => {
             this.libraryItems = response.data
             if(response.data.length == 0){
-              document.getElementById("noItemFound").innerHTML = "No music albums found with this title"
+              document.getElementById("invalidInput").innerHTML = "No music albums found with this title"
             }
           })
           .catch(e => {
@@ -187,7 +187,7 @@ export default {
           .then(response => {
             this.libraryItems = response.data
             if(response.data.length == 0){
-              document.getElementById("noItemFound").innerHTML = "No music albums found by this artist"
+              document.getElementById("invalidInput").innerHTML = "No music albums found by this artist"
             }
           })
           .catch(e => {
@@ -207,7 +207,7 @@ export default {
           AXIOS.get('/musics/title/artist/', {params})
           .then(response => {
             this.libraryItems = []
-            if(response.data.length == 0) document.getElementById("noItemFound").innerHTML = "No music albums found with this title and artist"
+            if(response.data.length == 0) document.getElementById("invalidInput").innerHTML = "No music albums found with this title and artist"
             else this.libraryItems[0] = response.data
           })
           .catch(e => {
@@ -219,8 +219,7 @@ export default {
         }
       },
       resetMessages : function(){
-        document.getElementById("errorMessage").innerHTML = ""
-        document.getElementById("noItemFound").innerHTML = ""
+        document.getElementById("invalidInput").innerHTML = ""
         document.getElementById("transaction").innerHTML = ""
       }
     }

@@ -151,7 +151,8 @@ export default {
         var requestedTitle = document.getElementById("requestedTitle").value
         var requestedAuthor = document.getElementById("requestedAuthor").value
         if(requestedTitle == "" && requestedAuthor == "") { // both title and author field are empty
-          alert("No input")
+          //alert("No input")
+          document.getElementById("invalidInput").innerHTML = "Please enter a title or author"
         } 
         else if(requestedTitle != "" && requestedAuthor== "") { // title field is not empty, but author field is
           console.log("title not empty, author empty")
@@ -162,13 +163,15 @@ export default {
           AXIOS.get('/books/title/', {params})
           .then(response => {
             this.libraryItems = response.data
+            if(response.data.length == 0){
+              document.getElementById("invalidInput").innerHTML = "No books found with this title"
+            }
           })
           .catch(e => {
             this.errorLibraryItem = e
           })
           if(this.errorLibraryItem != null){ // GET request gave an error
-            this.libraryItems = []
-            alert("No items found with this title");
+            alert("ERROR");
           } 
         } 
         else if(requestedTitle == ""){ // author field is not empty, but title field is
@@ -180,13 +183,15 @@ export default {
           AXIOS.get('/books/author/', {params})
           .then(response => {
             this.libraryItems = response.data
+            if(response.data.length == 0){
+              document.getElementById("invalidInput").innerHTML = "No books found by this author"
+            }
           })
           .catch(e => {
             this.errorLibraryItem = e
           })
           if(this.errorLibraryItem != null){ // GET request gave an error
-            this.libraryItems = []
-            alert("No items found with this author");
+            alert("ERROR");
           } 
         } 
         else{ // both title and author field have input in them
@@ -199,16 +204,20 @@ export default {
           AXIOS.get('/books/title/author/', {params})
           .then(response => {            
             this.libraryItems = []
-            this.libraryItems[0] = response.data
+            if(response.data.length == 0) document.getElementById("noItemFoundError").innerHTML = "No books found with this title and author"
+            else this.libraryItems[0] = response.data
           })
           .catch(e => {
             this.errorLibraryItem = e
           })
           if(this.errorLibraryItem != null){ // GET request gave an error
-            this.libraryItems = []
-            alert("No items found with this title and author");
+            alert("ERROR");
           } 
         }
+      },
+      resetMessages : function(){
+        document.getElementById("invalidInput").innerHTML = ""
+        document.getElementById("transaction").innerHTML = ""
       }
     }
   }

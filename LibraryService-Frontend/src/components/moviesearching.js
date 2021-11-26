@@ -152,7 +152,7 @@ export default {
         var requestedDirector = document.getElementById("requestedDirector").value
         if(requestedTitle == "" && requestedDirector == "") { // both title and director field are empty
           //alert("No input")
-          document.getElementById("errorMessage").innerHTML = "Please enter a title or artist"
+          document.getElementById("invalidInput").innerHTML = "Please enter a title or director"
         } 
         else if(requestedTitle != "" && requestedDirector == "") { // title field is not empty, but director field is
           console.log("title not empty, director empty")
@@ -164,7 +164,7 @@ export default {
           .then(response => {
             this.libraryItems = response.data
             if(response.data.length == 0){
-              document.getElementById("noItemFound").innerHTML = "No movies found with this title"
+              document.getElementById("invalidInput").innerHTML = "No movies found with this title"
             }
           })
           .catch(e => {
@@ -185,7 +185,7 @@ export default {
           .then(response => {
             this.libraryItems = response.data
             if(response.data.length == 0){
-              document.getElementById("noItemFound").innerHTML = "No movies found by this director"
+              document.getElementById("invalidInput").innerHTML = "No movies found by this director"
             }
           })
           .catch(e => {
@@ -205,7 +205,7 @@ export default {
           AXIOS.get('/movies/title/director/', {params})
           .then(response => {            
             this.libraryItems = []
-            if(response.data.length == 0) document.getElementById("noItemFound").innerHTML = "No movies found with this title and director"
+            if(response.data.length == 0) document.getElementById("invalidInput").innerHTML = "No movies found with this title and director"
             else this.libraryItems[0] = response.data
           })
           .catch(e => {
@@ -217,8 +217,7 @@ export default {
         }
       },
       resetMessages : function(){
-        document.getElementById("errorMessage").innerHTML = ""
-        document.getElementById("noItemFound").innerHTML = ""
+        document.getElementById("invalidInput").innerHTML = ""
         document.getElementById("transaction").innerHTML = ""
       }
     }

@@ -9,8 +9,10 @@
     <div class="author-search">
         <label for="author">Search by author: </label>
         <input type="text" id="requestedAuthor" name="author">
-        <button type="author-submit" @click="runSearch()">Submit</button>
+        <button type="author-submit" @click="resetMessages(); runSearch()">Submit</button>
     </div>
+
+    <p id="invalidInput"></p>
     
     <div>
       <div id="" style="overflow:scroll; height:300px;">
@@ -18,7 +20,7 @@
             <input type="radio" name="item" :value="libItem.isbn">{{ " " + libItem.name }}<br> {{ libItem.creator + ", " + libItem.date + ". " + "isbn " + libItem.isbn }} <br>
         </v-row>
       </div>
-      <button type="reserve" @click="createReserveTransaction(7)">Reserve Item</button>
+      <button type="reserve" @click="resetMessages(); createReserveTransaction(7)">Reserve Item</button>
     </div>
 
     <p id="transaction">
@@ -33,6 +35,13 @@
   #booksearch {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     color: #2c3e50;
+    background: #97C3F9;
+  }
+  #invalidInput {
+    font-family: 'Avenir', Helvetica, Arial, serif;
+    font-size: 24px;
+    font-style: italic;
+    color: #0E0E47;
     background: #97C3F9;
   }
   #transaction {

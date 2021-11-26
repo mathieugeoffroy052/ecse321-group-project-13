@@ -12,14 +12,13 @@
         <button type="director-submit" @click="resetMessages(); runSearch()">Submit</button>
     </div>
 
-    <p id="errorMessage"></p>
+    <p id="invalidInput"></p>
     
     <div>
       <div id="" style="overflow:scroll; height:300px;">
         <v-row justify="center" v-for="libItem in libraryItems" :key="libItem.name">
             <input type="radio" name="item" :value="libItem.isbn">{{ " " + libItem.name }}<br> {{ libItem.creator + ", " + libItem.date + ". " + "isbn " + libItem.isbn }} <br>
         </v-row>
-        <p id="noItemFound"></p>
       </div>
       <button type="reserve" @click="resetMessages(); createReserveTransaction(7)">Reserve Item</button>
     </div>
@@ -38,7 +37,7 @@
     color: #2c3e50;
     background: #97C3F9;
   }
-  #errorMessage {
+  #invalidInput {
     font-family: 'Avenir', Helvetica, Arial, serif;
     font-size: 24px;
     font-style: italic;
@@ -51,11 +50,5 @@
     color: #2c3e50;
     background: #97C3F9;
   }
-  #noItemFound {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    font-size: 30px;
-    font-style: italic;
-    color: #000000;
-    background: #97C3F9;
-  }
+  
 </style>
