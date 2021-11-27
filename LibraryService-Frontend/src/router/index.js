@@ -46,6 +46,11 @@ export default new Router({
       path: '/libraryservices',
       name: 'LibrarianView',
       component: LibrarianView
+    },
+    {
+      path: '/headlibraryservices',
+      name: 'HeadLibrarianView',
+      component: HeadLibrarianView
     }
   ]
 })

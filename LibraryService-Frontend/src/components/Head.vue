@@ -1,5 +1,5 @@
 <template>
-  <div id="libraryservices">
+  <div id="headlibraryservices">
     <h2>Library Services</h2>
     <div>
       <b-tabs content-class="mt-3" fill>
@@ -179,10 +179,10 @@
   </div>
 </template>
 
-<script src="./librarianviewing.js"></script>
+<script src="./headlibrarian.js"></script>
 
 <style>
-#libraryservices {
+#headlibraryservices {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   color: #2c3e50;
   background: #ffffff;
