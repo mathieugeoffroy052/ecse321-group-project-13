@@ -52,13 +52,13 @@
                   ></b-form-input>
                 </b-form-group>
                 <div class="my-3">
-                  <b>{{borrowableItem.type}}</b>
+                  <b>{{libraryItem.type}}</b>
                   <b class="d-inline">Name:</b>
-                  <p class="d-inline">{{borrowableItem.name}}</p>
+                  <p class="d-inline">{{libraryItem.name}}</p>
                 </div>
                 <div class="my-3">
-                  <b>{{creator}}:</b>
-                  <p class="d-inline">{{borrowableItem.creator}}</p>
+                  <b>Creator:</b>
+                  <p class="d-inline">{{libraryItem.creator}}</p>
                 </div>
                 <div class="my-3">
                   <b>Return by:</b>

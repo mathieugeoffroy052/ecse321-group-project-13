@@ -45,6 +45,7 @@ export default {
             },
             errorBorrowableItem: '',
             borrowableItem: '',
+            libraryItem: '',
             creator: '',
             transaction: '',
             transactions: [],
@@ -164,13 +165,26 @@ export default {
             this.getTransactionsForPatron()
             this.transaction = response.data
             this.borrowableItem = response.data.borrowableItem
+            this.libraryItem = this.borrowableItem.libraryItem
           }).catch(e => {
             this.borrowableItem = ''
             this.transaction = ''
+            this.libraryItem = ''
+            alert(e.response.data.message)
+          })
+        } else if(transactionType == "Return") {
+          AXIOS.post("/return", {}, {params: {userID:userIDInput, barCodeNumber: barcodeInput}}).then (response => {
+            this.getTransactionsForPatron()
+            this.transaction = response.data
+            this.borrowableItem = response.data.borrowableItem
+            this.libraryItem = this.borrowableItem.libraryItem
+          }).catch(e => {
+            this.borrowableItem = ''
+            this.transaction = ''
+            this.libraryItem = ''
             alert(e.response.data.message)
           })
         }
-
       },
       getBorrowableItem: function() {
         var userID = document.getElementById("input-barcode").value
