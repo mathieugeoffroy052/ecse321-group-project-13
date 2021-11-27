@@ -170,7 +170,7 @@
             </b-row>
           </b-container>
         </b-tab>
-        <b-tab title="Workshifts" @change="getShifts()"><p>
+        <b-tab title="Workshifts" @change="getShifts"><p>
           <h3>Work Schedule</h3>
             <b-container>
             <b-row class="shadow p-3 m-3 bg-white rounded">

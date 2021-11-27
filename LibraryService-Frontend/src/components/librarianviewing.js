@@ -67,15 +67,16 @@ export default {
         createPatron: function() {
             var firstName = document.getElementById("input-firstName").value
             var lastName = document.getElementById("input-lastName").value
-            var address = document.getElementById("input-address").value
-            var balance = document.getElementById("input-balance").value
-            var password = document.getElementById("input-password").value
-            var onlineAccount = document.getElementById("input-onlineAccount").value
-            var email = document.getElementById("input-email").value
-            AXIOS.post('/createPatron/'.concat(firstName).concat("/").concat(lastName), {params: {creatorID:parseInt("1"), onlineAccount, address, validatedAccount:true, password, balance, email}}).then (response => {
+            var address1 = document.getElementById("input-address").value
+            var balance1 = document.getElementById("input-balance").value
+            var password1 = document.getElementById("input-password").value
+            var onlineAccount1 = document.getElementById("input-onlineAccount").value
+            var email1 = document.getElementById("input-email").value
+            AXIOS.post('/createPatron/'.concat(firstName).concat("/").concat(lastName), {},{params: {creatorID:1, onlineAccount:onlineAccount1, address:address1, validatedAccount:true, password:password1, balance:balance1, email:email1}}).then (response => {
                 this.newPatron = response.data
             })
             .catch(e => {
+                this.newPatron = ''
                 alert(e.response.data.message)                
             })
         },
@@ -131,7 +132,7 @@ export default {
             this.currentPatron = ''
             alert(e.response.data.message)
             
-        })
+                })
       }
     }
 }
