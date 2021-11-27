@@ -83,7 +83,9 @@ export default {
         getShifts: function() {
             var userID = document.getElementById("input-userID").value
             AXIOS.get('/timeslot/view/'.concat(creatorID)).then (response => {
-                this.currentShift = response.data
+                response.data.forEach(element => {
+                    currentShift.push({Date: element.startDate, Start_Time: element.startTime, End_time:element.endTime })
+                });
             })
             .catch(e => {
                 var errorMsg = e.response.data.message
@@ -95,6 +97,18 @@ export default {
             this.createPatron()
             event.preventDefault()
             alert(JSON.stringify(this.form))
+            this.form.firstName = ''
+            this.form.lastName = ''
+            this.form.address = ''
+            this.form.email = ''
+            this.form.password = ''
+            this.form.balance = ''
+            this.form.onlineAccount = false
+            // Trick to reset/clear native browser form validation state
+            this.show = false
+            this.$nextTick(() => {
+                this.show = true
+            })
         },
         onReset(event) {
           event.preventDefault()

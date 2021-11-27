@@ -170,15 +170,10 @@
             </b-row>
           </b-container>
         </b-tab>
-        <b-tab title="Workshifts" @click="getShifts"><p>
-          <h3>Work Schedule</h3>
-            <b-container>
-            <b-row class="shadow p-3 m-3 bg-white rounded">
-              <div class="w-100">
-                  <b-table hover :items="currentShift"></b-table>
-              </div>
-            </b-row>
-          </b-container>
+        <b-tab title="Library Information" @click="getShifts">
+        </b-tab>
+        <b-tab title="Staff" @click="getShifts">
+          
         </b-tab>
       </b-tabs>
     </div>

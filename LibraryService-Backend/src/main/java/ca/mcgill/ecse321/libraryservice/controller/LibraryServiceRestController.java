@@ -450,9 +450,9 @@ public class LibraryServiceRestController {
      * @throws Exception
      */
     @PostMapping(value = { "/createPatron/{firstName}/{lastName}", "/createPatron/{firstName}/{lastName}/" })
-	public PatronDTO createPatron(@RequestParam(name="creatorID", required = false) Integer creatorID, @PathVariable(name="firstName", required = false) String firstName, @PathVariable(name="lastName", required = false) String lastName, @RequestParam(name="onlineAccount", required = false) Boolean onlineAccount, 
-            @RequestParam(name="address", required = false) String address, @RequestParam(name="validatedAccount", required = false) boolean validatedAccount, @RequestParam(name="password", required = false) String password,
-            @RequestParam(name="balance", required = false) Integer balance, @RequestParam(name="email", required = false) String email) throws Exception{
+	public PatronDTO createPatron(@RequestParam(name="creatorID") Integer creatorID, @PathVariable(name="firstName") String firstName, @PathVariable(name="lastName") String lastName, @RequestParam(name="onlineAccount") Boolean onlineAccount, 
+            @RequestParam(name="address") String address, @RequestParam(name="validatedAccount") boolean validatedAccount, @RequestParam(name="password") String password,
+            @RequestParam(name="balance") Integer balance, @RequestParam(name="email") String email) throws Exception{
 		Patron patron = service.createPatron( creatorID, firstName,  lastName,  onlineAccount,  address,  validatedAccount,  password,  balance,  email);
 	return convertToDto(patron);
 	}
