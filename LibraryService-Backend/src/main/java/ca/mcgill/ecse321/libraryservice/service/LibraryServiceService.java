@@ -690,9 +690,11 @@ public class LibraryServiceService {
 
         Iterable<Transaction> transactions = transactionRepository.findAll();
         for (Transaction t : transactions) {
-            if (t.getDeadline().toLocalDate().compareTo(date.toLocalDate()) == 0) {
-                throw new IllegalArgumentException(
-                        "Room already booked on that date, please try another or the watilist.");
+            if ((t.getTransactionType().toString().equals("RoomReservation"))) {
+                if (t.getDeadline().toLocalDate().compareTo(date.toLocalDate()) == 0) {
+                    throw new IllegalArgumentException(
+                            "Room already booked on that date, please try another or the watilist.");
+                }
             }
         }
 
@@ -707,7 +709,7 @@ public class LibraryServiceService {
                                                                                                              // reservation
         transactionRepository.save(roomReservation);
 
-        item.setState(ItemState.Reserved);
+        item.setState(ItemState.Available); //room is always available
         borrowableItemRepository.save(item);
 
         return roomReservation;
@@ -828,7 +830,7 @@ public class LibraryServiceService {
 
         item.setState(ItemState.Available);
         borrowableItemRepository.save(item);
-        
+
         return itemReservation;
     }
 

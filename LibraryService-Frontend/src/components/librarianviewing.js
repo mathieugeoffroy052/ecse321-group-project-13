@@ -212,7 +212,7 @@ export default {
             alert(e.response.data.message)
           })
         } else if(transactionType == "Reserve-Room") {
-          AXIOS.post("/reserve-room", {}, {params: {userID:userIDInput, barCodeNumber: barcodeInput, date:dateRoomReserve, startTime:startTimeRoomReserve, endTime:endTimeRoomReserve}}).then (response => {
+          AXIOS.post("/reserve-room", {}, {params: {userID:userIDInput, barCodeNumber: barcodeInput, date:this.dateRoomReserve, startTime:this.startTimeRoomReserve.substr(0,5), endTime:this.endTimeRoomReserve.substr(0, 5)}}).then (response => {
             this.getTransactionsForPatron()
             this.transaction = response.data
             this.borrowableItem = response.data.borrowableItem
