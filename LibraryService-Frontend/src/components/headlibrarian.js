@@ -52,6 +52,10 @@ export default {
             newPatron: '',
             newLibrarian: '',
             currentPatron: '',
+            allShifts:[],
+            dateWorkshift:'',
+            startTimeWorkshift:'',
+            endTimeWorkshift:'',
             errorPatron: '',
             response: [],
             selectedTransactionType: null,
@@ -170,7 +174,20 @@ export default {
           alert(e.response.data.message)
             
         })
-    },
+      },
+      getAllShifts: function() {
+        AXIOS.get('/timeslot/viewall').then (response => {
+            this.allShifts = []
+            response.data.forEach(element => {
+                this.allShifts.push({Date: element.startDate, Start_Time: element.startTime, End_time:element.endTime })
+            });
+        })
+        .catch(e => {
+          this.currentShift = []
+          alert(e.response.data.message)
+            
+        })
+      },
       deleteStaff: function() {
         
         AXIOS.delete('/librarians/deleteAccount/'.concat(userID), {}, {params:{creatorID:1}}).then (response => {

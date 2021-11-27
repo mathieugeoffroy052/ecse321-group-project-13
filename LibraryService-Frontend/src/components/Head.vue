@@ -184,18 +184,20 @@
         <b-tab title="Library Information" @click="getShifts">
 
         </b-tab>
-        <b-tab title="Staff" @click="getStaff"><p>
+        <b-tab title="Staff" @click="getAllStaff"><p>
           <h3>Staff</h3>
             <b-container>
                 <b-row>
                    <b-col class="shadow p-3 m-3 bg-white rounded">
-                        <div class="w-100">
+                        <b-row>
+                          <div class="w-100">
                             <b-table hover :items="currentStaff"></b-table>
-                        </div>
+                          </div>
+                        </b-row>
                         <b-form @submit="onSubmit" @reset="onReset" v-if="true">
                             <b-row class="justify-content-center">
                                 <b-form-group
-                                    id="input-group-1"
+                                    id="input-userID"
                                     label="To delete a specific user, enter their ID below:"
                                     label-for="input-userID">
                                     <b-form-input
@@ -218,7 +220,37 @@
                     </b-col>
                     <b-col class="shadow p-3 m-3 bg-white rounded">
                         <h4> Assign workshift </h4>
-                        
+                        <b-form-datepicker
+                          id="workshift-datepicker"
+                          v-model="dateWorkshift"
+                          class="mb-2 mt-0"
+                        ></b-form-datepicker>
+                        <b-form-timepicker
+                          id="workshift-startTimePicker"
+                          v-model="startTimeWorkshift"
+                          class="my-2"
+                        ></b-form-timepicker>
+                        <b-form-timepicker
+                          id="workshift-endTimeWorkshift"
+                          v-model="endTimeWorkshift"
+                          class="my-2"
+                        ></b-form-timepicker>
+                        <b-form-group
+                                  id="input-user"
+                                  label="Enter the userID fot the selected librarian:"
+                                  label-for="input-user">
+                              <b-form-input
+                                  id="input-user"
+                                  v-model="form.user"
+                                  placeholder="Enter a userID"
+                                  required
+                              ></b-form-input>
+                              </b-form-group>
+                        <b-row class="shadow p-3 m-3 bg-white rounded">
+                            <div class="w-100">
+                            <b-table hover :items="allShifts"></b-table>
+                            </div>
+                        </b-row>
                     </b-col>
                 </b-row>
             </b-container>
