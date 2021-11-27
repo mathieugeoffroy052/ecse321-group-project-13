@@ -60,7 +60,14 @@ export default {
               { value: 'Return', text: 'Return'}
             ],
             currentPatronTransactions: [],
-            currentShift: []
+            currentShift: [],
+            selectedUser:null,
+            optionsUsers: [
+              { value: null, text: 'Select a User type' },
+              { value: 'Patron', text: 'Patron'},
+              { value: 'Librarian', text: 'Librarian'}
+            ],
+            currentStaff:[]
         }
     },
     methods: {
@@ -124,6 +131,18 @@ export default {
             
         })
       },
+      getStaff: function() {
+        AXIOS.get('/librarians/').then (response => {
+            response.data.forEach(element => {
+                this.currentStaff.push({First_Name: element.firstName, Last_Name: element.lastName, ID:element.userID })
+            });
+        })
+        .catch(e => {
+          this.currentStaff = []
+          alert(e.response.data.message)
+            
+        })
+    },
       getTransactionsForPatron: function() {
         var userID = document.getElementById("input-userID").value
         AXIOS.get('/transaction/viewall/id/'.concat(userID)).then (response => {

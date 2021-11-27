@@ -78,6 +78,7 @@
             <b-row class="shadow p-3 m-3 bg-white rounded">
               <div class="w-100">
             <b-form @submit="onSubmit" @reset="onReset" v-if="true">
+              <b-form-select class="mb-2" v-model="selectedUser" :options="optionsUsers"></b-form-select>
               <b-form-group
                 id="input-group-1"
                 label="First Name:"
