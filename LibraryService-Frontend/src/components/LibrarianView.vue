@@ -171,15 +171,15 @@
           </b-container>
         </b-tab>
         <b-tab title="Workshifts"><p>
+          <h3>Work Schedule</h3>
             <b-container>
             <b-row class="shadow p-3 m-3 bg-white rounded">
               <div class="w-100">
-                <h3>Work Schedule</h3>
                   <b-table hover :items="currentShift"></b-table>
               </div>
             </b-row>
           </b-container>
-        </p></b-tab>
+        </b-tab>
       </b-tabs>
     </div>
   </div>

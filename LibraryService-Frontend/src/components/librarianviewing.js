@@ -46,12 +46,12 @@ export default {
         return {
             form: {
                 firstName: '',
-                // name: '',
-                // food: null,
-                // // checked: []
-                // if (document.getElementById('online').checked) {
-                //     checked = document.getElementById('online').value;
-                //   }
+                lastName: '',
+                address: '',
+                balance: '',
+                onlineAccount:false,
+                password:'',
+                email:''
             },
             errorBorrowableItem: '',
             borrowableItem: '',
