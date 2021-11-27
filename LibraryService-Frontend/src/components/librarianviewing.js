@@ -30,16 +30,6 @@ function TransactionDTO(type, deadline, borrowableItem, userAccount, transaction
   this.transactionID = transactionID;
 }
 
-function LibraryItemDTO(name, itemType, date, creator, isViewable, isbn)
-{
-  this.name = name;
-  this.date = date;
-  this.itemType = itemType;
-  this.creator = creator;
-  this.isViewable = isViewable;
-  this.isbn = isbn;
-}
-
 export default {
     name: 'librarianview',
     data () {
@@ -49,9 +39,9 @@ export default {
                 lastName: '',
                 address: '',
                 balance: '',
-                onlineAccount:false,
-                password:'',
-                email:''
+                onlineAccount: false,
+                password: null,
+                email: null
             },
             errorBorrowableItem: '',
             borrowableItem: '',
@@ -69,31 +59,47 @@ export default {
               { value: 'Borrow', text: 'Borrow'},
               { value: 'Return', text: 'Return'}
             ],
-            currentPatronTransactions: [
-              { Name: 'Titanic', Creator: 'Dickerson', Item_Type: 'Movie', Transaction_Type: 'Return' }
-            ],
-            currentShift: [
-                { Date: 'today', Start_Time: 'bob', End_Time: 'end'}
-              ]
+            currentPatronTransactions: [],
+            currentShift: []
         }
     },
     methods: {
+        createPatron: function() {
+            var firstName = document.getElementById("input-firstName").value
+            var lastName = document.getElementById("input-lastName").value
+            var address = document.getElementById("input-address").value
+            var balanceS = document.getElementById("input-balance").value
+            let balance = parseFloat(balance);
+            var password = document.getElementById("input-password").value
+            var onlineAccount = document.getElementById("input-onlineAccount").value
+            var email = document.getElementById("input-email").value
+            AXIOS.post('/createPatron'.concat(firstName).concat("/").concat(lastName), {params: {creatorID, onlineAccount, address, validatedAccount, password, balance, email}}).then (response => {
+                this.newPatron = response.data
+            })
+            .catch(e => {
+                alert(e.response.data.message)                
+            })
+        },
         onSubmit(event) {
-          event.preventDefault()
-          alert(JSON.stringify(this.form))
+            createPatron()
+            event.preventDefault()
+            alert(JSON.stringify(this.form))
         },
         onReset(event) {
           event.preventDefault()
           // Reset our form values
           this.form.firstName = ''
-        //   this.form.name = ''
-        //   this.form.food = null
-        //   this.form.checked = []
-        //   // Trick to reset/clear native browser form validation state
-        //   this.show = false
-        //   this.$nextTick(() => {
-        //     this.show = true
-        //   })
+          this.form.lastName = ''
+          this.form.address = ''
+          this.form.email = ''
+          this.form.password = ''
+          this.form.balance = ''
+          this.form.onlineAccount = false
+          // Trick to reset/clear native browser form validation state
+          this.show = false
+          this.$nextTick(() => {
+            this.show = true
+          })
         },
       getPatron: function() {
         var userID = document.getElementById("input-userID").value

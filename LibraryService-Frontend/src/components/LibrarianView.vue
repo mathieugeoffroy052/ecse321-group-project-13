@@ -72,8 +72,8 @@
             </b-row>
           </b-container>
         </b-tab>
-        <b-tab title="Add User">
-          <h3>Create User</h3>
+        <b-tab title="Add New Patron">
+          <h3>Create Patron</h3>
           <b-container>
             <b-row class="shadow p-3 m-3 bg-white rounded">
               <div class="w-100">
@@ -81,11 +81,11 @@
               <b-form-group
                 id="input-group-1"
                 label="First Name:"
-                label-for="input-1"
+                label-for="input-firstName"
               >
                 <b-form-input
-                  id="input-1"
-                  v-model="form.name"
+                  id="input-firstName"
+                  v-model="form.firstName"
                   placeholder="Enter first name"
                   required
                 ></b-form-input>
@@ -94,11 +94,11 @@
               <b-form-group
                 id="input-group-2"
                 label="Last Name:"
-                label-for="input-2"
+                label-for="input-lastName"
               >
                 <b-form-input
-                  id="input-2"
-                  v-model="form.name"
+                  id="input-lastName"
+                  v-model="form.lastName"
                   placeholder="Enter last name"
                   required
                 ></b-form-input>
@@ -107,10 +107,10 @@
               <b-form-group
                 id="input-group-3"
                 label="Address:"
-                label-for="input-3"
+                label-for="input-address"
               >
                 <b-form-input
-                  id="input-3"
+                  id="input-address"
                   v-model="form.address"
                   placeholder="Enter address"
                   required
@@ -120,10 +120,10 @@
               <b-form-group
                 id="input-group-4"
                 label="Balance:"
-                label-for="input-4"
+                label-for="input-balance"
               >
                 <b-form-input
-                  id="input-4"
+                  id="input-balance"
                   v-model="form.balance"
                   placeholder="Enter current account balance"
                   required
@@ -131,24 +131,24 @@
               </b-form-group>
 
               <div class="form-check p-3">
-                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                <label class="form-check-label" for="defaultCheck1">
+                <input class="form-check-input" type="checkbox" value=false id="input-onlineAccount">
+                <label class="form-check-label" for="input-onlineAccount">
                   Online Account
                 </label>
               </div>
 
-              <b-form-group id="input-group-5" label="Password:" label-for="input-5">
+              <b-form-group id="input-group-5" label="Password:" label-for="input-password">
                 <b-form-input
-                  id="input-5"
+                  id="input-password"
                   v-model="form.password"
                   placeholder="Enter password"
                   required
                 ></b-form-input>
               </b-form-group>
 
-              <b-form-group id="input-group-6" label="Email:" label-for="input-6" >
+              <b-form-group id="input-group-6" label="Email:" label-for="input-email" >
                 <b-form-input
-                  id="input-6"
+                  id="input-email"
                   v-model="form.email"
                   placeholder="Enter email"
                   required
