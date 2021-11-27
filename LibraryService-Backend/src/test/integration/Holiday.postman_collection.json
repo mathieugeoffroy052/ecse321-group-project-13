@@ -6,12 +6,12 @@
 	},
 	"item": [
 		{
-			"name": "http://localhost:8080/holidays",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/holidays",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/holiday/viewall",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/holiday/viewall",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -25,12 +25,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/holidays",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/holidays",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/holiday/viewall",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/holiday/viewall",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -85,12 +85,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/holiday/id",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/holiday/id",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/holiday/view/:holidayID",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/holiday/view/:holidayID",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -111,12 +111,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/holiday/id",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/holiday/id",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/holiday/view/:holidayID",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/holiday/view/:holidayID",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -178,7 +178,7 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/holiday/new",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/holiday/new",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -192,7 +192,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/holiday/new?date=2020-12-25&startTime=10:00&endTime=23:00&currentUserID=11",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/holiday/new?date=2020-12-25&startTime=10:00&endTime=23:00&currentUserID=11",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -224,7 +224,7 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/holiday/new",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/holiday/new",
 					"originalRequest": {
 						"method": "POST",
 						"header": [],
@@ -238,7 +238,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/holiday/new?date=2020-12-25&startTime=10:00&endTime=23:00&currentUserID=11",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/holiday/new?date=2020-12-25&startTime=10:00&endTime=23:00&currentUserID=11",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -311,7 +311,7 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/holiday/delete",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/holiday/delete",
 			"request": {
 				"method": "DELETE",
 				"header": [],
@@ -325,7 +325,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/holiday/delete?holidayID=1&accountID=11",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/holiday/delete?holidayID=1&accountID=11",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -349,7 +349,7 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/holiday/delete",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/holiday/delete",
 					"originalRequest": {
 						"method": "DELETE",
 						"header": [],
@@ -363,7 +363,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/holiday/delete?holidayID=1&accountID=11",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/holiday/delete?holidayID=1&accountID=11",
 							"protocol": "http",
 							"host": [
 								"localhost"
