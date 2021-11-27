@@ -101,15 +101,18 @@
                 </div>
                 <div v-if="isReservingRoom()">
                   <b-form-datepicker
+                    v-model="dateRoomReserve"
                     id="room-reserve-datepicker"
                     class="mb-2 mt-0"
                   ></b-form-datepicker>
                   <b-form-timepicker
+                    v-model="startTimeRoomReserve"
                     id="startTime-timepicker"
                     locale="en"
                     class="my-2"
                   ></b-form-timepicker>
                   <b-form-timepicker
+                    v-model="endTimeRoomReserve"
                     id="endTime-timepicker"
                     locale="en"
                     class="my-2"

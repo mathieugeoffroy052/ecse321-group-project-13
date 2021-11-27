@@ -63,7 +63,10 @@ export default {
               { value: 'Reserve-Room', text: 'Reserve a Room'}
             ],
             currentPatronTransactions: [],
-            currentShift: []
+            currentShift: [],
+            dateRoomReserve: '',
+            startTimeRoomReserve: '',
+            endTimeRoomReserve: ''
         }
     },
     methods: {
@@ -208,11 +211,8 @@ export default {
             this.libraryItem = ''
             alert(e.response.data.message)
           })
-        } else if(transactionType == "Room-Reservation") {
-          var dateInput = document.getElementById("room-reserve-datepicker").value
-          var startTimeInput = document.getElementById("startTime-timepicker").value
-          var endTimeInput = doucment.getElementById("endTime-timepicker").value
-          AXIOS.post("/reserve-room", {}, {params: {userID:userIDInput, barCodeNumber: barcodeInput, date: dateInput, startTime: startTimeInput, endTime: endTimeInput}}).then (response => {
+        } else if(transactionType == "Reserve-Room") {
+          AXIOS.post("/reserve-room", {}, {params: {userID:userIDInput, barCodeNumber: barcodeInput, date:dateRoomReserve, startTime:startTimeRoomReserve, endTime:endTimeRoomReserve}}).then (response => {
             this.getTransactionsForPatron()
             this.transaction = response.data
             this.borrowableItem = response.data.borrowableItem
@@ -226,6 +226,7 @@ export default {
         }
       },
       isReservingRoom: function() {
+        if (document.getElementById("input-userID") == null) return false
         return document.getElementById("input-transactiontype").value == "Reserve-Room"
       },
       validateCurrentPatron: function() {
