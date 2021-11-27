@@ -217,6 +217,9 @@ export default {
       resetMessages : function(){
         document.getElementById("invalidInput").innerHTML = ""
         document.getElementById("transaction").innerHTML = ""
+      },
+      redirectToItemSelect : function(){
+        window.location.href='../#/item-select';
       }
     }
   }

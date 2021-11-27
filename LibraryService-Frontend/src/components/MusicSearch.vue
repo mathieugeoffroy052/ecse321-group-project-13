@@ -15,7 +15,7 @@
     <div class="artist-search">
         <label>Search by artist: </label>
         <input type="text" id="requestedArtist" name="artist">
-        <button type="submit" @click="resetMessages(); runSearch(); ">Submit</button>
+        <b-button variant="dark" @click="resetMessages(); runSearch()">Submit</b-button>
     </div>
 
     <p id="invalidInput"></p>
@@ -26,7 +26,6 @@
             <input type="radio" name="item" :value="libItem.isbn">{{ " " + libItem.name }}<br> {{ libItem.creator + ", " + libItem.date + ". " + "isbn " + libItem.isbn }} <br>
         </v-row>
       </div>
-      
     </div>
 
     <div id="reserve">

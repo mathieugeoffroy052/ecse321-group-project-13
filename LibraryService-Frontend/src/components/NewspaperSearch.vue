@@ -1,6 +1,10 @@
 <template>
   <div id="newspapersearch">
-    <h2>Newspaper Articles</h2>
+    <div>
+      <b-button size="sm" pill variant="dark" style="width: 8%; float: left;" @click="redirectToItemSelect()">Back to item type selection</b-button>
+      <h2>Newspaper Articles</h2>
+    </div>
+
     <div class="title-search">
         <label for="title">Search by title: </label>
         <input type="text" id="requestedTitle" name="title">
@@ -9,7 +13,7 @@
     <div class="writer-search">
         <label for="writer">Search by newspaper: </label>
         <input type="text" id="requestedWriter" name="writer">
-        <button type="writer-submit" @click="resetMessages(); runSearch()">Submit</button>
+        <b-button variant="dark" @click="resetMessages(); runSearch()">Submit</b-button>
     </div>
 
     <p id="invalidInput"></p>
