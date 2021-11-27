@@ -123,6 +123,21 @@ export default {
             
         })
       },
+      getTransactionsForPatron: function() {
+        var userID = document.getElementById("input-userID").value
+        AXIOS.get('/transaction/viewall/id/'.concat(userID)).then (response => {
+          response.data.forEach(element => {
+            this.currentPatronTransactions.push({ Name: element.borrowableItem.libraryItem.name, Creator: element.borrowableItem.libraryItem.creator, Item: element.borrowableItem.libraryItem.type, Type: element.transactionType, Deadline: element.deadline }) 
+          })
+        }).catch(e => {
+          this.currentPatronTransactions = []
+          alert(e.response.data.message)
+        })
+      },
+      loadPatronInfo: function() {
+        this.getPatron()
+        this.getTransactionsForPatron()
+      },
       getBorrowableItem: function() {
         var userID = document.getElementById("input-barcode").value
         AXIOS.get('/item/barCodeNumber/').then (response => {
@@ -130,9 +145,8 @@ export default {
         })
         .catch(e => {
             this.currentPatron = ''
-            alert(e.response.data.message)
-            
-                })
+            alert(e.response.data.message) 
+        })
       }
     }
 }

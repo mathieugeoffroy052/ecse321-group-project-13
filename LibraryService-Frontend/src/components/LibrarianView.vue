@@ -8,7 +8,7 @@
             <b-row>
               <b-col id="panne" class="shadow p-3 m-3 bg-white rounded">
                 <h5>User Information
-                  <b-button style="height:24px;width:24px" class="float-right p-0 d-inline" id="tempButtons" variant="success" @click="getPatron()">+</b-button> 
+                  <b-button style="height:24px;width:24px" class="float-right p-0 d-inline" id="tempButtons" variant="success" @click="loadPatronInfo()">+</b-button> 
                 </h5>
                 <b-form-group>
                   <b-form-input

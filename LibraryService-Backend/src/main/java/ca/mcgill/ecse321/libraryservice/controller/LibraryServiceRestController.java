@@ -552,6 +552,11 @@ public class LibraryServiceRestController {
         }
         return rooms;
     }
+
+    @GetMapping(value = { "/transaction/viewall/id/{userID}", "/transaction/viewall/id/{userID}/"})
+    public List<TransactionDTO> getAllTransactionsPerUser(@PathVariable(name = "userID") int userID) {
+        return service.getAllTransactions().stream().map(p -> convertToDto(p)).collect(Collectors.toList());
+    }
   
     /** 
      * Create an item reservation (transaction) between a user account and borrowable item, and convert to DTO
