@@ -8,14 +8,13 @@
             <b-row>
               <b-col id="panne" class="shadow p-3 m-3 bg-white rounded">
                 <h5>User Information
-                  <b-button style="height:24px;width:24px" class="float-right p-0 d-inline" id="tempButtons" variant="success">+</b-button> 
+                  <b-button style="height:24px;width:24px" class="float-right p-0 d-inline" id="tempButtons" variant="success" @click="getPatron(input-user)">+</b-button> 
                 </h5>
                 <b-form-group>
                   <b-form-input
                     id="input-userID"
                     v-model="form.userID"
                     placeholder="Enter a UserID"
-                    required
                   ></b-form-input>
                 </b-form-group>
                 <div class="my-3">
@@ -42,7 +41,7 @@
                 <h5>Transaction
                   <b-button style="height:24px;width:24px" class="float-right p-0 d-inline" id="tempButtons" variant="success">+</b-button> 
                 </h5>
-                <b-form-select class="mb-2" v-model="selected" :options="optionsTransactionType"></b-form-select>
+                <b-form-select class="mb-2" v-model="selectedTransactionType" :options="optionsTransactionType"></b-form-select>
                 <b-form-group>
                   <b-form-input
                     id="input-isbn"
