@@ -171,25 +171,55 @@
             </b-row>
           </b-container>
         </b-tab>
-            <b-tab title="Workshifts" @click="getShifts">
-          <h3>Work Schedule</h3>
-          <b-container>
-            <b-row class="shadow p-3 m-3 bg-white rounded">
-              <div class="w-100">
-                <b-table hover :items="currentShift"></b-table>
-              </div>
-            </b-row>
-          </b-container>
-            </b-tab>
+        <b-tab title="Workshifts" @click="getShifts">
+        <h3>Work Schedule</h3>
+        <b-container>
+        <b-row class="shadow p-3 m-3 bg-white rounded">
+            <div class="w-100">
+            <b-table hover :items="currentShift"></b-table>
+            </div>
+        </b-row>
+        </b-container>
+        </b-tab>
         <b-tab title="Library Information" @click="getShifts">
+
         </b-tab>
         <b-tab title="Staff" @click="getStaff"><p>
           <h3>Staff</h3>
             <b-container>
-                <b-row class="shadow p-3 m-3 bg-white rounded">
-                <div class="w-100">
-                    <b-table hover :items="currentStaff"></b-table>
-                </div>
+                <b-row>
+                   <b-col class="shadow p-3 m-3 bg-white rounded">
+                        <div class="w-100">
+                            <b-table hover :items="currentStaff"></b-table>
+                        </div>
+                        <b-form @submit="onSubmit" @reset="onReset" v-if="true">
+                            <b-row class="justify-content-center">
+                                <b-form-group
+                                    id="input-group-1"
+                                    label="To delete a specific user, enter their ID below:"
+                                    label-for="input-userID">
+                                    <b-form-input
+                                    id="input-userID"
+                                    v-model="form.userID"
+                                    placeholder="Enter user ID"
+                                    required
+                                    ></b-form-input>
+                                </b-form-group>
+                            </b-row>
+                            <b-row class="justify-content-center">
+                                <b-col class="p-3 ">
+                                <b-button type="Delete" class="float-right" variant="primary" style="width:76px;height:38">Delete</b-button>
+                                </b-col>
+                                <b-col class="p-3">
+                                <b-button type="Cancel" class="float-left" variant="danger" style="width:76px;height:38">Cancel</b-button>
+                                </b-col>
+                            </b-row>
+                        </b-form>
+                    </b-col>
+                    <b-col class="shadow p-3 m-3 bg-white rounded">
+                        <h4> Assign workshift </h4>
+                        
+                    </b-col>
                 </b-row>
             </b-container>
         </b-tab>

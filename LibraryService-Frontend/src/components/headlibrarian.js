@@ -172,7 +172,8 @@ export default {
         })
     },
       deleteStaff: function() {
-        AXIOS.delete('/librarians/').then (response => {
+        
+        AXIOS.delete('/librarians/deleteAccount/'.concat(userID), {}, {params:{creatorID:1}}).then (response => {
             response.data.forEach(element => {
                 this.currentStaff = []
                 this.currentStaff.push({First_Name: element.firstName, Last_Name: element.lastName, ID:element.userID })
