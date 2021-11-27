@@ -112,16 +112,16 @@ export default {
             this.show = true
           })
         },
-        getPatron: function() {
-            var userID = document.getElementById("input-userID").value
-            AXIOS.get('/patron/'.concat(userID)).then (response => {
-                this.currentPatron = response.data
-            })
-            .catch(e => {
-                var errorMsg = e.response.data.message
-                console.log(errorMsg)
-                this.errorPatron = errorMsg
-            })
-        }
+      getPatron: function() {
+        var userID = document.getElementById("input-userID").value
+        AXIOS.get('/patron/'.concat(userID)).then (response => {
+            this.currentPatron = response.data
+        })
+        .catch(e => {
+            this.currentPatron = ''
+            alert(e.response.data.message)
+            
+        })
+      }
     }
 }
