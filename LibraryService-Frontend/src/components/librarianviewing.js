@@ -101,9 +101,9 @@ export default {
             this.currentPatron = response.data
         })
         .catch(e => {
-            var errorMsg = e.response.data.message
-            console.log(errorMsg)
-            this.errorPatron = errorMsg
+            this.currentPatron = ''
+            alert(e.response.data.message)
+            
         })
       }
     }
