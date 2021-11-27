@@ -142,8 +142,9 @@ export default {
       getTransactionsForPatron: function() {
         var userID = document.getElementById("input-userID").value
         AXIOS.get('/transaction/viewall/id/'.concat(userID)).then (response => {
+          this.currentPatronTransactions = []
           response.data.forEach(element => {
-            this.currentPatronTransactions.push({ Name: element.borrowableItem.libraryItem.name, Creator: element.borrowableItem.libraryItem.creator, Item: element.borrowableItem.libraryItem.type, Type: element.transactionType, Deadline: element.deadline }) 
+            this.currentPatronTransactions.push({ ID: element.transactionID, Name: element.borrowableItem.libraryItem.name, Creator: element.borrowableItem.libraryItem.creator, Barcode: element.borrowableItem.barCodeNumber, Item: element.borrowableItem.libraryItem.type, Type: element.transactionType, Deadline: element.deadline }) 
           })
         }).catch(e => {
           this.currentPatronTransactions = []
@@ -155,7 +156,20 @@ export default {
         this.getTransactionsForPatron()
       },
       newTransaction: function() {
-        var userID = document.getElementById("input-userID").value
+        var userIDInput = document.getElementById("input-userID").value
+        var transactionType = document.getElementById("input-transactiontype").value
+        var barcodeInput = document.getElementById("input-barcode").value
+        if(transactionType == "Borrow") {
+          AXIOS.post("/borrow", {}, {params: {userID:userIDInput, barCodeNumber: barcodeInput}}).then (response => {
+            this.getTransactionsForPatron()
+            this.transaction = response.data
+            this.borrowableItem = response.data.borrowableItem
+          }).catch(e => {
+            this.borrowableItem = ''
+            this.transaction = ''
+            alert(e.response.data.message)
+          })
+        }
 
       },
       getBorrowableItem: function() {

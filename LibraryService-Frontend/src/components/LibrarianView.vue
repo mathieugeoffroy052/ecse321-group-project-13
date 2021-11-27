@@ -40,7 +40,7 @@
               </b-col>
               <b-col class="shadow p-3 m-3 bg-white rounded"> 
                 <h5>Transaction
-                  <b-button style="height:24px;width:24px" class="float-right p-0 d-inline" id="tempButtons" variant="success">+</b-button> 
+                  <b-button style="height:24px;width:24px" class="float-right p-0 d-inline" id="tempButtons" variant="success" @click="newTransaction()">+</b-button> 
                 </h5>
                 <b-form-select id="input-transactiontype" class="mb-2" v-model="selectedTransactionType" :options="optionsTransactionType"></b-form-select>
                 <b-form-group>
