@@ -44,21 +44,28 @@
               </b-form-group>
 
               <div>
-                <b-form-group label="Online Account" v-slot="{ ariaDescribedby }">
-                  <b-form-radio v-model="selected" :aria-describedby="ariaDescribedby" name="some-radios" value="Yes">Yes</b-form-radio>
-                  <b-form-radio v-model="selected" :aria-describedby="ariaDescribedby" name="some-radios" value="No">No</b-form-radio>
+                <b-form-group label="Online Account" v-slot="{ ariaDescribedby }" >
+                  <b-form-radio v-model="selected" :aria-describedby="ariaDescribedby" name="some-radios" id="online" value=true>Yes</b-form-radio>
                 </b-form-group>
               </div>
 
-                <b-form-checkbox
-                  id="checkbox-1"
-                  v-model="status"
-                  name="checkbox-1"
-                  value="accepted"
-                  unchecked-value="not_accepted"
-                >
-                  Validated Account
-                </b-form-checkbox>
+              <b-form-group id="input-group-5" label="Password:" label-for="input-5" v-show="selected">
+                <b-form-input
+                  id="input-5"
+                  v-model="form.password"
+                  placeholder="Enter password"
+                  required
+                ></b-form-input>
+              </b-form-group>
+
+              <b-form-group id="input-group-6" label="Email:" label-for="input-6">
+                <b-form-input
+                  id="input-6"
+                  v-model="form.email"
+                  placeholder="Enter email"
+                  required
+                ></b-form-input>
+              </b-form-group>
 
               <b-button type="Create" variant="primary">Submit</b-button>
               <b-button type="reset" variant="danger">Reset</b-button>

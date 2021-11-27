@@ -49,6 +49,9 @@ export default {
                 // name: '',
                 // food: null,
                 // checked: []
+                if (document.getElementById('online').checked) {
+                    checked = document.getElementById('online').value;
+                  }
             },
             libraryItems: [],
             newLibraryItem: '',
