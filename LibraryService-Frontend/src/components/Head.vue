@@ -173,7 +173,6 @@
         <b-tab title="Library Information" @click="getShifts">
         </b-tab>
         <b-tab title="Staff" @click="getShifts">
-          
         </b-tab>
       </b-tabs>
     </div>
