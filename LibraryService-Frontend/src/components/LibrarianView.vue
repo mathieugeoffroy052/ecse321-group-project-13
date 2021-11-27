@@ -42,7 +42,7 @@
                 <h5>Transaction
                   <b-button style="height:24px;width:24px" class="float-right p-0 d-inline" id="tempButtons" variant="success">+</b-button> 
                 </h5>
-                <b-form-select class="mb-2" v-model="selectedTransactionType" :options="optionsTransactionType"></b-form-select>
+                <b-form-select id="input-transactiontype" class="mb-2" v-model="selectedTransactionType" :options="optionsTransactionType"></b-form-select>
                 <b-form-group>
                   <b-form-input
                     id="input-barcode"

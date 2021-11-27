@@ -57,7 +57,8 @@ export default {
             optionsTransactionType: [
               { value: null, text: 'Select a transaction type' },
               { value: 'Borrow', text: 'Borrow'},
-              { value: 'Return', text: 'Return'}
+              { value: 'Return', text: 'Return'},
+              { value: 'Reserve-Room', text: 'Reserve a Room'}
             ],
             currentPatronTransactions: [],
             currentShift: []
@@ -83,6 +84,7 @@ export default {
         getShifts: function() {
             var creatorID = 1
             AXIOS.get('/timeslot/view/librarianID/'.concat(creatorID)).then (response => {
+                this.currentShift = []
                 response.data.forEach(element => {
                     this.currentShift.push({Date: element.startDate, Start_Time: element.startTime, End_time:element.endTime })
                 });
@@ -151,6 +153,10 @@ export default {
       loadPatronInfo: function() {
         this.getPatron()
         this.getTransactionsForPatron()
+      },
+      newTransaction: function() {
+        var userID = document.getElementById("input-userID").value
+
       },
       getBorrowableItem: function() {
         var userID = document.getElementById("input-barcode").value
