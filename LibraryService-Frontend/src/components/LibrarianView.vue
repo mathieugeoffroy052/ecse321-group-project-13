@@ -7,7 +7,9 @@
           <b-container id="patronAccountLayout">
             <b-row>
               <b-col id="panne" class="shadow p-3 m-3 bg-white rounded">
-                <h5>User Information</h5>
+                <h5>User Information
+                  <b-button style="height:24px;width:24px" class="float-right p-0 d-inline" id="tempButtons" variant="success">+</b-button> 
+                </h5>
                 <b-form-group>
                   <b-form-input
                     id="input-userID"
@@ -16,13 +18,30 @@
                     required
                   ></b-form-input>
                 </b-form-group>
-                <p class="my-3">Name:</p>
-                <p class="my-3">Email:</p>
-                <p class="my-3">Address: <b-button style="height:24px;width:83px" class="float-right py-0" id="tempButtons" variant="danger">Validate</b-button> </p>
-                <p class="my-3">Balance: <b-button style="height:24px;width:83px" class="float-right py-0" id="tempButtons" variant="danger">Payed</b-button> </p>
+                <div class="my-3">
+                  <b>Name:</b>
+                  <p class="d-inline">Matty</p>
+                </div>
+                <div class="my-3">
+                  <b>Email:</b>
+                  <p class="d-inline">matty@gmail.com</p>
+                </div>
+                <div class="my-3">
+                  <b>Address:</b>
+                  <p class="d-inline">54 Durocher</p>
+                  <b-button style="height:24px;width:83px" class="float-right py-0 d-inline" id="tempButtons" variant="danger">Validate</b-button> 
+                </div>
+                <div class="my-3">
+                  <b>Balance:</b>
+                  <p class="d-inline">$</p>
+                  <p class="d-inline">5</p>
+                  <b-button style="height:24px;width:83px" class="float-right py-0 d-inline" id="tempButtons" variant="danger">Payed</b-button>
+                </div>
               </b-col>
               <b-col class="shadow p-3 m-3 bg-white rounded"> 
-                <h5>Transaction</h5>
+                <h5>Transaction
+                  <b-button style="height:24px;width:24px" class="float-right p-0 d-inline" id="tempButtons" variant="success">+</b-button> 
+                </h5>
                 <b-form-select class="mb-2" v-model="selected" :options="optionsTransactionType"></b-form-select>
                 <b-form-group>
                   <b-form-input
@@ -32,9 +51,19 @@
                     required
                   ></b-form-input>
                 </b-form-group>
-                <p class="my-3">Type: Name</p>
-                <p class="my-3">Author: Name</p>
-                <p class="my-3">Return by: </p>
+                <div class="my-3">
+                  <b>Type</b>
+                  <b class="d-inline">Name:</b>
+                  <p class="d-inline">Dora</p>
+                </div>
+                <div class="my-3">
+                  <b>Author: </b>
+                  <p class="d-inline">Diego</p>
+                </div>
+                <div class="my-3">
+                  <b>Return by:</b>
+                  <p class="d-inline">lol</p>
+                </div>
               </b-col>
             </b-row>
             <b-row class="shadow p-3 my-3 mx-1 bg-white rounded">
