@@ -10,7 +10,7 @@ import java.util.List;
 public interface UserAccountRepository extends CrudRepository<UserAccount, Integer> {
 
 	UserAccount findUserAccountByUserID(int userID);
-	//TODO: Add Unit test for this
+
 	UserAccount findByFirstNameAndLastName(String firstName, String lastName);
 
 	List<UserAccount>  findByFirstName(String firstName);

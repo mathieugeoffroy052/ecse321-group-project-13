@@ -18,7 +18,7 @@ import ca.mcgill.ecse321.libraryservice.model.LibraryItem.ItemType;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class TestLibraryItemPersistence {
-    //adding all CRUD interface instances
+    // adding all CRUD interface instances
     @Autowired
     private BorrowableItemRepository borrowableItemRepository;
     @Autowired
@@ -42,7 +42,7 @@ public class TestLibraryItemPersistence {
 
     @AfterEach
     public void clearDatabase() {
-        //delete all instances from bottom to top of model
+        // delete all instances from bottom to top of model
         holidayRepository.deleteAll();
         openingHourRepository.deleteAll();
         timeSlotRepository.deleteAll();
@@ -56,30 +56,31 @@ public class TestLibraryItemPersistence {
         userAccountRepository.deleteAll();
     }
 
-    @Test @SuppressWarnings("deprecation")
-    public void testPersistAndLoadLibraryItem() { 
-        //inputs for libraryItem
+    @Test
+    @SuppressWarnings("deprecation")
+    public void testPersistAndLoadLibraryItem() {
+        // inputs for libraryItem
         boolean viewable = true;
         Date releaseDate = new Date(2021, 8, 20);
         ItemType itemType = ItemType.NewspaperArticle;
         String creator = "New York Time";
         String name = "September 20, 2021";
 
-        //create library item and persist
+        // create library item and persist
         LibraryItem libraryItem = new LibraryItem(name, itemType, releaseDate, creator, viewable);
 
         libraryItemRepository.save(libraryItem);
 
-        //get library item isbn
+        // get library item isbn
         int isbn = libraryItem.getIsbn();
 
-        //clear library item
+        // clear library item
         libraryItem = null;
 
-        //retrieve library item from DB
+        // retrieve library item from DB
         libraryItem = libraryItemRepository.findByIsbn(isbn);
 
-        //test functionality
+        // test functionality
         assertNotNull(libraryItem, "No libraryItem retrieved");
         assertEquals(viewable, libraryItem.getIsViewable(), "libraryItem.isViewable mismatch");
         assertEquals(releaseDate, libraryItem.getDate(), "libraryItem.date mismatch");

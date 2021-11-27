@@ -1,0 +1,651 @@
+{
+	"info": {
+		"_postman_id": "882307b4-d3a7-4e36-b7ad-dceac8a5fa06",
+		"name": "TimeSlot",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/timeslot/viewall",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/timeslot/viewall",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"timeslot",
+						"viewall"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/timeslot/viewall",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/timeslot/viewall",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"timeslot",
+								"viewall"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 23 Nov 2021 05:52:49 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"startDate\": \"2020-12-25\",\n        \"startTime\": \"08:00:00\",\n        \"endDate\": \"2020-12-28\",\n        \"endTime\": \"23:00:00\",\n        \"headLibrarian\": {\n            \"firstName\": \"mathieu\",\n            \"lastName\": \"geoffroy\",\n            \"onlineAccount\": false,\n            \"password\": \"testerpass\",\n            \"balance\": 10,\n            \"address\": \"11 goodtimes\",\n            \"email\": \"mathieu@mail.com\",\n            \"userID\": 1\n        },\n        \"librarians\": [\n            {\n                \"firstName\": \"Gabby\",\n                \"lastName\": \"Ybbag\",\n                \"onlineAccount\": true,\n                \"password\": \"horriblepassword\",\n                \"balance\": 0,\n                \"address\": \"123 milton\",\n                \"email\": \"email@mail.com\",\n                \"userID\": 6\n            }\n        ],\n        \"timeSlotID\": 1\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/timeslot/view/firstName/lastName",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/timeslot/view/:firstName/:lastName",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"timeslot",
+						"view",
+						":firstName",
+						":lastName"
+					],
+					"variable": [
+						{
+							"key": "firstName",
+							"value": "Gabby"
+						},
+						{
+							"key": "lastName",
+							"value": "Ybbag"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/timeslot/view/firstName/lastName",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/timeslot/view/:firstName/:lastName",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"timeslot",
+								"view",
+								":firstName",
+								":lastName"
+							],
+							"variable": [
+								{
+									"key": "firstName",
+									"value": "Gabby"
+								},
+								{
+									"key": "lastName",
+									"value": "Ybbag"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 23 Nov 2021 05:49:08 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"startDate\": \"2020-12-25\",\n        \"startTime\": \"08:00:00\",\n        \"endDate\": \"2020-12-28\",\n        \"endTime\": \"23:00:00\",\n        \"headLibrarian\": {\n            \"firstName\": \"mathieu\",\n            \"lastName\": \"geoffroy\",\n            \"onlineAccount\": false,\n            \"password\": \"testerpass\",\n            \"balance\": 10,\n            \"address\": \"11 goodtimes\",\n            \"email\": \"mathieu@mail.com\",\n            \"userID\": 1\n        },\n        \"librarians\": [\n            {\n                \"firstName\": \"Gabby\",\n                \"lastName\": \"Ybbag\",\n                \"onlineAccount\": true,\n                \"password\": \"horriblepassword\",\n                \"balance\": 0,\n                \"address\": \"123 milton\",\n                \"email\": \"email@mail.com\",\n                \"userID\": 6\n            }\n        ],\n        \"timeSlotID\": 1\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/timeslot/view/id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/timeslot/view/id?timeslotID=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"timeslot",
+						"view",
+						"id"
+					],
+					"query": [
+						{
+							"key": "timeslotID",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/timeslot/view/id",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/timeslot/view/id?timeslotID=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"timeslot",
+								"view",
+								"id"
+							],
+							"query": [
+								{
+									"key": "timeslotID",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 23 Nov 2021 05:45:44 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"startDate\": \"2020-12-25\",\n    \"startTime\": \"08:00:00\",\n    \"endDate\": \"2020-12-28\",\n    \"endTime\": \"23:00:00\",\n    \"headLibrarian\": {\n        \"firstName\": \"mathieu\",\n        \"lastName\": \"geoffroy\",\n        \"onlineAccount\": false,\n        \"password\": \"testerpass\",\n        \"balance\": 10,\n        \"address\": \"11 goodtimes\",\n        \"email\": \"mathieu@mail.com\",\n        \"userID\": 1\n    },\n    \"librarians\": [],\n    \"timeSlotID\": 1\n}"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/timslot/new",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/timeslot/new?startDate=2020-12-25&startTime=08:00&endDate=2020-12-28&endTime=23:00&currentUserID=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"timeslot",
+						"new"
+					],
+					"query": [
+						{
+							"key": "startDate",
+							"value": "2020-12-25"
+						},
+						{
+							"key": "startTime",
+							"value": "08:00"
+						},
+						{
+							"key": "endDate",
+							"value": "2020-12-28"
+						},
+						{
+							"key": "endTime",
+							"value": "23:00"
+						},
+						{
+							"key": "currentUserID",
+							"value": "1",
+							"description": "id of headLibrarian"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/timslot/new",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/timeslot/new?startDate=2020-12-25&startTime=08:00&endDate=2020-12-28&endTime=23:00&currentUserID=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"timeslot",
+								"new"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "2020-12-25"
+								},
+								{
+									"key": "startTime",
+									"value": "08:00"
+								},
+								{
+									"key": "endDate",
+									"value": "2020-12-28"
+								},
+								{
+									"key": "endTime",
+									"value": "23:00"
+								},
+								{
+									"key": "currentUserID",
+									"value": "1",
+									"description": "id of headLibrarian"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 23 Nov 2021 05:45:12 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"startDate\": \"2020-12-25\",\n    \"startTime\": \"08:00:00\",\n    \"endDate\": \"2020-12-28\",\n    \"endTime\": \"23:00:00\",\n    \"headLibrarian\": {\n        \"firstName\": \"mathieu\",\n        \"lastName\": \"geoffroy\",\n        \"onlineAccount\": false,\n        \"password\": \"testerpass\",\n        \"balance\": 10,\n        \"address\": \"11 goodtimes\",\n        \"email\": \"mathieu@mail.com\",\n        \"userID\": 1\n    },\n    \"librarians\": null,\n    \"timeSlotID\": 1\n}"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/timeslot/assign",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/timeslot/assign?timeslotID=1&librarianID=6&currentUserID=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"timeslot",
+						"assign"
+					],
+					"query": [
+						{
+							"key": "timeslotID",
+							"value": "1"
+						},
+						{
+							"key": "librarianID",
+							"value": "6"
+						},
+						{
+							"key": "currentUserID",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/timeslot/assign",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/timeslot/assign?timeslotID=1&librarianID=6&currentUserID=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"timeslot",
+								"assign"
+							],
+							"query": [
+								{
+									"key": "timeslotID",
+									"value": "1"
+								},
+								{
+									"key": "librarianID",
+									"value": "6"
+								},
+								{
+									"key": "currentUserID",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 23 Nov 2021 05:48:37 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"startDate\": \"2020-12-25\",\n    \"startTime\": \"08:00:00\",\n    \"endDate\": \"2020-12-28\",\n    \"endTime\": \"23:00:00\",\n    \"headLibrarian\": {\n        \"firstName\": \"mathieu\",\n        \"lastName\": \"geoffroy\",\n        \"onlineAccount\": false,\n        \"password\": \"testerpass\",\n        \"balance\": 10,\n        \"address\": \"11 goodtimes\",\n        \"email\": \"mathieu@mail.com\",\n        \"userID\": 1\n    },\n    \"librarians\": [\n        {\n            \"firstName\": \"Gabby\",\n            \"lastName\": \"Ybbag\",\n            \"onlineAccount\": true,\n            \"password\": \"horriblepassword\",\n            \"balance\": 0,\n            \"address\": \"123 milton\",\n            \"email\": \"email@mail.com\",\n            \"userID\": 6\n        }\n    ],\n    \"timeSlotID\": 1\n}"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/timeslot/delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"mathieu\",\n    \"lastName\": \"geoffroy\",\n    \"onlineAccount\": false,\n    \"password\": \"testerpass\",\n    \"balance\": 10,\n    \"address\": \"11 goodtimes\",\n    \"email\": \"mathieu@mail.com\",\n    \"userID\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "javascript"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/timeslot/delete?timeslotID=1&accountID=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"timeslot",
+						"delete"
+					],
+					"query": [
+						{
+							"key": "timeslotID",
+							"value": "1"
+						},
+						{
+							"key": "accountID",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/timeslot/delete",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"mathieu\",\n    \"lastName\": \"geoffroy\",\n    \"onlineAccount\": false,\n    \"password\": \"testerpass\",\n    \"balance\": 10,\n    \"address\": \"11 goodtimes\",\n    \"email\": \"mathieu@mail.com\",\n    \"userID\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "javascript"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/timeslot/delete?timeslotID=1&accountID=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"timeslot",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "timeslotID",
+									"value": "1"
+								},
+								{
+									"key": "accountID",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 23 Nov 2021 05:53:08 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "true"
+				}
+			]
+		}
+	]
+}

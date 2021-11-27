@@ -1,0 +1,744 @@
+{
+	"info": {
+		"_postman_id": "df9c097b-add2-4292-a77c-05dc774426b2",
+		"name": "Transaction",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "https://localhost:8080/reserve-item",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/reserve-item?userID=6&barCodeNumber=3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"reserve-item"
+					],
+					"query": [
+						{
+							"key": "userID",
+							"value": "6"
+						},
+						{
+							"key": "barCodeNumber",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "https://localhost:8080/reserve-item",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/reserve-item?barCodeNumber=1&userID=7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"reserve-item"
+							],
+							"query": [
+								{
+									"key": "barCodeNumber",
+									"value": "1"
+								},
+								{
+									"key": "userID",
+									"value": "7"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 23 Nov 2021 19:13:15 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"transactionType\": \"ItemReservation\",\n    \"transactionID\": 31,\n    \"deadline\": \"2021-11-30\",\n    \"borrowableItem\": {\n        \"libraryItem\": {\n            \"name\": \"Harry Potter\",\n            \"isViewable\": false,\n            \"date\": \"2001-05-09\",\n            \"creator\": \"JK Rowling\",\n            \"isbn\": 1,\n            \"type\": \"Book\"\n        },\n        \"barCodeNumber\": 1,\n        \"itemState\": \"Available\"\n    },\n    \"userAccount\": {\n        \"firstName\": \"joe\",\n        \"lastName\": \"bob\",\n        \"onlineAccount\": true,\n        \"password\": \"bob2123\",\n        \"balance\": 0,\n        \"address\": \"2  avenue bob\",\n        \"email\": \"joe@email.com\",\n        \"userID\": 7\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "https://localhost:8080/reserve-room",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/reserve-room?barCodeNumber=1&userID=7&date=2022-05-09&startTime=08:00&endTime=23:00",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"reserve-room"
+					],
+					"query": [
+						{
+							"key": "barCodeNumber",
+							"value": "1"
+						},
+						{
+							"key": "userID",
+							"value": "7"
+						},
+						{
+							"key": "date",
+							"value": "2022-05-09"
+						},
+						{
+							"key": "startTime",
+							"value": "08:00"
+						},
+						{
+							"key": "endTime",
+							"value": "23:00"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "https://localhost:8080/reserve-room",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/reserve-room?barCodeNumber=3&userID=6&date=2022-05-09&startTime=08:00&endTime=23:00",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"reserve-room"
+							],
+							"query": [
+								{
+									"key": "barCodeNumber",
+									"value": "3"
+								},
+								{
+									"key": "userID",
+									"value": "6"
+								},
+								{
+									"key": "date",
+									"value": "2022-05-09"
+								},
+								{
+									"key": "startTime",
+									"value": "08:00"
+								},
+								{
+									"key": "endTime",
+									"value": "23:00"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 23 Nov 2021 20:05:08 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"transactionType\": \"RoomReservation\",\n    \"transactionID\": 2,\n    \"deadline\": \"2022-05-09\",\n    \"borrowableItem\": {\n        \"libraryItem\": {\n            \"name\": \"Room456\",\n            \"isViewable\": true,\n            \"date\": \"2001-05-09\",\n            \"creator\": \"librarian\",\n            \"isbn\": 3,\n            \"type\": \"Room\"\n        },\n        \"barCodeNumber\": 3,\n        \"itemState\": \"Available\"\n    },\n    \"userAccount\": {\n        \"firstName\": \"joe\",\n        \"lastName\": \"bob\",\n        \"onlineAccount\": true,\n        \"password\": \"bob2123\",\n        \"balance\": 0,\n        \"address\": \"2  avenue bob\",\n        \"email\": \"joe@email.com\",\n        \"userID\": 6\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "https://localhost:8080/borrow",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/borrow?userID=20&barCodeNumber=7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"borrow"
+					],
+					"query": [
+						{
+							"key": "userID",
+							"value": "20"
+						},
+						{
+							"key": "barCodeNumber",
+							"value": "7"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "https://localhost:8080/borrow",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/borrow?userID=20&barCodeNumber=7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"borrow"
+							],
+							"query": [
+								{
+									"key": "userID",
+									"value": "20"
+								},
+								{
+									"key": "barCodeNumber",
+									"value": "7"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 23 Nov 2021 19:19:00 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"transactionType\": \"Borrowing\",\n    \"transactionID\": 36,\n    \"deadline\": \"2021-12-13\",\n    \"borrowableItem\": {\n        \"libraryItem\": {\n            \"name\": \"Harry Potter\",\n            \"isViewable\": true,\n            \"date\": \"2001-05-09\",\n            \"creator\": \"JK Rowling\",\n            \"isbn\": 10,\n            \"type\": \"Book\"\n        },\n        \"barCodeNumber\": 7,\n        \"itemState\": \"Available\"\n    },\n    \"userAccount\": {\n        \"firstName\": \"joe\",\n        \"lastName\": \"bob\",\n        \"onlineAccount\": true,\n        \"password\": \"bob2123\",\n        \"balance\": 0,\n        \"address\": \"2  avenue bob\",\n        \"email\": \"joe@email.com\",\n        \"userID\": 20\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "https://localhost:8080/join-waitlist",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/join-waitlist?userID=20&barCodeNumber=7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"join-waitlist"
+					],
+					"query": [
+						{
+							"key": "userID",
+							"value": "20"
+						},
+						{
+							"key": "barCodeNumber",
+							"value": "7"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "https://localhost:8080/join-waitlist",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/join-waitlist?userID=20&barCodeNumber=7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"join-waitlist"
+							],
+							"query": [
+								{
+									"key": "userID",
+									"value": "20"
+								},
+								{
+									"key": "barCodeNumber",
+									"value": "7"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 23 Nov 2021 19:24:55 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"transactionType\": \"Waitlist\",\n    \"transactionID\": 4,\n    \"deadline\": null,\n    \"borrowableItem\": {\n        \"libraryItem\": {\n            \"name\": \"Harry Potter\",\n            \"isViewable\": true,\n            \"date\": \"2001-05-09\",\n            \"creator\": \"JK Rowling\",\n            \"isbn\": 10,\n            \"type\": \"Book\"\n        },\n        \"barCodeNumber\": 7,\n        \"itemState\": \"Borrowed\"\n    },\n    \"userAccount\": {\n        \"firstName\": \"joe\",\n        \"lastName\": \"bob\",\n        \"onlineAccount\": true,\n        \"password\": \"bob2123\",\n        \"balance\": 0,\n        \"address\": \"2  avenue bob\",\n        \"email\": \"joe@email.com\",\n        \"userID\": 20\n    }\n}"
+				},
+				{
+					"name": "https://localhost:8080/join-waitlist",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/join-waitlist?userID=6&barCodeNumber=3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"join-waitlist"
+							],
+							"query": [
+								{
+									"key": "userID",
+									"value": "6"
+								},
+								{
+									"key": "barCodeNumber",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 24 Nov 2021 00:52:28 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"transactionType\": \"Waitlist\",\n    \"transactionID\": 12,\n    \"deadline\": null,\n    \"borrowableItem\": {\n        \"libraryItem\": {\n            \"name\": \"Harry Potter\",\n            \"isViewable\": true,\n            \"date\": \"2001-05-09\",\n            \"creator\": \"JK Rowling\",\n            \"isbn\": 13,\n            \"type\": \"Book\"\n        },\n        \"barCodeNumber\": 3,\n        \"itemState\": \"Borrowed\"\n    },\n    \"userAccount\": {\n        \"firstName\": \"joe\",\n        \"lastName\": \"bob\",\n        \"onlineAccount\": true,\n        \"password\": \"bob2123\",\n        \"balance\": 0,\n        \"address\": \"2  avenue bob\",\n        \"email\": \"joe@email.com\",\n        \"userID\": 6\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "https://localhost:8080/renew",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/renew?userID=20&barCodeNumber=7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"renew"
+					],
+					"query": [
+						{
+							"key": "userID",
+							"value": "20"
+						},
+						{
+							"key": "barCodeNumber",
+							"value": "7"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "https://localhost:8080/renew",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/renew?userID=6&barCodeNumber=3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"renew"
+							],
+							"query": [
+								{
+									"key": "userID",
+									"value": "6"
+								},
+								{
+									"key": "barCodeNumber",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 24 Nov 2021 00:50:28 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"transactionType\": \"Renewal\",\n    \"transactionID\": 10,\n    \"deadline\": \"2021-12-13\",\n    \"borrowableItem\": {\n        \"libraryItem\": {\n            \"name\": \"Harry Potter\",\n            \"isViewable\": true,\n            \"date\": \"2001-05-09\",\n            \"creator\": \"JK Rowling\",\n            \"isbn\": 13,\n            \"type\": \"Book\"\n        },\n        \"barCodeNumber\": 3,\n        \"itemState\": \"Borrowed\"\n    },\n    \"userAccount\": {\n        \"firstName\": \"joe\",\n        \"lastName\": \"bob\",\n        \"onlineAccount\": true,\n        \"password\": \"bob2123\",\n        \"balance\": 0,\n        \"address\": \"2  avenue bob\",\n        \"email\": \"joe@email.com\",\n        \"userID\": 6\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "https://localhost:8080/return",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/return?barCodeNumber=7&userID=20",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"return"
+					],
+					"query": [
+						{
+							"key": "barCodeNumber",
+							"value": "7"
+						},
+						{
+							"key": "userID",
+							"value": "20"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "https://localhost:8080/return",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/return?barCodeNumber=7&userID=20",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"return"
+							],
+							"query": [
+								{
+									"key": "barCodeNumber",
+									"value": "7"
+								},
+								{
+									"key": "userID",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 23 Nov 2021 19:29:17 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"transactionType\": \"Return\",\n    \"transactionID\": 10,\n    \"deadline\": null,\n    \"borrowableItem\": {\n        \"libraryItem\": {\n            \"name\": \"Harry Potter\",\n            \"isViewable\": true,\n            \"date\": \"2001-05-09\",\n            \"creator\": \"JK Rowling\",\n            \"isbn\": 10,\n            \"type\": \"Book\"\n        },\n        \"barCodeNumber\": 7,\n        \"itemState\": \"Borrowed\"\n    },\n    \"userAccount\": {\n        \"firstName\": \"joe\",\n        \"lastName\": \"bob\",\n        \"onlineAccount\": true,\n        \"password\": \"bob2123\",\n        \"balance\": 0,\n        \"address\": \"2  avenue bob\",\n        \"email\": \"joe@email.com\",\n        \"userID\": 20\n    }\n}"
+				}
+			]
+		}
+	]
+}

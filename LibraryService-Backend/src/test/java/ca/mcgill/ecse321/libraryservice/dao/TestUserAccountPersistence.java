@@ -15,8 +15,8 @@ import ca.mcgill.ecse321.libraryservice.model.Patron;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class TestUserAccountPersistence {
-    
-    //adding all CRUD interface instances
+
+    // adding all CRUD interface instances
     @Autowired
     private BorrowableItemRepository borrowableItemRepository;
     @Autowired
@@ -40,7 +40,7 @@ public class TestUserAccountPersistence {
 
     @AfterEach
     public void clearDatabase() {
-        //delete all instances from bottom to top of model
+        // delete all instances from bottom to top of model
         holidayRepository.deleteAll();
         openingHourRepository.deleteAll();
         timeSlotRepository.deleteAll();
@@ -57,8 +57,7 @@ public class TestUserAccountPersistence {
     @Test
     public void testPersistAndLoadUserAccount() {
 
-
-        //inputs for patron
+        // inputs for patron
         String firstName = "Jane";
         String lastName = "Doe";
         boolean online = true;
@@ -68,19 +67,19 @@ public class TestUserAccountPersistence {
         int balance = 25;
         String address = "4000 McGill, Montreal, Canada";
 
-        //create patron and persist
+        // create patron and persist
         Patron patron = new Patron(firstName, lastName, online, address, validated, password, balance, email);
-        
+
         patronRepository.save(patron);
-        userAccountRepository.save(patron); 
+        userAccountRepository.save(patron);
         int id = patron.getUserID();
-        //clear patron
+        // clear patron
         patron = null;
 
-        //retrieve patron by library system from DB
+        // retrieve patron by library system from DB
         patron = (Patron) userAccountRepository.findUserAccountByUserID(id);
 
-        //test functionality
+        // test functionality
         assertNotNull(patron, "No Patron retrieved");
         assertEquals(firstName, patron.getFirstName(), "patron.firstName mismatch");
         assertEquals(lastName, patron.getLastName(), "patron.lastName mismatch");

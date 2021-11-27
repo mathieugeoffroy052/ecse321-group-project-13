@@ -20,7 +20,7 @@ import ca.mcgill.ecse321.libraryservice.model.LibraryItem;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class TestBorrowableItemPersistence {
-    //adding all CRUD interface instances
+    // adding all CRUD interface instances
     @Autowired
     private BorrowableItemRepository borrowableItemRepository;
     @Autowired
@@ -44,7 +44,7 @@ public class TestBorrowableItemPersistence {
 
     @AfterEach
     public void clearDatabase() {
-        //delete all instances from bottom to top of model
+        // delete all instances from bottom to top of model
         holidayRepository.deleteAll();
         openingHourRepository.deleteAll();
         timeSlotRepository.deleteAll();
@@ -58,86 +58,87 @@ public class TestBorrowableItemPersistence {
         userAccountRepository.deleteAll();
     }
 
-    @Test @SuppressWarnings("deprecation")
-    public void testPersistAndLoadBorrowableItem() { 
+    @Test
+    @SuppressWarnings("deprecation")
+    public void testPersistAndLoadBorrowableItem() {
 
-        //create inputs for BorrowableItem
+        // create inputs for BorrowableItem
         ItemState state = ItemState.Available;
 
-        //create inputs for LibraryItem
+        // create inputs for LibraryItem
         boolean viewable = true;
         Date releaseDate = new Date(2019, 5, 6);
         ItemType itemType = ItemType.Music;
         String creator = "Maluma";
         String name = "11:11";
 
-        //create library item
+        // create library item
         LibraryItem libraryItem = new LibraryItem(name, itemType, releaseDate, creator, viewable);
         libraryItemRepository.save(libraryItem);
-        
-        //create borrowable item
+
+        // create borrowable item
         BorrowableItem borrowableItem = new BorrowableItem(state, libraryItem);
 
-        //get bar code number to find
+        // get bar code number to find
         int barCodeNumber = borrowableItem.getBarCodeNumber();
 
         borrowableItemRepository.save(borrowableItem);
 
-        //clear borrowable item
+        // clear borrowable item
         borrowableItem = null;
 
-        //retrieve borrowable item from DB
+        // retrieve borrowable item from DB
         borrowableItem = borrowableItemRepository.findBorrowableItemByBarCodeNumber(barCodeNumber);
-        
 
-        //test functionality
+        // test functionality
         assertNotNull(borrowableItem, "No borrowableItem retrieved");
         assertEquals(state, borrowableItem.getState(), "borrowableItem.state mismatch");
 
-        //test library item within borrowable item
-        assertEquals(viewable, borrowableItem.getLibraryItem().getIsViewable(), "borrowableItem.libraryItem.isViewable mismatch");
-        assertEquals(releaseDate, borrowableItem.getLibraryItem().getDate(), "borrowableItem.libraryItem.date mismatch");
+        // test library item within borrowable item
+        assertEquals(viewable, borrowableItem.getLibraryItem().getIsViewable(),"borrowableItem.libraryItem.isViewable mismatch");
+        assertEquals(releaseDate, borrowableItem.getLibraryItem().getDate(),"borrowableItem.libraryItem.date mismatch");
         assertEquals(itemType, borrowableItem.getLibraryItem().getType(), "borrowableItem.libraryItem.type mismatch");
-        assertEquals(creator, borrowableItem.getLibraryItem().getCreator(), "borrowableItem.libraryItem.creator mismatch");
+        assertEquals(creator, borrowableItem.getLibraryItem().getCreator(),"borrowableItem.libraryItem.creator mismatch");
         assertEquals(name, borrowableItem.getLibraryItem().getName(), "borrowableItem.libraryItem.name mismatch");
     }
 
-    @Test @SuppressWarnings("deprecation")
-    public void testPersistAndLoadBorrowableItemByRefLibraryItem() { 
-         //inputs for borrowableItem
+    @Test
+    @SuppressWarnings("deprecation")
+    public void testPersistAndLoadBorrowableItemByRefLibraryItem() {
+        // inputs for borrowableItem
         ItemState state = ItemState.Available;
 
-         //inputs for libraryItem
+        // inputs for libraryItem
         boolean viewable = true;
         Date releaseDate = new Date(2017, 10, 20);
         ItemType itemType = ItemType.Music;
         String creator = "Trey Songz";
         String name = "Tremaine the Album";
 
-         //create libary item and persist
+        // create libary item and persist
         LibraryItem libraryItem = new LibraryItem(name, itemType, releaseDate, creator, viewable);
 
-         libraryItemRepository.save(libraryItem);
+        libraryItemRepository.save(libraryItem);
 
-         //create borrowable item and persist
+        // create borrowable item and persist
         BorrowableItem borrowableItem = new BorrowableItem(state, libraryItem);
 
-         borrowableItemRepository.save(borrowableItem);
+        borrowableItemRepository.save(borrowableItem);
 
-         //clear borrowable item
+        // clear borrowable item
         borrowableItem = null;
 
-         //retrieve borrowable item by library item from DB
+        // retrieve borrowable item by library item from DB
         borrowableItem = borrowableItemRepository.findByLibraryItem(libraryItem).get(0);
 
-         //test functionality
+        // test functionality
         assertNotNull(borrowableItem, "No borrowableItem retrieved");
         assertEquals(state, borrowableItem.getState(), "borrowableItem.state mismatch");
 
-         //test library item
-        assertEquals(viewable, borrowableItem.getLibraryItem().getIsViewable(), "borrowableItem.libraryItem.isViewable mismatch");
-        assertEquals(releaseDate, borrowableItem.getLibraryItem().getDate(), "borrowableItem.libraryItem.date mismatch");
+        // test library item
+        assertEquals(viewable, borrowableItem.getLibraryItem().getIsViewable(),"borrowableItem.libraryItem.isViewable mismatch");
+        assertEquals(releaseDate, borrowableItem.getLibraryItem().getDate(),"borrowableItem.libraryItem.date mismatch");
         assertEquals(name, borrowableItem.getLibraryItem().getName(), "borrowableItem.libraryItem.state mismatch");
-        assertEquals(creator, borrowableItem.getLibraryItem().getCreator(), "borrowableitem.libraryItem.creator mismatch"); 
+        assertEquals(creator, borrowableItem.getLibraryItem().getCreator(),"borrowableitem.libraryItem.creator mismatch");
     }
 }

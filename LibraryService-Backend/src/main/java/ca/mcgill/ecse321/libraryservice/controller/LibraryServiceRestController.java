@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ca.mcgill.ecse321.libraryservice.dto.*;
@@ -459,7 +458,7 @@ public class LibraryServiceRestController {
      * @throws Exception
      * @author Ramin Akhavan-Sarraf
      */
-    @GetMapping(value = { "/books/", "/book" })
+    @GetMapping(value = { "/books/", "/books" })
     public List<LibraryItemDTO> getAllBooks() throws Exception {
         ArrayList<LibraryItemDTO> books = new ArrayList<>();
         for(LibraryItem item: service.getAllBooks()){

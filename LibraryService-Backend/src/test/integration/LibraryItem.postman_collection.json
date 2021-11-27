@@ -1,0 +1,2839 @@
+{
+	"info": {
+		"_postman_id": "f59370c4-5377-4ee7-b2e9-be6424201fe3",
+		"name": "LibraryItem",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/books/",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/books/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books",
+						""
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/books/",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/books/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"books",
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 12 Nov 2021 09:06:15 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"name\": \"Harry Potter\",\n        \"isViewable\": true,\n        \"date\": \"2002-05-09\",\n        \"creator\": \"JK Rowling\",\n        \"isbn\": 43,\n        \"type\": \"Book\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/movies/",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/movies/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"movies",
+						""
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/movies/",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/movies/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"movies",
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 12 Nov 2021 08:56:52 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"name\": \"Titanic\",\n        \"isViewable\": true,\n        \"date\": \"2001-05-08\",\n        \"creator\": \"James Cameron\",\n        \"isbn\": 8,\n        \"type\": \"Movie\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/music/",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/music/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"music",
+						""
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/music/",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/music/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"music",
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 12 Nov 2021 09:29:42 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"name\": \"One Dance\",\n        \"isViewable\": true,\n        \"date\": \"2020-02-05\",\n        \"creator\": \"Drake\",\n        \"isbn\": 1,\n        \"type\": \"Music\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/newspapers/",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/newspapers/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"newspapers",
+						""
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/newspapers/",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/newspapers/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"newspapers",
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 12 Nov 2021 09:19:21 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"name\": \"Montreal News\",\n        \"isViewable\": false,\n        \"date\": \"2015-03-14\",\n        \"creator\": \"Times\",\n        \"isbn\": 1,\n        \"type\": \"NewspaperArticle\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/rooms/",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/rooms/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rooms",
+						""
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/rooms/",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/rooms/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"rooms",
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 12 Nov 2021 09:27:26 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"name\": \"Main Room\",\n        \"isViewable\": true,\n        \"date\": \"2020-01-03\",\n        \"creator\": \"librarian\",\n        \"isbn\": 17,\n        \"type\": \"Room\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/books/author",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/books/author/?author=JK Rowling",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books",
+						"author",
+						""
+					],
+					"query": [
+						{
+							"key": "author",
+							"value": "JK Rowling"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/books/author",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/books/author/?author=JK Rowling",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"books",
+								"author",
+								""
+							],
+							"query": [
+								{
+									"key": "author",
+									"value": "JK Rowling"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 12 Nov 2021 09:05:26 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"name\": \"Harry Potter\",\n        \"isViewable\": true,\n        \"date\": \"2002-05-09\",\n        \"creator\": \"JK Rowling\",\n        \"isbn\": 43,\n        \"type\": \"Book\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/books/title",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/books/title/?title=Harry Potter",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books",
+						"title",
+						""
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "Harry Potter"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/books/title",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/books/title/?title=Harry Potter",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"books",
+								"title",
+								""
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "Harry Potter"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 12 Nov 2021 09:05:38 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"name\": \"Harry Potter\",\n        \"isViewable\": true,\n        \"date\": \"2002-05-09\",\n        \"creator\": \"JK Rowling\",\n        \"isbn\": 43,\n        \"type\": \"Book\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/books/author/title",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/books/author/title/?title=Harry Potter&author=JK Rowling",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books",
+						"author",
+						"title",
+						""
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "Harry Potter"
+						},
+						{
+							"key": "author",
+							"value": "JK Rowling"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/books/author/title",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/books/author/title/?title=Harry Potter&author=JK Rowling",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"books",
+								"author",
+								"title",
+								""
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "Harry Potter"
+								},
+								{
+									"key": "author",
+									"value": "JK Rowling"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 12 Nov 2021 09:05:54 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"name\": \"Harry Potter\",\n    \"isViewable\": true,\n    \"date\": \"2002-05-09\",\n    \"creator\": \"JK Rowling\",\n    \"isbn\": 43,\n    \"type\": \"Book\"\n}"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/movies/director",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/movies/director/?director=Someone",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"movies",
+						"director",
+						""
+					],
+					"query": [
+						{
+							"key": "director",
+							"value": "Someone"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/movies/director",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/movies/director/?director=Someone",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"movies",
+								"director",
+								""
+							],
+							"query": [
+								{
+									"key": "director",
+									"value": "Someone"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 12 Nov 2021 09:57:17 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"name\": \"Dune\",\n        \"isViewable\": true,\n        \"date\": \"2005-09-08\",\n        \"creator\": \"Someone\",\n        \"isbn\": 4,\n        \"type\": \"Movie\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/movies/title",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/movies/title/?title=Titanic",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"movies",
+						"title",
+						""
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "Titanic"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/movies/title",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/movies/title/?title=Titanic",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"movies",
+								"title",
+								""
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "Titanic"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 12 Nov 2021 08:58:07 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"name\": \"Titanic\",\n        \"isViewable\": true,\n        \"date\": \"2001-05-08\",\n        \"creator\": \"James Cameron\",\n        \"isbn\": 8,\n        \"type\": \"Movie\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/movies/title/director",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/movies/title/director/?director=James Cameron&title=Titanic",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"movies",
+						"title",
+						"director",
+						""
+					],
+					"query": [
+						{
+							"key": "director",
+							"value": "James Cameron"
+						},
+						{
+							"key": "title",
+							"value": "Titanic"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/movies/title/director",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/movies/title/director/?director=James Cameron&title=Titanic",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"movies",
+								"title",
+								"director",
+								""
+							],
+							"query": [
+								{
+									"key": "director",
+									"value": "James Cameron"
+								},
+								{
+									"key": "title",
+									"value": "Titanic"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 12 Nov 2021 09:01:37 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"name\": \"Titanic\",\n    \"isViewable\": true,\n    \"date\": \"2001-05-08\",\n    \"creator\": \"James Cameron\",\n    \"isbn\": 8,\n    \"type\": \"Movie\"\n}"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/music/artist",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/musics/artist/?artist=Drake",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"musics",
+						"artist",
+						""
+					],
+					"query": [
+						{
+							"key": "artist",
+							"value": "Drake"
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/music/artist",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/musics/artist/?artist=Drake",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"musics",
+								"artist",
+								""
+							],
+							"query": [
+								{
+									"key": "artist",
+									"value": "Drake"
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 12 Nov 2021 09:41:29 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"name\": \"One Dance\",\n        \"isViewable\": true,\n        \"date\": \"2020-02-05\",\n        \"creator\": \"Drake\",\n        \"isbn\": 1,\n        \"type\": \"Music\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/music/title",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/musics/title/?title=One Dance",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"musics",
+						"title",
+						""
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "One Dance"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/music/title",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/musics/title/?title=One Dance",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"musics",
+								"title",
+								""
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "One Dance"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 12 Nov 2021 09:41:24 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"name\": \"One Dance\",\n        \"isViewable\": true,\n        \"date\": \"2020-02-05\",\n        \"creator\": \"Drake\",\n        \"isbn\": 1,\n        \"type\": \"Music\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/music/title/artist",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/musics/artist/title/?artist=Drake&title=One Dance",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"musics",
+						"artist",
+						"title",
+						""
+					],
+					"query": [
+						{
+							"key": "artist",
+							"value": "Drake"
+						},
+						{
+							"key": "title",
+							"value": "One Dance"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/music/title/artist",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/musics/artist/title/?artist=Drake&title=One Dance",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"musics",
+								"artist",
+								"title",
+								""
+							],
+							"query": [
+								{
+									"key": "artist",
+									"value": "Drake"
+								},
+								{
+									"key": "title",
+									"value": "One Dance"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 12 Nov 2021 09:41:33 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"name\": \"One Dance\",\n    \"isViewable\": true,\n    \"date\": \"2020-02-05\",\n    \"creator\": \"Drake\",\n    \"isbn\": 1,\n    \"type\": \"Music\"\n}"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/newspapers/writer",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/newspapers/writer/?writer=Times",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"newspapers",
+						"writer",
+						""
+					],
+					"query": [
+						{
+							"key": "writer",
+							"value": "Times"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/newspapers/writer",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/newspapers/writer/?writer=Times",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"newspapers",
+								"writer",
+								""
+							],
+							"query": [
+								{
+									"key": "writer",
+									"value": "Times"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 12 Nov 2021 09:17:19 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"name\": \"Montreal News\",\n        \"isViewable\": false,\n        \"date\": \"2015-03-14\",\n        \"creator\": \"Times\",\n        \"isbn\": 1,\n        \"type\": \"NewspaperArticle\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/newspapers/title",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/newspapers/title/?title=Toronto News",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"newspapers",
+						"title",
+						""
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "Toronto News"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/newspapers/title",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/newspapers/title/?title=Toronto News",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"newspapers",
+								"title",
+								""
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "Toronto News"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 12 Nov 2021 09:52:54 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"name\": \"Toronto News\",\n        \"isViewable\": true,\n        \"date\": \"2004-01-06\",\n        \"creator\": \"Joseph Plant\",\n        \"isbn\": 1,\n        \"type\": \"NewspaperArticle\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/newspapers/writer/title",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/newspapers/title/writer/?title=Vancouver News&writer=Steve Joe",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"newspapers",
+						"title",
+						"writer",
+						""
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "Vancouver News"
+						},
+						{
+							"key": "writer",
+							"value": "Steve Joe"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/newspapers/writer/title",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/newspapers/title/writer/?title=Vancouver News&writer=Steve Joe",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"newspapers",
+								"title",
+								"writer",
+								""
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "Vancouver News"
+								},
+								{
+									"key": "writer",
+									"value": "Steve Joe"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 12 Nov 2021 10:06:51 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"name\": \"Vancouver News\",\n    \"isViewable\": true,\n    \"date\": \"2005-09-09\",\n    \"creator\": \"Steve Joe\",\n    \"isbn\": 1,\n    \"type\": \"NewspaperArticle\"\n}"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/items/creator",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/items/creator/?creator=librarian",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"items",
+						"creator",
+						""
+					],
+					"query": [
+						{
+							"key": "creator",
+							"value": "librarian"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/items/creator",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/items/creator/?creator=James Cameron&creator=James Cameron",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"items",
+								"creator",
+								""
+							],
+							"query": [
+								{
+									"key": "creator",
+									"value": "James Cameron"
+								},
+								{
+									"key": "creator",
+									"value": "James Cameron"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 12 Nov 2021 09:01:28 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"name\": \"Titanic\",\n        \"isViewable\": true,\n        \"date\": \"2001-05-08\",\n        \"creator\": \"James Cameron\",\n        \"isbn\": 8,\n        \"type\": \"Movie\"\n    },\n    {\n        \"name\": \"Titanic\",\n        \"isViewable\": true,\n        \"date\": \"2001-05-08\",\n        \"creator\": \"James Cameron\",\n        \"isbn\": 16,\n        \"type\": \"Movie\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/items/title",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/items/title/?title=Room456",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"items",
+						"title",
+						""
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "Room456"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/items/title",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/items/title/?title=Titanic",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"items",
+								"title",
+								""
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "Titanic"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 12 Nov 2021 09:01:19 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"name\": \"Titanic\",\n        \"isViewable\": true,\n        \"date\": \"2001-05-08\",\n        \"creator\": \"James Cameron\",\n        \"isbn\": 8,\n        \"type\": \"Movie\"\n    },\n    {\n        \"name\": \"Titanic\",\n        \"isViewable\": true,\n        \"date\": \"2001-05-08\",\n        \"creator\": \"James Cameron\",\n        \"isbn\": 16,\n        \"type\": \"Movie\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/items/creator/title",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/items/creator/title/?creator=librarian&title=Room456",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"items",
+						"creator",
+						"title",
+						""
+					],
+					"query": [
+						{
+							"key": "creator",
+							"value": "librarian"
+						},
+						{
+							"key": "title",
+							"value": "Room456"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/items/creator/title",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/items/creator/title/?creator=James Cameron&title=Titanic",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"items",
+								"creator",
+								"title",
+								""
+							],
+							"query": [
+								{
+									"key": "creator",
+									"value": "James Cameron"
+								},
+								{
+									"key": "title",
+									"value": "Titanic"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 12 Nov 2021 09:01:07 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"name\": \"Titanic\",\n        \"isViewable\": true,\n        \"date\": \"2001-05-08\",\n        \"creator\": \"James Cameron\",\n        \"isbn\": 8,\n        \"type\": \"Movie\"\n    },\n    {\n        \"name\": \"Titanic\",\n        \"isViewable\": true,\n        \"date\": \"2001-05-08\",\n        \"creator\": \"James Cameron\",\n        \"isbn\": 16,\n        \"type\": \"Movie\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/account/{firstname}/{lastname}/rooms",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/account/:firstname/:lastname/rooms",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"account",
+						":firstname",
+						":lastname",
+						"rooms"
+					],
+					"variable": [
+						{
+							"key": "firstname",
+							"value": "joe"
+						},
+						{
+							"key": "lastname",
+							"value": "bob"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/account/{firstname}/{lastname}/rooms",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/account/:firstname/:lastname/rooms",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"account",
+								":firstname",
+								":lastname",
+								"rooms"
+							],
+							"variable": [
+								{
+									"key": "firstname",
+									"value": "joe"
+								},
+								{
+									"key": "lastname",
+									"value": "bob"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 23 Nov 2021 06:14:32 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"name\": \"Room456\",\n        \"isViewable\": true,\n        \"date\": \"2001-05-09\",\n        \"creator\": \"librarian\",\n        \"isbn\": 9,\n        \"type\": \"Room\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/createLibraryItem/",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/createLibraryItem/?name=Room456&itemType=Room&date=2001-05-09&isViewable=true&isbn=21&creator=librarian",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createLibraryItem",
+						""
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Room456"
+						},
+						{
+							"key": "itemType",
+							"value": "Room"
+						},
+						{
+							"key": "date",
+							"value": "2001-05-09"
+						},
+						{
+							"key": "isViewable",
+							"value": "true"
+						},
+						{
+							"key": "isbn",
+							"value": "21"
+						},
+						{
+							"key": "creator",
+							"value": "librarian"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/createLibraryItem/",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/createLibraryItem/?name=Titanic&itemType=Movie&date=2001-05-08&creator=James Cameron&isViewable=true&isbn=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"createLibraryItem",
+								""
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Titanic"
+								},
+								{
+									"key": "itemType",
+									"value": "Movie"
+								},
+								{
+									"key": "date",
+									"value": "2001-05-08"
+								},
+								{
+									"key": "creator",
+									"value": "James Cameron"
+								},
+								{
+									"key": "isViewable",
+									"value": "true"
+								},
+								{
+									"key": "isbn",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 12 Nov 2021 08:56:36 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"name\": \"Titanic\",\n    \"isViewable\": true,\n    \"date\": \"2001-05-08\",\n    \"creator\": \"James Cameron\",\n    \"isbn\": 1,\n    \"type\": \"Movie\"\n}"
+				},
+				{
+					"name": "http://localhost:8080/createLibraryItem/",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/createLibraryItem/?name=Harry Potter&itemType=Book&date=2002-05-09&creator=JK Rowling&isViewable=true&isbn=10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"createLibraryItem",
+								""
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Harry Potter"
+								},
+								{
+									"key": "itemType",
+									"value": "Book"
+								},
+								{
+									"key": "date",
+									"value": "2002-05-09"
+								},
+								{
+									"key": "creator",
+									"value": "JK Rowling"
+								},
+								{
+									"key": "isViewable",
+									"value": "true"
+								},
+								{
+									"key": "isbn",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 12 Nov 2021 09:05:04 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"name\": \"Harry Potter\",\n    \"isViewable\": true,\n    \"date\": \"2002-05-09\",\n    \"creator\": \"JK Rowling\",\n    \"isbn\": 10,\n    \"type\": \"Book\"\n}"
+				},
+				{
+					"name": "http://localhost:8080/createLibraryItem/",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/createLibraryItem/?name=Montreal News&itemType=NewspaperArticle&date=2015-03-14&creator=Times&isViewable=false&isbn=19",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"createLibraryItem",
+								""
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Montreal News"
+								},
+								{
+									"key": "itemType",
+									"value": "NewspaperArticle"
+								},
+								{
+									"key": "date",
+									"value": "2015-03-14"
+								},
+								{
+									"key": "creator",
+									"value": "Times"
+								},
+								{
+									"key": "isViewable",
+									"value": "false"
+								},
+								{
+									"key": "isbn",
+									"value": "19"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 12 Nov 2021 09:16:39 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"name\": \"Montreal News\",\n    \"isViewable\": false,\n    \"date\": \"2015-03-14\",\n    \"creator\": \"Times\",\n    \"isbn\": 19,\n    \"type\": \"NewspaperArticle\"\n}"
+				},
+				{
+					"name": "http://localhost:8080/createLibraryItem/",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/createLibraryItem/?name=Main Room&itemType=Room&date=2020-01-03&isViewable=true&isbn=20&creator=librarian",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"createLibraryItem",
+								""
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Main Room"
+								},
+								{
+									"key": "itemType",
+									"value": "Room"
+								},
+								{
+									"key": "date",
+									"value": "2020-01-03"
+								},
+								{
+									"key": "isViewable",
+									"value": "true"
+								},
+								{
+									"key": "isbn",
+									"value": "20"
+								},
+								{
+									"key": "creator",
+									"value": "librarian"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 12 Nov 2021 09:27:10 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"name\": \"Main Room\",\n    \"isViewable\": true,\n    \"date\": \"2020-01-03\",\n    \"creator\": \"librarian\",\n    \"isbn\": 20,\n    \"type\": \"Room\"\n}"
+				},
+				{
+					"name": "http://localhost:8080/createLibraryItem/",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/createLibraryItem/?name=One Dance&itemType=Music&date=2020-02-05&isViewable=true&isbn=21&creator=Drake",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"createLibraryItem",
+								""
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "One Dance"
+								},
+								{
+									"key": "itemType",
+									"value": "Music"
+								},
+								{
+									"key": "date",
+									"value": "2020-02-05"
+								},
+								{
+									"key": "isViewable",
+									"value": "true"
+								},
+								{
+									"key": "isbn",
+									"value": "21"
+								},
+								{
+									"key": "creator",
+									"value": "Drake"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 12 Nov 2021 09:29:11 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"name\": \"One Dance\",\n    \"isViewable\": true,\n    \"date\": \"2020-02-05\",\n    \"creator\": \"Drake\",\n    \"isbn\": 21,\n    \"type\": \"Music\"\n}"
+				},
+				{
+					"name": "http://localhost:8080/createLibraryItem/",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/createLibraryItem/?name=Dune&itemType=Movie&date=2005-09-08&isViewable=true&isbn=23&creator=Someone",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"createLibraryItem",
+								""
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Dune"
+								},
+								{
+									"key": "itemType",
+									"value": "Movie"
+								},
+								{
+									"key": "date",
+									"value": "2005-09-08"
+								},
+								{
+									"key": "isViewable",
+									"value": "true"
+								},
+								{
+									"key": "isbn",
+									"value": "23"
+								},
+								{
+									"key": "creator",
+									"value": "Someone"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 12 Nov 2021 09:57:05 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"name\": \"Dune\",\n    \"isViewable\": true,\n    \"date\": \"2005-09-08\",\n    \"creator\": \"Someone\",\n    \"isbn\": 23,\n    \"type\": \"Movie\"\n}"
+				},
+				{
+					"name": "http://localhost:8080/createLibraryItem/",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/createLibraryItem/?name=Vancouver News&itemType=NewspaperArticle&date=2005-09-09&isViewable=true&isbn=24&creator=Steve Joe",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"createLibraryItem",
+								""
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Vancouver News"
+								},
+								{
+									"key": "itemType",
+									"value": "NewspaperArticle"
+								},
+								{
+									"key": "date",
+									"value": "2005-09-09"
+								},
+								{
+									"key": "isViewable",
+									"value": "true"
+								},
+								{
+									"key": "isbn",
+									"value": "24"
+								},
+								{
+									"key": "creator",
+									"value": "Steve Joe"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 12 Nov 2021 10:06:33 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"name\": \"Vancouver News\",\n    \"isViewable\": true,\n    \"date\": \"2005-09-09\",\n    \"creator\": \"Steve Joe\",\n    \"isbn\": 24,\n    \"type\": \"NewspaperArticle\"\n}"
+				},
+				{
+					"name": "http://localhost:8080/createLibraryItem/",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/createLibraryItem/?name=Titanic&itemType=Movie&date=2001-05-08&isViewable=true&isbn=1&creator=James Cameron",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"createLibraryItem",
+								""
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Titanic"
+								},
+								{
+									"key": "itemType",
+									"value": "Movie"
+								},
+								{
+									"key": "date",
+									"value": "2001-05-08"
+								},
+								{
+									"key": "isViewable",
+									"value": "true"
+								},
+								{
+									"key": "isbn",
+									"value": "1"
+								},
+								{
+									"key": "creator",
+									"value": "James Cameron"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 23 Nov 2021 05:15:55 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"name\": \"Titanic\",\n    \"isViewable\": true,\n    \"date\": \"2001-05-08\",\n    \"creator\": \"James Cameron\",\n    \"isbn\": 1,\n    \"type\": \"Movie\"\n}"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/deleteLibraryItem/",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/deleteLibraryItem/?isbn=9",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"deleteLibraryItem",
+						""
+					],
+					"query": [
+						{
+							"key": "isbn",
+							"value": "9"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/deleteLibraryItem/",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/deleteLibraryItem/?isbn=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"deleteLibraryItem",
+								""
+							],
+							"query": [
+								{
+									"key": "isbn",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 12 Nov 2021 08:55:42 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "true"
+				}
+			]
+		}
+	]
+}

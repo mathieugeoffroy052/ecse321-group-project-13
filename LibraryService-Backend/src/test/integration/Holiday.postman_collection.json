@@ -1,0 +1,431 @@
+{
+	"info": {
+		"_postman_id": "ecbdee0e-f71e-462f-b06e-247fd2cd64bc",
+		"name": "Holiday",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/holidays",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/holiday/viewall",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"holiday",
+						"viewall"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/holidays",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/holiday/viewall",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"holiday",
+								"viewall"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 23 Nov 2021 05:10:52 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"date\": \"2020-12-25\",\n        \"startTime\": \"10:00:00\",\n        \"endTime\": \"23:00:00\",\n        \"holidayID\": 1,\n        \"headLibrarian\": {\n            \"firstName\": \"mathieu\",\n            \"lastName\": \"geoffroy\",\n            \"onlineAccount\": false,\n            \"password\": \"testerpass\",\n            \"balance\": 10,\n            \"address\": \"11 goodtimes\",\n            \"email\": \"mathieu@mail.com\",\n            \"userID\": 11\n        }\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/holiday/id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/holiday/view/:holidayID",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"holiday",
+						"view",
+						":holidayID"
+					],
+					"variable": [
+						{
+							"key": "holidayID",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/holiday/id",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/holiday/view/:holidayID",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"holiday",
+								"view",
+								":holidayID"
+							],
+							"variable": [
+								{
+									"key": "holidayID",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 23 Nov 2021 05:11:20 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"date\": \"2020-12-25\",\n    \"startTime\": \"10:00:00\",\n    \"endTime\": \"23:00:00\",\n    \"holidayID\": 1,\n    \"headLibrarian\": {\n        \"firstName\": \"mathieu\",\n        \"lastName\": \"geoffroy\",\n        \"onlineAccount\": false,\n        \"password\": \"testerpass\",\n        \"balance\": 10,\n        \"address\": \"11 goodtimes\",\n        \"email\": \"mathieu@mail.com\",\n        \"userID\": 11\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/holiday/new",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/holiday/new?date=2020-12-25&startTime=10:00&endTime=23:00&currentUserID=11",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"holiday",
+						"new"
+					],
+					"query": [
+						{
+							"key": "date",
+							"value": "2020-12-25"
+						},
+						{
+							"key": "startTime",
+							"value": "10:00"
+						},
+						{
+							"key": "endTime",
+							"value": "23:00"
+						},
+						{
+							"key": "currentUserID",
+							"value": "11"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/holiday/new",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/holiday/new?date=2020-12-25&startTime=10:00&endTime=23:00&currentUserID=11",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"holiday",
+								"new"
+							],
+							"query": [
+								{
+									"key": "date",
+									"value": "2020-12-25"
+								},
+								{
+									"key": "startTime",
+									"value": "10:00"
+								},
+								{
+									"key": "endTime",
+									"value": "23:00"
+								},
+								{
+									"key": "currentUserID",
+									"value": "11"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 23 Nov 2021 05:10:27 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"date\": \"2020-12-25\",\n    \"startTime\": \"10:00:00\",\n    \"endTime\": \"23:00:00\",\n    \"holidayID\": 1,\n    \"headLibrarian\": {\n        \"firstName\": \"mathieu\",\n        \"lastName\": \"geoffroy\",\n        \"onlineAccount\": false,\n        \"password\": \"testerpass\",\n        \"balance\": 10,\n        \"address\": \"11 goodtimes\",\n        \"email\": \"mathieu@mail.com\",\n        \"userID\": 11\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:8080/holiday/delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/holiday/delete?holidayID=1&accountID=11",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"holiday",
+						"delete"
+					],
+					"query": [
+						{
+							"key": "holidayID",
+							"value": "1"
+						},
+						{
+							"key": "accountID",
+							"value": "11"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:8080/holiday/delete",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/holiday/delete?holidayID=1&accountID=11",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"holiday",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "holidayID",
+									"value": "1"
+								},
+								{
+									"key": "accountID",
+									"value": "11"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 23 Nov 2021 05:11:48 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "true"
+				}
+			]
+		}
+	]
+}
