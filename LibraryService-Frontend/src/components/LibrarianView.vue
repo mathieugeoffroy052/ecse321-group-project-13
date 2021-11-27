@@ -56,6 +56,7 @@
                     class="float-right py-0 d-inline"
                     id="tempButtons"
                     variant="danger"
+                    @click="resetBalance()"
                     v-if="currentPatron.balance > 0"
                     >Payed</b-button
                   >

@@ -237,6 +237,14 @@ export default {
           alert(e.response.data.message)
         })
       },
+      resetBalance: function() {
+        var userIDInput = document.getElementById("input-userID").value
+        AXIOS.put("/updateBalance", {}, {params: {balance:0, userID:userIDInput}}).then (response => {
+          this.currentPatron = response.data
+        }).catch(e => {
+          alert(e.response.date.message)
+        })
+      },
       getBorrowableItem: function() {
         var userID = document.getElementById("input-barcode").value
         AXIOS.get('/item/barCodeNumber/').then (response => {
