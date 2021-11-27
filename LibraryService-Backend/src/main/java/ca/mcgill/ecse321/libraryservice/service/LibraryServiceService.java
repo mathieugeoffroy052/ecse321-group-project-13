@@ -690,9 +690,11 @@ public class LibraryServiceService {
 
         Iterable<Transaction> transactions = transactionRepository.findAll();
         for (Transaction t : transactions) {
-            if (t.getDeadline().toLocalDate().compareTo(date.toLocalDate()) == 0) {
-                throw new IllegalArgumentException(
-                        "Room already booked on that date, please try another or the watilist.");
+            if ((t.getTransactionType().toString().equals("RoomReservation"))) {
+                if (t.getDeadline().toLocalDate().compareTo(date.toLocalDate()) == 0) {
+                    throw new IllegalArgumentException(
+                            "Room already booked on that date, please try another or the watilist.");
+                }
             }
         }
 
@@ -707,7 +709,7 @@ public class LibraryServiceService {
                                                                                                              // reservation
         transactionRepository.save(roomReservation);
 
-        item.setState(ItemState.Reserved);
+        item.setState(ItemState.Available); //room is always available
         borrowableItemRepository.save(item);
 
         return roomReservation;
@@ -828,7 +830,7 @@ public class LibraryServiceService {
 
         item.setState(ItemState.Available);
         borrowableItemRepository.save(item);
-        
+
         return itemReservation;
     }
 
@@ -2252,6 +2254,41 @@ public class LibraryServiceService {
         }
 
         account.setFirstName(aFirstName);
+        userAccountRepository.save(account);
+        if (account instanceof Librarian) {
+            librarianRepository.save((Librarian) account);
+            if (account instanceof HeadLibrarian) {
+                headLibrarianRepository.save((HeadLibrarian) account);
+            }
+        } else {
+            patronRepository.save((Patron) account);
+        }
+        return account;
+    }
+
+    /**
+     * change account balane
+     * @param balance new balance
+     * @param userID that we want to change the balance
+     * @return updated UserAccount
+     * @author Mathieu Geoffroy
+     */
+    public UserAccount changeAccountBalance(int balance, int userID) {
+        if (userID <= 0) {
+            throw new IllegalArgumentException("Invalid ID");
+        }
+        UserAccount account = userAccountRepository.findUserAccountByUserID(userID);
+        if (account == null) {
+            throw new IllegalArgumentException("The patron does not exist");
+        }
+        if (balance < 0) {
+            throw new IllegalArgumentException("balance cannot be negative!");
+        }
+        if (balance == account.getBalance()) {
+            throw new IllegalArgumentException("This is already the account balance.");
+        }
+
+        account.setBalance(balance);
         userAccountRepository.save(account);
         if (account instanceof Librarian) {
             librarianRepository.save((Librarian) account);
