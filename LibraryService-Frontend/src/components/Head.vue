@@ -78,6 +78,7 @@
             <b-row class="shadow p-3 m-3 bg-white rounded">
               <div class="w-100">
             <b-form @submit="onSubmit" @reset="onReset" v-if="true">
+              <b-form-select class="mb-2" v-model="selectedUser" :options="optionsUsers"></b-form-select>
               <b-form-group
                 id="input-group-1"
                 label="First Name:"
@@ -171,6 +172,16 @@
           </b-container>
         </b-tab>
         <b-tab title="Library Information" @click="getShifts">
+        </b-tab>
+        <b-tab title="Staff" @click="getStaff"><p>
+          <h3>Staff</h3>
+            <b-container>
+                <b-row class="shadow p-3 m-3 bg-white rounded">
+                <div class="w-100">
+                    <b-table hover :items="currentStaff"></b-table>
+                </div>
+                </b-row>
+            </b-container>
         </b-tab>
       </b-tabs>
     </div>
