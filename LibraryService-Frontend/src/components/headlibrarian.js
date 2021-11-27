@@ -157,6 +157,33 @@ export default {
             
         })
       },
+      getShifts: function() {
+        var creatorID = 1
+        AXIOS.get('/timeslot/view/librarianID/'.concat(creatorID)).then (response => {
+            this.currentShift = []
+            response.data.forEach(element => {
+                this.currentShift.push({Date: element.startDate, Start_Time: element.startTime, End_time:element.endTime })
+            });
+        })
+        .catch(e => {
+          this.currentShift = []
+          alert(e.response.data.message)
+            
+        })
+    },
+      deleteStaff: function() {
+        AXIOS.delete('/librarians/').then (response => {
+            response.data.forEach(element => {
+                this.currentStaff = []
+                this.currentStaff.push({First_Name: element.firstName, Last_Name: element.lastName, ID:element.userID })
+            });
+        })
+        .catch(e => {
+          this.currentStaff = []
+          alert(e.response.data.message)
+            
+        })
+      },
       getTransactionsForPatron: function() {
         var userID = document.getElementById("input-userID").value
         AXIOS.get('/transaction/viewall/id/'.concat(userID)).then (response => {
