@@ -9,7 +9,7 @@ var AXIOS = axios.create({
   headers: { 'Access-Control-Allow-Origin': frontendUrl }
 })
 
-function PatronDTO(firstName, lastName, onlineAccount, address, validatedAccount, password, balance, email, userID) {
+function PatronDTO(firstName, lastName, onlineAccount, password, balance, address, email, userID, validatedAccount) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.onlineAccount = onlineAccount;
@@ -68,12 +68,11 @@ export default {
             var firstName = document.getElementById("input-firstName").value
             var lastName = document.getElementById("input-lastName").value
             var address = document.getElementById("input-address").value
-            var balanceS = document.getElementById("input-balance").value
-            let balance = parseFloat(balance);
+            var balance = document.getElementById("input-balance").value
             var password = document.getElementById("input-password").value
             var onlineAccount = document.getElementById("input-onlineAccount").value
             var email = document.getElementById("input-email").value
-            AXIOS.post('/createPatron'.concat(firstName).concat("/").concat(lastName), {params: {creatorID, onlineAccount, address, validatedAccount, password, balance, email}}).then (response => {
+            AXIOS.post('/createPatron/'.concat(firstName).concat("/").concat(lastName), {params: {creatorID:parseInt("1"), onlineAccount, address, validatedAccount:true, password, balance, email}}).then (response => {
                 this.newPatron = response.data
             })
             .catch(e => {
@@ -92,7 +91,7 @@ export default {
             })
         },
         onSubmit(event) {
-            createPatron()
+            this.createPatron()
             event.preventDefault()
             alert(JSON.stringify(this.form))
         },
