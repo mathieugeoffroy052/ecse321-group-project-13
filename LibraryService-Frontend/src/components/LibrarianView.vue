@@ -180,9 +180,6 @@
             </b-row>
           </b-container>
         </b-tab>
-        <b-tab title="Workshifts" @click="getStaff"><p>
-          <h3>Staff</h3>
-        </b-tab>
       </b-tabs>
     </div>
   </div>

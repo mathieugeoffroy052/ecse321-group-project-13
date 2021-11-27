@@ -173,6 +173,9 @@
         </b-tab>
         <b-tab title="Library Information" @click="getShifts">
         </b-tab>
+        <b-tab title="Workshifts" @click="getStaff"><p>
+          <h3>Staff</h3>
+        </b-tab>
       </b-tabs>
     </div>
   </div>
