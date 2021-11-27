@@ -72,13 +72,14 @@
           </b-container>
         </b-tab>
         <b-tab title="Add User">
-          <div>
+          <b-container>
+            <b-row class="shadow p-3 m-3 bg-white rounded">
+              <div class="w-100">
             <b-form @submit="onSubmit" @reset="onReset" v-if="true">
               <b-form-group
                 id="input-group-1"
                 label="First Name:"
                 label-for="input-1"
-                class="w-50"
               >
                 <b-form-input
                   id="input-1"
@@ -92,7 +93,6 @@
                 id="input-group-2"
                 label="Last Name:"
                 label-for="input-2"
-                class="w-50"
               >
                 <b-form-input
                   id="input-2"
@@ -106,7 +106,6 @@
                 id="input-group-3"
                 label="Address:"
                 label-for="input-3"
-                class="w-50"
               >
                 <b-form-input
                   id="input-3"
@@ -120,7 +119,6 @@
                 id="input-group-4"
                 label="Balance:"
                 label-for="input-4"
-                class="w-50"
               >
                 <b-form-input
                   id="input-4"
@@ -130,13 +128,14 @@
                 ></b-form-input>
               </b-form-group>
 
-              <div>
-                <b-form-group label="Online Account" v-slot="{ ariaDescribedby }" >
-                  <b-form-radio v-model="selected" :aria-describedby="ariaDescribedby" name="some-radios" id="online" value=true>Yes</b-form-radio>
-                </b-form-group>
+              <div class="form-check p-3">
+                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                <label class="form-check-label" for="defaultCheck1">
+                  Online Account
+                </label>
               </div>
 
-              <b-form-group id="input-group-5" label="Password:" label-for="input-5" class="w-50">
+              <b-form-group id="input-group-5" label="Password:" label-for="input-5">
                 <b-form-input
                   id="input-5"
                   v-model="form.password"
@@ -145,7 +144,7 @@
                 ></b-form-input>
               </b-form-group>
 
-              <b-form-group id="input-group-6" label="Email:" label-for="input-6" class="w-50">
+              <b-form-group id="input-group-6" label="Email:" label-for="input-6" >
                 <b-form-input
                   id="input-6"
                   v-model="form.email"
@@ -157,7 +156,9 @@
               <b-button type="Create" variant="primary">Submit</b-button>
               <b-button type="reset" variant="danger">Reset</b-button>
             </b-form>
-          </div>
+              </div>
+            </b-row>
+          </b-container>
         </b-tab>
         <b-tab title="Workshifts"><p>I'm a disabled tab!</p></b-tab>
       </b-tabs>
