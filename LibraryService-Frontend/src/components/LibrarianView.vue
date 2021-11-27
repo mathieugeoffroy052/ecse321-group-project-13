@@ -8,7 +8,7 @@
             <b-row>
               <b-col id="panne" class="shadow p-3 m-3 bg-white rounded">
                 <h5>User Information
-                  <b-button style="height:24px;width:24px" class="float-right p-0 d-inline" id="tempButtons" variant="success" @click="getPatron(input-user)">+</b-button> 
+                  <b-button style="height:24px;width:24px" class="float-right p-0 d-inline" id="tempButtons" variant="success" @click="getPatron()">+</b-button> 
                 </h5>
                 <b-form-group>
                   <b-form-input
@@ -19,21 +19,22 @@
                 </b-form-group>
                 <div class="my-3">
                   <b>Name:</b>
-                  <p class="d-inline">Matty</p>
+                  <p class="d-inline">{{currentPatron.firstName}}</p>
+                  <p class="d-inline">{{currentPatron.lastName}}</p>
                 </div>
                 <div class="my-3">
                   <b>Email:</b>
-                  <p class="d-inline">matty@gmail.com</p>
+                  <p class="d-inline">{{currentPatron.email}}</p>
                 </div>
                 <div class="my-3">
                   <b>Address:</b>
-                  <p class="d-inline">54 Durocher</p>
+                  <p class="d-inline">{{currentPatron.address}}</p>
                   <b-button style="height:24px;width:83px" class="float-right py-0 d-inline" id="tempButtons" variant="danger">Validate</b-button> 
                 </div>
                 <div class="my-3">
                   <b>Balance:</b>
                   <p class="d-inline">$</p>
-                  <p class="d-inline">5</p>
+                  <p class="d-inline">{{currentPatron.balance}}</p>
                   <b-button style="height:24px;width:83px" class="float-right py-0 d-inline" id="tempButtons" variant="danger">Payed</b-button>
                 </div>
               </b-col>
@@ -44,24 +45,24 @@
                 <b-form-select class="mb-2" v-model="selectedTransactionType" :options="optionsTransactionType"></b-form-select>
                 <b-form-group>
                   <b-form-input
-                    id="input-isbn"
-                    v-model="form.isbn"
-                    placeholder="Enter an ISBN"
+                    id="input-barcode"
+                    v-model="form.barcode"
+                    placeholder="Enter a barcode"
                     required
                   ></b-form-input>
                 </b-form-group>
                 <div class="my-3">
-                  <b>Type</b>
+                  <b>{{borrowableItem.type}}</b>
                   <b class="d-inline">Name:</b>
-                  <p class="d-inline">Dora</p>
+                  <p class="d-inline">{{borrowableItem.name}}</p>
                 </div>
                 <div class="my-3">
-                  <b>Author: </b>
-                  <p class="d-inline">Diego</p>
+                  <b>{{creator}}:</b>
+                  <p class="d-inline">{{borrowableItem.creator}}</p>
                 </div>
                 <div class="my-3">
                   <b>Return by:</b>
-                  <p class="d-inline">lol</p>
+                  <p class="d-inline">{{transaction.deadline}}</p>
                 </div>
               </b-col>
             </b-row>

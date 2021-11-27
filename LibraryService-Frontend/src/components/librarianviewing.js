@@ -53,20 +53,12 @@ export default {
                 //     checked = document.getElementById('online').value;
                 //   }
             },
-            libraryItems: [],
-            newLibraryItem: '',
-            existingLibraryItem: '',
-            errorLibraryItem: '',
-            transactions: [],
-            newTransaction: '',
-            existingTransaction: '',
-            errorTransaction: '',
-            borrowableItems: [],
-            newBorrowableItem: '',
-            existingBorrowableItems: [],
-            existingBorrowableItem: '',
             errorBorrowableItem: '',
-            patrons: [],
+            borrowableItem: '',
+            creator: '',
+            transaction: '',
+            transactions: [],
+            errorTransaction: '',
             newPatron: '',
             currentPatron: '',
             errorPatron: '',
@@ -102,9 +94,8 @@ export default {
         //   this.$nextTick(() => {
         //     this.show = true
         //   })
-        }
-    },
-    getPatron: function() {
+        },
+      getPatron: function() {
         var userID = document.getElementById("input-userID").value
         AXIOS.get('/patron/'.concat(userID)).then (response => {
             this.currentPatron = response.data
@@ -114,5 +105,6 @@ export default {
             console.log(errorMsg)
             this.errorPatron = errorMsg
         })
+      }
     }
 }
