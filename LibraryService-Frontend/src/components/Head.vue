@@ -72,8 +72,8 @@
             </b-row>
           </b-container>
         </b-tab>
-        <b-tab title="Add New Patron">
-          <h3>Create Patron</h3>
+        <b-tab title="Add New User">
+          <h3>Create User</h3>
           <b-container>
             <b-row class="shadow p-3 m-3 bg-white rounded">
               <div class="w-100">
@@ -171,8 +171,6 @@
           </b-container>
         </b-tab>
         <b-tab title="Library Information" @click="getShifts">
-        </b-tab>
-        <b-tab title="Staff" @click="getShifts">
         </b-tab>
       </b-tabs>
     </div>

@@ -7,6 +7,7 @@ import NewspaperSearch from '@/components/NewspaperSearch'
 import BookSearch from '@/components/BookSearch'
 import MovieSearch from '@/components/MovieSearch'
 import LibrarianView from '@/components/LibrarianView'
+import Head from '@/components/Head'
 
 Vue.use(Router)
 
@@ -49,8 +50,8 @@ export default new Router({
     },
     {
       path: '/headlibraryservices',
-      name: 'HeadLibrarianView',
-      component: HeadLibrarianView
+      name: 'Head',
+      component: Head
     }
   ]
 })
