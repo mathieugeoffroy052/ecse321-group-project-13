@@ -79,7 +79,10 @@ export default {
             ],
             currentPatronTransactions: [
               { Name: 'Titanic', Creator: 'Dickerson', Item_Type: 'Movie', Transaction_Type: 'Return' }
-            ]
+            ],
+            currentShift: [
+                { Date: 'today', Start_Time: 'bob', End_Time: 'end'}
+              ]
         }
     },
     methods: {

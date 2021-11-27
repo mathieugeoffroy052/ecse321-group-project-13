@@ -72,6 +72,7 @@
           </b-container>
         </b-tab>
         <b-tab title="Add User">
+          <h3>Create User</h3>
           <b-container>
             <b-row class="shadow p-3 m-3 bg-white rounded">
               <div class="w-100">
@@ -168,7 +169,16 @@
             </b-row>
           </b-container>
         </b-tab>
-        <b-tab title="Workshifts"><p>I'm a disabled tab!</p></b-tab>
+        <b-tab title="Workshifts"><p>
+            <b-container>
+            <b-row class="shadow p-3 m-3 bg-white rounded">
+              <div class="w-100">
+                <h3>Work Schedule</h3>
+                  <b-table hover :items="currentShift"></b-table>
+              </div>
+            </b-row>
+          </b-container>
+        </p></b-tab>
       </b-tabs>
     </div>
   </div>
