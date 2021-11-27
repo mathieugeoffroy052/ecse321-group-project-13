@@ -81,16 +81,16 @@ export default {
             })
         },
         getShifts: function() {
-            var userID = document.getElementById("input-userID").value
-            AXIOS.get('/timeslot/view/'.concat(creatorID)).then (response => {
+            var creatorID = 1
+            AXIOS.get('/timeslot/view/librarianID/'.concat(creatorID)).then (response => {
                 response.data.forEach(element => {
-                    currentShift.push({Date: element.startDate, Start_Time: element.startTime, End_time:element.endTime })
+                    this.currentShift.push({Date: element.startDate, Start_Time: element.startTime, End_time:element.endTime })
                 });
             })
             .catch(e => {
-                var errorMsg = e.response.data.message
-                console.log(errorMsg)
-                this.errorPatron = errorMsg
+              this.currentShift = []
+              alert(e.response.data.message)
+                
             })
         },
         onSubmit(event) {
