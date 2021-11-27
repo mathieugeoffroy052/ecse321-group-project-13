@@ -8,6 +8,7 @@ import BookSearch from '@/components/BookSearch'
 import MovieSearch from '@/components/MovieSearch'
 import LibrarianView from '@/components/LibrarianView'
 import Head from '@/components/Head'
+import UserDashBoard from '@/components/UserDashBoard'
 
 Vue.use(Router)
 
@@ -52,6 +53,12 @@ export default new Router({
       path: '/headlibraryservices',
       name: 'Head',
       component: Head
+    },
+    {
+      path: '/userDashBoard',
+      name: 'UserDashBoard',
+      component: UserDashBoard
     }
+
   ]
 })
