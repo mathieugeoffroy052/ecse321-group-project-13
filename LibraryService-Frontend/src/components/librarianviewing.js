@@ -68,7 +68,7 @@ export default {
             currentPatron: '',
             errorPatron: '',
             response: [],
-            selected: null,
+            selectedTransactionType: null,
             optionsTransactionType: [
               { value: null, text: 'Select a transaction type' },
               { value: 'Borrow', text: 'Borrow'},
@@ -98,8 +98,9 @@ export default {
         //   })
         }
     },
-    getPatron: function(patronUserID) {
-        AXIOS.get('/patron/'.concat(patronUserID)).then (response => {
+    getPatron: function() {
+        var userID = document.getElementById("input-userID").value
+        AXIOS.get('/patron/'.concat(userID)).then (response => {
             this.currentPatron = response.data
         })
         .catch(e => {
