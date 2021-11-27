@@ -48,10 +48,10 @@ export default {
                 firstName: '',
                 // name: '',
                 // food: null,
-                // checked: []
-                if (document.getElementById('online').checked) {
-                    checked = document.getElementById('online').value;
-                  }
+                // // checked: []
+                // if (document.getElementById('online').checked) {
+                //     checked = document.getElementById('online').value;
+                //   }
             },
             libraryItems: [],
             newLibraryItem: '',
@@ -70,7 +70,16 @@ export default {
             newPatron: '',
             currentPatron: '',
             errorPatron: '',
-            response: []
+            response: [],
+            selected: null,
+            optionsTransactionType: [
+              { value: null, text: 'Select a transaction type' },
+              { value: 'Borrow', text: 'Borrow'},
+              { value: 'Return', text: 'Return'}
+            ],
+            currentPatronTransactions: [
+              { Name: 'Titanic', Creator: 'Dickerson', Item_Type: 'Movie', Transaction_Type: 'Return' }
+            ]
         }
     },
     methods: {
