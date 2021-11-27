@@ -555,7 +555,13 @@ public class LibraryServiceRestController {
 
     @GetMapping(value = { "/transaction/viewall/id/{userID}", "/transaction/viewall/id/{userID}/"})
     public List<TransactionDTO> getAllTransactionsPerUser(@PathVariable(name = "userID") int userID) {
-        return service.getAllTransactions().stream().map(p -> convertToDto(p)).collect(Collectors.toList());
+        List<TransactionDTO> transactions = new ArrayList<TransactionDTO>();
+        for (Transaction t : service.getAllTransactions()) {
+            if (t.getUserAccount().getUserID() == userID) {
+                transactions.add(convertToDto(t));
+            }
+        }
+        return transactions;
     }
   
     /** 

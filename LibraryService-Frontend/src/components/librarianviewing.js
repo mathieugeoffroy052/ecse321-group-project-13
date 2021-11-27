@@ -46,7 +46,6 @@ export default {
             errorBorrowableItem: '',
             borrowableItem: '',
             libraryItem: '',
-            creator: '',
             transaction: '',
             transactions: [],
             errorTransaction: '',
@@ -142,13 +141,12 @@ export default {
       },
       getTransactionsForPatron: function() {
         var userID = document.getElementById("input-userID").value
+        this.currentPatronTransactions = []
         AXIOS.get('/transaction/viewall/id/'.concat(userID)).then (response => {
-          this.currentPatronTransactions = []
           response.data.forEach(element => {
             this.currentPatronTransactions.push({ ID: element.transactionID, Name: element.borrowableItem.libraryItem.name, Creator: element.borrowableItem.libraryItem.creator, Barcode: element.borrowableItem.barCodeNumber, Item: element.borrowableItem.libraryItem.type, Type: element.transactionType, Deadline: element.deadline }) 
           })
         }).catch(e => {
-          this.currentPatronTransactions = []
           alert(e.response.data.message)
         })
       },
@@ -185,6 +183,14 @@ export default {
             alert(e.response.data.message)
           })
         }
+      },
+      validateCurrentPatron: function() {
+        var userID = parseInt(document.getElementById("input-userID").value)
+        AXIOS.put("/setAccountValidity", {}, {params: {patronID:userID, validatedAccount:true, creatorID:1}}).then (response => {
+          this.currentPatron = response.data
+        }).catch(e => {
+          alert(e.response.data.message)
+        })
       },
       getBorrowableItem: function() {
         var userID = document.getElementById("input-barcode").value

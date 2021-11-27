@@ -29,13 +29,13 @@
                 <div class="my-3">
                   <b>Address:</b>
                   <p class="d-inline">{{currentPatron.address}}</p>
-                  <b-button style="height:24px;width:83px" class="float-right py-0 d-inline" id="tempButtons" variant="danger">Validate</b-button> 
+                  <b-button style="height:24px;width:83px" class="float-right py-0 d-inline" id="tempButtons" variant="danger" v-if="!currentPatron.validatedAccount && currentPatron != ''" @click="validateCurrentPatron()">Validate</b-button> 
                 </div>
                 <div class="my-3">
                   <b>Balance:</b>
-                  <p class="d-inline">$</p>
+                  <p class="d-inline" v-if="currentPatron != ''">$</p>
                   <p class="d-inline">{{currentPatron.balance}}</p>
-                  <b-button style="height:24px;width:83px" class="float-right py-0 d-inline" id="tempButtons" variant="danger">Payed</b-button>
+                  <b-button style="height:24px;width:83px" class="float-right py-0 d-inline" id="tempButtons" variant="danger" v-if="currentPatron.balance > 0">Payed</b-button>
                 </div>
               </b-col>
               <b-col class="shadow p-3 m-3 bg-white rounded"> 
