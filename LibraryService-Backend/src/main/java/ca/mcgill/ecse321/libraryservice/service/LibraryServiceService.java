@@ -2267,6 +2267,41 @@ public class LibraryServiceService {
     }
 
     /**
+     * change account balane
+     * @param balance new balance
+     * @param userID that we want to change the balance
+     * @return updated UserAccount
+     * @author Mathieu Geoffroy
+     */
+    public UserAccount changeAccountBalance(int balance, int userID) {
+        if (userID <= 0) {
+            throw new IllegalArgumentException("Invalid ID");
+        }
+        UserAccount account = userAccountRepository.findUserAccountByUserID(userID);
+        if (account == null) {
+            throw new IllegalArgumentException("The patron does not exist");
+        }
+        if (balance < 0) {
+            throw new IllegalArgumentException("balance cannot be negative!");
+        }
+        if (balance == account.getBalance()) {
+            throw new IllegalArgumentException("This is already the account balance.");
+        }
+
+        account.setBalance(balance);
+        userAccountRepository.save(account);
+        if (account instanceof Librarian) {
+            librarianRepository.save((Librarian) account);
+            if (account instanceof HeadLibrarian) {
+                headLibrarianRepository.save((HeadLibrarian) account);
+            }
+        } else {
+            patronRepository.save((Patron) account);
+        }
+        return account;
+    }
+
+    /**
      * @author Gabrielle Halpin This method allows the user to change their lastName
      * @param aLastName
      * @param userID

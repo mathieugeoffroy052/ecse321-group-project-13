@@ -344,6 +344,14 @@ public class LibraryServiceRestController {
 		return accountDTO; 
 	}
 
+    @PutMapping(value = {"/updateBalance", "/updateBalance/"})
+	public UserAccountDTO updateBalance(@RequestParam int userID, @RequestParam int balance) {
+		UserAccountDTO accountDTO = new UserAccountDTO();
+		UserAccount  account = service.changeAccountBalance(balance, userID);
+		accountDTO = convertToDto(account);
+		return accountDTO; 
+	}
+
     /**
      * @author Gabrielle Halpin
 	 * Update Address of the user
