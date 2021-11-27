@@ -157,12 +157,12 @@
 
 
               <b-row class="justify-content-center">
-                <b-column class="p-3 ">
-                  <b-button type="Create" variant="primary" style="width:76px;height:38">Submit</b-button>
-                </b-column>
-                <b-column class="p-3">
-                  <b-button type="reset" variant="danger" style="width:76px;height:38">Reset</b-button>
-                </b-column>
+                <b-col class="p-3 ">
+                  <b-button type="Create" class="float-right" variant="primary" style="width:76px;height:38">Submit</b-button>
+                </b-col>
+                <b-col class="p-3">
+                  <b-button type="reset" class="float-left" variant="danger" style="width:76px;height:38">Reset</b-button>
+                </b-col>
               </b-row>
 
             </b-form>
@@ -170,7 +170,7 @@
             </b-row>
           </b-container>
         </b-tab>
-        <b-tab title="Workshifts"><p>
+        <b-tab title="Workshifts" @change="getShifts()"><p>
           <h3>Work Schedule</h3>
             <b-container>
             <b-row class="shadow p-3 m-3 bg-white rounded">

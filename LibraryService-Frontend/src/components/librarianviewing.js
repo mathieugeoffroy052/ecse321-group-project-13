@@ -80,6 +80,17 @@ export default {
                 alert(e.response.data.message)                
             })
         },
+        getShifts: function() {
+            var userID = document.getElementById("input-userID").value
+            AXIOS.get('/timeslot/view/'.concat(creatorID)).then (response => {
+                this.currentShift = response.data
+            })
+            .catch(e => {
+                var errorMsg = e.response.data.message
+                console.log(errorMsg)
+                this.errorPatron = errorMsg
+            })
+        },
         onSubmit(event) {
             createPatron()
             event.preventDefault()
