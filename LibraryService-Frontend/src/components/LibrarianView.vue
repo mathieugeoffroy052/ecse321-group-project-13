@@ -153,8 +153,16 @@
                 ></b-form-input>
               </b-form-group>
 
-              <b-button type="Create" variant="primary">Submit</b-button>
-              <b-button type="reset" variant="danger">Reset</b-button>
+
+              <b-row class="justify-content-center">
+                <b-column class="p-3 ">
+                  <b-button type="Create" variant="primary" style="width:76px;height:38">Submit</b-button>
+                </b-column>
+                <b-column class="p-3">
+                  <b-button type="reset" variant="danger" style="width:76px;height:38">Reset</b-button>
+                </b-column>
+              </b-row>
+
             </b-form>
               </div>
             </b-row>
