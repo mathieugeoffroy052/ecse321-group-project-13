@@ -704,9 +704,6 @@ public class LibraryServiceService {
                                                                                                              // reservation
         transactionRepository.save(roomReservation);
 
-        item.setState(ItemState.Reserved);
-        borrowableItemRepository.save(item);
-
         return roomReservation;
     }
 

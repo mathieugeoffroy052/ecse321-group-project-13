@@ -14,9 +14,9 @@ export default {
     name: 'roomsearch',
     data () {
       return {
-        roomTransactions: [],
-        newRoomTransaction: '',
-        errorRoomTransaction: '',
+        // roomItems: [],
+        // newRoomItem: '',
+        // errorRoomItem: '',
         value: '',
         available: 0,
         buttonDisabled: 1
@@ -26,10 +26,10 @@ export default {
     created: function () {
         AXIOS.get('/rooms/')
         .then(response => {
-            this.roomTransactions = response.data
+            this.roomItems = response.data
         })
         .catch(e => {
-            this.errorRoomTransaction = e
+            this.errorRoomItem = e
         })
         this.available = 0
         this.buttonDisabled = 1
@@ -38,58 +38,38 @@ export default {
     methods: {
         setupRoomTransaction: function (){
             if(this.value != ""){   // if a value from the calender is selected
-                // Set room as available, unless there is a transaction that has already been made on that same date
-                this.available = 1
-                for (let i = 0; i < this.roomTransactions.length; i++) {
-                    if(this.roomTransactions[i]["deadline"] == this.value){
-                       this.available = 0
-                    }
-                }
-                if (Boolean(this.available)){
-                    // Enable button
-                    this.buttonDisabled = 0  
-                    document.getElementById("reserve-button").disabled = Boolean(this.buttonDisabled)
-                    console.log("changed button status to enabled")
-
-                    document.getElementById("status").innerHTML = "Room booking is available"
-                }
-                else {
-                    // Disable button
-                    this.buttonDisabled = 1  
-                    document.getElementById("reserve-button").disabled = Boolean(this.buttonDisabled)
-                    console.log("changed button status disabled")
-
-                    document.getElementById("status").innerHTML = "Room booking is not available"
-                }
+                // Enable button
+                this.buttonDisabled = 0  
+                document.getElementById("reserve-button").disabled = Boolean(this.buttonDisabled)
+                console.log("changed button status to enabled")
             }
         },
         createRoomTransaction: function () {
             console.log("entered create room transaction")
-            if(!Boolean(this.buttonDisabled)){
-                var params = {
-                    barCodeNumber: 1,
-                    userID: 7,
-                    date: this.value,
-                    startTime: "08:00",
-                    endTime: "11:30"
+            var params = {
+                userID: 7,
+                date: this.value,
+            }
+            AXIOS.post('/reserve-room', {}, {params})
+            .then(response => {
+                document.getElementById("status").innerHTML = "Room Booked!"
+            })
+            .catch(e => {
+                var errorMessage = e.response.data.message
+                console.log("Error Message: " + errorMessage)
+                if(errorMessage == "Item cannot be null! "){
+                    alert("No rooms exist")
                 }
-                console.log("value = " + this.value)
-                AXIOS.post('/reserve-room', {}, {params})
-                .then(response => {
-                    this.roomTransactions.push(response.data)
-                    this.errorTransaction = ''
-                    this.newTransaction = ''
-                    document.getElementById("status").innerHTML = "Room Booked!"
-                })
-                .catch(e => {
-                    var errorMessage = e.response.data.message
-                    console.log(errorMessage)
-                    this.errorTransaction = errorMessage
-                })
-            }
-            // Reset the name field for new people
-            this.newRoomTransaction = ''
-            this.errorRoomTransaction = ''
-            }
+                else if(errorMessage == "Cannot book a room in the past"){
+                    document.getElementById("status").innerHTML = "Cannot reserve a room in the past, please try again"
+                }
+                else if(errorMessage == "Room already booked on that date, please try another or the watilist."){
+                    document.getElementById("status").innerHTML = "Room booking not available on this date, please try again"
+                }
+                else{
+                    document.getElementById("status").innerHTML = "OTHER ERROR"
+                }
+            })
         }
     }
+}
