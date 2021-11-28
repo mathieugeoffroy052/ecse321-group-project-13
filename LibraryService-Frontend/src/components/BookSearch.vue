@@ -33,7 +33,7 @@
     <p id="invalidInput"></p>
     
     <div>
-      <div id="" style="overflow:scroll; height:300px;">
+      <div id="" style="overflow-y:scroll; height:300px;">
         <v-row justify="center" v-for="libItem in libraryItems" :key="libItem.name">
             <input type="radio" name="item" :value="libItem.isbn">{{ " " + libItem.name }}<br> {{ libItem.creator + ", " + libItem.date + ". " + "isbn " + libItem.isbn }} <br>
         </v-row>
