@@ -81,6 +81,7 @@ export default {
             dateWorkshift:'',
             startTimeWorkshift:'',
             endTimeWorkshift:'',
+            newTimeSlot:'',
             errorPatron: '',
             response: [],
             selectedTransactionType: null,
@@ -165,7 +166,14 @@ export default {
             })
         },
         createTimeslot: function() {
-          AXIOS.post('timeslot/new', {}, {params: {startDate:this.dateWorkshift, endDate:this.dateWorkshift, startTime:this.startTimeWorkshift, endTime:this.endTimeWorkshift, currentUserID:1}})
+          AXIOS.post('timeslot/new', {}, {params: {startDate:this.dateWorkshift, endDate:this.dateWorkshift, startTime:this.startTimeWorkshift, endTime:this.endTimeWorkshift, currentUserID:1}}).then (response => {
+            this.newTimeSlot = response.data
+            this.getAllShifts()
+        })
+        .catch(e => {
+            this.newTimeSlot = ''
+            alert(e.response.data.message)                
+        })
         },
         onSubmitUSER(event) {
             this.createUser()
