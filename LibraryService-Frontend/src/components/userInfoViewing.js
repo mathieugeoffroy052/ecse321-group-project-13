@@ -21,11 +21,56 @@ function PatronDTO(firstName, lastName, onlineAccount, password, balance, addres
     this.userID = userID;
 }
 
-function TransactionDTO(type, deadline, borrowableItem, userAccount, transactionID)
+export default {
+    name: 'userDashBoard',
+    data () {
+        return {
+
+           
+            
+            currentPatron: '',
+            errorPatron: '',
+            response: []
+        }
+    },
+
+
+    created: function () {
+        var userID = document.getElementById("123").value
+        AXIOS.get('/patron/'.concat(userID)).then (response => {
+            this.currentPatron = response.data
+        })
+        .catch(e => {
+            this.currentPatron = ''
+            alert(e.response.data.message)
+            
+        })
+    
+    
+
+
+    },
+   methods: {
+
+   getUserInfo: function()
 {
-  this.transactionType = type;
-  this.deadline = deadline;
-  this.borrowableItem = borrowableItem;
-  this.userAccount = userAccount;
-  this.transactionID = transactionID;
+    var userID = document.getElementById("123").value
+    AXIOS.get('/patron/'.concat(userID)).then (response => {
+        this.currentPatron = response.data
+    })
+    .catch(e => {
+        this.currentPatron = ''
+        alert(e.response.data.message)
+        
+    })
+  },
+
+
+
+
+
+
+
+     
+    }
 }

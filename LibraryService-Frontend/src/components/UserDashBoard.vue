@@ -4,52 +4,56 @@
     <h2>Your Account Information</h2>
         <div> 
             <b-container id="profileInfo"> 
-          
-                <b-row align-h="center">
-                    <b-avatar class= "my-2" ></b-avatar>
-                    
-                   
+               
+                
+                <b-row align-h="center" class="mb 3">
+                  
+                    <b-avatar ></b-avatar>
+   
+            
                 </b-row>
               
-                 <b-row align-h="center">    
+                 <b-row align-h="center">  
                    <b-badge href="#" variant="success">Activated</b-badge>
                  </b-row>
                
                 <b-row class="my-4">
                     <b-col >
                         <h3>Personal Information</h3>
-                        <b-row align-h="center">
-                            <div class="my-2">
-                            <b>First Name:</b>
-                            <b-form-input v-model="text" placeholder="Jonh"></b-form-input>
-                            </div>
-
-                            <div class="my-2">
-                            <b>Last Name:</b>
-                            <b-form-input v-model="text" placeholder="Doe"></b-form-input>
-                            </div>
+                        <b-row align-h="center" >
+                           <B >{{currentPatron.firstName}}</b>
+                           <b>{{currentPatron.lastName}}</b>
                         </b-row>
-                    
-                        <b-row align-h="center">
-                            <div class="my-2">
-                                <b>Email:</b>
-                                <b-form-input v-model="text" placeholder="sarah@mail.ca"></b-form-input>
-                            </div>
 
 
-                            <div class="my-2">
-                                <b>Address:</b>
-                                <b-form-input v-model="text" placeholder="123 charming avenue"></b-form-input>
-                            </div>
-                        </b-row> 
-                        <b-row align-h="center" class="my-2">
+
+                         <b-row align-h="center" >
+                            <b>Email: </b>
+                            <b >{{currentPatron.lastName}}</b>
+                           
+                        </b-row>
+                        <b-row align-h="center" >
+                            <b>Addresse: </b>
+                            <b >{{currentPatron.lastName}}</b>
+                           
+                        </b-row>
+
+                         <b-row align-h="center" class="my-4" >
+                          <h4>Update your Information</h4>
+                          <b>Update Email Adresse:</b>
+                          <b-form-input id="updateEmail"  placeholder="sarah@mail.ca"></b-form-input>
+
+                        </b-row >
+                        
+                        <b-row align-h="center" class="my-1"  >    
+                               
                             
-                                <b>Change Passowrd:</b>
-                                <b-form-input v-model="text" placeholder="New Passowrd"></b-form-input>
-                               <b-form-input v-model="text" placeholder="Comfirm Password"></b-form-input>
+                                <b>Change Passoword:</b>
+                                <b-form-input id="updatePassword1"  placeholder="New Passowrd"></b-form-input>
+                               <b-form-input id="updatePassword1"  placeholder="Comfirm Password"></b-form-input>
                         </b-row>
-                        <b-row align-h="center" class="my-5" >
-                               <b-button block variant="primary">Comfirm changes </b-button>
+                        <b-row align-h="center" class="my-2" >
+                               <b-button block variant="primary" @click="updateInfo()">Comfirm changes </b-button>
                              
                         </b-row>   
                         
@@ -88,7 +92,7 @@
 
 </template>
 
-<script>
+<script src="./userInfoViewwing.js">
 </script>
 
 
