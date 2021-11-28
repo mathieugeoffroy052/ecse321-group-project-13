@@ -76,7 +76,7 @@ public class LibraryServiceRestController {
      * @throws Exception
      */
     @DeleteMapping(value = {"/holiday/delete", "/holiday/delete/"})
-    public boolean deleteHoliday(@RequestParam (name = "holidayID") int holidayID, @RequestParam (name = "accountID") int accountID) throws Exception {
+    public boolean deleteHoliday(@RequestParam (name = "holidayID") Integer holidayID, @RequestParam (name = "accountID") Integer accountID) throws Exception {
         return service.deleteHoliday(accountID, holidayID);
     }
 
@@ -138,7 +138,7 @@ public class LibraryServiceRestController {
      * @throws Exception
      */
     @DeleteMapping(value = {"/openinghour/delete", "/openinghour/delete/"})
-    public boolean deleteOpeningHour(@RequestParam (name = "openinghourID") int openinghourID, @RequestParam (name = "accountID") int accountID) throws Exception {
+    public boolean deleteOpeningHour(@RequestParam (name = "openinghourID") Integer openinghourID, @RequestParam (name = "accountID") Integer accountID) throws Exception {
         return service.deleteOpeningHour(accountID, openinghourID);
     }
 

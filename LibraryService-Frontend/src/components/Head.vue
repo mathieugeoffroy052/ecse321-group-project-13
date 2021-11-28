@@ -252,13 +252,16 @@
         </b-tab>
         <b-tab
           title="Library Information"
-          @click="getAllOpeningHours(); getAllHolidays()"
+          @click="
+            getAllOpeningHours();
+            getAllHolidays();
+          "
         >
           <b-container>
             <b-row>
               <b-col>
                 <b-col class="shadow p-3 m-3 bg-white rounded">
-                  <h4>Create Opening Hours</h4>
+                  <h5>Create Opening Hours</h5>
                   <b-form
                     @submit="onSubmitHour"
                     @reset="onResetHour"
@@ -306,7 +309,7 @@
                       <b-table hover :items="allOpeningHours"></b-table>
                     </div>
                   </b-row>
-                  <h4>Delete an Opening Hour</h4>
+                  <h5>Delete an Opening Hour</h5>
                   <b-form
                     @submit="onSubmitDelHour"
                     @reset="onResetDelOpening"
@@ -351,7 +354,7 @@
               </b-col>
               <b-col>
                 <b-col class="shadow p-3 m-3 bg-white rounded">
-                  <h4>Create a Holiday</h4>
+                  <h5>Create a Holiday</h5>
                   <b-form
                     @submit="onSubmitHoliday"
                     @reset="onResetHoliday"
@@ -399,7 +402,7 @@
                       <b-table hover :items="allHolidays"></b-table>
                     </div>
                   </b-row>
-                  <h4>Delete a Holiday</h4>
+                  <h5>Delete a Holiday</h5>
                   <b-form
                     @submit="onSubmitDelHoliday"
                     @reset="onResetDelHoliday"
@@ -444,22 +447,23 @@
             </b-row>
           </b-container>
         </b-tab>
-        <b-tab title="Staff" @click="getAllStaff(); getAllShifts()"
+        <b-tab
+          title="Staff"
+          @click="
+            getAllStaff();
+            getAllShifts();
+          "
           ><p></p>
-          <h3>Staff</h3>
           <b-container>
             <b-row>
               <b-col class="shadow p-3 m-3 bg-white rounded">
+                <h5>Current Staff</h5>
                 <b-row class="shadow p-3 m-3 bg-white rounded">
                   <div class="w-100">
                     <b-table hover :items="currentStaff"></b-table>
                   </div>
                 </b-row>
-                <b-form
-                  @submit="onDelStaff"
-                  @reset="onResetStaff"
-                  v-if="true"
-                >
+                <b-form @submit="onDelStaff" @reset="onResetStaff" v-if="true">
                   <b-row class="justify-content-center">
                     <b-form-group
                       id="input-userID"
@@ -497,39 +501,106 @@
                 </b-form>
               </b-col>
               <b-col class="shadow p-3 m-3 bg-white rounded">
-                <h4>Assign workshift</h4>
-                <b-form-datepicker
-                  id="workshift-datepicker"
-                  v-model="dateWorkshift"
-                  class="mb-2 mt-0"
-                ></b-form-datepicker>
-                <b-form-timepicker
-                  id="workshift-startTimePicker"
-                  v-model="startTimeWorkshift"
-                  class="my-2"
-                ></b-form-timepicker>
-                <b-form-timepicker
-                  id="workshift-endTimeWorkshift"
-                  v-model="endTimeWorkshift"
-                  class="my-2"
-                ></b-form-timepicker>
-                <b-form-group
-                  id="input-user"
-                  label="Enter the userID fot the selected librarian:"
-                  label-for="input-user"
+                <h5>Assign workshift</h5>
+                <b-form
+                  @submit="onSubmitTimeslot"
+                  @reset="onResetTimeslot"
+                  v-if="true"
                 >
-                  <b-form-input
+                  <b-form-datepicker
+                    id="workshift-datepicker"
+                    v-model="dateWorkshift"
+                    class="mb-2 mt-0"
+                  ></b-form-datepicker>
+                  <b-form-timepicker
+                    id="workshift-startTimePicker"
+                    v-model="startTimeWorkshift"
+                    class="my-2"
+                  ></b-form-timepicker>
+                  <b-form-timepicker
+                    id="workshift-endTimeWorkshift"
+                    v-model="endTimeWorkshift"
+                    class="my-2"
+                  ></b-form-timepicker>
+                  <b-form-group
                     id="input-user"
-                    v-model="formStaff.userID"
-                    placeholder="Enter a userID"
-                    required
-                  ></b-form-input>
-                </b-form-group>
+                    label="Enter the User ID for the Selected Librarian:"
+                    label-for="input-user"
+                  >
+                    <b-form-input
+                      id="input-user"
+                      v-model="formStaff.userID"
+                      placeholder="Enter a userID"
+                      required
+                    ></b-form-input>
+                  </b-form-group>
+                  <b-row class="justify-content-center">
+                    <b-col class="p-3 ">
+                      <b-button
+                        type="submit"
+                        class="float-right"
+                        variant="primary"
+                        style="width:76px;height:38"
+                        >Create</b-button
+                      >
+                    </b-col>
+                    <b-col class="p-3">
+                      <b-button
+                        type="reset"
+                        class="float-left"
+                        variant="danger"
+                        style="width:76px;height:38"
+                        >Reset</b-button
+                      >
+                    </b-col>
+                  </b-row>
+                </b-form>
+                <h5>All Workshifts</h5>
                 <b-row class="shadow p-3 m-3 bg-white rounded">
                   <div class="w-100">
                     <b-table hover :items="allShifts"></b-table>
                   </div>
                 </b-row>
+                <h5>Delete a Workshift</h5>
+                <b-form
+                  @submit="onSubmitDelTimeslot"
+                  @reset="onResetDelTimeslot"
+                  v-if="true"
+                >
+                  <b-row class="justify-content-center">
+                    <b-form-group
+                      label="To delete a specific workshift, enter its ID below:"
+                      label-for="input-timeslot"
+                    >
+                      <b-form-input
+                        id="input-timeslot"
+                        v-model="formHoliday.holiday"
+                        placeholder="Enter Workshift ID"
+                        required
+                      ></b-form-input>
+                    </b-form-group>
+                  </b-row>
+                  <b-row class="justify-content-center">
+                    <b-col class="p-3 ">
+                      <b-button
+                        type="submit"
+                        class="float-right"
+                        variant="primary"
+                        style="width:76px;height:38"
+                        >Delete</b-button
+                      >
+                    </b-col>
+                    <b-col class="p-3">
+                      <b-button
+                        type="reset"
+                        class="float-left"
+                        variant="danger"
+                        style="width:76px;height:38"
+                        >Cancel</b-button
+                      >
+                    </b-col>
+                  </b-row>
+                </b-form>
               </b-col>
             </b-row>
           </b-container>

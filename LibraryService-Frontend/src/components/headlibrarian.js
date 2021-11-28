@@ -164,6 +164,9 @@ export default {
                 alert(e.response.data.message)                
             })
         },
+        createTimeslot: function() {
+          AXIOS.post('timeslot/new', {}, {params: {startDate:this.dateWorkshift, endDate:this.dateWorkshift, startTime:this.startTimeWorkshift, endTime:this.endTimeWorkshift, currentUserID:1}})
+        },
         onSubmitUSER(event) {
             this.createUser()
             event.preventDefault()
@@ -304,6 +307,18 @@ export default {
           this.$nextTick(() => {
             this.show = true
           })
+        },
+        onSubmitTimeslot(event) {
+
+        },
+        onResetTimeslot(event) {
+
+        },
+        onSubmitDelTimeslot(event) {
+
+        },
+        onResetDelTimeslot(event) {
+
         },
         getPatron: function() {
           var userID = document.getElementById("input-userID").value 
@@ -479,27 +494,28 @@ export default {
       },
       deleteStaff: function() {
         var userID = document.getElementById("input-userID-toDelete").value    
-        AXIOS.delete('/librarians/deleteAccount/'.concat(userID), {}, {params: {headlibrarianID:1}}).then (response => {
+        AXIOS.delete('/librarians/deleteAccount/'.concat(userID), {params: {headlibrarianID:1}}).then (response => {
           if(response.data == true){
             alert("Librarian deleted")
           }
           else{
             alert("Delete Unsuccessful.")
           }
+          this.getAllStaff()
         }).catch(e => {
           alert(e.response.data.message)
             
         })
       },
       deleteOpeningHour: function() {
-        var openingHourIDInput = parseInt(document.getElementById("input-OpeningHour").value)
-        AXIOS.delete('/openinghour/delete', {}, {params:{openingHourID: openingHourIDInput, accountID:1}}).then (response => {
+        AXIOS.delete('/openinghour/delete', {params:{openinghourID:this.formOpeningHour.openingHourID, accountID:1}}).then (response => {
             if(response.data == true){
               alert("Opening Hour deleted")
             }
             else{
               alert("Delete Unsuccessful.")
             }
+            this.getAllOpeningHours()
         })
         .catch(e => {
           alert(e.response.data.message)
@@ -507,14 +523,14 @@ export default {
         })
       },
       deleteHoliday: function() {
-        var holidayIDInput = this.formHoliday.holiday
-        AXIOS.delete('/holiday/delete', {}, {params: {holidayID: holidayIDInput, accountID:1}}).then (response => {
+        AXIOS.delete('/holiday/delete', {params: {holidayID:this.formHoliday.holiday, accountID:1}}).then (response => {
             if(response.data){
               alert("Holiday Hour deleted")
             }
             else{
               alert("Delete Unsuccessful.")
             }
+            this.getAllHolidays()
         })
         .catch(e => {
           alert(e.response.data.message)

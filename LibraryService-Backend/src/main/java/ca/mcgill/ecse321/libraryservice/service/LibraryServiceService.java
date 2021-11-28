@@ -1344,9 +1344,8 @@ public class LibraryServiceService {
         Librarian librarian = null;
 
         librarian = getLibrarianFromUserId(userID);
-
-        if (librarian == null)
-            throw new Exception("This librarian does not exits");
+        if (librarian == null) throw new Exception("This librarian does not exits");
+        if (librarian instanceof HeadLibrarian) throw new IllegalArgumentException("Cannot delete the Head Librarian.");
         librarianRepository.delete(librarian);
         return librarian;
 
