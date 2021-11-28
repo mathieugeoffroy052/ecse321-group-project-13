@@ -610,7 +610,7 @@
                     >
                       <b-form-input
                         id="input-timeslot"
-                        v-model="formHoliday.holiday"
+                        v-model="formTimeslot.timeslotID"
                         placeholder="Enter Workshift ID"
                         required
                       ></b-form-input>

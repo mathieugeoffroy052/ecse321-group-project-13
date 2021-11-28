@@ -376,10 +376,24 @@ export default {
           })
         },
         onSubmitDelTimeslot(event) {
-
+          this.deleteTimeslot()
+          event.preventDefault()
+          this.formTimeslot.timeslotID = ''
+          // Trick to reset/clear native browser form validation state
+          this.show = false
+          this.$nextTick(() => {
+              this.show = true
+          })
         },
         onResetDelTimeslot(event) {
-
+          event.preventDefault()
+          // Reset our form values
+          this.formTimeslot.timeslotID = ''
+          // Trick to reset/clear native browser form validation state
+          this.show = false
+          this.$nextTick(() => {
+            this.show = true
+          })
         },
         getPatron: function() {
           var userID = document.getElementById("input-userID").value 
@@ -577,6 +591,21 @@ export default {
               alert("Delete Unsuccessful.")
             }
             this.getAllOpeningHours()
+        })
+        .catch(e => {
+          alert(e.response.data.message)
+            
+        })
+      },
+      deleteTimeslot: function() {
+        AXIOS.delete('/timeslot/delete', {params:{timeslotID:this.formTimeslot.timeslotID, accountID:1}}).then (response => {
+            if(response.data == true){
+              alert("TimeSlot deleted")
+            }
+            else{
+              alert("Delete Unsuccessful.")
+            }
+            this.getAllShifts()
         })
         .catch(e => {
           alert(e.response.data.message)
