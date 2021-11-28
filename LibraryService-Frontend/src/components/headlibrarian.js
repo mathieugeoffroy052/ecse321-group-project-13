@@ -34,14 +34,27 @@ export default {
     name: 'librarianview',
     data () {
         return {
-            form: {
+            formUser: {
                 firstName: '',
                 lastName: '',
                 address: '',
                 balance: '',
                 onlineAccount: false,
                 password: null,
-                email: null
+                email: null,
+                selectedUser:null
+            },
+            formOpeningHour:{
+              openingHourID:''
+            },
+            formHoliday:{
+              holiday:''
+            },
+            formStaff:{
+              userID:''
+            },
+            formCode:{
+              barCodeNumber:'',
             },
             errorBorrowableItem: '',
             borrowableItem: '',
@@ -51,7 +64,20 @@ export default {
             errorTransaction: '',
             newPatron: '',
             newLibrarian: '',
+            newHoliday:'',
+            newOpeningHour:'',
             currentPatron: '',
+            dateOpeningHour:'',
+            dateHoliday:'',
+            startHoliday:'',
+            endTimeHoliday:'',
+            endOpeningHour:'',
+            allShifts:[],
+            allHolidays:[],
+            allOpeningHours:[],
+            dateWorkshift:'',
+            startTimeWorkshift:'',
+            endTimeWorkshift:'',
             errorPatron: '',
             response: [],
             selectedTransactionType: null,
@@ -67,6 +93,17 @@ export default {
               { value: null, text: 'Select a User type' },
               { value: 'Patron', text: 'Patron'},
               { value: 'Librarian', text: 'Librarian'}
+            ],
+            selectedDay:null,
+            optionsDays: [
+              { value: null, text: 'Select a Day' },
+              { value: 'Monday', text: 'Monday'},
+              { value: 'Tuesday', text: 'Tuesday'},
+              { value: 'Wednesday', text: 'Wednesday'},
+              { value: 'Thursday', text: 'Thursday'},
+              { value: 'Friday', text: 'Friday'},
+              { value: 'Saturday', text: 'Saturday'},
+              { value: 'Sunday', text: 'Sunday'}
             ],
             currentStaff:[]
         }
@@ -100,33 +137,159 @@ export default {
                 })
             }
         },
-        onSubmit(event) {
+        createHoliday: function() {
+            AXIOS.post('/holiday/new', {},{params: {creatorID:1, date:this.dateHoliday, startTime:this.startHoliday.substr(0,5), endTime:this.endTimeHoliday.substr(0,5)}}).then (response => {
+                this.newHoliday = response.data
+            })
+            .catch(e => {
+                this.newHoliday = ''
+                alert(e.response.data.message)                
+            })
+        },
+        createOpeningHour: function() {
+            AXIOS.post('/openinghour/new', {},{params: {day:this.selectedDay, startTime:this.startOpeningHour.substr(0,5), endTime:this.endOpeningHour.substr(0,5)}}).then (response => {
+                this.newOpeningHour = response.data
+            })
+            .catch(e => {
+                this.newOpeningHour = ''
+                alert(e.response.data.message)                
+            })
+        },
+        onSubmitUSER(event) {
             this.createUser()
             event.preventDefault()
-            alert(JSON.stringify(this.form))
-            this.form.firstName = ''
-            this.form.lastName = ''
-            this.form.address = ''
-            this.form.email = ''
-            this.form.password = ''
-            this.form.balance = ''
-            this.form.onlineAccount = false
+            alert(JSON.stringify(this.formUser))
+            this.formUser.firstName = ''
+            this.formUser.lastName = ''
+            this.formUser.address = ''
+            this.formUser.email = ''
+            this.formUser.password = ''
+            this.formUser.balance = ''
+            this.formUser.onlineAccount = false
             // Trick to reset/clear native browser form validation state
             this.show = false
             this.$nextTick(() => {
                 this.show = true
             })
         },
-        onReset(event) {
+        onSubmitHour(event) {
+          this.createOpeningHour()
+          event.preventDefault()
+          this.selectedDay = null
+          this.startOpeningHour = ''
+          this.endOpeningHour = ''
+          // Trick to reset/clear native browser form validation state
+          this.show = false
+          this.$nextTick(() => {
+              this.show = true
+          })
+        },
+        onSubmitDelHour(event) {
+          this.deleteOpeningHour()
+          event.preventDefault()
+          this.formOpeningHour.openingHourID = ''
+          // Trick to reset/clear native browser form validation state
+          this.show = false
+          this.$nextTick(() => {
+              this.show = true
+          })
+        },
+        onSubmitDelHoliday(event) {
+          this.deleteHoliday()
+          event.preventDefault()
+          this.formHoliday.holiday = ''
+          // Trick to reset/clear native browser form validation state
+          this.show = false
+          this.$nextTick(() => {
+              this.show = true
+          })
+        },
+        onSubmitHoliday(event) {
+          this.createHoliday()
+          event.preventDefault()
+          this.startDate = null
+          this.startHoliday = ''
+          this.endTimeHoliday = ''
+          // Trick to reset/clear native browser form validation state
+          this.show = false
+          this.$nextTick(() => {
+              this.show = true
+          })
+        },
+        onResetHoliday(event) {
           event.preventDefault()
           // Reset our form values
-          this.form.firstName = ''
-          this.form.lastName = ''
-          this.form.address = ''
-          this.form.email = ''
-          this.form.password = ''
-          this.form.balance = ''
-          this.form.onlineAccount = false
+          this.startDate = null
+          this.startHoliday = ''
+          this.endTimeHoliday = ''
+          // Trick to reset/clear native browser form validation state
+          this.show = false
+          this.$nextTick(() => {
+            this.show = true
+          })
+        },
+        onResetHour(event) {
+          event.preventDefault()
+          // Reset our form values
+          this.selectedDay = null
+          this.startOpeningHour = ''
+          this.endOpeningHour = ''
+          // Trick to reset/clear native browser form validation state
+          this.show = false
+          this.$nextTick(() => {
+            this.show = true
+          })
+        },
+        onResetDelOpening(event) {
+          event.preventDefault()
+          // Reset our form values
+          this.formOpeningHour.openingHourID = ''
+          // Trick to reset/clear native browser form validation state
+          this.show = false
+          this.$nextTick(() => {
+            this.show = true
+          })
+        },
+        onResetDelHoliday(event) {
+          event.preventDefault()
+          // Reset our form values
+          this.formHoliday.holiday = ''
+          // Trick to reset/clear native browser form validation state
+          this.show = false
+          this.$nextTick(() => {
+            this.show = true
+          })
+        },
+        onResetUSER(event) {
+          event.preventDefault()
+          // Reset our form values
+          this.formUser.firstName = ''
+          this.formUser.lastName = ''
+          this.formUser.address = ''
+          this.formUser.email = ''
+          this.formUser.password = ''
+          this.formUser.balance = ''
+          this.formUser.onlineAccount = false
+          // Trick to reset/clear native browser form validation state
+          this.show = false
+          this.$nextTick(() => {
+            this.show = true
+          })
+        },
+        onSubmitStaff(event) {
+          this.createHoliday()
+          event.preventDefault()
+          this.formStaff.userID
+          // Trick to reset/clear native browser form validation state
+          this.show = false
+          this.$nextTick(() => {
+              this.show = true
+          })
+        },
+        onResetStaff(event) {
+          event.preventDefault()
+          // Reset our form values
+          this.formStaff.userID
           // Trick to reset/clear native browser form validation state
           this.show = false
           this.$nextTick(() => {
@@ -153,6 +316,103 @@ export default {
         })
         .catch(e => {
           this.currentStaff = []
+          alert(e.response.data.message)
+            
+        })
+      },
+      getShifts: function() {
+        var creatorID = 1
+        AXIOS.get('/timeslot/view/librarianID/'.concat(creatorID)).then (response => {
+            this.currentShift = []
+            response.data.forEach(element => {
+                this.currentShift.push({Date: element.startDate, Start_Time: element.startTime, End_time:element.endTime })
+            });
+        })
+        .catch(e => {
+          this.currentShift = []
+          alert(e.response.data.message)
+            
+        })
+      },
+      getAllShifts: function() {
+        AXIOS.get('/timeslot/viewall').then (response => {
+            this.allShifts = []
+            response.data.forEach(element => {
+                this.allShifts.push({Date: element.startDate, Start_Time: element.startTime, End_time:element.endTime })
+            });
+        })
+        .catch(e => {
+          this.allShifts = []
+          alert(e.response.data.message)
+            
+        })
+      },
+      getAllOpeningHours: function() {
+        AXIOS.get('/openinghour/viewall').then (response => {
+            this.allOpeningHours = []
+            response.data.forEach(element => {
+                this.allOpeningHours.push({Date: element.startDate, Start_Time: element.startTime, End_time:element.endTime, ID:element.openingHourID })
+            });
+        })
+        .catch(e => {
+          this.allOpeningHours = []
+          alert(e.response.data.message)
+            
+        })
+      },
+      getAllHolidays: function() {
+        AXIOS.get('/holiday/viewall').then (response => {
+            this.allHolidays = []
+            response.data.forEach(element => {
+                this.allHolidays.push({Date: element.startDate, Start_Time: element.startTime, End_time:element.endTime, ID:element.holidayID})
+            });
+        })
+        .catch(e => {
+          this.allHolidays = []
+          alert(e.response.data.message)
+            
+        })
+      },
+      deleteStaff: function() {      
+        AXIOS.delete('/librarians/deleteAccount/'.concat(userID), {}, {params:{creatorID:1}}).then (response => {
+          if(response.data == true){
+            alert("Librarian deleted")
+          }
+          else{
+            alert("Delete Unsuccessful.")
+          }
+        })
+        .catch(e => {
+          alert(e.response.data.message)
+            
+        })
+      },
+      deleteOpeningHour: function() {
+        var openingHourID = document.getElementById("input-OpeningHour")
+        AXIOS.delete('/openinghour/delete', {}, {params:{openingHourID, creatorID:1}}).then (response => {
+            if(response.data == true){
+              alert("Opening Hour deleted")
+            }
+            else{
+              alert("Delete Unsuccessful.")
+            }
+        })
+        .catch(e => {
+          alert(e.response.data.message)
+            
+        })
+      },
+      deleteHoliday: function() {
+        var holidayID = document.getElementById("input-Holiday")
+        AXIOS.delete('/openinghour/delete', {}, {params:{holidayID, creatorID:1}}).then (response => {
+            if(response.data == true){
+              alert("Opening Hour deleted")
+            }
+            else{
+              alert("Delete Unsuccessful.")
+            }
+        })
+        .catch(e => {
           alert(e.response.data.message)
             
         })
