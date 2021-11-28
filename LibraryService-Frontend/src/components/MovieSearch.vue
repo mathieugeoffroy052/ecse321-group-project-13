@@ -1,19 +1,33 @@
 <template>
   <div id="search">
-    <div>
-      <b-button size="sm" pill variant="dark" style="width: 8%; float: left;" @click="redirectToItemSelect()">Back to item type selection</b-button>
-      <h2>Movies</h2>
+    <div id="back">
+        <b-button size="sm" pill variant="dark" style="float: left;" @click="redirectToItemSelect()">Back to item type selection</b-button>
+    </div>
+    <div class="row">
+      <div class="col-lg-10 center-block">
+        <h2>Movies</h2>
+      </div>
     </div>
 
-    <div class="title-search">
-        <label for="title">Search by title: </label>
-        <input type="text" id="requestedTitle" name="title">
+    <div class="row">
+      <div class="col-5">
+        <label for="title" style="float: right;">Search by title: </label>
+      </div>
+      <div class="col">
+        <input type="text" id="requestedTitle" name="title" style="float: left;">
+      </div>
     </div>
     
-    <div class="director-search">
-        <label for="director">Search by director: </label>
-        <input type="text" id="requestedDirector" name="director">
-        <b-button variant="dark" @click="resetMessages(); runSearch()">Submit</b-button>
+    <div class="row">
+      <div class="col-5">
+        <label for="director" style="float: right;">Search by director: </label>
+      </div>
+      <div class="col-3">
+        <input type="text" id="requestedDirector" name="director" style="float: left;">
+      </div>
+      <div class="col">
+        <b-button variant="dark" style="float: left;" @click="resetMessages(); runSearch()">Submit</b-button>
+      </div>
     </div>
 
     <p id="invalidInput"></p>
