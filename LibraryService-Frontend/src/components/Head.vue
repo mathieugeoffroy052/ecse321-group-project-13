@@ -77,7 +77,7 @@
           <b-container>
             <b-row class="shadow p-3 m-3 bg-white rounded">
               <div class="w-100">
-            <b-form @submit="onSubmit" @reset="onReset" v-if="true">
+            <b-form @submit="onSubmitUSER" @reset="onResetUSER" v-if="true">
               <b-form-select class="mb-2" v-model="selectedUser" :options="optionsUsers"></b-form-select>
               <b-form-group
                 id="input-group-1"
@@ -181,10 +181,113 @@
         </b-row>
         </b-container>
         </b-tab>
-        <b-tab title="Library Information" @click="getShifts">
-
+        <b-tab title="Library Information" @click="getAllOpeningHours, getAllHolidays">
+            <b-container>
+              <b-row>
+                <b-col>
+                  <b-col class="shadow p-3 m-3 bg-white rounded">
+                        <h4> Create Opening Hours </h4>
+                        <b-form-datepicker
+                          id="openingHours-datepicker"
+                          v-model="dateOpeningHour"
+                          class="mb-2 mt-0"
+                        ></b-form-datepicker>
+                        <b-form-timepicker
+                          id="openingHours-startTimePicker"
+                          v-model="startOpeningHour"
+                          class="my-2"
+                        ></b-form-timepicker>
+                        <b-form-timepicker
+                          id="openingHours-endTimeWorkshift"
+                          v-model="endTimeOpeningHour"
+                          class="my-2"
+                        ></b-form-timepicker>
+                        <h5> All OpeningHours </h5>
+                        <b-row class="shadow p-3 m-3 bg-white rounded">
+                            <div class="w-100">
+                            <b-table hover :items="allOpeningHours"></b-table>
+                            </div>
+                        </b-row>
+                         <h4> Delete an Opening Hour </h4>
+                           <b-form @submit="onSubmit" @reset="onReset" v-if="true">
+                            <b-row class="justify-content-center">
+                                <b-form-group
+                                    id="input-OpeningHour"
+                                    label="To delete a specific opening hour, enter its ID below:"
+                                    label-for="input-OpeningHour">
+                                    <b-form-input
+                                    id="input-OpeningHour"
+                                    v-model="form.OpeningHour"
+                                    placeholder="Enter OpeningHour ID"
+                                    required
+                                    ></b-form-input>
+                                </b-form-group>
+                            </b-row>
+                            <b-row class="justify-content-center">
+                                <b-col class="p-3 ">
+                                <b-button type="Delete" class="float-right" variant="primary" style="width:76px;height:38">Delete</b-button>
+                                </b-col>
+                                <b-col class="p-3">
+                                <b-button type="Cancel" class="float-left" variant="danger" style="width:76px;height:38">Cancel</b-button>
+                                </b-col>
+                            </b-row>
+                        </b-form>
+                    </b-col>
+                </b-col>
+                <b-col>
+                  <b-col class="shadow p-3 m-3 bg-white rounded">
+                        <h4> Create a Holiday </h4>
+                        <b-form-datepicker
+                          id="Holiday-datepicker"
+                          v-model="dateHoliday"
+                          class="mb-2 mt-0"
+                        ></b-form-datepicker>
+                        <b-form-timepicker
+                          id="Holiday-startTimePicker"
+                          v-model="startHoliday"
+                          class="my-2"
+                        ></b-form-timepicker>
+                        <b-form-timepicker
+                          id="Holiday-endTimePicker"
+                          v-model="endTimeHoliday"
+                          class="my-2"
+                        ></b-form-timepicker>
+                        <h5> All Holidays </h5>
+                        <b-row class="shadow p-3 m-3 bg-white rounded">
+                            <div class="w-100">
+                            <b-table hover :items="allHolidays"></b-table>
+                            </div>
+                        </b-row>
+                        <h4> Delete a Holiday </h4>
+                           <b-form @submit="onSubmit" @reset="onReset" v-if="true">
+                            <b-row class="justify-content-center">
+                                <b-form-group
+                                    id="input-Holiday"
+                                    label="To delete a specific holiday, enter its ID below:"
+                                    label-for="input-Holiday">
+                                    <b-form-input
+                                    id="input-Holiday"
+                                    v-model="form.Holiday"
+                                    placeholder="Enter Holiday ID"
+                                    required
+                                    ></b-form-input>
+                                </b-form-group>
+                            </b-row>
+                            <b-row class="justify-content-center">
+                                <b-col class="p-3 ">
+                                <b-button type="Delete" class="float-right" variant="primary" style="width:76px;height:38">Delete</b-button>
+                                </b-col>
+                                <b-col class="p-3">
+                                <b-button type="Cancel" class="float-left" variant="danger" style="width:76px;height:38">Cancel</b-button>
+                                </b-col>
+                            </b-row>
+                        </b-form>
+                    </b-col>
+                </b-col>
+              </b-row>
+            </b-container>
         </b-tab>
-        <b-tab title="Staff" @click="getAllStaff"><p>
+        <b-tab title="Staff" @click="getAllStaff, getAllShifts"><p>
           <h3>Staff</h3>
             <b-container>
                 <b-row>

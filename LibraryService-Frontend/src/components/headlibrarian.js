@@ -52,7 +52,12 @@ export default {
             newPatron: '',
             newLibrarian: '',
             currentPatron: '',
+            dateOpeningHour:'',
+            startOpeningHour:'',
+            endOpeningHour:'',
             allShifts:[],
+            allHolidays:[],
+            allOpeningHours:[],
             dateWorkshift:'',
             startTimeWorkshift:'',
             endTimeWorkshift:'',
@@ -104,7 +109,7 @@ export default {
                 })
             }
         },
-        onSubmit(event) {
+        onSubmitUSER(event) {
             this.createUser()
             event.preventDefault()
             alert(JSON.stringify(this.form))
@@ -121,7 +126,24 @@ export default {
                 this.show = true
             })
         },
-        onReset(event) {
+        onSubmitHour(event) {
+          this.deleteOpeningHour()
+          event.preventDefault()
+          alert(JSON.stringify(this.form))
+          this.form.firstName = ''
+          this.form.lastName = ''
+          this.form.address = ''
+          this.form.email = ''
+          this.form.password = ''
+          this.form.balance = ''
+          this.form.onlineAccount = false
+          // Trick to reset/clear native browser form validation state
+          this.show = false
+          this.$nextTick(() => {
+              this.show = true
+          })
+      },
+        onResetUSER(event) {
           event.preventDefault()
           // Reset our form values
           this.form.firstName = ''
@@ -183,14 +205,53 @@ export default {
             });
         })
         .catch(e => {
-          this.currentShift = []
+          this.allShifts = []
           alert(e.response.data.message)
             
         })
       },
-      deleteStaff: function() {
-        
+      getAllOpeningHours: function() {
+        AXIOS.get('/openinghour/viewall').then (response => {
+            this.allOpeningHours = []
+            response.data.forEach(element => {
+                this.allOpeningHours.push({Date: element.startDate, Start_Time: element.startTime, End_time:element.endTime, ID:element.openingHourID })
+            });
+        })
+        .catch(e => {
+          this.allOpeningHours = []
+          alert(e.response.data.message)
+            
+        })
+      },
+      getAllHolidays: function() {
+        AXIOS.get('/holiday/viewall').then (response => {
+            this.allHolidays = []
+            response.data.forEach(element => {
+                this.allHolidays.push({Date: element.startDate, Start_Time: element.startTime, End_time:element.endTime })
+            });
+        })
+        .catch(e => {
+          this.allHolidays = []
+          alert(e.response.data.message)
+            
+        })
+      },
+      deleteStaff: function() {      
         AXIOS.delete('/librarians/deleteAccount/'.concat(userID), {}, {params:{creatorID:1}}).then (response => {
+            response.data.forEach(element => {
+                this.currentStaff = []
+                this.currentStaff.push({First_Name: element.firstName, Last_Name: element.lastName, ID:element.userID })
+            });
+        })
+        .catch(e => {
+          this.currentStaff = []
+          alert(e.response.data.message)
+            
+        })
+      },
+      deleteOpeningHour: function() {
+        var openingHourID = document.getElementById();
+        AXIOS.delete('/openinghour/delete', {}, {params:{openingHourID, creatorID:1}}).then (response => {
             response.data.forEach(element => {
                 this.currentStaff = []
                 this.currentStaff.push({First_Name: element.firstName, Last_Name: element.lastName, ID:element.userID })
