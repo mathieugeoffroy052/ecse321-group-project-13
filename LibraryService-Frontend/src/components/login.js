@@ -9,15 +9,27 @@ var AXIOS = axios.create({
   headers: { 'Access-Control-Allow-Origin': frontendUrl }
 })
 
-function UserAccountDTO()
-
+function UserAccountDTO(firstName, lastName, userID, password, email) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.userID = userID;
+    this.password = password;
+    this.email = email;
+}
 
 
 export default {
     name: 'login',
     data () {
         return {
-            response: []
+            form: {
+                firstName: '',
+                lastName: '',
+                address: '',
+                
+                password: null,
+                email: null
+            },
         }
     },
 

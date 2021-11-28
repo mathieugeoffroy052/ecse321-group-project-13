@@ -3,7 +3,6 @@ import Router from 'vue-router'
 
 import Login from '@/components/Login'
 import CreateAccount from '@/components/CreateAccount'
-import Hello from '@/components/Hello'
 import ItemTypeToBrowse from '@/components/ItemTypeToBrowse'
 import MusicSearch from '@/components/MusicSearch'
 import NewspaperSearch from '@/components/NewspaperSearch'
@@ -24,11 +23,6 @@ export default new Router({
       path: '/',
       name: 'CreateAccount',
       component: CreateAccount
-    },
-    {
-      path: '/',
-      name: 'Hello',
-      component: Hello
     },
     {
       path: '/item-select',
