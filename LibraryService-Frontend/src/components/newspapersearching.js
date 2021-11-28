@@ -94,62 +94,6 @@ export default {
       },
 
     methods: {
-      createReserveTransaction: function (aPatronID) {
-        var anIsbn = undefined
-        if(document.querySelector('input[type="radio"]:checked') != null){
-          anIsbn = document.querySelector('input[type="radio"]:checked').value;
-        }
-        else{
-          alert("No library item was selected")
-        }
-        if(anIsbn != undefined){
-          var params = {
-            isbn: anIsbn
-          }
-          AXIOS.get('/items/isbn/', {params})
-          .then(response => {
-              this.existingBorrowableItems = response.data
-              if(this.existingBorrowableItems != []){
-                var aBarCodeNumber = undefined
-                for (let i = 0; i < this.existingBorrowableItems.length; i++) {
-                  if(this.existingBorrowableItems[i]["itemState"] == "Available"){
-                      aBarCodeNumber = this.existingBorrowableItems[i]["barCodeNumber"]
-                  }
-                }
-                // this.this.existingBorrowableItems.pop()["barCode"]
-                if(aBarCodeNumber != undefined){
-                  var params = {
-                    barCodeNumber: aBarCodeNumber,
-                    userID: aPatronID
-                  }
-                  AXIOS.post('/reserve-item', {}, {params})
-                  .then(response => {
-                      this.transactions.push(response.data)
-                      this.errorTransaction = ''
-                      this.newTransaction = ''
-                      document.getElementById("transaction").innerHTML = "Transaction Complete!"
-                      //alert("Transaction complete!")
-                    })
-                    .catch(e => {
-                      var errorMessage = e.response.data.message
-                      console.log(errorMessage)
-                      this.errorTransaction = errorMessage
-                    })
-                }
-                else{
-                  alert("No available item found")
-                }
-              }
-          })
-          .catch(e => {
-              this.errorLibraryItem = e
-          })
-          // Reset the name field for new people
-          this.existingBorrowableItems = []
-          this.existingPatron = ''
-          this.existingBorrowableItem = ''
-        }
-      },
       runSearch : function(){
         var requestedTitle = document.getElementById("requestedTitle").value
         var requestedWriter = document.getElementById("requestedWriter").value

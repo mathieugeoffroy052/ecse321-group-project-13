@@ -106,41 +106,40 @@ export default {
           AXIOS.get('/items/isbn/', {params})
           .then(response => {
               this.existingBorrowableItems = response.data
+              if(this.existingBorrowableItems != []){
+                var aBarCodeNumber = undefined
+                for (let i = 0; i < this.existingBorrowableItems.length; i++) {
+                  if(this.existingBorrowableItems[i]["itemState"] == "Available"){
+                      aBarCodeNumber = this.existingBorrowableItems[i]["barCodeNumber"]
+                  }
+                }
+                if(aBarCodeNumber != undefined){
+                  var params = {
+                    barCodeNumber: aBarCodeNumber,
+                    userID: aPatronID
+                  }
+                  AXIOS.post('/reserve-item', {}, {params})
+                  .then(response => {
+                      this.transactions.push(response.data)
+                      this.errorTransaction = ''
+                      this.newTransaction = ''
+                      document.getElementById("transaction").innerHTML = "Transaction Complete!"
+                      //alert("Transaction complete!")
+                    })
+                    .catch(e => {
+                      var errorMessage = e.response.data.message
+                      console.log(errorMessage)
+                      this.errorTransaction = errorMessage
+                    })
+                }
+                else{
+                  alert("No available item found")
+                }
+              }
           })
           .catch(e => {
               this.errorLibraryItem = e
           })
-          if(this.existingBorrowableItems != []){
-            var aBarCodeNumber = undefined
-            for (let i = 0; i < this.existingBorrowableItems.length; i++) {
-              if(this.existingBorrowableItems[i]["itemState"] == "Available"){
-                  aBarCodeNumber = this.existingBorrowableItems[i]["barCodeNumber"]
-              }
-            }
-            if(aBarCodeNumber != undefined){
-              var params = {
-                barCodeNumber: aBarCodeNumber,
-                userID: aPatronID
-              }
-              AXIOS.post('/reserve-item', {}, {params})
-              .then(response => {
-                  console.log("yooooo")
-                  this.transactions.push(response.data)
-                  this.errorTransaction = ''
-                  this.newTransaction = ''
-                  document.getElementById("transaction").innerHTML = "Transaction Complete!"
-                  //alert("Transaction complete!")
-                })
-                .catch(e => {
-                  var errorMessage = e.response.data.message
-                  console.log(errorMessage)
-                  this.errorTransaction = errorMessage
-                })
-            }
-            else{
-              alert("No available item found")
-            }
-          }
           // Reset the name field for new people
           this.existingBorrowableItems = []
           this.existingPatron = ''

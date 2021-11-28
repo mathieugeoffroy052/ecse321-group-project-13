@@ -41,7 +41,7 @@
     </div>
 
     <div id="reserve">
-      <b-button size="lg" pill variant="dark" @click="resetMessages(); createReserveTransaction(72);">Reserve Item</b-button>
+      <b-button size="lg" pill variant="dark" @click="resetMessages(); createReserveTransaction(7);">Reserve Item</b-button>
     </div>
 
 
