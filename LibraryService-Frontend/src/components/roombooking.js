@@ -18,14 +18,12 @@ export default {
         newRoomTransaction: '',
         errorRoomTransaction: '',
         value: '',
-        available: true
+        available: 0,
+        buttonDisabled: 1
       }
     },
 
     created: function () {
-        document.getElementById("button").disabled = true
-        document.getElementById("status").innerHTML = ""
-        console.log("helloooo")
         AXIOS.get('/rooms/')
         .then(response => {
             this.roomTransactions = response.data
@@ -33,44 +31,62 @@ export default {
         .catch(e => {
             this.errorRoomTransaction = e
         })
+        this.available = 0
+        this.buttonDisabled = 1
       },
 
     methods: {
         setupRoomTransaction: function (){
-            for (let i = 0; i < this.roomTransactions.length; i++) {
-                if(this.roomTransactions[i]["deadline"] == this.value){
-                    this.available = false
+            if(this.value != ""){   // if a value from the calender is selected
+                // Set room as available, unless there is a transaction that has already been made on that same date
+                this.available = 1
+                for (let i = 0; i < this.roomTransactions.length; i++) {
+                    if(this.roomTransactions[i]["deadline"] == this.value){
+                       this.available = 0
+                    }
                 }
-            }
-            if (this.available){
-                document.getElementById("button").disabled = false
-                document.getElementById("status").innerHTML = "Room booking is available"
-            }
-            else {
-                document.getElementById("button").disabled = true
-                document.getElementById("status").innerHTML = "Room booking is not available"
+                if (Boolean(this.available)){
+                    // Enable button
+                    this.buttonDisabled = 0  
+                    document.getElementById("reserve-button").disabled = Boolean(this.buttonDisabled)
+                    console.log("changed button status to enabled")
+
+                    document.getElementById("status").innerHTML = "Room booking is available"
+                }
+                else {
+                    // Disable button
+                    this.buttonDisabled = 1  
+                    document.getElementById("reserve-button").disabled = Boolean(this.buttonDisabled)
+                    console.log("changed button status disabled")
+
+                    document.getElementById("status").innerHTML = "Room booking is not available"
+                }
             }
         },
         createRoomTransaction: function () {
-            var params = {
-                barCodeNumber: 3,
-                userID: 7,
-                date: this.value,
-                startTime: "8:00:00",
-                endTime: "11:30:00"
+            console.log("entered create room transaction")
+            if(!Boolean(this.buttonDisabled)){
+                var params = {
+                    barCodeNumber: 1,
+                    userID: 7,
+                    date: this.value,
+                    startTime: "08:00",
+                    endTime: "11:30"
+                }
+                console.log("value = " + this.value)
+                AXIOS.post('/reserve-room', {}, {params})
+                .then(response => {
+                    this.roomTransactions.push(response.data)
+                    this.errorTransaction = ''
+                    this.newTransaction = ''
+                    document.getElementById("status").innerHTML = "Room Booked!"
+                })
+                .catch(e => {
+                    var errorMessage = e.response.data.message
+                    console.log(errorMessage)
+                    this.errorTransaction = errorMessage
+                })
             }
-            AXIOS.post('/reserve-room', {}, {params})
-            .then(response => {
-                this.roomTransactions.push(response.data)
-                this.errorTransaction = ''
-                this.newTransaction = ''
-                document.getElementById("status").innerHTML = "Room Booked!"
-            })
-            .catch(e => {
-                var errorMessage = e.response.data.message
-                console.log(errorMessage)
-                this.errorTransaction = errorMessage
-            })
             // Reset the name field for new people
             this.newRoomTransaction = ''
             this.errorRoomTransaction = ''
