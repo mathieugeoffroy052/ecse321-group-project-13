@@ -86,7 +86,7 @@
               >
                 <b-form-input
                   id="input-firstName"
-                  v-model="form.firstName"
+                  v-model="formUser.firstName"
                   placeholder="Enter first name"
                   required
                 ></b-form-input>
@@ -99,7 +99,7 @@
               >
                 <b-form-input
                   id="input-lastName"
-                  v-model="form.lastName"
+                  v-model="formUser.lastName"
                   placeholder="Enter last name"
                   required
                 ></b-form-input>
@@ -112,7 +112,7 @@
               >
                 <b-form-input
                   id="input-address"
-                  v-model="form.address"
+                  v-model="formUser.address"
                   placeholder="Enter address"
                   required
                 ></b-form-input>
@@ -125,7 +125,7 @@
               >
                 <b-form-input
                   id="input-balance"
-                  v-model="form.balance"
+                  v-model="formUser.balance"
                   placeholder="Enter current account balance"
                   required
                 ></b-form-input>
@@ -141,7 +141,7 @@
               <b-form-group id="input-group-5" label="Password:" label-for="input-password">
                 <b-form-input
                   id="input-password"
-                  v-model="form.password"
+                  v-model="formUser.password"
                   placeholder="Enter password"
                   required
                 ></b-form-input>
@@ -150,7 +150,7 @@
               <b-form-group id="input-group-6" label="Email:" label-for="input-email" >
                 <b-form-input
                   id="input-email"
-                  v-model="form.email"
+                  v-model="formUser.email"
                   placeholder="Enter email"
                   required
                 ></b-form-input>
@@ -187,21 +187,27 @@
                 <b-col>
                   <b-col class="shadow p-3 m-3 bg-white rounded">
                         <h4> Create Opening Hours </h4>
-                        <b-form-datepicker
-                          id="openingHours-datepicker"
-                          v-model="dateOpeningHour"
-                          class="mb-2 mt-0"
-                        ></b-form-datepicker>
-                        <b-form-timepicker
-                          id="openingHours-startTimePicker"
-                          v-model="startOpeningHour"
-                          class="my-2"
-                        ></b-form-timepicker>
-                        <b-form-timepicker
-                          id="openingHours-endTimeWorkshift"
-                          v-model="endTimeOpeningHour"
-                          class="my-2"
-                        ></b-form-timepicker>
+                        <b-form @submit="onSubmitHour" @reset="onResetHour" v-if="true">
+                            <b-form-select class="mb-2" v-model="selectedDay" :options="optionsDays"></b-form-select>
+                            <b-form-timepicker
+                              id="openingHours-startTimePicker"
+                              v-model="startOpeningHour"
+                              class="my-2"
+                            ></b-form-timepicker>
+                            <b-form-timepicker
+                              id="openingHours-endTimeWorkshift"
+                              v-model="endTimeOpeningHour"
+                              class="my-2"
+                            ></b-form-timepicker>
+                            <b-row class="justify-content-center">
+                                <b-col class="p-3 ">
+                                <b-button type="Create" class="float-right" variant="primary" style="width:76px;height:38">Create</b-button>
+                                </b-col>
+                                <b-col class="p-3">
+                                <b-button type="Reset" class="float-left" variant="danger" style="width:76px;height:38">Reset</b-button>
+                                </b-col>
+                            </b-row>
+                        </b-form>
                         <h5> All OpeningHours </h5>
                         <b-row class="shadow p-3 m-3 bg-white rounded">
                             <div class="w-100">
@@ -209,7 +215,7 @@
                             </div>
                         </b-row>
                          <h4> Delete an Opening Hour </h4>
-                           <b-form @submit="onSubmit" @reset="onReset" v-if="true">
+                           <b-form @submit="onSubmitDelHour" @reset="onResetDelOpening" v-if="true">
                             <b-row class="justify-content-center">
                                 <b-form-group
                                     id="input-OpeningHour"
@@ -217,7 +223,7 @@
                                     label-for="input-OpeningHour">
                                     <b-form-input
                                     id="input-OpeningHour"
-                                    v-model="form.OpeningHour"
+                                    v-model="form.openingHourID"
                                     placeholder="Enter OpeningHour ID"
                                     required
                                     ></b-form-input>
@@ -237,21 +243,31 @@
                 <b-col>
                   <b-col class="shadow p-3 m-3 bg-white rounded">
                         <h4> Create a Holiday </h4>
-                        <b-form-datepicker
-                          id="Holiday-datepicker"
-                          v-model="dateHoliday"
-                          class="mb-2 mt-0"
-                        ></b-form-datepicker>
-                        <b-form-timepicker
-                          id="Holiday-startTimePicker"
-                          v-model="startHoliday"
-                          class="my-2"
-                        ></b-form-timepicker>
-                        <b-form-timepicker
-                          id="Holiday-endTimePicker"
-                          v-model="endTimeHoliday"
-                          class="my-2"
-                        ></b-form-timepicker>
+                        <b-form @submit="onSubmitHoliday" @reset="onResetHoliday" v-if="true">
+                          <b-form-datepicker
+                            id="Holiday-datepicker"
+                            v-model="dateHoliday"
+                            class="mb-2 mt-0"
+                          ></b-form-datepicker>
+                          <b-form-timepicker
+                            id="Holiday-startTimePicker"
+                            v-model="startHoliday"
+                            class="my-2"
+                          ></b-form-timepicker>
+                          <b-form-timepicker
+                            id="Holiday-endTimePicker"
+                            v-model="endTimeHoliday"
+                            class="my-2"
+                          ></b-form-timepicker>
+                          <b-row class="justify-content-center">
+                                <b-col class="p-3 ">
+                                <b-button type="Create" class="float-right" variant="primary" style="width:76px;height:38">Create</b-button>
+                                </b-col>
+                                <b-col class="p-3">
+                                <b-button type="Reset" class="float-left" variant="danger" style="width:76px;height:38">Reset</b-button>
+                                </b-col>
+                            </b-row>
+                        </b-form>
                         <h5> All Holidays </h5>
                         <b-row class="shadow p-3 m-3 bg-white rounded">
                             <div class="w-100">
@@ -259,7 +275,7 @@
                             </div>
                         </b-row>
                         <h4> Delete a Holiday </h4>
-                           <b-form @submit="onSubmit" @reset="onReset" v-if="true">
+                           <b-form @submit="onSubmitDelHoliday" @reset="onResetDelHoliday" v-if="true">
                             <b-row class="justify-content-center">
                                 <b-form-group
                                     id="input-Holiday"
@@ -267,7 +283,7 @@
                                     label-for="input-Holiday">
                                     <b-form-input
                                     id="input-Holiday"
-                                    v-model="form.Holiday"
+                                    v-model="form.holiday"
                                     placeholder="Enter Holiday ID"
                                     required
                                     ></b-form-input>

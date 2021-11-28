@@ -34,14 +34,21 @@ export default {
     name: 'librarianview',
     data () {
         return {
-            form: {
+            formUser: {
                 firstName: '',
                 lastName: '',
                 address: '',
                 balance: '',
                 onlineAccount: false,
                 password: null,
-                email: null
+                email: null,
+                selectedUser:null
+            },
+            formOpeningHour:{
+              openingHourID:''
+            },
+            formHoliday:{
+              holiday:''
             },
             errorBorrowableItem: '',
             borrowableItem: '',
@@ -51,9 +58,13 @@ export default {
             errorTransaction: '',
             newPatron: '',
             newLibrarian: '',
+            newHoliday:'',
+            newOpeningHour:'',
             currentPatron: '',
             dateOpeningHour:'',
-            startOpeningHour:'',
+            dateHoliday:'',
+            startHoliday:'',
+            endTimeHoliday:'',
             endOpeningHour:'',
             allShifts:[],
             allHolidays:[],
@@ -76,6 +87,17 @@ export default {
               { value: null, text: 'Select a User type' },
               { value: 'Patron', text: 'Patron'},
               { value: 'Librarian', text: 'Librarian'}
+            ],
+            selectedDay:null,
+            optionsDays: [
+              { value: null, text: 'Select a Day' },
+              { value: 'Monday', text: 'Monday'},
+              { value: 'Tuesday', text: 'Tuesday'},
+              { value: 'Wednesday', text: 'Wednesday'},
+              { value: 'Thursday', text: 'Thursday'},
+              { value: 'Friday', text: 'Friday'},
+              { value: 'Saturday', text: 'Saturday'},
+              { value: 'Sunday', text: 'Sunday'}
             ],
             currentStaff:[]
         }
@@ -109,6 +131,24 @@ export default {
                 })
             }
         },
+        createHoliday: function() {
+            AXIOS.post('/holiday/new', {},{params: {creatorID:1, dateHoliday, startHoliday, endTimeHoliday}}).then (response => {
+                this.newHoliday = response.data
+            })
+            .catch(e => {
+                this.newHoliday = ''
+                alert(e.response.data.message)                
+            })
+        },
+        createOpeningHour: function() {
+            AXIOS.post('/openinghour/new', {},{params: {selectedDay, startOpeningHour, endOpeningHour}}).then (response => {
+                this.newOpeningHour = response.data
+            })
+            .catch(e => {
+                this.newOpeningHour = ''
+                alert(e.response.data.message)                
+            })
+        },
         onSubmitUSER(event) {
             this.createUser()
             event.preventDefault()
@@ -127,22 +167,97 @@ export default {
             })
         },
         onSubmitHour(event) {
-          this.deleteOpeningHour()
+          this.createOpeningHour()
           event.preventDefault()
           alert(JSON.stringify(this.form))
-          this.form.firstName = ''
-          this.form.lastName = ''
-          this.form.address = ''
-          this.form.email = ''
-          this.form.password = ''
-          this.form.balance = ''
-          this.form.onlineAccount = false
+          this.selectedDay = null
+          this.startOpeningHour = ''
+          this.endOpeningHour = ''
           // Trick to reset/clear native browser form validation state
           this.show = false
           this.$nextTick(() => {
               this.show = true
           })
-      },
+        },
+        onSubmitDelHour(event) {
+          this.createOpeningHour()
+          event.preventDefault()
+          alert(JSON.stringify(this.form))
+          this.form.openingHourID = ''
+          // Trick to reset/clear native browser form validation state
+          this.show = false
+          this.$nextTick(() => {
+              this.show = true
+          })
+        },
+        onSubmitDelHoliday(event) {
+          this.createOpeningHour()
+          event.preventDefault()
+          alert(JSON.stringify(this.form))
+          this.form.holiday = ''
+          // Trick to reset/clear native browser form validation state
+          this.show = false
+          this.$nextTick(() => {
+              this.show = true
+          })
+        },
+        onSubmitHoliday(event) {
+          this.createHoliday()
+          event.preventDefault()
+          alert(JSON.stringify(this.form))
+          this.startDate = null
+          this.startHoliday = ''
+          this.endTimeHoliday = ''
+          // Trick to reset/clear native browser form validation state
+          this.show = false
+          this.$nextTick(() => {
+              this.show = true
+          })
+        },
+        onResetHoliday(event) {
+          event.preventDefault()
+          // Reset our form values
+          this.startDate = null
+          this.startHoliday = ''
+          this.endTimeHoliday = ''
+          // Trick to reset/clear native browser form validation state
+          this.show = false
+          this.$nextTick(() => {
+            this.show = true
+          })
+        },
+        onResetHour(event) {
+          event.preventDefault()
+          // Reset our form values
+          this.selectedDay = null
+          this.startOpeningHour = ''
+          this.endOpeningHour = ''
+          // Trick to reset/clear native browser form validation state
+          this.show = false
+          this.$nextTick(() => {
+            this.show = true
+          })
+        },
+        onResetDelOpening(event) {
+          event.preventDefault()
+          // Reset our form values
+          this.form.openingHourID = ''
+          // Trick to reset/clear native browser form validation state
+          this.show = false
+          this.$nextTick(() => {
+            this.show = true
+          })
+        },
+        onResetDelHoliday(event) {
+          event.preventDefault()
+          // Reset our form values
+          this.form.holiday = ''
+          // Trick to reset/clear native browser form validation state
+          this.show = false
+          this.$nextTick(() => {
+            this.show = true
+          })
+        },
         onResetUSER(event) {
           event.preventDefault()
           // Reset our form values
@@ -238,10 +353,12 @@ export default {
       },
       deleteStaff: function() {      
         AXIOS.delete('/librarians/deleteAccount/'.concat(userID), {}, {params:{creatorID:1}}).then (response => {
-            response.data.forEach(element => {
-                this.currentStaff = []
-                this.currentStaff.push({First_Name: element.firstName, Last_Name: element.lastName, ID:element.userID })
-            });
+          if(response.data == true){
+            alert("Librarian deleted")
+          }
+          else{
+            alert("Delete Unsuccessful.")
+          }
         })
         .catch(e => {
           this.currentStaff = []
@@ -250,12 +367,30 @@ export default {
         })
       },
       deleteOpeningHour: function() {
-        var openingHourID = document.getElementById();
+        var openingHourID = document.getElementById("input-OpeningHour")
         AXIOS.delete('/openinghour/delete', {}, {params:{openingHourID, creatorID:1}}).then (response => {
-            response.data.forEach(element => {
-                this.currentStaff = []
-                this.currentStaff.push({First_Name: element.firstName, Last_Name: element.lastName, ID:element.userID })
-            });
+            if(response.data == true){
+              alert("Opening Hour deleted")
+            }
+            else{
+              alert("Delete Unsuccessful.")
+            }
+        })
+        .catch(e => {
+          this.currentStaff = []
+          alert(e.response.data.message)
+            
+        })
+      },
+      deleteHoliday: function() {
+        var holidayID = document.getElementById("input-Holiday")
+        AXIOS.delete('/openinghour/delete', {}, {params:{holidayID, creatorID:1}}).then (response => {
+            if(response.data == true){
+              alert("Opening Hour deleted")
+            }
+            else{
+              alert("Delete Unsuccessful.")
+            }
         })
         .catch(e => {
           this.currentStaff = []
