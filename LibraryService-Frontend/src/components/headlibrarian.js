@@ -545,6 +545,21 @@ export default {
             
         })
       },
+      deleteTimeslot: function() {
+        AXIOS.delete('/timeslot/delete', {params: {holidayID:this.formStaff, accountID:1}}).then (response => {
+          if(response.data){
+            alert("Timeslot deleted")
+          }
+          else{
+            alert("Delete Unsuccessful.")
+          }
+          this.getAllShifts()
+      })
+      .catch(e => {
+        alert(e.response.data.message)
+          
+      })
+      },
       isReservingRoom: function() {
         if (document.getElementById("input-userID") == null) return false
         return document.getElementById("input-transactiontype").value == "Reserve-Room"
