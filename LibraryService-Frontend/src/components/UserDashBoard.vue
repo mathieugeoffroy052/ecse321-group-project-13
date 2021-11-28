@@ -42,7 +42,12 @@
                                 <b-form-input v-model="text" placeholder="123 charming avenue"></b-form-input>
                             </div>
                         </b-row> 
-
+                        <b-row align-h="center" class="my-2">
+                            
+                                <b>Change Passowrd:</b>
+                                <b-form-input v-model="text" placeholder="New Passowrd"></b-form-input>
+                               <b-form-input v-model="text" placeholder="Comfirm Password"></b-form-input>
+                        </b-row>
                         <b-row align-h="center" class="my-5" >
                                <b-button block variant="primary">Comfirm changes </b-button>
                              
