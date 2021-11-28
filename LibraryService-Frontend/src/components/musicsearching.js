@@ -154,6 +154,13 @@ export default {
         var requestedTitle = document.getElementById("requestedTitle").value
         var requestedArtist = document.getElementById("requestedArtist").value
         if(requestedTitle == "" && requestedArtist == "") { // both title and artist field are empty
+          AXIOS.get('/music/')
+          .then(response => {
+              this.libraryItems = response.data
+          })
+          .catch(e => {
+              this.errorLibraryItem = e
+          })
           document.getElementById("invalidInput").innerHTML = "Please enter a title or artist"
         } 
         else if(requestedTitle != "" && requestedArtist == "") { // title field is not empty, but artist field is
@@ -211,6 +218,8 @@ export default {
           })
           .catch(e => {
             this.errorLibraryItem = e
+            this.libraryItems = []
+            document.getElementById("invalidInput").innerHTML = "No music albums found with this title and artist"
           })
           if(this.errorLibraryItem != null){ // GET request gave an error
             alert("ERROR");

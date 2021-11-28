@@ -150,6 +150,13 @@ export default {
         var requestedTitle = document.getElementById("requestedTitle").value
         var requestedDirector = document.getElementById("requestedDirector").value
         if(requestedTitle == "" && requestedDirector == "") { // both title and director field are empty
+          AXIOS.get('/movies/')
+            .then(response => {
+            this.libraryItems = response.data
+          })
+          .catch(e => {
+            this.errorLibraryItem = e
+          })
           document.getElementById("invalidInput").innerHTML = "Please enter a title or director"
         } 
         else if(requestedTitle != "" && requestedDirector == "") { // title field is not empty, but director field is
@@ -208,6 +215,8 @@ export default {
           })
           .catch(e => {
             this.errorLibraryItem = e
+            this.libraryItems = []
+            document.getElementById("invalidInput").innerHTML = "No movies found with this title and director"
           })
           if(this.errorLibraryItem != null){ // GET request gave an error
             alert("ERROR");

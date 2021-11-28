@@ -98,6 +98,13 @@ export default {
         var requestedTitle = document.getElementById("requestedTitle").value
         var requestedWriter = document.getElementById("requestedWriter").value
         if(requestedTitle == "" && requestedWriter == "") { // both title and writer field are empty
+          AXIOS.get('/newspapers/')
+          .then(response => {
+              this.libraryItems = response.data
+          })
+          .catch(e => {
+              this.errorLibraryItem = e
+          })
           document.getElementById("invalidInput").innerHTML = "Please enter a title or artist"
         } 
         else if(requestedTitle != "" && requestedWriter == "") { // title field is not empty, but writer field is
@@ -155,6 +162,8 @@ export default {
           })
           .catch(e => {
             this.errorLibraryItem = e
+            this.libraryItems = []
+            document.getElementById("invalidInput").innerHTML = "No articles found with this title and newspaper"
           })
           if(this.errorLibraryItem != null){ // GET request gave an error
             alert("ERROR");
