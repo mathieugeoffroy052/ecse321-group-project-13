@@ -13,7 +13,7 @@ p<template>
                     style="height:24px;width:24px"
                     class="float-right p-0 d-inline"
                     id="tempButtons"
-                    variant="success"
+                    variant="primary"
                     @click="loadPatronInfo()"
                     >+</b-button
                   >
@@ -67,7 +67,7 @@ p<template>
                     style="height:24px;width:24px"
                     class="float-right p-0 d-inline"
                     id="tempButtons"
-                    variant="success"
+                    variant="primary"
                     @click="newTransaction()"
                     >+</b-button
                   >
@@ -83,6 +83,7 @@ p<template>
                   v-model="form.barcode"
                   placeholder="Enter a barcode"
                   class="mb-2"
+                  v-if="!isReservingRoom()"
                   required
                 ></b-form-input>
                 <div class="my-3" v-if="!isReservingRoom()">
@@ -104,18 +105,6 @@ p<template>
                     v-model="dateRoomReserve"
                     class="mb-2 mt-0"
                   ></b-form-datepicker>
-                  <b-form-timepicker
-                    id="startTime-timepicker"
-                    v-model="startTimeRoomReserve"
-                    locale="en"
-                    class="my-2"
-                  ></b-form-timepicker>
-                  <b-form-timepicker
-                    id="endTime-timepicker"
-                    v-model="endTimeRoomReserve"
-                    locale="en"
-                    class="my-2"
-                  ></b-form-timepicker>
                 </div>
               </b-col>
             </b-row>

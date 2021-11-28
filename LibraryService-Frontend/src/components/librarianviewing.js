@@ -65,9 +65,7 @@ export default {
             ],
             currentPatronTransactions: [],
             currentShift: [],
-            dateRoomReserve: '',
-            startTimeRoomReserve: '',
-            endTimeRoomReserve: ''
+            dateRoomReserve: ''
         }
     },
     methods: {
@@ -136,18 +134,23 @@ export default {
         },
       getPatron: function() {
         var userID = document.getElementById("input-userID").value 
-        AXIOS.get('/patron/'.concat(userID)).then (response => {
-            this.currentPatron = response.data
-            this.isLibrarian = false
-        })
-        .catch(e => {
-          AXIOS.get('/account/'.concat(userID)).then (response => {
-            this.currentPatron = response.data
-            this.isLibrarian = true
-          }).catch(e => {
-            alert(e.response.data.message)
+        if (userID != '') {
+          AXIOS.get('/patron/'.concat(userID)).then (response => {
+              this.currentPatron = response.data
+              this.isLibrarian = false
           })
-        })
+          .catch(e => {
+            AXIOS.get('/account/'.concat(userID)).then (response => {
+              this.currentPatron = response.data
+              this.isLibrarian = true
+            }).catch(e => {
+              this.currentPatron = ''
+              alert(e.response.data.message)
+            })
+          })
+        } else {
+          this.currentPatron = ''
+        }
       },
       needsValidation: function() {
         if (this.isLibrarian) return false
@@ -156,13 +159,15 @@ export default {
       getTransactionsForPatron: function() {
         var userID = document.getElementById("input-userID").value
         this.currentPatronTransactions = []
-        AXIOS.get('/transaction/viewall/id/'.concat(userID)).then (response => {
-          response.data.forEach(element => {
-            this.currentPatronTransactions.push({ ID: element.transactionID, Name: element.borrowableItem.libraryItem.name, Creator: element.borrowableItem.libraryItem.creator, Barcode: element.borrowableItem.barCodeNumber, Item: element.borrowableItem.libraryItem.type, Type: element.transactionType, Deadline: element.deadline }) 
+        if (userID != '') {
+          AXIOS.get('/transaction/viewall/id/'.concat(userID)).then (response => {
+            response.data.forEach(element => {
+              this.currentPatronTransactions.push({ ID: element.transactionID, Name: element.borrowableItem.libraryItem.name, Creator: element.borrowableItem.libraryItem.creator, Barcode: element.borrowableItem.barCodeNumber, Item: element.borrowableItem.libraryItem.type, Type: element.transactionType, Deadline: element.deadline }) 
+            })
+          }).catch(e => {
+            alert(e.response.data.message)
           })
-        }).catch(e => {
-          alert(e.response.data.message)
-        })
+        } 
       },
       loadPatronInfo: function() {
         this.getPatron()
@@ -171,8 +176,8 @@ export default {
       newTransaction: function() {
         var userIDInput = document.getElementById("input-userID").value
         var transactionType = document.getElementById("input-transactiontype").value
-        var barcodeInput = document.getElementById("input-barcode").value
         if(transactionType == "Borrow") {
+          var barcodeInput = document.getElementById("input-barcode").value
           AXIOS.post("/borrow", {}, {params: {userID:userIDInput, barCodeNumber: barcodeInput}}).then (response => {
             this.getTransactionsForPatron()
             this.transaction = response.data
@@ -185,6 +190,7 @@ export default {
             alert(e.response.data.message)
           })
         } else if(transactionType == "Return") {
+          var barcodeInput = document.getElementById("input-barcode").value
           AXIOS.post("/return", {}, {params: {userID:userIDInput, barCodeNumber: barcodeInput}}).then (response => {
             this.getTransactionsForPatron()
             this.transaction = response.data
@@ -197,6 +203,7 @@ export default {
             alert(e.response.data.message)
           })
         } else if(transactionType == "Renew") {
+          var barcodeInput = document.getElementById("input-barcode").value
           AXIOS.post("/renew", {}, {params: {userID:userIDInput, barCodeNumber: barcodeInput}}).then (response => {
             this.getTransactionsForPatron()
             this.transaction = response.data
@@ -209,6 +216,7 @@ export default {
             alert(e.response.data.message)
           })
         } else if(transactionType == "Waitlist") {
+          var barcodeInput = document.getElementById("input-barcode").value
           AXIOS.post("/join-waitlist", {}, {params: {userID:userIDInput, barCodeNumber: barcodeInput}}).then (response => {
             this.getTransactionsForPatron()
             this.transaction = response.data
@@ -221,7 +229,7 @@ export default {
             alert(e.response.data.message)
           })
         } else if(transactionType == "Reserve-Room") {
-          AXIOS.post("/reserve-room", {}, {params: {userID:userIDInput, barCodeNumber: barcodeInput, date:this.dateRoomReserve, startTime:this.startTimeRoomReserve.substr(0,5), endTime:this.endTimeRoomReserve.substr(0, 5)}}).then (response => {
+          AXIOS.post("/reserve-room", {}, {params: {userID:userIDInput, date:this.dateRoomReserve}}).then (response => {
             this.getTransactionsForPatron()
             this.transaction = response.data
             this.borrowableItem = response.data.borrowableItem
