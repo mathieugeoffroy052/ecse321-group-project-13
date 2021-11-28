@@ -501,7 +501,7 @@
                 </b-form>
               </b-col>
               <b-col class="shadow p-3 m-3 bg-white rounded">
-                <h5>Assign workshift</h5>
+                <h5>Create Timeslot</h5>
                 <b-form
                   @submit="onSubmitTimeslot"
                   @reset="onResetTimeslot"
@@ -522,18 +522,7 @@
                     v-model="endTimeWorkshift"
                     class="my-2"
                   ></b-form-timepicker>
-                  <b-form-group
-                    id="input-user"
-                    label="Enter the User ID for the Selected Librarian:"
-                    label-for="input-user"
-                  >
-                    <b-form-input
-                      id="input-user"
-                      v-model="formStaff.userID"
-                      placeholder="Enter a userID"
-                      required
-                    ></b-form-input>
-                  </b-form-group>
+
                   <b-row class="justify-content-center">
                     <b-col class="p-3 ">
                       <b-button
@@ -551,6 +540,53 @@
                         variant="danger"
                         style="width:76px;height:38"
                         >Reset</b-button
+                      >
+                    </b-col>
+                  </b-row>
+                </b-form>
+
+                <h5> Assign a Timeslot to a Librarian </h5>
+                <b-form @submit="onSubmitWorkshift" @reset="onResetWorkshift"
+                  v-if="true">
+                    <b-form-group
+                    id="input-user"
+                    label="Enter the User ID for the Selected Librarian:"
+                    label-for="input-user"
+                  >
+                    <b-form-input
+                      id="input-user"
+                      v-model="formStaff.userID"
+                      placeholder="Enter a userID"
+                      required
+                    ></b-form-input>
+                  </b-form-group>
+
+                  <b-form-group
+                    label="Enter the Timeslot ID for the Selected Timeslot:"
+                  >
+                    <b-form-input
+                      v-model="formTimeslot.timeslotID"
+                      placeholder="Enter a timeslotID"
+                      required
+                    ></b-form-input>
+                  </b-form-group>
+                  <b-row class="justify-content-center">
+                    <b-col class="p-3 ">
+                      <b-button
+                        type="submit"
+                        class="float-right"
+                        variant="primary"
+                        style="width:76px;height:38"
+                        >Assign</b-button
+                      >
+                    </b-col>
+                    <b-col class="p-3">
+                      <b-button
+                        type="reset"
+                        class="float-left"
+                        variant="danger"
+                        style="width:76px;height:38"
+                        >Cancel</b-button
                       >
                     </b-col>
                   </b-row>

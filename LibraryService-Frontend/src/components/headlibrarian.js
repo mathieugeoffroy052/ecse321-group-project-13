@@ -56,6 +56,9 @@ export default {
             formCode:{
               barCodeNumber:'',
             },
+            formTimeslot:{
+              timeslotID:'',
+            },
             errorBorrowableItem: '',
             borrowableItem: '',
             creator: '',
@@ -167,6 +170,16 @@ export default {
         },
         createTimeslot: function() {
           AXIOS.post('timeslot/new', {}, {params: {startDate:this.dateWorkshift, endDate:this.dateWorkshift, startTime:this.startTimeWorkshift, endTime:this.endTimeWorkshift, currentUserID:1}}).then (response => {
+            this.newTimeSlot = response.data
+            this.getAllShifts()
+        })
+        .catch(e => {
+            this.newTimeSlot = ''
+            alert(e.response.data.message)                
+        })
+        },
+        assignTimeslot: function() {
+          AXIOS.post('/timeslot/assign', {}, {params: {timeslotID:this.timeslotID, librarianID:this.formStaff.userID, currentUserID:1}}).then (response => {
             this.newTimeSlot = response.data
             this.getAllShifts()
         })
@@ -317,10 +330,50 @@ export default {
           })
         },
         onSubmitTimeslot(event) {
-
+          this.createTimeslot()
+          event.preventDefault()
+          this.dateWorkshift = null
+          this.startTimeWorkshift = ''
+          this.endTimeWorkshift = ''
+          // Trick to reset/clear native browser form validation state
+          this.show = false
+          this.$nextTick(() => {
+              this.show = true
+          })
         },
         onResetTimeslot(event) {
-
+          event.preventDefault()
+          // Reset our form values
+          this.dateWorkshift = null
+          this.startTimeWorkshift = ''
+          this.endTimeWorkshift = ''
+          // Trick to reset/clear native browser form validation state
+          this.show = false
+          this.$nextTick(() => {
+            this.show = true
+          })
+        },
+        onSubmitWorkshift(event) {
+          this.createTimeslot()
+          event.preventDefault()
+          this.formTimeslot.timeslotID = ''
+          this.formStaff.userID = ''
+          // Trick to reset/clear native browser form validation state
+          this.show = false
+          this.$nextTick(() => {
+              this.show = true
+          })
+        },
+        onResetWorkshift(event) {
+          event.preventDefault()
+          // Reset our form values
+          this.formTimeslot.timeslotID = ''
+          this.formStaff.userID = ''
+          // Trick to reset/clear native browser form validation state
+          this.show = false
+          this.$nextTick(() => {
+            this.show = true
+          })
         },
         onSubmitDelTimeslot(event) {
 
@@ -465,7 +518,7 @@ export default {
         AXIOS.get('/timeslot/viewall').then (response => {
             this.allShifts = []
             response.data.forEach(element => {
-                this.allShifts.push({Date: element.startDate, Start_Time: element.startTime, End_time:element.endTime })
+                this.allShifts.push({Date: element.startDate, Start_Time: element.startTime, End_time:element.endTime, ID: element.timeslotID })
             });
         })
         .catch(e => {
@@ -544,21 +597,6 @@ export default {
           alert(e.response.data.message)
             
         })
-      },
-      deleteTimeslot: function() {
-        AXIOS.delete('/timeslot/delete', {params: {holidayID:this.formStaff, accountID:1}}).then (response => {
-          if(response.data){
-            alert("Timeslot deleted")
-          }
-          else{
-            alert("Delete Unsuccessful.")
-          }
-          this.getAllShifts()
-      })
-      .catch(e => {
-        alert(e.response.data.message)
-          
-      })
       },
       isReservingRoom: function() {
         if (document.getElementById("input-userID") == null) return false
