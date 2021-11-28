@@ -5,7 +5,7 @@
     </div>
     <div class="row">
       <div class="col-lg-10 center-block">
-        <h2>Books</h2>
+        <h2>Newspaper Articles</h2>
       </div>
     </div>
 
