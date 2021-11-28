@@ -6,6 +6,7 @@ import MusicSearch from '@/components/MusicSearch'
 import NewspaperSearch from '@/components/NewspaperSearch'
 import BookSearch from '@/components/BookSearch'
 import MovieSearch from '@/components/MovieSearch'
+import RoomSearch from '@/components/RoomSearch'
 
 Vue.use(Router)
 
@@ -40,6 +41,11 @@ export default new Router({
       path: '/movie',
       name: 'MovieSearch',
       component: MovieSearch
+    },
+    {
+      path: '/room',
+      name: 'RoomSearch',
+      component: RoomSearch
     }
   ]
 })
