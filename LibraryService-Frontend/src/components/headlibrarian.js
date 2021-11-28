@@ -50,6 +50,12 @@ export default {
             formHoliday:{
               holiday:''
             },
+            formStaff:{
+              userID:''
+            },
+            formCode:{
+              barCodeNumber:'',
+            },
             errorBorrowableItem: '',
             borrowableItem: '',
             creator: '',
@@ -132,7 +138,7 @@ export default {
             }
         },
         createHoliday: function() {
-            AXIOS.post('/holiday/new', {},{params: {creatorID:1, dateHoliday, startHoliday, endTimeHoliday}}).then (response => {
+            AXIOS.post('/holiday/new', {},{params: {creatorID:1, date:this.dateHoliday, startTime:this.startHoliday.substr(0,5), endTime:this.endTimeHoliday.substr(0,5)}}).then (response => {
                 this.newHoliday = response.data
             })
             .catch(e => {
@@ -141,7 +147,7 @@ export default {
             })
         },
         createOpeningHour: function() {
-            AXIOS.post('/openinghour/new', {},{params: {selectedDay, startOpeningHour, endOpeningHour}}).then (response => {
+            AXIOS.post('/openinghour/new', {},{params: {day:this.selectedDay, startTime:this.startOpeningHour.substr(0,5), endTime:this.endOpeningHour.substr(0,5)}}).then (response => {
                 this.newOpeningHour = response.data
             })
             .catch(e => {
@@ -152,14 +158,14 @@ export default {
         onSubmitUSER(event) {
             this.createUser()
             event.preventDefault()
-            alert(JSON.stringify(this.form))
-            this.form.firstName = ''
-            this.form.lastName = ''
-            this.form.address = ''
-            this.form.email = ''
-            this.form.password = ''
-            this.form.balance = ''
-            this.form.onlineAccount = false
+            alert(JSON.stringify(this.formUser))
+            this.formUser.firstName = ''
+            this.formUser.lastName = ''
+            this.formUser.address = ''
+            this.formUser.email = ''
+            this.formUser.password = ''
+            this.formUser.balance = ''
+            this.formUser.onlineAccount = false
             // Trick to reset/clear native browser form validation state
             this.show = false
             this.$nextTick(() => {
@@ -169,7 +175,6 @@ export default {
         onSubmitHour(event) {
           this.createOpeningHour()
           event.preventDefault()
-          alert(JSON.stringify(this.form))
           this.selectedDay = null
           this.startOpeningHour = ''
           this.endOpeningHour = ''
@@ -180,10 +185,9 @@ export default {
           })
         },
         onSubmitDelHour(event) {
-          this.createOpeningHour()
+          this.deleteOpeningHour()
           event.preventDefault()
-          alert(JSON.stringify(this.form))
-          this.form.openingHourID = ''
+          this.formOpeningHour.openingHourID = ''
           // Trick to reset/clear native browser form validation state
           this.show = false
           this.$nextTick(() => {
@@ -191,10 +195,9 @@ export default {
           })
         },
         onSubmitDelHoliday(event) {
-          this.createOpeningHour()
+          this.deleteHoliday()
           event.preventDefault()
-          alert(JSON.stringify(this.form))
-          this.form.holiday = ''
+          this.formHoliday.holiday = ''
           // Trick to reset/clear native browser form validation state
           this.show = false
           this.$nextTick(() => {
@@ -204,7 +207,6 @@ export default {
         onSubmitHoliday(event) {
           this.createHoliday()
           event.preventDefault()
-          alert(JSON.stringify(this.form))
           this.startDate = null
           this.startHoliday = ''
           this.endTimeHoliday = ''
@@ -241,7 +243,7 @@ export default {
         onResetDelOpening(event) {
           event.preventDefault()
           // Reset our form values
-          this.form.openingHourID = ''
+          this.formOpeningHour.openingHourID = ''
           // Trick to reset/clear native browser form validation state
           this.show = false
           this.$nextTick(() => {
@@ -251,7 +253,7 @@ export default {
         onResetDelHoliday(event) {
           event.preventDefault()
           // Reset our form values
-          this.form.holiday = ''
+          this.formHoliday.holiday = ''
           // Trick to reset/clear native browser form validation state
           this.show = false
           this.$nextTick(() => {
@@ -261,13 +263,33 @@ export default {
         onResetUSER(event) {
           event.preventDefault()
           // Reset our form values
-          this.form.firstName = ''
-          this.form.lastName = ''
-          this.form.address = ''
-          this.form.email = ''
-          this.form.password = ''
-          this.form.balance = ''
-          this.form.onlineAccount = false
+          this.formUser.firstName = ''
+          this.formUser.lastName = ''
+          this.formUser.address = ''
+          this.formUser.email = ''
+          this.formUser.password = ''
+          this.formUser.balance = ''
+          this.formUser.onlineAccount = false
+          // Trick to reset/clear native browser form validation state
+          this.show = false
+          this.$nextTick(() => {
+            this.show = true
+          })
+        },
+        onSubmitStaff(event) {
+          this.createHoliday()
+          event.preventDefault()
+          this.formStaff.userID
+          // Trick to reset/clear native browser form validation state
+          this.show = false
+          this.$nextTick(() => {
+              this.show = true
+          })
+        },
+        onResetStaff(event) {
+          event.preventDefault()
+          // Reset our form values
+          this.formStaff.userID
           // Trick to reset/clear native browser form validation state
           this.show = false
           this.$nextTick(() => {
@@ -342,7 +364,7 @@ export default {
         AXIOS.get('/holiday/viewall').then (response => {
             this.allHolidays = []
             response.data.forEach(element => {
-                this.allHolidays.push({Date: element.startDate, Start_Time: element.startTime, End_time:element.endTime })
+                this.allHolidays.push({Date: element.startDate, Start_Time: element.startTime, End_time:element.endTime, ID:element.holidayID})
             });
         })
         .catch(e => {
@@ -361,7 +383,6 @@ export default {
           }
         })
         .catch(e => {
-          this.currentStaff = []
           alert(e.response.data.message)
             
         })
@@ -377,7 +398,6 @@ export default {
             }
         })
         .catch(e => {
-          this.currentStaff = []
           alert(e.response.data.message)
             
         })
@@ -393,7 +413,6 @@ export default {
             }
         })
         .catch(e => {
-          this.currentStaff = []
           alert(e.response.data.message)
             
         })

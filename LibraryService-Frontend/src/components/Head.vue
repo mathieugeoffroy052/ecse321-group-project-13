@@ -13,7 +13,7 @@
                 <b-form-group>
                   <b-form-input
                     id="input-userID"
-                    v-model="form.userID"
+                    v-model="formUser.userID"
                     placeholder="Enter a UserID"
                   ></b-form-input>
                 </b-form-group>
@@ -46,7 +46,7 @@
                 <b-form-group>
                   <b-form-input
                     id="input-barcode"
-                    v-model="form.barcode"
+                    v-model="formCode.barcode"
                     placeholder="Enter a barcode"
                     required
                   ></b-form-input>
@@ -73,7 +73,7 @@
           </b-container>
         </b-tab>
         <b-tab title="Add New User">
-          <h3>Create User</h3>
+          <h3>Create New User</h3>
           <b-container>
             <b-row class="shadow p-3 m-3 bg-white rounded">
               <div class="w-100">
@@ -159,7 +159,7 @@
 
               <b-row class="justify-content-center">
                 <b-col class="p-3 ">
-                  <b-button type="Create" class="float-right" variant="primary" style="width:76px;height:38">Submit</b-button>
+                  <b-button type="submit" class="float-right" variant="primary" style="width:76px;height:38">Submit</b-button>
                 </b-col>
                 <b-col class="p-3">
                   <b-button type="reset" class="float-left" variant="danger" style="width:76px;height:38">Reset</b-button>
@@ -201,10 +201,10 @@
                             ></b-form-timepicker>
                             <b-row class="justify-content-center">
                                 <b-col class="p-3 ">
-                                <b-button type="Create" class="float-right" variant="primary" style="width:76px;height:38">Create</b-button>
+                                <b-button type="submit" class="float-right" variant="primary" style="width:76px;height:38">Create</b-button>
                                 </b-col>
                                 <b-col class="p-3">
-                                <b-button type="Reset" class="float-left" variant="danger" style="width:76px;height:38">Reset</b-button>
+                                <b-button type="reset" class="float-left" variant="danger" style="width:76px;height:38">Reset</b-button>
                                 </b-col>
                             </b-row>
                         </b-form>
@@ -231,10 +231,10 @@
                             </b-row>
                             <b-row class="justify-content-center">
                                 <b-col class="p-3 ">
-                                <b-button type="Delete" class="float-right" variant="primary" style="width:76px;height:38">Delete</b-button>
+                                <b-button type="submit" class="float-right" variant="primary" style="width:76px;height:38">Delete</b-button>
                                 </b-col>
                                 <b-col class="p-3">
-                                <b-button type="Cancel" class="float-left" variant="danger" style="width:76px;height:38">Cancel</b-button>
+                                <b-button type="reset" class="float-left" variant="danger" style="width:76px;height:38">Cancel</b-button>
                                 </b-col>
                             </b-row>
                         </b-form>
@@ -261,10 +261,10 @@
                           ></b-form-timepicker>
                           <b-row class="justify-content-center">
                                 <b-col class="p-3 ">
-                                <b-button type="Create" class="float-right" variant="primary" style="width:76px;height:38">Create</b-button>
+                                <b-button type="submit" class="float-right" variant="primary" style="width:76px;height:38">Create</b-button>
                                 </b-col>
                                 <b-col class="p-3">
-                                <b-button type="Reset" class="float-left" variant="danger" style="width:76px;height:38">Reset</b-button>
+                                <b-button type="reset" class="float-left" variant="danger" style="width:76px;height:38">Reset</b-button>
                                 </b-col>
                             </b-row>
                         </b-form>
@@ -291,10 +291,10 @@
                             </b-row>
                             <b-row class="justify-content-center">
                                 <b-col class="p-3 ">
-                                <b-button type="Delete" class="float-right" variant="primary" style="width:76px;height:38">Delete</b-button>
+                                <b-button type="submit" class="float-right" variant="primary" style="width:76px;height:38">Delete</b-button>
                                 </b-col>
                                 <b-col class="p-3">
-                                <b-button type="Cancel" class="float-left" variant="danger" style="width:76px;height:38">Cancel</b-button>
+                                <b-button type="reset" class="float-left" variant="danger" style="width:76px;height:38">Cancel</b-button>
                                 </b-col>
                             </b-row>
                         </b-form>
@@ -313,7 +313,7 @@
                             <b-table hover :items="currentStaff"></b-table>
                           </div>
                         </b-row>
-                        <b-form @submit="onSubmit" @reset="onReset" v-if="true">
+                        <b-form @submit="onSubmitStaff" @reset="onResetStaff" v-if="true">
                             <b-row class="justify-content-center">
                                 <b-form-group
                                     id="input-userID"
@@ -321,7 +321,7 @@
                                     label-for="input-userID">
                                     <b-form-input
                                     id="input-userID"
-                                    v-model="form.userID"
+                                    v-model="formStaff.userID"
                                     placeholder="Enter user ID"
                                     required
                                     ></b-form-input>
@@ -329,10 +329,10 @@
                             </b-row>
                             <b-row class="justify-content-center">
                                 <b-col class="p-3 ">
-                                <b-button type="Delete" class="float-right" variant="primary" style="width:76px;height:38">Delete</b-button>
+                                <b-button type="submit" class="float-right" variant="primary" style="width:76px;height:38">Delete</b-button>
                                 </b-col>
                                 <b-col class="p-3">
-                                <b-button type="Cancel" class="float-left" variant="danger" style="width:76px;height:38">Cancel</b-button>
+                                <b-button type="reset" class="float-left" variant="danger" style="width:76px;height:38">Cancel</b-button>
                                 </b-col>
                             </b-row>
                         </b-form>
@@ -360,7 +360,7 @@
                                   label-for="input-user">
                               <b-form-input
                                   id="input-user"
-                                  v-model="form.user"
+                                  v-model="formStaff.userID"
                                   placeholder="Enter a userID"
                                   required
                               ></b-form-input>
