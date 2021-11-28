@@ -1,5 +1,5 @@
 <template>
-  <div id="musicsearch">
+  <div id="search">
     <div>
       <b-button size="sm" pill variant="dark" style="width: 8%; float: left;" @click="redirectToItemSelect()">Back to item type selection</b-button>
       <h2>Music Albums</h2>
@@ -41,28 +41,5 @@
 </script>
 
 <style>
-  #musicsearch {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    font-size: 20px;
-    color: #2c3e50;
-    background: #97C3F9;
-  }
-  #invalidInput {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    font-size: 24px;
-    font-style: italic;
-    color: #0E0E47;
-    background: #97C3F9;
-  }
-  #reserve{
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    font-size: 30px;
-    background: #ffffff;
-  }
-  #transaction {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    font-size: 30px;
-    color: #2c3e50;
-    background: #97C3F9;
-  }
+  @import 'styling.css';
 </style>
