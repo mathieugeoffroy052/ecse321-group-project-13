@@ -635,8 +635,7 @@ public class LibraryServiceService {
      * @author Amani Jammoul checked
      */
     @Transactional
-    public Transaction createRoomReserveTransaction(BorrowableItem item, UserAccount account, Date date, Time startTime,
-            Time endTime) {
+    public Transaction createRoomReserveTransaction(BorrowableItem item, UserAccount account, Date date) {
         // Input validation
         String error = "";
         if (item == null) {
@@ -654,10 +653,6 @@ public class LibraryServiceService {
          * else if (userAccountRepository.findUserAccountByUserID(account.getUserID())
          * == null){ error += "User does not exist!"; }
          */
-        int check = startTime.compareTo(endTime);
-        if (check > 0) {
-            error += "Start time must be before end time! ";
-        }
 
         error = error.trim();
         if (error.length() > 0) {
@@ -690,9 +685,11 @@ public class LibraryServiceService {
 
         Iterable<Transaction> transactions = transactionRepository.findAll();
         for (Transaction t : transactions) {
-            if (t.getDeadline().toLocalDate().compareTo(date.toLocalDate()) == 0) {
-                throw new IllegalArgumentException(
-                        "Room already booked on that date, please try another or the watilist.");
+            if (t.getDeadline() != null){
+                if (t.getDeadline().toLocalDate().compareTo(date.toLocalDate()) == 0) {
+                    throw new IllegalArgumentException(
+                            "Room already booked on that date, please try another or the watilist.");
+                }
             }
         }
 

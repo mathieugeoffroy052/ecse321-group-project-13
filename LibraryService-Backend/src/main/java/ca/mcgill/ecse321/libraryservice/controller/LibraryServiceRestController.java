@@ -579,14 +579,20 @@ public class LibraryServiceRestController {
      * @author Amani Jammoul
      */
     @PostMapping(value = { "/reserve-room", "/reserve-room/" })
-    public TransactionDTO reserveARoom(@RequestParam(name = "barCodeNumber") int barCodeNumber,
-    @RequestParam(name = "userID") int userID, @RequestParam(name = "date") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE, pattern="yyyy-MM-dd") LocalDate date,
-            @RequestParam(name = "startTime") @DateTimeFormat(iso=DateTimeFormat.ISO.TIME, pattern="HH:mm") LocalTime startTime, @RequestParam(name = "endTime") @DateTimeFormat(iso=DateTimeFormat.ISO.TIME, pattern="HH:mm") LocalTime endTime)
+    public TransactionDTO reserveARoom(@RequestParam(name = "userID") int userID, @RequestParam(name = "date") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE, pattern="yyyy-MM-dd") LocalDate date)
             throws Exception {
-        BorrowableItem i = service.getBorrowableItemFromBarCodeNumber(barCodeNumber);
+        List<LibraryItem> rooms = service.getAllRoomReservations();
+        BorrowableItem theItem = null;
+        if (!rooms.isEmpty()){
+            LibraryItem theRoom = rooms.get(0);
+            List<BorrowableItem> borrowableRooms = service.getBorrowableItemsFromItemIsbn(theRoom.getIsbn());
+            if (!borrowableRooms.isEmpty()){
+                theItem = borrowableRooms.get(0);
+            }
+        }
         UserAccount a = service.getUserAccountByUserID(userID);
 
-        Transaction t = service.createRoomReserveTransaction(i, a, Date.valueOf(date), Time.valueOf(startTime), Time.valueOf(endTime)); 
+        Transaction t = service.createRoomReserveTransaction(theItem, a, Date.valueOf(date)); 
         TransactionDTO transaction = convertToDto(t);
         return transaction;
     }
