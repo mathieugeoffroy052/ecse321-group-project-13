@@ -50,6 +50,7 @@ export default {
             transactions: [],
             errorTransaction: '',
             newPatron: '',
+            isLibrarian: false,
             currentPatron: '',
             errorPatron: '',
             response: [],
@@ -134,15 +135,23 @@ export default {
           })
         },
       getPatron: function() {
-        var userID = document.getElementById("input-userID").value
+        var userID = document.getElementById("input-userID").value 
         AXIOS.get('/patron/'.concat(userID)).then (response => {
             this.currentPatron = response.data
+            this.isLibrarian = false
         })
         .catch(e => {
-            this.currentPatron = ''
+          AXIOS.get('/account/'.concat(userID)).then (response => {
+            this.currentPatron = response.data
+            this.isLibrarian = true
+          }).catch(e => {
             alert(e.response.data.message)
-            
+          })
         })
+      },
+      needsValidation: function() {
+        if (this.isLibrarian) return false
+        return this.currentPatron != '' && !this.currentPatron.validatedAccount
       },
       getTransactionsForPatron: function() {
         var userID = document.getElementById("input-userID").value
@@ -240,7 +249,7 @@ export default {
       resetBalance: function() {
         var userIDInput = document.getElementById("input-userID").value
         AXIOS.put("/updateBalance", {}, {params: {balance:0, userID:userIDInput}}).then (response => {
-          this.currentPatron = response.data
+          this.currentPatron.balance = response.data.balance
         }).catch(e => {
           alert(e.response.date.message)
         })

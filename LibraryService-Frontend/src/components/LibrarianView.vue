@@ -1,4 +1,4 @@
-<template>
+p<template>
   <div id="libraryservices">
     <h2>Library Services</h2>
     <div>
@@ -40,9 +40,7 @@
                     class="float-right py-0 d-inline"
                     id="tempButtons"
                     variant="danger"
-                    v-if="
-                      !currentPatron.validatedAccount && currentPatron != ''
-                    "
+                    v-if="needsValidation()"
                     @click="validateCurrentPatron()"
                     >Validate</b-button
                   >

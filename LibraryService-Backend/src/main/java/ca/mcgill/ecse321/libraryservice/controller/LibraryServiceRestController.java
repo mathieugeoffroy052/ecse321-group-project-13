@@ -560,17 +560,6 @@ public class LibraryServiceRestController {
         }
         return rooms;
     }
-
-    @GetMapping(value = { "/transaction/viewall/id/{userID}", "/transaction/viewall/id/{userID}/"})
-    public List<TransactionDTO> getAllTransactionsPerUser(@PathVariable(name = "userID") int userID) {
-        List<TransactionDTO> transactions = new ArrayList<TransactionDTO>();
-        for (Transaction t : service.getAllTransactions()) {
-            if (t.getUserAccount().getUserID() == userID) {
-                transactions.add(convertToDto(t));
-            }
-        }
-        return transactions;
-    }
   
     /** 
      * Create an item reservation (transaction) between a user account and borrowable item, and convert to DTO
@@ -1320,7 +1309,7 @@ public class LibraryServiceRestController {
      */
     private UserAccountDTO convertToDto(UserAccount userAccount) {
         if (userAccount == null) {
-            throw new IllegalArgumentException("There is no such library item!");
+            throw new IllegalArgumentException("There is no such user!");
         }
 
         UserAccountDTO userAccountDTO = new UserAccountDTO(userAccount.getFirstName(), userAccount.getLastName(), userAccount.getOnlineAccount(), userAccount.getAddress(), userAccount.getPassword(), userAccount.getBalance(), userAccount.getEmail(), userAccount.getUserID());
