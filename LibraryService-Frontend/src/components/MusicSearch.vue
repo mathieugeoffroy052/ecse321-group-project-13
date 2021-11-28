@@ -1,30 +1,51 @@
 <template>
-  <div id="musicsearch">
-    <h2>Music Albums</h2>
-    <div class="title-search">
-        <label for="title">Search by title: </label>
-        <input type="text" id="requestedTitle" name="title">
+  <div id="search">
+    <div id="back">
+        <b-button size="sm" pill variant="dark" style="float: left;" @click="redirectToItemSelect()">Back to item type selection</b-button>
+    </div>
+    <div class="row">
+      <div class="col-lg-10 center-block">
+        <h2>Music Albums</h2>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-5">
+        <label for="title" style="float: right;">Search by title: </label>
+      </div>
+      <div class="col">
+        <input type="text" id="requestedTitle" name="title" style="float: left;">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-5">
+        <label for="artist" style="float: right;">Search by artist: </label>
+      </div>
+      <div class="col-3">
+        <input type="text" id="requestedArtist" name="artist" style="float: left;">
+      </div>
+      <div class="col">
+        <b-button variant="dark" style="float: left;" @click="resetMessages(); runSearch()">Submit</b-button>
+      </div>
     </div>
     
-    <div class="artist-search">
-        <label for="artist">Search by artist: </label>
-        <input type="text" id="requestedArtist" name="artist">
-        <button type="submit" @click="runSearch()">Submit</button>
-    </div>
+    <p id="invalidInput"></p>
     
     <div>
-      <div id="" style="overflow:scroll; height:300px;">
+      <div style="overflow-y:scroll; height:300px;">
         <v-row justify="center" v-for="libItem in libraryItems" :key="libItem.name">
             <input type="radio" name="item" :value="libItem.isbn">{{ " " + libItem.name }}<br> {{ libItem.creator + ", " + libItem.date + ". " + "isbn " + libItem.isbn }} <br>
         </v-row>
-        <p id="noItemFound">
-    </p>
       </div>
-      <button type="reserve" @click="createReserveTransaction(72)">Reserve Item</button>
     </div>
 
-    <p id="transaction">
-    </p>
+    <div id="reserve">
+      <b-button size="lg" pill variant="dark" @click="resetMessages(); createReserveTransaction(7);">Reserve Item</b-button>
+    </div>
+
+
+    <p id="transaction"></p>
   </div>
 </template>
 
@@ -32,21 +53,5 @@
 </script>
 
 <style>
-  #musicsearch {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    color: #2c3e50;
-    background: #97C3F9;
-  }
-  #transaction {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    font-size: 30px;
-    color: #2c3e50;
-    background: #97C3F9;
-  }
-  #noItemFound {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    font-size: 35px;
-    color: #2c3e50;
-    background: #97C3F9;
-  }
+  @import 'styling.css';
 </style>

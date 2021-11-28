@@ -154,7 +154,14 @@ export default {
         var requestedTitle = document.getElementById("requestedTitle").value
         var requestedArtist = document.getElementById("requestedArtist").value
         if(requestedTitle == "" && requestedArtist == "") { // both title and artist field are empty
-          alert("No input")
+          AXIOS.get('/music/')
+          .then(response => {
+              this.libraryItems = response.data
+          })
+          .catch(e => {
+              this.errorLibraryItem = e
+          })
+          document.getElementById("invalidInput").innerHTML = "Please enter a title or artist"
         } 
         else if(requestedTitle != "" && requestedArtist == "") { // title field is not empty, but artist field is
           console.log("title not empty, artist empty")
@@ -165,9 +172,8 @@ export default {
           AXIOS.get('/musics/title/', {params})
           .then(response => {
             this.libraryItems = response.data
-            //console.log("length: " + response.data.length)
             if(response.data.length == 0){
-              document.getElementById("noItemFound").innerHTML = "No music albums found with this title"
+              document.getElementById("invalidInput").innerHTML = "No music albums found with this title"
             }
           })
           .catch(e => {
@@ -187,7 +193,7 @@ export default {
           .then(response => {
             this.libraryItems = response.data
             if(response.data.length == 0){
-              document.getElementById("noItemFound").innerHTML = "No music albums found by this artist"
+              document.getElementById("invalidInput").innerHTML = "No music albums found by this artist"
             }
           })
           .catch(e => {
@@ -207,16 +213,25 @@ export default {
           AXIOS.get('/musics/title/artist/', {params})
           .then(response => {
             this.libraryItems = []
-            if(response.data.length == 0) document.getElementById("noItemFound").innerHTML = "No music albums found with this title and artist"
+            if(response.data.length == 0) document.getElementById("invalidInput").innerHTML = "No music albums found with this title and artist"
             else this.libraryItems[0] = response.data
           })
           .catch(e => {
             this.errorLibraryItem = e
+            this.libraryItems = []
+            document.getElementById("invalidInput").innerHTML = "No music albums found with this title and artist"
           })
           if(this.errorLibraryItem != null){ // GET request gave an error
             alert("ERROR");
           } 
         }
+      },
+      resetMessages : function(){
+        document.getElementById("invalidInput").innerHTML = ""
+        document.getElementById("transaction").innerHTML = ""
+      },
+      redirectToItemSelect : function(){
+        window.location.href='../#/item-select';
       }
     }
   }

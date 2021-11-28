@@ -1,12 +1,12 @@
 <template>
-  <div id="itemtypetobrowse">
+  <div id="search">
     <h2>Looking for an item</h2>
-      <button @click="redirectToBook()">Book</button>
-      <button @click="redirectToMovie()">Movie</button>
-      <button @click="redirectToMusic()">Music</button>
-      <button @click="redirectToNewspaper()">Newspaper Article</button>
-    <p>
-    </p>
+    <div>
+        <b-button pill variant="dark" style="width: 8%; float: center;" @click="redirectToBook()">Book</b-button>
+        <b-button pill variant="dark" style="width: 8%; float: center;" @click="redirectToMovie()">Movie</b-button>
+        <b-button pill variant="dark" style="width: 8%; float: center;" @click="redirectToMusic()">Music</b-button>
+        <b-button pill variant="dark" style="width: 14%; float: center;" @click="redirectToNewspaper()">Newspaper Article</b-button>
+    </div>
   </div>
 </template>
 
@@ -14,9 +14,5 @@
 </script>
 
 <style>
-  #itemtypetobrowse {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    color: #2c3e50;
-    background: #97C3F9;
-  }
+@import 'styling.css';
 </style>

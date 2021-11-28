@@ -1,28 +1,107 @@
 <template>
-  <div id="moviesearch">
-    <h2>Movies</h2>
-    <div class="title-search">
-        <label for="title">Search by title: </label>
-        <input type="text" id="requestedTitle" name="title">
-    </div>
-    
-    <div class="director-search">
-        <label for="director">Search by director: </label>
-        <input type="text" id="requestedDirector" name="director">
-        <button type="director-submit" @click="runSearch()">Submit</button>
-    </div>
-    
-    <div>
-      <div id="" style="overflow:scroll; height:300px;">
-        <v-row justify="center" v-for="libItem in libraryItems" :key="libItem.name">
-            <input type="radio" name="item" :value="libItem.isbn">{{ " " + libItem.name }}<br> {{ libItem.creator + ", " + libItem.date + ". " + "isbn " + libItem.isbn }} <br>
-        </v-row>
+  <div id="search">
+    <div class="row">
+      <div class="col">
+        <h2>Movies</h2>
       </div>
-      <button type="reserve" @click="createReserveTransaction(7)">Reserve Item</button>
     </div>
 
-    <p id="transaction">
-    </p>
+    <b-containter md>
+      <b-col class="shadow p-3 m-3 bg-white rounded">
+        <b-row>
+          <div id="back" style="float: left">
+            <b-button
+              size="sm"
+              pill
+              variant="dark"
+              @click="redirectToItemSelect()"
+              >Back to item type selection</b-button
+            >
+          </div>
+        </b-row>
+
+        <b-row>
+          <b-col cols="5">
+            <label for="title" style="float: right">Search by title: </label>
+          </b-col>
+          <b-col>
+            <input
+              type="text"
+              id="requestedTitle"
+              name="title"
+              style="float: left"
+            />
+          </b-col>
+        </b-row>
+
+        <b-row>
+          <b-col cols="5">
+            <label for="director" style="float: right"
+              >Search by director:
+            </label>
+          </b-col>
+          <b-col>
+            <input
+              class="mr-2"
+              type="text"
+              id="requestedDirector"
+              name="director"
+              style="float: left"
+            />
+            <b-button
+              variant="dark"
+              style="float: left"
+              @click="
+                resetMessages();
+                runSearch();
+              "
+              >Submit</b-button
+            >
+          </b-col>
+        </b-row>
+
+        <p id="invalidInput"></p>
+
+        <div>
+          <div class="shadow p-3 m-3 rounded" id="results" style="overflow-y: scroll; height: 300px">
+            <v-row
+              justify="center"
+              v-for="libItem in libraryItems"
+              :key="libItem.name"
+            >
+              <input type="radio" name="item" :value="libItem.isbn" />{{
+                " " + libItem.name
+              }}<br />
+              {{
+                libItem.creator +
+                ", " +
+                libItem.date +
+                ". " +
+                "isbn " +
+                libItem.isbn
+              }}
+              <br />
+            </v-row>
+          </div>
+        </div>
+
+        <div id="reserve">
+          <br />
+          <b-button
+            size="lg"
+            pill
+            variant="dark"
+            @click="
+              resetMessages();
+              createReserveTransaction(7);
+            "
+            >Reserve Item</b-button
+          >
+        </div>
+
+        <p id="transaction"></p>
+      </b-col>
+    </b-containter>
   </div>
 </template>
 
@@ -30,15 +109,5 @@
 </script>
 
 <style>
-  #moviesearch {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    color: #2c3e50;
-    background: #97C3F9;
-  }
-  #transaction {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    font-size: 30px;
-    color: #2c3e50;
-    background: #97C3F9;
-  }
+@import "styling.css";
 </style>
