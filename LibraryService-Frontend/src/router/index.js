@@ -7,6 +7,9 @@ import NewspaperSearch from '@/components/NewspaperSearch'
 import BookSearch from '@/components/BookSearch'
 import MovieSearch from '@/components/MovieSearch'
 import RoomSearch from '@/components/RoomSearch'
+import LibrarianView from '@/components/LibrarianView'
+import Head from '@/components/Head'
+
 
 Vue.use(Router)
 
@@ -46,6 +49,17 @@ export default new Router({
       path: '/room',
       name: 'RoomSearch',
       component: RoomSearch
+    },
+    {
+      path: '/libraryservices',
+      name: 'LibrarianView',
+      component: LibrarianView
+    },
+    {
+      path: '/headlibraryservices',
+      name: 'Head',
+      component: Head
+
     }
   ]
 })

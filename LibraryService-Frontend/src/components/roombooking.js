@@ -19,7 +19,8 @@ export default {
         // errorRoomItem: '',
         value: '',
         available: 0,
-        buttonDisabled: 1
+        buttonDisabled: 1,
+        alertColour: 'light'
       }
     },
 
@@ -53,6 +54,7 @@ export default {
             AXIOS.post('/reserve-room', {}, {params})
             .then(response => {
                 document.getElementById("status").innerHTML = "Room Booked!"
+                this.alertColour = "success"
             })
             .catch(e => {
                 var errorMessage = e.response.data.message
@@ -62,12 +64,15 @@ export default {
                 }
                 else if(errorMessage == "Cannot book a room in the past"){
                     document.getElementById("status").innerHTML = "Cannot reserve a room in the past, please try again"
+                    this.alertColour = "danger"
                 }
                 else if(errorMessage == "Room already booked on that date, please try another or the watilist."){
                     document.getElementById("status").innerHTML = "Room booking not available on this date, please try again"
+                    this.alertColour = "danger"
                 }
                 else{
                     document.getElementById("status").innerHTML = "OTHER ERROR"
+                    this.alertColour = "dark"
                 }
             })
         }
