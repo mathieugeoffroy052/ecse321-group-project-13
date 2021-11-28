@@ -261,16 +261,6 @@ export default {
         }).catch(e => {
           alert(e.response.date.message)
         })
-      },
-      getBorrowableItem: function() {
-        var userID = document.getElementById("input-barcode").value
-        AXIOS.get('/item/barCodeNumber/').then (response => {
-            this.currentPatron = response.data
-        })
-        .catch(e => {
-            this.currentPatron = ''
-            alert(e.response.data.message) 
-        })
       }
     }
 }
