@@ -9,6 +9,7 @@ import NewspaperSearch from '@/components/NewspaperSearch'
 import BookSearch from '@/components/BookSearch'
 import MovieSearch from '@/components/MovieSearch'
 import LibrarianView from '@/components/LibrarianView'
+import RoomSearch from '@/components/RoomSearch'
 
 Vue.use(Router)
 
@@ -50,9 +51,16 @@ export default new Router({
       component: MovieSearch
     },
     {
+
       path: '/libraryservices',
       name: 'LibrarianView',
       component: LibrarianView
+    },
+    {
+      path: '/room',
+      name: 'RoomSearch',
+      component: RoomSearch
+
     }
   ]
 })
