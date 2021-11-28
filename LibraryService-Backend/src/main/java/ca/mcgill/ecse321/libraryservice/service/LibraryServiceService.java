@@ -2497,5 +2497,36 @@ public class LibraryServiceService {
         }
         return list;
     }
+    
+    
+
+	/**
+	 * Logout from user account.
+	 * @param username
+	 * @return user
+	 * @throws InvalidInputException
+     * -Edited by Zoya: Added password parameter
+     */
+    @Transactional
+    public UserAccount loginUserAccount(int userID, String password) throws Exception {
+        String error = "";
+        if (userID < 1 || password == "") {
+            error += "ID cannot be 0 or negative and password cannot be empty";
+        }
+
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
+
+        UserAccount account = userAccountRepository.findUserAccountByUserID(userID);
+        if (account != null)
+            return account;
+        else
+            throw new IllegalArgumentException("No user found with this ID!");
+    }
+
+
+	
 
 }
