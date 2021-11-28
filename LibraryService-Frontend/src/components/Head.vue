@@ -223,7 +223,7 @@
                                     label-for="input-OpeningHour">
                                     <b-form-input
                                     id="input-OpeningHour"
-                                    v-model="form.openingHourID"
+                                    v-model="formOpeningHour.openingHourID"
                                     placeholder="Enter OpeningHour ID"
                                     required
                                     ></b-form-input>
@@ -283,7 +283,7 @@
                                     label-for="input-Holiday">
                                     <b-form-input
                                     id="input-Holiday"
-                                    v-model="form.holiday"
+                                    v-model="formHoliday.holiday"
                                     placeholder="Enter Holiday ID"
                                     required
                                     ></b-form-input>
