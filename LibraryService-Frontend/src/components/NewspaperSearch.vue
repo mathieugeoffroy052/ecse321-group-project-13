@@ -20,10 +20,10 @@
     
     <div class="row">
       <div class="col-5">
-        <label for="author" style="float: right;">Search by author: </label>
+        <label for="writer" style="float: right;">Search by newspaper: </label>
       </div>
       <div class="col-3">
-        <input type="text" id="requestedAuthor" name="author" style="float: left;">
+        <input type="text" id="requestedWriter" name="writer" style="float: left;">
       </div>
       <div class="col">
         <b-button variant="dark" style="float: left;" @click="resetMessages(); runSearch()">Submit</b-button>

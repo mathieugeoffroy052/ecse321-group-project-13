@@ -150,6 +150,13 @@ export default {
         var requestedTitle = document.getElementById("requestedTitle").value
         var requestedAuthor = document.getElementById("requestedAuthor").value
         if(requestedTitle == "" && requestedAuthor == "") { // both title and author field are empty
+          AXIOS.get('/books/')
+          .then(response => {
+              this.libraryItems = response.data
+          })
+          .catch(e => {
+            this.errorLibraryItem = e
+          })
           document.getElementById("invalidInput").innerHTML = "Please enter a title or author"
         } 
         else if(requestedTitle != "" && requestedAuthor== "") { // title field is not empty, but author field is
@@ -202,11 +209,13 @@ export default {
           AXIOS.get('/books/title/author/', {params})
           .then(response => {            
             this.libraryItems = []
-            if(response.data.length == 0) document.getElementById("noItemFoundError").innerHTML = "No books found with this title and author"
+            if(response.data.length == 0) document.getElementById("invalidInput").innerHTML = "No books found by this title or author"
             else this.libraryItems[0] = response.data
           })
           .catch(e => {
             this.errorLibraryItem = e
+            this.libraryItems = []
+            document.getElementById("invalidInput").innerHTML = "No books found by this title or author"
           })
           if(this.errorLibraryItem != null){ // GET request gave an error
             alert("ERROR");
