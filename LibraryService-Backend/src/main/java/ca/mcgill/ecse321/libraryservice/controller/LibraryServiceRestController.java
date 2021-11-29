@@ -76,7 +76,7 @@ public class LibraryServiceRestController {
      * @throws Exception
      */
     @DeleteMapping(value = {"/holiday/delete", "/holiday/delete/"})
-    public boolean deleteHoliday(@RequestParam (name = "holidayID") int holidayID, @RequestParam (name = "accountID") int accountID) throws Exception {
+    public boolean deleteHoliday(@RequestParam (name = "holidayID") Integer holidayID, @RequestParam (name = "accountID") Integer accountID) throws Exception {
         return service.deleteHoliday(accountID, holidayID);
     }
 
@@ -138,7 +138,7 @@ public class LibraryServiceRestController {
      * @throws Exception
      */
     @DeleteMapping(value = {"/openinghour/delete", "/openinghour/delete/"})
-    public boolean deleteOpeningHour(@RequestParam (name = "openinghourID") int openinghourID, @RequestParam (name = "accountID") int accountID) throws Exception {
+    public boolean deleteOpeningHour(@RequestParam (name = "openinghourID") Integer openinghourID, @RequestParam (name = "accountID") Integer accountID) throws Exception {
         return service.deleteOpeningHour(accountID, openinghourID);
     }
 
@@ -156,7 +156,7 @@ public class LibraryServiceRestController {
     }
 
     @GetMapping(value = {"timeslot/view/librarianID/{userID}", "timeslot/view/librarianID/{userID}/"})
-    public List<TimeslotDTO> getTimeSlotsFromLibrarianUserID(@PathVariable (name = "userID") int userID) throws Exception {
+    public List<TimeslotDTO> getTimeslotByLibrarianID(@PathVariable (name = "userID") int userID) throws Exception {
         return service.getTimeSlotsFromLibrarian(userID).stream().map(p -> convertToDto(p)).collect(Collectors.toList());
     }
 
@@ -464,8 +464,6 @@ public class LibraryServiceRestController {
 		Patron patron = service.createPatron( creatorID, firstName,  lastName,  onlineAccount,  address,  validatedAccount,  password,  balance,  email);
 	return convertToDto(patron);
 	}
-    
-    
     /**
 	 * Login user account
 	 * @author Zoya
@@ -590,17 +588,6 @@ public class LibraryServiceRestController {
         }
         return rooms;
     }
-
-    @GetMapping(value = { "/transaction/viewall/id/{userID}", "/transaction/viewall/id/{userID}/"})
-    public List<TransactionDTO> getAllTransactionsPerUser(@PathVariable(name = "userID") int userID) {
-        List<TransactionDTO> transactions = new ArrayList<TransactionDTO>();
-        for (Transaction t : service.getAllTransactions()) {
-            if (t.getUserAccount().getUserID() == userID) {
-                transactions.add(convertToDto(t));
-            }
-        }
-        return transactions;
-    }
   
     /** 
      * Create an item reservation (transaction) between a user account and borrowable item, and convert to DTO
@@ -620,16 +607,16 @@ public class LibraryServiceRestController {
         return convertToDto(t); 
     }
 
-//    @GetMapping(value = { "/transaction/viewall/id/{userID}", "/transaction/viewall/id/{userID}/"})
-//    public List<TransactionDTO> getAllTransactionsPerUser(@PathVariable(name = "userID") int userID) {
-//        List<TransactionDTO> transactions = new ArrayList<TransactionDTO>();
-//        for (Transaction t : service.getAllTransactions()) {
-//            if (t.getUserAccount().getUserID() == userID) {
-//                transactions.add(convertToDto(t));
-//            }
-//        }
-//        return transactions;
-//    }
+    @GetMapping(value = { "/transaction/viewall/id/{userID}", "/transaction/viewall/id/{userID}/"})
+    public List<TransactionDTO> getAllTransactionsPerUser(@PathVariable(name = "userID") int userID) {
+        List<TransactionDTO> transactions = new ArrayList<TransactionDTO>();
+        for (Transaction t : service.getAllTransactions()) {
+            if (t.getUserAccount().getUserID() == userID) {
+                transactions.add(convertToDto(t));
+            }
+        }
+        return transactions;
+    }
 
     /**
      * Create a room reservation (transaction) between a user account and a room,
@@ -681,6 +668,12 @@ public class LibraryServiceRestController {
         Transaction t = service.createItemBorrowTransaction(i, a);
         return convertToDto(t);
     }
+
+    @GetMapping(value = {"/borrowableItems/viewall", "/borrowableItems/viewall/"})
+    public List<BorrowableItemDTO> getAllBorrowableItems() {
+        return service.getAllBorrowableItems().stream().map(p -> convertToDto(p)).collect(Collectors.toList());
+    }
+
 
     /**
      * Create a renewal transaction between a user account and an item, and convert
@@ -1080,7 +1073,6 @@ public class LibraryServiceRestController {
     }
 
     /**
-
      * Find all newspapers by title, and convert those objects to DTOs
      * 
      * @param movieTitle
@@ -1350,7 +1342,7 @@ public class LibraryServiceRestController {
      */
     private UserAccountDTO convertToDto(UserAccount userAccount) {
         if (userAccount == null) {
-            throw new IllegalArgumentException("There is no such library item!");
+            throw new IllegalArgumentException("There is no such user!");
         }
 
         UserAccountDTO userAccountDTO = new UserAccountDTO(userAccount.getFirstName(), userAccount.getLastName(), userAccount.getOnlineAccount(), userAccount.getAddress(), userAccount.getPassword(), userAccount.getBalance(), userAccount.getEmail(), userAccount.getUserID());
@@ -1570,7 +1562,6 @@ public class LibraryServiceRestController {
     /**
      * This method converts a transaction DTO to a transaction object.
      * @author Zoya Malhi, Mathieu Geoffroy and Ramin Akhavan-Sarraf
-
      * @param transactionDTO
      * @return transaction
      */

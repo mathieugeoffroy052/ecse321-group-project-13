@@ -720,7 +720,6 @@ public class LibraryServiceService {
                                                                                                              // for room
                                                                                                              // reservation
         transactionRepository.save(roomReservation);
-
         item.setState(ItemState.Available); //room is always available
         borrowableItemRepository.save(item);
 
