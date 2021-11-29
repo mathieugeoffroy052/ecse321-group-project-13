@@ -76,7 +76,7 @@ public class LibraryServiceRestController {
      * @throws Exception
      */
     @DeleteMapping(value = {"/holiday/delete", "/holiday/delete/"})
-    public boolean deleteHoliday(@RequestParam (name = "holidayID") int holidayID, @RequestParam (name = "accountID") int accountID) throws Exception {
+    public boolean deleteHoliday(@RequestParam (name = "holidayID") Integer holidayID, @RequestParam (name = "accountID") Integer accountID) throws Exception {
         return service.deleteHoliday(accountID, holidayID);
     }
 
@@ -138,7 +138,7 @@ public class LibraryServiceRestController {
      * @throws Exception
      */
     @DeleteMapping(value = {"/openinghour/delete", "/openinghour/delete/"})
-    public boolean deleteOpeningHour(@RequestParam (name = "openinghourID") int openinghourID, @RequestParam (name = "accountID") int accountID) throws Exception {
+    public boolean deleteOpeningHour(@RequestParam (name = "openinghourID") Integer openinghourID, @RequestParam (name = "accountID") Integer accountID) throws Exception {
         return service.deleteOpeningHour(accountID, openinghourID);
     }
 
@@ -153,6 +153,11 @@ public class LibraryServiceRestController {
     @GetMapping(value = { "/timeslot/viewall", "/timeslot/viewall/" })
     public List<TimeslotDTO> getAllTimeSlots() throws Exception {
         return service.getAllTimeSlots().stream().map(p -> convertToDto(p)).collect(Collectors.toList());
+    }
+
+    @GetMapping(value = {"timeslot/view/librarianID/{userID}", "timeslot/view/librarianID/{userID}/"})
+    public List<TimeslotDTO> getTimeslotByLibrarianID(@PathVariable (name = "userID") int userID) throws Exception {
+        return service.getTimeSlotsFromLibrarian(userID).stream().map(p -> convertToDto(p)).collect(Collectors.toList());
     }
 
     /**
@@ -339,6 +344,14 @@ public class LibraryServiceRestController {
 		return accountDTO; 
 	}
 
+    @PutMapping(value = {"/updateBalance", "/updateBalance/"})
+	public UserAccountDTO updateBalance(@RequestParam int userID, @RequestParam int balance) {
+		UserAccountDTO accountDTO = new UserAccountDTO();
+		UserAccount  account = service.changeAccountBalance(balance, userID);
+		accountDTO = convertToDto(account);
+		return accountDTO; 
+	}
+
     /**
      * @author Gabrielle Halpin
 	 * Update Address of the user
@@ -445,9 +458,9 @@ public class LibraryServiceRestController {
      * @throws Exception
      */
     @PostMapping(value = { "/createPatron/{firstName}/{lastName}", "/createPatron/{firstName}/{lastName}/" })
-	public PatronDTO createPatron(@RequestParam int creatorID, @PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName, @RequestParam("onlineAccount") boolean onlineAccount, 
-            @RequestParam("address") String address, @RequestParam("validatedAccount") boolean validatedAccount, @RequestParam("password") String password,
-            @RequestParam("balance") int balance, @RequestParam("email") String email) throws Exception{
+	public PatronDTO createPatron(@RequestParam(name="creatorID") Integer creatorID, @PathVariable(name="firstName") String firstName, @PathVariable(name="lastName") String lastName, @RequestParam(name="onlineAccount") Boolean onlineAccount, 
+            @RequestParam(name="address") String address, @RequestParam(name="validatedAccount") boolean validatedAccount, @RequestParam(name="password") String password,
+            @RequestParam(name="balance") Integer balance, @RequestParam(name="email") String email) throws Exception{
 		Patron patron = service.createPatron( creatorID, firstName,  lastName,  onlineAccount,  address,  validatedAccount,  password,  balance,  email);
 	return convertToDto(patron);
 	}
@@ -458,7 +471,7 @@ public class LibraryServiceRestController {
      * @throws Exception
      * @author Ramin Akhavan-Sarraf
      */
-    @GetMapping(value = { "/books/", "/book" })
+    @GetMapping(value = { "/books/", "/books" })
     public List<LibraryItemDTO> getAllBooks() throws Exception {
         ArrayList<LibraryItemDTO> books = new ArrayList<>();
         for(LibraryItem item: service.getAllBooks()){
@@ -566,6 +579,17 @@ public class LibraryServiceRestController {
         return convertToDto(t); 
     }
 
+    @GetMapping(value = { "/transaction/viewall/id/{userID}", "/transaction/viewall/id/{userID}/"})
+    public List<TransactionDTO> getAllTransactionsPerUser(@PathVariable(name = "userID") int userID) {
+        List<TransactionDTO> transactions = new ArrayList<TransactionDTO>();
+        for (Transaction t : service.getAllTransactions()) {
+            if (t.getUserAccount().getUserID() == userID) {
+                transactions.add(convertToDto(t));
+            }
+        }
+        return transactions;
+    }
+
     /**
      * Create a room reservation (transaction) between a user account and a room,
      * and convert to DTO
@@ -579,14 +603,20 @@ public class LibraryServiceRestController {
      * @author Amani Jammoul
      */
     @PostMapping(value = { "/reserve-room", "/reserve-room/" })
-    public TransactionDTO reserveARoom(@RequestParam(name = "barCodeNumber") int barCodeNumber,
-    @RequestParam(name = "userID") int userID, @RequestParam(name = "date") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE, pattern="yyyy-MM-dd") LocalDate date,
-            @RequestParam(name = "startTime") @DateTimeFormat(iso=DateTimeFormat.ISO.TIME, pattern="HH:mm") LocalTime startTime, @RequestParam(name = "endTime") @DateTimeFormat(iso=DateTimeFormat.ISO.TIME, pattern="HH:mm") LocalTime endTime)
+    public TransactionDTO reserveARoom(@RequestParam(name = "userID") int userID, @RequestParam(name = "date") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE, pattern="yyyy-MM-dd") LocalDate date)
             throws Exception {
-        BorrowableItem i = service.getBorrowableItemFromBarCodeNumber(barCodeNumber);
+        List<LibraryItem> rooms = service.getAllRoomReservations();
+        BorrowableItem theItem = null;
+        if (!rooms.isEmpty()){
+            LibraryItem theRoom = rooms.get(0);
+            List<BorrowableItem> borrowableRooms = service.getBorrowableItemsFromItemIsbn(theRoom.getIsbn());
+            if (!borrowableRooms.isEmpty()){
+                theItem = borrowableRooms.get(0);
+            }
+        }
         UserAccount a = service.getUserAccountByUserID(userID);
 
-        Transaction t = service.createRoomReserveTransaction(i, a, Date.valueOf(date), Time.valueOf(startTime), Time.valueOf(endTime)); 
+        Transaction t = service.createRoomReserveTransaction(theItem, a, Date.valueOf(date)); 
         TransactionDTO transaction = convertToDto(t);
         return transaction;
     }
@@ -1279,7 +1309,7 @@ public class LibraryServiceRestController {
      */
     private UserAccountDTO convertToDto(UserAccount userAccount) {
         if (userAccount == null) {
-            throw new IllegalArgumentException("There is no such library item!");
+            throw new IllegalArgumentException("There is no such user!");
         }
 
         UserAccountDTO userAccountDTO = new UserAccountDTO(userAccount.getFirstName(), userAccount.getLastName(), userAccount.getOnlineAccount(), userAccount.getAddress(), userAccount.getPassword(), userAccount.getBalance(), userAccount.getEmail(), userAccount.getUserID());

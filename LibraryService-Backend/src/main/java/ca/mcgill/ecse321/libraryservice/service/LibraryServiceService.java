@@ -120,7 +120,7 @@ public class LibraryServiceService {
         if (account != null)
             return account;
         else
-            throw new IllegalArgumentException("No user found with this name! ");
+            throw new IllegalArgumentException("No user found with this ID! ");
     }
 
     /**
@@ -232,7 +232,7 @@ public class LibraryServiceService {
         List<LibraryItem> allBooks = getAllBooks();
         List<LibraryItem> booksByAuthor = new ArrayList<LibraryItem>();
         for (LibraryItem a : allBooks) {
-            if (a.getCreator().equals(authorName))
+            if (a.getCreator().equalsIgnoreCase(authorName))
                 booksByAuthor.add(a);
         }
         return booksByAuthor;
@@ -253,7 +253,7 @@ public class LibraryServiceService {
         List<LibraryItem> allBooks = getAllBooks();
         List<LibraryItem> booksByTitle = new ArrayList<LibraryItem>();
         for (LibraryItem a : allBooks) {
-            if (a.getName().equals(bookTitle))
+            if (a.getName().equalsIgnoreCase(bookTitle))
                 booksByTitle.add(a);
         }
         return booksByTitle;
@@ -276,7 +276,7 @@ public class LibraryServiceService {
 
         List<LibraryItem> allBooks = getAllBooks();
         for (LibraryItem a : allBooks) {
-            if (a.getCreator().equals(authorName) && a.getName().equals(bookTitle))
+            if (a.getCreator().equalsIgnoreCase(authorName) && a.getName().equalsIgnoreCase(bookTitle))
                 return a;
         }
         return null;
@@ -314,7 +314,7 @@ public class LibraryServiceService {
         List<LibraryItem> allMusics = getAllMusic();
         List<LibraryItem> musicsByArtist = new ArrayList<LibraryItem>();
         for (LibraryItem a : allMusics) {
-            if (a.getCreator().equals(artistName))
+            if (a.getCreator().equalsIgnoreCase(artistName))
                 musicsByArtist.add(a);
         }
         return musicsByArtist;
@@ -335,7 +335,7 @@ public class LibraryServiceService {
         List<LibraryItem> allMusics = getAllMusic();
         List<LibraryItem> musicsByTitle = new ArrayList<LibraryItem>();
         for (LibraryItem a : allMusics) {
-            if (a.getName().equals(musicTitle))
+            if (a.getName().equalsIgnoreCase(musicTitle))
                 musicsByTitle.add(a);
         }
         return musicsByTitle;
@@ -358,7 +358,7 @@ public class LibraryServiceService {
 
         List<LibraryItem> allMusics = getAllMusic();
         for (LibraryItem a : allMusics) {
-            if (a.getCreator().equals(artistName) && a.getName().equals(musicTitle))
+            if (a.getCreator().equalsIgnoreCase(artistName) && a.getName().equalsIgnoreCase(musicTitle))
                 return a;
         }
         return null;
@@ -396,7 +396,7 @@ public class LibraryServiceService {
         List<LibraryItem> allMovies = getAllMovies();
         List<LibraryItem> moviesByDirector = new ArrayList<LibraryItem>();
         for (LibraryItem a : allMovies) {
-            if (a.getCreator().equals(directorName))
+            if (a.getCreator().equalsIgnoreCase(directorName))
                 moviesByDirector.add(a);
         }
         return moviesByDirector;
@@ -417,7 +417,7 @@ public class LibraryServiceService {
         List<LibraryItem> allMovies = getAllMovies();
         List<LibraryItem> moviesByTitle = new ArrayList<LibraryItem>();
         for (LibraryItem a : allMovies) {
-            if (a.getName().equals(movieTitle))
+            if (a.getName().equalsIgnoreCase(movieTitle))
                 moviesByTitle.add(a);
         }
         return moviesByTitle;
@@ -440,7 +440,7 @@ public class LibraryServiceService {
 
         List<LibraryItem> allMovies = getAllMovies();
         for (LibraryItem a : allMovies) {
-            if (a.getCreator().equals(directorName) && a.getName().equals(movieTitle))
+            if (a.getCreator().equalsIgnoreCase(directorName) && a.getName().equalsIgnoreCase(movieTitle))
                 return a;
         }
         return null;
@@ -500,7 +500,7 @@ public class LibraryServiceService {
         List<LibraryItem> allNewspapers = getAllNewspapers();
         List<LibraryItem> newspapersByTitle = new ArrayList<LibraryItem>();
         for (LibraryItem newspaper : allNewspapers) {
-            if (newspaper.getName().equals(newspaperTitle))
+            if (newspaper.getName().equalsIgnoreCase(newspaperTitle))
                 newspapersByTitle.add(newspaper);
         }
         return newspapersByTitle;
@@ -522,7 +522,7 @@ public class LibraryServiceService {
         List<LibraryItem> allNewspapers = getAllNewspapers();
         List<LibraryItem> newspapersByWriter = new ArrayList<LibraryItem>();
         for (LibraryItem newspaper : allNewspapers) {
-            if (newspaper.getCreator().equals(writerName))
+            if (newspaper.getCreator().equalsIgnoreCase(writerName))
                 newspapersByWriter.add(newspaper);
         }
         return newspapersByWriter;
@@ -545,7 +545,7 @@ public class LibraryServiceService {
 
         List<LibraryItem> allNewspapers = getAllNewspapers();
         for (LibraryItem a : allNewspapers) {
-            if (a.getCreator().equals(writerName) && a.getName().equals(newspaperTitle))
+            if (a.getCreator().equalsIgnoreCase(writerName) && a.getName().equalsIgnoreCase(newspaperTitle))
                 return a;
         }
         return null;
@@ -615,6 +615,10 @@ public class LibraryServiceService {
         Date deadline = Date.valueOf(localDeadline);
         Transaction itemReservation = new Transaction(item, account, TransactionType.ItemReservation, deadline);
         transactionRepository.save(itemReservation);
+
+        item.setState(ItemState.Reserved);
+        borrowableItemRepository.save(item);
+
         return itemReservation;
     }
 
@@ -631,8 +635,7 @@ public class LibraryServiceService {
      * @author Amani Jammoul checked
      */
     @Transactional
-    public Transaction createRoomReserveTransaction(BorrowableItem item, UserAccount account, Date date, Time startTime,
-            Time endTime) {
+    public Transaction createRoomReserveTransaction(BorrowableItem item, UserAccount account, Date date) {
         // Input validation
         String error = "";
         if (item == null) {
@@ -650,10 +653,6 @@ public class LibraryServiceService {
          * else if (userAccountRepository.findUserAccountByUserID(account.getUserID())
          * == null){ error += "User does not exist!"; }
          */
-        int check = startTime.compareTo(endTime);
-        if (check > 0) {
-            error += "Start time must be before end time! ";
-        }
 
         error = error.trim();
         if (error.length() > 0) {
@@ -686,9 +685,11 @@ public class LibraryServiceService {
 
         Iterable<Transaction> transactions = transactionRepository.findAll();
         for (Transaction t : transactions) {
-            if (t.getDeadline().toLocalDate().compareTo(date.toLocalDate()) == 0) {
-                throw new IllegalArgumentException(
-                        "Room already booked on that date, please try another or the watilist.");
+            if ((t.getTransactionType().toString().equals("RoomReservation"))) {
+                if (t.getDeadline().toLocalDate().compareTo(date.toLocalDate()) == 0) {
+                    throw new IllegalArgumentException(
+                            "Room already booked on that date, please try another or the watilist.");
+                }
             }
         }
 
@@ -702,6 +703,11 @@ public class LibraryServiceService {
                                                                                                              // for room
                                                                                                              // reservation
         transactionRepository.save(roomReservation);
+
+
+        item.setState(ItemState.Available); //room is always available
+        borrowableItemRepository.save(item);
+
         return roomReservation;
     }
 
@@ -774,8 +780,10 @@ public class LibraryServiceService {
         Date deadline = Date.valueOf(localDeadline);
         Transaction itemReservation = new Transaction(item, account, TransactionType.Borrowing, deadline);
         transactionRepository.save(itemReservation);
+
         item.setState(ItemState.Borrowed);
         borrowableItemRepository.save(item);
+
         return itemReservation;
     }
 
@@ -815,8 +823,10 @@ public class LibraryServiceService {
         Transaction itemReservation = new Transaction(item, account, TransactionType.Return,
                 Date.valueOf(LocalDate.now())); // No deadline for return
         transactionRepository.save(itemReservation);
+
         item.setState(ItemState.Available);
         borrowableItemRepository.save(item);
+
         return itemReservation;
     }
 
@@ -1334,9 +1344,8 @@ public class LibraryServiceService {
         Librarian librarian = null;
 
         librarian = getLibrarianFromUserId(userID);
-
-        if (librarian == null)
-            throw new Exception("This librarian does not exits");
+        if (librarian == null) throw new Exception("This librarian does not exits");
+        if (librarian instanceof HeadLibrarian) throw new IllegalArgumentException("Cannot delete the Head Librarian.");
         librarianRepository.delete(librarian);
         return librarian;
 
@@ -2240,6 +2249,41 @@ public class LibraryServiceService {
         }
 
         account.setFirstName(aFirstName);
+        userAccountRepository.save(account);
+        if (account instanceof Librarian) {
+            librarianRepository.save((Librarian) account);
+            if (account instanceof HeadLibrarian) {
+                headLibrarianRepository.save((HeadLibrarian) account);
+            }
+        } else {
+            patronRepository.save((Patron) account);
+        }
+        return account;
+    }
+
+    /**
+     * change account balane
+     * @param balance new balance
+     * @param userID that we want to change the balance
+     * @return updated UserAccount
+     * @author Mathieu Geoffroy
+     */
+    public UserAccount changeAccountBalance(int balance, int userID) {
+        if (userID <= 0) {
+            throw new IllegalArgumentException("Invalid ID");
+        }
+        UserAccount account = userAccountRepository.findUserAccountByUserID(userID);
+        if (account == null) {
+            throw new IllegalArgumentException("The patron does not exist");
+        }
+        if (balance < 0) {
+            throw new IllegalArgumentException("balance cannot be negative!");
+        }
+        if (balance == account.getBalance()) {
+            throw new IllegalArgumentException("This is already the account balance.");
+        }
+
+        account.setBalance(balance);
         userAccountRepository.save(account);
         if (account instanceof Librarian) {
             librarianRepository.save((Librarian) account);
