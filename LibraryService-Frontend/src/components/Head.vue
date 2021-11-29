@@ -699,11 +699,11 @@
                     </label>
                   </div>
 
-                  <b-form-select
-                    class="mb-2"
-                    v-model="selectedItemType"
-                    :options="optionsType"
-                  ></b-form-select>
+                   <div>
+                    <label for="demo-sb">Quantity</label>
+                    <b-form-spinbutton id="demo-sb" v-model="value" min="1" max="20"></b-form-spinbutton>
+                    <p>Value: {{ value }}</p>
+                  </div>
 
                   <b-form-group
                     id="input-group-3"
