@@ -55,6 +55,23 @@ public class LibraryServiceService {
     }
 
     /**
+     * Get all borroable items but not rooms
+     * @return List of all borrowable items
+     * @author Mathieu Geoffroy
+     */
+    @Transactional
+    public List<BorrowableItem> getAllBorrowableItems() {
+        List<BorrowableItem> listItems = (List<BorrowableItem>) borrowableItemRepository.findAll();
+        List<BorrowableItem> filteredList = new ArrayList<BorrowableItem>();
+        for(BorrowableItem i : listItems) {
+            if(!(i.getLibraryItem().getType().toString().equals("Room"))) {
+                filteredList.add(i);
+            }
+        }
+        return filteredList;
+    }
+
+    /**
      * @param barCodeNumber
      * @return BorrowableItem - borrowable item of given bar code number
      * @author Amani Jammoul
@@ -704,7 +721,6 @@ public class LibraryServiceService {
                                                                                                              // reservation
         transactionRepository.save(roomReservation);
 
-
         item.setState(ItemState.Available); //room is always available
         borrowableItemRepository.save(item);
 
@@ -1344,9 +1360,8 @@ public class LibraryServiceService {
         Librarian librarian = null;
 
         librarian = getLibrarianFromUserId(userID);
-
-        if (librarian == null)
-            throw new Exception("This librarian does not exits");
+        if (librarian == null) throw new Exception("This librarian does not exits");
+        if (librarian instanceof HeadLibrarian) throw new IllegalArgumentException("Cannot delete the Head Librarian.");
         librarianRepository.delete(librarian);
         return librarian;
 

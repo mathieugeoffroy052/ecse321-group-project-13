@@ -1,4 +1,4 @@
-<template>
+p<template>
   <div id="libraryservices">
     <h2>Library Services</h2>
     <div>
@@ -13,7 +13,7 @@
                     style="height:24px;width:24px"
                     class="float-right p-0 d-inline"
                     id="tempButtons"
-                    variant="success"
+                    variant="primary"
                     @click="loadPatronInfo()"
                     >+</b-button
                   >
@@ -40,9 +40,7 @@
                     class="float-right py-0 d-inline"
                     id="tempButtons"
                     variant="danger"
-                    v-if="
-                      !currentPatron.validatedAccount && currentPatron != ''
-                    "
+                    v-if="needsValidation()"
                     @click="validateCurrentPatron()"
                     >Validate</b-button
                   >
@@ -69,7 +67,7 @@
                     style="height:24px;width:24px"
                     class="float-right p-0 d-inline"
                     id="tempButtons"
-                    variant="success"
+                    variant="primary"
                     @click="newTransaction()"
                     >+</b-button
                   >
@@ -85,6 +83,7 @@
                   v-model="form.barcode"
                   placeholder="Enter a barcode"
                   class="mb-2"
+                  v-if="!isReservingRoom()"
                   required
                 ></b-form-input>
                 <div class="my-3" v-if="!isReservingRoom()">
@@ -106,18 +105,6 @@
                     v-model="dateRoomReserve"
                     class="mb-2 mt-0"
                   ></b-form-datepicker>
-                  <b-form-timepicker
-                    id="startTime-timepicker"
-                    v-model="startTimeRoomReserve"
-                    locale="en"
-                    class="my-2"
-                  ></b-form-timepicker>
-                  <b-form-timepicker
-                    id="endTime-timepicker"
-                    v-model="endTimeRoomReserve"
-                    locale="en"
-                    class="my-2"
-                  ></b-form-timepicker>
                 </div>
               </b-col>
             </b-row>
@@ -190,7 +177,7 @@
                       class="form-check-input"
                       type="checkbox"
                       value="false"
-                      id="input-onlineAccount"
+                      v-model="form.onlineAccount"
                     />
                     <label class="form-check-label" for="input-onlineAccount">
                       Online Account
@@ -201,12 +188,14 @@
                     id="input-group-5"
                     label="Password:"
                     label-for="input-password"
+                    v-if="form.onlineAccount"
                   >
                     <b-form-input
                       id="input-password"
                       v-model="form.password"
                       placeholder="Enter password"
-                      required
+                      type="password"
+                      v-if="form.onlineAccount"
                     ></b-form-input>
                   </b-form-group>
 
@@ -214,12 +203,13 @@
                     id="input-group-6"
                     label="Email:"
                     label-for="input-email"
+                    v-if="form.onlineAccount"
                   >
                     <b-form-input
                       id="input-email"
                       v-model="form.email"
                       placeholder="Enter email"
-                      required
+                      v-if="form.onlineAccount"
                     ></b-form-input>
                   </b-form-group>
 

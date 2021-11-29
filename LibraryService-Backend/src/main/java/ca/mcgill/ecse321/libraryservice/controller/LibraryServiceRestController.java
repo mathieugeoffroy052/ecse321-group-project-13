@@ -156,7 +156,7 @@ public class LibraryServiceRestController {
     }
 
     @GetMapping(value = {"timeslot/view/librarianID/{userID}", "timeslot/view/librarianID/{userID}/"})
-    public List<TimeslotDTO> getTimeslotByLibrarianID(@PathVariable (name = "userID") int userID) throws Exception {
+    public List<TimeslotDTO> getTimeSlotsFromLibrarianUserID(@PathVariable (name = "userID") int userID) throws Exception {
         return service.getTimeSlotsFromLibrarian(userID).stream().map(p -> convertToDto(p)).collect(Collectors.toList());
     }
 
