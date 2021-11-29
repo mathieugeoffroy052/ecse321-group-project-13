@@ -122,12 +122,11 @@ export default {
             formLibraryItem: {
               name:'',
               date:'',
-              isViewable:'',
-              itemType:'',
+              isViewable:false,
               creatorItem:'',
               isbn:'',
-              numItems:''
             },
+            numItems: 1,
             newLibraryItem: '',
             newBorrowableItems: [],
             currentItems: [],
@@ -213,7 +212,7 @@ export default {
         },
         createItem: function() {
           var nameInput = this.formLibraryItem.name
-          var typeInput = this.formLibraryItem.itemType
+          var typeInput = this.selectedType
           var dateInput = this.formLibraryItem.date
           var viewableInput = this.formLibraryItem.isViewable
           var isbnInput = this.formLibraryItem.isbn

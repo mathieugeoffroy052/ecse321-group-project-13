@@ -665,7 +665,7 @@
                     label="Name:"
                   >
                     <b-form-input
-                      v-model="formLibraryItem.title"
+                      v-model="formLibraryItem.name"
                       placeholder="Enter Title/Name"
                       required
                     ></b-form-input>
@@ -707,7 +707,7 @@
 
                    <div>
                     <label for="demo-sb">Quantity</label>
-                    <b-form-spinbutton id="demo-sb" v-model="value" min="1" max="20"></b-form-spinbutton>
+                    <b-form-spinbutton id="demo-sb" v-model="numItems" min="1" max="20"></b-form-spinbutton>
                   </div>
 
                   <b-row class="justify-content-center">
