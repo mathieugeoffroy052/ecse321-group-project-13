@@ -94,7 +94,7 @@
             variant="dark"
             @click="
               resetMessages();
-              createReserveTransaction(7);
+              createReserveTransaction();
             "
             >Reserve Item</b-button
           >
