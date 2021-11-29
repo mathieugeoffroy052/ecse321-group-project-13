@@ -669,6 +669,12 @@ public class LibraryServiceRestController {
         return convertToDto(t);
     }
 
+    @GetMapping(value = {"/borrowableItems/viewall"})
+    public List<BorrowableItemDTO> getAllBorrowableItems() {
+        return service.getAllBorrowableItems().stream().map(p -> convertToDto(p)).collect(Collectors.toList());
+    }
+
+
     /**
      * Create a renewal transaction between a user account and an item, and convert
      * to DTO
