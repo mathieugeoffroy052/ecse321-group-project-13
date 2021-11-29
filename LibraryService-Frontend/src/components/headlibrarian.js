@@ -129,7 +129,8 @@ export default {
               numItems:''
             },
             newLibraryItem: '',
-            newBorroableItems: []
+            newBorrowableItems: [],
+            currentItems: []
         }
     },
     methods: {
@@ -591,7 +592,11 @@ export default {
         })
       },
       getAllItems: function() {
-        
+        AXIOS.get('/borrowableItems/viewall').then (response => {
+          response.data.forEach(element => {
+            this.currentItems.push({ISBN: element.libraryItem.isbn, Barcode: element.barCodeNumber, Title: element.libraryItem.name, Author:element.libraryItem.creator, Type:element.libraryItem.type, State:element.itemState})
+          })
+        })
       },
       getAllOpeningHours: function() {
         AXIOS.get('/openinghour/viewall').then (response => {
