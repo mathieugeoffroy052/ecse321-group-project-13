@@ -8,13 +8,8 @@ import MusicSearch from '@/components/MusicSearch'
 import NewspaperSearch from '@/components/NewspaperSearch'
 import BookSearch from '@/components/BookSearch'
 import MovieSearch from '@/components/MovieSearch'
-<<<<<<< HEAD
-import RoomSearch from '@/components/RoomSearch'
-import LibrarianView from '@/components/LibrarianView'
-=======
 import LibrarianView from '@/components/LibrarianView'
 import RoomSearch from '@/components/RoomSearch'
->>>>>>> 23c15888cda4a59a9c367902281be26e3006ad17
 import Head from '@/components/Head'
 
 
