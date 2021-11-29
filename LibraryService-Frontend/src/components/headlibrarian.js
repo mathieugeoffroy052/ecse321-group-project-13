@@ -118,7 +118,18 @@ export default {
               { value: 'Saturday', text: 'Saturday'},
               { value: 'Sunday', text: 'Sunday'}
             ],
-            currentStaff:[]
+            currentStaff:[],
+            formLibraryItem: {
+              name:'',
+              date:'',
+              isViewable:'',
+              itemType:'',
+              creatorItem:'',
+              isbn:'',
+              numItems:''
+            },
+            newLibraryItem: '',
+            newBorroableItems: []
         }
     },
     methods: {
@@ -189,6 +200,29 @@ export default {
             this.newTimeSlot = ''
             alert(e.response.data.message)                
         })
+        },
+        createItem: function() {
+          var nameInput = this.formLibraryItem.name
+          var typeInput = this.formLibraryItem.itemType
+          var dateInput = this.formLibraryItem.date
+          var viewableInput = this.formLibraryItem.isViewable
+          var isbnInput = this.formLibraryItem.isbn
+          var creatorInput = this.formLibraryItem.creatorItem
+          var num = this.formLibraryItem.numItems
+          this.newBorroableItems = []
+          AXIOS.post('/createLibraryItem', {}, {params: {name: nameInput, itemType: typeInput, date: dateInput, isViewable: viewableInput, isbn: isbnInput, creator: creatorInput}}).then (response => {
+            this.newLibraryItem = response.data
+            for(let i = 0; i < num; i++ ) {
+              AXIOS.post('/createBorrowableItem', {}, {params: {itemState:"Available", title: nameInput, creator: creatorInput }}).then (response => {
+                this.newBorroableItems.push(response.data)
+              }).catch(e => {
+                alert(e.response.data.message)
+              })
+            }
+          }).catch(e => {
+            alert(e.response.data.message)
+          })
+
         },
         assignTimeslot: function() {
           var currentUserID = sessionStorage.getItem("existingUserID")
@@ -555,6 +589,9 @@ export default {
           alert(e.response.data.message)
             
         })
+      },
+      getAllItems: function() {
+        
       },
       getAllOpeningHours: function() {
         AXIOS.get('/openinghour/viewall').then (response => {
