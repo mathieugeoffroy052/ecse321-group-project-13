@@ -464,6 +464,8 @@ public class LibraryServiceRestController {
 		Patron patron = service.createPatron( creatorID, firstName,  lastName,  onlineAccount,  address,  validatedAccount,  password,  balance,  email);
 	return convertToDto(patron);
 	}
+    
+    
     /**
 	 * Login user account
 	 * @author Zoya
@@ -618,16 +620,16 @@ public class LibraryServiceRestController {
         return convertToDto(t); 
     }
 
-    @GetMapping(value = { "/transaction/viewall/id/{userID}", "/transaction/viewall/id/{userID}/"})
-    public List<TransactionDTO> getAllTransactionsPerUser(@PathVariable(name = "userID") int userID) {
-        List<TransactionDTO> transactions = new ArrayList<TransactionDTO>();
-        for (Transaction t : service.getAllTransactions()) {
-            if (t.getUserAccount().getUserID() == userID) {
-                transactions.add(convertToDto(t));
-            }
-        }
-        return transactions;
-    }
+//    @GetMapping(value = { "/transaction/viewall/id/{userID}", "/transaction/viewall/id/{userID}/"})
+//    public List<TransactionDTO> getAllTransactionsPerUser(@PathVariable(name = "userID") int userID) {
+//        List<TransactionDTO> transactions = new ArrayList<TransactionDTO>();
+//        for (Transaction t : service.getAllTransactions()) {
+//            if (t.getUserAccount().getUserID() == userID) {
+//                transactions.add(convertToDto(t));
+//            }
+//        }
+//        return transactions;
+//    }
 
     /**
      * Create a room reservation (transaction) between a user account and a room,

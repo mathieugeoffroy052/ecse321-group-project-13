@@ -685,11 +685,7 @@ public class LibraryServiceService {
 
         Iterable<Transaction> transactions = transactionRepository.findAll();
         for (Transaction t : transactions) {
-<<<<<<< HEAD
-            if (t.getDeadline() != null){
-=======
             if ((t.getTransactionType().toString().equals("RoomReservation"))) {
->>>>>>> origin/LibrarianFrontend
                 if (t.getDeadline().toLocalDate().compareTo(date.toLocalDate()) == 0) {
                     throw new IllegalArgumentException(
                             "Room already booked on that date, please try another or the watilist.");
@@ -708,12 +704,10 @@ public class LibraryServiceService {
                                                                                                              // reservation
         transactionRepository.save(roomReservation);
 
-<<<<<<< HEAD
-=======
+
         item.setState(ItemState.Available); //room is always available
         borrowableItemRepository.save(item);
 
->>>>>>> origin/LibrarianFrontend
         return roomReservation;
     }
 
