@@ -18,6 +18,19 @@ function TransactionDTO(type, deadline, borrowableItem, userAccount, transaction
   this.transactionID = transactionID;
 }
 
+function PatronDTO(firstName,  lastName,  onlineAccount,  address,  validatedAccount,  passWord,  balance,  email,  patronID)
+{
+  this.firstName = firstName;
+  this.lastName = lastName;
+  this.onlineAccount = onlineAccount;
+  this.address = address;
+  this.validatedAccount = validatedAccount;
+  this.passWord = passWord;
+  this.balance = balance;
+  this.email = email;
+  this.userID = userID;
+}
+
 export default {
     name: 'librarianview',
     data () {
@@ -114,13 +127,20 @@ export default {
             var lastName = document.getElementById("input-lastName").value
             var address1 = document.getElementById("input-address").value
             var balance1 = document.getElementById("input-balance").value
-            var password1 = document.getElementById("input-password").value
             var onlineAccount1 = this.formUser.onlineAccount
-            var email1 = document.getElementById("input-email").value
+            var password1 = ""
+            var email1 = ""
+            if(onlineAccount1 === true){
+              password1 = document.getElementById("input-password").value
+              email1= document.getElementById("input-email").value
+           }
+            var creatorID = sessionStorage.getItem("existingUserID")
+            
             if(this.selectedUser == "Patron"){
 
-                AXIOS.post('/createPatron/'.concat(firstName).concat("/").concat(lastName), {},{params: {creatorID:sessionStorage.getItem("existingUserID"), onlineAccount:onlineAccount1, address:address1, validatedAccount:true, password:password1, balance:balance1, email:email1}}).then (response => {
+                AXIOS.post('/createPatron/'.concat(firstName).concat("/").concat(lastName), {},{params: {creatorID, onlineAccount:onlineAccount1, address:address1, validatedAccount:true, password:password1, balance:balance1, email:email1}}).then (response => {
                     this.newPatron = response.data
+                    alert("The Patrons user ID is: ".concat(this.newPatron.userID))  
                 })
                 .catch(e => {
                     this.newPatron = ''
@@ -128,7 +148,8 @@ export default {
                 })
             }
             else if(this.selectedUser == "Librarian"){
-                AXIOS.post('/createLibrarian/'.concat(firstName).concat("/").concat(lastName), {},{params: {online: onlineAccount1, address: address1, password: password1, balance: balance1, email: email1, userID:sessionStorage.getItem("existingUserID") }}).then (response => {
+              var userID = sessionStorage.getItem("existingUserID")
+                AXIOS.post('/createLibrarian/'.concat(firstName).concat("/").concat(lastName), {},{params: {online: onlineAccount1, address: address1, password: password1, balance: balance1, email: email1, userID}}).then (response => {
                     this.newLibrarian = response.data
                 })
                 .catch(e => {
@@ -138,7 +159,8 @@ export default {
             }
         },
         createHoliday: function() {
-            AXIOS.post('/holiday/new', {},{params: {currentUserID:sessionStorage.getItem("existingUserID"), date:this.dateHoliday, startTime:this.startTimeHoliday.substr(0,5), endTime:this.endTimeHoliday.substr(0,5)}}).then (response => {
+          var currentUserID = sessionStorage.getItem("existingUserID")
+            AXIOS.post('/holiday/new', {},{params: {currentUserID, date:this.dateHoliday, startTime:this.startTimeHoliday.substr(0,5), endTime:this.endTimeHoliday.substr(0,5)}}).then (response => {
                 this.newHoliday = response.data
                 this.getAllHolidays()
             })
@@ -158,7 +180,8 @@ export default {
             })
         },
         createTimeslot: function() {
-          AXIOS.post('timeslot/new', {}, {params: {startDate:this.dateWorkshift, endDate:this.dateWorkshift, startTime:this.startTimeWorkshift.substr(0, 5), endTime:this.endTimeWorkshift.substr(0, 5), currentUserID:sessionStorage.getItem("existingUserID")}}).then (response => {
+          var currentUserID = sessionStorage.getItem("existingUserID")
+          AXIOS.post('timeslot/new', {}, {params: {startDate:this.dateWorkshift, endDate:this.dateWorkshift, startTime:this.startTimeWorkshift.substr(0, 5), endTime:this.endTimeWorkshift.substr(0, 5), currentUserID}}).then (response => {
             this.newTimeSlot = response.data
             this.getAllShifts()
         })
@@ -168,7 +191,8 @@ export default {
         })
         },
         assignTimeslot: function() {
-          AXIOS.put('/timeslot/assign', {}, {params: {timeslotID:this.formTimeslot.timeslotIDAssign, librarianID:this.formStaff.userID, currentUserID:sessionStorage.getItem("existingUserID")}}).then (response => {
+          var currentUserID = sessionStorage.getItem("existingUserID")
+          AXIOS.put('/timeslot/assign', {}, {params: {timeslotID:this.formTimeslot.timeslotIDAssign, librarianID:this.formStaff.userID, currentUserID}}).then (response => {
             this.newTimeSlot = response.data
             this.getAllShifts()
         })
@@ -559,8 +583,9 @@ export default {
         })
       },
       deleteStaff: function() {
-        var userID = document.getElementById("input-userID-toDelete").value    
-        AXIOS.delete('/librarians/deleteAccount/'.concat(userID), {params: {headlibrarianID:sessionStorage.getItem("existingUserID")}}).then (response => {
+        var userID = document.getElementById("input-userID-toDelete").value 
+        var headlibrarianID = sessionStorage.getItem("existingUserID")
+        AXIOS.delete('/librarians/deleteAccount/'.concat(userID), {params: {headlibrarianID}}).then (response => {
           if(response.data == true){
             alert("Librarian deleted")
           }
@@ -574,7 +599,8 @@ export default {
         })
       },
       deleteOpeningHour: function() {
-        AXIOS.delete('/openinghour/delete', {params:{openinghourID:this.formOpeningHour.openingHourID, accountID:sessionStorage.getItem("existingUserID")}}).then (response => {
+        var accountID = sessionStorage.getItem("existingUserID")
+        AXIOS.delete('/openinghour/delete', {params:{openinghourID:this.formOpeningHour.openingHourID, accountID}}).then (response => {
             if(response.data == true){
               alert("Opening Hour deleted")
             }
@@ -589,7 +615,8 @@ export default {
         })
       },
       deleteTimeslot: function() {
-        AXIOS.delete('/timeslot/delete', {params:{timeslotID:this.formTimeslot.timeslotIDDelete, accountID:sessionStorage.getItem("existingUserID")}}).then (response => {
+        var accountID = sessionStorage.getItem("existingUserID")
+        AXIOS.delete('/timeslot/delete', {params:{timeslotID:this.formTimeslot.timeslotIDDelete, accountID}}).then (response => {
             if(response.data == true){
               alert("TimeSlot deleted")
             }
@@ -604,7 +631,8 @@ export default {
         })
       },
       deleteHoliday: function() {
-        AXIOS.delete('/holiday/delete', {params: {holidayID:this.formHoliday.holiday, accountID:sessionStorage.getItem("existingUserID")}}).then (response => {
+        var accountID = sessionStorage.getItem("existingUserID")
+        AXIOS.delete('/holiday/delete', {params: {holidayID:this.formHoliday.holiday, accountID}}).then (response => {
             if(response.data){
               alert("Holiday Hour deleted")
             }
@@ -635,7 +663,8 @@ export default {
       },
       validateCurrentPatron: function() {
         var userID = parseInt(document.getElementById("input-userID").value)
-        AXIOS.put("/setAccountValidity", {}, {params: {patronID:userID, validatedAccount:true, creatorID:sessionStorage.getItem("existingUserID")}}).then (response => {
+        var creatorID = sessionStorage.getItem("existingUserID")
+        AXIOS.put("/setAccountValidity", {}, {params: {patronID:userID, validatedAccount:true, creatorID}}).then (response => {
           this.currentPatron = response.data
         }).catch(e => {
           alert(e.response.data.message)
