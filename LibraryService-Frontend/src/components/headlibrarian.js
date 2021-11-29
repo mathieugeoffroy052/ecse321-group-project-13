@@ -9,18 +9,6 @@ var AXIOS = axios.create({
   headers: { 'Access-Control-Allow-Origin': frontendUrl }
 })
 
-function PatronDTO(firstName, lastName, onlineAccount, password, balance, address, email, userID, validatedAccount) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.onlineAccount = onlineAccount;
-    this.address = address;
-    this.validatedAccount = validatedAccount;
-    this.password = password;
-    this.balance = balance;
-    this.email = email;
-    this.userID = userID;
-}
-
 function TransactionDTO(type, deadline, borrowableItem, userAccount, transactionID)
 {
   this.transactionType = type;
@@ -140,7 +128,7 @@ export default {
                 })
             }
             else if(this.selectedUser == "Librarian"){
-                AXIOS.post('/createLibrarian/'.concat(firstName).concat("/").concat(lastName), {},{params: {online: onlineAccount1, address: address1, password: password1, balance: balance1, email: email1, userID:1 }}).then (response => {
+                AXIOS.post('/createLibrarian/'.concat(firstName).concat("/").concat(lastName), {},{params: {online: onlineAccount1, address: address1, password: password1, balance: balance1, email: email1, userID:sessionStorage.getItem("existingUserID") }}).then (response => {
                     this.newLibrarian = response.data
                 })
                 .catch(e => {
@@ -150,7 +138,7 @@ export default {
             }
         },
         createHoliday: function() {
-            AXIOS.post('/holiday/new', {},{params: {currentUserID:1, date:this.dateHoliday, startTime:this.startTimeHoliday.substr(0,5), endTime:this.endTimeHoliday.substr(0,5)}}).then (response => {
+            AXIOS.post('/holiday/new', {},{params: {currentUserID:sessionStorage.getItem("existingUserID"), date:this.dateHoliday, startTime:this.startTimeHoliday.substr(0,5), endTime:this.endTimeHoliday.substr(0,5)}}).then (response => {
                 this.newHoliday = response.data
                 this.getAllHolidays()
             })
@@ -170,7 +158,7 @@ export default {
             })
         },
         createTimeslot: function() {
-          AXIOS.post('timeslot/new', {}, {params: {startDate:this.dateWorkshift, endDate:this.dateWorkshift, startTime:this.startTimeWorkshift.substr(0, 5), endTime:this.endTimeWorkshift.substr(0, 5), currentUserID:1}}).then (response => {
+          AXIOS.post('timeslot/new', {}, {params: {startDate:this.dateWorkshift, endDate:this.dateWorkshift, startTime:this.startTimeWorkshift.substr(0, 5), endTime:this.endTimeWorkshift.substr(0, 5), currentUserID:sessionStorage.getItem("existingUserID")}}).then (response => {
             this.newTimeSlot = response.data
             this.getAllShifts()
         })
@@ -180,7 +168,7 @@ export default {
         })
         },
         assignTimeslot: function() {
-          AXIOS.put('/timeslot/assign', {}, {params: {timeslotID:this.formTimeslot.timeslotIDAssign, librarianID:this.formStaff.userID, currentUserID:1}}).then (response => {
+          AXIOS.put('/timeslot/assign', {}, {params: {timeslotID:this.formTimeslot.timeslotIDAssign, librarianID:this.formStaff.userID, currentUserID:sessionStorage.getItem("existingUserID")}}).then (response => {
             this.newTimeSlot = response.data
             this.getAllShifts()
         })
@@ -572,7 +560,7 @@ export default {
       },
       deleteStaff: function() {
         var userID = document.getElementById("input-userID-toDelete").value    
-        AXIOS.delete('/librarians/deleteAccount/'.concat(userID), {params: {headlibrarianID:1}}).then (response => {
+        AXIOS.delete('/librarians/deleteAccount/'.concat(userID), {params: {headlibrarianID:sessionStorage.getItem("existingUserID")}}).then (response => {
           if(response.data == true){
             alert("Librarian deleted")
           }
@@ -586,7 +574,7 @@ export default {
         })
       },
       deleteOpeningHour: function() {
-        AXIOS.delete('/openinghour/delete', {params:{openinghourID:this.formOpeningHour.openingHourID, accountID:1}}).then (response => {
+        AXIOS.delete('/openinghour/delete', {params:{openinghourID:this.formOpeningHour.openingHourID, accountID:sessionStorage.getItem("existingUserID")}}).then (response => {
             if(response.data == true){
               alert("Opening Hour deleted")
             }
@@ -601,7 +589,7 @@ export default {
         })
       },
       deleteTimeslot: function() {
-        AXIOS.delete('/timeslot/delete', {params:{timeslotID:this.formTimeslot.timeslotIDDelete, accountID:1}}).then (response => {
+        AXIOS.delete('/timeslot/delete', {params:{timeslotID:this.formTimeslot.timeslotIDDelete, accountID:sessionStorage.getItem("existingUserID")}}).then (response => {
             if(response.data == true){
               alert("TimeSlot deleted")
             }
@@ -616,7 +604,7 @@ export default {
         })
       },
       deleteHoliday: function() {
-        AXIOS.delete('/holiday/delete', {params: {holidayID:this.formHoliday.holiday, accountID:1}}).then (response => {
+        AXIOS.delete('/holiday/delete', {params: {holidayID:this.formHoliday.holiday, accountID:sessionStorage.getItem("existingUserID")}}).then (response => {
             if(response.data){
               alert("Holiday Hour deleted")
             }

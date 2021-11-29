@@ -9,17 +9,7 @@ var AXIOS = axios.create({
   headers: { 'Access-Control-Allow-Origin': frontendUrl }
 })
 
-function PatronDTO(firstName, lastName, onlineAccount, password, balance, address, email, userID, validatedAccount) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.onlineAccount = onlineAccount;
-    this.address = address;
-    this.validatedAccount = validatedAccount;
-    this.password = password;
-    this.balance = balance;
-    this.email = email;
-    this.userID = userID;
-}
+
 
 function TransactionDTO(type, deadline, borrowableItem, userAccount, transactionID)
 {
