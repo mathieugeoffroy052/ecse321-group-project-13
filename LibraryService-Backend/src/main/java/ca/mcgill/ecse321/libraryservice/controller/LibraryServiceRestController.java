@@ -669,7 +669,7 @@ public class LibraryServiceRestController {
         return convertToDto(t);
     }
 
-    @GetMapping(value = {"/borrowableItems/viewall"})
+    @GetMapping(value = {"/borrowableItems/viewall", "/borrowableItems/viewall/"})
     public List<BorrowableItemDTO> getAllBorrowableItems() {
         return service.getAllBorrowableItems().stream().map(p -> convertToDto(p)).collect(Collectors.toList());
     }
