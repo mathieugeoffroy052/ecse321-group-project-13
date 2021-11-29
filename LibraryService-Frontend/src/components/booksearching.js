@@ -72,6 +72,7 @@ export default {
         newPatron: '',
         existingPatron: '',
         errorPatron: '',
+        alertColour: 'light',
         response: []
       }
     },
@@ -124,6 +125,7 @@ export default {
                       this.errorTransaction = ''
                       this.newTransaction = ''
                       document.getElementById("transaction").innerHTML = "Transaction Complete!"
+                      this.alertColour = 'success'
                       //alert("Transaction complete!")
                     })
                     .catch(e => {
