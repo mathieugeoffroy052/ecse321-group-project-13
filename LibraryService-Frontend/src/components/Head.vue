@@ -649,7 +649,7 @@
           <b-container>
             <b-row class="shadow p-3 m-3 bg-white rounded">
               <b-col>
-                <b-form v-if="true">
+                <b-form @reset="onResetItem" v-if="true">
                   <h7> Select a Type </h7>
                   <b-form-select
                     class="mb-2"
