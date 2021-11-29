@@ -668,16 +668,10 @@
                     ></b-form-input>
                   </b-form-group>
 
-                  <b-form-group
-                    id="input-group-2"
-                    label="Date:"
-                  >
-                    <b-form-input
-                      v-model="formLibraryItem.date"
-                      placeholder="Enter date of creation:"
-                      required
-                    ></b-form-input>
-                  </b-form-group>
+                    <div>
+                      <label for="example-datepicker">Choose a date of creation</label>
+                      <b-form-datepicker id="example-datepicker" v-model="value" class="mb-2"></b-form-datepicker>
+                    </div>
 
                   <b-form-group
                     id="input-group-3"
