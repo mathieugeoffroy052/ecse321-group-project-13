@@ -1,19 +1,39 @@
 <template>
-  <div id="newspapersearch">
-    <h2>Newspaper Articles</h2>
-    <div class="title-search">
-        <label for="title">Search by title: </label>
-        <input type="text" id="requestedTitle" name="title">
+  <div id="search">
+    <div id="back">
+        <b-button size="sm" pill variant="dark" style="float: left;" @click="redirectToItemSelect()">Back to item type selection</b-button>
+    </div>
+    <div class="row">
+      <div class="col-lg-10 center-block">
+        <h2>Newspaper Articles</h2>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-5">
+        <label for="title" style="float: right;">Search by title: </label>
+      </div>
+      <div class="col">
+        <input type="text" id="requestedTitle" name="title" style="float: left;">
+      </div>
     </div>
     
-    <div class="writer-search">
-        <label for="writer">Search by writer: </label>
-        <input type="text" id="requestedWriter" name="writer">
-        <button type="writer-submit" @click="runSearch()">Submit</button>
+    <div class="row">
+      <div class="col-5">
+        <label for="writer" style="float: right;">Search by newspaper: </label>
+      </div>
+      <div class="col-3">
+        <input type="text" id="requestedWriter" name="writer" style="float: left;">
+      </div>
+      <div class="col">
+        <b-button variant="dark" style="float: left;" @click="resetMessages(); runSearch()">Submit</b-button>
+      </div>
     </div>
+    
+    <p id="invalidInput"></p>
     
     <div>
-      <div id="" style="overflow:scroll; height:300px;">
+      <div id="" style="overflow-y:scroll; height:300px;">
         <v-row justify="center" v-for="libItem in libraryItems" :key="libItem.name">
             <input type="radio" name="item" :value="libItem.isbn">{{ " " + libItem.name }}<br> {{ libItem.creator + ", " + libItem.date + ". " + "isbn " + libItem.isbn }} <br>
         </v-row>
@@ -29,15 +49,5 @@
 </script>
 
 <style>
-  #newspapersearch {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    color: #2c3e50;
-    background: #97C3F9;
-  }
-  #transaction {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    font-size: 30px;
-    color: #2c3e50;
-    background: #97C3F9;
-  }
+  @import 'styling.css';
 </style>

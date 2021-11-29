@@ -76,7 +76,7 @@ public class LibraryServiceRestController {
      * @throws Exception
      */
     @DeleteMapping(value = {"/holiday/delete", "/holiday/delete/"})
-    public boolean deleteHoliday(@RequestParam (name = "holidayID") int holidayID, @RequestParam (name = "accountID") int accountID) throws Exception {
+    public boolean deleteHoliday(@RequestParam (name = "holidayID") Integer holidayID, @RequestParam (name = "accountID") Integer accountID) throws Exception {
         return service.deleteHoliday(accountID, holidayID);
     }
 
@@ -138,7 +138,7 @@ public class LibraryServiceRestController {
      * @throws Exception
      */
     @DeleteMapping(value = {"/openinghour/delete", "/openinghour/delete/"})
-    public boolean deleteOpeningHour(@RequestParam (name = "openinghourID") int openinghourID, @RequestParam (name = "accountID") int accountID) throws Exception {
+    public boolean deleteOpeningHour(@RequestParam (name = "openinghourID") Integer openinghourID, @RequestParam (name = "accountID") Integer accountID) throws Exception {
         return service.deleteOpeningHour(accountID, openinghourID);
     }
 
@@ -340,6 +340,14 @@ public class LibraryServiceRestController {
 	public UserAccountDTO updatePassword(@RequestParam int userID, @RequestParam("password") String password) {
 		UserAccountDTO accountDTO = new UserAccountDTO();
 		UserAccount  account = service.changePassword(password, userID);
+		accountDTO = convertToDto(account);
+		return accountDTO; 
+	}
+
+    @PutMapping(value = {"/updateBalance", "/updateBalance/"})
+	public UserAccountDTO updateBalance(@RequestParam int userID, @RequestParam int balance) {
+		UserAccountDTO accountDTO = new UserAccountDTO();
+		UserAccount  account = service.changeAccountBalance(balance, userID);
 		accountDTO = convertToDto(account);
 		return accountDTO; 
 	}
@@ -552,17 +560,6 @@ public class LibraryServiceRestController {
         }
         return rooms;
     }
-
-    @GetMapping(value = { "/transaction/viewall/id/{userID}", "/transaction/viewall/id/{userID}/"})
-    public List<TransactionDTO> getAllTransactionsPerUser(@PathVariable(name = "userID") int userID) {
-        List<TransactionDTO> transactions = new ArrayList<TransactionDTO>();
-        for (Transaction t : service.getAllTransactions()) {
-            if (t.getUserAccount().getUserID() == userID) {
-                transactions.add(convertToDto(t));
-            }
-        }
-        return transactions;
-    }
   
     /** 
      * Create an item reservation (transaction) between a user account and borrowable item, and convert to DTO
@@ -582,6 +579,17 @@ public class LibraryServiceRestController {
         return convertToDto(t); 
     }
 
+    @GetMapping(value = { "/transaction/viewall/id/{userID}", "/transaction/viewall/id/{userID}/"})
+    public List<TransactionDTO> getAllTransactionsPerUser(@PathVariable(name = "userID") int userID) {
+        List<TransactionDTO> transactions = new ArrayList<TransactionDTO>();
+        for (Transaction t : service.getAllTransactions()) {
+            if (t.getUserAccount().getUserID() == userID) {
+                transactions.add(convertToDto(t));
+            }
+        }
+        return transactions;
+    }
+
     /**
      * Create a room reservation (transaction) between a user account and a room,
      * and convert to DTO
@@ -595,14 +603,20 @@ public class LibraryServiceRestController {
      * @author Amani Jammoul
      */
     @PostMapping(value = { "/reserve-room", "/reserve-room/" })
-    public TransactionDTO reserveARoom(@RequestParam(name = "barCodeNumber") int barCodeNumber,
-    @RequestParam(name = "userID") int userID, @RequestParam(name = "date") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE, pattern="yyyy-MM-dd") LocalDate date,
-            @RequestParam(name = "startTime") @DateTimeFormat(iso=DateTimeFormat.ISO.TIME, pattern="HH:mm") LocalTime startTime, @RequestParam(name = "endTime") @DateTimeFormat(iso=DateTimeFormat.ISO.TIME, pattern="HH:mm") LocalTime endTime)
+    public TransactionDTO reserveARoom(@RequestParam(name = "userID") int userID, @RequestParam(name = "date") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE, pattern="yyyy-MM-dd") LocalDate date)
             throws Exception {
-        BorrowableItem i = service.getBorrowableItemFromBarCodeNumber(barCodeNumber);
+        List<LibraryItem> rooms = service.getAllRoomReservations();
+        BorrowableItem theItem = null;
+        if (!rooms.isEmpty()){
+            LibraryItem theRoom = rooms.get(0);
+            List<BorrowableItem> borrowableRooms = service.getBorrowableItemsFromItemIsbn(theRoom.getIsbn());
+            if (!borrowableRooms.isEmpty()){
+                theItem = borrowableRooms.get(0);
+            }
+        }
         UserAccount a = service.getUserAccountByUserID(userID);
 
-        Transaction t = service.createRoomReserveTransaction(i, a, Date.valueOf(date), Time.valueOf(startTime), Time.valueOf(endTime)); 
+        Transaction t = service.createRoomReserveTransaction(theItem, a, Date.valueOf(date)); 
         TransactionDTO transaction = convertToDto(t);
         return transaction;
     }
@@ -1295,7 +1309,7 @@ public class LibraryServiceRestController {
      */
     private UserAccountDTO convertToDto(UserAccount userAccount) {
         if (userAccount == null) {
-            throw new IllegalArgumentException("There is no such library item!");
+            throw new IllegalArgumentException("There is no such user!");
         }
 
         UserAccountDTO userAccountDTO = new UserAccountDTO(userAccount.getFirstName(), userAccount.getLastName(), userAccount.getOnlineAccount(), userAccount.getAddress(), userAccount.getPassword(), userAccount.getBalance(), userAccount.getEmail(), userAccount.getUserID());
