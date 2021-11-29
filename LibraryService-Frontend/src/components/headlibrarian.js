@@ -130,7 +130,16 @@ export default {
             },
             newLibraryItem: '',
             newBorrowableItems: [],
-            currentItems: []
+            currentItems: [],
+            newBorroableItems: [],
+            selectedType:'',
+            optionsType:[
+              {value: null, text: 'Select a Type'},
+              {value: 'Book', text: 'Book'},
+              {value: 'Movie', text: 'Movie'},
+              {value: 'Music', text: 'Music'},
+              {value: 'Room', text: 'Room'}
+            ]
         }
     },
     methods: {

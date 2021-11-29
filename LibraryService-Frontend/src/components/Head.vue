@@ -647,13 +647,16 @@
         <b-tab title="Library Items">
           <h3> Library Item </h3>
           <b-container>
-            <b-row>
-              <b-form @submit="onSubmitUSER" @reset="onResetUSER" v-if="true">
+            <b-row class="shadow p-3 m-3 bg-white rounded">
+              <b-col>
+                <b-form v-if="true">
+                  <h7> Select a Type </h7>
                   <b-form-select
                     class="mb-2"
-                    v-model="selectedUser"
-                    :options="optionsUsers"
+                    v-model="selectedType"
+                    :options="optionsType"
                   ></b-form-select>
+
                   <b-form-group
                     id="input-group-1"
                     label="Name:"
@@ -702,19 +705,7 @@
                    <div>
                     <label for="demo-sb">Quantity</label>
                     <b-form-spinbutton id="demo-sb" v-model="value" min="1" max="20"></b-form-spinbutton>
-                    <p>Value: {{ value }}</p>
                   </div>
-
-                  <b-form-group
-                    id="input-group-3"
-                    label="NumItems"
-                  >
-                    <b-form-input
-                      v-model="formLibraryItem.numItems"
-                      placeholder="Enter the quantity:"
-                      required
-                    ></b-form-input>
-                  </b-form-group>
 
                   <b-row class="justify-content-center">
                     <b-col class="p-3 ">
@@ -737,9 +728,11 @@
                     </b-col>
                   </b-row>
                 </b-form>
+              </b-col>
             </b-row>
             <b-row class="shadow p-3 m-3 bg-white rounded">
               <div class="w-100">
+                <h4> All Library Items </h4>
                 <b-table hover :items="currentItems"></b-table>
               </div>
             </b-row>
