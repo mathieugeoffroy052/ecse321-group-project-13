@@ -37,7 +37,7 @@ jobs:
     - uses: actions/checkout@v2
     - uses: akhileshns/heroku-deploy@v3.12.12
       with:
-        heroku_api_key: c7d5df75-cbf0-4635-96c3-bba9306175e5
+        heroku_api_key: 6a5c0620-a1f0-42ee-bee7-40ba632aef4d
         heroku_app_name: "libraryservice-backend-g13"
         heroku_email: "gabrielle.halpin@mail.mcgill.ca"
   
