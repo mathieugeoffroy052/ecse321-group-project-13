@@ -76,7 +76,7 @@ export default {
             var lastName = document.getElementById("input-lastName").value
             var address1 = document.getElementById("input-address").value
             var balance1 = document.getElementById("input-balance").value
-            var onlineAccount1 = this.formUser.onlineAccount
+            var onlineAccount1 = this.form.onlineAccount
             var password1 = ""
             var email1 = ""
             if(onlineAccount1 === true){
