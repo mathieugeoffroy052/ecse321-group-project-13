@@ -50,5 +50,11 @@ export default {
             this.show = 0
         }
 
+    },
+    methods: {
+        logout: function(){
+            sessionStorage.setItem("existingUserID", null)
+        }
     }
+
 }
