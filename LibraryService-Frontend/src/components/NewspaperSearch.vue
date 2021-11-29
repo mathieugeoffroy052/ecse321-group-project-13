@@ -38,7 +38,7 @@
         <b-row>
           <b-col cols="5">
             <label for="writer" style="float: right"
-              >Search by writer:
+              >Search by newspaper:
             </label>
           </b-col>
           <b-col>
