@@ -644,6 +644,107 @@
             </b-row>
           </b-container>
         </b-tab>
+        <b-tab title="Library Items">
+          <h3> Library Item </h3>
+          <b-container>
+            <b-row>
+              <b-form @submit="onSubmitUSER" @reset="onResetUSER" v-if="true">
+                  <b-form-select
+                    class="mb-2"
+                    v-model="selectedUser"
+                    :options="optionsUsers"
+                  ></b-form-select>
+                  <b-form-group
+                    id="input-group-1"
+                    label="Name:"
+                  >
+                    <b-form-input
+                      v-model="formLibraryItem.title"
+                      placeholder="Enter Title/Name"
+                      required
+                    ></b-form-input>
+                  </b-form-group>
+
+                  <b-form-group
+                    id="input-group-2"
+                    label="Date:"
+                  >
+                    <b-form-input
+                      v-model="formLibraryItem.date"
+                      placeholder="Enter date of creation:"
+                      required
+                    ></b-form-input>
+                  </b-form-group>
+
+                  <b-form-group
+                    id="input-group-3"
+                    label="Creator:"
+                  >
+                    <b-form-input
+                      v-model="formLibraryItem.creatorItem"
+                      placeholder="Enter Director/Artist/Author/etc:"
+                      required
+                    ></b-form-input>
+                  </b-form-group>
+
+                  <div class="form-check p-3">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value="false"
+                      v-model="formLibraryItem.isViewable"
+                    />
+                    <label class="form-check-label">
+                      Viewable Item
+                    </label>
+                  </div>
+
+                  <b-form-select
+                    class="mb-2"
+                    v-model="selectedItemType"
+                    :options="optionsType"
+                  ></b-form-select>
+
+                  <b-form-group
+                    id="input-group-3"
+                    label="NumItems"
+                  >
+                    <b-form-input
+                      v-model="formLibraryItem.numItems"
+                      placeholder="Enter the quantity:"
+                      required
+                    ></b-form-input>
+                  </b-form-group>
+
+                  <b-row class="justify-content-center">
+                    <b-col class="p-3 ">
+                      <b-button
+                        type="submit"
+                        class="float-right"
+                        variant="primary"
+                        style="width:76px;height:38"
+                        >Create</b-button
+                      >
+                    </b-col>
+                    <b-col class="p-3">
+                      <b-button
+                        type="reset"
+                        class="float-left"
+                        variant="danger"
+                        style="width:76px;height:38"
+                        >Reset</b-button
+                      >
+                    </b-col>
+                  </b-row>
+                </b-form>
+            </b-row>
+            <b-row class="shadow p-3 m-3 bg-white rounded">
+              <div class="w-100">
+                <b-table hover :items="currentItems"></b-table>
+              </div>
+            </b-row>
+          </b-container>
+        </b-tab>
       </b-tabs>
     </div>
   </div>
