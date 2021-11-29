@@ -2,6 +2,7 @@
   <div id="search">
     <div class="row">
       <div class="col">
+        <br>
         <h2>Movies</h2>
       </div>
     </div>
@@ -69,7 +70,7 @@
               v-for="libItem in libraryItems"
               :key="libItem.name"
             >
-              <input type="radio" name="item" :value="libItem.isbn" />{{
+              <b-list-group-item id="list-group"><input type="radio" name="item" :value="libItem.isbn" />{{
                 " " + libItem.name
               }}<br />
               {{
@@ -80,7 +81,7 @@
                 "isbn " +
                 libItem.isbn
               }}
-              <br />
+              <br /></b-list-group-item>
             </v-row>
           </div>
         </div>
@@ -98,8 +99,8 @@
             >Reserve Item</b-button
           >
         </div>
-
-        <p id="transaction"></p>
+        <br>
+        <b-alert show id="transaction" :variant="alertColour"></b-alert>
       </b-col>
     </b-containter>
   </div>
