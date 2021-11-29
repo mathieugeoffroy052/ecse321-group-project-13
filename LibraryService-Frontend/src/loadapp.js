@@ -19,8 +19,7 @@ export default {
     },
     created : function() {
         var theUserID = sessionStorage.getItem("existingUserID")
-        theUserID = 9
-        this.userID = 9
+        this.userID = theUserID
         if (theUserID != null){
             AXIOS.get('/headLibrarian/'.concat(theUserID))
             .then(response => {
