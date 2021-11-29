@@ -124,13 +124,12 @@ export default {
               date:'',
               isViewable:false,
               creatorItem:'',
-              isbn:'',
+              ISBN:'',
             },
             numItems: 1,
             newLibraryItem: '',
-            newBorrowableItems: [],
             currentItems: [],
-            newBorroableItems: [],
+            newBorrowableItems: [],
             selectedType:'',
             optionsType:[
               {value: null, text: 'Select a Type'},
@@ -215,26 +214,27 @@ export default {
           var typeInput = this.selectedType
           var dateInput = this.formLibraryItem.date
           var viewableInput = this.formLibraryItem.isViewable
-          var isbnInput = this.formLibraryItem.isbn
+          var isbnInput = this.formLibraryItem.ISBN
           var creatorInput = this.formLibraryItem.creatorItem
           var num = this.formLibraryItem.numItems
-          this.newBorroableItems = []
+          this.newBorrowableItems = []
           var stringReport = ''
+          var innerError = ''
           AXIOS.post('/createLibraryItem', {}, {params: {name: nameInput, itemType: typeInput, date: dateInput, isViewable: viewableInput, isbn: isbnInput, creator: creatorInput}}).then (response => {
             this.newLibraryItem = response.data
             stringReport.concat("The item was created with ISBN: ").concat(this.newLibraryItem.isbn).concat(", with barcode(s): ")
             for(let i = 0; i < num; i++ ) {
-              AXIOS.post('/createBorrowableItem', {}, {params: {itemState:"Available", title: nameInput, creator: creatorInput }}).then (responseInner => {
-                this.newBorroableItems.push(responseInner.data)
+              AXIOS.post('/borrowableItems/viewall', {}, {params: {itemState:"Available", title: nameInput, creator: creatorInput }}).then (responseInner => {
+                this.newBorrowableItems.push(responseInner.data)
                 stringReport.concat(responseInner.data.barCodeNumber).concat(", ")
               }).catch(e => {
-                alert(e.response.data.message)
+                innerError.concat(e.responseInner.data.message)
               })
             }
             this.getAllItems()
             alert(stringReport)
           }).catch(e => {
-            alert(e.response.data.message)
+            alert(e.response.data.message.concat(innerError))
           })
 
         },

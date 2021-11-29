@@ -654,7 +654,7 @@
                 @submit="createItem()"
                 @reset="onResetItem()" 
                 >
-                  <h7> Select a Type </h7>
+                  <p> Select a Type </p>
                   <b-form-select
                     class="mb-2"
                     v-model="selectedType"
@@ -674,7 +674,7 @@
 
                     <div>
                       <label for="example-datepicker">Choose a date of creation</label>
-                      <b-form-datepicker id="example-datepicker" v-model="value" class="mb-2"></b-form-datepicker>
+                      <b-form-datepicker id="example-datepicker" v-model="formLibraryItem.date" class="mb-2"></b-form-datepicker>
                     </div>
 
                   <b-form-group
