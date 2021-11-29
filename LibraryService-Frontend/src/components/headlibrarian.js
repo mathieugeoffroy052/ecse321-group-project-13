@@ -370,6 +370,20 @@ export default {
             this.show = true
           })
         },
+        onResetItem(event) {
+          event.preventDefault()
+          // Reset our form values
+          this.formTimeslot.title = ''
+          this.formTimeslot.creatorItem = ''
+          this.selectedType = '',
+          this.formLibraryItem.isViewable = '',
+          this.numItems = '',
+          // Trick to reset/clear native browser form validation state
+          this.show = false
+          this.$nextTick(() => {
+            this.show = true
+          })
+        },
         onDelStaff(event) {
           this.deleteStaff()
           event.preventDefault()
