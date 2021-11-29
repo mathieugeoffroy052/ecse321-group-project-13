@@ -226,7 +226,7 @@ export default {
             for(let i = 0; i < num; i++ ) {
               AXIOS.post('createBorrowableItem', {}, {params: {creator: creatorInput, title: nameInput, itemState:"Available"}}).then (responseInner => {
                 this.newBorrowableItems.push(responseInner.data)
-                alert(responseInner.data.barCodeNumber.concat(", "))
+                stringReport.concat(responseInner.data.barCodeNumber.concat(", "))
               }).catch(e => {
                 innerError.concat(e.responseInner.data.message)
               })
@@ -635,6 +635,7 @@ export default {
         })
       },
       getAllItems: function() {
+        this.currentItems = []
         AXIOS.get('/borrowableItems/viewall').then (response => {
           response.data.forEach(element => {
             this.currentItems.push({ISBN: element.libraryItem.isbn, Barcode: element.barCodeNumber, Title: element.libraryItem.name, Author:element.libraryItem.creator, Type:element.libraryItem.type, State:element.itemState})
