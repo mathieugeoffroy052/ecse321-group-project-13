@@ -696,6 +696,17 @@
                     </label>
                   </div>
 
+                  <b-form-group
+                    id="input-group-9"
+                    label="ISBN:"
+                  >
+                    <b-form-input
+                      v-model="formLibraryItem.ISBN"
+                      placeholder="Enter ISBN"
+                      required
+                    ></b-form-input>
+                  </b-form-group>
+
                    <div>
                     <label for="demo-sb">Quantity</label>
                     <b-form-spinbutton id="demo-sb" v-model="value" min="1" max="20"></b-form-spinbutton>
