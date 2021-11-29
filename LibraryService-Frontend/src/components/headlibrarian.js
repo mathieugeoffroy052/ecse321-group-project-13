@@ -222,11 +222,11 @@ export default {
           var innerError = ''
           AXIOS.post('/createLibraryItem', {}, {params: {name: nameInput, itemType: typeInput, date: dateInput, isViewable: viewableInput, isbn: isbnInput, creator: creatorInput}}).then (response => {
             this.newLibraryItem = response.data
-            stringReport.concat("The item was created with ISBN: ").concat(this.newLibraryItem.isbn).concat(", with barcode(s): ")
+            alert("The item was created with ISBN: ".concat(this.newLibraryItem.isbn).concat(", with barcode(s): "))
             for(let i = 0; i < num; i++ ) {
-              AXIOS.post('/borrowableItems/viewall', {}, {params: {itemState:"Available", title: nameInput, creator: creatorInput }}).then (responseInner => {
+              AXIOS.post('createBorrowableItem', {}, {params: {creator: creatorInput, title: nameInput, itemState:"Available"}}).then (responseInner => {
                 this.newBorrowableItems.push(responseInner.data)
-                stringReport.concat(responseInner.data.barCodeNumber).concat(", ")
+                alert(responseInner.data.barCodeNumber.concat(", "))
               }).catch(e => {
                 innerError.concat(e.responseInner.data.message)
               })
@@ -378,10 +378,26 @@ export default {
           this.selectedType = '',
           this.formLibraryItem.isViewable = '',
           this.numItems = '',
+          this.isViewable = false
           // Trick to reset/clear native browser form validation state
           this.show = false
           this.$nextTick(() => {
             this.show = true
+          })
+        },
+        onSubmitItem(event) {
+          this.createItem()
+          event.preventDefault()
+          this.formTimeslot.title = ''
+          this.formTimeslot.creatorItem = ''
+          this.selectedType = '',
+          this.formLibraryItem.isViewable = '',
+          this.numItems = '',
+          this.isViewable = false
+          // Trick to reset/clear native browser form validation state
+          this.show = false
+          this.$nextTick(() => {
+              this.show = true
           })
         },
         onDelStaff(event) {
