@@ -651,8 +651,8 @@
               <b-col>
                 <b-form 
                 v-if="true"
-                @submit="onSubmitItem()"
-                @reset="onResetItem()" 
+                @submit="onSubmitItem"
+                @reset="onResetItem" 
                 >
                   <p> Select a Type </p>
                   <b-form-select
@@ -692,7 +692,7 @@
                     <input
                       class="form-check-input"
                       type="checkbox"
-                      value="false"
+                      value=false
                       v-model="formLibraryItem.isViewable"
                     />
                     <label class="form-check-label">
