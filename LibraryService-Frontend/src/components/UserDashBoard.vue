@@ -1,108 +1,102 @@
-
 <template>
   <div id="userAccount">
     <h2>Your Account Information</h2>
-        <div> 
-            <b-container id="profileInfo"> 
-               
-                
-                <b-row align-h="center" class="mb 3">
-                  
-                    <b-avatar ></b-avatar>
-   
-            
-                </b-row>
-              
-                 <b-row align-h="center">  
-                   <b-badge href="#" variant="success">Activated</b-badge>
-                 </b-row>
-               
-                <b-row class="my-4">
-                    <b-col >
-                        <h3>Personal Information</h3>
-                        <b-row align-h="center" class="d-inline" >
-                           <b class="d-inline" >{{currentPatron.firstName}} </b>
+    <b-container id="profileInfo">
+      <b-row align-h="center">
+        <b-col class="shadow p-3 m-3 bg-white rounded">
+          <h5>Personal Information</h5>
+          <b-avatar></b-avatar>
+          <b-row>
+            <b-col>
+              <b-badge
+                v-if="currentPatron.validatedAccount"
+                href="#"
+                variant="success"
+                >Validated</b-badge
+              >
+              <b-badge
+                v-if="!currentPatron.validatedAccount"
+                href="#"
+                variant="danger"
+                >Unvalidated</b-badge
+              >
+            </b-col>
+          </b-row>
+          <b-row class="my-3">
+            <b-col>
+              <p class="d-inline">{{ currentPatron.firstName }}</p>
+              <p class="d-inline">{{ currentPatron.lastName }}</p>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              <p>{{ currentPatron.email }}</p>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              <p>{{ currentPatron.address }}</p>
+            </b-col>
+          </b-row>
+        </b-col>
+        <b-col class="shadow p-3 m-3 bg-white rounded">
+          <div>
+            <h5>Current Balance</h5>
+            <p style="font-size:75px;" class="m-5">${{ currentPatron.balance }}</p>
+          </div>
+        </b-col>
+      </b-row>
 
-                           <b class="d-inline" > {{currentPatron.lastName}}</b>
-                        </b-row>
-
-
-
-                         <b-row align-h="center" >
-                            <b>Email: </b>
-                            <b >{{currentPatron.lastName}}</b>
-                           
-                        </b-row>
-                        <b-row align-h="center" >
-                            <b>Address: </b>
-                            <b >{{currentPatron.lastName}}</b>
-                           
-                        </b-row>
-
-                         <b-row align-h="center" class="my-4" >
-                          <h4>Update your Information</h4>
-                          <b>Update Email Address:</b>
-                          <b-form-input id="updateEmail"  placeholder="sarah@mail.ca"></b-form-input>
-                          <b-row align-h="center" class="my-2" >
-                          <b-button block variant="primary" @click="updateEmail()">Comfirm changes </b-button>
-                             
-                        </b-row> 
-                        </b-row >
-                        
-                        <b-row align-h="center" class="my-1"  >    
-                               
-                            
-                                <b>Change Passoword:</b>
-                                <b-form-input id="updatePassword"  placeholder="New Passowrd"></b-form-input>
-                               <b-form-input id="updatePassword1"  placeholder="Comfirm Password"></b-form-input>
-                        </b-row>
-                        <b-row align-h="center" class="my-2" >
-                               <b-button block variant="primary" @click="updatePassword()">Comfirm changes </b-button>
-                             
-                        </b-row>   
-                        
-                    </b-col>
-                   
-                    <b-col>
-
-                        <div class="mybalance">
-                            <h3>Current Balance</h3>
-                            <p style="font-size:125px;" >${{currentPatron.balance}}</p>
-                        </div>
-                    
-                    </b-col>
-
-                    <b-col>
-
-                        <div class="myTranscations">
-                            <h3>Transaction History</h3>
-                        </div>
-                    
-                    </b-col>
-
-                 </b-row>
-            </b-container>
-        </div>
-        
-        
-        
-    </div>
-
- 
-
-
-
-
-
+      <b-row class="shadow p-3 m-1 bg-white rounded">
+        <b-col>
+          <h5>Update Information</h5>
+          <b-row>
+            <b-col>
+              <p>Email Address:</p>
+              <b-form-input
+                id="updateEmail"
+                placeholder="New Email"
+              ></b-form-input>
+            </b-col>
+            <b-col>
+              <p>Change Password:</p>
+              <b-form-input
+                id="updatePassword"
+                placeholder="New Password"
+                type="password"
+              ></b-form-input>
+              <b-form-input
+                id="updatePassword1"
+                placeholder="Confirm Password"
+                class="my-2"
+                type="password"
+              ></b-form-input>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              <b-button block variant="primary" @click="updateEmail()"
+                >Confirm
+              </b-button>
+            </b-col>
+            <b-col>
+              <b-button block variant="primary" @click="updatePassword()"
+                >Confirm
+              </b-button>
+            </b-col>
+          </b-row>
+        </b-col>
+      </b-row>
+      <b-row class="shadow p-3 my-3 mx-1 bg-white rounded">
+        <b-col>
+          <h5>Transactions</h5>
+          <b-table hover :items="currentPatronTransactions"></b-table>
+        </b-col>
+      </b-row>
+    </b-container>
+  </div>
 </template>
 
-<script src="./userInfoViewing.js">
-</script>
+<script src="./userInfoViewing.js"></script>
 
-
-<style>
-
-
-
-</style>
-
+<style></style>
