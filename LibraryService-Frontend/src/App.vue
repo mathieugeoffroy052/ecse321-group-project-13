@@ -1,16 +1,17 @@
 <template>
   <div id="app">
-    <b-navbar toggleable="lg" type="dark" variant="info">
+    <b-navbar toggleable="lg" type="dark" variant="dark" >
       <b-navbar-brand href="./">Home</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item href="./#/item-select">Item Selection</b-nav-item>
-          <b-nav-item href="./#/room">Room Booking</b-nav-item>
-          <b-nav-item href="./#/userDashBoard">Dashboard</b-nav-item>
-          <b-nav-item id="services" :href="userLink"></b-nav-item>
+          <b-nav-item v-if="userID != null" href="./#/item-select">Item Selection</b-nav-item>
+          <b-nav-item v-if="userID != null" href="./#/room">Room Booking</b-nav-item>
+          <b-nav-item v-if="userID != null" href="./#/userDashBoard">Dashboard</b-nav-item>
+          <b-nav-item v-if="show == 2" href="./#/headlibraryservices">Services</b-nav-item>
+          <b-nav-item v-if="show == 1" href="./#/libraryservices">Services</b-nav-item>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
@@ -18,7 +19,7 @@
     <router-view></router-view>
   </div>
 </template>
-<script src="./app.js">
+<script src="./loadapp.js">
 </script>
 
 <style>

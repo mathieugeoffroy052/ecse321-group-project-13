@@ -13,35 +13,32 @@ export default {
     name: 'app',
     data () {
       return {
-        userLink: '',
-        user: ''
+        userID: 0,
+        show: 2
       }
     },
     created : function() {
-        // var theUserID = sessionStorage.getItem("existingUserID")
-        console.log("hello")
-        var theUserID = 9
+        var theUserID = sessionStorage.getItem("existingUserID")
+        theUserID = 9
+        this.userID = 9
         if (theUserID != null){
             AXIOS.get('/headLibrarian/'.concat(theUserID))
             .then(response => {
-                this.userLink = './'
-                document.getElementById("services").innerHTML = "Services"
+                this.show = 2
             })
             .catch(e => {
                 var errorMessage = e.response.data.message
                 console.log("Error Message: " + errorMessage)
                 AXIOS.get('/librarians/'.concat(theUserID))
                 .then(response => {
-                    document.getElementById("services").innerHTML = "Services"
-                    this.userLink = "./#/libraryservices"
+                    this.show = 1
                 })
                 .catch(e => {
                     var errorMessage = e.response.data.message
                     console.log("Error Message: " + errorMessage)
                     AXIOS.get('/patron/'.concat(theUserID))
                     .then(response => {
-                        document.getElementById("services").innerHTML = ""
-                        this.userLink = ""
+                        this.show = 0
                     })
                     .catch(e => {
                         var errorMessage = e.response.data.message
@@ -51,8 +48,7 @@ export default {
             })
         }
         else {
-            this.userLink = ''
-            document.getElementById("services").innerHTML = ""
+            this.show = 0
         }
 
     }
