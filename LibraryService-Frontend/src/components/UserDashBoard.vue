@@ -20,9 +20,10 @@
                 <b-row class="my-4">
                     <b-col >
                         <h3>Personal Information</h3>
-                        <b-row align-h="center" >
-                           <B >{{currentPatron.firstName}}</b>
-                           <b>{{currentPatron.lastName}}</b>
+                        <b-row align-h="center" class="d-inline" >
+                           <b class="d-inline" >{{currentPatron.firstName}} </b>
+
+                           <b class="d-inline" > {{currentPatron.lastName}}</b>
                         </b-row>
 
 
@@ -33,27 +34,30 @@
                            
                         </b-row>
                         <b-row align-h="center" >
-                            <b>Addresse: </b>
+                            <b>Address: </b>
                             <b >{{currentPatron.lastName}}</b>
                            
                         </b-row>
 
                          <b-row align-h="center" class="my-4" >
                           <h4>Update your Information</h4>
-                          <b>Update Email Adresse:</b>
+                          <b>Update Email Address:</b>
                           <b-form-input id="updateEmail"  placeholder="sarah@mail.ca"></b-form-input>
-
+                          <b-row align-h="center" class="my-2" >
+                          <b-button block variant="primary" @click="updateEmail()">Comfirm changes </b-button>
+                             
+                        </b-row> 
                         </b-row >
                         
                         <b-row align-h="center" class="my-1"  >    
                                
                             
                                 <b>Change Passoword:</b>
-                                <b-form-input id="updatePassword1"  placeholder="New Passowrd"></b-form-input>
+                                <b-form-input id="updatePassword"  placeholder="New Passowrd"></b-form-input>
                                <b-form-input id="updatePassword1"  placeholder="Comfirm Password"></b-form-input>
                         </b-row>
                         <b-row align-h="center" class="my-2" >
-                               <b-button block variant="primary" @click="updateInfo()">Comfirm changes </b-button>
+                               <b-button block variant="primary" @click="updatePassword()">Comfirm changes </b-button>
                              
                         </b-row>   
                         
@@ -63,7 +67,7 @@
 
                         <div class="mybalance">
                             <h3>Current Balance</h3>
-
+                            <p style="font-size:125px;" >${{currentPatron.balance}}</p>
                         </div>
                     
                     </b-col>
@@ -92,7 +96,7 @@
 
 </template>
 
-<script src="./userInfoViewwing.js">
+<script src="./userInfoViewing.js">
 </script>
 
 

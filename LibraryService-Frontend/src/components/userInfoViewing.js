@@ -36,7 +36,7 @@ export default {
 
 
     created: function () {
-        var userID = document.getElementById("123").value
+        var userID = 7;
         AXIOS.get('/patron/'.concat(userID)).then (response => {
             this.currentPatron = response.data
         })
@@ -45,25 +45,48 @@ export default {
             alert(e.response.data.message)
             
         })
-    
+       
     
 
 
     },
    methods: {
+     updatePassword: function ()
+     {
+         var password= document.getElementById("updatePassword").value
+         var password2= document.getElementById("updatePassword1").value
+        if(password==password2) {
+            AXIOS.put('/updatePassword/', {},{params:{password: password2, userID: sessionStorage.getItem("existingUserID") }}).then (response => {
+              this.currentPatron = response.data
+            }).catch (e => {
+                alert(e.response.data.message)
+                
+            })
+          
+        }
+        else alert("passwords do not match")
 
-   getUserInfo: function()
-{
-    var userID = document.getElementById("123").value
-    AXIOS.get('/patron/'.concat(userID)).then (response => {
-        this.currentPatron = response.data
-    })
-    .catch(e => {
-        this.currentPatron = ''
-        alert(e.response.data.message)
-        
-    })
-  },
+
+    }, 
+    updatePassword: function ()
+    {
+        var emailnew= document.getElementById("updateEmail").value
+       
+       
+           AXIOS.put('/updateEmail/', {},{params:{email: emailnew, userID: sessionStorage.getItem("existingUserID") }}).then (response => {
+             this.currentPatron = response.data
+           }).catch (e => {
+               alert(e.response.data.message)
+               
+           })
+         
+      
+
+
+   }, 
+
+
+ 
 
 
 

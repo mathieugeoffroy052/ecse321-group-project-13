@@ -60,15 +60,11 @@ export default new Router({
       path: '/headlibraryservices',
       name: 'Head',
       component: Head
-<<<<<<< HEAD
     },
     {
       path: '/userDashBoard',
       name: 'UserDashBoard',
       component: UserDashBoard
-=======
-
->>>>>>> 6b84731f8b5418203f456657c7c7edaff5d52004
     }
 
   ]
