@@ -22,11 +22,10 @@ export default {
         console.log("hello")
         var theUserID = 9
         if (theUserID != null){
-            AXIOS.get('/headlibrarian/'.concat(theUserID))
+            AXIOS.get('/headLibrarian/'.concat(theUserID))
             .then(response => {
-                console.log("hello")
+                this.userLink = './'
                 document.getElementById("services").innerHTML = "Services"
-                this.userLink = './#/headlibraryservices'
             })
             .catch(e => {
                 var errorMessage = e.response.data.message
