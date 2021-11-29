@@ -36,16 +36,16 @@
 
         <b-row>
           <b-col cols="5">
-            <label for="director" style="float: right"
-              >Search by director:
+            <label for="artist" style="float: right"
+              >Search by artist:
             </label>
           </b-col>
           <b-col>
             <input
               class="mr-2"
               type="text"
-              id="requestedDirector"
-              name="director"
+              id="requestedArtist"
+              name="artist"
               style="float: left"
             />
             <b-button
