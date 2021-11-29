@@ -565,7 +565,7 @@
                     label="Enter the Timeslot ID for the Selected Timeslot:"
                   >
                     <b-form-input
-                      v-model="formTimeslot.timeslotID"
+                      v-model="formTimeslot.timeslotIDAssign"
                       placeholder="Enter a timeslotID"
                       required
                     ></b-form-input>
@@ -610,7 +610,7 @@
                     >
                       <b-form-input
                         id="input-timeslot"
-                        v-model="formTimeslot.timeslotID"
+                        v-model="formTimeslot.timeslotIDDelete"
                         placeholder="Enter Workshift ID"
                         required
                       ></b-form-input>

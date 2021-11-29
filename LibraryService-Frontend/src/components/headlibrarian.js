@@ -57,7 +57,8 @@ export default {
               barCodeNumber:'',
             },
             formTimeslot:{
-              timeslotID:'',
+              timeslotIDAssign:'',
+              timeslotIDDelete:'',
             },
             errorBorrowableItem: '',
             borrowableItem: '',
@@ -169,7 +170,7 @@ export default {
             })
         },
         createTimeslot: function() {
-          AXIOS.post('timeslot/new', {}, {params: {startDate:this.dateWorkshift, endDate:this.dateWorkshift, startTime:this.startTimeWorkshift, endTime:this.endTimeWorkshift, currentUserID:1}}).then (response => {
+          AXIOS.post('timeslot/new', {}, {params: {startDate:this.dateWorkshift, endDate:this.dateWorkshift, startTime:this.startTimeWorkshift.substr(0, 5), endTime:this.endTimeWorkshift.substr(0, 5), currentUserID:1}}).then (response => {
             this.newTimeSlot = response.data
             this.getAllShifts()
         })
@@ -179,7 +180,7 @@ export default {
         })
         },
         assignTimeslot: function() {
-          AXIOS.post('/timeslot/assign', {}, {params: {timeslotID:this.timeslotID, librarianID:this.formStaff.userID, currentUserID:1}}).then (response => {
+          AXIOS.put('/timeslot/assign', {}, {params: {timeslotID:this.formTimeslot.timeslotIDAssign, librarianID:this.formStaff.userID, currentUserID:1}}).then (response => {
             this.newTimeSlot = response.data
             this.getAllShifts()
         })
@@ -354,7 +355,7 @@ export default {
           })
         },
         onSubmitWorkshift(event) {
-          this.createTimeslot()
+          this.assignTimeslot()
           event.preventDefault()
           this.formTimeslot.timeslotID = ''
           this.formStaff.userID = ''
@@ -529,10 +530,12 @@ export default {
         })
       },
       getAllShifts: function() {
+        var librarianArray = []
         AXIOS.get('/timeslot/viewall').then (response => {
             this.allShifts = []
             response.data.forEach(element => {
-                this.allShifts.push({Date: element.startDate, Start_Time: element.startTime, End_time:element.endTime, ID: element.timeslotID })
+              element.librarians.forEach(e => {librarianArray.push(e.firstName)})
+              this.allShifts.push({Date: element.startDate, Start_Time: element.startTime, End_time:element.endTime, Librarian: librarianArray, ID: element.timeSlotID })
             });
         })
         .catch(e => {
@@ -598,7 +601,7 @@ export default {
         })
       },
       deleteTimeslot: function() {
-        AXIOS.delete('/timeslot/delete', {params:{timeslotID:this.formTimeslot.timeslotID, accountID:1}}).then (response => {
+        AXIOS.delete('/timeslot/delete', {params:{timeslotID:this.formTimeslot.timeslotIDDelete, accountID:1}}).then (response => {
             if(response.data == true){
               alert("TimeSlot deleted")
             }
