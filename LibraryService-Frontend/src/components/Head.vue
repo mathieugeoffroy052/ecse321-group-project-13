@@ -182,7 +182,7 @@
                       class="form-check-input"
                       type="checkbox"
                       value="false"
-                      id="input-onlineAccount"
+                      v-model="formUser.onlineAccount"
                     />
                     <label class="form-check-label" for="input-onlineAccount">
                       Online Account
@@ -193,12 +193,14 @@
                     id="input-group-5"
                     label="Password:"
                     label-for="input-password"
+                    v-if="formUser.onlineAccount"
                   >
                     <b-form-input
                       id="input-password"
                       v-model="formUser.password"
                       placeholder="Enter password"
-                      required
+                      type="password"
+                      v-if="formUser.onlineAccount"
                     ></b-form-input>
                   </b-form-group>
 
@@ -206,12 +208,13 @@
                     id="input-group-6"
                     label="Email:"
                     label-for="input-email"
+                    v-if="formUser.onlineAccount"
                   >
                     <b-form-input
                       id="input-email"
                       v-model="formUser.email"
                       placeholder="Enter email"
-                      required
+                      v-if="formUser.onlineAccount"
                     ></b-form-input>
                   </b-form-group>
 

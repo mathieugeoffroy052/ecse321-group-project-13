@@ -127,7 +127,7 @@ export default {
             var address1 = document.getElementById("input-address").value
             var balance1 = document.getElementById("input-balance").value
             var password1 = document.getElementById("input-password").value
-            var onlineAccount1 = document.getElementById("input-onlineAccount").value
+            var onlineAccount1 = this.formUser.onlineAccount
             var email1 = document.getElementById("input-email").value
             if(this.selectedUser == "Patron"){
 
