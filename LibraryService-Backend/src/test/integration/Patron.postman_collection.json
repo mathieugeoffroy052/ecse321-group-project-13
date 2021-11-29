@@ -6,12 +6,12 @@
 	},
 	"item": [
 		{
-			"name": "http://localhost:8080/patrons",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/patrons",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/patrons",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/patrons",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -24,12 +24,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/patrons",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/patrons",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/patrons",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/patrons",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -83,12 +83,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/createPatron",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/createPatron",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/createPatron/:firstName/:lastName/?onlineAccount=true&balance=0&email=joe@email.com&password=bob2123&validatedAccount=true&address=2  avenue bob&creatorID=1",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/createPatron/:firstName/:lastName/?onlineAccount=true&balance=0&email=joe@email.com&password=bob2123&validatedAccount=true&address=2  avenue bob&creatorID=1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -144,12 +144,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/createPatron",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/createPatron",
 					"originalRequest": {
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/createPatron/:firstName/:lastName/?onlineAccount=true&balance=0&email=joe@email.com&password=bob2123&validatedAccount=true&address=2  avenue bob&creatorID=1",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/createPatron/:firstName/:lastName/?onlineAccount=true&balance=0&email=joe@email.com&password=bob2123&validatedAccount=true&address=2  avenue bob&creatorID=1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -246,12 +246,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/deletePatron",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/deletePatron",
 			"request": {
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/deletePatron/:userID/?headLibrarianID=1",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/deletePatron/:userID/?headLibrarianID=1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -278,12 +278,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/deletePatron",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/deletePatron",
 					"originalRequest": {
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/deletePatron/:userID/?headLibrarianID=1",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/deletePatron/:userID/?headLibrarianID=1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -351,12 +351,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/patron/:userID=123/",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/patron/:userID=123/",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/patron/:userID/",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/patron/:userID/",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -377,12 +377,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/patron/:userID=123/",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/patron/:userID=123/",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/patron/:userID/",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/patron/:userID/",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -444,12 +444,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/patrons/:firstName/:lastName/",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/patrons/:firstName/:lastName/",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/patrons/:firstName/:lastName/",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/patrons/:firstName/:lastName/",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -475,12 +475,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/patrons/:firstName/:lastName/",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/patrons/:firstName/:lastName/",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/patrons/:firstName/:lastName/",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/patrons/:firstName/:lastName/",
 							"protocol": "http",
 							"host": [
 								"localhost"

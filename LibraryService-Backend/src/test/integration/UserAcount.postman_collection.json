@@ -6,12 +6,12 @@
 	},
 	"item": [
 		{
-			"name": "http://localhost:8080/accounts",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/accounts",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/accounts",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/accounts",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -24,12 +24,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/accounts",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/accounts",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/accounts",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/accounts",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -83,12 +83,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/updatePassword",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/updatePassword",
 			"request": {
 				"method": "PUT",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/updatePassword?password=junglegym&userID=6",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/updatePassword?password=junglegym&userID=6",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -111,12 +111,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/updatePassword",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/updatePassword",
 					"originalRequest": {
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/updatePassword?password=junglegym&userID=6",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/updatePassword?password=junglegym&userID=6",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -180,12 +180,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/updateAddress?address",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/updateAddress?address",
 			"request": {
 				"method": "PUT",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/updateAddress?address=456 milton&userID=6",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/updateAddress?address=456 milton&userID=6",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -208,12 +208,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/updateAddress?address",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/updateAddress?address",
 					"originalRequest": {
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/updateAddress?address=456 milton&userID=6",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/updateAddress?address=456 milton&userID=6",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -277,12 +277,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/updateFirstName?firstName",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/updateFirstName?firstName",
 			"request": {
 				"method": "PUT",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/updateFirstName?firstName=Ginger&userID=6",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/updateFirstName?firstName=Ginger&userID=6",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -305,12 +305,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/updateFirstName?firstName",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/updateFirstName?firstName",
 					"originalRequest": {
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/updateFirstName?firstName=Ginger&userID=6",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/updateFirstName?firstName=Ginger&userID=6",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -374,12 +374,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/updateLastName?lastName",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/updateLastName?lastName",
 			"request": {
 				"method": "PUT",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/updateLastName?lastName=Muffin&userID=6",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/updateLastName?lastName=Muffin&userID=6",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -402,12 +402,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/updateLastName?lastName",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/updateLastName?lastName",
 					"originalRequest": {
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/updateLastName?lastName=Muffin&userID=6",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/updateLastName?lastName=Muffin&userID=6",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -471,12 +471,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/updateEmail?updateEmail",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/updateEmail?updateEmail",
 			"request": {
 				"method": "PUT",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/updateEmail?email=ginger@muffin.com&userID=6",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/updateEmail?email=ginger@muffin.com&userID=6",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -499,12 +499,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/updateEmail?updateEmail",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/updateEmail?updateEmail",
 					"originalRequest": {
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/updateEmail?email=ginger@muffin.com&userID=6",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/updateEmail?email=ginger@muffin.com&userID=6",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -568,12 +568,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/setAccountValidity",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/setAccountValidity",
 			"request": {
 				"method": "PUT",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/setAccountValidity?validatedAccount=true&creatorID=1&patronID=4",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/setAccountValidity?validatedAccount=true&creatorID=1&patronID=4",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -600,12 +600,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/setAccountValidity",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/setAccountValidity",
 					"originalRequest": {
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/setAccountValidity?validatedAccount=true&creatorID=1&patronID=15",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/setAccountValidity?validatedAccount=true&creatorID=1&patronID=15",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -673,12 +673,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/account/{userID}",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/account/{userID}",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/account/:userID/",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/account/:userID/",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -699,12 +699,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/account/{userID}",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/account/{userID}",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/account/:userID/",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/account/:userID/",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -766,12 +766,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/account/{firstName}/{lastName}",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/account/{firstName}/{lastName}",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/account/firstName/lastName?firstName=mathieu&lastName=geoffroy",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/account/firstName/lastName?firstName=mathieu&lastName=geoffroy",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -796,12 +796,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/account/{firstName}/{lastName}",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/account/{firstName}/{lastName}",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/account/firstName/lastName?firstName=mathieu&lastName=geoffroy",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/account/firstName/lastName?firstName=mathieu&lastName=geoffroy",
 							"protocol": "http",
 							"host": [
 								"localhost"

@@ -1,13 +1,20 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Hello from '@/components/Hello'
+
+import Login from '@/components/Login'
+import CreateAccount from '@/components/CreateAccount'
 import ItemTypeToBrowse from '@/components/ItemTypeToBrowse'
 import MusicSearch from '@/components/MusicSearch'
 import NewspaperSearch from '@/components/NewspaperSearch'
 import BookSearch from '@/components/BookSearch'
 import MovieSearch from '@/components/MovieSearch'
+<<<<<<< HEAD
 import RoomSearch from '@/components/RoomSearch'
 import LibrarianView from '@/components/LibrarianView'
+=======
+import LibrarianView from '@/components/LibrarianView'
+import RoomSearch from '@/components/RoomSearch'
+>>>>>>> 23c15888cda4a59a9c367902281be26e3006ad17
 import Head from '@/components/Head'
 
 
@@ -17,8 +24,13 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Hello',
-      component: Hello
+      name: 'Login',
+      component: Login
+    },
+    {
+      path: '/CreateAccount',
+      name: 'CreateAccount',
+      component: CreateAccount
     },
     {
       path: '/item-select',
@@ -46,20 +58,19 @@ export default new Router({
       component: MovieSearch
     },
     {
-      path: '/room',
-      name: 'RoomSearch',
-      component: RoomSearch
-    },
-    {
       path: '/libraryservices',
       name: 'LibrarianView',
       component: LibrarianView
     },
     {
+      path: '/room',
+      name: 'RoomSearch',
+      component: RoomSearch
+    },
+    {
       path: '/headlibraryservices',
       name: 'Head',
       component: Head
-
     }
   ]
 })

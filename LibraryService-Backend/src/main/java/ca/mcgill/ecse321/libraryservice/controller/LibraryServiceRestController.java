@@ -464,7 +464,35 @@ public class LibraryServiceRestController {
 		Patron patron = service.createPatron( creatorID, firstName,  lastName,  onlineAccount,  address,  validatedAccount,  password,  balance,  email);
 	return convertToDto(patron);
 	}
+    /**
+	 * Login user account
+	 * @author Zoya
+	 * @param username
+	 * @param password
+	 * @return boolean if successful
+     * @throws Exception 
+	 */
+	@PutMapping(value = {"/loginUserAccount/{userID}", "/loginUserAccount/{userID}/" })
+	public UserAccountDTO loginUserAccount(@PathVariable("userID") int userID, @RequestParam("password") String password) throws Exception {
+		UserAccount user = service.loginUserAccount(userID, password);
+		return convertToDto(user);
+	}
 
+	/**
+	 * Logout user account
+	 * @author Zoya
+	 * @param username
+	 * @return boolean if successful
+	 * @throws Exception 
+	 */
+	@PutMapping(value = {"/logoutUserAccount/{userID}", "/logoutUserAccount/{userID}/" })
+	public UserAccountDTO logoutUserAccount(@PathVariable("userID") int userID) throws Exception {
+		UserAccount user = service.logoutUserAccount(userID);
+		return convertToDto(user);
+	}
+    
+    
+    
     /**
      * Gets all the books in the system
      * @return List of LibraryItemDTO

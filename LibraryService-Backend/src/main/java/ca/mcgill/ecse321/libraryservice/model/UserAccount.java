@@ -27,10 +27,11 @@ public abstract class UserAccount
   private int balance;
   private String address;
   private String email;
+  
 
   //Autounique Attributes
   private int userID;
-
+ // private int token;
   //------------------------
   // CONSTRUCTOR
   //------------------------
@@ -175,4 +176,13 @@ public abstract class UserAccount
             "onlineAccount" + ":" + getOnlineAccount()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "address = "+(getAddress()!=null?Integer.toHexString(System.identityHashCode(getAddress())):"null");
   }
+  
+//  public int getToken() {
+//	return token;
+//  }
+//
+//  public void setToken(int token) {
+//	  this.token = token;
+//  }
+  
 }

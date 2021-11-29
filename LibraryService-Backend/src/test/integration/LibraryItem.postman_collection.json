@@ -6,12 +6,12 @@
 	},
 	"item": [
 		{
-			"name": "http://localhost:8080/books/",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/books/",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/books/",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/books/",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -25,12 +25,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/books/",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/books/",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/books/",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/books/",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -85,12 +85,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/movies/",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/movies/",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/movies/",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/movies/",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -104,12 +104,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/movies/",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/movies/",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/movies/",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/movies/",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -164,12 +164,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/music/",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/music/",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/music/",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/music/",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -183,12 +183,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/music/",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/music/",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/music/",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/music/",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -243,12 +243,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/newspapers/",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/newspapers/",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/newspapers/",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/newspapers/",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -262,12 +262,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/newspapers/",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/newspapers/",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/newspapers/",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/newspapers/",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -322,12 +322,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/rooms/",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/rooms/",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/rooms/",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/rooms/",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -341,12 +341,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/rooms/",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/rooms/",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/rooms/",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/rooms/",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -401,12 +401,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/books/author",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/books/author",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/books/author/?author=JK Rowling",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/books/author/?author=JK Rowling",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -427,12 +427,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/books/author",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/books/author",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/books/author/?author=JK Rowling",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/books/author/?author=JK Rowling",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -494,12 +494,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/books/title",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/books/title",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/books/title/?title=Harry Potter",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/books/title/?title=Harry Potter",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -520,12 +520,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/books/title",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/books/title",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/books/title/?title=Harry Potter",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/books/title/?title=Harry Potter",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -587,12 +587,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/books/author/title",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/books/author/title",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/books/author/title/?title=Harry Potter&author=JK Rowling",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/books/author/title/?title=Harry Potter&author=JK Rowling",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -618,12 +618,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/books/author/title",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/books/author/title",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/books/author/title/?title=Harry Potter&author=JK Rowling",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/books/author/title/?title=Harry Potter&author=JK Rowling",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -690,12 +690,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/movies/director",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/movies/director",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/movies/director/?director=Someone",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/movies/director/?director=Someone",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -716,12 +716,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/movies/director",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/movies/director",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/movies/director/?director=Someone",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/movies/director/?director=Someone",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -783,12 +783,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/movies/title",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/movies/title",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/movies/title/?title=Titanic",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/movies/title/?title=Titanic",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -809,12 +809,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/movies/title",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/movies/title",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/movies/title/?title=Titanic",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/movies/title/?title=Titanic",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -876,12 +876,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/movies/title/director",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/movies/title/director",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/movies/title/director/?director=James Cameron&title=Titanic",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/movies/title/director/?director=James Cameron&title=Titanic",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -907,12 +907,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/movies/title/director",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/movies/title/director",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/movies/title/director/?director=James Cameron&title=Titanic",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/movies/title/director/?director=James Cameron&title=Titanic",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -979,12 +979,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/music/artist",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/music/artist",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/musics/artist/?artist=Drake",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/musics/artist/?artist=Drake",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -1010,12 +1010,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/music/artist",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/music/artist",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/musics/artist/?artist=Drake",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/musics/artist/?artist=Drake",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1082,12 +1082,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/music/title",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/music/title",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/musics/title/?title=One Dance",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/musics/title/?title=One Dance",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -1108,12 +1108,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/music/title",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/music/title",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/musics/title/?title=One Dance",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/musics/title/?title=One Dance",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1175,12 +1175,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/music/title/artist",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/music/title/artist",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/musics/artist/title/?artist=Drake&title=One Dance",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/musics/artist/title/?artist=Drake&title=One Dance",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -1206,12 +1206,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/music/title/artist",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/music/title/artist",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/musics/artist/title/?artist=Drake&title=One Dance",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/musics/artist/title/?artist=Drake&title=One Dance",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1278,12 +1278,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/newspapers/writer",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/newspapers/writer",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/newspapers/writer/?writer=Times",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/newspapers/writer/?writer=Times",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -1304,12 +1304,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/newspapers/writer",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/newspapers/writer",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/newspapers/writer/?writer=Times",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/newspapers/writer/?writer=Times",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1371,12 +1371,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/newspapers/title",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/newspapers/title",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/newspapers/title/?title=Toronto News",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/newspapers/title/?title=Toronto News",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -1397,12 +1397,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/newspapers/title",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/newspapers/title",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/newspapers/title/?title=Toronto News",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/newspapers/title/?title=Toronto News",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1464,12 +1464,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/newspapers/writer/title",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/newspapers/writer/title",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/newspapers/title/writer/?title=Vancouver News&writer=Steve Joe",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/newspapers/title/writer/?title=Vancouver News&writer=Steve Joe",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -1495,12 +1495,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/newspapers/writer/title",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/newspapers/writer/title",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/newspapers/title/writer/?title=Vancouver News&writer=Steve Joe",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/newspapers/title/writer/?title=Vancouver News&writer=Steve Joe",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1567,12 +1567,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/items/creator",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/items/creator",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/items/creator/?creator=librarian",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/items/creator/?creator=librarian",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -1593,12 +1593,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/items/creator",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/items/creator",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/items/creator/?creator=James Cameron&creator=James Cameron",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/items/creator/?creator=James Cameron&creator=James Cameron",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1664,12 +1664,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/items/title",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/items/title",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/items/title/?title=Room456",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/items/title/?title=Room456",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -1690,12 +1690,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/items/title",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/items/title",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/items/title/?title=Titanic",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/items/title/?title=Titanic",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1757,12 +1757,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/items/creator/title",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/items/creator/title",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/items/creator/title/?creator=librarian&title=Room456",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/items/creator/title/?creator=librarian&title=Room456",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -1788,12 +1788,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/items/creator/title",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/items/creator/title",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/items/creator/title/?creator=James Cameron&title=Titanic",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/items/creator/title/?creator=James Cameron&title=Titanic",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1860,12 +1860,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/account/{firstname}/{lastname}/rooms",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/account/{firstname}/{lastname}/rooms",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/account/:firstname/:lastname/rooms",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/account/:firstname/:lastname/rooms",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -1891,12 +1891,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/account/{firstname}/{lastname}/rooms",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/account/{firstname}/{lastname}/rooms",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/account/:firstname/:lastname/rooms",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/account/:firstname/:lastname/rooms",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1963,7 +1963,7 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/createLibraryItem/",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/createLibraryItem/",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -1977,7 +1977,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/createLibraryItem/?name=Room456&itemType=Room&date=2001-05-09&isViewable=true&isbn=21&creator=librarian",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/createLibraryItem/?name=Room456&itemType=Room&date=2001-05-09&isViewable=true&isbn=21&creator=librarian",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -2017,12 +2017,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/createLibraryItem/",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/createLibraryItem/",
 					"originalRequest": {
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/createLibraryItem/?name=Titanic&itemType=Movie&date=2001-05-08&creator=James Cameron&isViewable=true&isbn=1",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/createLibraryItem/?name=Titanic&itemType=Movie&date=2001-05-08&creator=James Cameron&isViewable=true&isbn=1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -2101,12 +2101,12 @@
 					"body": "{\n    \"name\": \"Titanic\",\n    \"isViewable\": true,\n    \"date\": \"2001-05-08\",\n    \"creator\": \"James Cameron\",\n    \"isbn\": 1,\n    \"type\": \"Movie\"\n}"
 				},
 				{
-					"name": "http://localhost:8080/createLibraryItem/",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/createLibraryItem/",
 					"originalRequest": {
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/createLibraryItem/?name=Harry Potter&itemType=Book&date=2002-05-09&creator=JK Rowling&isViewable=true&isbn=10",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/createLibraryItem/?name=Harry Potter&itemType=Book&date=2002-05-09&creator=JK Rowling&isViewable=true&isbn=10",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -2185,7 +2185,7 @@
 					"body": "{\n    \"name\": \"Harry Potter\",\n    \"isViewable\": true,\n    \"date\": \"2002-05-09\",\n    \"creator\": \"JK Rowling\",\n    \"isbn\": 10,\n    \"type\": \"Book\"\n}"
 				},
 				{
-					"name": "http://localhost:8080/createLibraryItem/",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/createLibraryItem/",
 					"originalRequest": {
 						"method": "POST",
 						"header": [],
@@ -2199,7 +2199,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/createLibraryItem/?name=Montreal News&itemType=NewspaperArticle&date=2015-03-14&creator=Times&isViewable=false&isbn=19",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/createLibraryItem/?name=Montreal News&itemType=NewspaperArticle&date=2015-03-14&creator=Times&isViewable=false&isbn=19",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -2278,7 +2278,7 @@
 					"body": "{\n    \"name\": \"Montreal News\",\n    \"isViewable\": false,\n    \"date\": \"2015-03-14\",\n    \"creator\": \"Times\",\n    \"isbn\": 19,\n    \"type\": \"NewspaperArticle\"\n}"
 				},
 				{
-					"name": "http://localhost:8080/createLibraryItem/",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/createLibraryItem/",
 					"originalRequest": {
 						"method": "POST",
 						"header": [],
@@ -2292,7 +2292,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/createLibraryItem/?name=Main Room&itemType=Room&date=2020-01-03&isViewable=true&isbn=20&creator=librarian",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/createLibraryItem/?name=Main Room&itemType=Room&date=2020-01-03&isViewable=true&isbn=20&creator=librarian",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -2371,7 +2371,7 @@
 					"body": "{\n    \"name\": \"Main Room\",\n    \"isViewable\": true,\n    \"date\": \"2020-01-03\",\n    \"creator\": \"librarian\",\n    \"isbn\": 20,\n    \"type\": \"Room\"\n}"
 				},
 				{
-					"name": "http://localhost:8080/createLibraryItem/",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/createLibraryItem/",
 					"originalRequest": {
 						"method": "POST",
 						"header": [],
@@ -2385,7 +2385,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/createLibraryItem/?name=One Dance&itemType=Music&date=2020-02-05&isViewable=true&isbn=21&creator=Drake",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/createLibraryItem/?name=One Dance&itemType=Music&date=2020-02-05&isViewable=true&isbn=21&creator=Drake",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -2464,7 +2464,7 @@
 					"body": "{\n    \"name\": \"One Dance\",\n    \"isViewable\": true,\n    \"date\": \"2020-02-05\",\n    \"creator\": \"Drake\",\n    \"isbn\": 21,\n    \"type\": \"Music\"\n}"
 				},
 				{
-					"name": "http://localhost:8080/createLibraryItem/",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/createLibraryItem/",
 					"originalRequest": {
 						"method": "POST",
 						"header": [],
@@ -2478,7 +2478,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/createLibraryItem/?name=Dune&itemType=Movie&date=2005-09-08&isViewable=true&isbn=23&creator=Someone",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/createLibraryItem/?name=Dune&itemType=Movie&date=2005-09-08&isViewable=true&isbn=23&creator=Someone",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -2557,7 +2557,7 @@
 					"body": "{\n    \"name\": \"Dune\",\n    \"isViewable\": true,\n    \"date\": \"2005-09-08\",\n    \"creator\": \"Someone\",\n    \"isbn\": 23,\n    \"type\": \"Movie\"\n}"
 				},
 				{
-					"name": "http://localhost:8080/createLibraryItem/",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/createLibraryItem/",
 					"originalRequest": {
 						"method": "POST",
 						"header": [],
@@ -2571,7 +2571,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/createLibraryItem/?name=Vancouver News&itemType=NewspaperArticle&date=2005-09-09&isViewable=true&isbn=24&creator=Steve Joe",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/createLibraryItem/?name=Vancouver News&itemType=NewspaperArticle&date=2005-09-09&isViewable=true&isbn=24&creator=Steve Joe",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -2650,7 +2650,7 @@
 					"body": "{\n    \"name\": \"Vancouver News\",\n    \"isViewable\": true,\n    \"date\": \"2005-09-09\",\n    \"creator\": \"Steve Joe\",\n    \"isbn\": 24,\n    \"type\": \"NewspaperArticle\"\n}"
 				},
 				{
-					"name": "http://localhost:8080/createLibraryItem/",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/createLibraryItem/",
 					"originalRequest": {
 						"method": "POST",
 						"header": [],
@@ -2664,7 +2664,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/createLibraryItem/?name=Titanic&itemType=Movie&date=2001-05-08&isViewable=true&isbn=1&creator=James Cameron",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/createLibraryItem/?name=Titanic&itemType=Movie&date=2001-05-08&isViewable=true&isbn=1&creator=James Cameron",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -2745,12 +2745,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/deleteLibraryItem/",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/deleteLibraryItem/",
 			"request": {
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/deleteLibraryItem/?isbn=9",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/deleteLibraryItem/?isbn=9",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -2770,12 +2770,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/deleteLibraryItem/",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/deleteLibraryItem/",
 					"originalRequest": {
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/deleteLibraryItem/?isbn=1",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/deleteLibraryItem/?isbn=1",
 							"protocol": "http",
 							"host": [
 								"localhost"
