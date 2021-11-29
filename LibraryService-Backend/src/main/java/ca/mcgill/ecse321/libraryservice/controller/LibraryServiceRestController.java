@@ -155,6 +155,11 @@ public class LibraryServiceRestController {
         return service.getAllTimeSlots().stream().map(p -> convertToDto(p)).collect(Collectors.toList());
     }
 
+    @GetMapping(value = {"timeslot/view/librarianID/{userID}", "timeslot/view/librarianID/{userID}/"})
+    public List<TimeslotDTO> getTimeslotByLibrarianID(@PathVariable (name = "userID") int userID) throws Exception {
+        return service.getTimeSlotsFromLibrarian(userID).stream().map(p -> convertToDto(p)).collect(Collectors.toList());
+    }
+
     /**
      * assign a librarian to a timeslot
      * 
@@ -339,6 +344,14 @@ public class LibraryServiceRestController {
 		return accountDTO; 
 	}
 
+    @PutMapping(value = {"/updateBalance", "/updateBalance/"})
+	public UserAccountDTO updateBalance(@RequestParam int userID, @RequestParam int balance) {
+		UserAccountDTO accountDTO = new UserAccountDTO();
+		UserAccount  account = service.changeAccountBalance(balance, userID);
+		accountDTO = convertToDto(account);
+		return accountDTO; 
+	}
+
     /**
      * @author Gabrielle Halpin
 	 * Update Address of the user
@@ -445,9 +458,9 @@ public class LibraryServiceRestController {
      * @throws Exception
      */
     @PostMapping(value = { "/createPatron/{firstName}/{lastName}", "/createPatron/{firstName}/{lastName}/" })
-	public PatronDTO createPatron(@RequestParam int creatorID, @PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName, @RequestParam("onlineAccount") boolean onlineAccount, 
-            @RequestParam("address") String address, @RequestParam("validatedAccount") boolean validatedAccount, @RequestParam("password") String password,
-            @RequestParam("balance") int balance, @RequestParam("email") String email) throws Exception{
+	public PatronDTO createPatron(@RequestParam(name="creatorID") Integer creatorID, @PathVariable(name="firstName") String firstName, @PathVariable(name="lastName") String lastName, @RequestParam(name="onlineAccount") Boolean onlineAccount, 
+            @RequestParam(name="address") String address, @RequestParam(name="validatedAccount") boolean validatedAccount, @RequestParam(name="password") String password,
+            @RequestParam(name="balance") Integer balance, @RequestParam(name="email") String email) throws Exception{
 		Patron patron = service.createPatron( creatorID, firstName,  lastName,  onlineAccount,  address,  validatedAccount,  password,  balance,  email);
 	return convertToDto(patron);
 	}
@@ -574,6 +587,17 @@ public class LibraryServiceRestController {
             rooms.add(convertToDto(reservation));
         }
         return rooms;
+    }
+
+    @GetMapping(value = { "/transaction/viewall/id/{userID}", "/transaction/viewall/id/{userID}/"})
+    public List<TransactionDTO> getAllTransactionsPerUser(@PathVariable(name = "userID") int userID) {
+        List<TransactionDTO> transactions = new ArrayList<TransactionDTO>();
+        for (Transaction t : service.getAllTransactions()) {
+            if (t.getUserAccount().getUserID() == userID) {
+                transactions.add(convertToDto(t));
+            }
+        }
+        return transactions;
     }
   
     /** 
