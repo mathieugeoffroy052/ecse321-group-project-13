@@ -77,7 +77,7 @@ export default {
             var password1 = document.getElementById("input-password").value
             var onlineAccount1 = this.formUser.onlineAccount
             var email1 = document.getElementById("input-email").value
-            AXIOS.post('/createPatron/'.concat(firstName).concat("/").concat(lastName), {},{params: {creatorID:1, onlineAccount:onlineAccount1, address:address1, validatedAccount:true, password:password1, balance:balance1, email:email1}}).then (response => {
+            AXIOS.post('/createPatron/'.concat(firstName).concat("/").concat(lastName), {},{params: {creatorID:sessionStorage.getItem("existingUserID"), onlineAccount:onlineAccount1, address:address1, validatedAccount:true, password:password1, balance:balance1, email:email1}}).then (response => {
                 this.newPatron = response.data
             })
             .catch(e => {
@@ -86,7 +86,7 @@ export default {
             })
         },
         getShifts: function() {
-            var creatorID = 1
+            var creatorID = sessionStorage.getItem("existingUserID")
             AXIOS.get('/timeslot/view/librarianID/'.concat(creatorID)).then (response => {
                 this.currentShift = []
                 response.data.forEach(element => {
@@ -248,7 +248,7 @@ export default {
       },
       validateCurrentPatron: function() {
         var userID = parseInt(document.getElementById("input-userID").value)
-        AXIOS.put("/setAccountValidity", {}, {params: {patronID:userID, validatedAccount:true, creatorID:1}}).then (response => {
+        AXIOS.put("/setAccountValidity", {}, {params: {patronID:userID, validatedAccount:true, creatorID:sessionStorage.getItem("existingUserID")}}).then (response => {
           this.currentPatron = response.data
         }).catch(e => {
           alert(e.response.data.message)
