@@ -2501,30 +2501,71 @@ public class LibraryServiceService {
     
 
 	/**
-	 * Logout from user account.
+	 * Login from user account.
 	 * @param username
 	 * @return user
 	 * @throws InvalidInputException
-     * -Edited by Zoya: Added password parameter
+     * @author: Zoya
      */
     @Transactional
     public UserAccount loginUserAccount(int userID, String password) throws Exception {
         String error = "";
         if (userID < 1 || password == "") {
-            error += "ID cannot be 0 or negative and password cannot be empty";
+        	throw new IllegalArgumentException("ID cannot be 0 or negative and password cannot be empty");
         }
-
-        error = error.trim();
-        if (error.length() > 0) {
-            throw new IllegalArgumentException(error);
-        }
-
-        UserAccount account = userAccountRepository.findUserAccountByUserID(userID);
-        if (account != null)
-            return account;
-        else
-            throw new IllegalArgumentException("No user found with this ID!");
+        else {
+        	 UserAccount account = userAccountRepository.findUserAccountByUserID(userID);
+        	 if (account == null) {
+        		 throw new IllegalArgumentException("No user found with this ID!");
+        	 }
+        	 else if (!account.getPassword().equals(password)) {
+        		 throw new IllegalArgumentException("Username or password is incorrect.");
+        	 }
+        	 else {
+        		 //account.setToken(userID);
+ 				 userAccountRepository.save(account);
+ 				 return account; 
+        	 }
+        	
+        } 
+      
+  
     }
+    
+    
+    /**
+	 * Logout from user account.
+	 * @param username
+	 * @return user
+	 * @throws InvalidInputException
+     * @author: Zoya
+     */
+    @Transactional
+    public UserAccount logoutUserAccount(int userID) throws Exception {
+        String error = "";
+        if (userID < 1 ) {
+        	throw new IllegalArgumentException("ID cannot be 0 or negative");
+        }
+        else {
+        	 UserAccount account = userAccountRepository.findUserAccountByUserID(userID);
+        	 if (account == null) {
+        		 throw new IllegalArgumentException("No user found with this ID!");
+        	 }
+//        	 else if (account.getToken() == 0) {
+//        		 throw new IllegalArgumentException("The user cannot be found.");
+//        	 }
+        	 else {
+        		// account.setToken(0);
+ 				 userAccountRepository.save(account);
+ 				 return account; 
+        	 }
+        	
+        } 
+      
+       
+           
+    }
+    
 
 
 	

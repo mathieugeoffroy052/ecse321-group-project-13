@@ -1,4 +1,4 @@
-<template>
+ <template>
   <div id="Login">
     <section class="vh-100" style="background-color: #FFFFFF;">
       <div class="container py-5 h-100">
@@ -18,9 +18,10 @@
                   <input type="password" id="typePasswordX-2" class="form-control form-control-lg" />
                   <label class="form-label" for="typePasswordX-2">Password</label>
                 </div>
+                <b-button @click="login()">Login</b-button>
 
-                <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
-
+                <!-- <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button> -->
+                
                 <hr class="my-4">
 
                 <p>Don't have an account? <a href="../#/CreateAccount" class="link-info">Create an account</a></p>
@@ -33,7 +34,11 @@
     </section>
   </div>
 </template> 
-    <!-- <table>
+
+
+<!--
+<template>
+   <table>
       <tr>
           <td style="position:absolute; right:0px; left:0px;">
               <b-form-group id="input-group-1" label="UserID:" label-for="input-userID">
@@ -43,7 +48,7 @@
                   placeholder="Enter userID"
                   required
                 ></b-form-input>
-
+              </b-form-group>
               <b-form-group id="input-group-2" label="Password:" label-for="input-password">
                 <b-form-input
                   id="input-password"
@@ -56,7 +61,7 @@
 
           <td>
             <div style="position:absolute; right:0px; left:0px; top:350px">
-              <b-button v-bind:disabled="!existingUser" @click="getUser(UserID)">Login</b-button>
+              <b-button v-bind:disabled="!existingUser" @click="login()">Login</b-button>
               </div>
             <div style="position:absolute; right:0px; top:0px;">
               <b-button href='../#/CreateAccount'>Create Account</b-button>
@@ -64,14 +69,14 @@
           </td>
       </tr>
     </table>
-    <p style="position:absolute; top:300px; left:0px; right:0px;">
+    
+ </template>-->
+<p style="position:absolute; top:300px; left:0px; right:0px;">
       <span v-if="errorPatron" style="color:red;">Error: {{errorPatron}}</span>
     </p>
- -->
-
-<!--<script src="./login.js">
+<script src="./loginaccount.js">
 </script>
->--
+
 <style>
   #librarySystem {
     position: absolute;

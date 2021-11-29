@@ -1200,4 +1200,31 @@ public class TestUserAccountService {
         userAccountRepository.deleteAll();
 
     }
+    
+    /**
+	 * Login UserAccount successfully	
+	 * @author Zoya Malhi
+     * @throws Exception 
+	 */
+	@Test
+	public void testLoginUserAccountSuccessfully() throws Exception {
+		assertEquals(4, service.getAllUsers().size());
+
+		UserAccount user = null; 
+		try {
+			user = service.loginUserAccount(USER_ID, USER_PASSWORD);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+
+		assertNotNull(user);			
+		assertEquals(USER_ID, user.getUserID());
+		assertEquals(USER_PASSWORD, user.getPassword());
+		assertEquals(USER_FIRST_NAME, user.getFirstName());
+	}
+
+    
+    
+    
+    
 }
