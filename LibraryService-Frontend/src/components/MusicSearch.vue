@@ -2,6 +2,7 @@
   <div id="search">
     <div class="row">
       <div class="col">
+        <br>
         <h2>Music Albums</h2>
       </div>
     </div>
@@ -109,5 +110,5 @@
 </script>
 
 <style>
-  @import 'styling.css';
+  @import "styling.css";
 </style>

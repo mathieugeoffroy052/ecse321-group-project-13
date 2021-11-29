@@ -90,7 +90,7 @@
   </div>
 </template>
 
-<script src="./musicsearching.js">
+<script src="./newspapersearching.js">
 </script>
 
 <style>
