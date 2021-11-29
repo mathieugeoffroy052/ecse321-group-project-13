@@ -647,7 +647,7 @@
         <b-tab title="Library Items">
           <h3> Library Item </h3>
           <b-container>
-            <b-row>
+            <b-row class="shadow p-3 m-3 bg-white rounded">
               <b-col>
                 <b-form v-if="true">
                   <h7> Select a Type </h7>
@@ -705,7 +705,6 @@
                    <div>
                     <label for="demo-sb">Quantity</label>
                     <b-form-spinbutton id="demo-sb" v-model="value" min="1" max="20"></b-form-spinbutton>
-                    <p>Value: {{ value }}</p>
                   </div>
 
                   <b-row class="justify-content-center">
@@ -733,6 +732,7 @@
             </b-row>
             <b-row class="shadow p-3 m-3 bg-white rounded">
               <div class="w-100">
+                <h4> All Library Items </h4>
                 <b-table hover :items="currentItems"></b-table>
               </div>
             </b-row>
