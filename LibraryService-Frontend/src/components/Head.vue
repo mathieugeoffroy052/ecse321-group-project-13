@@ -644,12 +644,15 @@
             </b-row>
           </b-container>
         </b-tab>
-        <b-tab title="Library Items">
+        <b-tab title="Library Items" @click="getAllItems()">
           <h3> Library Item </h3>
           <b-container>
             <b-row class="shadow p-3 m-3 bg-white rounded">
               <b-col>
-                <b-form v-if="true">
+                <b-form 
+                v-if="true"
+                @submit="createItem()"
+                >
                   <h7> Select a Type </h7>
                   <b-form-select
                     class="mb-2"

@@ -220,15 +220,20 @@ export default {
           var creatorInput = this.formLibraryItem.creatorItem
           var num = this.formLibraryItem.numItems
           this.newBorroableItems = []
+          var stringReport = ''
           AXIOS.post('/createLibraryItem', {}, {params: {name: nameInput, itemType: typeInput, date: dateInput, isViewable: viewableInput, isbn: isbnInput, creator: creatorInput}}).then (response => {
             this.newLibraryItem = response.data
+            stringReport.concat("The item was created with ISBN: ").concat(this.newLibraryItem.isbn).concat(", with barcode(s): ")
             for(let i = 0; i < num; i++ ) {
-              AXIOS.post('/createBorrowableItem', {}, {params: {itemState:"Available", title: nameInput, creator: creatorInput }}).then (response => {
-                this.newBorroableItems.push(response.data)
+              AXIOS.post('/createBorrowableItem', {}, {params: {itemState:"Available", title: nameInput, creator: creatorInput }}).then (responseInner => {
+                this.newBorroableItems.push(responseInner.data)
+                stringReport.concat(responseInner.data.barCodeNumber).concat(", ")
               }).catch(e => {
                 alert(e.response.data.message)
               })
             }
+            this.getAllItems()
+            alert(stringReport)
           }).catch(e => {
             alert(e.response.data.message)
           })
