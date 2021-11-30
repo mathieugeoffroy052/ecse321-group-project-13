@@ -59,16 +59,15 @@ export default {
 
                 } else {
                     this.user = response.data
-                    sessionStorage.setItem("existingUserID", userID)
-                    this.redirectToItemSelect();
-                 
+                    sessionStorage.setItem("existingUserID", userID)  
+                    window.location.href='../#/item-select'; 
+                    window.location.reload(true); 
                 }
             })
             .catch(e => {
                 this.userAccounts = []
                 alert(e.response.data.message)
-                  
-              })
+            })
                     
         },
         onSubmit(event) {
