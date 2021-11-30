@@ -60,7 +60,7 @@ export default {
                 } else {
                     this.user = response.data
                     sessionStorage.setItem("existingUserID", userID)
-                    redirectToDashBoard();
+                    this.redirectToItemSelect();
                  
                 }
             })
@@ -76,8 +76,8 @@ export default {
             event.preventDefault()
             alert(JSON.stringify(this.form))
         },
-        redirectToDashBoard: function () {
-            window.location.href='../#/UserDashBoard';
+        redirectToItemSelect: function () {
+            window.location.href='../#/item-select';
         }
     }
 }
