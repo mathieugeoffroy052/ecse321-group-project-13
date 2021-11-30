@@ -2594,7 +2594,6 @@ public class LibraryServiceService {
      */
     @Transactional
     public UserAccount loginUserAccount(int userID, String password) throws Exception {
-        String error = "";
         if (userID < 1 || password == "") {
         	throw new IllegalArgumentException("ID cannot be 0 or negative and password cannot be empty");
         }
@@ -2627,7 +2626,6 @@ public class LibraryServiceService {
      */
     @Transactional
     public UserAccount logoutUserAccount(int userID) throws Exception {
-        String error = "";
         if (userID < 1 ) {
         	throw new IllegalArgumentException("ID cannot be 0 or negative");
         }
