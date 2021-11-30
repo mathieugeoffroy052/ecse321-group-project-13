@@ -63,6 +63,7 @@
                   >
                     <b-form-input
                       id="input-password"
+                      type="password"
                       v-model="form.password"
                       placeholder="Enter password"
                       required
@@ -73,7 +74,7 @@
                   <b-row class="justify-content-center">
                     <b-col class="p-3 ">
                       <b-button
-                        type="Create"
+                        type="submit"
                         class="float-right"
                         variant="primary"
                         style="width:76px;height:38"

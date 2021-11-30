@@ -58,5 +58,4 @@ export default {
             sessionStorage.setItem("existingUserID", null)
         }
     }
-
 }

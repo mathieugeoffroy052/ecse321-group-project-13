@@ -86,6 +86,9 @@ export default {
             this.login()
             event.preventDefault()
         },
+        redirectToItemSelect: function () {
+            window.location.href='../#/item-select';
+        },
         initializeSystem: function() {
             this.noUsers = false
             //create head librarian account

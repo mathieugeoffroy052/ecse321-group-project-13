@@ -651,8 +651,8 @@
               <b-col>
                 <b-form 
                 v-if="true"
-                @submit="onSubmitItem"
-                @reset="onResetItem" 
+                @submit="onSubmitItem()"
+                @reset="onResetItem()" 
                 >
                   <p> Select a Type </p>
                   <b-form-select

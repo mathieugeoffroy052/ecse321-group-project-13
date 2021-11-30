@@ -1913,17 +1913,29 @@ public class LibraryServiceService {
      * @param aPassword
      * @param aBalance
      * @param aEmail
+     * @param patronCreator
      * @return patron ADDED STUFF -ELO checked
+     * -Zoya add patronCreator param and updated checks
      */
     @Transactional
     public Patron createPatron(int userID, String aFirstName, String aLastName, boolean aOnlineAccount, String aAddress,
-            boolean aValidatedAccount, String aPassword, int aBalance, String aEmail) {
-
-        String error = "";
-        if (userID <= 0) {
-            throw new IllegalArgumentException("Invalid ID");
-        }
-        UserAccount creator = userAccountRepository.findUserAccountByUserID(userID);
+            boolean aValidatedAccount, String aPassword, int aBalance, String aEmail, boolean patronCreator) {
+    	String error = "";
+    	
+    	if (patronCreator == true) {
+    		
+    		if (userID <= 0) {
+    			throw new IllegalArgumentException("Invalid ID");
+    		}
+    		UserAccount creator = userAccountRepository.findUserAccountByUserID(userID);
+	    	if (creator == null) {
+	            throw new IllegalArgumentException("The creator does not exist");
+	        }
+	        if (creator instanceof Patron && aOnlineAccount == false) {
+	            throw new IllegalArgumentException("Only a Librarian can create an in-person account");
+	        }
+    	}
+        
         if ((aFirstName == null || aFirstName.trim().length() == 0) && error.length() == 0) {
             throw new IllegalArgumentException("First Name cannot be empty!");
         }
@@ -1939,12 +1951,7 @@ public class LibraryServiceService {
         if ((aEmail == null || aEmail.trim().length() == 0) && aOnlineAccount == true && error.length() == 0) {
             throw new IllegalArgumentException("Email cannot be empty!");
         }
-        if (creator == null) {
-            throw new IllegalArgumentException("The creator does not exist");
-        }
-        if (creator instanceof Patron && aOnlineAccount == false) {
-            throw new IllegalArgumentException("Only a Librarian can create an in-person account");
-        }
+        
 
         // the system will set the validity of the account to false, making sure that
         // the user goes to validate whether they are a resident or not.

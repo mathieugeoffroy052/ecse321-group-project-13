@@ -13,7 +13,9 @@
           <b-nav-item v-if="show == 1" href="./#/libraryservices">Services</b-nav-item>
         </b-navbar-nav>
       </b-collapse>
+
       <b-nav-item class="navbar-nav navbar-right" v-if="userID != 'null'" href="./" @click="logout()">Logout</b-nav-item>
+
     </b-navbar>
     <h1><img src="./assets/figmaBook.png" width="250" height="200">Group 13 Library System</h1>
     <router-view></router-view>

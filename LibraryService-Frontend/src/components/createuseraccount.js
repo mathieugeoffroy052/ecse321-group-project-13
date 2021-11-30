@@ -48,11 +48,13 @@ export default {
             var email1 = document.getElementById("input-email").value
             //var onlineAccount1 = document.getElementById("input-onlineAccount").value
 
-            AXIOS.post('/createPatron/'.concat(firstName).concat("/").concat(lastName), {},{params: {creatorID:1, address:address1, password:password1, email:email1}}).then (response => {
-                this.newUser = response.data
+            AXIOS.post('/createPatron/'.concat(firstName).concat("/").concat(lastName), {},{params: {creatorID:1, onlineAccount:true, address:address1, validatedAccount:false, password:password1, balance:0, email:email1, patronCreator:false}}).then (response => {
+                this.newPatron = response.data
+                sessionStorage.setItem("existingUserID", this.newPatron.userID)
+                this.redirectToItemSelect()
             })
             .catch(e => {
-                this.newUser = ''
+                this.newPatron = ''
                 alert(e.response.data.message)                
             })
         
@@ -91,7 +93,12 @@ export default {
           this.$nextTick(() => {
             this.show = true
           })
+        },
+          
+          redirectToItemSelect: function () {
+            window.location.href='../#/item-select';
+        }
         
       }
-    }
+    
 }
