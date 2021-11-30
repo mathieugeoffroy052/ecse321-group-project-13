@@ -47,8 +47,9 @@ export default {
         },
         createRoomTransaction: function () {
             console.log("entered create room transaction")
+            var theUserID = sessionStorage.getItem("existingUserID")
             var params = {
-                userID: 7,
+                userID: theUserID,
                 date: this.value,
             }
             AXIOS.post('/reserve-room', {}, {params})

@@ -607,17 +607,6 @@ public class LibraryServiceRestController {
         return convertToDto(t); 
     }
 
-    @GetMapping(value = { "/transaction/viewall/id/{userID}", "/transaction/viewall/id/{userID}/"})
-    public List<TransactionDTO> getAllTransactionsPerUser(@PathVariable(name = "userID") int userID) {
-        List<TransactionDTO> transactions = new ArrayList<TransactionDTO>();
-        for (Transaction t : service.getAllTransactions()) {
-            if (t.getUserAccount().getUserID() == userID) {
-                transactions.add(convertToDto(t));
-            }
-        }
-        return transactions;
-    }
-
     /**
      * Create a room reservation (transaction) between a user account and a room,
      * and convert to DTO
@@ -1073,7 +1062,6 @@ public class LibraryServiceRestController {
     }
 
     /**
-
      * Find all newspapers by title, and convert those objects to DTOs
      * 
      * @param movieTitle
@@ -1571,7 +1559,6 @@ public class LibraryServiceRestController {
     /**
      * This method converts a transaction DTO to a transaction object.
      * @author Zoya Malhi, Mathieu Geoffroy and Ramin Akhavan-Sarraf
-
      * @param transactionDTO
      * @return transaction
      */

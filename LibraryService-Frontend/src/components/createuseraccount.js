@@ -20,25 +20,23 @@ function PatronDTO(firstName, lastName, onlineAccount, password, balance, addres
     this.email = email;
     this.userID = userID;
 }
-
-
 export default {
-    name: 'createaccount',
+    name: 'createAccount',
     data () {
         return {
             form: {
                 firstName: '',
                 lastName: '',
                 address: '',
-                balance: '',
-                onlineAccount: false,
+               // balance: '',
+               // onlineAccount: false,
                 password: null,
                 email: null
             },
             newPatron: '',
             currentPatron: '',
             errorPatron: '',
-            response: []
+            response: [],
         }
     },
     methods: {
@@ -46,15 +44,15 @@ export default {
             var firstName = document.getElementById("input-firstName").value
             var lastName = document.getElementById("input-lastName").value
             var address1 = document.getElementById("input-address").value
-            var balance1 = document.getElementById("input-balance").value
             var password1 = document.getElementById("input-password").value
-            var onlineAccount1 = document.getElementById("input-onlineAccount").value
             var email1 = document.getElementById("input-email").value
-            AXIOS.post('/createPatron/'.concat(firstName).concat("/").concat(lastName), {},{params: {creatorID:1, onlineAccount:onlineAccount1, address:address1, validatedAccount:true, password:password1, balance:balance1, email:email1}}).then (response => {
-                this.newPatron = response.data
+            //var onlineAccount1 = document.getElementById("input-onlineAccount").value
+
+            AXIOS.post('/createPatron/'.concat(firstName).concat("/").concat(lastName), {},{params: {creatorID:1, address:address1, password:password1, email:email1}}).then (response => {
+                this.newUser = response.data
             })
             .catch(e => {
-                this.newPatron = ''
+                this.newUser = ''
                 alert(e.response.data.message)                
             })
         
@@ -66,10 +64,12 @@ export default {
             this.form.firstName = ''
             this.form.lastName = ''
             this.form.address = ''
-            this.form.email = ''
+            
             this.form.password = ''
-            this.form.balance = ''
-            this.form.onlineAccount = false
+            this.form.email = ''
+           // this.form.balance = 0
+           // this.form.onlineAccount = false
+
             // Trick to reset/clear native browser form validation state
             this.show = false
             this.$nextTick(() => {
@@ -82,17 +82,16 @@ export default {
           this.form.firstName = ''
           this.form.lastName = ''
           this.form.address = ''
-          this.form.email = ''
+          
           this.form.password = ''
-          this.form.balance = ''
-          this.form.onlineAccount = false
+          this.form.email = ''
+
           // Trick to reset/clear native browser form validation state
           this.show = false
           this.$nextTick(() => {
             this.show = true
           })
-        }
-      
-      
+        
+      }
     }
 }

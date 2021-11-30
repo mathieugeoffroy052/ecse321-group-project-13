@@ -1,28 +1,26 @@
 name: Deploying Vue to Heroku
 
-runs-on: macos-latest
-
 on:
   push:
     branches: 
-      - develop
+      - master
   pull_request:
     branches: 
-      - develop
-      
-      
+      - master
+          
 jobs:
   heroku-deploy:
+    runs-on: ubuntu-latest
     steps:
-      -uses: actions/checkout@master
-      -uses: actions/setup-node@master
-      -run: npm install
-      -run: npm run build
-      -uses: akhileshns/heroku-deploy@v3.12.12
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@master
+      - run: npm install
+      - name: Building the project
+      - run: npm run build
+      - uses: akhileshns/heroku-deploy@v3.12.12
       
-      with:
-        args: deploy --only hosting
-        heroku_api_key: c7d5df75-cbf0-4635-96c3-bba9306175e5
-        heroku_app_name: "libraryservice-backend-g13"
-        heroku_email: "gabrielle.halpin@mail.mcgill.ca"
-      
+        with:
+          args: deploy --only hosting
+          heroku_api_key: 6a5c0620-a1f0-42ee-bee7-40ba632aef4d
+          heroku_app_name: "libraryservice-backend-g13"
+          heroku_email: "gabrielle.halpin@mail.mcgill.ca"

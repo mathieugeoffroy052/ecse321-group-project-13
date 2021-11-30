@@ -72,6 +72,7 @@ export default {
         newPatron: '',
         existingPatron: '',
         errorPatron: '',
+        alertColour: 'light',
         response: []
       }
     },
@@ -94,7 +95,8 @@ export default {
       },
 
     methods: {
-      createReserveTransaction: function (aPatronID) {
+      createReserveTransaction: function () {
+        var aPatronID = sessionStorage.getItem("existingUserID")
         var anIsbn = undefined
         if(document.querySelector('input[type="radio"]:checked') != null){
           anIsbn = document.querySelector('input[type="radio"]:checked').value;
@@ -124,6 +126,7 @@ export default {
                       this.errorTransaction = ''
                       this.newTransaction = ''
                       document.getElementById("transaction").innerHTML = "Transaction Complete!"
+                      this.alertColour = 'success'
                       //alert("Transaction complete!")
                     })
                     .catch(e => {
@@ -226,6 +229,7 @@ export default {
       resetMessages : function(){
         document.getElementById("invalidInput").innerHTML = ""
         document.getElementById("transaction").innerHTML = ""
+        this.alertColour = 'light'
       },
       redirectToItemSelect : function(){
         window.location.href='../#/item-select';
