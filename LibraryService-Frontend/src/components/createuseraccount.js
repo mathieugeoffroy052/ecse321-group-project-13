@@ -48,7 +48,7 @@ export default {
             var email1 = document.getElementById("input-email").value
             //var onlineAccount1 = document.getElementById("input-onlineAccount").value
 
-            AXIOS.post('/createPatron/'.concat(firstName).concat("/").concat(lastName), {},{params: {creatorID:1, onlineAccount:true, password:password1, balance:0, address:address1, validatedAccount:false,  email:email1}}).then (respons,e => {
+            AXIOS.post('/createPatron/'.concat(firstName).concat("/").concat(lastName), {},{params: {onlineAccount:true, address:address1, validatedAccount:true, password:password1, balance:0, email:email1, patronCreator:false}}).then (respons,e => {
                 this.newUser = response.data
             })
             .catch(e => {

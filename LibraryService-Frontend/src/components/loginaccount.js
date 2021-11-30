@@ -60,7 +60,8 @@ export default {
                 } else {
                     this.user = response.data
                     sessionStorage.setItem("existingUserID", userID)
-                    //window.location.href='../#/'; 
+                    redirectToDashBoard();
+                 
                 }
             })
             .catch(e => {
@@ -74,6 +75,9 @@ export default {
             login()
             event.preventDefault()
             alert(JSON.stringify(this.form))
+        },
+        redirectToDashBoard: function () {
+            window.location.href='../#/UserDashBoard';
         }
     }
 }

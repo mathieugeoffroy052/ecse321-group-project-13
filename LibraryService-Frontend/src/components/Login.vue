@@ -18,7 +18,7 @@
                   <input type="password" id="typePasswordX-2" class="form-control form-control-lg" />
                   <label class="form-label" for="typePasswordX-2">Password</label>
                 </div>
-                <b-button @click="login()">Login</b-button>
+                <b-button @click="login();">Login</b-button>
 
                 <!-- <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button> -->
                 
