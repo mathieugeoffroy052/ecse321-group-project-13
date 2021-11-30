@@ -21,7 +21,6 @@ export default {
         }
     },
 
-
     created: function () {
         var userID = sessionStorage.getItem("existingUserID")
         if (userID != '') {
@@ -43,11 +42,13 @@ export default {
           }
     },
    methods: {
+     /* Allows user to update their password */
      updatePassword: function ()
      {
-         var password= document.getElementById("updatePassword").value
-         var password2= document.getElementById("updatePassword1").value
-        if(password==password2) {
+        // retrieve the inputs from both text fields
+        var password= document.getElementById("updatePassword").value
+        var password2= document.getElementById("updatePassword1").value
+        if(password==password2) {  // if the new passwords match
             AXIOS.put('/updatePassword/', {},{params:{password: password2, userID: this.currentPatron.userID }}).then (response => {
               this.currentPatron.password = response.data.password
             }).catch (e => {
@@ -56,6 +57,7 @@ export default {
         }
         else alert("passwords do not match")
     }, 
+    /* Allows user to update their email */
     updateEmail: function ()
     {
         var emailnew= document.getElementById("updateEmail").value
@@ -65,6 +67,7 @@ export default {
             alert(e.response.data.message) 
         })
    }, 
+   /* Use GET HTTP request to retrieve all of transactions associated to the currently logged-in user */
    getTransactionsForPatron: function() {
     var userID = sessionStorage.getItem("existingUserID")
     this.currentPatronTransactions = []
