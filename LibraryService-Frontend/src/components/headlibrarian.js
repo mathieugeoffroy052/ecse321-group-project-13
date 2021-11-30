@@ -736,13 +736,7 @@ export default {
       },
       loadPatronInfo: function() {
         this.getPatron()
-        this.
-        
-        
-        
-        
-        
-        ()
+        this.getTransactionsForPatron()
       },
       /* Allows librarians to reset balance for any user account */
       resetBalance: function() {
