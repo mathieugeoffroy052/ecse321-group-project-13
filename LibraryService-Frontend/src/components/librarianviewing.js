@@ -9,29 +9,6 @@ var AXIOS = axios.create({
   headers: { 'Access-Control-Allow-Origin': frontendUrl }
 })
 
-function PatronDTO(firstName,  lastName,  onlineAccount,  address,  validatedAccount,  passWord,  balance,  email,  patronID)
-{
-  this.firstName = firstName;
-  this.lastName = lastName;
-  this.onlineAccount = onlineAccount;
-  this.address = address;
-  this.validatedAccount = validatedAccount;
-  this.passWord = passWord;
-  this.balance = balance;
-  this.email = email;
-  this.userID = userID;
-}
-
-
-function TransactionDTO(type, deadline, borrowableItem, userAccount, transactionID)
-{
-  this.transactionType = type;
-  this.deadline = deadline;
-  this.borrowableItem = borrowableItem;
-  this.userAccount = userAccount;
-  this.transactionID = transactionID;
-}
-
 export default {
     name: 'librarianview',
     data () {
@@ -71,6 +48,7 @@ export default {
         }
     },
     methods: {
+        /* Allows librarians to create a patron account (user is automatically validated in this case)*/
         createPatron: function() {
             var firstName = document.getElementById("input-firstName").value
             var lastName = document.getElementById("input-lastName").value
@@ -146,7 +124,7 @@ export default {
               this.currentPatron = response.data
               this.isLibrarian = false
           })
-          .catch(e => {
+          .catch(() => {
             AXIOS.get('/account/'.concat(userID)).then (response => {
               this.currentPatron = response.data
               this.isLibrarian = true
@@ -180,6 +158,10 @@ export default {
         this.getPatron()
         this.getTransactionsForPatron()
       },
+      /* 
+      * Allows librarians to create certain transactions (borrow, return, renew, waitlist, reserve room)
+      *  associated to any user based on the inputted user ID
+      */
       newTransaction: function() {
         var userIDInput = document.getElementById("input-userID").value
         var transactionType = document.getElementById("input-transactiontype").value
@@ -253,6 +235,7 @@ export default {
         if (document.getElementById("input-userID") == null) return false
         return document.getElementById("input-transactiontype").value == "Reserve-Room"
       },
+      /* Allows librarians to validated any user (patron) account */
       validateCurrentPatron: function() {
         var userID = parseInt(document.getElementById("input-userID").value)
         AXIOS.put("/setAccountValidity", {}, {params: {patronID:userID, validatedAccount:true, creatorID:sessionStorage.getItem("existingUserID")}}).then (response => {
@@ -261,6 +244,7 @@ export default {
           alert(e.response.data.message)
         })
       },
+      /* Allows librarians to reset balance for any user account */
       resetBalance: function() {
         var userIDInput = document.getElementById("input-userID").value
         AXIOS.put("/updateBalance", {}, {params: {balance:0, userID:userIDInput}}).then (response => {

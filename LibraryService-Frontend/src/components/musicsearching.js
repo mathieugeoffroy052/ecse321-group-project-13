@@ -9,16 +9,6 @@ var AXIOS = axios.create({
   headers: { 'Access-Control-Allow-Origin': frontendUrl }
 })
 
-function LibraryItemDTO(name, itemType, date, creator, isViewable, isbn)
-{
-  this.name = name;
-  this.date = date;
-  this.itemType = itemType;
-  this.creator = creator;
-  this.isViewable = isViewable;
-  this.isbn = isbn;
-}
-
 function TransactionDTO(type, deadline, borrowableItem, userAccount, transactionID)
 {
   this.transactionType = type;
@@ -31,25 +21,6 @@ function TransactionDTO(type, deadline, borrowableItem, userAccount, transaction
 function TransactionDTO(type, borrowableItem, userAccount){
   this(type, Date.parse("2001-01-01"), borrowableItem, userAccount);
 }
-
-function BorrowableItemDTO(state, item, barCodeNumber){
-  this.state = state;
-  this.libraryItem = item;
-  this.barCodeNumber = barCodeNumber;
-}
-
-function PatronDTO(firstName, lastName, onlineAccount, address, validatedAccount, password, balance, email, patronID){
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.password = password;
-    this.balance = balance;
-    this.email = email;
-    this.onlineAccount = onlineAccount;
-    this.address = address;
-    this.validatedAccount = validatedAccount;
-    this.patronID = patronID;
-}
-
 
 export default {
     name: 'musicsearch',
@@ -95,6 +66,10 @@ export default {
       },
 
     methods: {
+      /*
+      * Creates a reserve transaction between the currently logged-in
+      * user and the library item selected from the list
+      */
       createReserveTransaction: function () {
         var aPatronID = sessionStorage.getItem("existingUserID")
         var anIsbn = undefined
@@ -104,13 +79,15 @@ export default {
         else{
           alert("No library item was selected")
         }
-        if(anIsbn != undefined){
+        if(anIsbn != undefined){   // if a library item is selected
           var params = {
             isbn: anIsbn
           }
+          // GET all borrowable items associated with that library item (with the unique isbn)
           AXIOS.get('/items/isbn/', {params})
           .then(response => {
               this.existingBorrowableItems = response.data
+              // Loop through borrowable items to see if there are any available for reservation
               if(this.existingBorrowableItems != []){
                 var aBarCodeNumber = undefined
                 for (let i = 0; i < this.existingBorrowableItems.length; i++) {
@@ -118,8 +95,7 @@ export default {
                       aBarCodeNumber = this.existingBorrowableItems[i]["barCodeNumber"]
                   }
                 }
-                // this.this.existingBorrowableItems.pop()["barCode"]
-                if(aBarCodeNumber != undefined){
+                if(aBarCodeNumber != undefined){   // at least one available borrowable item was found
                   var params = {
                     barCodeNumber: aBarCodeNumber,
                     userID: aPatronID
@@ -131,7 +107,6 @@ export default {
                       this.newTransaction = ''
                       document.getElementById("transaction").innerHTML = "Transaction Complete!"
                       this.alertColour = 'success'
-                      //alert("Transaction complete!")
                     })
                     .catch(e => {
                       var errorMessage = e.response.data.message
@@ -139,7 +114,7 @@ export default {
                       this.errorTransaction = errorMessage
                     })
                 }
-                else{
+                else{    // no available borrowable items were found
                   alert("No available item found")
                 }
               }
@@ -153,6 +128,13 @@ export default {
           this.existingBorrowableItem = ''
         }
       },
+      /*
+      * Runs a (filtered) search depending on the inputs of the
+      *   "title" and "creator" text field
+      * Updating this.libraryItems list (based on the response of the
+      *    GET HTTP request) will allow the items displayed on the frontend
+      *    in the search results to be updated accordingly
+      */
       runSearch : function(){
         var requestedTitle = document.getElementById("requestedTitle").value
         var requestedArtist = document.getElementById("requestedArtist").value
@@ -229,6 +211,7 @@ export default {
           } 
         }
       },
+      /* Reset the messages displayed on the UI */
       resetMessages : function(){
         document.getElementById("invalidInput").innerHTML = ""
         document.getElementById("transaction").innerHTML = ""

@@ -9,16 +9,6 @@ var AXIOS = axios.create({
   headers: { 'Access-Control-Allow-Origin': frontendUrl }
 })
 
-function LibraryItemDTO(name, itemType, date, creator, isViewable, isbn)
-{
-  this.name = name;
-  this.date = date;
-  this.itemType = itemType;
-  this.creator = creator;
-  this.isViewable = isViewable;
-  this.isbn = isbn;
-}
-
 function TransactionDTO(type, deadline, borrowableItem, userAccount, transactionID)
 {
   this.transactionType = type;
@@ -31,25 +21,6 @@ function TransactionDTO(type, deadline, borrowableItem, userAccount, transaction
 function TransactionDTO(type, borrowableItem, userAccount){
   this(type, Date.parse("2001-01-01"), borrowableItem, userAccount);
 }
-
-function BorrowableItemDTO(state, item, barCodeNumber){
-  this.state = state;
-  this.libraryItem = item;
-  this.barCodeNumber = barCodeNumber;
-}
-
-function PatronDTO(firstName, lastName, onlineAccount, address, validatedAccount, password, balance, email, patronID){
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.password = password;
-    this.balance = balance;
-    this.email = email;
-    this.onlineAccount = onlineAccount;
-    this.address = address;
-    this.validatedAccount = validatedAccount;
-    this.patronID = patronID;
-}
-
 
 export default {
     name: 'newspapersearch',
@@ -94,6 +65,13 @@ export default {
       },
 
     methods: {
+      /*
+      * Runs a (filtered) search depending on the inputs of the
+      *   "title" and "creator" text field
+      * Updating this.libraryItems list (based on the response of the
+      *    GET HTTP request) will allow the items displayed on the frontend
+      *    in the search results to be updated accordingly
+      */
       runSearch : function(){
         var requestedTitle = document.getElementById("requestedTitle").value
         var requestedWriter = document.getElementById("requestedWriter").value
@@ -170,9 +148,9 @@ export default {
           } 
         }
       },
+      /* Reset the messages displayed on the UI */
       resetMessages : function(){
         document.getElementById("invalidInput").innerHTML = ""
-        document.getElementById("transaction").innerHTML = ""
       },
       redirectToItemSelect : function(){
         window.location.href='../#/item-select';

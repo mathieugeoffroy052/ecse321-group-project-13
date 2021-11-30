@@ -17,7 +17,6 @@ export default {
       }
     },
 
-
     methods: {
       redirectToBook: function () {
         window.location.href='../#/book';
