@@ -1,13 +1,25 @@
 <template>
   <div id="app">
+    <b-navbar toggleable="lg" type="dark" variant="dark" >
+      <b-navbar-brand href="./">Home</b-navbar-brand>
+
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+      <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav>
+          <b-nav-item v-if="userID != null" href="./#/item-select">Item Selection</b-nav-item>
+          <b-nav-item v-if="userID != null" href="./#/room">Room Booking</b-nav-item>
+          <b-nav-item v-if="userID != null" href="./#/userDashBoard">Dashboard</b-nav-item>
+          <b-nav-item v-if="show == 2" href="./#/headlibraryservices">Services</b-nav-item>
+          <b-nav-item v-if="show == 1" href="./#/libraryservices">Services</b-nav-item>
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
     <h1><img src="./assets/figmaBook.png" width="250" height="200">Group 13 Library System</h1>
     <router-view></router-view>
   </div>
 </template>
-<script>
-export default {
-  name: 'app'
-}
+<script src="./loadapp.js">
 </script>
 
 <style>
@@ -17,6 +29,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 0px;
 }
 </style>
