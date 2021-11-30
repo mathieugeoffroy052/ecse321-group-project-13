@@ -32,11 +32,9 @@ jobs:
   
   deploy:
     needs: build
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-      name: Install Heroku Cli
-    - run: curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
     - uses: akhileshns/heroku-deploy@v3.12.12
       with:
         heroku_api_key: 6a5c0620-a1f0-42ee-bee7-40ba632aef4d
