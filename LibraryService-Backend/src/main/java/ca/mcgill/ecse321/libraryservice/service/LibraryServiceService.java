@@ -2034,6 +2034,31 @@ public class LibraryServiceService {
     }
 
     /**
+     * Update the isbn of the library item and save it with the daabase
+     * @param isbn
+     * @param item
+     * @return the updated library item
+     * @author Mathieu Geoffroy
+     */
+    @Transactional
+    public LibraryItem updateISBN(int isbn, LibraryItem item) {
+        item.setIsbn(isbn);
+        libraryItemRepository.save(item);
+        return item;
+    }
+
+    @Transactional
+    public boolean deleteLibraryItem(LibraryItem libraryItem) {
+        try {
+           libraryItemRepository.delete(libraryItem); 
+        } catch (Exception e) {
+            return false;
+        }
+        
+        return true;
+    }
+
+    /**
      * This method deletes an existing borrowable item
      * 
      * @param barCodeNumber

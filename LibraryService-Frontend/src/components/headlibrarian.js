@@ -136,7 +136,7 @@ export default {
               {value: 'Book', text: 'Book'},
               {value: 'Movie', text: 'Movie'},
               {value: 'Music', text: 'Music'},
-              {value: 'Room', text: 'Room'}
+              {value: 'NewspaperArticle', text: 'Newspaper Article'}
             ]
         }
     },
@@ -157,7 +157,7 @@ export default {
             
             if(this.selectedUser == "Patron"){
 
-                AXIOS.post('/createPatron/'.concat(firstName).concat("/").concat(lastName), {},{params: {creatorID, onlineAccount:onlineAccount1, address:address1, validatedAccount:true, password:password1, balance:balance1, email:email1}}).then (response => {
+                AXIOS.post('/createPatron/'.concat(firstName).concat("/").concat(lastName), {},{params: {creatorID, onlineAccount:onlineAccount1, address:address1, validatedAccount:true, password:password1, balance:balance1, email:email1, patronCreator:true}}).then (response => {
                     this.newPatron = response.data
                     alert("The Patrons user ID is: ".concat(this.newPatron.userID))  
                 })
@@ -170,6 +170,7 @@ export default {
               var userID = sessionStorage.getItem("existingUserID")
                 AXIOS.post('/createLibrarian/'.concat(firstName).concat("/").concat(lastName), {},{params: {online: onlineAccount1, address: address1, password: password1, balance: balance1, email: email1, userID}}).then (response => {
                     this.newLibrarian = response.data
+                    alert("The Librarian user ID is: ".concat(this.newLibrarian.userID))
                 })
                 .catch(e => {
                     this.newLibrarian = ''
@@ -216,26 +217,24 @@ export default {
           var viewableInput = this.formLibraryItem.isViewable
           var isbnInput = this.formLibraryItem.ISBN
           var creatorInput = this.formLibraryItem.creatorItem
-          var num = this.formLibraryItem.numItems
+          var num = this.numItems
           this.newBorrowableItems = []
           var stringReport = ''
           AXIOS.post('/createLibraryItem', {}, {params: {name: nameInput, itemType: typeInput, date: dateInput, isViewable: viewableInput, isbn: isbnInput, creator: creatorInput}}).then (response => {
             this.newLibraryItem = response.data
-            stringReport.concat("The item was created with ISBN: ".concat(this.newLibraryItem.isbn).concat(", with barcode(s): "))
-            for(let i = 0; i < num; i++ ) {
-              AXIOS.post('createBorrowableItem', {}, {params: {creator: creatorInput, title: nameInput, itemState:"Available"}}).then (responseInner => {
-                this.newBorrowableItems.push(responseInner.data)
-                stringReport.concat(responseInner.data.barCodeNumber.concat(", "))
-              }).catch(e => {
-                alert(e.responseInner.data.message)
-              })
-            }
-            this.getAllItems()
-            alert(stringReport)
+            this.createBorrowableItem(num)
           }).catch(e => {
             alert(e.response.data.message)
           })
-
+        },
+        createBorrowableItem: function(numOfRecs) {
+          AXIOS.post('/createBorrowableItem', {}, {params: {creator: this.newLibraryItem.creator, title: this.newLibraryItem.name, itemState:"Available", isbn: this.newLibraryItem.isbn}}).then (response => {
+            this.newBorrowableItems.push(response.data)
+            if (numOfRecs > 1) this.createBorrowableItem(numOfRecs-1)
+            else this.getAllItems()
+          }).catch(e => {
+            alert(e.response.data.message)
+          })
         },
         assignTimeslot: function() {
           var currentUserID = sessionStorage.getItem("existingUserID")
@@ -251,7 +250,6 @@ export default {
         onSubmitUSER(event) {
             this.createUser()
             event.preventDefault()
-            alert(JSON.stringify(this.formUser))
             this.formUser.firstName = ''
             this.formUser.lastName = ''
             this.formUser.address = ''
@@ -372,12 +370,13 @@ export default {
         onResetItem(event) {
           event.preventDefault()
           // Reset our form values
-          this.formTimeslot.title = ''
-          this.formTimeslot.creatorItem = ''
-          this.selectedType = '',
-          this.formLibraryItem.isViewable = '',
-          this.numItems = '',
-          this.isViewable = false
+          this.formLibraryItem.name = ''
+          this.formLibraryItem.creatorItem = ''
+          this.formLibraryItem.date =''
+          this.selectedType = ''
+          this.numItems = 1
+          this.formLibraryItem.ISBN = ''
+          this.formLibraryItem.isViewable = false
           // Trick to reset/clear native browser form validation state
           this.show = false
           this.$nextTick(() => {
@@ -387,12 +386,13 @@ export default {
         onSubmitItem(event) {
           this.createItem()
           event.preventDefault()
-          this.formTimeslot.title = ''
-          this.formTimeslot.creatorItem = ''
-          this.selectedType = '',
-          this.formLibraryItem.isViewable = '',
-          this.numItems = '',
-          this.isViewable = false
+          this.formLibraryItem.name = ''
+          this.formLibraryItem.creatorItem = ''
+          this.formLibraryItem.date =''
+          this.formLibraryItem.ISBN = ''
+          this.selectedType = ''
+          this.numItems = 1
+          this.formLibraryItem.isViewable = false
           // Trick to reset/clear native browser form validation state
           this.show = false
           this.$nextTick(() => {
@@ -734,17 +734,6 @@ export default {
       isReservingRoom: function() {
         if (document.getElementById("input-userID") == null) return false
         return document.getElementById("input-transactiontype").value == "Reserve-Room"
-      },
-      getTransactionsForPatron: function() {
-        var userID = document.getElementById("input-userID").value
-        AXIOS.get('/transaction/viewall/id/'.concat(userID)).then (response => {
-          response.data.forEach(element => {
-            this.currentPatronTransactions.push({ Name: element.borrowableItem.libraryItem.name, Creator: element.borrowableItem.libraryItem.creator, Item: element.borrowableItem.libraryItem.type, Type: element.transactionType, Deadline: element.deadline }) 
-          })
-        }).catch(e => {
-          this.currentPatronTransactions = []
-          alert(e.response.data.message)
-        })
       },
       validateCurrentPatron: function() {
         var userID = parseInt(document.getElementById("input-userID").value)

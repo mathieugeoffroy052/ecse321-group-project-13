@@ -692,7 +692,7 @@
                     <input
                       class="form-check-input"
                       type="checkbox"
-                      value="false"
+                      value=false
                       v-model="formLibraryItem.isViewable"
                     />
                     <label class="form-check-label">

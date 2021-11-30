@@ -9,13 +9,13 @@
           <b-row>
             <b-col>
               <b-badge
-                v-if="currentPatron.validatedAccount"
+                v-if="currentPatron.validatedAccount || isLibrarian"
                 href="#"
                 variant="success"
                 >Validated</b-badge
               >
               <b-badge
-                v-if="!currentPatron.validatedAccount"
+                v-if="!currentPatron.validatedAccount && !isLibrarian"
                 href="#"
                 variant="danger"
                 >Unvalidated</b-badge

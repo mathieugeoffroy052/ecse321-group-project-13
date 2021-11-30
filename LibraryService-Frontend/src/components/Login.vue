@@ -4,6 +4,8 @@
       <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
           <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+            <p v-if="noUsers">It appears the system has been reset, please initialize it:</p>
+            <b-button v-if="noUsers" class="mb-5" variant="warning" @click="initializeSystem()">Initialize System</b-button>
             <div class="card shadow-2-strong" style="border-radius: 1rem;">
               <div class="card-body p-5 text-center">
 
@@ -18,13 +20,12 @@
                   <input type="password" id="typePasswordX-2" class="form-control form-control-lg" />
                   <label class="form-label" for="typePasswordX-2">Password</label>
                 </div>
-                <b-button @click="login();">Login</b-button>
 
-                <!-- <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button> -->
-                
+                <b-button @click="login()" variant="primary">Login</b-button>
+
                 <hr class="my-4">
 
-                <p>Don't have an account? <a href="../#/CreateAccount" class="link-info">Create an account</a></p>
+                <p v-if="!noUsers">Don't have an account? <a href="../#/CreateAccount" class="link-info">Create an account</a></p>
 
               </div>
             </div>
@@ -35,42 +36,6 @@
   </div>
 </template> 
 
-
-<!--
-<template>
-   <table>
-      <tr>
-          <td style="position:absolute; right:0px; left:0px;">
-              <b-form-group id="input-group-1" label="UserID:" label-for="input-userID">
-                <b-form-input
-                  id="input-userID"
-                  v-model="form.userID"
-                  placeholder="Enter userID"
-                  required
-                ></b-form-input>
-              </b-form-group>
-              <b-form-group id="input-group-2" label="Password:" label-for="input-password">
-                <b-form-input
-                  id="input-password"
-                  v-model="form.password"
-                  placeholder="Enter password"
-                  required
-                ></b-form-input>
-              </b-form-group>
-          </td>
-
-          <td>
-            <div style="position:absolute; right:0px; left:0px; top:350px">
-              <b-button v-bind:disabled="!existingUser" @click="login()">Login</b-button>
-              </div>
-            <div style="position:absolute; right:0px; top:0px;">
-              <b-button href='../#/CreateAccount'>Create Account</b-button>
-              </div>
-          </td>
-      </tr>
-    </table>
-    
- </template>-->
 <p style="position:absolute; top:300px; left:0px; right:0px;">
       <span v-if="errorPatron" style="color:red;">Error: {{errorPatron}}</span>
     </p>

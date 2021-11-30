@@ -32,20 +32,28 @@ export default {
                 userID: '', 
                 password: ''
             },
-            existingUser: '',
+            existingUsers: '',
             errorUser: '',
-            response: []
+            response: [],
+            noUsers: '',
+            headLibrarianAcc: '',
+            room: ''
         }
     },
 
     created: function () {
         // Initializing userAccounts from backend
-        AXIOS.get('/account')
+        AXIOS.get('/accounts')
         .then(response => {
-          this.existingUser = response.data
+          this.existingUsers = response.data
+          this.noUsers = false
         })
         .catch(e => {
-          this.errorUser = e
+          if (e.response.data.message == "There are no Users in the system") {
+              this.noUsers = true
+          } else {
+              alert(e.response.data.message)
+          }
         })
     },
     methods: {
@@ -53,30 +61,54 @@ export default {
             var userID = document.getElementById("typeUserIDX-2").value;
             var password = document.getElementById("typePasswordX-2").value;
             AXIOS.get('/account/'.concat(userID)).then (response => {
+                this.user = response.data
                 if (password != response.data.password) {
                     this.errorUser = "Incorrect password."
                     alert(this.errorUser)
-
+                } else if (!this.user.onlineAccount) {
+                    this.errorUser = "This is not an online account."
+                    alert(this.errorUser)
                 } else {
-                    this.user = response.data
                     sessionStorage.setItem("existingUserID", userID)  
                     window.location.href='../#/item-select'; 
                     window.location.reload(true); 
                 }
             })
             .catch(e => {
+                this.user = ''
+                this.errorUser = ''
                 this.userAccounts = []
                 alert(e.response.data.message)
             })
                     
         },
         onSubmit(event) {
-            login()
+            this.login()
             event.preventDefault()
-            alert(JSON.stringify(this.form))
         },
         redirectToItemSelect: function () {
             window.location.href='../#/item-select';
+        },
+        initializeSystem: function() {
+            this.noUsers = false
+            //create head librarian account
+            AXIOS.post('/createHeadLibrarian', {}, {params: {firstName:"Linda", lastName:"Ross", online:true, address:"3456 avenue McGill, Montreal, Quebec", password:"headlibrarianpassword", balance:0, email:"linda.ross@gmail.com"}}).then (response => {
+                this.headLibrarianAcc = response.data
+                //create single room in the library
+                AXIOS.post('/createLibraryItem', {}, {params: {name:"Room", itemType:"Room", date:"2021-01-01", isViewable:false, isbn:87675, creator:"Group 13 Library System"}}).then (response => {
+                    this.room = response.data
+                    AXIOS.post('/createBorrowableItem', {}, {params: {creator: this.room.creator, title: this.room.name, itemState:"Available", isbn: this.room.isbn}}).then (response => {
+                        
+                      }).catch(e => {
+                        alert(e.response.data.message)
+                      })
+                  }).catch(e => {
+                    alert(e.response.data.message)
+                  })
+                alert("System Initialized.\n".concat("HeadLibrarian userID: ").concat(this.headLibrarianAcc.userID).concat(", password: ").concat(this.headLibrarianAcc.password).concat("\nThe single bookable room in the library was also created."))
+              }).catch(e => {
+                alert(e.response.data.message)
+              })
         }
     }
 }

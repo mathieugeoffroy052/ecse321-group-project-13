@@ -5,6 +5,7 @@
       <b-navbar-brand v-if="userID != 'null'"  href="./#/item-select">Home</b-navbar-brand>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
+          <b-nav-item href="./#/libraryinformation">Library Information</b-nav-item>
           <b-nav-item v-if="userID != 'null' && userID != 0" href="./#/item-select">Item Selection</b-nav-item>
           <b-nav-item v-if="userID != 'null' && userID != 0" href="./#/room">Room Booking</b-nav-item>
           <b-nav-item v-if="userID != 'null' && userID != 0" href="./#/userDashBoard">Dashboard</b-nav-item>
