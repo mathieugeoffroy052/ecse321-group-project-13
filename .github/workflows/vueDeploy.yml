@@ -1,14 +1,14 @@
 name: Deploying Vue to Heroku
 
-runs-on: macos-latest
+runs-on: ubuntu-latest
 
 on:
   push:
     branches: 
-      - develop
+      - master
   pull_request:
     branches: 
-      - develop
+      - master
       
       
 jobs:
