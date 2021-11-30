@@ -18,10 +18,8 @@
                   <input type="password" id="typePasswordX-2" class="form-control form-control-lg" />
                   <label class="form-label" for="typePasswordX-2">Password</label>
                 </div>
-                <b-button @click="login()">Login</b-button>
+                <b-button @click="login()" variant="primary">Login</b-button>
 
-                <!-- <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button> -->
-                
                 <hr class="my-4">
 
                 <p>Don't have an account? <a href="../#/CreateAccount" class="link-info">Create an account</a></p>

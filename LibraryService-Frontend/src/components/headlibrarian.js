@@ -157,7 +157,7 @@ export default {
             
             if(this.selectedUser == "Patron"){
 
-                AXIOS.post('/createPatron/'.concat(firstName).concat("/").concat(lastName), {},{params: {creatorID, onlineAccount:onlineAccount1, address:address1, validatedAccount:true, password:password1, balance:balance1, email:email1}}).then (response => {
+                AXIOS.post('/createPatron/'.concat(firstName).concat("/").concat(lastName), {},{params: {creatorID, onlineAccount:onlineAccount1, address:address1, validatedAccount:true, password:password1, balance:balance1, email:email1, patronCreator:true}}).then (response => {
                     this.newPatron = response.data
                     alert("The Patrons user ID is: ".concat(this.newPatron.userID))  
                 })
@@ -250,7 +250,6 @@ export default {
         onSubmitUSER(event) {
             this.createUser()
             event.preventDefault()
-            alert(JSON.stringify(this.formUser))
             this.formUser.firstName = ''
             this.formUser.lastName = ''
             this.formUser.address = ''

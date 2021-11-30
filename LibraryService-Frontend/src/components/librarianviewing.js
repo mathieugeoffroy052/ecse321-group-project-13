@@ -84,7 +84,7 @@ export default {
                email1= document.getElementById("input-email").value
             }
 
-            AXIOS.post('/createPatron/'.concat(firstName).concat("/").concat(lastName), {},{params: {creatorID:sessionStorage.getItem("existingUserID"), onlineAccount:onlineAccount1, address:address1, validatedAccount:true, password:password1, balance:balance1, email:email1}}).then (response => {
+            AXIOS.post('/createPatron/'.concat(firstName).concat("/").concat(lastName), {},{params: {creatorID:sessionStorage.getItem("existingUserID"), onlineAccount:onlineAccount1, address:address1, validatedAccount:true, password:password1, balance:balance1, email:email1, patronCreator:true}}).then (response => {
                 this.newPatron = response.data 
                 alert("The Patrons user ID is: ".concat(this.newPatron.userID))            
             })
@@ -110,7 +110,6 @@ export default {
         onSubmit(event) {
             this.createPatron()
             event.preventDefault()
-            alert(JSON.stringify(this.form))
             this.form.firstName = ''
             this.form.lastName = ''
             this.form.address = ''

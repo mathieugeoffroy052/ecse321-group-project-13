@@ -53,27 +53,30 @@ export default {
             var userID = document.getElementById("typeUserIDX-2").value;
             var password = document.getElementById("typePasswordX-2").value;
             AXIOS.get('/account/'.concat(userID)).then (response => {
+                this.user = response.data
                 if (password != response.data.password) {
                     this.errorUser = "Incorrect password."
                     alert(this.errorUser)
-
+                } else if (!this.user.onlineAccount) {
+                    this.errorUser = "This is not an online account."
+                    alert(this.errorUser)
                 } else {
-                    this.user = response.data
                     sessionStorage.setItem("existingUserID", userID)  
                     window.location.href='../#/item-select'; 
                     window.location.reload(true); 
                 }
             })
             .catch(e => {
+                this.user = ''
+                this.errorUser = ''
                 this.userAccounts = []
                 alert(e.response.data.message)
             })
                     
         },
         onSubmit(event) {
-            login()
+            this.login()
             event.preventDefault()
-            alert(JSON.stringify(this.form))
         }
     }
 }
