@@ -60,7 +60,7 @@ export default {
                 } else {
                     this.user = response.data
                     sessionStorage.setItem("existingUserID", userID)
-                    //window.location.href='../#/'; 
+                    window.location.href='../#/item-select'; 
                 }
             })
             .catch(e => {
