@@ -24,7 +24,7 @@
 
                 <hr class="my-4">
 
-                <p>Don't have an account? <a href="../#/CreateAccount" class="link-info">Create an account</a></p>
+                <p v-if="!noUsers">Don't have an account? <a href="../#/CreateAccount" class="link-info">Create an account</a></p>
 
               </div>
             </div>
