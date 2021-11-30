@@ -32,20 +32,27 @@ export default {
                 userID: '', 
                 password: ''
             },
-            existingUser: '',
+            existingUsers: '',
             errorUser: '',
-            response: []
+            response: [],
+            noUsers: '',
+            headLibrarianAcc: ''
         }
     },
 
     created: function () {
         // Initializing userAccounts from backend
-        AXIOS.get('/account')
+        AXIOS.get('/accounts')
         .then(response => {
-          this.existingUser = response.data
+          this.existingUsers = response.data
+          this.noUsers = false
         })
         .catch(e => {
-          this.errorUser = e
+          if (e.response.data.message == "There are no Users in the system") {
+              this.noUsers = true
+          } else {
+              alert(e.response.data.message)
+          }
         })
     },
     methods: {
@@ -77,6 +84,15 @@ export default {
         onSubmit(event) {
             this.login()
             event.preventDefault()
+        },
+        initializeSystem: function() {
+            this.noUsers = false
+            AXIOS.post('/createHeadLibrarian', {}, {params: {firstName:"Linda", lastName:"Ross", online:true, address:"3456 avenue McGill, Montreal, Quebec", password:"headlibrarianpassword", balance:0, email:"linda.ross@gmail.com"}}).then (response => {
+                this.headLibrarianAcc = response.data
+                alert("System Initialized.\n".concat("HeadLibrarian userID: ").concat(this.headLibrarianAcc.userID).concat(", password: ").concat(this.headLibrarianAcc.password))
+              }).catch(e => {
+                alert(e.response.data.message)
+              })
         }
     }
 }
