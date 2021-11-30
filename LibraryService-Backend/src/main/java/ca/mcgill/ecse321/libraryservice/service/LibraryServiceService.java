@@ -55,6 +55,23 @@ public class LibraryServiceService {
     }
 
     /**
+     * Get all borroable items but not rooms
+     * @return List of all borrowable items
+     * @author Mathieu Geoffroy
+     */
+    @Transactional
+    public List<BorrowableItem> getAllBorrowableItems() {
+        List<BorrowableItem> listItems = (List<BorrowableItem>) borrowableItemRepository.findAll();
+        List<BorrowableItem> filteredList = new ArrayList<BorrowableItem>();
+        for(BorrowableItem i : listItems) {
+            if(!(i.getLibraryItem().getType().toString().equals("Room"))) {
+                filteredList.add(i);
+            }
+        }
+        return filteredList;
+    }
+
+    /**
      * @param barCodeNumber
      * @return BorrowableItem - borrowable item of given bar code number
      * @author Amani Jammoul
@@ -703,8 +720,6 @@ public class LibraryServiceService {
                                                                                                              // for room
                                                                                                              // reservation
         transactionRepository.save(roomReservation);
-
-
         item.setState(ItemState.Available); //room is always available
         borrowableItemRepository.save(item);
 
@@ -2535,5 +2550,77 @@ public class LibraryServiceService {
         }
         return list;
     }
+    
+    
+
+	/**
+	 * Login from user account.
+	 * @param username
+	 * @return user
+	 * @throws InvalidInputException
+     * @author: Zoya
+     */
+    @Transactional
+    public UserAccount loginUserAccount(int userID, String password) throws Exception {
+        String error = "";
+        if (userID < 1 || password == "") {
+        	throw new IllegalArgumentException("ID cannot be 0 or negative and password cannot be empty");
+        }
+        else {
+        	 UserAccount account = userAccountRepository.findUserAccountByUserID(userID);
+        	 if (account == null) {
+        		 throw new IllegalArgumentException("No user found with this ID!");
+        	 }
+        	 else if (!account.getPassword().equals(password)) {
+        		 throw new IllegalArgumentException("Username or password is incorrect.");
+        	 }
+        	 else {
+        		 //account.setToken(userID);
+ 				 userAccountRepository.save(account);
+ 				 return account; 
+        	 }
+        	
+        } 
+      
+  
+    }
+    
+    
+    /**
+	 * Logout from user account.
+	 * @param username
+	 * @return user
+	 * @throws InvalidInputException
+     * @author: Zoya
+     */
+    @Transactional
+    public UserAccount logoutUserAccount(int userID) throws Exception {
+        String error = "";
+        if (userID < 1 ) {
+        	throw new IllegalArgumentException("ID cannot be 0 or negative");
+        }
+        else {
+        	 UserAccount account = userAccountRepository.findUserAccountByUserID(userID);
+        	 if (account == null) {
+        		 throw new IllegalArgumentException("No user found with this ID!");
+        	 }
+//        	 else if (account.getToken() == 0) {
+//        		 throw new IllegalArgumentException("The user cannot be found.");
+//        	 }
+        	 else {
+        		// account.setToken(0);
+ 				 userAccountRepository.save(account);
+ 				 return account; 
+        	 }
+        	
+        } 
+      
+       
+           
+    }
+    
+
+
+	
 
 }
