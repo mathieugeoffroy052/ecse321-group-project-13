@@ -15,8 +15,7 @@ export default {
     data () {
       return {
         value: '',
-        available: 0,
-        buttonDisabled: 1,
+        buttonDisabled: 1,   // "boolean" to keep track of whether the "Reserve Room" button is disabled
         alertColour: 'light'
       }
     },
@@ -29,21 +28,22 @@ export default {
         .catch(e => {
             this.errorRoomItem = e
         })
-        this.available = 0
-        this.buttonDisabled = 1
+        this.buttonDisabled = 1   // at the start, the "Reserve Room" button is disabled
       },
 
     methods: {
         setupRoomTransaction: function (){
             if(this.value != ""){   // if a value from the calender is selected
-                // Enable button
+                // enable "Reserve Room" button
                 this.buttonDisabled = 0  
                 document.getElementById("reserve-button").disabled = Boolean(this.buttonDisabled)
-                console.log("changed button status to enabled")
             }
         },
+        /*
+        * Creates a room reserve transaction between the currently logged-in
+        * user and the event room on the selected date from the calendar (if possible)
+        */
         createRoomTransaction: function () {
-            console.log("entered create room transaction")
             var params = {
                 userID: 7,
                 date: this.value,
@@ -53,6 +53,8 @@ export default {
                 document.getElementById("status").innerHTML = "Room Booked!"
                 this.alertColour = "success"
             })
+            // Display different alers or messages based on the error message
+            //   from the backend
             .catch(e => {
                 var errorMessage = e.response.data.message
                 console.log("Error Message: " + errorMessage)
