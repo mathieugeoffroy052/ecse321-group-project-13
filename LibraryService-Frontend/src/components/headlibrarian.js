@@ -219,22 +219,21 @@ export default {
           var num = this.formLibraryItem.numItems
           this.newBorrowableItems = []
           var stringReport = ''
-          var innerError = ''
           AXIOS.post('/createLibraryItem', {}, {params: {name: nameInput, itemType: typeInput, date: dateInput, isViewable: viewableInput, isbn: isbnInput, creator: creatorInput}}).then (response => {
             this.newLibraryItem = response.data
-            stringReport.concat("The item was created with ISBN: ").concat(this.newLibraryItem.isbn).concat(", with barcode(s): ")
+            stringReport.concat("The item was created with ISBN: ".concat(this.newLibraryItem.isbn).concat(", with barcode(s): "))
             for(let i = 0; i < num; i++ ) {
-              AXIOS.post('/borrowableItems/viewall', {}, {params: {itemState:"Available", title: nameInput, creator: creatorInput }}).then (responseInner => {
+              AXIOS.post('createBorrowableItem', {}, {params: {creator: creatorInput, title: nameInput, itemState:"Available"}}).then (responseInner => {
                 this.newBorrowableItems.push(responseInner.data)
-                stringReport.concat(responseInner.data.barCodeNumber).concat(", ")
+                stringReport.concat(responseInner.data.barCodeNumber.concat(", "))
               }).catch(e => {
-                innerError.concat(e.responseInner.data.message)
+                alert(e.responseInner.data.message)
               })
             }
             this.getAllItems()
             alert(stringReport)
           }).catch(e => {
-            alert(e.response.data.message.concat(innerError))
+            alert(e.response.data.message)
           })
 
         },
@@ -378,10 +377,26 @@ export default {
           this.selectedType = '',
           this.formLibraryItem.isViewable = '',
           this.numItems = '',
+          this.isViewable = false
           // Trick to reset/clear native browser form validation state
           this.show = false
           this.$nextTick(() => {
             this.show = true
+          })
+        },
+        onSubmitItem(event) {
+          this.createItem()
+          event.preventDefault()
+          this.formTimeslot.title = ''
+          this.formTimeslot.creatorItem = ''
+          this.selectedType = '',
+          this.formLibraryItem.isViewable = '',
+          this.numItems = '',
+          this.isViewable = false
+          // Trick to reset/clear native browser form validation state
+          this.show = false
+          this.$nextTick(() => {
+              this.show = true
           })
         },
         onDelStaff(event) {
@@ -619,6 +634,7 @@ export default {
         })
       },
       getAllItems: function() {
+        this.currentItems = []
         AXIOS.get('/borrowableItems/viewall').then (response => {
           response.data.forEach(element => {
             this.currentItems.push({ISBN: element.libraryItem.isbn, Barcode: element.barCodeNumber, Title: element.libraryItem.name, Author:element.libraryItem.creator, Type:element.libraryItem.type, State:element.itemState})
