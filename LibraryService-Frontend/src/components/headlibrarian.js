@@ -9,18 +9,6 @@ var AXIOS = axios.create({
   headers: { 'Access-Control-Allow-Origin': frontendUrl }
 })
 
-function PatronDTO(firstName, lastName, onlineAccount, password, balance, address, email, userID, validatedAccount) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.onlineAccount = onlineAccount;
-    this.address = address;
-    this.validatedAccount = validatedAccount;
-    this.password = password;
-    this.balance = balance;
-    this.email = email;
-    this.userID = userID;
-}
-
 function TransactionDTO(type, deadline, borrowableItem, userAccount, transactionID)
 {
   this.transactionType = type;
@@ -28,6 +16,19 @@ function TransactionDTO(type, deadline, borrowableItem, userAccount, transaction
   this.borrowableItem = borrowableItem;
   this.userAccount = userAccount;
   this.transactionID = transactionID;
+}
+
+function PatronDTO(firstName,  lastName,  onlineAccount,  address,  validatedAccount,  passWord,  balance,  email,  patronID)
+{
+  this.firstName = firstName;
+  this.lastName = lastName;
+  this.onlineAccount = onlineAccount;
+  this.address = address;
+  this.validatedAccount = validatedAccount;
+  this.passWord = passWord;
+  this.balance = balance;
+  this.email = email;
+  this.userID = userID;
 }
 
 export default {
@@ -117,7 +118,26 @@ export default {
               { value: 'Saturday', text: 'Saturday'},
               { value: 'Sunday', text: 'Sunday'}
             ],
-            currentStaff:[]
+            currentStaff:[],
+            formLibraryItem: {
+              name:'',
+              date:'',
+              isViewable:false,
+              creatorItem:'',
+              ISBN:'',
+            },
+            numItems: 1,
+            newLibraryItem: '',
+            currentItems: [],
+            newBorrowableItems: [],
+            selectedType:'',
+            optionsType:[
+              {value: null, text: 'Select a Type'},
+              {value: 'Book', text: 'Book'},
+              {value: 'Movie', text: 'Movie'},
+              {value: 'Music', text: 'Music'},
+              {value: 'Room', text: 'Room'}
+            ]
         }
     },
     methods: {
@@ -126,13 +146,20 @@ export default {
             var lastName = document.getElementById("input-lastName").value
             var address1 = document.getElementById("input-address").value
             var balance1 = document.getElementById("input-balance").value
-            var password1 = document.getElementById("input-password").value
             var onlineAccount1 = this.formUser.onlineAccount
-            var email1 = document.getElementById("input-email").value
+            var password1 = ""
+            var email1 = ""
+            if(onlineAccount1 === true){
+              password1 = document.getElementById("input-password").value
+              email1= document.getElementById("input-email").value
+           }
+            var creatorID = sessionStorage.getItem("existingUserID")
+            
             if(this.selectedUser == "Patron"){
 
-                AXIOS.post('/createPatron/'.concat(firstName).concat("/").concat(lastName), {},{params: {creatorID:1, onlineAccount:onlineAccount1, address:address1, validatedAccount:true, password:password1, balance:balance1, email:email1}}).then (response => {
+                AXIOS.post('/createPatron/'.concat(firstName).concat("/").concat(lastName), {},{params: {creatorID, onlineAccount:onlineAccount1, address:address1, validatedAccount:true, password:password1, balance:balance1, email:email1}}).then (response => {
                     this.newPatron = response.data
+                    alert("The Patrons user ID is: ".concat(this.newPatron.userID))  
                 })
                 .catch(e => {
                     this.newPatron = ''
@@ -140,7 +167,8 @@ export default {
                 })
             }
             else if(this.selectedUser == "Librarian"){
-                AXIOS.post('/createLibrarian/'.concat(firstName).concat("/").concat(lastName), {},{params: {online: onlineAccount1, address: address1, password: password1, balance: balance1, email: email1, userID:1 }}).then (response => {
+              var userID = sessionStorage.getItem("existingUserID")
+                AXIOS.post('/createLibrarian/'.concat(firstName).concat("/").concat(lastName), {},{params: {online: onlineAccount1, address: address1, password: password1, balance: balance1, email: email1, userID}}).then (response => {
                     this.newLibrarian = response.data
                 })
                 .catch(e => {
@@ -150,7 +178,8 @@ export default {
             }
         },
         createHoliday: function() {
-            AXIOS.post('/holiday/new', {},{params: {currentUserID:1, date:this.dateHoliday, startTime:this.startTimeHoliday.substr(0,5), endTime:this.endTimeHoliday.substr(0,5)}}).then (response => {
+          var currentUserID = sessionStorage.getItem("existingUserID")
+            AXIOS.post('/holiday/new', {},{params: {currentUserID, date:this.dateHoliday, startTime:this.startTimeHoliday.substr(0,5), endTime:this.endTimeHoliday.substr(0,5)}}).then (response => {
                 this.newHoliday = response.data
                 this.getAllHolidays()
             })
@@ -170,7 +199,8 @@ export default {
             })
         },
         createTimeslot: function() {
-          AXIOS.post('timeslot/new', {}, {params: {startDate:this.dateWorkshift, endDate:this.dateWorkshift, startTime:this.startTimeWorkshift.substr(0, 5), endTime:this.endTimeWorkshift.substr(0, 5), currentUserID:1}}).then (response => {
+          var currentUserID = sessionStorage.getItem("existingUserID")
+          AXIOS.post('timeslot/new', {}, {params: {startDate:this.dateWorkshift, endDate:this.dateWorkshift, startTime:this.startTimeWorkshift.substr(0, 5), endTime:this.endTimeWorkshift.substr(0, 5), currentUserID}}).then (response => {
             this.newTimeSlot = response.data
             this.getAllShifts()
         })
@@ -179,8 +209,38 @@ export default {
             alert(e.response.data.message)                
         })
         },
+        createItem: function() {
+          var nameInput = this.formLibraryItem.name
+          var typeInput = this.selectedType
+          var dateInput = this.formLibraryItem.date
+          var viewableInput = this.formLibraryItem.isViewable
+          var isbnInput = this.formLibraryItem.ISBN
+          var creatorInput = this.formLibraryItem.creatorItem
+          var num = this.formLibraryItem.numItems
+          this.newBorrowableItems = []
+          var stringReport = ''
+          var innerError = ''
+          AXIOS.post('/createLibraryItem', {}, {params: {name: nameInput, itemType: typeInput, date: dateInput, isViewable: viewableInput, isbn: isbnInput, creator: creatorInput}}).then (response => {
+            this.newLibraryItem = response.data
+            stringReport.concat("The item was created with ISBN: ").concat(this.newLibraryItem.isbn).concat(", with barcode(s): ")
+            for(let i = 0; i < num; i++ ) {
+              AXIOS.post('/borrowableItems/viewall', {}, {params: {itemState:"Available", title: nameInput, creator: creatorInput }}).then (responseInner => {
+                this.newBorrowableItems.push(responseInner.data)
+                stringReport.concat(responseInner.data.barCodeNumber).concat(", ")
+              }).catch(e => {
+                innerError.concat(e.responseInner.data.message)
+              })
+            }
+            this.getAllItems()
+            alert(stringReport)
+          }).catch(e => {
+            alert(e.response.data.message.concat(innerError))
+          })
+
+        },
         assignTimeslot: function() {
-          AXIOS.put('/timeslot/assign', {}, {params: {timeslotID:this.formTimeslot.timeslotIDAssign, librarianID:this.formStaff.userID, currentUserID:1}}).then (response => {
+          var currentUserID = sessionStorage.getItem("existingUserID")
+          AXIOS.put('/timeslot/assign', {}, {params: {timeslotID:this.formTimeslot.timeslotIDAssign, librarianID:this.formStaff.userID, currentUserID}}).then (response => {
             this.newTimeSlot = response.data
             this.getAllShifts()
         })
@@ -304,6 +364,20 @@ export default {
           this.formUser.password = ''
           this.formUser.balance = ''
           this.formUser.onlineAccount = false
+          // Trick to reset/clear native browser form validation state
+          this.show = false
+          this.$nextTick(() => {
+            this.show = true
+          })
+        },
+        onResetItem(event) {
+          event.preventDefault()
+          // Reset our form values
+          this.formTimeslot.title = ''
+          this.formTimeslot.creatorItem = ''
+          this.selectedType = '',
+          this.formLibraryItem.isViewable = '',
+          this.numItems = '',
           // Trick to reset/clear native browser form validation state
           this.show = false
           this.$nextTick(() => {
@@ -516,7 +590,7 @@ export default {
         })
       },
       getShifts: function() {
-        var creatorID = 1
+        var creatorID = sessionStorage.getItem("existingUserID")
         AXIOS.get('/timeslot/view/librarianID/'.concat(creatorID)).then (response => {
             this.currentShift = []
             response.data.forEach(element => {
@@ -542,6 +616,13 @@ export default {
           this.allShifts = []
           alert(e.response.data.message)
             
+        })
+      },
+      getAllItems: function() {
+        AXIOS.get('/borrowableItems/viewall').then (response => {
+          response.data.forEach(element => {
+            this.currentItems.push({ISBN: element.libraryItem.isbn, Barcode: element.barCodeNumber, Title: element.libraryItem.name, Author:element.libraryItem.creator, Type:element.libraryItem.type, State:element.itemState})
+          })
         })
       },
       getAllOpeningHours: function() {
@@ -571,8 +652,9 @@ export default {
         })
       },
       deleteStaff: function() {
-        var userID = document.getElementById("input-userID-toDelete").value    
-        AXIOS.delete('/librarians/deleteAccount/'.concat(userID), {params: {headlibrarianID:1}}).then (response => {
+        var userID = document.getElementById("input-userID-toDelete").value 
+        var headlibrarianID = sessionStorage.getItem("existingUserID")
+        AXIOS.delete('/librarians/deleteAccount/'.concat(userID), {params: {headlibrarianID}}).then (response => {
           if(response.data == true){
             alert("Librarian deleted")
           }
@@ -586,7 +668,8 @@ export default {
         })
       },
       deleteOpeningHour: function() {
-        AXIOS.delete('/openinghour/delete', {params:{openinghourID:this.formOpeningHour.openingHourID, accountID:1}}).then (response => {
+        var accountID = sessionStorage.getItem("existingUserID")
+        AXIOS.delete('/openinghour/delete', {params:{openinghourID:this.formOpeningHour.openingHourID, accountID}}).then (response => {
             if(response.data == true){
               alert("Opening Hour deleted")
             }
@@ -601,7 +684,8 @@ export default {
         })
       },
       deleteTimeslot: function() {
-        AXIOS.delete('/timeslot/delete', {params:{timeslotID:this.formTimeslot.timeslotIDDelete, accountID:1}}).then (response => {
+        var accountID = sessionStorage.getItem("existingUserID")
+        AXIOS.delete('/timeslot/delete', {params:{timeslotID:this.formTimeslot.timeslotIDDelete, accountID}}).then (response => {
             if(response.data == true){
               alert("TimeSlot deleted")
             }
@@ -616,7 +700,8 @@ export default {
         })
       },
       deleteHoliday: function() {
-        AXIOS.delete('/holiday/delete', {params: {holidayID:this.formHoliday.holiday, accountID:1}}).then (response => {
+        var accountID = sessionStorage.getItem("existingUserID")
+        AXIOS.delete('/holiday/delete', {params: {holidayID:this.formHoliday.holiday, accountID}}).then (response => {
             if(response.data){
               alert("Holiday Hour deleted")
             }
@@ -647,7 +732,8 @@ export default {
       },
       validateCurrentPatron: function() {
         var userID = parseInt(document.getElementById("input-userID").value)
-        AXIOS.put("/setAccountValidity", {}, {params: {patronID:userID, validatedAccount:true, creatorID:1}}).then (response => {
+        var creatorID = sessionStorage.getItem("existingUserID")
+        AXIOS.put("/setAccountValidity", {}, {params: {patronID:userID, validatedAccount:true, creatorID}}).then (response => {
           this.currentPatron = response.data
         }).catch(e => {
           alert(e.response.data.message)

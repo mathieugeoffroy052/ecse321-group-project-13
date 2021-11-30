@@ -464,7 +464,35 @@ public class LibraryServiceRestController {
 		Patron patron = service.createPatron( creatorID, firstName,  lastName,  onlineAccount,  address,  validatedAccount,  password,  balance,  email);
 	return convertToDto(patron);
 	}
+    /**
+	 * Login user account
+	 * @author Zoya
+	 * @param username
+	 * @param password
+	 * @return boolean if successful
+     * @throws Exception 
+	 */
+	@PutMapping(value = {"/loginUserAccount/{userID}", "/loginUserAccount/{userID}/" })
+	public UserAccountDTO loginUserAccount(@PathVariable("userID") int userID, @RequestParam("password") String password) throws Exception {
+		UserAccount user = service.loginUserAccount(userID, password);
+		return convertToDto(user);
+	}
 
+	/**
+	 * Logout user account
+	 * @author Zoya
+	 * @param username
+	 * @return boolean if successful
+	 * @throws Exception 
+	 */
+	@PutMapping(value = {"/logoutUserAccount/{userID}", "/logoutUserAccount/{userID}/" })
+	public UserAccountDTO logoutUserAccount(@PathVariable("userID") int userID) throws Exception {
+		UserAccount user = service.logoutUserAccount(userID);
+		return convertToDto(user);
+	}
+    
+    
+    
     /**
      * Gets all the books in the system
      * @return List of LibraryItemDTO
@@ -629,6 +657,12 @@ public class LibraryServiceRestController {
         Transaction t = service.createItemBorrowTransaction(i, a);
         return convertToDto(t);
     }
+
+    @GetMapping(value = {"/borrowableItems/viewall", "/borrowableItems/viewall/"})
+    public List<BorrowableItemDTO> getAllBorrowableItems() {
+        return service.getAllBorrowableItems().stream().map(p -> convertToDto(p)).collect(Collectors.toList());
+    }
+
 
     /**
      * Create a renewal transaction between a user account and an item, and convert
@@ -1028,7 +1062,6 @@ public class LibraryServiceRestController {
     }
 
     /**
-
      * Find all newspapers by title, and convert those objects to DTOs
      * 
      * @param movieTitle
@@ -1518,7 +1551,6 @@ public class LibraryServiceRestController {
     /**
      * This method converts a transaction DTO to a transaction object.
      * @author Zoya Malhi, Mathieu Geoffroy and Ramin Akhavan-Sarraf
-
      * @param transactionDTO
      * @return transaction
      */

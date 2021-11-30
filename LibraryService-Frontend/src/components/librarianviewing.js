@@ -9,17 +9,19 @@ var AXIOS = axios.create({
   headers: { 'Access-Control-Allow-Origin': frontendUrl }
 })
 
-function PatronDTO(firstName, lastName, onlineAccount, password, balance, address, email, userID, validatedAccount) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.onlineAccount = onlineAccount;
-    this.address = address;
-    this.validatedAccount = validatedAccount;
-    this.password = password;
-    this.balance = balance;
-    this.email = email;
-    this.userID = userID;
+function PatronDTO(firstName,  lastName,  onlineAccount,  address,  validatedAccount,  passWord,  balance,  email,  patronID)
+{
+  this.firstName = firstName;
+  this.lastName = lastName;
+  this.onlineAccount = onlineAccount;
+  this.address = address;
+  this.validatedAccount = validatedAccount;
+  this.passWord = passWord;
+  this.balance = balance;
+  this.email = email;
+  this.userID = userID;
 }
+
 
 function TransactionDTO(type, deadline, borrowableItem, userAccount, transactionID)
 {
@@ -74,11 +76,17 @@ export default {
             var lastName = document.getElementById("input-lastName").value
             var address1 = document.getElementById("input-address").value
             var balance1 = document.getElementById("input-balance").value
-            var password1 = document.getElementById("input-password").value
-            var onlineAccount1 = this.formUser.onlineAccount
-            var email1 = document.getElementById("input-email").value
-            AXIOS.post('/createPatron/'.concat(firstName).concat("/").concat(lastName), {},{params: {creatorID:1, onlineAccount:onlineAccount1, address:address1, validatedAccount:true, password:password1, balance:balance1, email:email1}}).then (response => {
-                this.newPatron = response.data
+            var onlineAccount1 = this.form.onlineAccount
+            var password1 = ""
+            var email1 = ""
+            if(onlineAccount1 === true){
+               password1 = document.getElementById("input-password").value
+               email1= document.getElementById("input-email").value
+            }
+
+            AXIOS.post('/createPatron/'.concat(firstName).concat("/").concat(lastName), {},{params: {creatorID:sessionStorage.getItem("existingUserID"), onlineAccount:onlineAccount1, address:address1, validatedAccount:true, password:password1, balance:balance1, email:email1}}).then (response => {
+                this.newPatron = response.data 
+                alert("The Patrons user ID is: ".concat(this.newPatron.userID))            
             })
             .catch(e => {
                 this.newPatron = ''
@@ -86,7 +94,7 @@ export default {
             })
         },
         getShifts: function() {
-            var creatorID = 1
+            var creatorID = sessionStorage.getItem("existingUserID")
             AXIOS.get('/timeslot/view/librarianID/'.concat(creatorID)).then (response => {
                 this.currentShift = []
                 response.data.forEach(element => {
@@ -248,7 +256,7 @@ export default {
       },
       validateCurrentPatron: function() {
         var userID = parseInt(document.getElementById("input-userID").value)
-        AXIOS.put("/setAccountValidity", {}, {params: {patronID:userID, validatedAccount:true, creatorID:1}}).then (response => {
+        AXIOS.put("/setAccountValidity", {}, {params: {patronID:userID, validatedAccount:true, creatorID:sessionStorage.getItem("existingUserID")}}).then (response => {
           this.currentPatron = response.data
         }).catch(e => {
           alert(e.response.data.message)
