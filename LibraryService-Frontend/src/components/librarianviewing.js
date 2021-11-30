@@ -9,29 +9,6 @@ var AXIOS = axios.create({
   headers: { 'Access-Control-Allow-Origin': frontendUrl }
 })
 
-function PatronDTO(firstName,  lastName,  onlineAccount,  address,  validatedAccount,  passWord,  balance,  email,  patronID)
-{
-  this.firstName = firstName;
-  this.lastName = lastName;
-  this.onlineAccount = onlineAccount;
-  this.address = address;
-  this.validatedAccount = validatedAccount;
-  this.passWord = passWord;
-  this.balance = balance;
-  this.email = email;
-  this.userID = userID;
-}
-
-
-function TransactionDTO(type, deadline, borrowableItem, userAccount, transactionID)
-{
-  this.transactionType = type;
-  this.deadline = deadline;
-  this.borrowableItem = borrowableItem;
-  this.userAccount = userAccount;
-  this.transactionID = transactionID;
-}
-
 export default {
     name: 'librarianview',
     data () {
@@ -147,7 +124,7 @@ export default {
               this.currentPatron = response.data
               this.isLibrarian = false
           })
-          .catch(e => {
+          .catch(() => {
             AXIOS.get('/account/'.concat(userID)).then (response => {
               this.currentPatron = response.data
               this.isLibrarian = true

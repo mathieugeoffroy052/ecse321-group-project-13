@@ -9,18 +9,6 @@ var AXIOS = axios.create({
   headers: { 'Access-Control-Allow-Origin': frontendUrl }
 })
 
-function PatronDTO(firstName, lastName, onlineAccount, password, balance, address, email, userID, validatedAccount) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.onlineAccount = onlineAccount;
-    this.address = address;
-    this.validatedAccount = validatedAccount;
-    this.password = password;
-    this.balance = balance;
-    this.email = email;
-    this.userID = userID;
-}
-
 export default {
     name: 'userDashBoard',
     data () {
@@ -41,7 +29,7 @@ export default {
                 this.currentPatron = response.data
                 this.isLibrarian = false
             })
-            .catch(e => {
+            .catch(() => {
               AXIOS.get('/account/'.concat(userID)).then (response => {
                 this.currentPatron = response.data
                 this.isLibrarian = true
