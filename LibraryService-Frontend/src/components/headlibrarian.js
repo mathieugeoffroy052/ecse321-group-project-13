@@ -136,7 +136,7 @@ export default {
               {value: 'Book', text: 'Book'},
               {value: 'Movie', text: 'Movie'},
               {value: 'Music', text: 'Music'},
-              {value: 'Room', text: 'Room'}
+              {value: 'NewspaperArticle', text: 'Newspaper Article'}
             ]
         }
     },
@@ -170,6 +170,7 @@ export default {
               var userID = sessionStorage.getItem("existingUserID")
                 AXIOS.post('/createLibrarian/'.concat(firstName).concat("/").concat(lastName), {},{params: {online: onlineAccount1, address: address1, password: password1, balance: balance1, email: email1, userID}}).then (response => {
                     this.newLibrarian = response.data
+                    alert("The Librarian user ID is: ".concat(this.newLibrarian.userID))
                 })
                 .catch(e => {
                     this.newLibrarian = ''
@@ -221,22 +222,19 @@ export default {
           var stringReport = ''
           AXIOS.post('/createLibraryItem', {}, {params: {name: nameInput, itemType: typeInput, date: dateInput, isViewable: viewableInput, isbn: isbnInput, creator: creatorInput}}).then (response => {
             this.newLibraryItem = response.data
-            //stringReport.concat("The item was created with ISBN: ".concat(this.newLibraryItem.isbn).concat(", with barcode(s): "))
-            for(let i = 0; i < num; i++ ) {
-              AXIOS.post('/createBorrowableItem', {}, {params: {creator: this.newLibraryItem.creator, title: this.newLibraryItem.name, itemState:"Available", isbn: this.newLibraryItem.isbn}}).then (response => {
-                this.newBorrowableItems.push(response.data)
-                //stringReport.concat(response.data.barCodeNumber.concat(", "))
-              }).catch(e => {
-                alert(e.response.data.message)
-              })
-            }
-            this.getAllItems()
-            //alert(stringReport)
+            this.createBorrowableItem(num)
           }).catch(e => {
             alert(e.response.data.message)
           })
-          
-
+        },
+        createBorrowableItem: function(numOfRecs) {
+          AXIOS.post('/createBorrowableItem', {}, {params: {creator: this.newLibraryItem.creator, title: this.newLibraryItem.name, itemState:"Available", isbn: this.newLibraryItem.isbn}}).then (response => {
+            this.newBorrowableItems.push(response.data)
+            if (numOfRecs > 1) this.createBorrowableItem(numOfRecs-1)
+            else this.getAllItems()
+          }).catch(e => {
+            alert(e.response.data.message)
+          })
         },
         assignTimeslot: function() {
           var currentUserID = sessionStorage.getItem("existingUserID")
@@ -737,17 +735,6 @@ export default {
       isReservingRoom: function() {
         if (document.getElementById("input-userID") == null) return false
         return document.getElementById("input-transactiontype").value == "Reserve-Room"
-      },
-      getTransactionsForPatron: function() {
-        var userID = document.getElementById("input-userID").value
-        AXIOS.get('/transaction/viewall/id/'.concat(userID)).then (response => {
-          response.data.forEach(element => {
-            this.currentPatronTransactions.push({ Name: element.borrowableItem.libraryItem.name, Creator: element.borrowableItem.libraryItem.creator, Item: element.borrowableItem.libraryItem.type, Type: element.transactionType, Deadline: element.deadline }) 
-          })
-        }).catch(e => {
-          this.currentPatronTransactions = []
-          alert(e.response.data.message)
-        })
       },
       validateCurrentPatron: function() {
         var userID = parseInt(document.getElementById("input-userID").value)
