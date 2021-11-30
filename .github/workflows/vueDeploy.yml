@@ -1,7 +1,5 @@
 name: Deploying Vue to Heroku
 
-runs-on: ubuntu-latest
-
 on:
   push:
     branches: 
