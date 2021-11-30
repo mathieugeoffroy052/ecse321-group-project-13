@@ -70,7 +70,8 @@ export default {
       * Creates a reserve transaction between the currently logged-in
       * user and the library item selected from the list
       */
-      createReserveTransaction: function (aPatronID) {
+      createReserveTransaction: function () {
+        var aPatronID = sessionStorage.getItem("existingUserID")
         var anIsbn = undefined
         if(document.querySelector('input[type="radio"]:checked') != null){
           anIsbn = document.querySelector('input[type="radio"]:checked').value;

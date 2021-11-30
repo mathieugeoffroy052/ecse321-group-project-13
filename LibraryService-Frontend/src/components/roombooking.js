@@ -44,8 +44,9 @@ export default {
         * user and the event room on the selected date from the calendar (if possible)
         */
         createRoomTransaction: function () {
+            var theUserID = sessionStorage.getItem("existingUserID")
             var params = {
-                userID: 7,
+                userID: theUserID,
                 date: this.value,
             }
             AXIOS.post('/reserve-room', {}, {params})
