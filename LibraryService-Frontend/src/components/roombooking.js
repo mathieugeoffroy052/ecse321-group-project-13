@@ -14,9 +14,6 @@ export default {
     name: 'roomsearch',
     data () {
       return {
-        // roomItems: [],
-        // newRoomItem: '',
-        // errorRoomItem: '',
         value: '',
         available: 0,
         buttonDisabled: 1,

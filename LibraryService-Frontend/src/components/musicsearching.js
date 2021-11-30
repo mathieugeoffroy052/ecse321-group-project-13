@@ -88,7 +88,6 @@ export default {
                       aBarCodeNumber = this.existingBorrowableItems[i]["barCodeNumber"]
                   }
                 }
-                // this.this.existingBorrowableItems.pop()["barCode"]
                 if(aBarCodeNumber != undefined){
                   var params = {
                     barCodeNumber: aBarCodeNumber,
@@ -101,7 +100,6 @@ export default {
                       this.newTransaction = ''
                       document.getElementById("transaction").innerHTML = "Transaction Complete!"
                       this.alertColour = 'success'
-                      //alert("Transaction complete!")
                     })
                     .catch(e => {
                       var errorMessage = e.response.data.message
