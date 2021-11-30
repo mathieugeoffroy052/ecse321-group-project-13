@@ -119,6 +119,7 @@ export default {
         }
     },
     methods: {
+      /* Allows head librarians to create a user account (can be either a patron or librarian)*/
         createUser: function() {
             var firstName = document.getElementById("input-firstName").value
             var lastName = document.getElementById("input-lastName").value
@@ -155,6 +156,7 @@ export default {
                 })
             }
         },
+        /* Allows head librarians to create holidays (date and times) */
         createHoliday: function() {
           var currentUserID = sessionStorage.getItem("existingUserID")
             AXIOS.post('/holiday/new', {},{params: {currentUserID, date:this.dateHoliday, startTime:this.startTimeHoliday.substr(0,5), endTime:this.endTimeHoliday.substr(0,5)}}).then (response => {
@@ -166,6 +168,7 @@ export default {
                 alert(e.response.data.message)                
             })
         },
+        /* Allows head librarians to create opening hours (day of the week and times) */
         createOpeningHour: function() {
             AXIOS.post('/openinghour/new', {},{params: {day:this.selectedDay, startTime:this.startTimeOpeningHour.substr(0,5), endTime:this.endTimeOpeningHour.substr(0,5)}}).then (response => {
                 this.newOpeningHour = response.data
@@ -176,6 +179,7 @@ export default {
                 alert(e.response.data.message)                
             })
         },
+        /* Allows head librarians to create time slots (for librarian shifts) */
         createTimeslot: function() {
           var currentUserID = sessionStorage.getItem("existingUserID")
           AXIOS.post('timeslot/new', {}, {params: {startDate:this.dateWorkshift, endDate:this.dateWorkshift, startTime:this.startTimeWorkshift.substr(0, 5), endTime:this.endTimeWorkshift.substr(0, 5), currentUserID}}).then (response => {
@@ -187,6 +191,7 @@ export default {
             alert(e.response.data.message)                
         })
         },
+        /* Allows head librarians to create library items (so that new items can be added to our system's database) */
         createItem: function() {
           var nameInput = this.formLibraryItem.name
           var typeInput = this.selectedType
@@ -201,6 +206,7 @@ export default {
           AXIOS.post('/createLibraryItem', {}, {params: {name: nameInput, itemType: typeInput, date: dateInput, isViewable: viewableInput, isbn: isbnInput, creator: creatorInput}}).then (response => {
             this.newLibraryItem = response.data
             stringReport.concat("The item was created with ISBN: ").concat(this.newLibraryItem.isbn).concat(", with barcode(s): ")
+            // Create a certain number of (initally available) borrowable items as well
             for(let i = 0; i < num; i++ ) {
               AXIOS.post('/borrowableItems/viewall', {}, {params: {itemState:"Available", title: nameInput, creator: creatorInput }}).then (responseInner => {
                 this.newBorrowableItems.push(responseInner.data)
@@ -214,8 +220,8 @@ export default {
           }).catch(e => {
             alert(e.response.data.message.concat(innerError))
           })
-
         },
+        /* Allows head librarians to assign a time slot (shift) to a certain librairan */
         assignTimeslot: function() {
           var currentUserID = sessionStorage.getItem("existingUserID")
           AXIOS.put('/timeslot/assign', {}, {params: {timeslotID:this.formTimeslot.timeslotIDAssign, librarianID:this.formStaff.userID, currentUserID}}).then (response => {
@@ -485,6 +491,10 @@ export default {
             })
           } 
         },
+        /* 
+        * Allows head librarians to create certain transactions (borrow, return, renew, waitlist, reserve room)
+        *  associated to any user based on the inputted user ID
+        */
         newTransaction: function() {
           var userIDInput = document.getElementById("input-userID").value
           var transactionType = document.getElementById("input-transactiontype").value
@@ -708,6 +718,7 @@ export default {
           alert(e.response.data.message)
         })
       },
+      /* Allows head librarians to validated any user (patron) account */
       validateCurrentPatron: function() {
         var userID = parseInt(document.getElementById("input-userID").value)
         var creatorID = sessionStorage.getItem("existingUserID")
@@ -721,6 +732,7 @@ export default {
         this.getPatron()
         this.getTransactionsForPatron()
       },
+      /* Allows librarians to reset balance for any user account */
       resetBalance: function() {
         var userIDInput = document.getElementById("input-userID").value
         AXIOS.put("/updateBalance", {}, {params: {balance:0, userID:userIDInput}}).then (response => {
