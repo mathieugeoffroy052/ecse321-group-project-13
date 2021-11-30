@@ -36,7 +36,8 @@ export default {
             errorUser: '',
             response: [],
             noUsers: '',
-            headLibrarianAcc: ''
+            headLibrarianAcc: '',
+            room: ''
         }
     },
 
@@ -87,9 +88,21 @@ export default {
         },
         initializeSystem: function() {
             this.noUsers = false
+            //create head librarian account
             AXIOS.post('/createHeadLibrarian', {}, {params: {firstName:"Linda", lastName:"Ross", online:true, address:"3456 avenue McGill, Montreal, Quebec", password:"headlibrarianpassword", balance:0, email:"linda.ross@gmail.com"}}).then (response => {
                 this.headLibrarianAcc = response.data
-                alert("System Initialized.\n".concat("HeadLibrarian userID: ").concat(this.headLibrarianAcc.userID).concat(", password: ").concat(this.headLibrarianAcc.password))
+                //create single room in the library
+                AXIOS.post('/createLibraryItem', {}, {params: {name:"Room", itemType:"Room", date:"2021-01-01", isViewable:false, isbn:87675, creator:"Group 13 Library System"}}).then (response => {
+                    this.room = response.data
+                    AXIOS.post('/createBorrowableItem', {}, {params: {creator: this.room.creator, title: this.room.name, itemState:"Available", isbn: this.room.isbn}}).then (response => {
+                        
+                      }).catch(e => {
+                        alert(e.response.data.message)
+                      })
+                  }).catch(e => {
+                    alert(e.response.data.message)
+                  })
+                alert("System Initialized.\n".concat("HeadLibrarian userID: ").concat(this.headLibrarianAcc.userID).concat(", password: ").concat(this.headLibrarianAcc.password).concat("\nThe single bookable room in the library was also created."))
               }).catch(e => {
                 alert(e.response.data.message)
               })
