@@ -1125,7 +1125,7 @@ public class LibraryServiceRestController {
     @PostMapping(value = { "/createLibraryItem", "/createLibraryItem/" })
     public LibraryItemDTO createLibraryItem(@RequestParam("name") String name, @RequestParam("itemType") String itemType, @RequestParam("date") Date date, @RequestParam("creator") String creator, @RequestParam("isViewable") boolean isViewable, @RequestParam("isbn") int isbn) throws Exception {
     	LibraryItem libraryItem = service.createLibraryItem(name, itemType, date, creator, isViewable);
-        libraryItem.setIsbn(isbn);
+        libraryItem = service.updateISBN(isbn, libraryItem);
     	return convertToDto(libraryItem);
     }
  
@@ -1138,9 +1138,17 @@ public class LibraryServiceRestController {
      * @author Ramin Akhavan-Sarraf
      */
     @PostMapping(value = { "/createBorrowableItem", "/createBorrowableItem/" })
-    public BorrowableItemDTO createBorrowableItem(@RequestParam("creator") String creator, @RequestParam("title") String title, @RequestParam("itemState") String itemState) throws Exception {
+    public BorrowableItemDTO createBorrowableItem(@RequestParam("creator") String creator, @RequestParam("title") String title, @RequestParam("itemState") String itemState, @RequestParam("isbn") int isbn) throws Exception {
     	String borrowableItemState = itemState;
-        LibraryItem libraryItem = service.getLibraryItemFromCreatorAndTitle(creator, title).get(0);
+        LibraryItem libraryItem = null;
+        for (LibraryItem i : service.getLibraryItemFromCreatorAndTitle(creator, title)) {
+            if (i.getIsbn() == isbn) {
+                libraryItem = i;
+                break;
+            } else {
+                service.deleteLibraryItem(i);
+            }
+        }
     	BorrowableItem borrowableItem = service.createBorrowableItem(borrowableItemState, libraryItem);
     	return convertToDto(borrowableItem);
     }

@@ -12,6 +12,7 @@ import LibrarianView from '@/components/LibrarianView'
 import RoomSearch from '@/components/RoomSearch'
 import Head from '@/components/Head'
 import UserDashBoard from '@/components/UserDashBoard'
+import LibraryInfo from '@/components/LibraryInfo'
 
 
 Vue.use(Router)
@@ -72,7 +73,11 @@ export default new Router({
       path: '/userDashBoard',
       name: 'UserDashBoard',
       component: UserDashBoard
-
+    },
+    {
+      path: '/libraryinformation',
+      name: 'Library Information',
+      component: LibraryInfo
     }
 
   ]
