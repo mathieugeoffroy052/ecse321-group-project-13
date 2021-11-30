@@ -63,29 +63,35 @@ export default {
         .catch(e => {
             this.errorPatron = e
         })
-      },
+    },
 
     methods: {
+      /*
+      * Creates a reserve transaction between the currently logged-in
+      * user and the library item selected from the list
+      */
       createReserveTransaction: function (aPatronID) {
         var anIsbn = undefined
         if(document.querySelector('input[type="radio"]:checked') != null){
           anIsbn = document.querySelector('input[type="radio"]:checked').value;
         }
-        if(anIsbn != undefined){
+        if(anIsbn != undefined){  // if a library item is selected
           var params = {
             isbn: anIsbn
           }
+          // GET all borrowable items associated with that library item (with the unique isbn)
           AXIOS.get('/items/isbn/', {params})
           .then(response => {
               this.existingBorrowableItems = response.data
               if(this.existingBorrowableItems != []){
                 var aBarCodeNumber = undefined
+                // Loop through borrowable items to see if there are any available for reservation
                 for (let i = 0; i < this.existingBorrowableItems.length; i++) {
                   if(this.existingBorrowableItems[i]["itemState"] == "Available"){
                       aBarCodeNumber = this.existingBorrowableItems[i]["barCodeNumber"]
                   }
                 }
-                if(aBarCodeNumber != undefined){
+                if(aBarCodeNumber != undefined){  // at least one available borrowable item was found
                   var params = {
                     barCodeNumber: aBarCodeNumber,
                     userID: aPatronID
@@ -97,14 +103,14 @@ export default {
                       this.newTransaction = ''
                       document.getElementById("transaction").innerHTML = "Transaction Complete!"
                       this.alertColour = 'success'
-                    })
-                    .catch(e => {
+                  })
+                  .catch(e => {
                       var errorMessage = e.response.data.message
                       console.log(errorMessage)
                       this.errorTransaction = errorMessage
-                    })
+                  })
                 }
-                else{
+                else{   // no available borrowable items were found
                   alert("No available item found")
                 }
               }
@@ -118,6 +124,13 @@ export default {
           this.existingBorrowableItem = ''
         }
       },
+      /*
+      * Runs a (filtered) search depending on the inputs of the
+      *   "title" and "creator" text field
+      * Updating this.libraryItems list (based on the response of the
+      *    GET HTTP request) will allow the items displayed on the frontend
+      *    in the search results to be updated accordingly
+      */
       runSearch : function(){
         var requestedTitle = document.getElementById("requestedTitle").value
         var requestedAuthor = document.getElementById("requestedAuthor").value
@@ -194,6 +207,7 @@ export default {
           } 
         }
       },
+      /* Reset the messages displayed on the UI */
       resetMessages : function(){
         document.getElementById("invalidInput").innerHTML = ""
         document.getElementById("transaction").innerHTML = ""

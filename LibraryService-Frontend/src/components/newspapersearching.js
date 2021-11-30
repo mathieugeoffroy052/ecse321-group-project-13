@@ -65,6 +65,13 @@ export default {
       },
 
     methods: {
+      /*
+      * Runs a (filtered) search depending on the inputs of the
+      *   "title" and "creator" text field
+      * Updating this.libraryItems list (based on the response of the
+      *    GET HTTP request) will allow the items displayed on the frontend
+      *    in the search results to be updated accordingly
+      */
       runSearch : function(){
         var requestedTitle = document.getElementById("requestedTitle").value
         var requestedWriter = document.getElementById("requestedWriter").value
@@ -141,9 +148,9 @@ export default {
           } 
         }
       },
+      /* Reset the messages displayed on the UI */
       resetMessages : function(){
         document.getElementById("invalidInput").innerHTML = ""
-        document.getElementById("transaction").innerHTML = ""
       },
       redirectToItemSelect : function(){
         window.location.href='../#/item-select';
