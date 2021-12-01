@@ -1,5 +1,6 @@
 <template>
   <div id="userAccount">
+    <br>
     <h2>Your Account Information</h2>
     <b-container id="profileInfo">
       <b-row align-h="center">
@@ -94,9 +95,14 @@
         </b-col>
       </b-row>
     </b-container>
+    <br>
   </div>
 </template>
 
 <script src="./userInfoViewing.js"></script>
 
-<style></style>
+<style>
+#userAccount{
+   background-color: #97C3F9;
+}
+</style>

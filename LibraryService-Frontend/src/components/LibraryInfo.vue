@@ -1,4 +1,5 @@
 <template>
+<div id="info">
   <b-container>
     <b-row>
       <b-col class="shadow p-3 m-3 bg-white rounded">
@@ -15,6 +16,11 @@
       </b-col>
     </b-row>
   </b-container>
+</div>
 </template>
 
 <script src="./libraryinformation.js"></script>
+
+<style >
+@import "styling.css";
+</style>

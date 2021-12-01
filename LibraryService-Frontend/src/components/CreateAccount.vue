@@ -1,6 +1,7 @@
 <template>
     <div id="CreateAccount">
-    <h3>Create Account</h3>
+    <br>
+    <h2>Create Account</h2>
           <b-container>
             <b-row class="shadow p-3 m-3 bg-white rounded">
               <div class="w-100">
@@ -95,12 +96,16 @@
               </div>
             </b-row>
           </b-container>
+          <br>
         </div>
 </template>
 
 <script src="./createuseraccount.js"></script>
 
 <style>
+#CreateAccount{
+  background-color: #97C3F9;
+}
 #libraryservices {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   color: #2c3e50;

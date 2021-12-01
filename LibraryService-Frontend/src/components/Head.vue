@@ -770,4 +770,12 @@
 #panne {
   background: #dbdbdb;
 }
+.tabs .nav-link.active {
+  color: #2c3e50;
+  background-color: #97C3F9 !important;
+}
+.tabs .nav-link {
+  color: #2c3e50;
+  
+}
 </style>

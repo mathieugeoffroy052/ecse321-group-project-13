@@ -1,6 +1,5 @@
 <template>
   <div id="search">
-
     <div>
     <b-container>
         <b-row>

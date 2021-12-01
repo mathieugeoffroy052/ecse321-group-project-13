@@ -1,4 +1,4 @@
-p<template>
+<template>
   <div id="libraryservices">
     <h2>Library Services</h2>
     <div>
@@ -250,6 +250,7 @@ p<template>
           </b-container>
         </b-tab>
       </b-tabs>
+      <br>
     </div>
   </div>
 </template>
@@ -271,5 +272,13 @@ p<template>
 }
 #panne {
   background: #dbdbdb;
+}
+.tabs .nav-link.active {
+  color: #2c3e50;
+  background-color: #97C3F9 !important;
+}
+.tabs .nav-link {
+  color: #2c3e50;
+  
 }
 </style>
