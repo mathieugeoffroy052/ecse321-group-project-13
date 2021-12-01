@@ -14,7 +14,7 @@ export default {
     data () {
       return {
         userID: 0,
-        show: 2
+        show: 0
       }
     },
     created : function() {
