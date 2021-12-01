@@ -7,6 +7,8 @@ on:
   pull_request:
     branches: 
       - master
+    paths:
+      - "LibraryService-Frontend/**"
           
 jobs:
   heroku-deploy:
@@ -20,8 +22,6 @@ jobs:
         run: npm install
       - name: Building the project
         run: npm run build
-        env:
-          path: "LibraryService-Frontend/**"
       - name: setup heroku deploy
         uses: akhileshns/heroku-deploy@v3.12.12
         
