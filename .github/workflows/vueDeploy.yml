@@ -18,6 +18,8 @@ jobs:
         uses: actions/setup-node@master
       - name: Install npm wrapper
         run: npm install
+      - name: Go to file
+        run: cd /home/runner/work/project-group-13/project-group-13/package.json
       - name: Building the project
         run: npm run build
       - name: setup heroku deploy
