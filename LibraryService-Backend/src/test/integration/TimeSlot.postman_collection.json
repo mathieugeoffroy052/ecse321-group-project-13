@@ -6,12 +6,12 @@
 	},
 	"item": [
 		{
-			"name": "http://localhost:8080/timeslot/viewall",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/timeslot/viewall",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/timeslot/viewall",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/timeslot/viewall",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -25,12 +25,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/timeslot/viewall",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/timeslot/viewall",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/timeslot/viewall",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/timeslot/viewall",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -85,12 +85,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/timeslot/view/firstName/lastName",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/timeslot/view/firstName/lastName",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/timeslot/view/:firstName/:lastName",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/timeslot/view/:firstName/:lastName",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -116,12 +116,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/timeslot/view/firstName/lastName",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/timeslot/view/firstName/lastName",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/timeslot/view/:firstName/:lastName",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/timeslot/view/:firstName/:lastName",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -188,12 +188,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/timeslot/view/id",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/timeslot/view/id",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/timeslot/view/id?timeslotID=1",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/timeslot/view/id?timeslotID=1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -214,12 +214,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/timeslot/view/id",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/timeslot/view/id",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/timeslot/view/id?timeslotID=1",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/timeslot/view/id?timeslotID=1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -281,7 +281,7 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/timslot/new",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/timslot/new",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -295,7 +295,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/timeslot/new?startDate=2020-12-25&startTime=08:00&endDate=2020-12-28&endTime=23:00&currentUserID=1",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/timeslot/new?startDate=2020-12-25&startTime=08:00&endDate=2020-12-28&endTime=23:00&currentUserID=1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -332,7 +332,7 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/timslot/new",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/timslot/new",
 					"originalRequest": {
 						"method": "POST",
 						"header": [],
@@ -346,7 +346,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/timeslot/new?startDate=2020-12-25&startTime=08:00&endDate=2020-12-28&endTime=23:00&currentUserID=1",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/timeslot/new?startDate=2020-12-25&startTime=08:00&endDate=2020-12-28&endTime=23:00&currentUserID=1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -424,12 +424,12 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/timeslot/assign",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/timeslot/assign",
 			"request": {
 				"method": "PUT",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/timeslot/assign?timeslotID=1&librarianID=6&currentUserID=1",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/timeslot/assign?timeslotID=1&librarianID=6&currentUserID=1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -457,12 +457,12 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/timeslot/assign",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/timeslot/assign",
 					"originalRequest": {
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/timeslot/assign?timeslotID=1&librarianID=6&currentUserID=1",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/timeslot/assign?timeslotID=1&librarianID=6&currentUserID=1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -531,7 +531,7 @@
 			]
 		},
 		{
-			"name": "http://localhost:8080/timeslot/delete",
+			"name": "https://libraryservice-backend-g13.herokuapp.com/timeslot/delete",
 			"request": {
 				"method": "DELETE",
 				"header": [],
@@ -545,7 +545,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/timeslot/delete?timeslotID=1&accountID=1",
+					"raw": "https://libraryservice-backend-g13.herokuapp.com/timeslot/delete?timeslotID=1&accountID=1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -569,7 +569,7 @@
 			},
 			"response": [
 				{
-					"name": "http://localhost:8080/timeslot/delete",
+					"name": "https://libraryservice-backend-g13.herokuapp.com/timeslot/delete",
 					"originalRequest": {
 						"method": "DELETE",
 						"header": [],
@@ -583,7 +583,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/timeslot/delete?timeslotID=1&accountID=1",
+							"raw": "https://libraryservice-backend-g13.herokuapp.com/timeslot/delete?timeslotID=1&accountID=1",
 							"protocol": "http",
 							"host": [
 								"localhost"

@@ -12,7 +12,6 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.lenient;
 
 import java.sql.Date;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -356,11 +355,9 @@ public class TestTransactionService {
 		Transaction itemReserveTrans = null;
 
 		Date reservationDate = Date.valueOf("2021-12-30");
-		Time start = Time.valueOf("13:14:15");
-		Time end = Time.valueOf("14:15:16");
 
 		try {
-			itemReserveTrans = service.createRoomReserveTransaction(roomItem, pAccount, reservationDate, start, end);
+			itemReserveTrans = service.createRoomReserveTransaction(roomItem, pAccount, reservationDate);
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
@@ -381,13 +378,11 @@ public class TestTransactionService {
 		Transaction roomReserveTrans = null;
 
 		Date reservationDate = Date.valueOf("2021-12-30");
-		Time start = Time.valueOf("13:14:15");
-		Time end = Time.valueOf("14:15:16");
 
 		String error = null;
 
 		try {
-			roomReserveTrans = service.createRoomReserveTransaction(roomItem, pAccount, reservationDate, start, end);
+			roomReserveTrans = service.createRoomReserveTransaction(roomItem, pAccount, reservationDate);
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
@@ -409,13 +404,11 @@ public class TestTransactionService {
 		Transaction roomReserveTrans = null;
 
 		Date reservationDate = Date.valueOf("2021-12-30");
-		Time start = Time.valueOf("13:14:15");
-		Time end = Time.valueOf("14:15:16");
 
 		String error = null;
 
 		try {
-			roomReserveTrans = service.createRoomReserveTransaction(roomItem, pAccount, reservationDate, start, end);
+			roomReserveTrans = service.createRoomReserveTransaction(roomItem, pAccount, reservationDate);
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}

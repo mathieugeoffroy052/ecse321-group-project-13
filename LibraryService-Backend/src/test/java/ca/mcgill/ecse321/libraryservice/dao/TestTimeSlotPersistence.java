@@ -127,7 +127,7 @@ public class TestTimeSlotPersistence {
         // create inputs for head librarian constructor
         String firstName = "Lorri";
         String lastName = "Kent";
-        boolean online = false;
+        boolean online = true;
         String password = "zxcvbnm";
         String email = "Lorri@email.com";
         int balance = 0;
