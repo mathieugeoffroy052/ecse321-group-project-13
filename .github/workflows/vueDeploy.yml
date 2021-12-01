@@ -16,15 +16,15 @@ jobs:
         uses: actions/checkout@master
       - name: Setup Node
         uses: actions/setup-node@master
-      - name: go to file
-        run: cd LibraryService-Frontend/
       - name: Install npm wrapper
         run: npm install
       - name: Building the project
         run: npm run build
+        env:
+          path: "OnlineLibrary-Frontend/**"
       - name: setup heroku deploy
         uses: akhileshns/heroku-deploy@v3.12.12
-      
+        
         with:
           args: deploy --only hosting
           heroku_api_key: 6a5c0620-a1f0-42ee-bee7-40ba632aef4d
