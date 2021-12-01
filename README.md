@@ -20,7 +20,8 @@ This project consists of developing a system for a library which supports the bo
 --------------------------------------------------------------------------
 ## Project Deliverables
 ### [Deliverable 1](https://github.com/McGill-ECSE321-Fall2021/project-group-13/wiki/Deliverable-1)
-### [Deliverable 2]()
+### [Deliverable 2](https://github.com/McGill-ECSE321-Fall2021/project-group-13/wiki/Deliverable-2)
+### [Deliverable 3](https://github.com/McGill-ECSE321-Fall2021/project-group-13/wiki/Deliverable-3)
 --------------------------------------------------------------------------
 ### Overview Table for Deliverable 1 :chart_with_upwards_trend: : 
 | Team Members           | Roles                                                                                                                                |   Hours   |
