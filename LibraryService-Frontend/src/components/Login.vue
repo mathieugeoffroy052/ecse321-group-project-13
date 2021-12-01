@@ -1,6 +1,6 @@
  <template>
-  <div id="Login">
-    <section class="vh-100" style="background-color: #FFFFFF;">
+  <div id="Login" style="background-color: #97C3F9;">
+    <section class="vh-100">
       <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
           <div class="col-12 col-md-8 col-lg-6 col-xl-5">
@@ -47,9 +47,9 @@
     position: absolute;
     width: 1433px;
     height: 831px;
-
   }
 </style>
+
 <style>
   #libraryTitle {
     display: flex;
