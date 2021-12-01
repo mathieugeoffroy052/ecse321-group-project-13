@@ -7,8 +7,6 @@ on:
   pull_request:
     branches: 
       - master
-    paths:
-      - "LibraryService-Frontend/**"
           
 jobs:
   heroku-deploy:
@@ -19,8 +17,10 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@master
       - name: Install npm wrapper
+        working-directory: ./LibraryService-Frontend
         run: npm install
       - name: Building the project
+        working-directory: ./LibraryService-Frontend
         run: npm run build
       - name: setup heroku deploy
         uses: akhileshns/heroku-deploy@v3.12.12
