@@ -12,11 +12,15 @@ jobs:
   heroku-deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: initial Setup
       - uses: actions/checkout@master
+      - name: Setup Node
       - uses: actions/setup-node@master
+      - name: Install npm wrapper
       - run: npm install
       - name: Building the project
       - run: npm run build
+      - name: setup heroku deploy
       - uses: akhileshns/heroku-deploy@v3.12.12
       
         with:
