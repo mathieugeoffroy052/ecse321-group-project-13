@@ -54,7 +54,7 @@ ________________________________________________________________________________
 | Gabrielle Halpin       |                                                                                                                                    |          |
 | Mathieu Geoffroy       |                                                                                                                                 |          |
 | Ramin Akhavan-Sarraf   |                                                                                                                                      |           |
-| Zoya Malhi             |                                                                                                                                    |          |
+| Zoya Malhi             | Mockup of search page and item selection page, Frontend design of login page, create account page, Frontend view testing and debugging. Implementing dynamic features to the search web pages with Backend services. Implementing the missing ‘log-out’ and 'login' method in the System’s Backend and creating postman mapping associated with this method. |         57 |
 _____________________________________________________________________________________________________________________________________________________________________________
 ______________________________________________________________________________________________________________________________________________
 
