@@ -18,8 +18,6 @@ jobs:
         uses: actions/checkout@master
       - name: Setup Node
         uses: actions/setup-node@master
-      - name: Change Directory
-        run: cd LibraryService-Frontend
       - name: Install npm wrapper
         run: npm install
       - name: Building the project
