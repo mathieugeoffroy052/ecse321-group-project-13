@@ -22,11 +22,3 @@ jobs:
       - name: Building the project
         working-directory: ./LibraryService-Frontend
         run: npm run build
-      - name: setup heroku deploy
-        uses: akhileshns/heroku-deploy@v3.12.12
-        
-        with:
-          args: deploy --only hosting
-          heroku_api_key: 6a5c0620-a1f0-42ee-bee7-40ba632aef4d
-          heroku_app_name: "libraryservice-backend-g13"
-          heroku_email: "gabrielle.halpin@mail.mcgill.ca"
