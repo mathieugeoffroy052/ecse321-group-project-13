@@ -30,7 +30,8 @@ export default {
               holiday:''
             },
             formStaff:{
-              userID:''
+              userID:'',
+              userIDDelete: ''
             },
             formCode:{
               barCodeNumber:'',
@@ -387,7 +388,7 @@ export default {
         onDelStaff(event) {
           this.deleteStaff()
           event.preventDefault()
-          this.formStaff.userID
+          this.formStaff.userIDDelete = ''
           // Trick to reset/clear native browser form validation state
           this.show = false
           this.$nextTick(() => {
@@ -397,7 +398,7 @@ export default {
         onResetStaff(event) {
           event.preventDefault()
           // Reset our form values
-          this.formStaff.userID
+          this.formStaff.userIDDelete = ''
           // Trick to reset/clear native browser form validation state
           this.show = false
           this.$nextTick(() => {

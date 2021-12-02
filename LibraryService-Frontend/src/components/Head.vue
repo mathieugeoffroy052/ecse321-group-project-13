@@ -475,7 +475,7 @@
                     >
                       <b-form-input
                         id="input-userID-toDelete"
-                        v-model="formStaff.userID"
+                        v-model="formStaff.userIDDelete"
                         placeholder="Enter user ID"
                         required
                       ></b-form-input>
