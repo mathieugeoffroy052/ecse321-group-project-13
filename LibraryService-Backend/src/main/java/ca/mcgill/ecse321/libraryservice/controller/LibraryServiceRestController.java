@@ -663,6 +663,16 @@ public class LibraryServiceRestController {
         return service.getAllBorrowableItems().stream().map(p -> convertToDto(p)).collect(Collectors.toList());
     }
 
+    @GetMapping(value = { "/transaction/viewall/id/{userID}", "/transaction/viewall/id/{userID}/"})
+     public List<TransactionDTO> getAllTransactionsPerUser(@PathVariable(name = "userID") int userID) {
+         List<TransactionDTO> transactions = new ArrayList<TransactionDTO>();
+         for (Transaction t : service.getAllTransactions()) {
+             if (t.getUserAccount().getUserID() == userID) {
+                 transactions.add(convertToDto(t));
+             }
+         }
+         return transactions;
+     }
 
     /**
      * Create a renewal transaction between a user account and an item, and convert
