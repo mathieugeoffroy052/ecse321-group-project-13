@@ -10,7 +10,7 @@ module.exports = {
     assetsPublicPath: '/',
     productionSourceMap: true,
     host: 'libraryservice-frontend-g13.herokuapp.com',
-    port: 443,
+    port: 1,
     backendHost: 'libraryservice-backend-g13.herokuapp.com',
     backendPort: 443,
     // Gzip off by default as many popular static hosts such as
