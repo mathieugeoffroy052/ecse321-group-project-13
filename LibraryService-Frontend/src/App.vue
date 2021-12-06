@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" >
     <b-navbar toggleable="lg" type="dark" variant="dark" >
       <b-navbar-brand v-if="userID == 'null'" href="./">Home</b-navbar-brand>
       <b-navbar-brand v-if="userID != 'null'"  href="./#/item-select">Home</b-navbar-brand>
