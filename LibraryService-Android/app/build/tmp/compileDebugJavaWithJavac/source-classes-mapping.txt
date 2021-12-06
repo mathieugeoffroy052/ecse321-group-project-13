@@ -1,0 +1,19 @@
+ca/mcgill/ecse321/libraryservice/databinding/ActivityMainBinding.java
+ ca.mcgill.ecse321.libraryservice.databinding.ActivityMainBinding
+ca/mcgill/ecse321/libraryservice/BuildConfig.java
+ ca.mcgill.ecse321.libraryservice.BuildConfig
+ca/mcgill/ecse321/libraryservice/databinding/FragmentSecondBinding.java
+ ca.mcgill.ecse321.libraryservice.databinding.FragmentSecondBinding
+ca/mcgill/ecse321/libraryservice/databinding/FragmentFirstBinding.java
+ ca.mcgill.ecse321.libraryservice.databinding.FragmentFirstBinding
+ca/mcgill/ecse321/libraryservice/MainActivity.java
+ ca.mcgill.ecse321.libraryservice.MainActivity
+ ca.mcgill.ecse321.libraryservice.MainActivity$1
+ca/mcgill/ecse321/libraryservice/SecondFragment.java
+ ca.mcgill.ecse321.libraryservice.SecondFragment
+ ca.mcgill.ecse321.libraryservice.SecondFragment$1
+ca/mcgill/ecse321/libraryservice/FirstFragment.java
+ ca.mcgill.ecse321.libraryservice.FirstFragment
+ ca.mcgill.ecse321.libraryservice.FirstFragment$1
+ca/mcgill/ecse321/libraryservice/databinding/ContentMainBinding.java
+ ca.mcgill.ecse321.libraryservice.databinding.ContentMainBinding
