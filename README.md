@@ -22,6 +22,7 @@ This project consists of developing a system for a library which supports the bo
 ### [Deliverable 1](https://github.com/McGill-ECSE321-Fall2021/project-group-13/wiki/Deliverable-1)
 ### [Deliverable 2](https://github.com/McGill-ECSE321-Fall2021/project-group-13/wiki/Deliverable-2)
 ### [Deliverable 3](https://github.com/McGill-ECSE321-Fall2021/project-group-13/wiki/Deliverable-3)
+### [Deliverable 4](https://github.com/McGill-ECSE321-Fall2021/project-group-13/wiki/Deliverable-4)
 --------------------------------------------------------------------------
 ### Overview Table for Deliverable 1 :chart_with_upwards_trend: : 
 | Team Members           | Roles                                                                                                                                |   Hours   |
@@ -59,4 +60,16 @@ ________________________________________________________________________________
 _____________________________________________________________________________________________________________________________________________________________________________
 ______________________________________________________________________________________________________________________________________________
 
+### Overview Table for Deliverable 4 :chart_with_upwards_trend: : 
+| Team Members           | Roles                                                                                                                                |   Hours   |
+| :---------------------:|:------------------------------------------------------------------------------------------------------------------------------------:| :--------:|
+| Amani Jammoul          | |  |
+| Eloyann Roy-Javanbakht | |  |
+| Gabrielle Halpin       | |  |
+| Mathieu Geoffroy       | |  |
+| Ramin Akhavan-Sarraf   | |  |
+| Zoya Malhi             | |  |
+
+_____________________________________________________________________________________________________________________________________________________________________________
+______________________________________________________________________________________________________________________________________________
 
