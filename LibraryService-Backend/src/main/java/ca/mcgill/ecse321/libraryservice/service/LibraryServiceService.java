@@ -584,18 +584,11 @@ public class LibraryServiceService {
         if (item == null) {
             error = error + "Item cannot be null! ";
         }
-        /*
-         * else if (borrowableItemRepository.findBorrowableItemByBarCodeNumber(item.
-         * getBarCodeNumber()) == null){ error += "Borrowable item does not exist!"; }
-         */
 
         if (account == null) {
             error = error + "Account cannot be null! ";
         }
-        /*
-         * else if (userAccountRepository.findUserAccountByUserID(account.getUserID())
-         * == null){ error += "User does not exist!"; }
-         */
+
         error = error.trim();
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
@@ -658,18 +651,10 @@ public class LibraryServiceService {
         if (item == null) {
             error = error + "Item cannot be null! ";
         }
-        /*
-         * else if (borrowableItemRepository.findBorrowableItemByBarCodeNumber(item.
-         * getBarCodeNumber()) == null){ error += "Borrowable item does not exist!"; }
-         */
 
         if (account == null) {
             error = error + "Account cannot be null! ";
         }
-        /*
-         * else if (userAccountRepository.findUserAccountByUserID(account.getUserID())
-         * == null){ error += "User does not exist!"; }
-         */
 
         error = error.trim();
         if (error.length() > 0) {
@@ -742,18 +727,10 @@ public class LibraryServiceService {
         if (item == null) {
             error = error + "Item cannot be null! ";
         }
-        /*
-         * else if (borrowableItemRepository.findBorrowableItemByBarCodeNumber(item.
-         * getBarCodeNumber()) == null){ error += "Borrowable item does not exist!"; }
-         */
 
         if (account == null) {
             error = error + "Account cannot be null! ";
         }
-        /*
-         * else if (userAccountRepository.findUserAccountByUserID(account.getUserID())
-         * == null){ error += "User does not exist!"; }
-         */
 
         error = error.trim();
         if (error.length() > 0) {
@@ -818,18 +795,10 @@ public class LibraryServiceService {
         if (item == null) {
             error = error + "Item cannot be null! ";
         }
-        /*
-         * else if (borrowableItemRepository.findBorrowableItemByBarCodeNumber(item.
-         * getBarCodeNumber()) == null){ error += "Borrowable item does not exist!"; }
-         */
 
         if (account == null) {
             error = error + "Account cannot be null! ";
         }
-        /*
-         * else if (userAccountRepository.findUserAccountByUserID(account.getUserID())
-         * == null){ error += "User does not exist!"; }
-         */
         error = error.trim();
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
@@ -861,18 +830,11 @@ public class LibraryServiceService {
         if (item == null) {
             error = error + "Item cannot be null! ";
         }
-        /*
-         * else if (borrowableItemRepository.findBorrowableItemByBarCodeNumber(item.
-         * getBarCodeNumber()) == null){ error += "Borrowable item does not exist!"; }
-         */
 
         if (account == null) {
             error = error + "Account cannot be null! ";
         }
-        /*
-         * else if (userAccountRepository.findUserAccountByUserID(account.getUserID())
-         * == null){ error += "User does not exist!"; }
-         */
+
         error = error.trim();
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
@@ -927,18 +889,11 @@ public class LibraryServiceService {
         if (item == null) {
             error = error + "Item cannot be null! ";
         }
-        /*
-         * else if (borrowableItemRepository.findBorrowableItemByBarCodeNumber(item.
-         * getBarCodeNumber()) == null){ error += "Borrowable item does not exist!"; }
-         */
 
         if (account == null) {
             error = error + "Account cannot be null! ";
         }
-        /*
-         * else if (userAccountRepository.findUserAccountByUserID(account.getUserID())
-         * == null){ error += "User does not exist!"; }
-         */
+
         error = error.trim();
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
@@ -1005,10 +960,6 @@ public class LibraryServiceService {
         if (account == null) {
             throw new IllegalArgumentException("Account cannot be null!");
         }
-        /*
-         * else if(userAccountRepository.findUserAccountByUserID(account.getUserID()) ==
-         * null){ throw new IllegalArgumentException("User does not exist!"); }
-         */
 
         List<Transaction> allUserTransactions = transactionRepository.findByUserAccount(account);
         List<BorrowableItem> allBorrowedItems = new ArrayList<BorrowableItem>();
@@ -1031,10 +982,6 @@ public class LibraryServiceService {
         if (account == null) {
             throw new IllegalArgumentException("Account cannot be null!");
         }
-        /*
-         * else if(userAccountRepository.findUserAccountByUserID(account.getUserID()) ==
-         * null){ throw new IllegalArgumentException("User does not exist!"); }
-         */
 
         List<Transaction> allUserTransactions = transactionRepository.findByUserAccount(account);
         List<BorrowableItem> allReservedItems = new ArrayList<BorrowableItem>();
@@ -1059,10 +1006,6 @@ public class LibraryServiceService {
         if (account == null) {
             throw new IllegalArgumentException("Account cannot be null!");
         }
-        /*
-         * else if(userAccountRepository.findUserAccountByUserID(account.getUserID()) ==
-         * null){ throw new IllegalArgumentException("User does not exist!"); }
-         */
 
         List<Transaction> allUserTransactions = transactionRepository.findByUserAccount(account);
         List<BorrowableItem> allItemWaitlists = new ArrayList<BorrowableItem>();
@@ -1085,11 +1028,6 @@ public class LibraryServiceService {
         if (item == null) {
             throw new IllegalArgumentException("Item cannot be null!");
         }
-        /*
-         * else if (borrowableItemRepository.findBorrowableItemByBarCodeNumber(item.
-         * getBarCodeNumber()) == null){ throw new
-         * IllegalArgumentException("Item does not exist!"); }
-         */
         List<Transaction> allItemTransactions = transactionRepository.findByBorrowableItem(item);
         List<UserAccount> allWaitlistedUsers = new ArrayList<UserAccount>();
         for (Transaction t : allItemTransactions) {
@@ -1987,6 +1925,12 @@ public class LibraryServiceService {
         return item;
     }
 
+    /**
+     * This method deletes a libraryitem from te system
+     * @author Mathieu Geoffroy
+     * @param libraryItem
+     * @return
+     */
     @Transactional
     public boolean deleteLibraryItem(LibraryItem libraryItem) {
         try {
@@ -2546,7 +2490,6 @@ public class LibraryServiceService {
         		 throw new IllegalArgumentException("Username or password is incorrect.");
         	 }
         	 else {
-        		 //account.setToken(userID);
  				 userAccountRepository.save(account);
  				 return account; 
         	 }
@@ -2574,11 +2517,8 @@ public class LibraryServiceService {
         	 if (account == null) {
         		 throw new IllegalArgumentException("No user found with this ID!");
         	 }
-//        	 else if (account.getToken() == 0) {
-//        		 throw new IllegalArgumentException("The user cannot be found.");
-//        	 }
+
         	 else {
-        		// account.setToken(0);
  				 userAccountRepository.save(account);
  				 return account; 
         	 }
