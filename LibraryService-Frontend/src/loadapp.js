@@ -18,6 +18,7 @@ export default {
       }
     },
     created : function() {
+        console.log("NODE_ENV = " + process.env.NODE_ENV)
         var theUserID = sessionStorage.getItem("existingUserID")
         console.log("USER ID: " + theUserID)
         this.userID = theUserID
