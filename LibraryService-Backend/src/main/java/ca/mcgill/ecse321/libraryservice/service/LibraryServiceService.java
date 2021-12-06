@@ -1168,33 +1168,6 @@ public class LibraryServiceService {
     }
 
     /**
-     * Headlibrarian getters get headlibrarian from fullName
-     * 
-     * @author Eloyann Roy-Javanbakht *private will be made public
-     */
-    private HeadLibrarian getHeadLibrarianFromFullName(String firstName, String lastName) throws Exception {
-        String error = "";
-        if (firstName == null || firstName.trim().length() == 0) {
-            error = error + "First Name  cannot be empty! ";
-        }
-        if (lastName == null || lastName.trim().length() == 0) {
-            error = error + "Last Name  cannot be empty! ";
-        }
-        error = error.trim();
-        if (error.length() > 0) {
-            throw new IllegalArgumentException(error);
-        }
-
-        UserAccount librarian = userAccountRepository.findByFirstNameAndLastName(firstName, lastName);
-
-        if (!(librarian instanceof HeadLibrarian)) {
-            throw new Exception("the name privided does not correcpond to a Head librarian");
-        }
-        return (HeadLibrarian) librarian;
-
-    }
-
-    /**
      * Create a new Librarian Checks 1 : input validity Checks 2 : theres is 0
      * HeadLibrarian in the system before adding this one Calls on check if
      * 
@@ -1311,39 +1284,6 @@ public class LibraryServiceService {
         librarianRepository.save(librarian);
         return librarian;
 
-    }
-
-    /**
-     * Create a new Librarian from existing Patron Account Checks 1 : input validity
-     * Checks 2 : theres creater is instance of HeadLibrarian before adding this one
-     * Checks 3: that this user does not already have an account as a librarian
-     * Calls on check if
-     * 
-     * @author Eloyann Roy-Javanbakht not yet implemented currently put private
-     */
-    private Librarian upgradePatronAccountToLibrarian(int userIDHeadLibrarian, int userID) throws Exception {
-        // checks credentials
-
-        if (userIDHeadLibrarian != getHeadLibrarian().getUserID())
-            throw new Exception("This User  does not the credentials to add a new librarian");
-
-        UserAccount librarian = null;
-
-        librarian = getUserbyUserId(userID);
-        if (librarian == null)
-            throw new Exception("This ID is not associated to an existing account");
-
-        if ((librarian instanceof Librarian)) {
-            throw new Exception("the ID privided  correcponds already to a Staff Member");
-        }
-
-        if (!(librarian instanceof Patron)) {
-            throw new Exception("the ID privided  does not correcponds to a Patron");
-        }
-        deleteAPatronbyUserID(userIDHeadLibrarian, userID);
-
-        librarianRepository.save((Librarian) librarian);
-        return (Librarian) librarian;
     }
 
     /**
