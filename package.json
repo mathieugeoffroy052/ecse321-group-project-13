@@ -1,6 +1,0 @@
-{
-    "scripts" : {
-        "install": "cd LibraryService-Frontend && npm install",
-        "build" : "cd LibraryService-Frontend && npm run build"
-    }
-}
