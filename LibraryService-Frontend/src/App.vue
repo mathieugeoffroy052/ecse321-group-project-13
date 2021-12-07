@@ -15,7 +15,7 @@
         </b-navbar-nav>
       </b-collapse>
 
-      <b-nav-item class="navbar-nav navbar-right" v-if="userID != 'null'" href="./" @click="logout()">Logout</b-nav-item>
+      <b-nav-item class="navbar-nav navbar-right" v-if="userID != 'null' && userID != null" href="./" @click="logout()">Logout</b-nav-item>
 
     </b-navbar>
     <h1 v-if="desktopcheck()">

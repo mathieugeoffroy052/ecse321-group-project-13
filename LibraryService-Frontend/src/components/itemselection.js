@@ -17,6 +17,9 @@ export default {
       }
     },
 
+    /**
+     * This is used to redirect the user's to the specifc search pages based on the item tehy want to find.
+     */
     methods: {
       redirectToBook: function () {
         window.location.href='../#/book';

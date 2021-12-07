@@ -12,15 +12,13 @@ jobs:
   heroku-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - uses: actions/setup-node@master
-      - run: npm install
+      - name: initial Setup
+        uses: actions/checkout@master
+      - name: Setup Node
+        uses: actions/setup-node@master
+      - name: Install npm wrapper
+        working-directory: ./LibraryService-Frontend
+        run: npm install
       - name: Building the project
-      - run: npm run build
-      - uses: akhileshns/heroku-deploy@v3.12.12
-      
-        with:
-          args: deploy --only hosting
-          heroku_api_key: 6a5c0620-a1f0-42ee-bee7-40ba632aef4d
-          heroku_app_name: "libraryservice-backend-g13"
-          heroku_email: "gabrielle.halpin@mail.mcgill.ca"
+        working-directory: ./LibraryService-Frontend
+        run: npm run build

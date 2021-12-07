@@ -8,7 +8,8 @@ var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPo
 var AXIOS = axios.create({
   baseURL: backendUrl,
   headers: { 'Access-Control-Allow-Origin': frontendUrl }
-})
+})  
+//This page renders the backend for the login page
 
 export default {
     name: 'login',
@@ -44,6 +45,9 @@ export default {
         })
     },
     methods: {
+        /**
+         * This method allows the desired user to login is they have to correct credentials. It will check using their user id and password
+         */
         login: function() {
             var userID = document.getElementById("typeUserIDX-2").value;
             var password = document.getElementById("typePasswordX-2").value;
@@ -76,6 +80,9 @@ export default {
         redirectToItemSelect: function () {
             window.location.href='../#/item-select';
         },
+        /**
+         * This method is only used of the database is reset and no users exist in the system at his time.
+         */
         initializeSystem: function() {
             this.noUsers = false
             //create head librarian account

@@ -20,7 +20,8 @@ This project consists of developing a system for a library which supports the bo
 --------------------------------------------------------------------------
 ## Project Deliverables
 ### [Deliverable 1](https://github.com/McGill-ECSE321-Fall2021/project-group-13/wiki/Deliverable-1)
-### [Deliverable 2]()
+### [Deliverable 2](https://github.com/McGill-ECSE321-Fall2021/project-group-13/wiki/Deliverable-2)
+### [Deliverable 3](https://github.com/McGill-ECSE321-Fall2021/project-group-13/wiki/Deliverable-3)
 --------------------------------------------------------------------------
 ### Overview Table for Deliverable 1 :chart_with_upwards_trend: : 
 | Team Members           | Roles                                                                                                                                |   Hours   |
@@ -44,4 +45,18 @@ ________________________________________________________________________________
 | Zoya Malhi             |   Worked on Unit test for Patron; wrote Service Methods for Patron; wrote controller methods for Patron and converting from DTO to Domain and vice versa; fixing persistence tests; Debugged non-functional unit tests; Running test coverage and updating tests & service methods                                                                                                                                 |    42       |
 _____________________________________________________________________________________________________________________________________________________________________________
 ______________________________________________________________________________________________________________________________________________
+
+
+### Overview Table for Deliverable 3 :chart_with_upwards_trend: : 
+| Team Members           | Roles                                                                                                                                |   Hours   |
+| :---------------------:|:------------------------------------------------------------------------------------------------------------------------------------:| :--------:|
+| Amani Jammoul          | Generating initial vue.js content, Creating tentative mock-up designs, Frontend design of the item search feature which includes all specific item searching pages, Frontend view testing and debugging, Implementing dynamic features to the search web pages with Backend services, Updating backend services related to the search feature search, Commenting/cleaning front end code  |     35      |
+| Eloyann Roy-Javanbakht |   Creating tentative mock-up designs, Frontend design of the item search feature which includes all specific item searching pages, Frontend view testing and debugging, Implementing dynamic features to the search web pages with Backend services, Updating backend services related to the search feature search, Completing the deliverable documentation, creating the architecture Model  |   33     |
+| Gabrielle Halpin       | Updating backend services implemented in sprint 2 while updating the restful API accordingly; ensuring the validity and correctness of all service methods of the system’s backend through fixing persistance tests and debugging non-functional unit tests; adjusting continuous integration files to build and deploy the project; creating the librarian and head librarian frontend pages along with their interactive elements and functionality.| 35 |
+| Mathieu Geoffroy       | Updating backend services implemented in sprint 2 while updating the restful API accordingly; ensuring the validity and correctness of all service methods of the system’s backend through fixing persistance tests and debugging non-functional unit tests; creating the librarian and head librarian frontend pages along with their interactive elements and functionality. |  36 |
+| Ramin Akhavan-Sarraf   |Creating tentative mock-up designs, Frontend design of the item search feature which includes all specific item searching pages, Frontend view testing and debugging, Implementing dynamic features to the search web pages with Backend services, Updating backend services related to the search feature, Updating postman endpoint integration tests |     34      |
+| Zoya Malhi             | Mockup of search page and item selection page, Frontend design of login page, create account page, Frontend view testing and debugging. Implementing dynamic features to the search web pages with Backend services. Implementing the missing ‘log-out’ and 'login' method in the System’s Backend and creating postman mapping associated with this method. |       33   |
+_____________________________________________________________________________________________________________________________________________________________________________
+______________________________________________________________________________________________________________________________________________
+
 
