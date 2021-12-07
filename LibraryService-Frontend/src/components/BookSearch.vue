@@ -7,6 +7,7 @@
       </div>
     </div>
 
+    
     <b-containter md>
       <b-col class="shadow p-3 m-3 bg-white rounded">
         <b-row>
@@ -21,6 +22,7 @@
           </div>
         </b-row>
 
+        <div v-if=" desktopcheck()">
         <b-row>
           <b-col cols="5">
             <label for="title" style="float: right">Search by title: </label>
@@ -34,6 +36,7 @@
             />
           </b-col>
         </b-row>
+
 
         <b-row>
           <b-col cols="5">
@@ -60,10 +63,62 @@
             >
           </b-col>
         </b-row>
+        </div>
+
+        <div v-if="!desktopcheck()">
+        <b-row>
+          <b-col>
+            <label for="title">Search by title: </label>
+          </b-col>
+        </b-row>
+
+        <b-row>
+          <b-col>
+            <input
+              type="text"
+              id="requestedTitle"
+              name="title"
+            />
+          </b-col>
+        </b-row>
+        
+        <b-row>
+          <b-col>
+            <label for="author" style="float: center"
+              >Search by author:
+            </label>
+          </b-col>
+        </b-row>
+
+        <b-row class="mb-2">
+          <b-col>
+            <input
+              class="mr-2"
+              type="text"
+              id="requestedAuthor"
+              name="author"
+            />
+          </b-col>
+        </b-row>
+
+        <b-row>
+          <b-col>
+            <b-button
+              variant="dark"
+              style="float: center"
+              @click="
+                resetMessages();
+                runSearch();
+              "
+              >Submit</b-button
+            >
+          </b-col>
+        </b-row>
+        </div>
 
         <p id="invalidInput"></p>
 
-        <div>
+
           <div class="shadow p-3 m-3 rounded" id="results" style="overflow-y: scroll; height: 300px">
             <v-row
               justify="center"
@@ -84,7 +139,7 @@
               <br /></b-list-group-item>
             </v-row>
           </div>
-        </div>
+
 
         <div id="reserve">
           <br />
