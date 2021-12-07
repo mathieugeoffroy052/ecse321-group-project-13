@@ -62,7 +62,7 @@ export default {
             var check = false;
             if(window.innerWidth>500){
                 check=true;
-            }
+            }   
             return check;
         }
     }

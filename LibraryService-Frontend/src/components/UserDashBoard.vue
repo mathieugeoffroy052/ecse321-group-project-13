@@ -3,7 +3,7 @@
     <br>
     <h2>Your Account Information</h2>
     <b-container id="profileInfo">
-      <b-row align-h="center">
+      <b-row align-h="center" v-if="desktopcheck()">
         <b-col class="shadow p-3 m-3 bg-white rounded">
           <h5>Personal Information</h5>
           <b-avatar></b-avatar>
@@ -40,6 +40,53 @@
             </b-col>
           </b-row>
         </b-col>
+        <b-col class="shadow p-3 m-3 bg-white rounded">
+          <div>
+            <h5>Current Balance</h5>
+            <p style="font-size:75px;" class="m-5">${{ currentPatron.balance }}</p>
+          </div>
+        </b-col>
+      </b-row>
+
+      <b-row align-h="center" v-if="!desktopcheck()">
+        <b-col class="shadow p-3 m-3 bg-white rounded">
+          <h5>Personal Information</h5>
+          <b-avatar></b-avatar>
+          <b-row>
+            <b-col>
+              <b-badge
+                v-if="currentPatron.validatedAccount || isLibrarian"
+                href="#"
+                variant="success"
+                >Validated</b-badge
+              >
+              <b-badge
+                v-if="!currentPatron.validatedAccount && !isLibrarian"
+                href="#"
+                variant="danger"
+                >Unvalidated</b-badge
+              >
+            </b-col>
+          </b-row>
+          <b-row class="my-3">
+            <b-col>
+              <p class="d-inline">{{ currentPatron.firstName }}</p>
+              <p class="d-inline">{{ currentPatron.lastName }}</p>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              <p>{{ currentPatron.email }}</p>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              <p>{{ currentPatron.address }}</p>
+            </b-col>
+          </b-row>
+        </b-col>
+      </b-row>
+      <b-row align-h="center" v-if="!desktopcheck()">
         <b-col class="shadow p-3 m-3 bg-white rounded">
           <div>
             <h5>Current Balance</h5>

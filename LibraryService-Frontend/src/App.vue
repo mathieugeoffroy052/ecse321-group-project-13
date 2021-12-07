@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" >
     <b-navbar toggleable="lg" type="dark" variant="dark" >
       <b-navbar-brand v-if="userID == 'null'" href="./">Home</b-navbar-brand>
       <b-navbar-brand v-if="userID != 'null'"  href="./#/item-select">Home</b-navbar-brand>
@@ -18,7 +18,14 @@
       <b-nav-item class="navbar-nav navbar-right" v-if="userID != 'null'" href="./" @click="logout()">Logout</b-nav-item>
 
     </b-navbar>
-    <h1><img src="./assets/figmaBook.png" width="250" height="200">Group 13 Library System</h1>
+    <h1 v-if="desktopcheck()">
+      <img  src="./assets/figmaBook.png" width="250" height="200">
+      Group 13 Library System
+    </h1>
+    <h3 v-if="!desktopcheck()">
+      <img  src="./assets/figmaBook.png" width="100" height="80">
+      Group 13 Library System
+    </h3>
     <router-view></router-view>
   </div>
 </template>
