@@ -22,10 +22,10 @@
       <img  src="./assets/figmaBook.png" width="250" height="200">
       Group 13 Library System
     </h1>
-    <h1 v-if="!desktopcheck()">
+    <h3 v-if="!desktopcheck()">
       <img  src="./assets/figmaBook.png" width="100" height="80">
       Group 13 Library System
-    </h1>
+    </h3>
     <router-view></router-view>
   </div>
 </template>
