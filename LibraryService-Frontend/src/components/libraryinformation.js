@@ -37,7 +37,7 @@ export default {
             },
             desktopcheck : function(){
                 var check = false;
-                if(window.innerWidth>1000){
+                if(window.innerWidth>500){
                     check=true;
                 }   
                 return check;
