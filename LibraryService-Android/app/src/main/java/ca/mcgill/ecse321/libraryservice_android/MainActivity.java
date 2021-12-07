@@ -27,12 +27,18 @@ import android.annotation.TargetApi;
 
 public class MainActivity extends AppCompatActivity {
 
+
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
     private WebView mainWebview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        /*
+        Reference: https://stackoverflow.com/questions/7305089/how-to-load-external-webpage-in-webview?fbclid=IwAR0bhG4ziLzhUPmwcKjVeDijMJeO00vgNSddF6KDtwc0YfQvJddd-BQtaRE
+        The following code used the Reference to learn how to link the frontend to the Android app.
+        In other words, this was used so that the android app opens the website app when it is opened
+         */
         super.onCreate(savedInstanceState);
 
 
