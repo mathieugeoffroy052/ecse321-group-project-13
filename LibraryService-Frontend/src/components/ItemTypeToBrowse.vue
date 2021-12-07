@@ -32,20 +32,20 @@
      </div>
      <div v-if="!desktopcheck()">
        
-        <b-row  align-h="around"  cols="4"  class="mb-5">
-          <b-button  pill variant="dark" size="lg" squared @click="redirectToBook()">Book</b-button>
+        <b-row  align-h="around" class="mb-5">
+          <b-button class = "col-10" pill variant="dark" size="lg" squared @click="redirectToBook()">Book</b-button>
         </b-row>
         
-        <b-row  align-h="around"  cols="4"  class="mb-5">
-          <b-button  pill variant="dark" size="lg"  squared @click="redirectToMovie()">Movie</b-button>
+        <b-row  align-h="around"  class="mb-5">
+          <b-button class = "col-10" pill variant="dark" size="lg"  squared @click="redirectToMovie()">Movie</b-button>
         </b-row>
 
-        <b-row  align-h="around"  cols="4"  class="mb-5">
-          <b-button  pill variant="dark" size="lg" @click="redirectToMusic()">Music</b-button>
+        <b-row  align-h="around"  class="mb-5">
+          <b-button class = "col-10" pill variant="dark" size="lg" @click="redirectToMusic()">Music</b-button>
         </b-row>
 
-        <b-row  align-h="around"  cols="4"  class="mb-5">
-          <b-button pill  variant="dark" size="lg" @click="redirectToNewspaper()">Newspaper Article</b-button>
+        <b-row  align-h="around"  class="mb-5">
+          <b-button class = "col-10" pill variant="dark" size="lg" @click="redirectToNewspaper()">Newspaper Article</b-button>
         </b-row>
   
      </div>
