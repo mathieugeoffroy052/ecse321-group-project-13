@@ -155,6 +155,11 @@ public class LibraryServiceRestController {
         return service.getAllTimeSlots().stream().map(p -> convertToDto(p)).collect(Collectors.toList());
     }
 
+    /**
+     * returna specific timeslot for a specified user
+     * @author Mathieu Geoffroy
+     * @return list of specific timslots
+     */
     @GetMapping(value = {"timeslot/view/librarianID/{userID}", "timeslot/view/librarianID/{userID}/"})
     public List<TimeslotDTO> getTimeslotByLibrarianID(@PathVariable (name = "userID") int userID) throws Exception {
         return service.getTimeSlotsFromLibrarian(userID).stream().map(p -> convertToDto(p)).collect(Collectors.toList());
@@ -229,6 +234,7 @@ public class LibraryServiceRestController {
      * delete timeslot based on current account
      * @param timeslotID
      * @param accountID
+     * @author Mathieu Geoffroy
      * @return true when deleted successfully
      * @throws Exception
      */
@@ -343,6 +349,13 @@ public class LibraryServiceRestController {
 		accountDTO = convertToDto(account);
 		return accountDTO; 
 	}
+    /**
+     * This method is called when the librarian wants to update the user's balance.
+     * @param userID
+     * @param balance
+     * @author Mathieu Geoffroy
+     * @return the accountDTO with the updated infromation
+     */
 
     @PutMapping(value = {"/updateBalance", "/updateBalance/"})
 	public UserAccountDTO updateBalance(@RequestParam int userID, @RequestParam int balance) {
@@ -658,11 +671,21 @@ public class LibraryServiceRestController {
         return convertToDto(t);
     }
 
+    /**
+     * Get all the borrowbale items in teh system.
+     * @author Mathieu Geoffroy
+     * @return all borrowable Items
+     */
     @GetMapping(value = {"/borrowableItems/viewall", "/borrowableItems/viewall/"})
     public List<BorrowableItemDTO> getAllBorrowableItems() {
         return service.getAllBorrowableItems().stream().map(p -> convertToDto(p)).collect(Collectors.toList());
     }
 
+    /**
+     * This returns all the transactiosn for a specific user
+     * @param userID
+     * @author Mathieu Geoffroy
+     */
     @GetMapping(value = { "/transaction/viewall/id/{userID}", "/transaction/viewall/id/{userID}/"})
      public List<TransactionDTO> getAllTransactionsPerUser(@PathVariable(name = "userID") int userID) {
          List<TransactionDTO> transactions = new ArrayList<TransactionDTO>();
@@ -1360,269 +1383,6 @@ public class LibraryServiceRestController {
     ///////// Helper methods - convertToDomainObject//////////
 
     //each method need to check to make sure the individual is in the system before creating them.
-    
-    /**
-     * Gets the corresponding regular borrowable item from the DTO version
-     * @param borrowableItemDTO
-     * @return BorrowableItem
-     * @author Zoya Malhi and Ramin Akhavan-Sarraf
-     */
-    private BorrowableItem convertToDomainObject(BorrowableItemDTO borrowableItemDTO) {
-        BorrowableItem borrowableItem = null;
-        try {
-            borrowableItem = service.getBorrowableItemFromBarCodeNumber(borrowableItemDTO.getBarCodeNumber());
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Could not get borrowable item from service!");
-        }
-	    if (borrowableItem == null) {
-	            throw new IllegalArgumentException("There is no such borrowable item dto!");
-	    }
-	    return borrowableItem; 
-    }
-
-    /**
-     * Gets the corresponding regular library item from the DTO version
-     * 
-     * @param LibraryItemDTO
-     * @returns LibraryItem
-     * @author Ramin Akhavan-Sarraf
-     */
-    private LibraryItem convertToDomainObject(LibraryItemDTO libraryItemDTO) {
-        List<LibraryItem> libraryItems;
-        LibraryItem theLibraryItem = null;
-        try {
-            if (libraryItemDTO.getType() == ItemType.Book.toString()) {
-                libraryItems = service.getAllBooks();
-            } else if (libraryItemDTO.getType() == ItemType.Movie.toString()) {
-                libraryItems = service.getAllMovies();
-            } else if (libraryItemDTO.getType() == ItemType.Music.toString()) {
-                libraryItems = service.getAllMusic();
-            } else if (libraryItemDTO.getType() == ItemType.NewspaperArticle.toString()) {
-                libraryItems = service.getAllNewspapers();
-            } else {
-                libraryItems = service.getAllRoomReservations();
-            }
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Could not get library item from service!");
-        }
-
-        for (LibraryItem libraryItem: libraryItems){
-            if(libraryItem.getIsbn() == libraryItemDTO.getIsbn()){
-
-                theLibraryItem = libraryItem;
-            }
-        }
-
-        if (theLibraryItem == null) {
-            throw new IllegalArgumentException("There is no such library item dto!");
-        }
-        return theLibraryItem;
-    }
-
-    /**
-     * Gets the corresponding regular head librarian from the DTO version
-     * 
-     * @param HeadLibrarianDTO
-     * @returns HeadLibrarian
-     * @author Ramin Akhavan-Sarraf
-     */
-    
-    private HeadLibrarian convertToDomainObject(HeadLibrarianDTO headLibrarianDTO) {
-        HeadLibrarian headLibrarian;
-        try {
-
-            headLibrarian = service.getHeadLibrarianFromUserId(headLibrarianDTO.getUserID());
-
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Could not get head librarian from service!");
-        }
-
-        if (headLibrarian == null) {
-            throw new IllegalArgumentException("There is no such head librarian dto!");
-        }
-        return headLibrarian;
-    }
-    
-
-    /***
-     * Gets the corresponding regular holiday from the DTO version
-     * 
-     * @param HolidayDTO
-     * @returns Holiday
-     * @author Ramin Akhavan-Sarraf
-     */
-    private Holiday convertToDomainObject(HolidayDTO holidayDTO) {
-        List<Holiday> holidays;
-        Holiday theHoliday = null;
-        try {
-            holidays = service.getAllHolidays();
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Could not get librarian from service!");
-        }
-
-        for(Holiday holiday: holidays){
-        	if(holiday.getHolidayID() == holidayDTO.getHolidayID()) {
-        		theHoliday = holiday;
-        	}
-
-        }
-        if (theHoliday == null) {
-            throw new IllegalArgumentException("There is no such holiday dto!");
-        }
-        return theHoliday;
-    }
-
-    /**
-     * Gets the corresponding regular librarian from the DTO version
-     * 
-     * @param LibrarianDTO
-     * @returns Librarian
-     * @author Ramin Akhavan-Sarraf
-     */
-    private Librarian convertToDomainObject(LibrarianDTO librarianDTO) {
-        Librarian librarian;
-        try {
-            librarian = service.getLibrarianFromUserId(librarianDTO.getUserID());
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Could not get librarian from service!");
-        }
-        if (librarian == null) {
-            throw new IllegalArgumentException("There is no such librarian dto!");
-        }
-        return librarian;
-    }
-
-    /**
-     * This method converts a openingHour DTO to a domain object opening hour.
-     * @author Zoya Malhi and Ramin Akhavan-Sarraf
-     * @param OpeningHourDTO
-     * @return openingHour
-     */
-	 private OpeningHour convertToDomainObject(OpeningHourDTO openingHourDTO){
-		 List<OpeningHour> openingHours;
-	     OpeningHour openingHour = null;
-	     try {
-	         openingHours = service.getAllOpeningHours();
-	         for(OpeningHour oHour : openingHours) {
-	        	 if (oHour.getHourID() == openingHourDTO.getOpeningHourID()) {
-	        		 openingHour = oHour;
-	        	 }
-	         }
-	     } catch (Exception e) {
-	         throw new IllegalArgumentException("Could not get opening hours from service!");
-	     }
-	     
-	     return openingHour;
-	 }
-    
-    /** 
-     * This method converts a patron DTO to a patron object.
-     * 
-     * @author Zoya Malhi
-     * @param patronDTO
-     * @return patron
-     */
-
-    private Patron convertToDomainObject(PatronDTO patronDTO){
-    	Patron patron;
-	     try {
-	     patron = service.getPatronByUserId(patronDTO.getUserID());
-	    	
-	     } catch (Exception e) {
-	         throw new IllegalArgumentException("Could not get patron from service!");
-	     }
-	     if (patron == null) {
-	            throw new IllegalArgumentException("There is no such patron dto!");
-	        }
-	     return patron;
-
-    }
-
-    /**
-     * This method converts a timslot DTO to a timeslot object.
-     * @author Zoya Malhi and Ramin Akhavan-Sarraf
-     * @param timeslotDTO
-     * @return timeslot
-     */
-    private TimeSlot convertToDomainObject(TimeslotDTO timeslotDTO){
-    	List<TimeSlot> timeslots;
-	     TimeSlot timeslot = null;
-	     try {
-	         timeslots = service.getAllTimeSlots();
-	         for(TimeSlot slot : timeslots) {
-	        	 if(slot.getTimeSlotID() == timeslotDTO.getTimeSlotID()) {
-	        		 timeslot = slot;
-	        	 }
-	         }
-	        	 
-	         }catch (Exception e) {
-		         throw new IllegalArgumentException("Could not get timeslot from service!");
-		 }
-	     if (timeslot == null) {
-	            throw new IllegalArgumentException("There is no such timeslot dto!");
-	     }
-	     
-    	return timeslot;
-
-    }
-
-    /**
-     * This method converts a transaction DTO to a transaction object.
-     * @author Zoya Malhi, Mathieu Geoffroy and Ramin Akhavan-Sarraf
-     * @param transactionDTO
-     * @return transaction
-     */
-    private Transaction convertToDomainObject(TransactionDTO transactionDTO) {
-        Transaction transaction = null;
-        List<Transaction> transactions;
-
-    	try {
-	    	 transactions = service.getAllTransactions();
-             for (Transaction t : transactions) {
-            	 if(t.getTransactionID() == transactionDTO.getTransactionID()) {
-            		 transaction = t;
-                }
-            }
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Could not get transactions from service!");
-        }
-        if (transaction == null) {
-            throw new IllegalArgumentException("There is no such transaction dto!");
-        }
-        return transaction;
-    }
-
-    /**
-     * @author Zoya Malhi and Ramin Akhavan-Sarraf
-     * @param userAccountDTO
-     * @return userAccount
-     * @throws Exception
-     */
-    private UserAccount convertToDomainObject(UserAccountDTO userAccountDTO) throws IllegalArgumentException{
-    	List<UserAccount> userAccounts;
-
-        UserAccount userAccount = null;
-
-
-    	try {
-    	userAccounts = service.getAllUsers();
-
-        for (UserAccount acc : userAccounts) {
-        	if(acc.getUserID() == userAccountDTO.getUserID()) {
-        		userAccount = acc;
-        	}
-    	}
-    
-    	}catch (Exception e) {
-	         throw new IllegalArgumentException("Could not get userAccount from service!");
-	     }
-    	if (userAccounts == null) {
-
-            throw new IllegalArgumentException("There is no such userAccount dto!");
-        }
-        return userAccount;
-
-    }
 
  
     /** 

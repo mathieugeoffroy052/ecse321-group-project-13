@@ -57,6 +57,14 @@ export default {
     methods: {
         logout: function(){
             sessionStorage.setItem("existingUserID", null)
+        },
+
+        desktopcheck : function(){
+            var check = false;
+            if(window.innerWidth>500){
+                check=true;
+            }   
+            return check;
         }
     }
 }

@@ -8,6 +8,7 @@ var AXIOS = axios.create({
   baseURL: backendUrl,
   headers: { 'Access-Control-Allow-Origin': frontendUrl }
 })
+// this page will display all of the holiday information such as the opninghours and the holidays.
 export default {
     name: 'libraryinfo',
     data () {
@@ -22,6 +23,9 @@ export default {
         this.getAllOpeningHours()
     },
     methods: {
+        /**
+         * This method retrives all of the openinghours in the system
+         */
         getAllOpeningHours: function() {
             AXIOS.get('/openinghour/viewall').then (response => {
                 this.allOpeningHours = []
@@ -34,6 +38,13 @@ export default {
                 alert(e.response.data.message)
                 
             })
+            },
+            desktopcheck : function(){
+                var check = false;
+                if(window.innerWidth>500){
+                    check=true;
+                }   
+                return check;
             },
             getAllHolidays: function() {
             AXIOS.get('/holiday/viewall').then (response => {

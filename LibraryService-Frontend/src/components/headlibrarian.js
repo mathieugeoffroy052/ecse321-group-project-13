@@ -30,7 +30,8 @@ export default {
               holiday:''
             },
             formStaff:{
-              userID:''
+              userID:'',
+              userIDDelete: ''
             },
             formCode:{
               barCodeNumber:'',
@@ -211,6 +212,10 @@ export default {
             alert(e.response.data.message)
           })
         },
+        /**
+         * This method creates a borrowable Item based on the libraryItem that was previously created
+         * @param {*} numOfRecs 
+         */
         createBorrowableItem: function(numOfRecs) {
           AXIOS.post('/createBorrowableItem', {}, {params: {creator: this.newLibraryItem.creator, title: this.newLibraryItem.name, itemState:"Available", isbn: this.newLibraryItem.isbn}}).then (response => {
             this.newBorrowableItems.push(response.data)
@@ -232,6 +237,10 @@ export default {
             alert(e.response.data.message)                
         })
         },
+        /**
+         * This method is called when the submit button to create the user is clicked. It then resets all the fields.
+         * @param {*} event 
+         */
         onSubmitUSER(event) {
             this.createUser()
             event.preventDefault()
@@ -248,6 +257,10 @@ export default {
                 this.show = true
             })
         },
+        /**
+         * This method is called when the submit button to create an openinghour is clicked. It then resets all the fields.
+         * @param {*} event 
+         */
         onSubmitHour(event) {
           this.createOpeningHour()
           event.preventDefault()
@@ -260,6 +273,10 @@ export default {
               this.show = true
           })
         },
+        /**
+         * This method is called when the submit button to delete the openinghour is clicked. It then resets all the fields.
+         * @param {*} event 
+         */
         onSubmitDelHour(event) {
           this.deleteOpeningHour()
           event.preventDefault()
@@ -270,6 +287,10 @@ export default {
               this.show = true
           })
         },
+        /**
+         * This method is called when the submit button to delete the holiday is clicked. It then resets all the fields.
+         * @param {*} event 
+         */
         onSubmitDelHoliday(event) {
           this.deleteHoliday()
           event.preventDefault()
@@ -280,6 +301,10 @@ export default {
               this.show = true
           })
         },
+        /**
+         * This method is called when the submit button to create the holiday is clicked. It then resets all the fields.
+         * @param {*} event 
+         */
         onSubmitHoliday(event) {
           this.createHoliday()
           event.preventDefault()
@@ -292,6 +317,10 @@ export default {
               this.show = true
           })
         },
+        /**
+         * This method is called when the reset button to reset the create holiday form is clicked. It then resets all the fields.
+         * @param {*} event 
+         */
         onResetHoliday(event) {
           event.preventDefault()
           // Reset our form values
@@ -316,6 +345,9 @@ export default {
             this.show = true
           })
         },
+        /**
+         * This method is called when the reset button to reset the delete openinghour form is clicked. It then resets all the fields.
+         */
         onResetDelOpening(event) {
           event.preventDefault()
           // Reset our form values
@@ -326,6 +358,10 @@ export default {
             this.show = true
           })
         },
+        /**
+         * This method is called when the reset button to reset the delete holiday form is clicked. It then resets all the fields.
+         * @param {*} event 
+         */
         onResetDelHoliday(event) {
           event.preventDefault()
           // Reset our form values
@@ -336,6 +372,10 @@ export default {
             this.show = true
           })
         },
+        /**
+         * This method is called when the reset button to reset the create User form is clicked. It then resets all the fields.
+         * @param {*} event 
+         */
         onResetUSER(event) {
           event.preventDefault()
           // Reset our form values
@@ -352,6 +392,10 @@ export default {
             this.show = true
           })
         },
+        /**
+         * This method is called when the reset button to reset the create libraryitem form is clicked. It then resets all the fields.
+         * @param {*} event 
+         */
         onResetItem(event) {
           event.preventDefault()
           // Reset our form values
@@ -368,6 +412,10 @@ export default {
             this.show = true
           })
         },
+        /**
+         * This method is called when the create button to create the libraryitem form is clicked. It then resets all the fields.
+         * @param {*} event 
+         */
         onSubmitItem(event) {
           this.createItem()
           event.preventDefault()
@@ -384,10 +432,14 @@ export default {
               this.show = true
           })
         },
+        /**
+         * This method is called when the delete button to remove a librarian is clicked. It then resets all the fields.
+         * @param {*} event 
+         */
         onDelStaff(event) {
           this.deleteStaff()
           event.preventDefault()
-          this.formStaff.userID
+          this.formStaff.userIDDelete = ''
           // Trick to reset/clear native browser form validation state
           this.show = false
           this.$nextTick(() => {
@@ -397,13 +449,17 @@ export default {
         onResetStaff(event) {
           event.preventDefault()
           // Reset our form values
-          this.formStaff.userID
+          this.formStaff.userIDDelete = ''
           // Trick to reset/clear native browser form validation state
           this.show = false
           this.$nextTick(() => {
             this.show = true
           })
         },
+        /**
+         * This method is called when the create button to create a timeslot is clicked. It then resets all the fields.
+         * @param {*} event 
+         */
         onSubmitTimeslot(event) {
           this.createTimeslot()
           event.preventDefault()
@@ -416,6 +472,10 @@ export default {
               this.show = true
           })
         },
+        /**
+         * This method is called when the reset button to reset the create timeslot form is clicked. It then resets all the fields.
+         * @param {*} event 
+         */
         onResetTimeslot(event) {
           event.preventDefault()
           // Reset our form values
@@ -470,6 +530,9 @@ export default {
             this.show = true
           })
         },
+        /**
+         * This method is used to create a Patron
+         */
         getPatron: function() {
           var userID = document.getElementById("input-userID").value 
           if (userID != '') {
@@ -580,6 +643,9 @@ export default {
             })
           }
         },
+        /**
+         * This method returns all the librarians in the system
+         */
       getAllStaff: function() {
         AXIOS.get('/librarians/').then (response => {
             this.currentStaff = []
@@ -593,6 +659,9 @@ export default {
             
         })
       },
+      /**
+       * This method returns all the workshifts for the specific worker that is logged it. Since we are the head-librarian, all workshifts displayed are those of the head librarian.
+       */
       getShifts: function() {
         var creatorID = sessionStorage.getItem("existingUserID")
         AXIOS.get('/timeslot/view/librarianID/'.concat(creatorID)).then (response => {
@@ -607,6 +676,9 @@ export default {
             
         })
       },
+      /**
+       * this method returns all existing workshifts in teh system.
+       */
       getAllShifts: function() {
         var librarianArray = []
         AXIOS.get('/timeslot/viewall').then (response => {
@@ -622,6 +694,9 @@ export default {
             
         })
       },
+      /**
+       * This method returns all existing borrowable items in the system.
+       */
       getAllItems: function() {
         this.currentItems = []
         AXIOS.get('/borrowableItems/viewall').then (response => {
@@ -630,6 +705,9 @@ export default {
           })
         })
       },
+      /**
+       * This method returns all the existing opening hours in the system.
+       */
       getAllOpeningHours: function() {
         AXIOS.get('/openinghour/viewall').then (response => {
             this.allOpeningHours = []
@@ -643,6 +721,9 @@ export default {
             
         })
       },
+      /**
+       * This method returns all the existing holidays in the system.
+       */
       getAllHolidays: function() {
         AXIOS.get('/holiday/viewall').then (response => {
             this.allHolidays = []
@@ -656,6 +737,9 @@ export default {
             
         })
       },
+      /**
+       * This method is used to delete a specific librarian from the system.
+       */
       deleteStaff: function() {
         var userID = document.getElementById("input-userID-toDelete").value 
         var headlibrarianID = sessionStorage.getItem("existingUserID")
@@ -672,6 +756,9 @@ export default {
             
         })
       },
+      /**
+       * This method is used to delete a specific openinghour from the system
+       */
       deleteOpeningHour: function() {
         var accountID = sessionStorage.getItem("existingUserID")
         AXIOS.delete('/openinghour/delete', {params:{openinghourID:this.formOpeningHour.openingHourID, accountID}}).then (response => {
@@ -688,6 +775,9 @@ export default {
             
         })
       },
+      /**
+       * This method is used to delete a specific timeslot fromt the system.
+       */
       deleteTimeslot: function() {
         var accountID = sessionStorage.getItem("existingUserID")
         AXIOS.delete('/timeslot/delete', {params:{timeslotID:this.formTimeslot.timeslotIDDelete, accountID}}).then (response => {
@@ -704,6 +794,9 @@ export default {
             
         })
       },
+      /**
+       * this method is used to delete a specific Holiday from the system.
+       */
       deleteHoliday: function() {
         var accountID = sessionStorage.getItem("existingUserID")
         AXIOS.delete('/holiday/delete', {params: {holidayID:this.formHoliday.holiday, accountID}}).then (response => {
@@ -720,6 +813,10 @@ export default {
             
         })
       },
+      /**
+       * This method is used to reserve a room
+       * @returns 
+       */
       isReservingRoom: function() {
         if (document.getElementById("input-userID") == null) return false
         return document.getElementById("input-transactiontype").value == "Reserve-Room"
@@ -733,6 +830,9 @@ export default {
           alert(e.response.data.message)
         })
       },
+      /**
+       * This method is used to load the patron's info
+       */
       loadPatronInfo: function() {
         this.getPatron()
         this.getTransactionsForPatron()

@@ -9,19 +9,6 @@ var AXIOS = axios.create({
   headers: { 'Access-Control-Allow-Origin': frontendUrl }
 })
 
-function TransactionDTO(type, deadline, borrowableItem, userAccount, transactionID)
-{
-  this.transactionType = type;
-  this.deadline = deadline;
-  this.borrowableItem = borrowableItem;
-  this.userAccount = userAccount;
-  this.transactionID = transactionID;
-}
-
-function TransactionDTO(type, borrowableItem, userAccount){
-  this(type, Date.parse("2001-01-01"), borrowableItem, userAccount);
-}
-
 export default {
     name: 'musicsearch',
     data () {

@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 
 public class TransactionDTO {
-  //@JsonFormat(shape = JsonFormat.Shape.OBJECT)
   public enum TransactionType { Borrowing, ItemReservation, RoomReservation, Waitlist, Renewal, Return }
 
   private TransactionType transactionType;

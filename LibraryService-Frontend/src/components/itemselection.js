@@ -17,6 +17,9 @@ export default {
       }
     },
 
+    /**
+     * This is used to redirect the user's to the specifc search pages based on the item tehy want to find.
+     */
     methods: {
       redirectToBook: function () {
         window.location.href='../#/book';
@@ -29,6 +32,13 @@ export default {
       },
       redirectToNewspaper: function () {
         window.location.href='../#/newspaper';
+      },
+      desktopcheck : function(){
+        var check = false;
+        if(window.innerWidth>500){
+            check=true;
+        }   
+        return check;
       }
     }
 }

@@ -71,6 +71,9 @@ export default {
                 alert(e.response.data.message)                
             })
         },
+        /**
+         * this method retrieves all of the shifts for the librarian that is currently logged-in
+         */
         getShifts: function() {
             var creatorID = sessionStorage.getItem("existingUserID")
             AXIOS.get('/timeslot/view/librarianID/'.concat(creatorID)).then (response => {
@@ -117,6 +120,9 @@ export default {
             this.show = true
           })
         },
+        /**
+         * This method retrieves a specific user based on the given userID
+         */
       getPatron: function() {
         var userID = document.getElementById("input-userID").value 
         if (userID != '') {
@@ -137,10 +143,17 @@ export default {
           this.currentPatron = ''
         }
       },
+      /**
+       * retruns the validation state of the user
+       * @returns 
+       */
       needsValidation: function() {
         if (this.isLibrarian) return false
         return this.currentPatron != '' && !this.currentPatron.validatedAccount
       },
+      /**
+       * this method retrieves all of the transactions for a specific user.
+       */
       getTransactionsForPatron: function() {
         var userID = document.getElementById("input-userID").value
         this.currentPatronTransactions = []
@@ -154,6 +167,9 @@ export default {
           })
         } 
       },
+      /**
+       * This method loads the user's info
+       */
       loadPatronInfo: function() {
         this.getPatron()
         this.getTransactionsForPatron()
