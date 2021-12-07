@@ -19,10 +19,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import android.webkit.*;
-import android.app.Activity;
-import android.os.Bundle;
-import android.widget.Toast;
-import android.annotation.TargetApi;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -46,40 +42,9 @@ public class MainActivity extends AppCompatActivity {
 
         mainWebview.getSettings().setJavaScriptEnabled(true); // enable javascript
 
-        final AppCompatActivity activity = this;
-
-        mainWebview.setWebViewClient(new WebViewClient() {
-            @SuppressWarnings("deprecation")
-            @Override
-            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                Toast.makeText(activity, description, Toast.LENGTH_SHORT).show();
-            }
-            @TargetApi(android.os.Build.VERSION_CODES.M)
-            @Override
-            public void onReceivedError(WebView view, WebResourceRequest req, WebResourceError rerr) {
-                // Redirect to deprecated method, so you can use it in all SDK versions
-                onReceivedError(view, rerr.getErrorCode(), rerr.getDescription().toString(), req.getUrl().toString());
-            }
-        });
 
         mainWebview .loadUrl("https://libraryservice-frontend-g13.herokuapp.com/#/");
         setContentView(mainWebview );
-//        binding = ActivityMainBinding.inflate(getLayoutInflater());
-//        setContentView(binding.getRoot());
-//
-//        setSupportActionBar(binding.toolbar);
-//
-//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-//        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-//        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-//
-//        binding.fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
     }
 
     @Override
