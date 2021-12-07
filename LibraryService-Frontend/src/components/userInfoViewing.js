@@ -66,7 +66,18 @@ export default {
         }).catch (e => {
             alert(e.response.data.message) 
         })
-   }, 
+   },
+   /**
+    * This method checks the size of the screen to see if it a mobile app
+    * @returns check (boolean)
+    */
+   desktopcheck : function(){
+    var check = false;
+    if(window.innerWidth>1000){
+        check=true;
+    }   
+    return check;
+}, 
    /* Use GET HTTP request to retrieve all of transactions associated to the currently logged-in user */
    getTransactionsForPatron: function() {
     var userID = sessionStorage.getItem("existingUserID")
