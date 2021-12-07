@@ -32,6 +32,13 @@ export default {
       },
       redirectToNewspaper: function () {
         window.location.href='../#/newspaper';
+      },
+      desktopcheck : function(){
+        var check = false;
+        if(window.innerWidth>500){
+            check=true;
+        }   
+        return check;
       }
     }
 }

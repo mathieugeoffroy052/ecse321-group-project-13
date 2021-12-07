@@ -39,9 +39,13 @@ export default {
                 
             })
             },
-            /**
-             * This method retrieves all of the holidays in the system.
-             */
+            desktopcheck : function(){
+                var check = false;
+                if(window.innerWidth>500){
+                    check=true;
+                }   
+                return check;
+            },
             getAllHolidays: function() {
             AXIOS.get('/holiday/viewall').then (response => {
                 this.allHolidays = []
