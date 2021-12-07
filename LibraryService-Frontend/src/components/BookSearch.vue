@@ -71,13 +71,13 @@
             <label for="title">Search by title: </label>
           </b-col>
         </b-row>
+
         <b-row>
           <b-col>
             <input
               type="text"
               id="requestedTitle"
               name="title"
-              style="float: center"
             />
           </b-col>
         </b-row>
@@ -89,6 +89,7 @@
             </label>
           </b-col>
         </b-row>
+
         <b-row class="mb-2">
           <b-col>
             <input
@@ -96,7 +97,6 @@
               type="text"
               id="requestedAuthor"
               name="author"
-              style="float: center"
             />
           </b-col>
         </b-row>

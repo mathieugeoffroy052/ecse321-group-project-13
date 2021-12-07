@@ -141,6 +141,13 @@ export default {
       },
       redirectToItemSelect : function(){
         window.location.href='../#/item-select';
+      },
+      desktopcheck : function(){
+        var check = false;
+        if(window.innerWidth>500){
+            check=true;
+        }   
+        return check;
       }
     }
   }

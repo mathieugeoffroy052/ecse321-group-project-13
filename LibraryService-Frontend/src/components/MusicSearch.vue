@@ -21,6 +21,7 @@
           </div>
         </b-row>
 
+        <div v-if=" desktopcheck()">
         <b-row>
           <b-col cols="5">
             <label for="title" style="float: right">Search by title: </label>
@@ -60,6 +61,57 @@
             >
           </b-col>
         </b-row>
+        </div>
+
+        <div v-if="!desktopcheck()">
+        <b-row>
+          <b-col>
+            <label for="title">Search by title: </label>
+          </b-col>
+        </b-row>
+
+        <b-row>
+          <b-col>
+            <input
+              type="text"
+              id="requestedTitle"
+              name="title"
+            />
+          </b-col>
+        </b-row>
+
+        <b-row>
+          <b-col>
+            <label for="artist"
+              >Search by artist:
+            </label>
+          </b-col>
+        </b-row>
+
+        <b-row class="mb-2">
+          <b-col>
+            <input
+              class="mr-2"
+              type="text"
+              id="requestedArtist"
+              name="artist"
+            />
+          </b-col>
+        </b-row>
+
+        <b-row>
+          <b-col>
+            <b-button
+              variant="dark"
+              @click="
+                resetMessages();
+                runSearch();
+              "
+              >Submit</b-button
+            >
+          </b-col>
+        </b-row>
+        </div>
 
         <p id="invalidInput"></p>
 
