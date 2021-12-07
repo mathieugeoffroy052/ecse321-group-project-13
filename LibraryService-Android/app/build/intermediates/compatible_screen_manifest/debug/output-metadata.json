@@ -4,7 +4,7 @@
     "type": "COMPATIBLE_SCREEN_MANIFEST",
     "kind": "Directory"
   },
-  "applicationId": "ca.mcgill.ecse321.libraryservice",
+  "applicationId": "ca.mcgill.ecse321.libraryservice_android",
   "variantName": "debug",
   "elements": []
 }
