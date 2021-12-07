@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         mainWebview  = new WebView(this);
 
-        mainWebview.getSettings().setJavaScriptEnabled(true); // enable javascript
+        mainWebview.getSettings().setJavaScriptEnabled(true);
 
 
         mainWebview .loadUrl("https://libraryservice-frontend-g13.herokuapp.com/#/");
