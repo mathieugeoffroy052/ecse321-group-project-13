@@ -22,3 +22,15 @@ jobs:
       - name: Building the project
         working-directory: ./LibraryService-Frontend
         run: npm run build
+        
+        
+  deploy:
+    needs: heroku-deploy
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: akhileshns/heroku-deploy@v3.12.12
+      with:
+        heroku_api_key: 6a5c0620-a1f0-42ee-bee7-40ba632aef4d
+        heroku_app_name: "libraryservice-frontend-g13"
+        heroku_email: "gabrielle.halpin@mail.mcgill.ca"
