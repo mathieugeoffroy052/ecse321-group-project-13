@@ -63,12 +63,12 @@ ________________________________________________________________________________
 ### Overview Table for Deliverable 4 :chart_with_upwards_trend: : 
 | Team Members           | Roles                                                                                                                                |   Hours   |
 | :---------------------:|:------------------------------------------------------------------------------------------------------------------------------------:| :--------:|
-| Amani Jammoul          | |  |
-| Eloyann Roy-Javanbakht | |  |
-| Gabrielle Halpin       | |  |
+| Amani Jammoul          | Linked the web app to the android app, fixed frontend deployment, fixed the front-end CI, worked on CI/CD, android testing, android app set-up| 12 |
+| Eloyann Roy-Javanbakht |Created the user documentation page and it's layout on the wiki, Wrote the user documentation and step description of the application |7  |
+| Gabrielle Halpin       |Linked the web app to the android app, fixed frontend deployment, worked on CI/CD, android testing, frontend set-up for the app, Code quality, project documentation, code clean-up | 12 |
 | Mathieu Geoffroy       | |  |
-| Ramin Akhavan-Sarraf   | |  |
-| Zoya Malhi             | |  |
+| Ramin Akhavan-Sarraf   |Linked the web app to the android app, fixed frontend deployment, fixed the front-end CI, worked on CI/CD, android testing, android app set-up |12  |
+| Zoya Malhi             | Conducted research of web view for the library system application, documentation for the initialization of the application, updated wiki page with deliverable 4 contents, update ReadMe file, Review entire project and ensured everything in the rubric is present.|5 |
 
 _____________________________________________________________________________________________________________________________________________________________________________
 ______________________________________________________________________________________________________________________________________________
