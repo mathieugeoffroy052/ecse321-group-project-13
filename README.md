@@ -66,7 +66,7 @@ ________________________________________________________________________________
 | Amani Jammoul          | Linked the web app to the android app, fixed frontend deployment, fixed the front-end CI, worked on CI/CD, android testing, android app set-up| 12 |
 | Eloyann Roy-Javanbakht |Created the user documentation page and it's layout on the wiki, Wrote the user documentation and step description of the application |7  |
 | Gabrielle Halpin       |Linked the web app to the android app, fixed frontend deployment, worked on CI/CD, android testing, frontend set-up for the app, Code quality, project documentation, code clean-up | 12 |
-| Mathieu Geoffroy       | |  |
+| Mathieu Geoffroy       | Started the Android App, helped to deploy app to frontend server, brainstoriming & researching ideas to make android app, android app use cases with pictures  | 5 |
 | Ramin Akhavan-Sarraf   |Linked the web app to the android app, fixed frontend deployment, fixed the front-end CI, worked on CI/CD, android testing, android app set-up |12  |
 | Zoya Malhi             | Conducted research of web view for the library system application, documentation for the initialization of the application, updated wiki page with deliverable 4 contents, update ReadMe file, Review entire project and ensured everything in the rubric is present.|5 |
 
